@@ -65,21 +65,19 @@ EntityBlueprint
 	HealthDesc
 	{ 
 		is_manual				"1"
-		max_health 				"130"
-		health 					"130"
+		max_health 				"30"
+		health 					"30"
 	}
 
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.5"
-		fire			"0.0"
-		acid			"0.0"
+		physical		"1.0"
+		fire			"2"
+		acid			"0.1"
 		energy			"1.0"
-		cryo			"0.0"
+		cryo			"1.0"
 		area			"1.0"
-		gravity			"0.0"
-		plasmoid		"2"
 	}
 
 	MeshDesc
@@ -93,11 +91,6 @@ EntityBlueprint
 		type "ground_unit"
 	}
 
-	TeamDesc
-	{
-		team "enemy"
-	}
-
 	PhysicsDesc
  	{
 		objects
@@ -105,7 +98,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 				Shapes
 				{
@@ -125,13 +118,6 @@ EntityBlueprint
 				}
 			}
 		}
-	}
-
-	GridMarkerComponent
-	{
-		terrain_type  	"uranium"
-		mode			"bounds"
-		extend  		"1"
 	}
 
 	GridCullerDesc
@@ -163,7 +149,7 @@ EntityBlueprint
 			y "1"
 		}
 			
-		visibility			"radar" 
+		visibility			"discovered|radar" 
 	}
 
 	LootDesc
@@ -222,26 +208,11 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_fire"
-					offset "0.2 0.1 -0.5"
-					scale "1 0.8 1"
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
 				}
 			}
-		}		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0.2 0.1 -0.5"
-					scale "1 0.8 1"
-				}
-			}
-		}		
+		}
 		EffectGroup
 		{
 			group 	"spawn"
@@ -328,21 +299,19 @@ EntityBlueprint
 	HealthDesc
 	{ 
 		is_manual				"1"
-		max_health 				"800"
-		health 					"800"
+		max_health 				"250"
+		health 					"250"
 	}
 
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
 		physical		"1.0"
-		fire			"0.0"
-		acid			"0.0"
+		fire			"2"
+		acid			"0.1"
 		energy			"1.0"
-		cryo			"0.0"
+		cryo			"1.0"
 		area			"1.0"
-		gravity			"0.0"
-		plasmoid		"2"
 	}
 
 	MeshDesc
@@ -358,7 +327,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 				Shapes
 				{
@@ -390,16 +359,9 @@ EntityBlueprint
 		
 		additional_z_order	"2"
 			
-		visibility			"radar"
+		visibility			"discovered|radar"
 	}
-
-	GridMarkerComponent
-	{
-		terrain_type  	"uranium"
-		mode			"bounds"
-		extend  		"2"
-	}
-
+	
 	GridCullerDesc
 	{
 		Shapes
@@ -462,8 +424,7 @@ EntityBlueprint
                 Effect
                 {
                     blueprint "effects/enemies_generic/boss_trail_cosmic_sparks"
-                    offset "0 1 0"
-					scale "2 2.5 2"
+                    //offset "0 4 0"
                 }
             }
         }		
@@ -512,23 +473,8 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_fire"
+					blueprint "effects/destructibles/grass_medium_fire"
 					offset "0 1 0"
-					scale "1.5 2 1"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0 1 0"
-					scale "1.5 2 1"
 				}
 			}
 		}		
@@ -542,7 +488,7 @@ EntityBlueprint
 				{
 					blueprint "effects/comsic_crystal_creeper"
 					offset "0 0 0"
-					scale "0.8 0.8 0.8"
+					scale "0.3 0.4 0.3"
 				}
 			}
 		}	
@@ -645,12 +591,12 @@ EntityBlueprint
 				
 		database
 		{
-			blueprint			string:"units/ground/cosmic_crystal_creeper_branch"
-			root_blueprint			string:"units/ground/cosmic_crystal_creeper_root"
+			blueprint			string:"units/ground/crystal_creeper_branch"
+			root_blueprint			string:"units/ground/crystal_creeper_root"
 			collision_detection	string:""
 			stop_component   	string:"BurningComponent"
 			spread_interval		float:"0.5"
-			spread_root_interval float:"20"
+			spread_root_interval float:"30"
 			spread_child_interval_multiplier float:"2"
 			spread_radius		float:"15"
 			initial_spread		float:"10"
@@ -661,21 +607,19 @@ EntityBlueprint
 	HealthDesc
 	{ 
 		is_manual				"1"
-		max_health 				"3000"
-		health 					"3000"
+		max_health 				"2500"
+		health 					"2500"
 	}
 
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
 		physical		"1.0"
-		fire			"0.0"
-		acid			"0.0"
+		fire			"2"
+		acid			"0.1"
 		energy			"1.0"
-		cryo			"0.0"
+		cryo			"1.0"
 		area			"1.0"
-		gravity			"0.0"
-		plasmoid		"2"
 	}
 
 	MeshDesc
@@ -701,7 +645,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 				Shapes
 				{
@@ -713,13 +657,6 @@ EntityBlueprint
 				}
 			}
 		}
-	}
-
-	GridMarkerComponent
-	{
-		terrain_type  	"uranium"
-		mode			"bounds"
-		extend  		"2"
 	}
 
 	GridCullerDesc
@@ -738,8 +675,8 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"discovered|radar"		
 		//additional_z_order	"2"
 	}
 
@@ -803,7 +740,6 @@ EntityBlueprint
                 Effect
                 {
                     blueprint "effects/enemies_generic/boss_trail_cosmic_sparks"
-                    offset "0 0 0"
 					scale "1.5 1.5 1.5"
                 }
             }
@@ -855,22 +791,8 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_fire"
-					offset "0 4 0"
-					scale "1.5 2 1"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0 4 0"
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
 					scale "2.5 2.5 2.5"
 				}
 			}
@@ -884,8 +806,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/comsic_crystal_creeper"
-					offset "0 1 0"
-					scale "1 1.5 1"
+					offset "0 0 0"
+					scale "0.8 0.8 0.8"
 				}
 			}
 		}	

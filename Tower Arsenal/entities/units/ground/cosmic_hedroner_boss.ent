@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/ground/cosmic_hedroner_boss"
+
 	base_blueprint "units/ground/cosmic_hedroner_boss_base"
 
 	LuaDesc
@@ -8,8 +9,8 @@ EntityBlueprint
 		script "lua/units/ground/hedroner.lua"
 		database
 		{
-			min_scale	       float:"2.0"
-			max_scale	       float:"2.0"
+			min_scale	       float:"1.9"
+			max_scale	       float:"1.9"
 		}			
 	}
 
@@ -21,22 +22,22 @@ EntityBlueprint
 	UnitsSpawnerDesc
 	{
 		blueprint						"units/ground/egg_cosmic_hedroner"
-		amount_on_single_spawn			"25"
-		max_spawn						"25"
-		time_to_spawn					"20"
+		amount_on_single_spawn			"8"
+		max_spawn						"8"
+		time_to_spawn					"30"
 		unit_state_spawn				"1"  // do not touch
 		max_spawn_distance				"20"
 		spawn_type						"egg"
 		spawn_marker_bp					"effects/messages_and_markers/wave_marker_nest"
 		spawn_marker_life_time			"30"
 		can_spawn_when_visible			"0"
-		defend_radius					"40"
+		defend_radius					"80"
 	}
 
 	HealthDesc
 	{
-		max_health 					"6000"
-		health 						"6000"
+		max_health 					"7500"
+		health 						"7500"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -55,7 +56,7 @@ EntityBlueprint
 
 	HealthBarDesc
 	{
-		type "2"
+		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
 		material "gui/hud/bars/big_monster_hp_1x3"
 	}	
@@ -142,7 +143,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"20.0"
-										type 	"gravity"
+										type 	"cosmic"
 									}
 								}
 							}
@@ -295,8 +296,9 @@ EntityBlueprint
 		energy			"0.0"
 		cryo			"0.0"
 		area			"1.5"
-		gravity			"0.0"
+		cosmic			"0.0"
 		plasmoid		"1.5"
+		reflect_damage_max_percent 		"0.1"
 	}
 
 	StunDataComponent

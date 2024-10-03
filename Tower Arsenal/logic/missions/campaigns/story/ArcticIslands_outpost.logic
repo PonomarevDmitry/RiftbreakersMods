@@ -1,7 +1,7 @@
-//editor "scroll(4355.04,-60.56)|zoom(0.73)"
+//editor "scroll(2261.13,-353.95)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "34"
+	version "41"
 	editor "6217"
 	GraphNodes
 	{
@@ -81,7 +81,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "units/ground/cosmic_crystal_creeper_root_origin"
+						value "units/ground/cosmic_yeast_root_acid_singular"
 					}
 
 					StringData
@@ -157,7 +157,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(campaign_objective_finish.xml)|pos(67,93)"
+			//editor "layout(campaign_objective_finish.xml)|pos(143,90)"
 			database
 			{
 				Integers
@@ -194,7 +194,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(1709,544)"
+			//editor "layout(logic_wait.xml)|pos(1958,282)"
 			database
 			{
 				Floats
@@ -215,7 +215,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_construct_building.xml)|pos(1098,379)"
+			//editor "layout(objective_construct_building.xml)|pos(1102,119)"
 			database
 			{
 				Floats
@@ -498,7 +498,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_generic.xml)|pos(5314,499)"
+			//editor "layout(objective_generic.xml)|pos(5301,132)"
 			database
 			{
 				Integers
@@ -642,7 +642,7 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "value"
-						value "0.75"
+						value "0.25"
 					}
 
 				}
@@ -711,7 +711,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "units/ground/cosmic_crystal_creeper_root_origin_base"
+						value "units/ground/cosmic_yeast_root_origin"
 					}
 
 					StringData
@@ -835,7 +835,7 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(1805,763)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1672,545)"
 			global "0"
 			interrupt "0"
 			priority "0"
@@ -940,7 +940,7 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(5403,734)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(5297,342)"
 			global "0"
 			interrupt "0"
 			priority "0"
@@ -971,7 +971,7 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(7067,-81)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(7044,290)"
 			global "0"
 			interrupt "0"
 			priority "0"
@@ -1025,7 +1025,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(-18,503)"
+			//editor "layout(logic_wait.xml)|pos(438,382)"
 			database
 			{
 				Floats
@@ -1103,7 +1103,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_dom_send_major_attack.xml)|pos(5903,559)"
+			//editor "layout(mission_dom_send_major_attack.xml)|pos(5901,170)"
 			database
 			{
 				Integers
@@ -1133,7 +1133,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait_on_event.xml)|pos(6243,532)"
+			//editor "layout(logic_wait_on_event.xml)|pos(6262,282)"
 			database
 			{
 				Integers
@@ -1221,7 +1221,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_construct_building.xml)|pos(2599,412)"
+			//editor "layout(objective_construct_building.xml)|pos(2570,16)"
 			database
 			{
 				Floats
@@ -1339,7 +1339,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(campaign_mission_unlock.xml)|pos(5328,300)"
+			//editor "layout(campaign_mission_unlock.xml)|pos(5190,-20)"
 			database
 			{
 				Strings
@@ -1364,10 +1364,53 @@ FlowGraphTemplate
 			self_id "campaign_mission_unlock_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(6284,54)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(6676,52)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/endless"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_1"
+		}
+
 	}
 
 	GraphConnections
 	{
+		audio_adaptive_music_system_4 "audio_music_change_playlist_1"
 		default "entity_spawn_player_0|entity_spawn_world_random_0|entity_spawn_world_random_1"
 		entity_spawn_player_0 "event_graph_1|logic_wait_on_event_0|objective_exist_0"
 		logic_if_resource_0 "logic_if_resource_0###true"
@@ -1385,7 +1428,7 @@ FlowGraphTemplate
 		logic_wait_on_event_1 "logic_wait_2"
 		mission_change_creature_difficulty_0 "mission_end_0"
 		mission_dom_resume_0 "mission_dom_max_difficulty_level_0"
-		mission_dom_send_major_attack_0 "logic_wait_on_event_1"
+		mission_dom_send_major_attack_0 "audio_adaptive_music_system_4|logic_wait_on_event_1"
 		objective_construct_building_0 "logic_wait_5"
 		objective_construct_building_3 "interface_dialogue_show_group_1|logic_wait_1|logic_wait_3"
 		objective_exist_0 "objective_exist_0###true"

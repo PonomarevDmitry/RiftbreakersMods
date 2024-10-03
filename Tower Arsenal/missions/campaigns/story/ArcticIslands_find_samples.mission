@@ -28,35 +28,14 @@ MissionDef
 			min_instances	4
 			random_weight	4.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons__01.tile
-		{
-			min_instances	1
-			random_weight	1.0
-		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_01.tile
-		{
-			min_instances	1
-			random_weight	1.0
-		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_02.tile
-		{
-			min_instances	1
-			random_weight	1.0
-		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_03.tile
-		{
-			min_instances	2
-			random_weight	2.0
-		}
-
 	}
 
 	failed_action   "remain"
-	success_action  "remain"
-    threat  "1.0"
+	success_action  "remove"
+    threat  "0.85"
 
-    creature_volumes_min_distance   "64.0"
-	creature_volumes_density        "0.5"
+	creature_volumes_min_distance   "86.0"
+	creature_volumes_density        "0.75"
 
     ambient_creature_species
     {
@@ -104,35 +83,29 @@ MissionDef
         {
             CreatureVolume
             {
-                creature_species    "cosmic_arachnoid_sentinel_crystal"
-                volume_spawn_ratio  "1.25"
-            }
-
+                creature_species    "cosmic_morirot"
+                volume_spawn_ratio  "1.0"
+            }  
+			
+			CreatureVolume
+            {
+                creature_species    "cosmic_necrodon"
+                volume_spawn_ratio  "1.0"
+            }  
+			
             CreatureVolume
             {
-                creature_species    "cosmic_kermon"
-                volume_spawn_ratio  "1"
-            }
-
-            CreatureVolume
-            {
-                creature_species    "cosmic_bomogan"
-                volume_spawn_ratio  "1"
-            }
-
-            CreatureVolume
-            {
-                creature_species    "cosmic_baxmoth"
-                volume_spawn_ratio  "0.35"
-            }            
-        }
-
+                creature_species    "cosmic_phirian"
+                volume_spawn_ratio  "1.5"
+            }  
+		}
+		
 		liquid_units
         {            
 			CreatureVolume
             {
                 creature_species    "cosmic_hedroner"
-                volume_spawn_ratio  "0.25"
+                volume_spawn_ratio  "1.0"
             }
         }  
 
@@ -141,107 +114,12 @@ MissionDef
             CreatureVolume
             {
                 creature_species    "cosmic_gnerot"
-                volume_spawn_ratio  "0.5"
+                volume_spawn_ratio  "0.6"
             }
-        }
-		
-		guardian_standard
-        {		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_cryo"
-				volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_acid"
-                volume_spawn_ratio  "1"
-            }		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_energy"
-                volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_fire"
-                volume_spawn_ratio  "1"
-            }				
-        }
+		}
 
-        guardian_advanced
-        {				
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_cryo"
-				volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_acid"
-                volume_spawn_ratio  "1"
-            }		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_energy"
-                volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_fire"
-                volume_spawn_ratio  "1"
-            }			
-        }
+	}
 
-        guardian_superior
-        {			
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_cryo"
-				volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_acid"
-                volume_spawn_ratio  "1"
-            }		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_energy"
-                volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_fire"
-                volume_spawn_ratio  "1"
-            }		
-        }
-
-        guardian_extreme
-        {		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_cryo"
-				volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_acid"
-                volume_spawn_ratio  "1"
-            }		
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_energy"
-                volume_spawn_ratio  "1"
-            }
-            CreatureVolume
-            {
-                creature_species    "nerilian_boss_fire"
-                volume_spawn_ratio  "1"
-            }	
-        }
-    }
-	
 	mission_object_spawners
 	{		
         GridSpawner
@@ -255,16 +133,17 @@ MissionDef
 		
             spawn_min_distance_from_pools
             {
-                player_spawn_point      250
-                loot_containers         50				
-                underground_treasures   30
-                yeast_root   			100
-				resource_volumes		15
+				player_spawn_point      250
+                loot_containers         50
+				mission_objective		70
+                underground_treasures   10
+				resource_volumes		10
+				yeast_root				50
             }
 		
             spawn_blueprints
             { 				
-                units/ground/cosmic_crystal_creeper_root_origin
+                units/ground/cosmic_yeast_root_origin_reserach_mission
                 {       
 					spawn_entity_name "root"
 					spawn_instances_minmax      3,3
@@ -317,6 +196,60 @@ MissionDef
             }
         }
 		
+         GridSpawner
+        {
+            spawn_pool               "alien_tower_artillery_cosmo"
+            spawn_team               "enemy"
+            spawn_instances_minmax    10,10
+			spawn_chance              1
+
+        
+            spawn_min_distance_from_pools
+            {
+				player_spawn_point      100
+                mission_objective   	70
+                loot_containers         50
+				resource_volumes		10
+				yeast_root				50
+            }
+
+            spawn_blueprints
+            {
+                units/ground/alien_tower_artillery_cosmo_spawner
+                {            
+					spawn_instances_minmax      40,40
+					spawn_chance           1
+                }
+            }
+        }
+	    
+         GridSpawner
+        {
+            spawn_pool               "alien_tower_artillery_cosmo_mkII"
+            spawn_team               "enemy"
+            spawn_instances_minmax    15,15
+			spawn_chance              1
+
+        
+            spawn_min_distance_from_pools
+            {
+				player_spawn_point      100
+                mission_objective   	70
+                loot_containers         50
+				resource_volumes		10
+				yeast_root				50
+            }
+
+            spawn_blueprints
+            {
+                units/ground/alien_tower_artillery_cosmo_mkII_spawner
+                {            
+					spawn_instances_minmax      40,40
+					spawn_chance           1
+                }
+			}
+        }
+	    
 		GridSpawner
         {
             spawn_pool                  "loot_containers_small"
@@ -642,3 +575,4 @@ MissionDef
         }
     }
 }
+

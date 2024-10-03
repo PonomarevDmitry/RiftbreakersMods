@@ -1,0 +1,121 @@
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_shower"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_shower"
+		description 	"gui/hud/enemy_skill_description/cosmic_lightning_shower"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_lightning_shower_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"units/skill/lightning"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"5.5"
+			spawn_min_time			float:"0.65"
+			spawn_max_time			float:"0.85"
+			meteors_in_one_spawn	int:"4" 
+			radius					int:"4"
+			delay_min				float:"1.00"
+			delay_max				float:"2.00"
+			spread					float:"10"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_shower_lvl_4"
+	base_blueprint "units/skills/cosmic_lightning_shower"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_shower"
+		description 	"gui/hud/enemy_skill_description/cosmic_lightning_shower"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_meteor_shower_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"units/skill/lightning"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"5.5"
+			spawn_min_time			float:"0.55"
+			spawn_max_time			float:"0.75"
+			meteors_in_one_spawn	int:"1" 
+			radius					int:"1"
+			delay_min				float:"0.90"
+			delay_max				float:"1.50"
+			spread					float:"10"
+		}			
+	}		
+}
+
+EntityBlueprint 
+{	
+	name "units/skill/lightning"
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_cosmic_lesigian/lightning_explosion"
+		on_world_hit_effect 	"effects/enemies_cosmic_lesigian/lightning_explosion"			
+		friendly_fire			"pass"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"50"
+					type 	"cosmic"
+				}
+			}
+		}
+	}
+
+	SimpleMovementComponent
+	{
+		movement "SimpleForwardMovement"
+		{
+			current_speed "200"
+			max_speed	  "200"
+			acceleration  "200"
+		}
+	}
+}

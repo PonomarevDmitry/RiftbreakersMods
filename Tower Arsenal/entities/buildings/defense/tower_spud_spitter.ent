@@ -350,19 +350,19 @@ EntityBlueprint
 
 EntityBlueprint 
 {
-
 	name "buildings/defense/tower_spud_spitter_projectile"
-	
+
+	base_blueprints
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
 		material    "projectiles/magmoth_projectile_cryo"
 	}
-
-	//SkeletonDesc
-	//{
-	//	name "meshes/projectiles/hedroner_projectile"
-	//}
 
 	MinimapItemDesc
 	{
@@ -387,15 +387,9 @@ EntityBlueprint
 		name 		"items/weapons/melee_power_fist/sonic_fist_attack"
 	}
 
-	VegetationBendingComponentDesc
-	{
-		bending_power	"5000.0"
-		bending_radius	"5.0"
-	}
-
 	ParticleDesc
 	{
-		name    "rift/blu_laser_projectile"
+		name    "rift/blu_plasma_projectile"
 	}
 
 	ProjectileAmmoComponent
@@ -413,38 +407,6 @@ EntityBlueprint
 			area_damage_effect_scale	"splash"
 			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
 		}			
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{		
-				material 			ribbon/melee_slash_blue
-				update_bounds 		1
-				fade_out_time		0.5
-				uv_scroll			"0 -1.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						parent_attachment "att_exhaust"
-						offset "0 0 0.9"
-					}
-
-					Ribbon
-					{
-						parent_attachment "att_exhaust"
-						offset "0 0 -0.9"
-					}
-				}
-			}
-		}
 	}
 
 	LifeTimeDesc

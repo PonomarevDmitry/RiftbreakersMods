@@ -1,7 +1,7 @@
-//editor "scroll(2996.03,1254.57)|zoom(0.80)"
+//editor "scroll(-174.36,120.38)|zoom(0.27)"
 FlowGraphTemplate
 {
-	version "11"
+	version "13"
 	editor "6217"
 	GraphNodes
 	{
@@ -47,7 +47,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3846,2051)"
+			//editor "layout(condition_int.xml)|pos(3846,2125)"
 			key "0"
 			self_id "logic_random_output_0###0"
 			value "logic_random_output_0###0"
@@ -55,7 +55,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3846,2079)"
+			//editor "layout(condition_int.xml)|pos(3846,2153)"
 			key "1"
 			self_id "logic_random_output_0###1"
 			value "logic_random_output_0###1"
@@ -205,7 +205,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3530,1717)"
+			//editor "layout(condition_int.xml)|pos(3530,1718)"
 			key "0"
 			self_id "logic_random_output_1###0"
 			value "logic_random_output_1###0"
@@ -213,7 +213,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3530,1745)"
+			//editor "layout(condition_int.xml)|pos(3530,1746)"
 			key "1"
 			self_id "logic_random_output_1###1"
 			value "logic_random_output_1###1"
@@ -221,7 +221,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3530,1773)"
+			//editor "layout(condition_int.xml)|pos(3530,1774)"
 			key "2"
 			self_id "logic_random_output_1###2"
 			value "logic_random_output_1###2"
@@ -373,7 +373,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(238,2123)"
+			//editor "layout(event_start.xml)|pos(-141,2109)"
 			database
 			{
 				Integers
@@ -670,7 +670,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1056,1813)"
+			//editor "layout(condition_int.xml)|pos(1056,1923)"
 			key "0"
 			self_id "logic_random_output_2###0"
 			value "logic_random_output_2###0"
@@ -678,7 +678,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1056,1841)"
+			//editor "layout(condition_int.xml)|pos(1056,1951)"
 			key "1"
 			self_id "logic_random_output_2###1"
 			value "logic_random_output_2###1"
@@ -686,7 +686,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1056,1869)"
+			//editor "layout(condition_int.xml)|pos(1056,1979)"
 			key "2"
 			self_id "logic_random_output_2###2"
 			value "logic_random_output_2###2"
@@ -910,7 +910,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "weather/comet_boss_cosmic_hedroner_easy"
+						value "weather/cosmic_hedroner_boss_impact_place"
 					}
 
 					StringData
@@ -937,7 +937,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "weather/comet_boss_cosmic_hedroner_easy"
+						value "weather/cosmic_hedroner_boss_impact_place"
 					}
 
 					StringData
@@ -954,11 +954,42 @@ FlowGraphTemplate
 			self_id "weather_objective_comet_3"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(119,2102)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "8.75"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_2"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_check_streaming_session_1"
+		default "mission_change_creature_difficulty_2"
 		interface_dialogue_show_0 "logic_or_0"
 		interface_dialogue_show_2 "logic_or_2"
 		interface_dialogue_show_4 "logic_or_0"
@@ -983,6 +1014,7 @@ FlowGraphTemplate
 		logic_random_output_2###2 "interface_dialogue_show_6"
 		logic_wait_1 "logic_or_1|weather_objective_comet_3"
 		logic_wait_on_event_0 "logic_random_output_0"
+		mission_change_creature_difficulty_2 "logic_check_streaming_session_1"
 	}
 
 	GraphComments

@@ -1,0 +1,101 @@
+EntityBlueprint
+{
+	name effects/world/cosmic_resource_comet_impact_place
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_ambient_big"
+	}	
+
+	LifeTimeDesc
+	{
+		time 		"120"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/comet_explosion_violet
+
+	base_blueprints
+	{
+		lights/point/target_marker_violet
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"10000"
+		speed 	"40"
+		radius 	"80"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/comet_explosion_violet_01"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"1"
+		power   		"3"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_atomic"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		4
+			y		4
+			z		4	
+		}
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"20.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "25 25 25"
+				}
+			}
+		}			
+	}		
+}

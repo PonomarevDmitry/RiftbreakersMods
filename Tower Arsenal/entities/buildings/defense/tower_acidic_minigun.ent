@@ -206,7 +206,7 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit_large|ground_unit|air_unit"
+		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit|air_unit"
 		target_ignore "invisible"
 		speed "300"
 		find_type	"farthest"
@@ -445,7 +445,17 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_acidic_minigun_projectile"
 
-	base_blueprint "items/weapons/corrosive_gun_projectile"
+	base_blueprints
+	{
+		lights/point/green_very_small
+		effects/no_lifetime
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
+		material    "projectiles/corrosive_gun"
+	}
 
 	ProjectileAmmoComponent
 	{
@@ -504,6 +514,35 @@ EntityBlueprint
 	{
 		time 		1.6
 		//type 		"camera"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			ribbon/minigun_trail_green
+				update_bounds 		1
+				fade_out_time		0.2
+				uv_scroll			"0 -0.5"
+				tiling_distance     "4"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+				}
+			}
+		}	
 	}
 }
 

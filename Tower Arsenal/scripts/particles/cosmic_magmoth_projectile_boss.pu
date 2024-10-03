@@ -1,0 +1,88 @@
+system rift/cosmic_magmoth_projectile_boss
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.003
+    scale                                       0.003 0.003 0.003
+    tight_bounding_box                          true
+    category                                    RIFT
+    fade_out                                    true
+    cache_count                                 30
+    technique fire_alpha3
+    {
+        visual_particle_quota                   150
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/cosmo_explosion_fire_01_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 2
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box fire_alpha
+        {
+            emission_rate                       200
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             2
+                max                             3
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             400
+                max                             500
+            }
+            direction                           0.5 1 0
+            box_width                           150
+            box_height                          150
+            box_depth                           150
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 0.698039
+            time_colour                         0.506522  0.294118 0.294118 0.294118 0.498039
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector15
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0
+                max                             2
+            }
+        }
+        affector                                TextureAnimator Affector12
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector25
+        {
+            force_vector                        0 150 0
+            force_application                   average
+        }
+        affector                                Scale Affector910
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             200
+                max                             300
+            }
+        }
+    }
+}

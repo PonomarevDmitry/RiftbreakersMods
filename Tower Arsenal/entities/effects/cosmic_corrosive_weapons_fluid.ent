@@ -27,13 +27,32 @@ EntityBlueprint
 	
 	DecalDesc
 	{	
-		blueprint "effects/decals/blood_splat_violet_random"
+		blueprint "effects/decals/blood_splat_violet_glowing_random"
 		scale
 		{
 			x		2.5
 			y		2.5
 			z		2.5
 		}
+	}
+
+	BurningComponent
+	{
+		spread_radius 			"0.0"			// radius to spread fire
+		spread_chance_override 	"0.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	
+		spread_timer
+		{
+			limit "0" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+	
+		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"5.0"	// how long it will burn in seconds
+	}		
+
+	LifeTimeDesc
+	{
+		time 		"2"
 	}
 }
 

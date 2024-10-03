@@ -1,0 +1,3614 @@
+/////////////////////////////////////// EXAMPLE ////////////////////////////////////////////
+//
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_cryo"				// name of the new species
+//
+//    volume_non_aggressive_distance      "60"                            // distance between player<>unit where they start evading
+//    volume_aggressive_distance      	  "15"                            // distance between player<>unit where they start evading
+//
+//    creatures
+//    {       
+//		Creature
+//        {
+//            blueprint                       "units/ground/stregaros_boss_cryo" // base blueprint for the new species
+//            min_difficulty_factor           "0.0"                              // minimum difficulty points for the boss to show up (those points gradually grow in the campaign mode)
+//            max_difficulty_factor           "1.0"                              // maximum difficulty points for the boss to show up
+//            
+//            min_unit_skill_count            "0"								// minimum number of skills that this species will have (random between min an max)
+//            max_unit_skill_count            "1"								// maximum number of skills that this species will have (random between min an max)
+//
+//            max_unit_skill_level            "1"								// maximum level of a skill that will be assigned during spawn (skills have 5 difficulty levels from 0 to 4)
+//            exclude_unit_skills             "resurrect,drones"				// list of skill names that this species cannot have
+
+//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,drones,eggs,meteor_shower,resurrect,shockwave,swarm,underground_rock,waller" // full list
+
+//	          force_include_unit_skills       "waller"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+//
+//			  unit_skill_overrides												// this can manually OVERRIDE any skill parameters for this species
+//			  {
+//				eggs															// name of the skill
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"					// component name and parameter name for a skill to be overriden
+//						value 	"units/ground/zorant"							// new value (in this case it is used to override default species spawned from eggs)
+//					}
+//				}
+//
+//				// eggs_lvl_1,2,3 etc will use overrides from eggs
+//
+//				eggs_lvl_4
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"
+//						value 	"units/ground/zorant_ultra"
+//					}
+//				}
+//			  }
+//            
+//            extra_unit_modifiers										// this can MODIFY unit parameters (only select parametrs have support for this)
+//            {
+//                health                      "10000"                   // accepted values: +/- 1000 flat value or +/- 20% to add pct value
+//				  movement_speed			  "20%"						// only PCT values accepted for now
+//				  resistance_all			  "30%"
+//				  resistance_fire			  "-50%"
+//				  resistance_physical		  "50%"
+//                //resistance_{damage_type}  "x%"
+//            }
+//
+//            volume_spawn_proximity_factor    "1"
+//        }
+//    }
+//}
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_random"
+//    creatures_group											// weighted random
+//	  {
+//			xxx_boss_cryo 1.0
+//			xxx_boss_fire 1.0
+//			xxx_boss_acid 1.0
+//	}
+//}
+
+///////////////////////////////////// COSMIC-MORIROT-BOSS ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_morirot_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_morirot_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC MAGMOTH ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_magmoth_ultra_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			include_unit_skills       		"cosmic_eggs,cosmic_meteor_shower"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC HEDRONER ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_hedroner_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC HEDRONER ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_arachnoid_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC GNEROT ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_gnerot_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			force_include_unit_skills       "aura_damage_cosmic"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC PHIRIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_phirian_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC KERMON  OMEGABOSS ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_kermon_omega_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			include_unit_skills       		"cosmic_eggs,cosmic_meteor_shower"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+///////////////////////////////////// COSMIC MAGMOTH ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_magmoth_ultra_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			include_unit_skills       		"cosmic_eggs,cosmic_meteor_shower"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_magmoth_ultra_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC HEDRONER ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_hedroner_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_hedroner_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC HEDRONER ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_arachnoid_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_arachnoid_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC GNEROT ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_gnerot_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			force_include_unit_skills       "aura_damage_cosmic"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_gnerot_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC PHIRIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_phirian_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_phirian_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// COSMIC KERMON  OMEGABOSS ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"cosmic_kermon_omega_boss"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "0"
+			include_unit_skills       		"cosmic_eggs,cosmic_meteor_shower"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance"
+			
+			extra_unit_modifiers
+			{
+				health						"35000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"45000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"55000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"8"
+			min_difficulty_factor   		"8.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"65000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"9"
+			min_difficulty_factor   		"9.75"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/cosmic_kermon_omega_boss"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "4"
+			max_unit_skill_count            "4"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"95000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+

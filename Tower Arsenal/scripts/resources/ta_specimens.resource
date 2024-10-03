@@ -14,6 +14,58 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"specimen_cosmic_gnerot_boss"
+	localization_id "resource_name/specimen_cosmic_gnerot_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_phirian_boss"
+	localization_id "resource_name/specimen_cosmic_phirian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_magmoth_ultra_boss"
+	localization_id "resource_name/specimen_cosmic_magmoth_ultra_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_magmoth_ultra"
+	localization_id "resource_name/specimen_cosmic_magmoth_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
 	id				"specimen_cosmic_arachnoid_sentinel_crystal"
 	localization_id "resource_name/specimen_cosmic_arachnoid_sentinel_crystal"
 	bp  			""
@@ -42,6 +94,19 @@ GameplayResourceDef
 {
 	id				"specimen_cosmic_morirot"
 	localization_id "resource_name/specimen_cosmic_morirot"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_morirot_boss"
+	localization_id "resource_name/specimen_cosmic_morirot_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -209,6 +274,19 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"specimen_cosmic_kermon_omega_boss"
+	localization_id "resource_name/specimen_ccosmic_kermon_omega_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
 	id				"specimen_cosmic_hedroner"
 	localization_id "resource_name/specimen_cosmic_hedroner"
 	bp  			""
@@ -287,7 +365,18 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
-//////////////////////////////////// FLORA ///////////////////////////////
+GameplayResourceDef
+{
+	id				"specimen_spawner_cosmic_base"
+	localization_id "resource_name/specimen_spawner_cosmic_base"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
 
 GameplayResourceDef
 {
@@ -304,6 +393,21 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"specimen_cosmic_yeast"
+	localization_id "resource_name/specimen_cosmic_yeast"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+//////////////////////////////////// OTHER/MINERALS ///////////////////////////////
+
+GameplayResourceDef
+{
 	id				"specimen_cosmic_crystal"
 	localization_id "resource_name/specimen_cosmic_crystal"
 	bp  			""
@@ -314,3 +418,4 @@ GameplayResourceDef
 	hud_visible 	"never"
 	allow_overflow 	"1"
 }
+

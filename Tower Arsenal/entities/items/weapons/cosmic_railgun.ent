@@ -1,12 +1,11 @@
 EntityBlueprint
 {
 	name  "items/weapons/cosmic_railgun_projectile"
-	base_blueprint "effects/weapons_bullet/cosmic_railgun_projectile"
 	
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/tower_railgun_projectile.mesh"
-		//material 	"projectiles/cosmic_railgun_projectile_beam"
+		material    "ribbon/drone_trail_violet"
 	}
 
 	SkeletonDesc
@@ -31,59 +30,25 @@ EntityBlueprint
 		time "1.0"
 	}
 
-	ProjectileAmmoComponent
+	SoundDesc
 	{
-		diameter				"1"
-		distribution 			"dissipation"
-		dissipation_count 		"10"
+	name "items/weapons/energy/railgun_fire"
+	}
+
+	InstantAmmoComponent
+	{
+		range 					"33"
+		max_hits 				"32"
+
+		width 					"0.5"
+		height 					"3"
 
 		on_enemy_hit_effect 	"effects/weapons_energy/cosmic_railgun_hit"
 		on_world_hit_effect 	"effects/weapons_energy/cosmic_railgun_hit"
-		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
-		collision_3d 			"world_destructible|destructible|grenade|ground_unit|shield"
+		collision_3d 			"world_destructible|destructible|ground_unit|shield"
 		collision_block 		"world"
-		
-		DamagePattern
-		{
-			area_damage_effect_scale	"splash"
-			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
-		}			
-	}
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{		
-				material 			ribbon/melee_slash_violet
-				update_bounds 		1
-				fade_out_time		0.75
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0.5 0"
-					}
-
-					Ribbon
-					{
-						offset "0 -0.5 0"
-					}
-				}
-			}
-		}
-	}
-
-	LifeTimeDesc
-	{
-		time 					0.9
-		type 					"camera"
 	}
 }
 
@@ -132,8 +97,8 @@ EntityBlueprint
 
 		ammo_blueprint 				"items/weapons/cosmic_railgun_projectile"
 
-		fire_effect 				"effects/weapons_energy/railgun_fire"
-		muzzle_flash_effect 		"effects/weapons_fluid/cosmic_corrosive_muzzle"
+		//fire_effect 				"effects/weapons_energy/cosmic_railgun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmic_railgun_fire_muzzle"
 
 		burst_column_spacing 		"0.5"
 		burst_rate 					"0.3"
@@ -459,7 +424,16 @@ EntityBlueprint
 
 	CostDesc
 }
-
+//cheat_add_item items/weapons/cosmic_blade_item 1
+//cheat_add_item units/drones/drone_player_offensive_plasmoid_standard 1
+//cheat_add_item items/consumables/acidic_sentry_extreme_item 1
+//cheat_add_item items/consumables/cosmic_sentry_extreme_item 1
+//cheat_add_item items/consumables/flame_sentry_extreme_item 1
+//cheat_add_item items/consumables/plasmoid_sentry_extreme_item 1
+//cheat_add_item items/weapons/shotgun_advanced_item 1
+//cheat_add_item items/weapons/cosmic_heavy_plasma_item 1
+//cheat_add_item items/weapons/cosmic_blaster_item 1
+//cheat_add_item items/weapons/cosmo_gun_item 1
 //cheat_add_item items/weapons/cosmic_machinegun_item 1
 //cheat_add_item items/weapons/plasma_gun_advanced_item 1
 //cheat_add_item items/weapons/lightning_gun_advanced_item 1

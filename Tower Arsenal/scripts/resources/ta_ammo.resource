@@ -9,7 +9,7 @@ GameplayResourceDef
 	base_storage	"300"
 	production		"16"
 	hud_visible 	"build_menu"
-	order			"5"
+	order			"0.5"
 	
 	
 	manufacture_cost "1"
@@ -26,7 +26,7 @@ GameplayResourceDef
 	base_storage	"300"
 	production		"16"
 	hud_visible 	"build_menu"
-	order			"2"
+	order			"0.2"
 	
 	
 	manufacture_cost "1"
@@ -43,7 +43,7 @@ GameplayResourceDef
 	base_storage	"300"
 	production		"16"
 	hud_visible 	"build_menu"
-	order			"3"
+	order			"0.3"
 	
 	
 	manufacture_cost "1"
@@ -60,7 +60,7 @@ GameplayResourceDef
 	base_storage	"300"
 	production		"16"
 	hud_visible 	"build_menu"
-	order			"1"
+	order			"0.1"
 	
 	
 	manufacture_cost "1"
@@ -77,7 +77,7 @@ GameplayResourceDef
 	base_storage	"300"
 	production		"16"
 	hud_visible 	"build_menu"
-	order			"4"
+	order			"0.4"
 	
 	
 	manufacture_cost "1"
@@ -91,7 +91,7 @@ GameplayResourceDef
 	type 			"ammo_mech"
 	icon			"gui/hud/resource_icons/ammo_mech_cosmic_cells_icon"
 	bigger_icon		"gui/hud/resource_icons/ammo_mech_cosmic_cells_icon_bigger"
-	base_storage	"30"
+	base_storage	"90"
 	production		"30"
 	hud_visible 	"never"
 	order			"19"

@@ -34,10 +34,10 @@ EntityBlueprint
 			}
 		}
 
-		ammo_blueprint 			"items/weapons/cosmic_heavy_plasma_projectile"
+		ammo_blueprint 				"items/weapons/cosmic_heavy_plasma_projectile"
 
 		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmic_heavy_plasma_muzzle"
 
 		burst_column_spacing 		"0.5"
 		burst_rate 				"0.3"
@@ -61,7 +61,7 @@ EntityBlueprint
                 //charging_effect          	"items/weapons/heavy_plasma_shield"
                 //charged_effect        	"items/weapons/heavy_plasma_shield"
                 //charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
-                charge_muzzle_flash_effect  "effects/weapons_energy/cosmo_gun_fire"
+                charge_muzzle_flash_effect  "effects/weapons_energy/cosmic_heavy_plasma_muzzle"
 	
                 charge_time_start           "0.2"
                 charge_time_end             "0.25"
@@ -344,7 +344,12 @@ EntityBlueprint
 {
 	name  					"items/weapons/cosmic_heavy_plasma_projectile"
 
-	base_blueprints 		"buildings/defense/tower_photon_blaster_projectile"
+	base_blueprints
+	{
+		weapons/energy/cosmic_heavy_plasma_projectile
+		lights/point/violet_medium
+		effects/no_lifetime
+	}
 
 	MeshDesc
 	{
@@ -356,10 +361,6 @@ EntityBlueprint
 	{
 		name 			"items/weapons/energy/heavy_plasma_fire"
 	}
-	//ParticleDesc
-	//{
-	//	name    "rift/blood_trail_animated_violet"
-	//}
 
 	ProjectileAmmoComponent
 	{
@@ -402,7 +403,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/melee_slash_violet
+				material 			ribbon/cosmic_heavy_plasma_trail_violet
 				update_bounds 		1
 				fade_out_time		0.5
 				uv_scroll			"0 -2.5"
@@ -479,7 +480,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		start_name 	"items/weapons/energy/heavy_plasma_shield_on"
+		start_name 		"items/weapons/energy/heavy_plasma_shield_on"
 		name 			"items/weapons/energy/heavy_plasma_shield_idle"
 		end_name 		"items/weapons/energy/heavy_plasma_shield_off"
 	}

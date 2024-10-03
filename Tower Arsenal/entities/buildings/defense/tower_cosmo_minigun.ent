@@ -206,9 +206,10 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit|air_unit"
+		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit|air_unit"
 		target_ignore "invisible"
 		speed "300"
+		find_type	"farthest"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "0"
@@ -246,7 +247,7 @@ EntityBlueprint
 		}
 
 		ammo_blueprint 				"buildings/defense/tower_cosmo_minigun_projectile"
-		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmic_muzzle"
 	}
 
 	DestroyDesc
@@ -384,7 +385,7 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_cosmo_minigun_projectile"
 
-	//base_blueprints "buildings/defense/cryo_sentry_projectile"
+	base_blueprints
 	{
 		lights/point/fire_violet_very_small
 		effects/no_lifetime
@@ -412,9 +413,9 @@ EntityBlueprint
 			z "0.5"
 		}
 
-		on_enemy_hit_effect 	"effects/cosmo_gun_hit"
-		on_world_hit_effect 	"effects/cosmo_gun_hit"
-		on_resisted_hit_effect 	"effects/cosmo_gun_hit"
+		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
+		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
 		collision_2d 			"ground_unit|destructible"
 
@@ -461,9 +462,9 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/melee_slash_violet
+				material 			ribbon/minigun_trail_violet
 				update_bounds 		1
-				fade_out_time		0.5
+				fade_out_time		0.2
 				uv_scroll			"0 -0.5"
 				tiling_distance     "4"
 				tesselation_step 	"0.25"

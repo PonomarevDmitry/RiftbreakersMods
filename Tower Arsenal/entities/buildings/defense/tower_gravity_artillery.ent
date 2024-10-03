@@ -381,15 +381,22 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_gravity_artillery_projectile"
 
+	base_blueprints
+	{
+		items/weapons/cosmic_artillery_projectile_random
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
 	MeshDesc
 	{
-		mesh 		"meshes/items/consumables/grenade_gravity.mesh"
-		material    "projectiles/laser_violet"
+		mesh 		"meshes/projectiles/blob_1.mesh"
+		material    "projectiles/blob_cosmic"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/items/consumables/gravity_hole"
+		name "meshes/projectiles/artillery_shell"
 	}
 
 	MinimapItemDesc
@@ -412,13 +419,23 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name 		"items/weapons/explosive/grenade_launcher_fire"
+		name 		"items/weapons/fluid/corrosive_gun_fire"
 	}
 
-	VegetationBendingComponentDesc
+	EffectDesc
 	{
-		bending_power	"2500.0"
-		bending_radius	"2.0"
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "att_exhaust"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
 	}
 
 	ArtilleryAmmoComponent
@@ -437,7 +454,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/melee_slash_violet
+				material 			ribbon/drone_trail_violet
 				update_bounds 		1
 				fade_out_time		0.5
 				uv_scroll			"0 -2.5"
@@ -461,7 +478,6 @@ EntityBlueprint
 		}	
 	}
 }
-
 EntityBlueprint
 {
 	name  "buildings/defense/tower_gravity_artillery_ghost"
@@ -513,4 +529,50 @@ EntityBlueprint
 		max_radius 20
 	}
 }
+
+//EntityBlueprint
+//{
+//	name  "items/weapons/cosmic_artillery_projectile_random"
+//
+//	MeshDesc
+//	{
+//	}
+//
+//	RandomMeshComponent
+//	{
+//		random_meshes
+//		{
+//			MeshDesc
+//			{
+//				mesh 		"meshes/projectiles/blob_1.mesh"
+//				material 	"projectiles/blob_cosmic"
+//			}
+//
+//			MeshDesc
+//			{
+//				mesh 		"meshes/projectiles/blob_2.mesh"
+//				material 	"projectiles/blob_cosmic"
+//			}
+//
+//			MeshDesc
+//			{
+//				mesh 		"meshes/projectiles/blob_3.mesh"
+//				material 	"projectiles/blob_cosmic"
+//			}
+//
+//
+//			MeshDesc
+//			{
+//				mesh 		"meshes/projectiles/blob_4.mesh"
+//				material 	"projectiles/blob_cosmic"
+//			}
+//
+//			MeshDesc
+//			{
+//				mesh 		"meshes/projectiles/blob_5.mesh"
+//				material 	"projectiles/blob_cosmic"
+//			}
+//		}
+//	}
+//}	
 

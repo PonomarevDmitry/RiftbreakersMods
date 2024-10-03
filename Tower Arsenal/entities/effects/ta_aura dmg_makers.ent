@@ -1,0 +1,95 @@
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/cosmic_marker_aura
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	//MeshDesc
+	//{
+	//	mesh 		"meshes/cube.mesh"
+	//	material 	"markers/danger_marker_progress_blue"
+	//}
+
+	children
+	{
+		//EntityBlueprint
+		//{
+		//	MeshDesc
+		//	{
+		//		mesh 		"meshes/cube.mesh"
+		//		material 	"markers/danger_marker_inner_blue"
+		//	}
+		//
+		//	AffectorDesc
+		//	{
+		//		AffectorLambdaDesc
+		//		{
+		//			affector_lambda TransformRotateAffector
+		//			{
+		//				angle_speed 	"30"
+		//			}
+		//		}
+		//	}
+		//}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/cube.mesh"
+			material 		"decals/aura_damage_cosmic_area"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-30"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name time_damage_cosmic_01
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		// lights/point/fire_violet_super_small
+	}
+
+	ParticleDesc
+	{
+		name    "rift/time_damage_cosmic_01"
+	}
+
+	LifeTimeDesc
+	{
+		time "0.3"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/mech/mech_on_cosmic
+
+	base_blueprints 
+	{
+		lights/point/violet_medium
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/time_damage_cosmic_aura"
+	}
+}

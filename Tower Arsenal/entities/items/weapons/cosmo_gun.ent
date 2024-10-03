@@ -37,10 +37,10 @@ EntityBlueprint
 			emissive_factor 	"5"
 		}
 
-		ammo_blueprint 			"items/weapons/cosmos_gun_blast"
+		ammo_blueprint 				"items/weapons/cosmos_gun_blast"
 
 		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_muzzle"
 		bone 						"att_muzzle"
 
 		burst_column_spacing 		"0.15"
@@ -286,15 +286,43 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  						"items/weapons/cosmos_gun_blast"
+	name        "items/weapons/cosmos_gun_blast"
 
-	base_blueprint 			"buildings/defense/cosmo_plasma_projectile"
+	base_blueprints
+	{
+		effects/cosmo_gun_elemental
+		lights/point/violet_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"radar"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/plasma_gun_fire"
+	}
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 		"effects/cosmo_gun_hit"
-		on_world_hit_effect 		"effects/cosmo_gun_hit"
-		on_resisted_hit_effect	"effects/cosmo_gun_hit"
+		on_enemy_hit_effect 		"effects/weapons/energy/cosmo_gun_hit"
+		on_world_hit_effect 		"effects/weapons/energy/cosmo_gun_hit"
+		on_resisted_hit_effect		"effects/weapons/energy/cosmo_gun_hit"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"

@@ -141,7 +141,7 @@ EntityBlueprint
 
 		ammo_blueprint 				"units/air/baxmoth_drone_cosmic_weapon_projectile"
 
-		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		muzzle_flash_effect 		"effects/enemies_cosmic_baxmoth/cosmic_drone_muzzle"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -153,16 +153,41 @@ EntityBlueprint
 {
 	name 			"units/air/baxmoth_drone_cosmic_weapon_projectile"
 
-	base_blueprint 	"buildings/defense/cosmo_plasma_projectile"
+	base_blueprints 
+	{
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}	
+	
+	ParticleDesc
+	{
+		name    "rift/cosmic_baxmoth_drone_projectile_cosmic"
+	}
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/cosmo_gun_hit"
-		on_world_hit_effect 	"effects/cosmo_gun_hit"
-		on_resisted_hit_effect 	"effects/cosmo_gun_hit"
-
+		on_enemy_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_cosmic"
+		on_world_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_cosmic"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-		collision_2d 			"ground_unit|hitbox|destructible"
 		
 		friendly_fire				"pass"
 	}
@@ -170,11 +195,6 @@ EntityBlueprint
 	LifeTimeDesc
 	{
 		time 		2
-		//type 		"camera"
-	}
-	
-	ParticleDesc
-	{
-		name    "rift/purp_laser_projectile"
-	}
+	}	
+
 }

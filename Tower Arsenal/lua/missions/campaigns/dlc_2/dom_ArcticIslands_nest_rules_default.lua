@@ -62,7 +62,7 @@ return function()
 
 	rules.addResourcesOnRunOut = 
 	{
-		{ name = "cobalt_vein", runOutPercentageOnMap = 30, minToSpawn = 10000, maxToSpawn = 20000 },
+		{ name = "cosmonite_ore_vein", runOutPercentageOnMap = 30, minToSpawn = 10000, maxToSpawn = 20000 },
 	}
 
 	rules.majorAttackLogic =

@@ -1,0 +1,458 @@
+EntityBlueprint
+{ 
+	name "units/ground/cosmic_gnerot_boss_attack"
+
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/ground/cosmic_gnerot/rock_damage"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"6.0"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			EffectDesc
+			{
+				EffectGroup
+				{
+					Effects
+					{
+						Effect
+						{
+							blueprint "effects/enemies_cosmic_gnerot/spike_emerge"
+						}
+					}
+				}
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "4.0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/ground/cosmic_gnerot_boss/rock_damage"
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_cosmic_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"8"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"90"
+					type 		"cosmic"
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"10000"
+					explosion_effect 		"effects/cosmo_heavy_plasma_explosion_hit"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_gnerot_boss"
+
+	base_blueprint units/ground/gnerot_base
+
+	StateMachineDesc
+	{
+		template_name "gnerot"
+		params
+		{
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"60"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"30"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_sleep_time						float:"60.0"
+			max_sleep_time						float:"90.0"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float::"15.0"
+			bp_on_range_attack					string:"units/ground/cosmic_gnerot_boss_attack"
+			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			range_attack_underground_offset		float:"-8.0"
+			range_attack_cooldown				float:"8.0"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/gnerot.lua"
+		database
+		{
+			min_scale	float:"1.8"
+			max_scale	float:"1.8"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"9000"
+		health 						"9000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"0.0"
+		acid			"2.0"
+		energy			"0.0"
+		cryo			"0.0"
+		area			"2.0"
+		cosmic			"0.0"
+		plasmoid		"2.0"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"90"
+		unit_soft_radius				"2.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		material "units/ground/cosmic_gnerot"
+		mesh "meshes/units/ground/gnerot_caverns.mesh"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_gnerot_boss"		
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_gnerot/death"	
+					part_prefix 			"meshes/units/ground/gnerot"
+					part_material 			"units/ground/cosmic_gnerot"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_gnerot/death_long"	
+					part_prefix 			"meshes/units/ground/gnerot_death_2"
+					part_material 			"units/ground/cosmic_gnerot"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "death_2"
+			}
+		}		
+	}
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_phirian_boss_trail"
+					bone "att_death"
+					scale "0.7 0.4 1.1"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_phirian_boss_trail"
+					bone "be_hand_left"
+					offset "0.0 0.0 0.0"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_phirian_boss_trail"
+					bone "att_head"
+					offset "-0.7 0.0 0.0"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_phirian_boss_trail"
+					bone "att_hand_right"
+					offset "0.0 -1.0 1.6"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "attack_1_ground_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/attack_ground_hit_alpha"
+					bone "att_attack_1_ground_splash"
+					always_up "1"
+				}
+			}
+		}		
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_gnerot_boss/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_hand_right"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack_1"
+						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						attack_start_time			"0.83"
+						attack_end_time				"1.10"
+						attack_duration 			"2.00"
+						damage_multiple  			"0"
+					}
+
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack_2"
+						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						attack_start_time			"0.75"
+						attack_end_time				"1.00"
+						attack_duration 			"2.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"close_attack_1"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+						}
+					}
+
+					MeleeDamage
+					{
+						name 				"close_attack_2"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"80"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x 2.0
+						y 2.0
+						z 3.0
+					}	
+				}
+			}
+		}
+	}
+}
+

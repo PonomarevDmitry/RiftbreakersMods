@@ -85,8 +85,8 @@ EntityBlueprint
 		}
 		
 		muzzles_per_fire 			"1"
-		ammo_blueprint 				"items/weapons/cosmos_gun_blast"
-		muzzle_flash_effect 		"effects/weapons_energy/purp_laser_gun_fire"
+		ammo_blueprint 				"units/drones/drone_player_offensive_cosmic_blaster"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmic_drone_muzzle"
 
 		burst_column_spacing 		"1"
 		burst_rate 					"0.1"
@@ -150,7 +150,7 @@ EntityBlueprint
 
 	RibbonComponent
 	{
-		material 			ribbon/melee_slash_violet
+		material 			ribbon/drone_trail_cosmic
 		update_bounds 		1
 		fade_out_time		0.5
 		tesselation_step 	0.1
@@ -170,3 +170,30 @@ EntityBlueprint
 		}
 	}	
 }
+
+EntityBlueprint
+{
+	name  		"units/drones/drone_player_offensive_cosmic_blaster"
+
+	ParticleDesc
+	{
+		name    "rift/cosmo_gun_projectile"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/units/drones/drone_player_offensive_cosmic_blaster_hit"
+		on_world_hit_effect 		"effects/units/drones/drone_player_offensive_cosmic_blaster_hit"
+		on_resisted_hit_effect		"effects/units/drones/drone_player_offensive_cosmic_blaster_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+	}
+
+	LifeTimeDesc
+	{
+		time 					0.9
+		type 					"camera"
+	}
+}
+

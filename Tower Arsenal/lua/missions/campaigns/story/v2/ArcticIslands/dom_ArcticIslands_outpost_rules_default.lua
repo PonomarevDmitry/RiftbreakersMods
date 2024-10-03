@@ -2,7 +2,7 @@ return function()
     local rules = {}
 
 	rules.maxObjectivesAtOnce = 8
-	rules.eventsPerIdleState = 0
+	rules.eventsPerIdleState = 1
 	rules.eventsPerPrepareState = 1 -- [0,1]
 	rules.pauseAttacks = false
 	rules.prepareAttacks = true
@@ -25,14 +25,12 @@ return function()
 		{ action = "cosmic_kermon_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_kermon_attack.logic", weight = 3 },
 		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
 		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
-		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 4, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
+		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
+		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
 		{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
 		{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
 		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/comsic_meteor_shower.logic", minTime = 30, maxTime = 60, weight = 2 },
 		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_meteor_shower.logic", minTime = 30, maxTime = 60, weight = 2 },
-		--{ action = "spawn_cosmic_creeper", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_creeper.logic", minTime = 30, maxTime = 60, weight = 3 },
-		--{ action = "spawn_cosmic_creeper", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_creeper.logic", minTime = 30, maxTime = 60, weight = 3 },
 		{ action = "spawn_cosmic_tornado_near_player", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_player.logic", weight = 0.5 },
 		{ action = "spawn_cosmic_tornado_near_player", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_player.logic", weight = 0.5 },
 		{ action = "spawn_cosmic_tornado_near_base", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_base.logic", minTime = 30, maxTime = 60, weight = 0.5 },
@@ -57,8 +55,7 @@ return function()
 
 	rules.addResourcesOnRunOut =
 	{
-		{ name = "carbon_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
-		{ name = "iron_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
+		{ name = "cosmonite_ore_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
 	}
 
 	rules.timeToNextDifficultyLevel =
@@ -102,7 +99,6 @@ return function()
 		{ name = "logic/objectives/kill_cosmic_hedroner_boss.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/kill_cosmic_arachnoid_elite.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_cosmic_hedroner_boss.logic", minDifficultyLevel = 2 },
-		--{ name = "logic/objectives/destroy_cosmic_crystal_creeper.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 }, 
 		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_kermon_multiple.logic", minDifficultyLevel = 2 },
@@ -113,6 +109,7 @@ return function()
 		{ name = "logic/objectives/destroy_nest_cosmic_phirian_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_hedroner_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_gnerot_multiple.logic", minDifficultyLevel = 2 },
+		{ name = "logic/objectives/destroy_nest_cosmic_magmoth_ultra_multiple.logic", minDifficultyLevel = 2 },
 	}
 
 	rules.cooldownAfterAttacks =
@@ -297,101 +294,65 @@ return function()
 	{
 		 -- difficulty level 1
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 2
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 3
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 4
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 5
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 6
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 7
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 8
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 
 		 -- difficulty level 9
 		{
-			"logic/missions/survival/attack_boss_ArcticIslands.logic",
-			"logic/missions/survival/attack_boss_arachnoid.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_nurglax.logic",
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_nerilian.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+			"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 		},
 	}
 
@@ -402,10 +363,9 @@ return function()
 			additionalWaves = 0, -- Additional Waves count = NumberOfPlayers + (additionalWaves -1(const)). E.g. 2 players + 0 -1 = 1 additional multiplayer wave for 2 players. Multiplayer Additional waves are disabled in single player mode. Check dom_mananger:GetMultiplayerAttackCount for actual code
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 	
@@ -414,10 +374,9 @@ return function()
 			additionalWaves = 0,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 		 -- difficulty level 3
@@ -425,10 +384,9 @@ return function()
 			additionalWaves = 0,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -437,10 +395,9 @@ return function()
 			additionalWaves = 0,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -449,10 +406,9 @@ return function()
 			additionalWaves = 0,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -461,10 +417,9 @@ return function()
 			additionalWaves = 0,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -473,11 +428,9 @@ return function()
 			additionalWaves = 1,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_ArcticIslands.logic",
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -486,11 +439,9 @@ return function()
 			additionalWaves = 2,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_ArcticIslands.logic",
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 
@@ -499,11 +450,9 @@ return function()
 			additionalWaves = 2,
 			waves = 
 			{
-				"logic/missions/survival/attack_boss_ArcticIslands.logic",
-				"logic/missions/survival/attack_boss_arachnoid.logic",
-				"logic/missions/survival/attack_boss_gnerot.logic",
-				"logic/missions/survival/attack_boss_baxmoth.logic",
-				"logic/missions/survival/attack_boss_krocoon.logic",
+				"logic/missions/survival/attack_boss_cosmic_arachnoid_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_magmoth_boss.logic",
+				"logic/missions/survival/attack_boss_cosmic_hedroner_boss.logic",
 			}
 		},
 	}

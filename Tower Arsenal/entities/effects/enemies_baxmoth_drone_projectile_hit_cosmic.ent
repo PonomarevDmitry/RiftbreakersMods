@@ -1,0 +1,50 @@
+EntityBlueprint
+{
+	name "effects/enemies_baxmoth/drone_projectile_hit_cosmic"	
+
+	base_blueprints
+	{
+		 lights/point/muzzle_violet_very_small
+		 effects/default
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_explosion_small"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}	
+
+	BurningComponent
+	{
+		spread_radius 			"0.1"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+	
+		burning_effect_group    "time_damage_cosmic_01"			// effect group to be enabled on entity
+		burning_time			"0.05"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_baxmoth/cosmic_drone_muzzle
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}
+}

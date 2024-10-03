@@ -311,7 +311,30 @@ EntityBlueprint
 {
 	name  "items/weapons/cosmic_corrosive_gun_projectile"
 
-	//base_blueprint "effects/weapons_fluid/corrosive_gun_projectile"
+	base_blueprints
+	{
+		lights/point/fire_violet_medium
+		//effects/blood/trail/violet
+		effects/default
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility			"radar"
+	}
 
 	ProjectileAmmoComponent
 	{
@@ -338,7 +361,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
-		material    "projectiles/laser_violet"
+		material    "projectiles/cosmic_corrosive_gun_projectile"
 	}		
 
 	children
@@ -347,7 +370,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/melee_slash_violet
+				material 			ribbon/cosmic_violet
 				update_bounds 		1
 				fade_out_time		0.2
 				uv_scroll			"0 -0.5"

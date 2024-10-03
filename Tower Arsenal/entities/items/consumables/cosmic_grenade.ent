@@ -1,0 +1,462 @@
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_standard"
+
+	MeshDesc
+	{
+		mesh 						"meshes/projectiles/hand_grenade.mesh"
+		material 					"items/consumables/cosmic_grenade"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"grenade_light"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmic_grenade_explosion_standard"
+		on_world_hit_effect 		"effects/cosmic_grenade_explosion_standard"
+		on_resisted_hit_effect 		"effects/cosmic_grenade_explosion_standard"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/cosmic_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"6"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_explosive/cosmic_grenade_projectile"
+				}
+				Effect
+				{
+					blueprint "effects/weapons_explosive/cosmic_grenade_throw"
+				}
+			}			
+		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}			
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{		
+				material 			ribbon/drone_trail_violet
+				update_bounds 		1
+				fade_out_time		0.45
+				uv_scroll			"0 -1.5"
+				tiling_distance     "3"
+				tesselation_step 	"0.25"
+				keep_local			"0"
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_advanced"
+		base_blueprint "items/consumables/cosmic_grenade_standard"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmic_grenade_explosion_advanced"
+		on_world_hit_effect 		"effects/cosmic_grenade_explosion_advanced"
+		on_resisted_hit_effect 		"effects/cosmic_grenade_explosion_advanced"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/cosmic_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"7"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"400"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_superior"
+		base_blueprint "items/consumables/cosmic_grenade_standard"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmic_grenade_explosion_superior"
+		on_world_hit_effect 		"effects/cosmic_grenade_explosion_superior"
+		on_resisted_hit_effect 		"effects/cosmic_grenade_explosion_superior"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/cosmic_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"8"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"500"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_extreme"
+		base_blueprint "items/consumables/cosmic_grenade_standard"
+
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/cosmic_grenade_explosion_extreme"
+		on_world_hit_effect 		"effects/cosmic_grenade_explosion_extreme"
+		on_resisted_hit_effect 		"effects/cosmic_grenade_explosion_extreme"
+
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"0"
+
+		explosion_delay_effect 		"effects/weapons_explosive/cosmic_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_radius	"8"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"600"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/cosmic_grenade"
+		use_count					"1"
+		cooldown					"1"
+		//cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/cosmic_grenade_advanced"
+		bigger_icon 				"gui/menu/items_icons/consumables/cosmic_grenade_advanced"
+		storage_limit 				"10"
+		description 				"gui/menu/inventory/consumable_description/cosmic_grenade_advanced"	
+		rarity						"ADVANCED"
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/cosmic_grenade_advanced"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/cosmic_grenade_advanced"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/cosmic_grenade"
+		use_count					"1"
+		cooldown					"1"
+		//cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/cosmic_grenade_extreme"
+		bigger_icon 				"gui/menu/items_icons/consumables/cosmic_grenade_extreme"
+		storage_limit 				"10"
+		description 				"gui/menu/inventory/consumable_description/cosmic_grenade_extreme"
+		rarity						"EXTREME"
+		replace_lower_quality		"1"		
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/cosmic_grenade_extreme"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/cosmic_grenade_extreme"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_standard_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/cosmic_grenade"
+		use_count					"1"
+		cooldown					"1"
+		//cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/cosmic_grenade_standard"
+		bigger_icon 				"gui/menu/items_icons/consumables/cosmic_grenade_standard"
+		storage_limit 				"10"
+		description 				"gui/menu/inventory/consumable_description/cosmic_grenade_standard"		
+		rarity						"STANDARD"
+		replace_lower_quality		"1"	
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/cosmic_grenade_standard"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/cosmic_grenade_standard"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/consumables/cosmic_grenade_superior_item"
+
+	InventoryItemDesc
+	{
+		type 						"consumable"
+		name 						"gui/menu/inventory/consumable_name/cosmic_grenade"
+		use_count					"1"
+		cooldown					"1"
+		//cooldown_category			"grenade"
+		icon						"gui/hud/items_icons/consumables/cosmic_grenade_superior"
+		bigger_icon 				"gui/menu/items_icons/consumables/cosmic_grenade_superior"
+		storage_limit 				"10"
+		description 				"gui/menu/inventory/consumable_description/cosmic_grenade_superior"
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"		
+		add_after_obtaining 		"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/consumables/grenade.lua"
+
+		database
+		{
+			bp						string:"items/consumables/cosmic_grenade_superior"
+			att						string:"att_grenade"
+			stat_bp					string:"items/consumables/cosmic_grenade_superior"
+		}
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/cosmic_grenade_projectile
+
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_grenade_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/cosmic_grenade_armed
+
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_grenade_armed"
+	}
+}
+
+EntityBlueprint
+{
+
+	name effects/weapons_explosive/cosmic_grenade_throw
+
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/default
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.15"
+		power   		"0.2"
+		falloff_radius 	"3"
+		radius   		"25"
+		frequency 		"10"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/hand_grenade_fire"
+	}
+}

@@ -69,7 +69,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/enemies_generic/time_damage_cosmic
+	name "effects/enemies_generic/time_damage_cosmic"
 
 	base_blueprints
 	{
@@ -96,7 +96,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/fire_violet_very_small
+		//lights/point/fire_violet_very_small
 		 effects/default
 	}
 
@@ -108,42 +108,6 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "destructibles/fire"
-	}
-
-		
-}
-
-EntityBlueprint
-{
-	name "effects/enemies_generic/boss_trail_cosmic"
-
-	base_blueprints
-	{
-		lights/point/fire_violet_very_small
-		effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/boss_trail_cosmic"
-	}
-
-		
-}
-
-EntityBlueprint
-{
-	name "effects/enemies_generic/boss_trail_cosmic_sparks"
-
-	base_blueprints
-	{
-		 lights/point/fire_violet_very_small
-		 effects/no_lifetime
-	}
-
-	ParticleDesc
-	{
-		name    "rift/boss_trail_cosmic_sparks"
 	}
 }
 
@@ -187,17 +151,306 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name "effects/tower_cosmo_working"
+
 	base_blueprints
 	{
-		 lights/point/fire_violet_very_small
-		 effects/no_lifetime
+	lights/point/fire_violet_very_small
+	effects/no_lifetime
 	}
-
-	name "effects/tower_cosmo_working"
 
 	ParticleDesc
 	{
-		name    "rift/necrodon_resurrect_hands"
+	name "rift/necrodon_resurrect_hands"
 	}
 }
 
+EntityBlueprint
+{
+	name "effects/blood/trail/violet"
+
+	base_blueprints
+	{
+	lights/point/fire_violet_very_small
+	effects/default
+	}
+
+	ParticleDesc
+	{
+	name "rift/blood_trail_animated_violet_glowing"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/destructibles/cosmic_yeast_explosion_blue_big
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_small
+		 effects/default
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"8"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"299"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_explosion_blue_big"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.8"
+		power   		"1.5"
+		falloff_radius 	"40"
+		radius   		"60"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_blue_random"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/destructibles/cosmic_yeast_part_trail_medium
+
+	base_blueprints
+	{
+		 //lights/point/explosion_orange_very_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/acid_bulb_part_trail_blue_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/destructibles/cosmic_yeast_explosion_small
+
+	base_blueprints
+	{
+		 //lights/point/explosion_violet_small
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_yeast_explosion_blue_small"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_blue_random"
+		scale
+		{
+			x		2
+			y		2
+			z		2
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_cosmic
+
+	base_blueprints
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_blade_cosmic"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_slash
+
+	base_blueprints
+	{
+	//	 lights/point/muzzle_white_medium
+		 effects/default
+	}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.2"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/melee_sharp/flame_blade_attack"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_shockwave_slash
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/items/misc/slash.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+		material 	"slash/cosmic_fire"	
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/cosmic_blade_shockwave_slash"
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+				material 	"slash/cosmic_fire_bg"	
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_shockwave
+
+	base_blueprints
+	{
+		//lights/point/violet_very_small
+		effects/no_lifetime
+	}
+	
+
+	//ParticleDesc
+	//{
+	//	name    "rift/flame_blade_shockwave"
+	//}
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_hit_world
+
+	base_blueprints
+	{
+		lights/point/muzzle_violet_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_blade_hit"
+	}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.4"
+		group			"weapon_hit"
+	}
+	
+	SoundDesc
+	{
+		name "items/weapons/melee_sharp/flame_blade_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/weapons_melee_sharp/cosmic_blade_hit_enemy
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_blade_hit"
+	}
+
+	//CameraShakeDesc
+	//{
+	//	duration 		"0.1"
+	//	power   		"0.1"
+	//	falloff_radius 	"3"
+	//	radius   		"25"
+	//	frequency 		"10"
+	//	group			"weapon_hit"
+	//}
+	
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.3"
+		group			"weapon_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/melee_sharp/flame_blade_hit"
+	}	
+}

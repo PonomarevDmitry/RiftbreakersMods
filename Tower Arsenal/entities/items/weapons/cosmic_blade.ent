@@ -1,0 +1,1946 @@
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_lvl_1.mesh"
+		material 	"items/weapons/cosmic_blade"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/flame_blade_lvl_1"
+	}		
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor				"0.75"
+
+		melee_attack_angle_threshold		"60"
+		melee_attack_speed_function
+		{
+			type "0"
+			points
+			{
+				Vector2
+				{
+					x "0.0"
+					y "0.83"
+				}
+				Vector2
+				{
+					x "0.04"
+					y "1.66"
+				}
+				Vector2
+				{
+					x "0.08"
+					y "1.6"
+				}
+				Vector2
+				{
+					x "0.14"
+					y "0.6"
+				}
+				Vector2
+				{
+					x "0.20"
+					y "0.13"
+				}
+			}
+		}
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "7"
+		}
+				
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}		
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}	
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}	
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+						
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "1.875"
+				half_height "1.75"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "cosmic"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/cosmic_blade_cosmic"
+					bone "att_ribbon_end"
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "light"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_end"
+				}
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_start"
+				}				
+			}
+		}
+		
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/flame_blade_equipped"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_blade_advanced"
+
+	base_blueprint "items/weapons/cosmic_blade"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_lvl_2.mesh"
+		material 	"items/weapons/cosmic_blade_advanced"	
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/flame_blade_lvl_2"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "7"
+		}
+
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "1.875"
+				half_height "1.75"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "cosmic"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/cosmic_blade_cosmic"
+					bone "att_ribbon_end"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "light"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_end"
+				}
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_start"
+				}				
+			}
+		}
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/laser_sword_equipped"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_blade_superior"
+
+	base_blueprint "items/weapons/cosmic_blade"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_lvl_3.mesh"
+		material 	"items/weapons/cosmic_blade_superior"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/flame_blade_lvl_3"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "7"
+		}
+	
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "1.875"
+				half_height "1.75"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fire"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/cosmic_blade_cosmic"
+					bone "att_ribbon_end"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "light"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_end"
+				}
+				Effect
+				{
+					blueprint "lights/point/orange_very_small"
+					bone "att_ribbon_start"
+				}				
+			}
+		}
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/laser_sword_equipped"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_blade_extreme"
+
+	base_blueprint "items/weapons/cosmic_blade"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_lvl_4.mesh"
+		material 	"items/weapons/cosmic_blade_extreme"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/flame_blade_lvl_4"
+	}
+
+	MeleeWeaponDesc
+	{
+		MeleeAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "7"
+		}
+
+		MeleeAttacks
+		{
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_right_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_left_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"combo"
+				attack_name 					"melee_double_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"effects/enemies_cosmic_phirian/sword_slash"
+				combo_loop 						1
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_right_dash_attack_1"
+				attack_speed_param_name 		"RIGHT_HAND_use_speed"
+				attack_speed_factor_param_name 	"right_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_right_dash_attack_1"
+			}
+
+			MeleeAttack
+			{
+				type 							"animation"
+				attack_name 					"melee_left_dash_attack_1"
+				attack_speed_param_name 		"LEFT_HAND_use_speed"
+				attack_speed_factor_param_name 	"left_attack_speed"
+				//attack_start_effect 			"effects/weapons_melee_sharp/sword_start"
+				slash_effect 					"items/weapons/cosmic_blade_slash_long_violet"
+				slash_immediately				1
+				melee_damage_name				"melee_left_dash_attack_1"
+			}
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"slash_dash_left"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_left"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_right"
+				attack_effect 				"effects/mech/slash_dash_energy"
+				hit_on_middle				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"slash_dash_finish_right"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}
+				}
+			}
+
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_right_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_left_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_1"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+
+			MeleeDamage
+			{
+				name 						"melee_attack_double_2"
+				attack_effect 				"effects/weapons_melee_sharp/cosmic_blade_slash"
+				hit_on_middle 				"1"
+				ammo_definition
+				{
+					on_enemy_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+					on_world_hit_effect 	"effects/weapons_melee_sharp/cosmic_blade_hit_world"
+					on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+					friendly_fire			"pass"
+					area_damage_impact_type "disabled"
+					collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+					
+					DamagePattern
+					{
+						area_damage_type				"normal"
+						area_damage_radial_effect		"effects/weapons_melee_sharp/cosmic_blade_shockwave"
+						area_damage_radial_slash_effect	"effects/weapons_melee_sharp/cosmic_blade_shockwave_slash"
+						area_damage_splash_effect   	"effects/weapons_melee_sharp/cosmic_blade_hit_enemy"
+						area_damage_angle				"60"
+						area_damage_speed				"56"
+					}					
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsCapsuleShape
+			{
+				r "1.875"
+				half_height "1.75"
+
+				position
+				{
+					x "1.045"
+					y "-0.0021"
+					z "0.1216"
+				}
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "cosmic"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/cosmic_blade_cosmic"
+					bone "att_ribbon_end"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"
+					offset "1 0 0"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}		
+        EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_melee_sharp/laser_sword_equipped"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_blade_slash_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/cosmic_melee_violet"
+		update_bounds 		1
+		fade_out_time		0.08
+		tesselation_step 	0.025
+		manual_fade 		1
+		
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/cosmic_blade_slash_long_violet"
+
+	RibbonComponent
+	{
+		material 			"ribbon/cosmic_melee_violet"
+		update_bounds 		1
+		fade_out_time		0.34
+		tesselation_step 	0.025
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				parent_attachment "att_ribbon_end"
+			}
+
+			Ribbon
+			{
+				parent_attachment "att_ribbon_start"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade_item"
+	
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"		
+		name 		"gui/menu/inventory/weapon_name/cosmic_blade"
+		item_bp		"items/weapons/cosmic_blade"
+		icon		"gui/hud/items_icons/weapons/cosmic_blade"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_blade"
+		//description "gui/menu/inventory/weapon_charge_description/flame_blade"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"		
+		name 		"gui/menu/inventory/weapon_name/cosmic_blade"
+		item_bp		"items/weapons/cosmic_blade_advanced"
+		icon		"gui/hud/items_icons/weapons/cosmic_blade_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_blade_advanced"
+		//description "gui/menu/inventory/weapon_charge_description/flame_blade"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"		
+		name 		"gui/menu/inventory/weapon_name/cosmic_blade"
+		item_bp		"items/weapons/cosmic_blade_superior"
+		icon		"gui/hud/items_icons/weapons/cosmic_blade_superior"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_blade_superior"
+		//description "gui/menu/inventory/weapon_charge_description/flame_blade"
+	}	
+
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 		"melee_weapon"
+		subtype		"melee"
+		holding_pose "melee"
+		continuous  "1"
+		cooldown	"0.01"		
+		name 		"gui/menu/inventory/weapon_name/cosmic_blade"
+		item_bp		"items/weapons/cosmic_blade_extreme"
+		icon		"gui/hud/items_icons/weapons/cosmic_blade_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/cosmic_blade_extreme"
+		//description "gui/menu/inventory/weapon_charge_description/flame_blade"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/weapons/sword_weapon.lua"
+
+		database
+		{
+			//pad_melee_start_feedback 	string:"vibration,4,7,1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc	
+}
+
+EntityBlueprint
+{
+    name "items/weapons/cosmic_blade_slash"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+		material 	"slash/cosmic_fire"	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+				material 	"slash/cosmic_fire_bg"	
+			}
+		}
+	}
+}
+//cheat_add_item items/weapons/cosmic_blade_item 1
+

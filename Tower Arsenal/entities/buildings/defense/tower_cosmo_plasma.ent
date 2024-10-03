@@ -7,8 +7,8 @@ EntityBlueprint
 		name 				"tower_cosmo_plasma"
 		bp   				"buildings/defense/tower_cosmo_plasma"
 		category 			"defense_modd"
-		localization_id	"gui/hud/building_name/tower_cosmo_plasma"
-		description		"gui/hud/building_description/tower_cosmo_plasma"
+		localization_id		"gui/hud/building_name/tower_cosmo_plasma"
+		description			"gui/hud/building_description/tower_cosmo_plasma"
 		menu_icon			"gui/hud/building_icons/tower_cosmo_plasma"
 		require 			"headquarters"
 		order				"9"
@@ -25,10 +25,10 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 		"200"
-					steel 			"175"
-					cosmonite_ore	"80"
 					ai			"1"
+					carbonium 	"150"
+					steel 		"75"
+					palladium	"50"
 				}
 			}		
 		}			
@@ -200,7 +200,7 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit"
+		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit|air_unit"
 		target_ignore "invisible"
 		speed "300"
 		aim_volume "SphericalAimVolume"
@@ -235,14 +235,14 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "4"
+			emissive_factor "4" // "6"
 			submesh_idx "1"
 		}
 
 		ammo_blueprint 				"buildings/defense/cosmo_plasma_projectile"
 
 		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_fire"
+		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_muzzle"
 
 		burst_column_spacing 		"0.8"
 		burst_rate 					"0.15"
@@ -363,6 +363,22 @@ EntityBlueprint
 
 		EffectGroup
 		{
+			group "working"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "body_1"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}
+
+		EffectGroup
+		{
 			group 	"working"
 			enabled "0"
 			Effects
@@ -377,76 +393,32 @@ EntityBlueprint
 		}	
 	}
 }
+
 EntityBlueprint
 {
 	name "buildings/defense/cosmo_plasma_projectile"
 
-	MeshDesc
+	base_blueprints
 	{
-		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
-		material    "projectiles/laser_violet"
-	}
-
-	VegetationBendingComponentDesc
-	{
-		bending_power	"2500.0"
-		bending_radius	"3.0"
+		weapons/energy/cosmic_plasma_projectile
+		lights/point/violet_very_small
+		effects/default
 	}
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 		"effects/cosmo_plasma_spitter_explosion_hit"
-		on_world_hit_effect 		"effects/cosmo_plasma_spitter_explosion_hit"
-		on_resisted_hit_effect 		"effects/cosmo_plasma_spitter_explosion_hit"
-
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
-	}
-
-	DamagePattern
-	{
-		area_damage_radius	"2"
-	
-		Damages
-		{
-			Damage
-			{
-				value 			"50"
-				type			"gravity"
-			}
-		}
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "1"
-			y "1"
-		}
-		visibility			"radar"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/purp_laser_projectile"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/energy/plasma_gun_fire"
+		on_enemy_hit_effect 		"effects/weapons/energy/cosmic_plasma_hit"
+		on_world_hit_effect 		"effects/weapons/energy/cosmic_plasma_hit"
+		on_resisted_hit_effect 		"effects/weapons_generic/projectile_hit_resisted"
+		friendly_fire			"pass"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
 	}
 
 	LifeTimeDesc
 	{
-		time 		0.9
+		time 		1.6
 		//type 		"camera"
 	}
 }
+
