@@ -502,6 +502,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = "0.1",
             ["cobalt_vein"] = "0.1",
             ["voidinite_ore_vein"] = "0.1",
+            ["cosmonite_ore_vein"] = "0.1",
         },
 
         ["resource_converter_comp"] = {
@@ -511,6 +512,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = 100000,
             ["cobalt_vein"] = 100000,
             ["voidinite_ore_vein"] = 100000,
+            ["cosmonite_ore_vein"] = 100000,
         },
     },
     
@@ -523,6 +525,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = "0.1",
             ["cobalt_vein"] = "0.1",
             ["voidinite_ore_vein"] = "0.1",
+            ["cosmonite_ore_vein"] = "0.1",
         },
 
         ["resource_converter_comp"] = {
@@ -532,6 +535,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = 100000,
             ["cobalt_vein"] = 100000,
             ["voidinite_ore_vein"] = 100000,
+            ["cosmonite_ore_vein"] = 100000,
         },
     },
     
@@ -544,6 +548,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = "0.1",
             ["cobalt_vein"] = "0.1",
             ["voidinite_ore_vein"] = "0.1",
+            ["cosmonite_ore_vein"] = "0.1",
         },
 
         ["resource_converter_comp"] = {
@@ -553,6 +558,7 @@ local new_resource_converter_values = {
             ["palladium_vein"] = 100000,
             ["cobalt_vein"] = 100000,
             ["voidinite_ore_vein"] = 100000,
+            ["cosmonite_ore_vein"] = 100000,
         },
     },
 
