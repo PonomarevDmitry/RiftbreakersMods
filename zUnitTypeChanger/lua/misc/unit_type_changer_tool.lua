@@ -44,6 +44,10 @@ function unit_type_changer_tool:FindEntitiesToSelect( selectorComponent )
                 return false
             end
 
+            if ( EntityService:CompareType( entity, "invisible" ) ) then
+                return false
+            end
+
             if ( EntityService:CompareType( entity, "ground_unit" ) ) then
                 return true
             end
@@ -119,7 +123,16 @@ end
 
 function unit_type_changer_tool:OnActivateEntity( entity )
 
-    EntityService:ChangeType( entity, "prop" )
+    local currentType = EntityService:GetType(entity) or ""
+
+    if ( string.len(currentType) > 0 ) then
+
+        currentType = currentType .. "|"
+    end
+
+    currentType = currentType .. "invisible"
+
+    EntityService:ChangeType( entity, currentType )
 end
 
 return unit_type_changer_tool
