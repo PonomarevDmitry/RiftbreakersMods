@@ -1,0 +1,1122 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_drexolian_boss"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/drexolian.lua"
+		database
+		{
+			min_scale			float:	"1.50"
+			max_scale			float:	"1.60"
+			crystal_grow_speed	float:	"1.5"
+			crystal_grow_bp		string:	"units/ground/cosmic_gulgor_boss/grow_crystal"
+			crystal_bp			string:	"units/ground/cosmic_gulgor_boss/crystal"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"always"
+		additional_z_order "1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"3000"
+		health 						"3000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/drexolian.mesh"
+		material 	"units/ground/cosmic_drexolian_boss"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_drexolian_boss/attack_1"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "LowerArm.R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack_1"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.80"
+						attack_end_time				"1.07"
+						attack_duration 			"2.17"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack_1"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"50"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.5"
+						y "3.0"
+						z "1.5"
+
+						position
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_drexolian_boss/attack_2"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "Shin.R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack_2"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.60"
+						attack_end_time				"0.80"
+						attack_duration 			"1.63"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack_2"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"50"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.5"
+						y "3.0"
+						z "1.5"
+
+						position
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drexolian_boss/player_slowdown"
+
+	LifeTimeDesc
+	{
+		time "5"
+	}
+
+	IdDesc
+	{
+		// Unique group name within witch this debuff doesnt stack
+		group "enemy_debuff"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/player_modificator.lua"
+
+		database
+		{
+			movement_speed				string:"-50%"
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/power_well_buff_on_mech"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drexolian_boss/attack_range"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/drexolian_projectile.mesh"
+		material 	"units/ground/cosmic_drexolian_boss"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/projectiles/drexolian_projectile"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "rotation"
+				animTime "0.0"
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ProjectileAmmoComponent
+	{
+		diameter						"0.5"
+
+		on_enemy_hit_effect 			"effects/enemies_drexolian/projectile_hit"
+		on_world_hit_effect 			"effects/enemies_drexolian/projectile_hit"
+
+		collision_3d 					"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		destroy_pattern					"default"
+		friendly_fire					"pass"
+
+		DamagePattern
+		{
+			damage_additional_debuff	"units/ground/drexolian/player_slowdown"
+		}
+	}
+
+	SoundDesc
+	{
+		name 		"weapon_fire/tower_bullet"
+	}
+
+	LifeTimeDesc
+	{
+		time 		2
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					//explosion_effect 		"effects/enemies_bomogan/artillery_explosion"	
+					part_prefix 			"meshes/units/ground/canoptrix"
+					part_material 			"projectiles/drexolian_projectile"
+					//part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "2"
+				y "4"
+				z "2"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drexolian_boss_base"
+	
+	StateMachineDesc
+	{
+		template_name "drexolian"
+		params
+		{
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"24"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"30"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			range_attack_cooldown				float:"4"
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"1.0"
+		acid			"2.0"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"1.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.10"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.20"
+
+		stagger_cooldown				"2.0"
+		stagger_long_cooldown			"4.0"
+		stun_cooldown					"20"
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"180"
+		unit_soft_radius				"2.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
+		dominance_group				    "0"
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"
+		water_offset	     "-1.0"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		ammo_blueprint 				"units/ground/cosmic_drexolian_boss/attack_range"
+
+		muzzle_flash_effect 		"effects/enemies_drexolian/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/drexolian"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "drexolian"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/drexolian_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "3"
+			y "3"
+		}
+
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"2.5"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"
+	}
+
+	AIUnitGroupNonPackableComponent
+	{
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_drexolian_boss"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   			"range"
+		target 			"player|ground_unit|building"
+		target_ignore 	"wall|invisible|ignore_as_target"
+		speed 			"200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "16"
+			range_max "28"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_drexolian/death"
+					part_prefix 			"meshes/units/ground/drexolian"
+					part_material 			"units/ground/cosmic_drexolian_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_wood"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "idle_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drexolian/idle"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drexolian/run"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "death"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drexolian/death_long"
+					bone "att_death"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "death_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"
+					bone "Spine_1"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1 1 1"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_wood"
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_wood"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_yellow"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 4 0"
+					scale "0.9 0.9 0.9"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drexolian_boss/wall_debris"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_drexolian_boss/wall_debris_01"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_drexolian_boss/wall_debris_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_drexolian_boss/wall_debris_03"
+		}		
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_drexolian_boss/wall_debris_04"
+		}		
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_drexolian_boss/wall_debris_05"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_01"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_01.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_02"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_02.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_03"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_03.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_04"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_04.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_05"
+
+	base_blueprint "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_05.mesh"
+		material "units/ground/cosmic_gnerot"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drexolian_boss/wall_debris_base"
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 	"1.0"
+						y 	"0.75"
+						z 	"1.0"
+					}				
+				}
+				mass 		"380"				
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_cosmic_drexolian_boss/wall_part_trail"
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_drexolian_boss_wall_part_trail"
+	}	
+}

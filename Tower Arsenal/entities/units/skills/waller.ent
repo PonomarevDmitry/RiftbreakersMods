@@ -1,0 +1,92 @@
+EntityBlueprint
+{
+	name "units/skills/waller"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"player"
+			ignore_target						string:"wall|invisible|not_move_to_target|building"
+			target_distance						float:"40"
+		}		
+	}
+
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/waller"
+		description 	"gui/hud/enemy_skill_description/waller"
+		icon 			"gui/menu/inventory/stat_icons/waller_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/waller_obstacle"
+		}			
+	}
+	
+	DamageTriggerComponent
+	{
+		damage_amount	10
+		always_kill		1
+		collision 		"destructible"
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3.2"
+				y "3.75"
+				z "3.0"
+			}	
+		}
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/waller_obstacle"
+
+	LuaDesc
+	{
+		script "lua/misc/waller.lua"
+		database
+		{
+			wall_bp			string:"units/skills/waller_obstacle_root"
+			side_distance	float:"10"
+			back_distance	float:"16"
+			front_distance	float:"20"
+			step			float:"2.0"
+		}			
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/waller_obstacle_root"
+	base_blueprint "misc/root_wall"
+
+	LuaDesc
+	{
+		script "lua/misc/root_wall.lua"
+		database
+		{
+			life_time	float:"10"		
+		}
+	}
+}

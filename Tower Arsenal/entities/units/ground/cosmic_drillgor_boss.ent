@@ -1,0 +1,875 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_drillgor_boss"
+
+	base_blueprint "units/ground/cosmic_drillgor_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/drillgor.lua"
+		database
+		{
+			min_scale	float:"1.40"
+			max_scale	float:"1.40"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_drillgor_boss_icon"
+		visibility 		"always"
+		additional_z_order "1"
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	HealthDesc
+	{
+		max_health 					"7500"
+		health 						"7500"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"150"
+		unit_soft_radius				"2.6"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	NavMeshCostReducerComponent
+	{
+		cost_type			"cavern_wall"
+		cost_value		    "3000"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/drillgor.mesh"
+		material 	"units/ground/cosmic_drillgor_boss"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_drillgor/death"	
+					part_prefix 			"meshes/units/ground/drillgor"
+					part_material 			"units/ground/drillgor"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+			
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_drillgor/death"	
+					part_prefix 			"meshes/units/ground/drillgor"
+					part_material 			"units/ground/drillgor"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "death_2"
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name  "units/ground/cosmic_drillgor_boss/drill_trigger"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			TriggerDesc
+			{
+				owner 		"parent"
+				collision 	"world_destructible|building|building_small|ground_unit|shield"
+				tag 		"drill"
+
+				Filters
+				{
+					TypeTriggerFilter
+					{
+						type		"player|building|wall|cavern_wall|shield|ground_unit_small"
+					}
+					InvisibleTriggerFilter
+				}
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "12"
+						y "4"
+						z "6"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_drillgor_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_drillgor/attack_start"
+						//slash_effect 				"effects/enemies_phirian/sword_slash"
+						//attack_start_time			"0.48"
+						//attack_end_time			"0.75"
+						//attack_duration 			"2.17"
+						
+						attack_start_time			"0.32"
+						attack_end_time				"0.50"
+						attack_duration 			"1.43"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"walk_attack"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"drill"
+						attack_start_effect 		"effects/enemies_drillgor/dig"
+						//attack_start_time			"0.2"
+						//attack_end_time				"1.25"
+						//attack_duration 			"1.43"
+						
+						attack_start_time			"0.13"
+						attack_end_time				"0.83"
+						attack_duration 			"0.94"
+						
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							//on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"120"
+										type 	"area"
+									}
+								}
+							}
+						}
+					}
+
+					MeleeDamage
+					{
+						name 						"drill"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							//on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"50"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+                    PhysicsMeshShape
+                    {
+                        mesh "meshes/units/ground/drillgor_digging_collision_c1.nxs"
+                    }
+					//PhysicsBoxShape
+					//{
+					//	x "8.0"
+					//	y "6.0"
+					//	z "6.0"
+					//	
+					//	position 
+					//	{
+					//		x "1.0"
+					//		y "0.0"
+					//		z "0.0"
+					//	}
+					//}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drillgor_boss_base"
+	
+	AINonWaveMovevementComponent
+	{
+	}
+
+	StateMachineDesc
+	{
+		template_name "drillgor"
+		params
+		{
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"12"
+			drill_speed							float:"6"
+			drill_acceleration					float:"12"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"2"
+			rotate_speed						float:"200"
+			priority_target						string:"headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target|player"
+			melee_attack_name					string:"attack_1"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+		}		
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"4.0"
+		acid			"3.0"
+		energy			"3.0"
+		cryo			"1.0"
+		area			"1.0"	
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.035"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"2.0"
+		stagger_long_cooldown			"5.0"
+		stun_cooldown					"15"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/drillgor"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "drillgor"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/drillgor_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_drillgor_boss"
+		can_activate 0
+	}
+	
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drillgor/idle"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drillgor/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "2 2 2"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_yellow"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_yellow"	
+				}
+			}
+		}			
+		EffectGroup
+		{						
+			group "death_splash"
+			bone "be_body_up"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"	
+					always_up "1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "footstep_front"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_krocoon/stomp"
+					bone "tip_left_arm"
+					always_up "1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "footstep_front"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_krocoon/stomp"
+					bone "tip_right_arm"
+					always_up "1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "footstep_rear"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_krocoon/stomp"
+					bone "be_ankle"
+					always_up "1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drillgor/run"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_yellow"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 7 0"
+					scale "1 1 1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_big"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drillgor_boss/drill_destructor"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	DamageTriggerComponent
+	{
+		always_kill		1
+		collision 		"ground_unit"
+		type 			"ground_unit_small"
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "8.0"
+				y "6.0"
+				z "5.0"					
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_drillgor_boss/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			InvisibleTriggerFilter
+
+	
+			TypeTriggerFilter
+			{
+				type		"ground_unit|building|wall|shield"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "7"
+				y "4"
+				z "9"
+			}
+		}
+	}
+}

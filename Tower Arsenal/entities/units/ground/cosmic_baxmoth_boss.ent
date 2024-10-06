@@ -1,0 +1,731 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_baxmoth_boss_base"
+
+	StateMachineDesc
+	{
+		template_name "baxmoth"
+		params
+		{
+			aggressive_speed					float:"5"
+			aggressive_acceleration				float:"40"
+			not_aggressive_speed				float:"5"
+			not_aggressive_acceleration			float:"40"
+			spawning_drone_rotate_speed			float:"300"
+			attack_melee_rotate_speed			float:"300"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			min_eat_time						float:"12.0"
+			max_eat_time						float:"20.0"
+			food_type							string:"spikybulb"
+			search_food_distance				float:"20.0"
+			drone_spawn_angle_tolerance			float:"40.0"
+			melee_attack_name					string:"attack_1"
+		}		
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"0.5"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"1.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.035"
+		stagger_long_time				"1.0"
+		stagger_long_health_threshold	"0.15"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+		
+		force_stagger_chance 			"1"
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"90"
+		unit_soft_radius				"3.0"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+	
+	TypeDesc
+	{
+		type "ground_unit_artillery|ground_unit|ground_unit_large"
+	}	
+
+	TeamDesc
+	{
+		team "baxmoth"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/baxmoth"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "baxmoth"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/baxmoth_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"2000.0"
+		bending_radius	"2"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_baxmoth_boss"
+		can_activate 0
+	}
+
+	AIUnitGroupNonPackableComponent
+	{
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect_scale 	"1"
+					explosion_effect 		"effects/enemies_neutral/poogret_death"	
+					part_prefix 			"meshes/units/ground/baxmoth"
+					part_material 			"units/ground/cosmic_baxmoth_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_baxmoth/idle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "move_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_baxmoth/run"								
+				}
+			}
+		}			
+		
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_baxmoth/death"	
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "death_splash"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_gnerot/death_ground_hit"	
+					bone "mainbone"
+					always_up "1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_back_4.L"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_back_4.R"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_mid_4.L"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_mid_4.R"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_front_4.L"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "leg_front_4.R"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "spine_0"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+					bone "head"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet"	
+					bone "att_death"
+					scale "1 1 1"					
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
+					scale "1 1 1"					
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_violet"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 5 0"
+					scale "0.9 0.9 0.9"
+				}
+			}
+		}			
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"2"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_baxmoth_boss"
+
+	base_blueprint "units/ground/cosmic_baxmoth_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/baxmoth.lua"
+		database
+		{
+			min_scale	float:"1.2"
+			max_scale	float:"1.2"
+		}		
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"always"
+		additional_z_order "1"
+	}
+
+	HealthDesc
+	{
+		max_health 					"10000"
+		health 						"10000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/baxmoth.mesh"
+		material 	"units/ground/cosmic_baxmoth_boss"
+	}
+
+	TurretDesc
+	{
+		name   			"attack"
+		target			"player|ground_unit|building"
+		target_ignore 	"wall|invisible"
+		speed 			"200"
+		aim_volume 		"SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "34"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	SwarmUnitControllerDesc
+	{
+		blueprint					"units/air/baxmoth_drone_cosmic"
+		spawn_effect				"effects/enemies_cosmic_baxmoth/drone_spawn"
+		max_spawn					"25"
+		attachment_to_spawn_from	"spawn"
+		spawn_time					"0.1"
+		spawn_disabled				"1"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/baxmoth/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_baxmoth/attack_start"
+						attack_start_time			"0.51"
+						attack_end_time				"0.68"
+						attack_duration 			"0.99"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"close_attack"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"45.0"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "6.5"
+						y "4"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/baxmoth/trigger"
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				team		"hostility"
+				check_parent "1"
+			}
+			
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "6.5"
+				y "4"
+				z "3.0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_generic/cosmic_baxmoth_boss_trail"
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_phirian_boss_trail"
+	}
+}
+

@@ -14,8 +14,73 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"specimen_cosmic_baxmoth_boss"
+	localization_id "resource_name/specimen_cosmic_baxmoth_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gulgor_boss"
+	localization_id "resource_name/specimen_cosmic_gulgor_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_drexolian_boss"
+	localization_id "resource_name/specimen_cosmic_drexolian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_drillgor_boss"
+	localization_id "resource_name/specimen_cosmic_drillgor_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
 	id				"specimen_cosmic_gnerot_boss"
 	localization_id "resource_name/specimen_cosmic_gnerot_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_flurian_boss"
+	localization_id "resource_name/specimen_cosmic_flurian_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"

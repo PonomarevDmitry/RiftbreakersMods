@@ -1,0 +1,801 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_lesigian_boss_base"
+	
+	StateMachineDesc
+	{
+		template_name "lesigian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"450"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			bp_on_range_attack					string:"units/ground/lesigian/lightning"
+			warning_effect_on_range_attack		string:"effects/enemies_cosmic_lesigian/lightning_explosion"
+			lightning_attack_offset				float:"50.0"
+			lightning_attack_cooldown			float:"15"
+			lightning_attack_prepare_min_time	float:"0.5"
+			lightning_attack_prepare_max_time	float:"2.6"
+			teleport_start_distance			    float:"12"
+			teleport_cooldown					float:"2.5"
+			teleport_distance					float:"30"
+			teleport_min_building_distance		float:"30"
+			teleport_time						float:"0.75"
+		}		
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"1.0"
+		acid			"2.0"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"1.0"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.15"
+		stagger_health_threshold		"0.02"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.8"
+		ignore_cost_mask				"building|path_blocker|mud_vein|water_vein|sludge_vein|magma_vein|morphium_vein|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit_artillery|ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "lesigian"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/lesigian"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "lesigian"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/lesigian_c1.nxs"
+					}				
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	AirGroundNavigationComponent
+	{
+
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.8"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_lesigian_boss"
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   			"range"
+		target 			"player|ground_unit|building"
+		target_ignore 	"wall|invisible"
+		speed 			"20000"
+		aim_volume 		"SphericalAimVolume"
+		{
+			range_min 	"10"
+			range_max 	"30"
+		}
+
+		aiming_cooldown 		"1"
+		aiming_target_time 		"2"
+		aiming_idle_angle 		"20"
+		pitch 					"att_shoot"
+		yaw 					"att_shoot"
+		check_target_visibility "1"
+		use_IK 					"0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_neutral/poogret_death"	
+					part_prefix 			"meshes/units/ground/lesigian"
+					part_material 			"units/ground/cosmic_lesigian"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/idle"
+				}
+			}
+		}
+		
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "move_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/run"
+				}
+			}
+		}			
+
+		EffectGroup
+		{						
+			group "explode"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/death_explosion"
+					bone "att_explode"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "buildup"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_lesigian/energy_buildup"
+					bone "att_explode"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "gather_energy"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/gather_energy"
+					bone "att_explode"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "teleport"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_lesigian/teleport"
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet"	
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}			
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/time_damage_cosmic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_violet"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 7 0"
+					scale "0.7 0.7 0.7"
+				}
+			}
+		}			
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_lesigian_boss"
+
+	base_blueprint "units/ground/cosmic_lesigian_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/lesigian.lua"
+		database
+		{
+			min_scale	float:"1.40"
+			max_scale	float:"1.45"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"2"	
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"7250"
+		health 						"7250"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/lesigian.mesh"
+		material 	"units/ground/cosmic_lesigian_boss"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+
+		ammo_blueprint 				"units/ground/cosmic_lesigian_boss/attack_range"
+
+		muzzle_flash_effect 		"effects/enemies_cosmic_lesigian/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	children
+	{
+
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_lesigian_boss/lightning_turret"
+
+			SkeletonDesc
+			{
+				name "meshes/units/ground/lesigian"
+			}
+
+			TeamInheritanceDesc
+			{
+
+			}
+
+			TurretDesc
+			{
+				name    		"lightning"
+				target 			"player|ground_unit|building"
+				target_ignore 	"wall|invisible"
+				speed 			"20000"
+				aim_volume 		"SphericalAimVolume"
+				{
+					range_min 	"12"
+					range_max 	"33"
+				}
+
+				aiming_cooldown 		"1"
+				aiming_target_time 		"2"
+				aiming_idle_angle 		"20"
+				pitch 					"att_muzzle"
+				yaw 					"att_muzzle"
+				check_target_visibility "1"
+				use_IK 					"0"
+			}
+		}
+
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_lesigian_boss/attack"
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_lesigian/attack_start"
+						attack_start_time			"0.44"
+						attack_end_time				"0.57"
+						attack_duration 			"1.50"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_lesigian/attack_start"
+						attack_start_time			"0.49"
+						attack_end_time				"0.55"
+						attack_duration 			"1.37"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"30.0"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.0"
+						y "4.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_lesigian_boss/attack_range"
+
+	base_blueprints 
+	{
+		lights/point/violet_very_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	ProjectileAmmoComponent
+	{
+		diameter				"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_genric/energy_hit_medium"
+		on_world_hit_effect 	"effects/enemies_genric/energy_hit_medium"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire			"pass"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/enemy_cosmic_energy_projectile_big"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
+	}
+}
+
+EntityBlueprint 
+{	
+	name "units/ground/cosmic_lesigian_boss/lightning"
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		friendly_fire			"pass"
+		on_enemy_hit_effect 	"effects/enemies_cosmic_lesigian/lightning_explosion"
+		on_world_hit_effect 	"effects/enemies_cosmic_lesigian/lightning_explosion"			
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"50"
+					type 	"cosmic"
+				}
+			}
+		}
+	}
+
+	SimpleMovementComponent
+	{
+		movement "SimpleForwardMovement"
+		{
+			current_speed "200"
+			max_speed	  "200"
+			acceleration  "200"
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name "units/ground/cosmic_lesigian_boss/teleport_fuse"
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/teleport_trail_blue"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_lesigian_boss/trigger"
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				team		"hostility"
+				check_parent "1"
+			}
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "2"
+				z "4"
+			}
+		}
+	}
+}
