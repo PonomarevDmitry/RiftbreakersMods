@@ -1,27 +1,23 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'unit_type_changer_tool' ( tool )
+class 'unit_type_add_invisible_tool' ( tool )
 
-function unit_type_changer_tool:__init()
+function unit_type_add_invisible_tool:__init()
     tool.__init(self,self)
 end
 
-function unit_type_changer_tool:OnInit()
+function unit_type_add_invisible_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_unit_type_changer_tool", self.entity)
-
-    self.poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
-    self.poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
-    self.poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
 end
 
-function unit_type_changer_tool:SpawnCornerBlueprint()
+function unit_type_add_invisible_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_gold", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function unit_type_changer_tool:FindEntitiesToSelect( selectorComponent )
+function unit_type_add_invisible_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
@@ -104,24 +100,24 @@ function unit_type_changer_tool:FindEntitiesToSelect( selectorComponent )
     return result
 end
 
-function unit_type_changer_tool:AddedToSelection( entity )
+function unit_type_add_invisible_tool:AddedToSelection( entity )
 
     if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
         QueueEvent( "SelectEntityRequest", entity )
     end
 end
 
-function unit_type_changer_tool:RemovedFromSelection( entity )
+function unit_type_add_invisible_tool:RemovedFromSelection( entity )
 
     if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
         QueueEvent( "DeselectEntityRequest", entity )
     end
 end
 
-function unit_type_changer_tool:OnRotate()
+function unit_type_add_invisible_tool:OnRotate()
 end
 
-function unit_type_changer_tool:OnActivateEntity( entity )
+function unit_type_add_invisible_tool:OnActivateEntity( entity )
 
     local currentType = EntityService:GetType(entity) or ""
 
@@ -135,4 +131,4 @@ function unit_type_changer_tool:OnActivateEntity( entity )
     EntityService:ChangeType( entity, currentType )
 end
 
-return unit_type_changer_tool
+return unit_type_add_invisible_tool
