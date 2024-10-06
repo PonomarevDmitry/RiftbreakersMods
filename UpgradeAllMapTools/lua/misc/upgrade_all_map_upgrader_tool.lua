@@ -252,10 +252,14 @@ function upgrade_all_map_upgrader_tool:GetScaleFromDatabase()
 end
 
 function upgrade_all_map_upgrader_tool:AddedToSelection( entity )
+
+    self:CreateMarkEntity(entity)
 end
 
 function upgrade_all_map_upgrader_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+
+    self:RemoveMarkEntity(entity)
 end
 
 function upgrade_all_map_upgrader_tool:OnUpdate()
@@ -566,6 +570,41 @@ end
 function upgrade_all_map_upgrader_tool:AddBlueprintToLastList(blueprintName, selector)
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(self.list_name, selector, blueprintName)
+end
+
+function upgrade_all_map_upgrader_tool:CreateMarkEntity( building )
+
+    local markerBlueprintName = "misc/marked_building_to_upgrade_minimap_icon"
+
+    local childreen = EntityService:GetChildren(building, true)
+
+    for entity in Iter( childreen ) do
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        if ( blueprintName == markerBlueprintName ) then
+            return
+        end
+    end
+
+    local markEntity = EntityService:SpawnAndAttachEntity( markerBlueprintName, building )
+end
+
+function upgrade_all_map_upgrader_tool:RemoveMarkEntity( building )
+
+    local markerBlueprintName = "misc/marked_building_to_upgrade_minimap_icon"
+
+    local childreen = EntityService:GetChildren(building, true)
+
+    for entity in Iter( childreen ) do
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        if ( blueprintName == markerBlueprintName ) then
+
+            EntityService:RemoveEntity( entity )
+        end
+    end
 end
 
 function upgrade_all_map_upgrader_tool:OnRelease()
