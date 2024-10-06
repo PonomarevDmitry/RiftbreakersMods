@@ -40,6 +40,10 @@ function unit_type_remove_invisible_tool:FindEntitiesToSelect( selectorComponent
                 return false
             end
 
+            if ( EntityService:CompareType( entity, "quelver" ) ) then
+                return false
+            end
+
             if ( not EntityService:CompareType( entity, "ground_unit" )
                 and not EntityService:CompareType( entity, "ground_unit_big" )
                 and not EntityService:CompareType( entity, "ground_unit_medium" )

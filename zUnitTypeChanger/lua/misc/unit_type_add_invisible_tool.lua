@@ -40,6 +40,10 @@ function unit_type_add_invisible_tool:FindEntitiesToSelect( selectorComponent )
                 return false
             end
 
+            if ( EntityService:CompareType( entity, "quelver" ) ) then
+                return false
+            end
+
             if ( EntityService:CompareType( entity, "invisible" ) ) then
                 return false
             end
