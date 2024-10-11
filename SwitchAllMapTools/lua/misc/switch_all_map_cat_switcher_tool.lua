@@ -331,6 +331,18 @@ function switch_all_map_cat_switcher_tool:OnActivateSelectorRequest()
         return
     end
 
+    local distances = {}
+
+    for entity in Iter( self.selectedEntities ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(self.selectedEntities, sorter)
+
     local setPower = ( self.selectedMode == self.modeTurnOn )
 
     for entity in Iter( self.selectedEntities ) do
