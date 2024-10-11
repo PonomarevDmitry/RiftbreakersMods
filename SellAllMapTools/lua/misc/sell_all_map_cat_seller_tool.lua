@@ -557,6 +557,18 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
         return
     end
 
+    local distances = {}
+
+    for entity in Iter( self.selectedEntities ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(self.selectedEntities, sorter)
+
     local placeRuins = ( self.selectedMode == self.modeSelectRuins )
 
     local placeConnectors = ( self.selectedMode == self.modeBuildingConnectors )
