@@ -486,6 +486,18 @@ function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
         return
     end
 
+    local distances = {}
+
+    for entity in Iter( self.selectedEntities ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(self.selectedEntities, sorter)
+
     for entity in Iter( self.selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName( entity )
