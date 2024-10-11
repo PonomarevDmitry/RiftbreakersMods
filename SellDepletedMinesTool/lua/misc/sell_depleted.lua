@@ -214,6 +214,18 @@ function sell_depleted:OnActivateSelectorRequest()
         return
     end
 
+    local distances = {}
+
+    for entity in Iter( self.selectedEntities ) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(self.selectedEntities, sorter)
+
     local team = EntityService:GetTeam( self.entity )
 
     for entity in Iter( self.selectedEntities ) do
