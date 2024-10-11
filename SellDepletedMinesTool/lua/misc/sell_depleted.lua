@@ -163,8 +163,8 @@ function sell_depleted:FindEntitiesToSelect( selectorComponent )
             goto continue
         end
 
-        local isOnResource = self:CheckEntityOnResource( entity, resourceRequirement, blueprintName )
-        if ( isOnResource ) then
+        local isMissingResources = self:HasMissingResources( entity, resourceRequirement )
+        if ( not isMissingResources ) then
             goto continue
         end
 
@@ -176,22 +176,31 @@ function sell_depleted:FindEntitiesToSelect( selectorComponent )
     return result
 end
 
-function sell_depleted:CheckEntityOnResource( entity, resourceRequirement, blueprintName )
+function sell_depleted:HasMissingResources( entity, resourceRequirement )
 
-    for i = 1,resourceRequirement.count do
+    local buildingStatusComponent = EntityService:GetComponent( entity, "BuildingStatusComponent" )
+    if ( buildingStatusComponent ~= nil ) then
 
-        local resource = resourceRequirement[i] or ""
+        local buildingStatusComponentRef = reflection_helper( buildingStatusComponent )
 
-        if ( resource ~= "" ) then
+        if ( buildingStatusComponentRef ~= nil and buildingStatusComponentRef.status and buildingStatusComponentRef.status.missing_resources and buildingStatusComponentRef.status.missing_resources.count > 0 ) then
 
-            if ( BuildingService:IsOnResource( entity, resource ) ) then
-                return true
-            end
+            for i = 1,resourceRequirement.count do
 
-            local veins = BuildingService:GetResourceVeins( entity, resource )
+                local resource = resourceRequirement[i] or ""
 
-            if ( #veins > 0) then
-                return true
+                if ( resource ~= "" ) then
+
+                    for j = 1,buildingStatusComponentRef.status.missing_resources.count do
+
+                        local missingResource = buildingStatusComponentRef.status.missing_resources[j] or ""
+
+                        if ( missingResource ~= "" and missingResource == resource ) then
+
+                            return true
+                        end
+                    end
+                end
             end
         end
     end
