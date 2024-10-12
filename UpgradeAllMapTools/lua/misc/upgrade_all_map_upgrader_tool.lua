@@ -357,18 +357,6 @@ function upgrade_all_map_upgrader_tool:FindEntitiesToSelect( selectorComponent )
         ::continue::
     end
 
-    local distances = {}
-
-    for entity in Iter( result ) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
-    end
-
-    local sorter = function( lh, rh )
-        return distances[lh] < distances[rh]
-    end
-
-    table.sort(result, sorter)
-
     return result
 end
 
