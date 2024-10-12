@@ -269,18 +269,6 @@ function repair_all_map_repairer_tool:FindEntitiesToSelect( selectorComponent )
 
     ConcatUnique( result, ruins )
 
-    local distances = {}
-
-    for entity in Iter( result ) do
-        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity )
-    end
-
-    local sorter = function( lh, rh )
-        return distances[lh] < distances[rh]
-    end
-
-    table.sort(result, sorter)
-
     return result
 end
 
