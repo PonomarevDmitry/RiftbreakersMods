@@ -20,7 +20,6 @@ function energy_connector_tool:OnInit()
     self.configNameSize = "$energy_connector_tool_size"
 
     self.type = self.data:GetIntOrDefault("type", 1)
-    self.createChain = (self.data:GetIntOrDefault("create_chain", 0) == 1)
 
     self.defaultRadius = math.ceil( (self.radius - 1) / 2 )
 
@@ -33,17 +32,45 @@ function energy_connector_tool:OnInit()
     self.currentMarkerSize = 0
     self.currentMarkerBlueprint = ""
 
+    self.currentChainMarker = nil
+    self.currentChainMarkeValue = nil
+
     self:SpawnGhostConnectorEntities()
+end
+
+function energy_connector_tool:GetConfigArray()
+
+    if ( self.configArray == nil ) then
+
+        self.configArray = { }
+
+        for i=1,self.radius do
+
+            Insert( self.configArray, i )
+            Insert( self.configArray, -i )
+        end
+    end
+
+    return self.configArray
 end
 
 function energy_connector_tool:CheckSizeExists( currentSize )
 
-    currentSize = currentSize or self.defaultRadius
+    if ( currentSize == nil ) then
+        return self.defaultRadius
+    end
 
-    if ( currentSize < 1) then
-        currentSize = 1
-    elseif ( currentSize > self.radius) then
-        currentSize = self.radius
+    if ( currentSize == 0 ) then
+        return self.defaultRadius
+    end
+
+    local configArray = self:GetConfigArray()
+
+
+    local index = IndexOf( configArray, currentSize )
+    if ( index == nil ) then
+
+        return self.defaultRadius
     end
 
     return currentSize
@@ -52,6 +79,9 @@ end
 function energy_connector_tool:SpawnGhostConnectorEntities()
 
     local currentSize = self:CheckSizeExists(self.currentSize)
+
+    local createChain = ( currentSize < 0 or self.type == 0 )
+    currentSize = math.abs(currentSize)
 
     local currentTransform = EntityService:GetWorldTransform( self.entity )
     local orientation = currentTransform.orientation
@@ -104,7 +134,7 @@ function energy_connector_tool:SpawnGhostConnectorEntities()
         self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #self.linesEntities )
     end
 
-    self:UpdateMarker(currentSize)
+    self:UpdateMarker(currentSize, createChain)
 end
 
 function energy_connector_tool:FindPositionsToBuildLine(currentSize)
@@ -318,7 +348,7 @@ function energy_connector_tool:FindPositionsType3(currentSize)
     return result
 end
 
-function energy_connector_tool:UpdateMarker(currentSize)
+function energy_connector_tool:UpdateMarker(currentSize, createChain)
 
     if ( self.type == 0 ) then
         return
@@ -347,6 +377,26 @@ function energy_connector_tool:UpdateMarker(currentSize)
 
             self.currentMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
             EntityService:SetPosition( self.currentMarker, 0, 0, -2 )
+        end
+    end
+
+    if ( self.currentChainMarkeValue ~= createChain ) then
+
+        self.currentChainMarkeValue = createChain
+
+        local markerBlueprint = "misc/marker_selector_energy_connector_tool_chain"
+
+        -- Destroy old marker
+        if (self.currentChainMarker ~= nil) then
+
+            EntityService:RemoveEntity(self.currentChainMarker)
+            self.currentChainMarker = nil
+        end
+
+        if ( createChain ) then
+
+            self.currentChainMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+            EntityService:SetPosition( self.currentChainMarker, 0, 0, -4 )
         end
     end
 end
@@ -385,6 +435,10 @@ function energy_connector_tool:OnUpdate()
         for spot in Iter( spots ) do
 
             local currentSize = self:CheckSizeExists(self.currentSize)
+
+            local createChain = ( currentSize < 0 or self.type == 0 )
+            currentSize = math.abs(currentSize)
+
             local newPositions = self:FindPositionsToBuildLine( currentSize )
 
             for i=1,#newPositions do
@@ -420,19 +474,14 @@ end
 
 function energy_connector_tool:FinishLineBuild()
 
-    if ( not self.createChain ) then
+    local currentSize = self:CheckSizeExists(self.currentSize)
 
-        local count = #self.linesEntities
+    local createChain = ( currentSize < 0 or self.type == 0 )
+    currentSize = math.abs(currentSize)
 
-        for i=1,count do
+    if ( not createChain ) then
 
-            local ghostEntity = self.linesEntities[i]
-
-            local transform = EntityService:GetWorldTransform( ghostEntity )
-
-            self:BuildEntity(ghostEntity, transform, true)
-        end
-
+        self:BuildEnergyConnectorsFromGhosts()
         return
     end
 
@@ -461,6 +510,8 @@ function energy_connector_tool:FinishLineBuild()
 
 
     if ( #buildingsTransformsArray == 0 ) then
+
+        self:BuildEnergyConnectorsFromGhosts()
         return
     end
 
@@ -470,6 +521,8 @@ function energy_connector_tool:FinishLineBuild()
 
         local nearestSpotTransform = self:GetNearestSpot(selfTransform.position, buildingsTransformsArray)
         if ( nearestSpotTransform == nil ) then
+
+            self:BuildEnergyConnectorsFromGhosts()
             return
         end
 
@@ -481,7 +534,6 @@ function energy_connector_tool:FinishLineBuild()
 
             for spot in Iter( spots ) do
 
-                local currentSize = self:CheckSizeExists(self.currentSize)
                 local newPositions = self:FindPositionsToBuildLine( currentSize )
 
                 for i=1,#newPositions do
@@ -503,8 +555,21 @@ function energy_connector_tool:FinishLineBuild()
                 end
             end
 
+            self:BuildEnergyConnectorsFromGhosts()
             return
         end
+    end
+end
+
+function energy_connector_tool:BuildEnergyConnectorsFromGhosts()
+
+    for i=1,#self.linesEntities do
+
+        local ghostEntity = self.linesEntities[i]
+
+        local transform = EntityService:GetWorldTransform( ghostEntity )
+
+        self:BuildEntity(ghostEntity, transform, true)
     end
 end
 
@@ -573,6 +638,10 @@ end
 
 function energy_connector_tool:OnRotateSelectorRequest(evt)
 
+    if ( self.type == 0 ) then
+        return
+    end
+
     local degree = evt:GetDegree()
 
     local change = 1
@@ -582,13 +651,23 @@ function energy_connector_tool:OnRotateSelectorRequest(evt)
 
     local currentSize = self:CheckSizeExists(self.currentSize)
 
-    local newValue = currentSize + change
+    local configArray = self:GetConfigArray()
 
-    if ( newValue < 1 ) then
-        newValue = 1
-    elseif ( newValue > self.radius ) then
-        newValue = self.radius
+    local index = IndexOf( configArray, currentSize )
+    if ( index == nil ) then
+        index = 1
     end
+
+    local maxIndex = #configArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex < 1 ) then
+        newIndex = 1
+    end
+
+    local newValue = configArray[newIndex]
 
     self.currentSize = newValue
 
@@ -614,6 +693,12 @@ function energy_connector_tool:OnRelease()
 
         EntityService:RemoveEntity(self.currentMarker)
         self.currentMarker = nil
+    end
+
+    if (self.currentChainMarker ~= nil) then
+
+        EntityService:RemoveEntity(self.currentChainMarker)
+        self.currentChainMarker = nil
     end
 
     if ( energy_connector_base_tool.OnRelease ) then
