@@ -139,6 +139,8 @@ end
 
 function energy_connector_tool:FindPositionsToBuildLine(currentSize)
 
+    currentSize = math.abs(currentSize)
+
     if ( self.type == 1 ) then
 
         return self:FindPositionsType1(currentSize)
@@ -353,6 +355,8 @@ function energy_connector_tool:UpdateMarker(currentSize, createChain)
     if ( self.type == 0 ) then
         return
     end
+
+    currentSize = math.abs(currentSize)
 
     if ( self.currentMarkerSize ~= currentSize ) then
 
