@@ -8,7 +8,8 @@ function unit_type_remove_invisible_tool:__init()
 end
 
 function unit_type_remove_invisible_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_unit_type_changer_tool", self.entity)
+    local marker_name = self.data:GetString("marker_name")
+    self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 end
 
 function unit_type_remove_invisible_tool:SpawnCornerBlueprint()
