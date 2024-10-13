@@ -116,8 +116,10 @@ local new_storage_values = {
             ["palladium"] = "1200",
             ["titanium"] = "1200",
             ["cobalt"] = "1200",
-
+            
             ["voidinite_ore"] = "1200",
+            ["cosmonite_ore"] = "1200",
+
             ["rift_energy"] = "400",
 
             ["ammo_mech_low_caliber"] = "16",
@@ -156,6 +158,7 @@ local new_storage_values = {
             ["cobalt"] = "200",
 
             ["voidinite_ore"] = "200",
+            ["cosmonite_ore"] = "200",
 
             ["ammo_tower_explosive"] = "4",
             ["ammo_tower_liquid"] = "4",
@@ -185,8 +188,9 @@ local new_storage_values = {
             ["palladium"] = "200",
             ["titanium"] = "200",
             ["cobalt"] = "200",
-
+            
             ["voidinite_ore"] = "200",
+            ["cosmonite_ore"] = "200",
 
             ["ammo_tower_explosive"] = "4",
             ["ammo_tower_liquid"] = "4",
