@@ -1,3 +1,5 @@
+require("lua/utils/reflection.lua")
+
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local blueprintName = evt:GetBlueprint() or ""
@@ -7,9 +9,21 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
-    if ( lowName ~= "wall_small" ) then
+    if ( lowName == "wall_small_floor" ) then
         return
     end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return
+    end
+
+    local buildingDescRef = reflection_helper(buildingDesc)
+    if ( buildingDescRef.type ~= "wall" or buildingDescRef.category == "decorations" ) then
+        return
+    end
+
+
 
     local parameterName = "$selected_wall_small_blueprint"
 
@@ -23,7 +37,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     end
 
     if ( CampaignService.GetCampaignData ) then
-
+    
         local campaignDatabase = CampaignService:GetCampaignData()
         if ( campaignDatabase ) then
             campaignDatabase:SetString( parameterName, blueprintName )
