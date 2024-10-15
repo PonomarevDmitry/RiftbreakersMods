@@ -18,6 +18,17 @@ function unit_type_add_invisible_tool:SpawnCornerBlueprint()
     end
 end
 
+function unit_type_add_invisible_tool:OnUpdate()
+
+    if ( self.activated )  then
+
+        for entity in Iter( self.selectedEntities ) do
+
+            self:OnActivateEntity( entity )
+        end
+    end
+end
+
 function unit_type_add_invisible_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
