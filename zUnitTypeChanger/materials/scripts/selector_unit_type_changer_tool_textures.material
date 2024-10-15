@@ -1,0 +1,55 @@
+import * from "materials/scripts/pbr.material"
+import * from "materials/scripts/buildings_base.material"
+import * from "materials/scripts/selector.material"
+
+material selector/unit_type_changer_tool: selector/hologram
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.075
+				param_named cBlendColor2 float4 1 1.75 2.5 0.075
+
+				param_named_auto cTime    time
+				param_named cFlarePower   float 0.05
+				param_named cFlareSpeed   float 5
+			}
+		}
+	}
+}
+
+material selector/unit_type_changer_tool_dissolve : selector/unit_type_changer_tool
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_dissolve_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 0.9
+				
+				param_named cBlendColor1 float4 0.0744 0.5056 1.0488 0.075
+				param_named cBlendColor2 float4 1 1.75 2.5 0.075
+
+				param_named_auto cTime    time
+				param_named cFlarePower   float 0.05
+				param_named cFlareSpeed   float 5
+			}
+
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}
+	}
+}
