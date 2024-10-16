@@ -11,8 +11,8 @@ SetTargetFinderThrottler(LOCK_TYPE_REPAIR, 3)
 function FindMostDestroyedEntity( source, entities )
     local find = {
         entity = INVALID_ID,
-        healthPct = nil,
-        distance = nil
+        distance = nil,
+        healthPct = nil
     };
 
     for entity in Iter( entities ) do
@@ -28,7 +28,7 @@ function FindMostDestroyedEntity( source, entities )
                 local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
                 local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
 
-                if ( maxNumberOfActivations > 0) then
+                if ( maxNumberOfActivations > 0 and currentNumberOfActivations < maxNumberOfActivations ) then
 
                     healthPct = currentNumberOfActivations / maxNumberOfActivations
                 end
@@ -140,7 +140,7 @@ function repair_drone:FindActionTarget()
             end
 
             local health = HealthService:GetHealthInPercentage( entity )
-            if health >= 1.0 then
+            if ( health >= 1.0 ) then
                 local database = EntityService:GetDatabase( entity )
                 if ( database and database:HasInt("number_of_activations")) then
 
@@ -313,7 +313,7 @@ function repair_drone:OnRepairExecute( state )
         end
     end
     
-    if (health >= maxHealth and currentNumberOfActivations >= maxNumberOfActivations ) then
+    if ( health >= maxHealth and currentNumberOfActivations >= maxNumberOfActivations ) then
         return self:FinishTargetAction(state)
     end
 end
