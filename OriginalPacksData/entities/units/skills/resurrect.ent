@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/resurrect"
+	base_blueprint "units/skills/skill_base"
 
 	StateMachineDesc
 	{
@@ -34,7 +35,7 @@ EntityBlueprint
 		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
 		summon_effect			   "effects/enemies_necrodon/resurrect_body"
 		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
-		summon_bp				   "units/ground/canoptrix_ultra_1"
+		summon_bp				   "units/ground/arachnoid_sentinel_1"
 		max_summon_counter	       "20"
 	}
 
@@ -47,9 +48,75 @@ EntityBlueprint
 		}			
 	}
 
-	NetReplicationDisabledComponent
+	DatabaseComponent
 	{
+		biome_override.jungle 		string:"units/ground/arachnoid_sentinel_1"
+		biome_override.desert 		string:"units/ground/zorant"
+		biome_override.acid 		string:"units/ground/hedroner"
+		biome_override.magma 		string:"units/ground/magmoth"
+		biome_override.metallic 	string:"units/ground/octabit"
+		biome_override.caverns	 	string:"units/ground/gulgor"
+		biome_override.swamp 		string:"units/ground/plutrodon"
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/resurrect_lvl_2"
+	base_blueprint	"units/skills/resurrect"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/resurrect_lvl_2"
+		description 	"gui/hud/enemy_skill_description/resurrect"
+		icon 			"gui/menu/inventory/stat_icons/resurrect_aura_icon"
+	}
+	
+	ResurrectUnitDesc
+	{
+		pool					   "1950"
+		pool_regeneration		   "1350"
+		resurrect_time			   "1.25"
+		resurrect_radius		   "12"
+		summon_time				   "1.25"
+		summon_radius			   "8.5"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		dome_effect				   "units/ground/necrodon_dome_effect"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/arachnoid_sentinel_1"
+		max_summon_counter	       "30"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/resurrect_lvl_3"
+	base_blueprint	"units/skills/resurrect"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/resurrect_lvl_3"
+		description 	"gui/hud/enemy_skill_description/resurrect"
+		icon 			"gui/menu/inventory/stat_icons/resurrect_aura_icon"
+	}
+	
+	ResurrectUnitDesc
+	{
+		pool					   "2200"
+		pool_regeneration		   "1650"
+		resurrect_time			   "1.00"
+		resurrect_radius		   "12"
+		summon_time				   "1.00"
+		summon_radius			   "9"
+		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
+		dome_effect				   "units/ground/necrodon_dome_effect"
+		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
+		summon_effect			   "effects/enemies_necrodon/resurrect_body"
+		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
+		summon_bp				   "units/ground/arachnoid_sentinel_1"
+		max_summon_counter	       "45"
 	}
 }
 
@@ -62,7 +129,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/resurrect_lvl_4"
 		description 	"gui/hud/enemy_skill_description/resurrect"
-		icon 			"gui/menu/items_icons/skills/antimatter_ball"
+		icon 			"gui/menu/inventory/stat_icons/resurrect_aura_icon"
 	}
 	
 	ResurrectUnitDesc
@@ -78,7 +145,7 @@ EntityBlueprint
 		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
 		summon_effect			   "effects/enemies_necrodon/resurrect_body"
 		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
-		summon_bp				   "units/ground/canoptrix_ultra_1"
+		summon_bp				   "units/ground/arachnoid_sentinel_1"
 		max_summon_counter	       "60"
 	}
 }

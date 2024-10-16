@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/aura_damage_cryo"
+	base_blueprint "units/skills/skill_base"
 	
 	TriggerDesc
 	{
@@ -42,7 +43,7 @@ EntityBlueprint
 			aura_effect			string:"aura_cryo"
 			dmg_type			string:"cryo"	
 			dmg_per_sec			float:5
-			radius				float:20
+			radius				float:18
 		}			
 	}	
 	
@@ -59,14 +60,14 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "units/skills/aura_damage_cryo_lvl_4"
+	name "units/skills/aura_damage_cryo_lvl_2"
 	base_blueprint "units/skills/aura_damage_cryo"
 
 	SkillLinkUnitComponent
 	{
-		name 			"gui/hud/enemy_skill_name/aura_damage_cryo_lvl_4"
+		name 			"gui/hud/enemy_skill_name/aura_damage_cryo_lvl_2"
 		description 	"gui/hud/enemy_skill_description/aura_damage_cryo"
-		icon 			"gui/hud/resource_icons/super_coolant"
+		icon 			"gui/menu/inventory/stat_icons/cryo_aura_icon"
 	}
 	
 	LuaDesc
@@ -77,8 +78,60 @@ EntityBlueprint
 			dmg_effect		    string:"time_damage_cryo"
 			aura_effect			string:"aura_cryo"
 			dmg_type			string:"cryo"	
-			dmg_per_sec			float:10
+			dmg_per_sec			float:8
+			radius				float:20
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_cryo_lvl_3"
+	base_blueprint "units/skills/aura_damage_cryo"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_cryo_lvl_3"
+		description 	"gui/hud/enemy_skill_description/aura_damage_cryo"
+		icon 			"gui/menu/inventory/stat_icons/cryo_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_cryo"
+			aura_effect			string:"aura_cryo"
+			dmg_type			string:"cryo"	
+			dmg_per_sec			float:12
 			radius				float:25
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_cryo_lvl_4"
+	base_blueprint "units/skills/aura_damage_cryo"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_cryo_lvl_4"
+		description 	"gui/hud/enemy_skill_description/aura_damage_cryo"
+		icon 			"gui/menu/inventory/stat_icons/cryo_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_cryo"
+			aura_effect			string:"aura_cryo"
+			dmg_type			string:"cryo"	
+			dmg_per_sec			float:15
+			radius				float:28
 		}			
 	}	
 }

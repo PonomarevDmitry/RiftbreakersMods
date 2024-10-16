@@ -1,7 +1,8 @@
 EntityBlueprint
 {
 	name "units/skills/shockwave"
-
+	base_blueprint "units/skills/skill_base"
+	
 	StateMachineDesc
 	{
 		template_name "unit_skill"
@@ -31,10 +32,53 @@ EntityBlueprint
 			spawn_time				float:"1.5"
 		}			
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_lvl_2"
+	base_blueprint	"units/skills/shockwave"
+	
+	SkillLinkUnitComponent
 	{
+		name 			"gui/hud/enemy_skill_name/shockwave_lvl_2"
+		description 	"gui/hud/enemy_skill_description/shockwave"
+		icon 			"gui/menu/inventory/stat_icons/shockwave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/shockwave.lua"
+		database
+		{
+			shockwave_blueprint		string:"units/skills/shockwave_effect_lvl_2"
+			aura_effect			    string:"aura_shockwave"
+			spawn_time				float:"1.5"
+		}			
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_lvl_3"
+	base_blueprint	"units/skills/shockwave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/shockwave_lvl_3"
+		description 	"gui/hud/enemy_skill_description/shockwave"
+		icon 			"gui/menu/inventory/stat_icons/shockwave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/shockwave.lua"
+		database
+		{
+			shockwave_blueprint		string:"units/skills/shockwave_effect_lvl_3"
+			aura_effect			    string:"aura_shockwave"
+			spawn_time				float:"1.5"
+		}			
 	}
 }
 
@@ -47,7 +91,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/shockwave_lvl_4"
 		description 	"gui/hud/enemy_skill_description/shockwave"
-		icon 			"gui/menu/items_icons/skills/emergency_explosion"
+		icon 			"gui/menu/inventory/stat_icons/shockwave_aura_icon"
 	}
 	
 	LuaDesc
@@ -66,11 +110,6 @@ EntityBlueprint
 {
 	name "units/skills/shockwave_effect"
 
-	LuaDesc
-	{
-		script "lua/weather/ion_storm.lua"
-	}
-
 	ParticleDesc
 	{
 		name    "rift/aura_shockwave_explosion"
@@ -80,8 +119,10 @@ EntityBlueprint
 	{		
 		DamagePattern
 		{
+			damage_additional_debuff	"units/skills/player_disable_minimap"
+
 			area_damage_radius	"15"
-			area_damage_speed	"50"
+			area_damage_speed	"80"
 			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
 			Damages
 			{
@@ -129,15 +170,43 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name 			"units/skills/shockwave_effect_lvl_4"
+	name 			"units/skills/shockwave_effect_lvl_2"
 	base_blueprint	"units/skills/shockwave_effect"
 	
 	BombAmmoComponent
 	{		
 		DamagePattern
 		{
-			area_damage_radius	"20"
-			area_damage_speed	"50"
+			damage_additional_debuff	"units/skills/player_disable_minimap"
+
+			area_damage_radius	"17"
+			area_damage_speed	"80"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
+			Damages
+			{
+				Damage
+				{
+					value 			"30"
+					type			"area"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_effect_lvl_3"
+	base_blueprint	"units/skills/shockwave_effect"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			damage_additional_debuff	"units/skills/player_disable_minimap"
+
+			area_damage_radius	"19"
+			area_damage_speed	"80"
 			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
 			Damages
 			{
@@ -147,6 +216,60 @@ EntityBlueprint
 					type			"area"
 				}
 			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/shockwave_effect_lvl_4"
+	base_blueprint	"units/skills/shockwave_effect"
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			damage_additional_debuff	"units/skills/player_disable_minimap"
+
+			area_damage_radius	"21"
+			area_damage_speed	"80"
+			//area_damage_type 	"explosion"  //normal|explosion|explosion_plane
+			Damages
+			{
+				Damage
+				{
+					value 			"50"
+					type			"area"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name 			"units/skills/player_disable_minimap"
+	base_blueprint 	"effects/mech/electric_interference"
+
+	LifeTimeDesc
+	{
+		time "5"
+	}
+
+	IdDesc
+	{
+		// Unique group name within witch this debuff doesnt stack
+		group "minimap_interference"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/player_modificator.lua"
+
+		database
+		{
+			minimap_interference	string:"1"
 		}
 	}
 }

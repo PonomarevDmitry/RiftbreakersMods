@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/aura_damage_acid"
+	base_blueprint "units/skills/skill_base"
 	
 	TriggerDesc
 	{
@@ -30,7 +31,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/aura_damage_acid"
 		description 	"gui/hud/enemy_skill_description/aura_damage_acid"
-		icon		"gui/menu/inventory/stat_icons/acid_aura_icon"
+		icon			"gui/menu/inventory/stat_icons/acid_aura_icon"
 	}
 	
 	LuaDesc
@@ -59,6 +60,58 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name "units/skills/aura_damage_acid_lvl_2"
+	base_blueprint "units/skills/aura_damage_acid"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_acid_lvl_2"
+		description 	"gui/hud/enemy_skill_description/aura_damage_acid"
+		icon			"gui/menu/inventory/stat_icons/acid_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_acid"
+			aura_effect			string:"aura_acid"
+			dmg_type			string:"acid"	
+			dmg_per_sec			float:10
+			radius				float:22
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_acid_lvl_3"
+	base_blueprint "units/skills/aura_damage_acid"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_acid_lvl_3"
+		description 	"gui/hud/enemy_skill_description/aura_damage_acid"
+		icon			"gui/menu/inventory/stat_icons/acid_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_acid"
+			aura_effect			string:"aura_acid"
+			dmg_type			string:"acid"	
+			dmg_per_sec			float:17
+			radius				float:23
+		}			
+	}
+}
+
+EntityBlueprint
+{
 	name "units/skills/aura_damage_acid_lvl_4"
 	base_blueprint "units/skills/aura_damage_acid"
 
@@ -66,7 +119,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/aura_damage_acid_lvl_4"
 		description 	"gui/hud/enemy_skill_description/aura_damage_acid"
-		icon 			"gui/menu/inventory/stat_icons/resurrect_aura_icon"
+		icon			"gui/menu/inventory/stat_icons/acid_aura_icon"
 	}
 	
 	LuaDesc

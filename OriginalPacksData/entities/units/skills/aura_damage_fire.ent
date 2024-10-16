@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/aura_damage_fire"
+	base_blueprint "units/skills/skill_base"
 
 	TriggerDesc
 	{
@@ -74,6 +75,58 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name 				"units/skills/aura_damage_fire_lvl_2"
+	base_blueprint 		"units/skills/aura_damage_fire"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_fire_lvl_2"
+		description 	"gui/hud/enemy_skill_description/aura_damage_fire"
+		icon 			"gui/menu/inventory/stat_icons/fire_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_fire"
+			aura_effect			string:"aura_fire"
+			dmg_type			string:"fire"
+			dmg_per_sec			float:10
+			radius				float:22
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name 				"units/skills/aura_damage_fire_lvl_3"
+	base_blueprint 		"units/skills/aura_damage_fire"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_fire_lvl_3"
+		description 	"gui/hud/enemy_skill_description/aura_damage_fire"
+		icon 			"gui/menu/inventory/stat_icons/fire_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_fire"
+			aura_effect			string:"aura_fire"
+			dmg_type			string:"fire"
+			dmg_per_sec			float:17
+			radius				float:23
+		}			
+	}	
+}
+
+EntityBlueprint
+{
 	name 				"units/skills/aura_damage_fire_lvl_4"
 	base_blueprint 		"units/skills/aura_damage_fire"
 
@@ -81,7 +134,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/aura_damage_fire_lvl_4"
 		description 	"gui/hud/enemy_skill_description/aura_damage_fire"
-		icon 			"gui/hud/resource_icons/magma"
+		icon 			"gui/menu/inventory/stat_icons/fire_aura_icon"
 	}
 	
 	LuaDesc

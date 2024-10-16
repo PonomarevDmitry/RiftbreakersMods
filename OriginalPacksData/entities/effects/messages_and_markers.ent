@@ -284,7 +284,50 @@ EntityBlueprint
 
 EntityBlueprint "effects/no_lifetime"
 {
+	name effects/messages_and_markers/objective_marker_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_blue"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
 	name effects/messages_and_markers/objective_marker
+
+	LuaDesc
+	{
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_core"
+		}
+	}
 
 	MinimapItemDesc
 	{
@@ -293,11 +336,6 @@ EntityBlueprint "effects/no_lifetime"
 		clamp_mode		"1"
 		visibility		"always"	
 		additional_z_order	"95"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/objective_marker"
 	}
 
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -327,20 +365,12 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
-
-
-	
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_armory_blue
+	name effects/messages_and_markers/objective_marker_armory_blue
 
 	MinimapItemDesc
 	{
@@ -351,9 +381,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"	
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_armory_blue"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -404,9 +441,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"	
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_mining_elevator"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -446,7 +490,38 @@ EntityBlueprint "effects/no_lifetime"
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_red
+	name effects/messages_and_markers/objective_marker_red_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_red_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_red_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_red"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_red_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_red_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_red
 
 	MinimapItemDesc
 	{
@@ -457,9 +532,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"		
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_red"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_red_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_red_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_red_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -489,17 +571,43 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_green
+	name effects/messages_and_markers/objective_marker_green_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_green_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_green_circle
+	
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_green"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_green_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_green_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_green
 
 	MinimapItemDesc
 	{
@@ -510,9 +618,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"		
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_green"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_green_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_green_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_green_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -542,17 +657,43 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_light_green
+	name effects/messages_and_markers/objective_marker_light_green_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_light_green_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_light_green_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_light_green"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_light_green_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_green_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_light_green
 
 	MinimapItemDesc
 	{
@@ -563,9 +704,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"		
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_green"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_light_green_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_light_green_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_light_green_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -595,17 +743,43 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_violet
+	name effects/messages_and_markers/objective_marker_violet_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_violet_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_violet_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_violet"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_violet_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_violet_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_violet
 
 	MinimapItemDesc
 	{
@@ -616,9 +790,16 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"		
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_violet"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_violet_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_violet_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_violet_core"
+		}
 	}
 	
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -648,17 +829,43 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/objective_marker_yellow
+	name effects/messages_and_markers/objective_marker_yellow_arrow
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_yellow_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_yellow_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/objective_danger_marker_yellow"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_yellow_core
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_yellow_circle"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/objective_marker_yellow
 
 	MinimapItemDesc
 	{
@@ -669,11 +876,18 @@ EntityBlueprint "effects/no_lifetime"
 		additional_z_order	"95"		
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_yellow"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_yellow_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_yellow_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_yellow_core"
+		}
 	}
-	
+
 	// BOUNDS HACK FOR SPATIAL SEARCH
 	LocalAabbDesc
 	{
@@ -701,11 +915,6 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 }
 
@@ -742,9 +951,16 @@ EntityBlueprint "effects/no_lifetime"
 		}
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_spawner_red"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_red_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_red_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_red_core"
+		}
 	}
 
 	GuiDesc
@@ -754,11 +970,6 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 	
 }
@@ -796,9 +1007,16 @@ EntityBlueprint "effects/no_lifetime"
 		}
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/objective_marker_red_big"
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			arrow_effect		string:"effects/messages_and_markers/objective_marker_red_arrow"
+			circle_effect		string:"effects/messages_and_markers/objective_marker_red_circle"
+			core_effect 		string:"effects/messages_and_markers/objective_marker_red_core"
+		}
 	}
 
 	GuiDesc
@@ -808,66 +1026,53 @@ EntityBlueprint "effects/no_lifetime"
 		mode			"clamp"
 		clamp_in_frustum "0"
 		order 			"1"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
 	}
 	
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/planet_marker_finished
+	name effects/messages_and_markers/planet_marker_finished
 
 	ParticleDesc
 	{
 		name    "rift/planet_marker_finished"
-	}
-
-		
+	}	
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/planet_marker_inactive
+	name effects/messages_and_markers/planet_marker_inactive
 
 	ParticleDesc
 	{
 		name    "rift/planet_marker_inactive"
 	}
-
-		
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/planet_marker_selected
+	name effects/messages_and_markers/planet_marker_selected
 
 	ParticleDesc
 	{
 		name    "rift/planet_marker_selected"
-	}
-
-		
+	}	
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/planet_marker_unlocked
+	name effects/messages_and_markers/planet_marker_unlocked
 
 	ParticleDesc
 	{
 		name    "rift/planet_marker_unlocked"
 	}
-
-		
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/treasure_finder_x_spot
+	name effects/messages_and_markers/treasure_finder_x_spot
 
 	MinimapItemDesc
 	{
@@ -895,20 +1100,12 @@ EntityBlueprint "effects/no_lifetime"
 		clamp_in_frustum "0"
 		order 			"1"
 		additional_z_order	"15"
-		//scale
-		//{
-		//	x  "1.35"
-		//	y  "1.35"		
-		//}
-	}
-
-		
-	
+	}	
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/underground_mushroom_trigger_radius
+	name effects/messages_and_markers/underground_mushroom_trigger_radius
 
 	ParticleDesc
 	{
@@ -932,9 +1129,7 @@ EntityBlueprint "effects/no_lifetime"
 				z "1"
 			}	
 		}
-	}
-
-		
+	}	
 }
 
 EntityBlueprint "effects/no_lifetime"

@@ -194,15 +194,17 @@ EntityBlueprint
 			{
 				TimeDamage
 				{
-					value			"30"
+					value			"40"
 					duration		"1"
-					type			"gravity"
+					type			"physical"
 				}
 			}
 		}
 	}
-
-
+	LifeTimeDesc
+	{
+		time	10
+	}	
 }
 
 EntityBlueprint
@@ -213,49 +215,25 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius		"10"
-			area_damage_duration    "10"
+			area_damage_radius		"10.2"
+			area_damage_duration    "11"
 			area_damage_type		"explosion_plane"
 
 			TimeDamages
 			{
 				TimeDamage
 				{
-					value			"40"
+					value			"50"
 					duration		"1"
-					type			"gravity"
+					type			"physical"
 				}
 			}
 		}
 	}
-
-
-}
-
-EntityBlueprint
-{
-	name "items/consumables/gravity_hole_damage_extreme"
-
-	BombAmmoComponent
+	LifeTimeDesc
 	{
-		DamagePattern
-		{
-			area_damage_radius		"10"
-			area_damage_duration    "10"
-			area_damage_type		"explosion_plane"
-
-			TimeDamages
-			{
-				TimeDamage
-				{
-					value			"60"
-					duration		"1"
-					type			"gravity"
-				}
-			}
-		}
+		time	11
 	}
-
 
 }
 
@@ -267,22 +245,54 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius		"10"
-			area_damage_duration    "10"
+			area_damage_radius		"10.4"
+			area_damage_duration    "12"
 			area_damage_type		"explosion_plane"
 
 			TimeDamages
 			{
 				TimeDamage
 				{
-					value			"50"
+					value			"60"
 					duration		"1"
-					type			"gravity"
+					type			"physical"
 				}
 			}
 		}
 	}
+	LifeTimeDesc
+	{
+		time	12
+	}
+}
 
+EntityBlueprint
+{
+	name "items/consumables/gravity_hole_damage_extreme"
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius		"10.6"
+			area_damage_duration    "13"
+			area_damage_type		"explosion_plane"
+
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"70"
+					duration		"1"
+					type			"physical"
+				}
+			}
+		}
+	}
+	LifeTimeDesc
+	{
+		time	13
+	}
 
 }
 
@@ -354,11 +364,11 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.2"
-		power   		"0.75"
+		power   		"0.5"
 		falloff_radius 	"25"
 		radius   		"40"
 		frequency 		"20"
-		group			"explosion_small"
+		group			"explosion_medium"
 	}
 
 	SoundDesc
@@ -388,7 +398,7 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius	"10"
+			area_damage_radius	"10.2"
 			area_damage_speed 	"40"
 
 			Damages
@@ -417,11 +427,11 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.2"
-		power   		"0.75"
+		power   		"0.5"
 		falloff_radius 	"25"
 		radius   		"40"
 		frequency 		"20"
-		group			"explosion_small"
+		group			"explosion_medium"
 	}
 
 	SoundDesc
@@ -451,7 +461,7 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius	"10"
+			area_damage_radius	"10.6"
 			area_damage_speed 	"40"
 
 			Damages
@@ -480,11 +490,11 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.2"
-		power   		"0.75"
+		power   		"0.5"
 		falloff_radius 	"25"
 		radius   		"40"
 		frequency 		"20"
-		group			"explosion_small"
+		group			"explosion_medium"
 	}
 
 	SoundDesc
@@ -514,7 +524,7 @@ EntityBlueprint
 	{
 		DamagePattern
 		{
-			area_damage_radius	"10"
+			area_damage_radius	"10.4"
 			area_damage_speed 	"40"
 
 			Damages
@@ -543,11 +553,11 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.2"
-		power   		"0.75"
+		power   		"0.5"
 		falloff_radius 	"25"
 		radius   		"40"
 		frequency 		"20"
-		group			"explosion_small"
+		group			"explosion_medium"
 	}
 
 	SoundDesc
@@ -602,7 +612,7 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.2"
-		power   		"0.75"
+		power   		"0.35"
 		falloff_radius 	"25"
 		radius   		"40"
 		frequency 		"20"
@@ -866,7 +876,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"grenade"
+		//cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -884,7 +894,7 @@ EntityBlueprint
 		{
 			bp						string:"items/consumables/grenade_gravity_advanced"
 			att						string:"att_grenade"
-			stat_bp					string:"items/consumables/gravity_hole_initial_blast_advanced"
+			stat_bp					string:"items/consumables/gravity_hole_initial_blast_advanced,items/consumables/gravity_hole_damage_advanced"
 		}
 	}
 
@@ -901,7 +911,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"grenade"
+		//cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -919,7 +929,7 @@ EntityBlueprint
 		{
 			bp						string:"items/consumables/grenade_gravity_extreme"
 			att						string:"att_grenade"
-			stat_bp					string:"items/consumables/gravity_hole_initial_blast_extreme"
+			stat_bp					string:"items/consumables/gravity_hole_initial_blast_extreme,items/consumables/gravity_hole_damage_extreme"
 		}
 	}
 
@@ -936,7 +946,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"grenade"
+		//cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"
@@ -954,7 +964,7 @@ EntityBlueprint
 		{
 			bp						string:"items/consumables/grenade_gravity_standard"
 			att						string:"att_grenade"
-			stat_bp					string:"items/consumables/gravity_hole_initial_blast"
+			stat_bp					string:"items/consumables/gravity_hole_initial_blast,items/consumables/gravity_hole_damage"
 		}
 	}
 
@@ -971,7 +981,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/grenade_gravity"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"grenade"
+		//cooldown_category			"grenade"
 		icon						"gui/hud/items_icons/consumables/grenade_gravity"
 		bigger_icon 				"gui/menu/items_icons/consumables/grenade_gravity"
 		storage_limit 				"5"		
@@ -989,7 +999,7 @@ EntityBlueprint
 		{
 			bp						string:"items/consumables/grenade_gravity_superior"
 			att						string:"att_grenade"
-			stat_bp					string:"items/consumables/gravity_hole_initial_blast_superior"
+			stat_bp					string:"items/consumables/gravity_hole_initial_blast_superior,items/consumables/gravity_hole_damage_superior"
 		}
 	}
 

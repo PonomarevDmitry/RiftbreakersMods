@@ -25,7 +25,7 @@ EntityBlueprint
 		script "lua/units/skills/meteor_shower.lua"
 		database
 		{
-			meteor_blueprint		string:"units/skills/meteor_projectile_small"
+			meteor_blueprint		string:"units/skills/meteor_projectile_lvl_1"
 			type					string:"follow_player"
 			warning_bp				string:"effects/messages_and_markers/meteor_marker"
 			warning_radius      	float:"5.5"
@@ -38,11 +38,70 @@ EntityBlueprint
 			spread					float:"10"
 		}			
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name "units/skills/meteor_shower_lvl_2"
+	base_blueprint "units/skills/meteor_shower"
+
+	SkillLinkUnitComponent
 	{
-
+		name 			"gui/hud/enemy_skill_name/meteor_shower_lvl_2"
+		description 	"gui/hud/enemy_skill_description/meteor_shower"
+		icon 			"gui/menu/inventory/stat_icons/meteor_shower_aura_icon"
 	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"units/skills/meteor_projectile_lvl_2"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"5.85"
+			spawn_min_time			float:"0.60"
+			spawn_max_time			float:"0.80"
+			meteors_in_one_spawn	int:"1" 
+			radius					int:"1"
+			delay_min				float:"0.95"
+			delay_max				float:"1.80"
+			spread					float:"10"
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name "units/skills/meteor_shower_lvl_3"
+	base_blueprint "units/skills/meteor_shower"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/meteor_shower_lvl_3"
+		description 	"gui/hud/enemy_skill_description/meteor_shower"
+		icon 			"gui/menu/inventory/stat_icons/meteor_shower_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"units/skills/meteor_projectile_lvl_3"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"6.2"
+			spawn_min_time			float:"0.60"
+			spawn_max_time			float:"0.80"
+			meteors_in_one_spawn	int:"1" 
+			radius					int:"1"
+			delay_min				float:"0.95"
+			delay_max				float:"1.65"
+			spread					float:"10"
+		}			
+	}		
 }
 
 EntityBlueprint
@@ -54,7 +113,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/meteor_shower_lvl_4"
 		description 	"gui/hud/enemy_skill_description/meteor_shower"
-		icon 			"gui/menu/items_icons/skills/orbital_bombardment"
+		icon 			"gui/menu/inventory/stat_icons/meteor_shower_aura_icon"
 	}
 	
 	LuaDesc
@@ -62,10 +121,10 @@ EntityBlueprint
 		script "lua/units/skills/meteor_shower.lua"
 		database
 		{
-			meteor_blueprint		string:"units/skills/meteor_projectile_big"
+			meteor_blueprint		string:"units/skills/meteor_projectile_lvl_4"
 			type					string:"follow_player"
 			warning_bp				string:"effects/messages_and_markers/meteor_marker"
-			warning_radius      	float:"5.5"
+			warning_radius      	float:"6.5"
 			spawn_min_time			float:"0.55"
 			spawn_max_time			float:"0.75"
 			meteors_in_one_spawn	int:"1" 
@@ -79,7 +138,7 @@ EntityBlueprint
 
 EntityBlueprint 
 {	
-	name "units/skills/meteor_projectile_small"
+	name "units/skills/meteor_projectile_lvl_1"
 
 	MeshDesc
 	{
@@ -168,8 +227,37 @@ EntityBlueprint
 
 EntityBlueprint 
 {	
-	name 			"units/skills/meteor_projectile_big"
-	base_blueprint	"units/skills/meteor_projectile_small"
+	name 			"units/skills/meteor_projectile_lvl_2"
+	base_blueprint	"units/skills/meteor_projectile_lvl_1"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
+		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
+
+		DamagePattern
+		{
+			area_damage_radius 	"6.5"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"60"
+					type 	"area"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint 
+{	
+	name 			"units/skills/meteor_projectile_lvl_3"
+	base_blueprint	"units/skills/meteor_projectile_lvl_1"
 	
 	ProjectileAmmoComponent
 	{
@@ -182,6 +270,35 @@ EntityBlueprint
 		DamagePattern
 		{
 			area_damage_radius 	"7"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"90"
+					type 	"area"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint 
+{	
+	name 			"units/skills/meteor_projectile_lvl_4"
+	base_blueprint	"units/skills/meteor_projectile_lvl_1"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_very_big"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_very_big"
+		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
+		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
+
+		DamagePattern
+		{
+			area_damage_radius 	"7.5"
 
 			Damages
 			{

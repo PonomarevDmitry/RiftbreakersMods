@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/swarm"
+	base_blueprint "units/skills/skill_base"
 
 	StateMachineDesc
 	{
@@ -33,10 +34,57 @@ EntityBlueprint
 			create_child_timer				float:"0.75"
 		}			
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name 			"units/skills/swarm_lvl_2"
+	base_blueprint	"units/skills/swarm"
+	
+	SkillLinkUnitComponent
 	{
+		name 			"gui/hud/enemy_skill_name/swarm_lvl_2"
+		description 	"gui/hud/enemy_skill_description/swarm"
+		icon 			"gui/menu/inventory/stat_icons/swarm_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/swarm.lua"
+		database
+		{
+			min_scale						float:"0.8"
+			max_scale						float:"1.2"
+			children_count					int:"40"
+			child_bp                        string:"units/ground/canceroth_child_alpha"
+			create_child_timer				float:"0.75"
+		}			
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/swarm_lvl_3"
+	base_blueprint	"units/skills/swarm"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/swarm_lvl_3"
+		description 	"gui/hud/enemy_skill_description/swarm"
+		icon 			"gui/menu/inventory/stat_icons/swarm_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/swarm.lua"
+		database
+		{
+			min_scale						float:"0.8"
+			max_scale						float:"1.2"
+			children_count					int:"40"
+			child_bp                        string:"units/ground/canceroth_child_ultra"
+			create_child_timer				float:"0.50"
+		}			
 	}
 }
 
@@ -49,7 +97,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/swarm_lvl_4"
 		description 	"gui/hud/enemy_skill_description/swarm"
-		icon 			"gui/hud/fauna/canceroth_icon"
+		icon 			"gui/menu/inventory/stat_icons/swarm_aura_icon"
 	}
 	
 	LuaDesc

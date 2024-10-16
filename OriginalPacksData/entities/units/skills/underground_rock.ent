@@ -1,7 +1,8 @@
 EntityBlueprint
 {
 	name "units/skills/underground_rock"
-
+	base_blueprint "units/skills/skill_base"
+	
 	StateMachineDesc
 	{
 		template_name "unit_skill"
@@ -38,10 +39,69 @@ EntityBlueprint
 			spread				float:"10"
 		}			
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name 			"units/skills/underground_rock_lvl_2"
+	base_blueprint	"units/skills/underground_rock"
+	
+	SkillLinkUnitComponent
 	{
+		name 			"gui/hud/enemy_skill_name/underground_rock_lvl_2"
+		description 	"gui/hud/enemy_skill_description/underground_rock"
+		icon 			"gui/menu/inventory/stat_icons/underground_rock_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/underground_rock.lua"
+		database
+		{
+			rock_bp				string:"units/skills/underground_rock_effect_lvl_2"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"5.0"
+			spawn_min_time		float:"0.62"
+			spawn_max_time		float:"1.15"
+			rocks_in_one_spawn	int:"2"
+			delay_min			float:"1.30"
+			delay_max			float:"2.30"
+			delay_offset		float:"0.35"
+			offset				float:"-8.0"
+			spread				float:"10"
+		}			
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/underground_rock_lvl_3"
+	base_blueprint	"units/skills/underground_rock"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/underground_rock_lvl_3"
+		description 	"gui/hud/enemy_skill_description/underground_rock"
+		icon 			"gui/menu/inventory/stat_icons/underground_rock_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/underground_rock.lua"
+		database
+		{
+			rock_bp				string:"units/skills/underground_rock_effect_lvl_3"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"5.3"
+			spawn_min_time		float:"0.58"
+			spawn_max_time		float:"1.05"
+			rocks_in_one_spawn	int:"3"
+			delay_min			float:"1.15"
+			delay_max			float:"2.15"
+			delay_offset		float:"0.35"
+			offset				float:"-8.0"
+			spread				float:"10"
+		}			
 	}
 }
 
@@ -54,7 +114,7 @@ EntityBlueprint
 	{
 		name 			"gui/hud/enemy_skill_name/underground_rock_lvl_4"
 		description 	"gui/hud/enemy_skill_description/underground_rock"
-		icon 			"gui/hud/building_icons/tower_artillery"
+		icon 			"gui/menu/inventory/stat_icons/underground_rock_aura_icon"
 	}
 	
 	LuaDesc
@@ -152,6 +212,76 @@ EntityBlueprint
 
 EntityBlueprint
 { 
+	name 			"units/skills/underground_rock_effect_lvl_2"
+	base_blueprint	"units/skills/underground_rock_effect"
+	
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/skills/underground_rock_damage_lvl_2"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"50"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/underground_rock_effect_lvl_3"
+	base_blueprint	"units/skills/underground_rock_effect"
+	
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/skills/underground_rock_damage_lvl_3"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"50"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+}
+
+EntityBlueprint
+{ 
 	name 			"units/skills/underground_rock_effect_lvl_4"
 	base_blueprint	"units/skills/underground_rock_effect"
 	
@@ -239,6 +369,56 @@ EntityBlueprint
 
 EntityBlueprint
 { 
+	name 			"units/skills/underground_rock_damage_lvl_2"
+	base_blueprint	"units/skills/underground_rock_damage"
+	
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5.5"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"75"
+					type 		"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/underground_rock_damage_lvl_3"
+	base_blueprint	"units/skills/underground_rock_damage"
+	
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5.8"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"100"
+					type 		"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
 	name 			"units/skills/underground_rock_damage_lvl_4"
 	base_blueprint	"units/skills/underground_rock_damage"
 	
@@ -254,7 +434,7 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 		"100"
+					value 		"125"
 					type 		"physical"
 				}
 			}

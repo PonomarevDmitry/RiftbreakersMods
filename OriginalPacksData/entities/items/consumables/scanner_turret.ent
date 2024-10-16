@@ -8,7 +8,7 @@ EntityBlueprint
 		name 					"gui/menu/inventory/consumable_name/scanner_turret"
 		use_count				"1"
 		cooldown				"2"
-		cooldown_category		"scanner_turret"
+		//cooldown_category		"scanner_turret"
 		icon					"gui/hud/items_icons/consumables/scanner_turret_advanced"
 		bigger_icon 			"gui/menu/items_icons/consumables/scanner_turret_advanced"
 		storage_limit 			"5"
@@ -22,12 +22,12 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/mini_miner.lua"
 
-        database
-        {
-            timeout     float:"25"
+		database
+		{
+			timeout     float:"25"
 			blueprint	string:"items/consumables/scanner_turret_advanced"
 			stat_bp		string:"items/consumables/scanner_turret_advanced"
-        }
+		}
 	}
 
 	CostDesc
@@ -43,7 +43,7 @@ EntityBlueprint
 		name 					"gui/menu/inventory/consumable_name/scanner_turret"
 		use_count				"1"
 		cooldown				"2"
-		cooldown_category		"scanner_turret"
+		//cooldown_category		"scanner_turret"
 		icon					"gui/hud/items_icons/consumables/scanner_turret_extreme"
 		bigger_icon 			"gui/menu/items_icons/consumables/scanner_turret_extreme"
 		storage_limit 			"5"
@@ -57,12 +57,12 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/mini_miner.lua"
 
-        database
-        {
-            timeout     float:"35"
+		database
+		{
+			timeout     float:"35"
 			blueprint	string:"items/consumables/scanner_turret_extreme"
 			stat_bp		string:"items/consumables/scanner_turret_extreme"
-        }
+		}
 	}
 
 	CostDesc
@@ -78,7 +78,7 @@ EntityBlueprint
 		name 					"gui/menu/inventory/consumable_name/scanner_turret"
 		use_count				"1"
 		cooldown				"2"
-		cooldown_category		"scanner_turret"
+		//cooldown_category		"scanner_turret"
 		icon					"gui/hud/items_icons/consumables/scanner_turret_standard"
 		bigger_icon 			"gui/menu/items_icons/consumables/scanner_turret_standard"
 		storage_limit 			"5"
@@ -92,12 +92,12 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/mini_miner.lua"
 
-        database
-        {
-            timeout     float:"20"
+		database
+		{
+			timeout     float:"20"
 			blueprint	string:"items/consumables/scanner_turret"
 			stat_bp		string:"items/consumables/scanner_turret"
-        }
+		}
 	}
 
 	CostDesc
@@ -113,7 +113,7 @@ EntityBlueprint
 		name 					"gui/menu/inventory/consumable_name/scanner_turret"
 		use_count				"1"
 		cooldown				"2"
-		cooldown_category		"scanner_turret"
+		//cooldown_category		"scanner_turret"
 		icon					"gui/hud/items_icons/consumables/scanner_turret_superior"
 		bigger_icon 			"gui/menu/items_icons/consumables/scanner_turret_superior"
 		storage_limit 			"5"
@@ -127,12 +127,12 @@ EntityBlueprint
 	{
 		script "lua/items/consumables/mini_miner.lua"
 
-        database
-        {
-            timeout     float:"30"
+		database
+		{
+			timeout     float:"30"
 			blueprint	string:"items/consumables/scanner_turret_superior"
 			stat_bp		string:"items/consumables/scanner_turret_superior"
-        }
+		}
 	}
 
 	CostDesc
@@ -151,7 +151,7 @@ EntityBlueprint
 		description			"gui/menu/inventory/consumable_name/scanner_turret"
 		menu_icon			"gui/hud/building_icons/tower_basic"
 
-        buildable           "0"
+		buildable           "0"
 		sellable			"0"
 	}
 
@@ -165,7 +165,7 @@ EntityBlueprint
 			cone_effect_sell	string:"sell_small"
 			building_time		float:"0.1"
 			time_machine		int:"0"
-            check_collison      int:"0"
+			check_collison      int:"0"
 			scanning_time		float:"3"
 		}
 	}
@@ -233,9 +233,9 @@ EntityBlueprint
 	}
 
 	SkeletonDesc
-		{
-			name "meshes/items/consumables/scanner_turret_lvl_1"
-		}
+	{
+		name "meshes/items/consumables/scanner_turret_lvl_1"
+	}
 
 	PhysicsDesc
 	{
@@ -479,39 +479,74 @@ EntityBlueprint
 			}
 		}
 	}
+	LifeTimeDesc
+	{
+		time	20
+	}	
 }
 
 
 EntityBlueprint
 {
 	name "items/consumables/scanner_turret_advanced"
-		base_blueprint "items/consumables/scanner_turret"
+	base_blueprint "items/consumables/scanner_turret"
 
-		MeshDesc
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/scanner_turret_lvl_2.mesh"
+
+		SubMeshes
 		{
-			mesh "meshes/items/consumables/scanner_turret_lvl_2.mesh"
 
-			SubMeshes
+			SubMesh
 			{
+				id "0"
+				material 	"items/consumables/scanner_turret_lvl_2_base"
+			}
 
-				SubMesh
-				{
-					id "0"
-					material 	"items/consumables/scanner_turret_lvl_2_base"
-				}
-
-				SubMesh
-				{
-					id "1"
-					material "items/consumables/scanner_turret_lvl_2_ui"
-				}
+			SubMesh
+			{
+				id "1"
+				material "items/consumables/scanner_turret_lvl_2_ui"
 			}
 		}
+	}
 
-		SkeletonDesc
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/scanner_turret_lvl_2"
+	}
+	
+	HealthDesc
+	{
+		max_health 					"150"
+		health 						"150"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   "1"
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
 			{
-				name "meshes/items/consumables/scanner_turret_lvl_2"
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
 			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}	
 
 	BuildingDesc
 	{
@@ -522,7 +557,7 @@ EntityBlueprint
 		description			"gui/menu/inventory/consumable_name/scanner_turret_upgraded"
 		menu_icon			"gui/hud/building_icons/tower_basic"
 
-        buildable           "0"
+		buildable           "0"
 	}
 
 	LuaDesc
@@ -535,10 +570,18 @@ EntityBlueprint
 			cone_effect_sell	string:"sell_small"
 			building_time		float:"0.1"
 			time_machine		int:"0"
-            check_collison      int:"0"
+			check_collison      int:"0"
 			scanning_time		float:"2.5"
 		}
 	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}	
 
 	TurretDesc
 	{
@@ -560,38 +603,74 @@ EntityBlueprint
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
 	}
+	
+	LifeTimeDesc
+	{
+		time	25
+	}	
 }
 
 EntityBlueprint
 {
 	name "items/consumables/scanner_turret_superior"
-		base_blueprint "items/consumables/scanner_turret"
+	base_blueprint "items/consumables/scanner_turret"
 
-		MeshDesc
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/scanner_turret_lvl_3.mesh"
+
+		SubMeshes
 		{
-			mesh "meshes/items/consumables/scanner_turret_lvl_3.mesh"
 
-			SubMeshes
+			SubMesh
 			{
+				id "0"
+				material 	"items/consumables/scanner_turret_lvl_3_base"
+			}
 
-				SubMesh
-				{
-					id "0"
-					material 	"items/consumables/scanner_turret_lvl_3_base"
-				}
-
-				SubMesh
-				{
-					id "1"
-					material "items/consumables/scanner_turret_lvl_3_ui"
-				}
+			SubMesh
+			{
+				id "1"
+				material "items/consumables/scanner_turret_lvl_3_ui"
 			}
 		}
+	}
 
-		SkeletonDesc
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/scanner_turret_lvl_3"
+	}
+	
+	HealthDesc
+	{
+		max_health 					"200"
+		health 						"200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   "1"
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
 			{
-				name "meshes/items/consumables/scanner_turret_lvl_3"
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
 			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}	
 
 	BuildingDesc
 	{
@@ -602,7 +681,7 @@ EntityBlueprint
 		description			"gui/menu/inventory/consumable_name/scanner_turret_upgraded"
 		menu_icon			"gui/hud/building_icons/tower_basic"
 
-        buildable           "0"
+		buildable           "0"
 	}
 
 	LuaDesc
@@ -615,10 +694,18 @@ EntityBlueprint
 			cone_effect_sell	string:"sell_small"
 			building_time		float:"0.1"
 			time_machine		int:"0"
-            check_collison      int:"0"
+			check_collison      int:"0"
 			scanning_time		float:"2"
 		}
 	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}	
 
 	TurretDesc
 	{
@@ -640,38 +727,74 @@ EntityBlueprint
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
 	}
+	
+	LifeTimeDesc
+	{
+		time	30
+	}	
 }
 
 EntityBlueprint
 {
 	name "items/consumables/scanner_turret_extreme"
-		base_blueprint "items/consumables/scanner_turret"
+	base_blueprint "items/consumables/scanner_turret"
 
-		MeshDesc
+	MeshDesc
+	{
+		mesh "meshes/items/consumables/scanner_turret_lvl_4.mesh"
+
+		SubMeshes
 		{
-			mesh "meshes/items/consumables/scanner_turret_lvl_4.mesh"
 
-			SubMeshes
+			SubMesh
 			{
+				id "0"
+				material 	"items/consumables/scanner_turret_lvl_4_base"
+			}
 
-				SubMesh
-				{
-					id "0"
-					material 	"items/consumables/scanner_turret_lvl_4_base"
-				}
-
-				SubMesh
-				{
-					id "1"
-					material "items/consumables/scanner_turret_lvl_4_ui"
-				}
+			SubMesh
+			{
+				id "1"
+				material "items/consumables/scanner_turret_lvl_4_ui"
 			}
 		}
+	}
 
-		SkeletonDesc
+	SkeletonDesc
+	{
+		name "meshes/items/consumables/scanner_turret_lvl_4"
+	}
+	
+	HealthDesc
+	{
+		max_health 					"250"
+		health 						"250"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual                   "1"
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
 			{
-				name "meshes/items/consumables/scanner_turret_lvl_4"
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
 			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}	
 
 	BuildingDesc
 	{
@@ -682,7 +805,7 @@ EntityBlueprint
 		description			"gui/menu/inventory/consumable_name/scanner_turret_upgraded"
 		menu_icon			"gui/hud/building_icons/tower_basic"
 
-        buildable           "0"
+		buildable           "0"
 	}
 
 	LuaDesc
@@ -695,10 +818,18 @@ EntityBlueprint
 			cone_effect_sell	string:"sell_small"
 			building_time		float:"0.1"
 			time_machine		int:"0"
-            check_collison      int:"0"
+			check_collison      int:"0"
 			scanning_time		float:"1.5"
 		}
 	}
+	
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}	
 
 	TurretDesc
 	{
@@ -720,4 +851,9 @@ EntityBlueprint
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
 	}
-}
+	
+	LifeTimeDesc
+	{
+		time	35
+	}	
+}

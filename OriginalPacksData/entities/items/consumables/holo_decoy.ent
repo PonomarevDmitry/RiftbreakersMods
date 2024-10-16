@@ -8,7 +8,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/holo_decoy"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"decoy"
+		//cooldown_category			"decoy"
 		icon						"gui/hud/items_icons/consumables/holo_decoy_standard"
 		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_standard"
 		storage_limit 				"5"
@@ -43,7 +43,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/holo_decoy"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"decoy"
+		//cooldown_category			"decoy"
 		icon						"gui/hud/items_icons/consumables/holo_decoy_standard"
 		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_standard"
 		storage_limit 				"5"
@@ -78,7 +78,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/holo_decoy"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"decoy"
+		//cooldown_category			"decoy"
 		icon						"gui/hud/items_icons/consumables/holo_decoy_standard"
 		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_standard"
 		storage_limit 				"5"
@@ -113,7 +113,7 @@ EntityBlueprint
 		name 						"gui/menu/inventory/consumable_name/holo_decoy"
 		use_count					"1"
 		cooldown					"1"
-		cooldown_category			"decoy"
+		//cooldown_category			"decoy"
 		icon						"gui/hud/items_icons/consumables/holo_decoy_standard"
 		bigger_icon 				"gui/menu/items_icons/consumables/holo_decoy_standard"
 		storage_limit 				"5"
@@ -151,7 +151,7 @@ EntityBlueprint
 	
 	LuaDesc
 	{
-		script "lua/items/consumables/holo_decoy_mech.lua"
+		script "lua/items/consumables/holo_decoy_mech.lua"	
 	}
 	
 
@@ -201,7 +201,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"ground_unit"
+				group_id 			"building_small"
 				physics_material 	"default"
 				Shapes
 				{
@@ -227,7 +227,7 @@ EntityBlueprint
 		{
 			Pair
 			{
-				key "default"
+				key "default,lifetime"
 				value
 				{
 					explosion_type 			"centered"
@@ -235,7 +235,7 @@ EntityBlueprint
 					explosion_min_power 	"4000"
 					explosion_effect 		"effects/items/holo_decoy_explosion"
 				}
-			}
+			}			
 		}
 	}
 	
@@ -269,6 +269,14 @@ EntityBlueprint
 			}
 		}
 	}	
+	LifeTimeDesc
+	{
+		time	10
+	}
+	DatabaseComponent
+	{
+		stat_bp string:"effects/items/holo_decoy_explosion"
+	}	
 }
 
 EntityBlueprint
@@ -276,13 +284,20 @@ EntityBlueprint
 	name  "items/consumables/holo_decoy_mech_advanced"
 	base_blueprint "items/consumables/holo_decoy_mech"
 	
+	HealthDesc
+	{
+		//is_manual				"1"
+		max_health 				"2400"
+		health 					"2400"
+	}	
+	
 	DestroyDesc
 	{
 		DestroyPatterns
 		{
 			Pair
 			{
-				key "default"
+				key "default,lifetime"
 				value
 				{
 					explosion_type 			"centered"
@@ -293,6 +308,14 @@ EntityBlueprint
 			}
 		}
 	}	
+	LifeTimeDesc
+	{
+		time	12
+	}	
+	DatabaseComponent
+	{
+		stat_bp string:"effects/items/holo_decoy_explosion_advanced"
+	}	
 }	
 
 EntityBlueprint
@@ -300,13 +323,20 @@ EntityBlueprint
 	name  "items/consumables/holo_decoy_mech_superior"
 	base_blueprint "items/consumables/holo_decoy_mech"
 	
+	HealthDesc
+	{
+		//is_manual				"1"
+		max_health 				"2800"
+		health 					"2800"
+	}			
+	
 	DestroyDesc
 	{
 		DestroyPatterns
 		{
 			Pair
 			{
-				key "default"
+				key "default,lifetime"
 				value
 				{
 					explosion_type 			"centered"
@@ -317,6 +347,14 @@ EntityBlueprint
 			}
 		}
 	}	
+	LifeTimeDesc
+	{
+		time	14
+	}	
+	DatabaseComponent
+	{
+		stat_bp string:"effects/items/holo_decoy_explosion_superior"
+	}	
 }	
 
 EntityBlueprint
@@ -324,13 +362,20 @@ EntityBlueprint
 	name  "items/consumables/holo_decoy_mech_extreme"
 	base_blueprint "items/consumables/holo_decoy_mech"
 	
+	HealthDesc
+	{
+		//is_manual				"1"
+		max_health 				"3200"
+		health 					"3200"
+	}		
+	
 	DestroyDesc
 	{
 		DestroyPatterns
 		{
 			Pair
 			{
-				key "default"
+				key "default,lifetime"
 				value
 				{
 					explosion_type 			"centered"
@@ -341,4 +386,12 @@ EntityBlueprint
 			}
 		}
 	}	
+	LifeTimeDesc
+	{
+		time	16
+	}
+	DatabaseComponent
+	{
+		stat_bp string:"effects/items/holo_decoy_explosion_extreme"
+	}
 }	
