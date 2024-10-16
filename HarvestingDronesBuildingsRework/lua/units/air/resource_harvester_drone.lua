@@ -62,7 +62,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                 return false
             end
 
-            local lootComponent = EntityService:GetComponent(entity, "LootComponent")
+            local lootComponent = EntityService:GetConstComponent(entity, "LootComponent")
             if not lootComponent or not reflection_helper( lootComponent ).is_gatherable then
                 return false
             end
