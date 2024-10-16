@@ -1,0 +1,6828 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// EXAMPLE ////////////////////////////////////////////
+//
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_cryo"				// name of the new species
+//
+//    volume_non_aggressive_distance      "60"                            // distance between player<>unit where they start evading
+//    volume_aggressive_distance      	  "15"                            // distance between player<>unit where they start evading
+//
+//    creatures
+//    {       
+//		Creature
+//        {
+//            blueprint                       "units/ground/stregaros_boss_cryo" // base blueprint for the new species
+//            min_difficulty_factor           "0.0"                              // minimum difficulty points for the boss to show up (those points gradually grow in the campaign mode)
+//            max_difficulty_factor           "1.0"                              // maximum difficulty points for the boss to show up
+//            
+//            min_unit_skill_count            "0"								// minimum number of skills that this species will have (random between min an max)
+//            max_unit_skill_count            "1"								// maximum number of skills that this species will have (random between min an max)
+//
+//            max_unit_skill_level            "1"								// maximum level of a skill that will be assigned during spawn (skills have 5 difficulty levels from 0 to 4)
+//            exclude_unit_skills             "resurrect,drones"				// list of skill names that this species cannot have
+
+//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,drones,eggs,meteor_shower,resurrect,shockwave,swarm,underground_rock,waller" // full list
+
+//	          force_include_unit_skills       "waller"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+//
+//			  unit_skill_overrides												// this can manually OVERRIDE any skill parameters for this species
+//			  {
+//				eggs															// name of the skill
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"					// component name and parameter name for a skill to be overriden
+//						value 	"units/ground/zorant"							// new value (in this case it is used to override default species spawned from eggs)
+//					}
+//				}
+//
+//				// eggs_lvl_1,2,3 etc will use overrides from eggs
+//
+//				eggs_lvl_4
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"
+//						value 	"units/ground/zorant_ultra"
+//					}
+//				}
+//			  }
+//            
+//            extra_unit_modifiers										// this can MODIFY unit parameters (only select parametrs have support for this)
+//            {
+//                health                      "10000"                   // accepted values: +/- 1000 flat value or +/- 20% to add pct value
+//				  movement_speed			  "20%"						// only PCT values accepted for now
+//				  resistance_all			  "30%"
+//				  resistance_fire			  "-50%"
+//				  resistance_physical		  "50%"
+//                //resistance_{damage_type}  "x%"
+//            }
+//
+//            volume_spawn_proximity_factor    "1"
+//        }
+//    }
+//}
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_random"
+//    creatures_group											// weighted random
+//	  {
+//			xxx_boss_cryo 1.0
+//			xxx_boss_fire 1.0
+//			xxx_boss_acid 1.0
+//	}
+//}
+
+
+///////////////////////////////////// ARACHNOID ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"arachnoid_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/arachnoid_boss_easy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"3000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/arachnoid_boss_easy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/arachnoid_boss_easy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/arachnoid_boss_easy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/arachnoid_boss_easy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// BAXMOTH ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"baxmoth_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// BAXMOTH ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"baxmoth_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// BAXMOTH ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"baxmoth_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_energy,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_energy,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_energy,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_energy,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_energy,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// BAXMOTH ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"baxmoth_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// BAXMOTH ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"baxmoth_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/baxmoth_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_cryo,aura_damage_acid,drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+///////////////////////////////////// CANCEROTH ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"canceroth_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/canceroth_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"eggs,shockwave,swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/canceroth_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"eggs,shockwave,swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"28%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/canceroth_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"eggs,shockwave,swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/canceroth_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"eggs,shockwave,swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"50000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/canceroth_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"eggs,shockwave,swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"75000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// DREXOLIAN ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"drexolian_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/drexolian_alpha"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"waller"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/drexolian_alpha"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"waller"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/drexolian_alpha"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"waller"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/drexolian_alpha"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"waller"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/drexolian_alpha"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"waller"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// FLURIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"flurian_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"45%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// FLURIAN ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"flurian_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/flurian_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"drones"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"45%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// FUNGOR ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"fungor_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/fungor_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/fungor_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/fungor_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/fungor_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"33%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/fungor_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// GNEROT ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"gnerot_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// GNEROT ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"gnerot_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// GNEROT ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"gnerot_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// GNEROT ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"gnerot_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_burning_fight"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_burning_fight"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_burning_fight"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_burning_fight"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/gnerot_burning_fight"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// HAMMEROCEROS ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"hammeroceros_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/kafferroceros_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/kafferroceros_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+				movement_speed			  	"16%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/kafferroceros_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"17%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/kafferroceros_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"18%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/kafferroceros_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// KROCOON ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"krocoon_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// KROCOON ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"krocoon_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// KROCOON ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"krocoon_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// KROCOON ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"krocoon_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// KROCOON ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"krocoon_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/krocoon_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// LESIGIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"lesigian_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/lesigian_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/lesigian_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/lesigian_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/lesigian_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/lesigian_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"swarm"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MAGMOTH ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"magmoth_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MAGMOTH ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"magmoth_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MAGMOTH ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"magmoth_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MAGMOTH ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"magmoth_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/magmoth_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MUDRONER ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"mudroner_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MUDRONER ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"mudroner_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MUDRONER ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"mudroner_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// MUDRONER ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"mudroner_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/mudroner_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NECRODON ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"necrodon_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/necrodon_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"resurrect,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/necrodon_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"resurrect,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/necrodon_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"resurrect,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/necrodon_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"resurrect,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/necrodon_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"resurrect,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NERILIAN ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nerilian_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NERILIAN ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nerilian_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NERILIAN ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nerilian_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NERILIAN ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nerilian_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nerilian_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NURGLAX ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nurglax_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NURGLAX ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nurglax_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_cryo,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NURGLAX ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nurglax_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NURGLAX ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nurglax_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_fire,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// NURGLAX ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"nurglax_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/nurglax_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_energy,aura_damage_acid,aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"50%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// PHIRIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"phirian_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/phirian_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/phirian_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/phirian_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/phirian_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/phirian_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// STREGAROS ELITE ACID ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"stregaros_elite_acid"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_acid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_acid"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_acid"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_acid"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_acid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_acid"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_acid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_acid"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_acid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_cryo,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_acid"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// STREGAROS ELITE CRYO ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"stregaros_elite_cryo"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_cryo"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_cryo"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_cryo"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_cryo"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"17%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_cryo"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_energy,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_cryo"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// STREGAROS ELITE ENERGY ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"stregaros_elite_energy"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_energy"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_energy"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_energy"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_energy"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"40%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_energy"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_fire"
+			force_include_unit_skills       "aura_damage_energy"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"45%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// STREGAROS ELITE FIRE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"stregaros_elite_fire"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_fire"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			force_include_unit_skills       "aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_fire"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			force_include_unit_skills       "aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_fire"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			force_include_unit_skills       "aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_fire"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			force_include_unit_skills       "aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_boss_fire"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy"
+			force_include_unit_skills       "aura_damage_fire"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// STREGAROS ELITE CRYSTAL ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"stregaros_elite_crystal"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"15"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 0 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_crystal_ultra"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"1.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+				movement_speed			  	"15%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.150"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_crystal_ultra"
+            min_difficulty_factor   		"2"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			
+			extra_unit_modifiers
+			{
+				health						"15000"
+				movement_speed			  	"20%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.100"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_crystal_ultra"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "2"
+			
+			extra_unit_modifiers
+			{
+				health						"33000"
+				movement_speed			  	"25%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.075"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_crystal_ultra"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+			
+			extra_unit_modifiers
+			{
+				health						"66000"
+				movement_speed			  	"30%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/stregaros_crystal_ultra"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "3"
+			max_unit_skill_count            "3"
+			max_unit_skill_level            "4"
+			
+			extra_unit_modifiers
+			{
+				health						"100000"
+				movement_speed			  	"35%"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.050"
+				}
+			}
+        }
+    }
+}
+
+//////////////// RANDOM BIOME BOSSES ////////////////
+
+CreatureSpecies
+{
+    species_name		"boss_jungle_random"
+    creatures_group
+	{
+		arachnoid_elite				1.0
+		baxmoth_elite				0.20
+		baxmoth_elite_acid			0.20
+		baxmoth_elite_cryo			0.20
+		baxmoth_elite_energy		0.20
+		baxmoth_elite_fire			0.20
+		gnerot_elite_acid			0.25
+		gnerot_elite_cryo			0.25
+		gnerot_elite_energy			0.25
+		gnerot_elite_fire			0.25
+		hammeroceros_elite			1.0
+		krocoon_elite				0.20
+		krocoon_elite_acid			0.20
+		krocoon_elite_cryo			0.20
+		krocoon_elite_energy		0.20
+		krocoon_elite_fire			0.20
+		mudroner_elite_acid			0.25
+		mudroner_elite_cryo			0.25
+		mudroner_elite_energy		0.25
+		mudroner_elite_fire			0.25
+		phirian_elite				1.0
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_desert_random"
+    creatures_group		
+	{
+		gnerot_elite_acid			0.5
+		gnerot_elite_energy			0.5
+		krocoon_elite				0.33
+		krocoon_elite_acid			0.33
+		krocoon_elite_energy		0.33
+		lesigian_elite				1.0
+		magmoth_elite_energy		0.5
+		stregaros_elite_acid		0.25
+		stregaros_elite_cryo		0.25
+		stregaros_elite_energy		0.25
+		stregaros_elite_fire		0.25
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_acid_random"
+    creatures_group		
+	{
+		baxmoth_elite				0.33
+		baxmoth_elite_acid			0.33
+		baxmoth_elite_fire			0.33
+		gnerot_elite_acid			0.5
+		gnerot_elite_fire			0.5
+		krocoon_elite				0.33
+		krocoon_elite_acid			0.33
+		krocoon_elite_fire			0.33
+		lesigian_elite				1.0
+		magmoth_elite_acid			0.5
+		mudroner_elite_acid			0.25
+		mudroner_elite_cryo			0.25
+		mudroner_elite_energy		0.25
+		mudroner_elite_fire			0.25
+		nerilian_elite_acid			0.25
+		nerilian_elite_cryo			0.25
+		nerilian_elite_energy		0.25
+		nerilian_elite_fire			0.25
+		nurglax_elite				0.20
+		nurglax_elite_acid			0.20
+		nurglax_elite_cryo			0.20
+		nurglax_elite_energy		0.20
+		nurglax_elite_fire			0.20
+		phirian_elite				1.0
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_magma_random"
+    creatures_group		
+	{
+		gnerot_elite_fire			1.0
+		krocoon_elite				0.5
+		krocoon_elite_fire			0.5
+		magmoth_elite_cryo			0.33
+		magmoth_elite_energy		0.33
+		magmoth_elite_fire			0.33
+		mudroner_elite_energy		0.33
+		mudroner_elite_fire			0.33
+		nerilian_elite_cryo			0.33
+		nerilian_elite_energy		0.33
+		nerilian_elite_fire			0.33
+		nurglax_elite_fire			0.50
+		phirian_elite				1.0
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_metallic_random"
+    creatures_group		
+	{
+		baxmoth_elite_energy		0.5
+		flurian_elite				0.5
+		flurian_elite_energy		0.5
+		krocoon_elite				0.33
+		krocoon_elite_cryo			0.33
+		krocoon_elite_energy		0.33
+		lesigian_elite				1.0
+		magmoth_elite_cryo			0.25
+		magmoth_elite_energy		0.25
+		mudroner_elite_cryo			0.25
+		mudroner_elite_energy		0.25
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_caverns_random"
+    creatures_group		
+	{
+		gnerot_elite_cryo			0.33
+		gnerot_elite_energy			0.33
+		gnerot_elite_fire			0.33
+		krocoon_elite				0.33
+		krocoon_elite_energy		0.33
+		krocoon_elite_fire			0.33
+		magmoth_elite_cryo			0.5
+		mudroner_elite_cryo			0.5
+		necrodon_elite				1.0
+		stregaros_elite_crystal		1.0
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_swamp_random"
+    creatures_group		
+	{
+		baxmoth_elite				0.20
+		baxmoth_elite_acid			0.20
+		baxmoth_elite_cryo			0.20
+		baxmoth_elite_energy		0.20
+		baxmoth_elite_fire			0.20
+		canceroth_elite				1.0
+		drexolian_elite				1.0
+		fungor_elite				1.0
+		mudroner_elite_acid			0.25
+		mudroner_elite_cryo			0.25
+		mudroner_elite_energy		0.25
+		mudroner_elite_fire			0.25
+		phirian_elite				1.0
+	}
+}
+
+CreatureSpecies
+{
+    species_name		"boss_all_random"
+    creatures_group		
+	{
+		arachnoid_elite				1.0
+		baxmoth_elite				0.20
+		baxmoth_elite_acid			0.20
+		baxmoth_elite_cryo			0.20
+		baxmoth_elite_energy		0.20
+		baxmoth_elite_fire			0.20
+		canceroth_elite				1.0
+		drexolian_elite				1.0
+		flurian_elite				0.5
+		flurian_elite_energy		0.5
+		fungor_elite				1.0
+		gnerot_elite_acid			0.25
+		gnerot_elite_cryo			0.25
+		gnerot_elite_energy			0.25
+		gnerot_elite_fire			0.25
+		hammeroceros_elite			1.0
+		krocoon_elite				0.20
+		krocoon_elite_acid			0.20
+		krocoon_elite_cryo			0.20
+		krocoon_elite_energy		0.20
+		krocoon_elite_fire			0.20
+		lesigian_elite				1.0
+		magmoth_elite_acid			0.25
+		magmoth_elite_cryo			0.25
+		magmoth_elite_energy		0.25
+		magmoth_elite_fire			0.25
+		mudroner_elite_acid			0.25
+		mudroner_elite_cryo			0.25
+		mudroner_elite_energy		0.25
+		mudroner_elite_fire			0.25
+		necrodon_elite				1.0
+		nerilian_elite_acid			0.25
+		nerilian_elite_cryo			0.25
+		nerilian_elite_energy		0.25
+		nerilian_elite_fire			0.25
+		nurglax_elite				0.20
+		nurglax_elite_acid			0.20
+		nurglax_elite_cryo			0.20
+		nurglax_elite_energy		0.20
+		nurglax_elite_fire			0.20
+		phirian_elite				1.0
+		stregaros_elite_crystal		0.20
+		stregaros_elite_acid		0.20
+		stregaros_elite_cryo		0.20
+		stregaros_elite_energy		0.20
+		stregaros_elite_fire		0.20
+	}
+}

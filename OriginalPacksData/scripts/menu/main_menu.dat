@@ -18,12 +18,14 @@ MainMenuScreen
 {
     states
     {
+		#ifdef win
         MainMenuState
         {
             name    "main"
             title   "BUTTON_main_menu"
             background_movie_material "menu/movies/main_menu_bg"
             background_material ""
+            toast_frame_visible "1"
 
             items
             {
@@ -47,11 +49,12 @@ MainMenuScreen
                     label   "BUTTON_mod_management"
                     icon    "gui/menu/buttons/main_menu/mods_selected" 
                     action  "change_screen:gui/menu/mod_management"
+                    requirement "has_mods"
                 }
             }
 
         }
-
+		#endif
         MainMenuState
         {
             name    "single_player"
@@ -59,6 +62,11 @@ MainMenuScreen
             background_movie_material "menu/movies/main_menu_prolog_bg"
             background_material ""
             
+		#ifdef win
+            toast_frame_visible "0"
+		#else
+            toast_frame_visible "1"
+		#endif	
             items
             {
 
