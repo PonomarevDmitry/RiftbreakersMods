@@ -1,8 +1,8 @@
-//editor "scroll(-881.51,-352.40)|zoom(0.40)"
+//editor "scroll(-812.53,-532.92)|zoom(0.27)"
 FlowGraphTemplate
 {
-	version "5"
-	editor "6180"
+	version "6"
+	editor "6247"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -28,64 +28,9 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1455,525)"
+			//editor "layout(event_end.xml)|pos(2653,629)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(enemies_spawn_near_less_defended_outpost.xml)|pos(503,-89)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "5"
-					}
-
-					IntData
-					{
-						key "distance"
-						value "30"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "enemy_blueprint"
-						value "units/ground/phirian"
-					}
-
-					StringData
-					{
-						key "seek"
-						value "resource"
-					}
-
-					StringData
-					{
-						key "avoid"
-						value "defense"
-					}
-
-					StringData
-					{
-						key "unit_state"
-						value "state_aggressive"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/enemies/enemies_spawn_near_less_defended_outpost.lua"
-			self_id "enemies_spawn_near_less_defended_outpost_0"
 		}
 
 		NodeSelectorNode
@@ -137,7 +82,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(586,1170)"
+			//editor "layout(logic_and.xml)|pos(628,2239)"
 			script "lua/graph/logic/logic_and.lua"
 			self_id "logic_and_1"
 		}
@@ -146,171 +91,6 @@ FlowGraphTemplate
 		{
 			//editor "layout(logic_or.xml)|pos(1051,522)"
 			self_id "logic_or_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(enemies_spawn_near_less_defended_outpost.xml)|pos(505,155)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "10"
-					}
-
-					IntData
-					{
-						key "distance"
-						value "30"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "enemy_blueprint"
-						value "units/ground/phirian"
-					}
-
-					StringData
-					{
-						key "seek"
-						value "resource"
-					}
-
-					StringData
-					{
-						key "avoid"
-						value "defense"
-					}
-
-					StringData
-					{
-						key "unit_state"
-						value "state_aggressive"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/enemies/enemies_spawn_near_less_defended_outpost.lua"
-			self_id "enemies_spawn_near_less_defended_outpost_4"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(enemies_spawn_near_less_defended_outpost.xml)|pos(505,406)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "10"
-					}
-
-					IntData
-					{
-						key "distance"
-						value "30"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "enemy_blueprint"
-						value "units/ground/phirian_alpha"
-					}
-
-					StringData
-					{
-						key "seek"
-						value "resource"
-					}
-
-					StringData
-					{
-						key "avoid"
-						value "defense"
-					}
-
-					StringData
-					{
-						key "unit_state"
-						value "state_aggressive"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/enemies/enemies_spawn_near_less_defended_outpost.lua"
-			self_id "enemies_spawn_near_less_defended_outpost_5"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(enemies_spawn_near_less_defended_outpost.xml)|pos(507,694)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "10"
-					}
-
-					IntData
-					{
-						key "distance"
-						value "30"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "enemy_blueprint"
-						value "units/ground/phirian_ultra"
-					}
-
-					StringData
-					{
-						key "seek"
-						value "resource"
-					}
-
-					StringData
-					{
-						key "avoid"
-						value "defense"
-					}
-
-					StringData
-					{
-						key "unit_state"
-						value "state_aggressive"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/enemies/enemies_spawn_near_less_defended_outpost.lua"
-			self_id "enemies_spawn_near_less_defended_outpost_6"
 		}
 
 		LuaBehaviourNode
@@ -513,26 +293,650 @@ FlowGraphTemplate
 			value
 		}
 
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(461,-798)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "phirian"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "5"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(463,-111)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_2"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "phirian"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "8"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(479,543)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_3"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "phirian"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "12"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(477,1192)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "RandomBorder"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_4"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "phirian"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "16"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1767,426)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "5.00"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "-1.00"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/ashley"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/ashley_phirian_attack_end_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_11"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(1242,462)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "2"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "0"
+						value "1.00"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "1"
+						value "1.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_random_output.lua"
+			self_id "logic_random_output_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1242,635)"
+			key "0"
+			self_id "logic_random_output_2###0"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(1242,663)"
+			key "1"
+			self_id "logic_random_output_2###1"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1764,678)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "5.00"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "-1.00"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "gui_id"
+						value "gui/hud/dialogs/mech"
+					}
+
+					StringData
+					{
+						key "sound_name"
+						value "voice_over/objective/mech_phirian_attack_end_01"
+					}
+
+					StringData
+					{
+						key "localization_id"
+					}
+
+					StringData
+					{
+						key "manual_hide"
+						value "false"
+					}
+
+					StringData
+					{
+						key "interrupt"
+						value "false"
+					}
+
+					StringData
+					{
+						key "global"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_12"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2392,625)"
+			self_id "logic_or_2"
+		}
+
 	}
 
 	GraphConnections
 	{
 		default "logic_if_difficulty_wave_1|logic_random_output_1"
-		enemies_spawn_near_less_defended_outpost_0 "logic_or_1"
-		enemies_spawn_near_less_defended_outpost_4 "logic_or_1"
-		enemies_spawn_near_less_defended_outpost_5 "logic_or_1"
-		enemies_spawn_near_less_defended_outpost_6 "logic_or_1"
+		interface_dialogue_show_11 "logic_or_2"
+		interface_dialogue_show_12 "logic_or_2"
 		logic_and_1 "logic_or_1"
 		logic_if_difficulty_wave_1 "logic_if_difficulty_wave_1###brutal|logic_if_difficulty_wave_1###easy|logic_if_difficulty_wave_1###hard|logic_if_difficulty_wave_1###normal|logic_if_difficulty_wave_1###sandbox"
-		logic_if_difficulty_wave_1###brutal "enemies_spawn_near_less_defended_outpost_6"
-		logic_if_difficulty_wave_1###easy "enemies_spawn_near_less_defended_outpost_0"
-		logic_if_difficulty_wave_1###hard "enemies_spawn_near_less_defended_outpost_5"
-		logic_if_difficulty_wave_1###normal "enemies_spawn_near_less_defended_outpost_4"
+		logic_if_difficulty_wave_1###brutal "wave_ground_4"
+		logic_if_difficulty_wave_1###easy "wave_ground_1"
+		logic_if_difficulty_wave_1###hard "wave_ground_3"
+		logic_if_difficulty_wave_1###normal "wave_ground_2"
 		logic_if_difficulty_wave_1###sandbox "logic_and_1"
-		logic_or_1 "event_end_0"
+		logic_or_1 "logic_random_output_2"
+		logic_or_2 "event_end_0"
 		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1"
 		logic_random_output_1###0 "interface_dialogue_show_10"
 		logic_random_output_1###1 "interface_dialogue_show_9"
+		logic_random_output_2 "logic_random_output_2###0|logic_random_output_2###1"
+		logic_random_output_2###0 "interface_dialogue_show_11"
+		logic_random_output_2###1 "interface_dialogue_show_12"
+		wave_ground_1 "logic_or_1"
+		wave_ground_2 "logic_or_1"
+		wave_ground_3 "logic_or_1"
+		wave_ground_4 "logic_or_1"
 	}
 
 	GraphComments

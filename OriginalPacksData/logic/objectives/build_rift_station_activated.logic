@@ -1,26 +1,15 @@
-//editor "offset(-3155.724,91.152)|zoom(0.326)"
+//editor "scroll(910.02,-123.16)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "29"
-	editor "3163"
+	version "30"
+	editor "6222"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait_on_event.xml)|pos(6993,790)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "PortalOpeningFinishedEvent"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -31,17 +20,61 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "PortalOpeningFinishedEvent"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_0"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(objective_generic_progress.xml)|pos(5477,726)"
-			script "lua/graph/objective/objective_spawn.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "progress_max"
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -70,6 +103,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "unique_parent_id_name"
+						value
 					}
 
 					StringData
@@ -80,11 +114,21 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_progress_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6067,1032)"
+			database
+			{
 				Integers
 				{
 					IntData
 					{
-						key "progress_max"
 						value "100"
 					}
 
@@ -96,29 +140,12 @@ FlowGraphTemplate
 
 					IntData
 					{
-						key "is_parent_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "is_global"
+						key "generate_type"
 						value "0"
 					}
 
 				}
 
-			}
-
-			self_id "objective_generic_progress_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6067,1032)"
-			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -141,32 +168,19 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						value "100"
-					}
-
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
 			self_id "generic_increase"
 		}
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(5485,248)"
-			self_id "event_graph_0"
+			//editor "layout(event_graph.xml)|pos(5483,142)"
 			graph "logic/missions/campaigns/story/headquarters_final_attack_normal.logic"
+			self_id "event_graph_0"
 			start_point "default"
+			validate_graph_resource "1"
 			database
 			{
 				Floats
@@ -174,11 +188,21 @@ FlowGraphTemplate
 					//editor "expanded(1)"
 					FloatData
 					{
-						//editor "layout(binding_float.xml)"
+						//editor "layout(binding_float.xml)|pos(0,0)"
 						key "end_timer"
 						value "0.00"
 					}
 
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
 				}
 
 			}
@@ -187,20 +211,9 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_event_send.xml)|pos(5475,534)"
-			script "lua/graph/logic/logic_event_send.lua"
+			//editor "layout(logic_event_send.xml)|pos(5473,428)"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "FinishSurvival"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
@@ -211,51 +224,63 @@ FlowGraphTemplate
 
 				}
 
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "FinishSurvival"
+					}
+
+				}
+
 			}
 
+			script "lua/graph/logic/logic_event_send.lua"
 			self_id "logic_event_send_0"
 		}
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(5487,-264)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(5485,-393)"
 			global "0"
-			self_id "interface_dialogue_show_group_3"
 			interrupt "0"
 			priority "0"
+			self_id "interface_dialogue_show_group_3"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/headquarters/mech_rift_station_start_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/headquarters/ashley_rift_station_start_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/story/headquarters/mech_rift_station_start_02"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/story/headquarters/ashley_rift_station_start_02"
-					extended_duration "0"
 				}
 
 			}
@@ -265,9 +290,24 @@ FlowGraphTemplate
 		NodeSelectorNode
 		{
 			//editor "layout(objective_if_progress_status.xml)|pos(6062,1229)"
-			script "lua/graph/objective/objective_if_progress_status.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "25"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -290,53 +330,47 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "progress"
-						value "25"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_if_progress_status.lua"
 			self_id "objective_if_progress_status_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "objective_if_progress_status_0###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(6077,1416)"
-			self_id "objective_if_progress_status_0###true"
+			//editor "layout(condition_true.xml)|pos(6062,1410)"
 			key "true"
+			self_id "objective_if_progress_status_0###true"
 			value "objective_if_progress_status_0###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(interface_dialogue_show.xml)|pos(6465,1348)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -376,6 +410,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(6469,1606)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -398,17 +443,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_10"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(6469,1606)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -448,39 +482,33 @@ FlowGraphTemplate
 
 				}
 
-				Floats
-				{
-					FloatData
-					{
-						key "extended_duration"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "timeout"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "priority"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/interface/interface_dialogue_show.lua"
 			self_id "interface_dialogue_show_11"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(objective_if_progress_status.xml)|pos(6067,1488)"
-			script "lua/graph/objective/objective_if_progress_status.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "50"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -503,53 +531,47 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "progress"
-						value "50"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_if_progress_status.lua"
 			self_id "objective_if_progress_status_1"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "objective_if_progress_status_1###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(6082,1675)"
-			self_id "objective_if_progress_status_1###true"
+			//editor "layout(condition_true.xml)|pos(6067,1669)"
 			key "true"
+			self_id "objective_if_progress_status_1###true"
 			value "objective_if_progress_status_1###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(interface_dialogue_show.xml)|pos(6470,1907)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -589,39 +611,33 @@ FlowGraphTemplate
 
 				}
 
-				Floats
-				{
-					FloatData
-					{
-						key "extended_duration"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "timeout"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "priority"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/interface/interface_dialogue_show.lua"
 			self_id "interface_dialogue_show_12"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(objective_if_progress_status.xml)|pos(6068,1788)"
-			script "lua/graph/objective/objective_if_progress_status.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "progress"
+						value "75"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -644,51 +660,23 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "progress"
-						value "75"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_if_progress_status.lua"
 			self_id "objective_if_progress_status_2"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "objective_if_progress_status_2###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(6083,1975)"
-			self_id "objective_if_progress_status_2###true"
+			//editor "layout(condition_true.xml)|pos(6068,1969)"
 			key "true"
+			self_id "objective_if_progress_status_2###true"
 			value "objective_if_progress_status_2###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(4639,833)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -703,6 +691,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
@@ -716,7 +705,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(7376,805)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -731,23 +719,53 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_0"
 		}
 
 		BehaviourGraphNode
 		{
 			//editor "layout(event_graph.xml)|pos(4988,1054)"
-			self_id "event_graph_1"
 			graph "logic/objectives/build_rift_station_fail.logic"
+			self_id "event_graph_1"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait_on_event.xml)|pos(4906,3187)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
+			//editor "layout(logic_wait_on_event.xml)|pos(4901,3437)"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -758,6 +776,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(5083,2689)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -768,17 +797,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "logic_wait_on_event_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait_on_event.xml)|pos(5088,2438)"
-			script "lua/graph/logic/logic_wait_on_event.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -789,27 +807,27 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_event_local"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_wait_on_event.lua"
 			self_id "logic_wait_on_event_2"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(5307,3187)"
-			script "lua/graph/objective/objective_finish.lua"
+			//editor "layout(objective_finish.xml)|pos(5301,3437)"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -826,27 +844,51 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(6289,2663)"
+			database
+			{
 				Integers
 				{
+					IntData
+					{
+						key "progress_max"
+						value "100"
+					}
+
 					IntData
 					{
 						key "is_objective_local"
 						value "1"
 					}
 
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
 				}
 
-			}
-
-			self_id "objective_finish_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_generic_progress.xml)|pos(6294,2413)"
-			script "lua/graph/objective/objective_spawn.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -875,6 +917,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "unique_parent_id_name"
+						value
 					}
 
 					StringData
@@ -885,6 +928,113 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_progress_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(5647,3193)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.01"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(5185,3811)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1.01"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6611,3401)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						value "100"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "rift_station_resetting"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "_rift_station_"
+					}
+
+					StringData
+					{
+						key "field_name"
+						value "resetting"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
+			self_id "objective_generic_progress_update_by_entity_database_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic_progress.xml)|pos(5941,3391)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -911,109 +1061,14 @@ FlowGraphTemplate
 						value "0"
 					}
 
-				}
-
-			}
-
-			self_id "objective_generic_progress_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(5652,2943)"
-			script "lua/graph/logic/logic_wait.lua"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "0.01"
-					}
-
-				}
-
-			}
-
-			self_id "logic_wait_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(5191,3560)"
-			script "lua/graph/logic/logic_wait.lua"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "1.01"
-					}
-
-				}
-
-			}
-
-			self_id "logic_wait_2"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_generic_progress_update_by_entity_database.xml)|pos(6492,3189)"
-			script "lua/graph/objective/objective_generic_progress_update_by_entity_database.lua"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "unique_name_id"
-						value "rift_station_resetting"
-					}
-
-					StringData
-					{
-						key "entity_name"
-						value "_rift_station_"
-					}
-
-					StringData
-					{
-						key "field_name"
-						value "resetting"
-					}
-
-				}
-
-				Integers
-				{
 					IntData
 					{
-						value "100"
-					}
-
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
+						key "generate_type"
+						value "0"
 					}
 
 				}
 
-			}
-
-			self_id "objective_generic_progress_update_by_entity_database_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_generic_progress.xml)|pos(5946,3141)"
-			script "lua/graph/objective/objective_spawn.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -1042,6 +1097,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "unique_parent_id_name"
+						value
 					}
 
 					StringData
@@ -1052,53 +1108,47 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "progress_max"
-						value "100"
-					}
-
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "is_parent_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "is_global"
-						value "0"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_spawn.lua"
 			self_id "objective_generic_progress_2"
 		}
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(5580,2393)"
-			self_id "event_graph_2"
+			//editor "layout(event_graph.xml)|pos(5575,2643)"
 			graph "logic/objectives/build_rift_station_reenable.logic"
+			self_id "event_graph_2"
 			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
 		}
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(6300,2232)"
-			self_id "event_graph_3"
+			//editor "layout(event_graph.xml)|pos(6287,2443)"
 			graph "logic/missions/campaigns/story/headquarters_final_attack_normal.logic"
+			self_id "event_graph_3"
 			start_point "default"
+			validate_graph_resource "1"
 			database
 			{
 				Floats
@@ -1106,39 +1156,92 @@ FlowGraphTemplate
 					//editor "expanded(1)"
 					FloatData
 					{
-						//editor "layout(binding_float.xml)"
+						//editor "layout(binding_float.xml)|pos(0,0)"
 						key "end_timer"
 						value "0.00"
 					}
 
 				}
 
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
 			}
 
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_planetary_jump.xml)|pos(5474,607)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "state"
+						value "Disable"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_planetary_jump.lua"
+			self_id "mission_planetary_jump_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_planetary_jump.xml)|pos(6288,2337)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "state"
+						value "Disable"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_planetary_jump.lua"
+			self_id "mission_planetary_jump_2"
 		}
 
 	}
 
 	GraphConnections
 	{
-		logic_wait_2 "logic_wait_on_event_1"
-		objective_generic_progress_1 "logic_wait_1"
-		logic_wait_on_event_1 "objective_finish_0"
+		default "event_graph_0|event_graph_1|interface_dialogue_show_group_3|logic_event_send_0|logic_wait_on_event_1|logic_wait_on_event_2|mission_planetary_jump_1|objective_generic_progress_0"
+		event_graph_2 "event_graph_3|mission_planetary_jump_2|objective_generic_progress_1"
 		logic_wait_0 "event_end_0"
-		objective_if_progress_status_1###true "interface_dialogue_show_11"
-		objective_if_progress_status_2###true "interface_dialogue_show_12"
-		objective_if_progress_status_0###true "interface_dialogue_show_10"
-		event_graph_2 "event_graph_3|objective_generic_progress_1"
-		objective_generic_progress_2 "objective_generic_progress_update_by_entity_database_0"
-		default "event_graph_0|event_graph_1|interface_dialogue_show_group_3|logic_event_send_0|logic_wait_on_event_1|logic_wait_on_event_2|objective_generic_progress_0"
-		objective_if_progress_status_0 "objective_if_progress_status_0###true"
-		logic_wait_on_event_2 "event_graph_2"
-		objective_if_progress_status_1 "objective_if_progress_status_1###true"
 		logic_wait_1 "logic_wait_on_event_2"
-		objective_if_progress_status_2 "objective_if_progress_status_2###true"
+		logic_wait_2 "logic_wait_on_event_1"
+		logic_wait_on_event_1 "objective_finish_0"
+		logic_wait_on_event_2 "event_graph_2"
 		objective_finish_0 "logic_wait_2|objective_generic_progress_2"
 		objective_generic_progress_0 "generic_increase|logic_wait_on_event_0|objective_if_progress_status_0|objective_if_progress_status_1|objective_if_progress_status_2"
+		objective_generic_progress_1 "logic_wait_1"
+		objective_generic_progress_2 "objective_generic_progress_update_by_entity_database_0"
+		objective_if_progress_status_0 "objective_if_progress_status_0###true"
+		objective_if_progress_status_0###true "interface_dialogue_show_10"
+		objective_if_progress_status_1 "objective_if_progress_status_1###true"
+		objective_if_progress_status_1###true "interface_dialogue_show_11"
+		objective_if_progress_status_2 "objective_if_progress_status_2###true"
+		objective_if_progress_status_2###true "interface_dialogue_show_12"
 	}
 
+	GraphComments
 }
 
