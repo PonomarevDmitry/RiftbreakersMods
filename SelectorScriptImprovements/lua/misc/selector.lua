@@ -230,7 +230,7 @@ function  selector:OnSelectExit()
 end
 
 function selector:FindEntitiesToSelect( selectorComponent)
-    local self.position = selectorComponent.position
+    self.position = selectorComponent.position
 
     local min = VectorSub(self.position, self.boundsSize )
     local max = VectorAdd(self.position, self.boundsSize )
