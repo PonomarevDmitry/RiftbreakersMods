@@ -13,6 +13,177 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
+						key "player_buff"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "group"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/inventory/missing_icon"
+													stretch_proportional "1"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+													}
+
+													id "icon"
+													offset
+													{
+														x "-11.000"
+														y "-1.000"
+													}
+
+													size
+													{
+														x "42.000"
+														y "42.000"
+													}
+
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "group"
+										margin
+										{
+											x "1.000"
+										}
+
+										size
+										{
+											y "38.000"
+										}
+
+										size_mode_x "1"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/mech_power_well_buff_bg"
+										alignment "left"
+										anchor "left"
+										id "image"
+										offset
+										{
+											x "12.000"
+										}
+
+										size
+										{
+											x "32.000"
+											y "32.000"
+										}
+
+										size_mode_y "0"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "text"
+									value "GuiTextDef"
+									{
+										content "test"
+										style_name "hp_green"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "name"
+											}
+
+										}
+
+										color
+										{
+											w "0.800"
+										}
+
+										id "text"
+										margin
+										{
+											x "92.000"
+										}
+
+										z_order "3.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "timer"
+									value "GuiTextDef"
+									{
+										content "00:00"
+										style_name "quest_text"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "time_left"
+												converter "GuiSecondsToTimeStringConverter"
+											}
+
+										}
+
+										id "timer"
+										margin
+										{
+											x "40.000"
+										}
+
+										z_order "2.000"
+									}
+
+								}
+
+							}
+
+							id "player_buff"
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "subslot"
 						value "GuiGroupDef"
 						{
@@ -487,6 +658,34 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
+						key "player_buffs"
+						value "GuiStackPanelDef"
+						{
+							stack_type "1"
+							template_reference
+							{
+								path "#templates.player_buff"
+								ref_gui_id "gui/hud/equipment"
+								size_mode_x "1"
+								size_mode_y "1"
+							}
+
+							alignment "bottom_left"
+							id "player_buffs"
+							model_source "player_buffs"
+							offset
+							{
+								x "46.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "shield_icon"
 						value "GuiImageDef"
 						{
@@ -585,7 +784,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -610,7 +808,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -618,10 +815,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -633,7 +826,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -657,7 +849,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -665,10 +856,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -1227,7 +1414,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -1252,7 +1438,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -1260,10 +1445,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -1275,7 +1456,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -1299,7 +1479,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -1307,10 +1486,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -1860,7 +2035,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -1885,7 +2059,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -1893,10 +2066,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -1908,7 +2077,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -1932,7 +2100,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -1940,10 +2107,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -2303,7 +2466,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -2328,7 +2490,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -2336,10 +2497,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -2351,7 +2508,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -2375,7 +2531,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -2383,10 +2538,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -6921,7 +7072,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -6946,7 +7096,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -6954,10 +7103,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -6969,7 +7114,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -6993,7 +7137,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -7001,10 +7144,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -7084,9 +7223,100 @@ GuiDataDefinitions
 				key "ammo_string"
 			}
 
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[DDAE8D15-8BEB-4817-9D24-5C0BB3F7A1FD]/HudEquipmentPlayerBuff4"
+					default_value
+					{
+						typehash "2562052005"
+						Vector_[DDAE8D15-8BEB-4817-9D24-5C0BB3F7A1FD]/HudEquipmentPlayerBuff4
+						{
+							[DDAE8D15-8BEB-4817-9D24-5C0BB3F7A1FD]/HudEquipmentPlayerBuff
+							{
+								name "gui/hud/power_well_name/health"
+								time_left "0.000"
+								icon "gui/hud/power_well_health"
+							}
+
+							[DDAE8D15-8BEB-4817-9D24-5C0BB3F7A1FD]/HudEquipmentPlayerBuff
+							{
+								name "gui/hud/power_well_name/forcefield"
+								time_left "0.000"
+								icon "gui/hud/power_well_forcefield"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "player_buffs"
+			}
+
 		}
 
 		handle "[000FF981-B37A-4DDC-8BED-E0D16FAEE3B9]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "HudEquipmentPlayerBuff"
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/power_well_health"
+					}
+
+				}
+
+				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/enemy_skill_name/drones_lvl_2"
+					}
+
+				}
+
+				key "name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "float"
+					default_value
+					{
+						typehash "2797886853"
+						float "0.000"
+					}
+
+				}
+
+				key "time_left"
+			}
+
+		}
+
+		handle "[DDAE8D15-8BEB-4817-9D24-5C0BB3F7A1FD]"
 	}
 
 }

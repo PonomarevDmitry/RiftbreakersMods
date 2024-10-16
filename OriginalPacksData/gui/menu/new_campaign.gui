@@ -66,14 +66,14 @@ GuiRootGroupDef
 
 				Pair_String_String
 				{
-					key "button_streaming"
-					value "button_start"
+					key "button_back"
+					value "button_streaming"
 				}
 
 				Pair_String_String
 				{
-					key "button_back"
-					value "button_streaming"
+					key "button_streaming"
+					value "button_start"
 				}
 
 				Pair_String_String
@@ -128,7 +128,7 @@ GuiRootGroupDef
 				items_number "7"
 				alignment "buttons"
 				spacing "20.000"
-				default_sound "0"
+				navigable "0"
 				path "difficulty_frame.difficulty"
 			}
 
@@ -336,12 +336,6 @@ GuiRootGroupDef
 						key "description"
 						value "GuiTextBoxDef"
 						{
-							max_size
-							{
-								x "700.000"
-								y "187.000"
-							}
-
 							content "COMMON_Text_Line"
 							style
 							{
@@ -377,6 +371,12 @@ GuiRootGroupDef
 								x "20.000"
 								y "20.000"
 								z "20.000"
+							}
+
+							max_size
+							{
+								x "700.000"
+								y "187.000"
 							}
 
 							size_mode_x "2"
@@ -1902,8 +1902,12 @@ GuiRootGroupDef
 							{
 								visible
 								{
-									model_field "refresh_allowed"
-									converter "GuiButtonNodeEnablingConverter"
+									model_field "platform"
+									converter "GuiModelCompareConverter"
+									{
+										ref_value "win"
+									}
+
 								}
 
 							}
@@ -2888,6 +2892,25 @@ GuiDataDefinitions
 	{
 		name "ScreenModel"
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "win"
+					}
+
+				}
+
+				key "platform"
+			}
+
+		}
+
 		handle "[D612AA6D-6946-4C7A-AFF3-0F25DFEFB9C9]"
 	}
 

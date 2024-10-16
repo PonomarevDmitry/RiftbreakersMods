@@ -136,6 +136,20 @@ GuiRootGroupDef
 									{
 										error_material "gui/menu/research/icons/missing_icon"
 										material "gui/hud/aura_badge"
+										bindings
+										{
+											visible
+											{
+												model_field "is_player"
+												converter "GuiModelCompareConverter"
+												{
+													ref_value "0"
+												}
+
+											}
+
+										}
+
 										id "background"
 									}
 
@@ -143,31 +157,91 @@ GuiRootGroupDef
 
 								Pair_String_GuiDef2
 								{
-									key "image"
-									value "GuiImageDef"
+									key "size_holder"
+									value "GuiGroupDef"
 									{
-										error_material "gui/default"
-										material "gui/hud/items_icons/consumables/missing_icon"
-										alignment "center"
-										anchor "center"
-										bindings
+										children
 										{
-											material
+											Pair_String_GuiDef2
 											{
-												model_field "icon"
+												key "image"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icons/consumables/missing_icon"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+														visible
+														{
+															model_field "is_player"
+															converter "GuiModelCompareConverter"
+															{
+																ref_value "0"
+															}
+
+														}
+
+													}
+
+													id "image"
+													scale
+													{
+														x "0.600"
+														y "0.600"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "player_buff"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icons/consumables/missing_icon"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+														visible
+														{
+															model_field "is_player"
+														}
+
+													}
+
+													id "player_buff"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
 											}
 
 										}
 
-										id "image"
-										scale
+										id "size_holder"
+										size
 										{
-											x "0.600"
-											y "0.600"
+											x "48.000"
+											y "48.000"
 										}
 
-										size_mode_x "2"
-										size_mode_y "2"
 									}
 
 								}
@@ -266,11 +340,13 @@ GuiDataDefinitions
 							[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent
 							{
 								icon "gui/menu/inventory/stat_icons/area_damage_icon"
+								is_player "1"
 							}
 
 							[1C735673-7536-41BA-AC45-67D626C41C7D]/SkillLinkUnitComponent
 							{
 								icon "gui/hud/resource_icons/flammable_gas"
+								is_player "0"
 							}
 
 						}
@@ -306,6 +382,22 @@ GuiDataDefinitions
 				}
 
 				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_player"
 			}
 
 		}
