@@ -5,8 +5,6 @@ function skill_eggs:__init()
 	base_skill.__init(self, self)
 end
 
-
-
 function skill_eggs:OnInit()
     self.canSpawnEggs = false
     UnitSpawnerService:DisableUnitSpawner( self.entity )
@@ -35,8 +33,6 @@ function skill_eggs:TargetHasChangedEvent( evt )
         return
     end
     
-    LogService:Log( "self.targetCorpsesExist = false" )
-
     if ( self.currentTarget == INVALID_ID ) then
         UnitSpawnerService:DisableUnitSpawner( self.entity )
     else

@@ -36,6 +36,7 @@ function entity_spawn_single:init()
 	self.searchRadius = self.data:GetFloatOrDefault("search_radius", 0)
 
 	self.attach = self.data:GetIntOrDefault("attach_entity", 0)
+	self.displayMarkerArrow = self.data:GetIntOrDefault("display_marker_arrow", 1)
 
 	if self.searchTargetType == "LocalName" then
 		self.searchTargetType = "Name"
@@ -78,6 +79,13 @@ function entity_spawn_single:Activated()
 				EntityService:AttachEntity( self.entityId, entity,self.targetAttachment)
 			end
 			EntityService:SetPosition( self.entityId, 0, 0, 0)
+		end
+
+		if self.displayMarkerArrow ~= 1 then
+			local database = EntityService:GetDatabase( self.entityId )
+			if database then
+				database:SetInt( "display_marker_arrow", 0 )
+			end
 		end
 		
 		-- If SIngle Entity Switch is enabled then break the loop here

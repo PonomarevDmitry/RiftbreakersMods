@@ -13,7 +13,6 @@ function lift:OnInit()
 	self.forceHolding = false
 	self.backupObjectBlueprint = ""
 	self.missionName = ""
-	self.lastItemType = ""
 	self.lastItemEnt = INVALID_ID
 	self.aimEnt = INVALID_ID
 	self.objectEnt = INVALID_ID
@@ -93,7 +92,6 @@ function lift:OnLiftingEnter( state )
 	state:SetDurationLimit( 1.5 )
 	self:ShowHolderItems()
 	local ownerData = EntityService:GetDatabase( self.owner );
-	self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 	self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 	if ItemService:GetItemType( self.entity ) == "equipment" then
 		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
@@ -194,11 +192,7 @@ function lift:OnHoldingExit( state )
 	EffectService:AttachEffects( self.item, "on_throw" ) 
 	EffectService:DestroyEffectsByGroup( self.item, "holding" )
 
-	local ownerData = EntityService:GetDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
-	end
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 end
 
 function lift:OnDeactivationEnter( state )

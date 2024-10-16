@@ -13,6 +13,15 @@ function lift_object:init()
 	self.sm:AddState( "dummy", {} )
 end
 
+function lift_object:OnLoad()
+	if EntityService:HasComponent(self.entity, "InteractiveComponent" ) then
+		return
+	end
+
+	EntityService:PhysicsSleepNotify( self.entity, true )
+	EntityService:PhysicsWakeUp( self.entity )
+end
+
 function lift_object:OnInteractWithEntityRequest( evt )
 	BuildingService:RemoveGuiTimer( self.entity )
 	EntityService:RemoveComponent( self.entity, "LifeTimeComponent" )

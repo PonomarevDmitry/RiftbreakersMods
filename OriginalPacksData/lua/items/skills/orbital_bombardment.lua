@@ -20,12 +20,14 @@ function orbital_bombardment:Prepare()
     self.crosshairBp = self.data:GetStringOrDefault( "crosshair_bp", "" )
     self.crosshairRadius = self.data:GetFloatOrDefault( "crosshair_radius", 10.0 )
     self.delay = self.data:GetFloatOrDefault( "delay", 0.5 )
-	self.version = 1
     if self.fsm == nil then
 	    self.fsm = self:CreateStateMachine()
 		self.fsm:AddState( "bombardment", { from="*", enter="OnBombardmentEnter", exit="OnBombardmentExit" } )
 		self.fsm:AddState( "shoot", { from="*", enter="OnShootEnter", exit="OnShootExit"  } )
+	elseif self.fsm:GetState( "shoot" ) == nil then
+		self.fsm:AddState( "shoot", { from="*", enter="OnShootEnter", exit="OnShootExit"  } )
 	end
+	self.version = 1
 end
 
 function orbital_bombardment:OnBombardmentEnter( state )

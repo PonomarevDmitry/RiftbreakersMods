@@ -74,7 +74,11 @@ end
 function base_drone:OnLoad()
 	self:UpdateInitialState()
 
-	QueueEvent("DissolveEntityRequest", self.entity, 0.5, 0.0 )
+	self:UnlockAllTargets();
+	self:SetEnabled(false)
+	UnitService:SetCurrentTarget( self.entity, "action", INVALID_ID );
+
+	QueueEvent("DissolveEntityRequest", self.entity, 0.1, 0.0 )
 end
 
 function base_drone:OnOwnerDistanceCheckExecute()

@@ -57,7 +57,8 @@ function wreck_ground_unit:OnEnterResurrectAllow( state )
 end
 
 function wreck_ground_unit:OnExitResurrectAllow( state )
-	UnitService:SetStateMachineParam( self.entity, "can_be_resurrected", 1 )
+    local forceLeaveBody = UnitService:GetStateMachineParamInt(self.entity, "force_leave_body")
+    UnitService:SetStateMachineParam(self.entity, "can_be_resurrected", forceLeaveBody == 1 and 0 or 1)
 end
 
 

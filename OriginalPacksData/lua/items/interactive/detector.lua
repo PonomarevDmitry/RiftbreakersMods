@@ -18,8 +18,6 @@ function detector:OnInit()
 	self.effectScanner = INVALID_ID
 	self.type = ""
 	self.lastItemEnt = nil
-	self.poseType = ""
-	self.lastItemType = ""
 	self.lastFactor = 0
 end
 
@@ -38,8 +36,6 @@ function detector:OnActivate()
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
 		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
-		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
-		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
 	end
 	ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
 end
@@ -50,14 +46,8 @@ function detector:OnDeactivate( forced )
 	EntityService:RemoveEntity( self.effect )
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
 	self.effect = INVALID_ID
-	local ownerData = EntityService:GetDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		if self.poseType ~= "" then
-			ownerData:SetString( "RIGHT_HAND_pose_type", self.poseType )
-		end
-		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
-	end
+	
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	if (forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )

@@ -69,6 +69,7 @@ function repair_drone:FindActionTarget()
     self.fsm:Deactivate()
 
     local owner = self:GetDroneOwnerTarget();
+    self.temp_predicate_owner = owner;
     if not EntityService:IsAlive( owner ) then
         return INVALID_ID
     end
@@ -81,7 +82,7 @@ function repair_drone:FindActionTarget()
                return false
             end
 
-            if entity == owner then
+            if entity == self.temp_predicate_owner then
                 return false
             end 
 

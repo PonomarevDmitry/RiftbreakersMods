@@ -9,7 +9,6 @@ function harvester:__init()
 end
 
 function harvester:OnInit()
-	self.lastItemType = ""
 	self.lastItemEnt = nil
 
 	self.version = 1
@@ -62,7 +61,6 @@ function harvester:OnActivate()
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated() ) then
   		self:RegisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
-		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		self.sm:ChangeState("start")
 	end
@@ -77,11 +75,7 @@ function harvester:OnActivate()
 end
 
 function harvester:OnDeactivate()
-	local ownerData = EntityService:GetDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
-	end
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	EffectService:DestroyEffectsByGroup( self.item, "dig" )
 	self:UnregisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )

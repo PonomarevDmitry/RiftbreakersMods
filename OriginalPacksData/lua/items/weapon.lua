@@ -96,6 +96,10 @@ function weapon:UpdateWeaponFeedbackState( state, dt )
         end
     end
 
+    if ( PlayerService:IsInBuildMode( playerId ) ) then
+        return 
+    end
+
     if not WeaponService:HasAmmoToShoot( self.item ) then
         return PlayerService:SetPadTriggerFeedbackMode( playerId, self.pad_trigger.index, 0, 8 )
 	elseif ItemService:GetActiveCooldownLeft( self.entity ) > 1.2 then

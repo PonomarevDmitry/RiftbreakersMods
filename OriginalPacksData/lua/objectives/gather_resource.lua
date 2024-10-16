@@ -14,8 +14,12 @@ end
 
 function gather_resource:onUpdate()
 	self:FindMaxResource()
-	local resourceName = self.data:GetString( "resource_name" )
-	local progressCurrent = PlayerService:GetResourceAmount( resourceName )
+	local resourceNames = self.data:GetString( "resource_name" )
+	local resourceName = Split( resourceNames, "|" )
+	local progressCurrent = 0
+	for resource in Iter(resourceName) do
+		progressCurrent = progressCurrent + PlayerService:GetResourceAmount( resource )
+	end
 
     if ( progressCurrent >= self.maxProgress ) then
 	   if ( self.data:GetIntOrDefault( "finish_objective", 1) == 1) then
@@ -39,8 +43,13 @@ function gather_resource:FindMaxResource()
 	end
 
 	if ( self.data:GetIntOrDefault("is_additional", 0) == 1 ) then
-		local resourceName = self.data:GetString( "resource_name" )
-		self.data:SetInt("progress_max", self.data:GetInt( "progress_max" ) + PlayerService:GetResourceAmount( resourceName ))
+		local resourceNames = self.data:GetString( "resource_name" )
+		local resourceName = Split( resourceNames, "|" )
+		local progressCurrent = 0
+		for resource in Iter(resourceName) do
+			progressCurrent = progressCurrent + PlayerService:GetResourceAmount( resource )
+		end
+		self.data:SetInt("progress_max", self.data:GetInt( "progress_max" ) + progressCurrent)
 	end
 	self.maxProgress = self.data:GetInt( "progress_max" )
 

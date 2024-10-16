@@ -153,7 +153,7 @@ function loot_collector_drone:FindActionTarget()
         return INVALID_ID
     end
 
-    local pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
+    self.temp_pawn = PlayerService:GetPlayerControlledEnt(GetPlayerForEntity(owner))
 
     if IsRequestThrottled(LOCK_TYPE_LOOT_DRONE) then
         return INVALID_ID
@@ -176,7 +176,7 @@ function loot_collector_drone:FindActionTarget()
                 return false
             end
 
-            return self:ValidateTarget( entity, pawn) ;
+            return self:ValidateTarget( entity, self.temp_pawn) ;
         end
     };
 

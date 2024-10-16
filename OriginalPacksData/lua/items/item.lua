@@ -297,4 +297,28 @@ function item:CanActivate()
 	return true
 end
 
+function item:RestoreSlotTypeAndPose( slot_name, use_speed )
+	local item_type = "melee_weapon"
+	local item_pose = "melee"
+
+	local item_entity = ItemService:GetEquippedItem( self.owner, slot_name )
+	if EntityService:IsAlive( item_entity ) then
+		local item_component = EntityService:GetConstComponent( item_entity, "InventoryItemComponent")
+		if item_component ~= nil then
+			item_type = item_component:GetField("type"):GetValue() or ""
+			item_pose = item_component:GetField("holding_pose"):GetValue() or ""
+		end
+	end
+
+	local owner_data = EntityService:GetDatabase( self.owner );
+	if owner_data ~= nil then
+		owner_data:SetString( slot_name .. "_item_type", item_type )
+		owner_data:SetString( slot_name .. "_item_pose", item_pose )
+
+		if use_speed ~= nil then
+			owner_data:SetFloat( slot_name .. "_use_speed", tonumber(use_speed) )
+		end
+	end
+end
+
 return item

@@ -28,6 +28,7 @@ end
 
 function orbital_laser:OnBombardmentEnter( state )
 	self.targetPos = PlayerService:GetWeaponLookPoint( self.owner )
+	self.laserDir = PlayerService:GetAimDir( self.owner )
 	if self.crosshairBp ~= "" then
 		WeaponService:SpawnDangerMarker( self.crosshairBp, self.targetPos, self.crosshairRadius, self.delay )
 	end
@@ -39,9 +40,9 @@ function orbital_laser:OnBombardmentExit()
 	self.targetPos.y = 50
 	self.laser = EntityService:SpawnEntity( self.bp, self.targetPos, EntityService:GetTeam( self.owner ) )
 	EntityService:SetForward( self.laser, 0, -1, 0 )
-	local dir = PlayerService:GetAimDir( self.owner )
-	MoveService:MoveInDirection( self.laser, 5, 5, 5, dir )
-
+	if self.laserDir ~= nil then
+		MoveService:MoveInDirection( self.laser, 5, 5, 5, self.laserDir )
+	end
 	WeaponService:UpdateWeaponStatComponent( self.laser, self.laser )
 	WeaponService:StartShoot( self.laser )
 end

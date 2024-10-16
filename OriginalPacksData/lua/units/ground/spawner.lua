@@ -1,3 +1,5 @@
+require("lua/units/units_utils.lua")
+
 class 'spawner' ( LuaEntityObject )
 
 function spawner:__init()
@@ -23,6 +25,8 @@ function spawner:init()
 	if self.OnInit then
         self:OnInit( evt )
     end
+
+    SetupComponentFieldOverrides( self.entity, self.data )
 end
 
 function spawner:OnDestroyRequest( evt )

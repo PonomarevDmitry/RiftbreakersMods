@@ -9,7 +9,6 @@ function extractor:__init()
 end
 
 function extractor:OnInit()
-	self.lastItemType = ""
 	self.lastItemEnt = nil
 	self.interrupted = false
 
@@ -69,7 +68,6 @@ function extractor:OnActivate()
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated()  ) then
 		self:RegisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
-		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		self.sm:ChangeState("start")
 		self.interrupted = false
@@ -86,11 +84,7 @@ function extractor:OnActivate()
 end
 
 function extractor:OnDeactivate()
-	local ownerData = EntityService:GetDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0 );
-	end
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	EffectService:DestroyEffectsByGroup( self.item, "dig" )
 	self:UnregisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )

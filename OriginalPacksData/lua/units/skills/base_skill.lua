@@ -1,3 +1,6 @@
+require("lua/utils/table_utils.lua")
+require("lua/units/units_utils.lua")
+
 class 'base_skill' ( LuaEntityObject )
 
 function base_skill:__init()
@@ -5,7 +8,6 @@ function base_skill:__init()
 end
 
 function base_skill:init()
-
 	self:RegisterHandler( self.entity, "UnitAggressiveStateEvent",  "_OnUnitAggressiveStateEvent" )
 	self:RegisterHandler( self.entity, "UnitNotAggressiveStateEvent",  "_OnUnitNotAggressiveStateEvent" )
 	self:RegisterHandler( self.entity, "UnitDeadStateEvent",  "_OnUnitDeadStateEvent" )
@@ -20,6 +22,8 @@ function base_skill:init()
 
     local parent = EntityService:GetParent( self.entity )
     EntityService:SetTeam( self.entity, EntityService:GetTeam( parent ) )
+
+    SetupComponentFieldOverrides( self.entity, self.data )
 
     if self.OnInit then
 	    self:OnInit()

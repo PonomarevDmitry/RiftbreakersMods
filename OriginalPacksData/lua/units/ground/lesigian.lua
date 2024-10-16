@@ -41,7 +41,7 @@ end
 function lesigian:OnEnterTeleportEvent( evt )
 	if ( self.isTeleporting == false ) then
 		self.isTeleporting = true
-		QueueEvent( "FadeEntityOutRequest", self.entity, 1.0 )
+		EntityService:FadeEntity( self.entity, DD_FADE_OUT, 1.0 )
 		EffectService:AttachEffects( self.entity, "teleport" )
 	end
 end

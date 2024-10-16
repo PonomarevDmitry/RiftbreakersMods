@@ -213,7 +213,8 @@ function building_base:_OnSell(evt)
 		if ( self.isFloor )then
 			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, false, false )		
 		else
-			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, true , false )		
+			local createCubes = self.data:GetIntOrDefault( "create_cubes", 1 ) == 1
+			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, createCubes , false )		
 		end
 		self.cubeEnt = cubes.first
 	end

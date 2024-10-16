@@ -2,6 +2,7 @@ class 'camera_culling' ( LuaEntityObject )
 require("lua/utils/string_utils.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/numeric_utils.lua")
+require("lua/utils/table_utils.lua")
 
 function camera_culling:__init()
 	LuaEntityObject.__init(self, self)
@@ -25,6 +26,31 @@ function camera_culling:init()
 	self.sm = self:CreateStateMachine()
 	self.sm:AddState( "mech", { from="*", enter="OnEnter", execute="OnExecute" } )
 	self.sm:ChangeState( "mech" )
+
+	self.culledEntities = {}
+end
+
+function camera_culling:OnLoad()
+	self.culledEntities = self.culledEntities or {}
+end
+
+function camera_culling:EnableCameraCulling( owner, entity, enable )
+	local culledEntities = self.culledEntities[ owner ] or {}
+
+	if enable then
+		if IndexOf( culledEntities, entity ) ~= nil then return end
+
+		QueueEvent( "EnableCameraCulling", entity, self.entity )
+		table.insert( culledEntities, entity )
+
+		self.culledEntities[ owner ] = culledEntities
+	else
+		for culledEntity in Iter(culledEntities) do
+			QueueEvent( "DisableCameraCulling", culledEntity, self.entity )
+		end
+
+		self.culledEntities[ owner ] = nil
+	end
 end
 
 function camera_culling:OnEnteredTriggerEvent( evt )
@@ -38,7 +64,7 @@ function camera_culling:OnEnteredTriggerEvent( evt )
 		end
 	end
 
-    QueueEvent( "EnableCameraCulling", entity, self.entity )
+	self:EnableCameraCulling( entity, entity, true )
 
     if self.markChildren == 1 then
 		local children = EntityService:GetChildren( entity, false )
@@ -47,11 +73,11 @@ function camera_culling:OnEnteredTriggerEvent( evt )
 				if EntityService:IsAlive( child ) then
 					local pos = EntityService:GetPosition( child )
 					if pos.y >= self.checkChildPivotThreshold then
-						QueueEvent( "EnableCameraCulling", child, self.entity )
+						self:EnableCameraCulling( entity, child, true )
 					end
 				end
 			else
-				QueueEvent( "EnableCameraCulling", child, self.entity )
+				self:EnableCameraCulling( entity, child, true )
 			end
 		end
 	end
@@ -59,18 +85,10 @@ end
 
 function camera_culling:OnLeftTriggerEvent( evt )
 	local entity = evt:GetOtherEntity()
-    QueueEvent( "DisableCameraCulling", entity, self.entity )
-
-	if self.markChildren == 1 then
-		local children = EntityService:GetChildren( entity, false )
-		for child in Iter( children ) do
-    		QueueEvent( "DisableCameraCulling", child, self.entity )
-		end
-	end
+	self:EnableCameraCulling( entity, entity, false )
 end
 
 function camera_culling:OnEnter( state )
-
 end
 
 function camera_culling:OnExecute( state )

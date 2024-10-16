@@ -6,18 +6,12 @@ function spawner_swamp:__init()
 end
 
 function spawner_swamp:OnInit()
-
 	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
-	
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
-	    LogService:Log( "spawner_swamp:OnInit" )
 end
 
 function spawner_swamp:OnShootEvent( evt )
-
 	WeaponService:ShootOnce( self.entity )
-
-	LogService:Log( "spawner_swamp:OnShootEvent" )
 end
 
 return spawner_swamp

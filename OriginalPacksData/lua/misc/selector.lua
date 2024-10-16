@@ -195,13 +195,13 @@ function  selector:OnSelectExit()
 end
 
 function selector:FindEntitiesToSelect( selectorComponent)
-    local position = selectorComponent.position 
+    self.position = selectorComponent.position 
 
     self.predicate = self.predicate or {
         signature="SelectableComponent",
         filter = function(entity)
             local pos = EntityService:GetPosition(entity )
-            local distance = Distance( position, pos )
+            local distance = Distance( self.position, pos )
             
             if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
                 local bounds = EntityService:GetBoundsSize( entity )
@@ -209,7 +209,7 @@ function selector:FindEntitiesToSelect( selectorComponent)
                 return distance <= size
             end
 
-            if( EntityService:GetComponent( entity, "BuildingComponent" ) ~= nil ) then
+            if( EntityService:HasComponent( entity, "BuildingComponent" ) == true ) then
                 return false
             end
 
@@ -217,20 +217,27 @@ function selector:FindEntitiesToSelect( selectorComponent)
         end
     };
 
-    local min = VectorSub(position, self.boundsSize )
-    local max = VectorAdd(position, self.boundsSize )
+    local min = VectorSub(self.position, self.boundsSize )
+    local max = VectorAdd(self.position, self.boundsSize )
     local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
     if ( #possibleSelectedEnts == 0 ) then
-        local min = VectorSub(position, VectorMulByNumber( self.boundsSize, 0.5) )
-        local max = VectorAdd(position, VectorMulByNumber( self.boundsSize, 0.5) )
+        local min = VectorSub(self.position, VectorMulByNumber( self.boundsSize, 0.5) )
+        local max = VectorAdd(self.position, VectorMulByNumber( self.boundsSize, 0.5) )
         possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, self.predicate );
     end
-
+    if ( #possibleSelectedEnts == 0 ) then
+        local cellEntity = EnvironmentService:GetTerrainCell( self.position )
+        if ( EntityService:HasComponent( cellEntity, "GameplayResourceLayerComponent")) then
+            local resourceLayerComponent = reflection_helper(EntityService:GetComponent(cellEntity, "GameplayResourceLayerComponent"))
+            Insert(possibleSelectedEnts, resourceLayerComponent.ent.id )
+        end
+    end
+    
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition(lhs )
         local p2 = EntityService:GetPosition(rhs )
-        local d1 = Distance( position, p1 )
-        local d2 = Distance( position, p2 )
+        local d1 = Distance( self.position, p1 )
+        local d2 = Distance( self.position, p2 )
         return d1 < d2 
     end 
 
@@ -335,8 +342,13 @@ function selector:OperateSelection(selectedEntities, selectorComponent)
             if ( IndexOf( self.selectedEntities, entity ) == nil ) then -- select new entities
                 self:SelectEntity( entity )
             end
-            newPosition = VectorAdd( newPosition, EntityService:GetPosition(entity ))
-            diagonal = BuildingService:GetBuildingGridSize(entity)
+
+            if( EntityService:HasComponent( entity, "ResourceComponent" ) == true ) then
+                newPosition = self.position
+            else
+                newPosition = VectorAdd( newPosition, EntityService:GetPosition(entity ))
+                diagonal = BuildingService:GetBuildingGridSize(entity)
+            end
         end
     
         local mod = 1 / #selectedEntities

@@ -156,3 +156,15 @@ ConsoleService:RegisterCommand( "debug_change_world_bounds", function( args )
     }
 	QueueEvent( "LuaGlobalEvent", event_sink, "change_world_bounds", params )
 end)
+
+ConsoleService:RegisterCommand( "debug_set_creatures_difficulty_level", function( args )
+    if not Assert( #args == 1, "Command requires one argument!" ) then return end	
+    CampaignService:SetCreaturesBaseDifficulty( tonumber( args[1] ) )
+end)
+
+g_debug_change_biome_for_skill_overrides = ""
+ConsoleService:RegisterCommand( "debug_change_biome_for_skill_overrides", function( args )
+    if not Assert( #args == 1, "Command requires two arguments! [biome_name]" ) then return end
+
+    g_debug_change_biome_for_skill_overrides = args[1]
+end)

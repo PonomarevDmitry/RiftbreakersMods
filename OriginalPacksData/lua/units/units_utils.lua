@@ -10,3 +10,23 @@ function SetupUnitScale( entity, database )
 		EntityService:SetPhysicsScale( child, x, x, x )
 	end
 end
+
+function SetupComponentFieldOverrides(entity, database)
+    local biome_name = MissionService:GetCurrentBiomeName()
+    if g_debug_change_biome_for_skill_overrides ~= "" then
+        biome_name = g_debug_change_biome_for_skill_overrides
+    end
+
+    local key = "biome_override." .. biome_name
+    if database:HasString( key ) then
+        local spawner_component = EntityService:GetComponent( entity, "UnitsSpawnerComponent")
+        if spawner_component ~= nil then
+            spawner_component:GetField("blueprint"):SetValue( database:GetString( key ) )
+        end
+
+        local resurrect_component = EntityService:GetComponent( entity, "ResurrectUnitComponent")
+        if resurrect_component ~= nil then
+            resurrect_component:GetField("summon_bp"):SetValue( database:GetString( key ) )
+        end
+    end
+end

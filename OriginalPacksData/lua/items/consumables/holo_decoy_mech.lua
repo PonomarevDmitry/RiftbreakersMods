@@ -18,7 +18,9 @@ function holo_decoy_mech:init()
 	self.explodeTime = self.data:GetFloatOrDefault( "explode_time", 10 )
 	self.sm = self:CreateStateMachine()
 	self.sm:AddState( "decoy", { enter="OnDecoyStart", exit="OnDecoyEnd" } )
-	self.sm:ChangeState( "decoy" )
+	if self.data:HasFloat("explode_time") then 
+		self.sm:ChangeState( "decoy" )
+		end
 	
 	local pawn = PlayerService:GetPlayerControlledEnt( 0 )
 	if (EntityService:IsAlive( pawn ) == false ) then return end

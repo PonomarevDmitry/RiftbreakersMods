@@ -17,8 +17,10 @@ end
 
 function grenade:OnActivate()
 	local entity = WeaponService:ThrowGrenade( self.bp , self.owner, self.att )
-	ItemService:SetItemCreator( entity, self.entity_blueprint );
-	EntityService:PropagateEntityOwner( entity, self.owner )
+	if entity ~= INVALID_ID then
+		ItemService:SetItemCreator( entity, self.entity_blueprint )
+		EntityService:PropagateEntityOwner( entity, self.owner )
+	end
 end
 
 function grenade:OnDeactivate()

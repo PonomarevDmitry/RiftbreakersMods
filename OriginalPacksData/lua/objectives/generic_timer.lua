@@ -11,7 +11,7 @@ function generic_timer:init()
 	self.fsm:ChangeState( "update" )
 	
 	self.currentTime = self.data:GetFloat( "time_max" )
-	self.data:SetFloat( "time_current", self.currentTime )
+	self.data:SetFloat( "timer_deadline", GetLogicTime() + self.currentTime )
 
 	self.stringToObjectiveState =
 	{
@@ -23,13 +23,15 @@ function generic_timer:init()
 	self.objectiveState = self.stringToObjectiveState[ self.data:GetString( "objective_state" ) ];
 end
 
+function generic_timer:OnLoad()
+	self.data:SetFloat( "timer_deadline", GetLogicTime() + self.currentTime )
+end
+
 function generic_timer:onUpdate( state, dt )
 	self.currentTime = self.currentTime - dt
 	if ( self.currentTime < 0 ) then
 		self.currentTime = 0
 	end
-
-	self.data:SetFloat( "time_current", self.currentTime )
 
     if ( self.currentTime == 0 ) then   
 		ObjectiveService:FinishObjectiveByObjectiveId( self.objective_id, self.objectiveState )

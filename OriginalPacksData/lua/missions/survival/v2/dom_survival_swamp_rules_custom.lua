@@ -34,18 +34,9 @@ return function()
 		waveTime,  -- difficulty level 9	
 	}
 
-	rules.maxAttackCountPerDifficulty = 
-	{			
-		1 * attackCountMultiplier,  -- difficulty level 1
-		2 * attackCountMultiplier,  -- difficulty level 2
-		2 * attackCountMultiplier,  -- difficulty level 3		
-		2 * attackCountMultiplier,  -- difficulty level 4
-		2 * attackCountMultiplier,  -- difficulty level 5
-		2 * attackCountMultiplier,  -- difficulty level 6
-		3 * attackCountMultiplier,  -- difficulty level 7
-		3 * attackCountMultiplier,  -- difficulty level 8
-		3 * attackCountMultiplier,  -- difficulty level 9
-	}
+	for i = 1, #rules.maxAttackCountPerDifficulty, 1 do
+		rules.maxAttackCountPerDifficulty[i] = rules.maxAttackCountPerDifficulty[i] * attackCountMultiplier
+	end
 
     return rules;
 end
