@@ -117,8 +117,10 @@ function grenades_pack:OnActivate()
         table.remove( self.grenadesToThrow, 1 )
 
         local entity = WeaponService:ThrowGrenade( grenadeBlueprint, self.owner, "att_grenade" )
-        ItemService:SetItemCreator( entity, self.entity_blueprint )
-        EntityService:PropagateEntityOwner( entity, self.owner )
+        if ( entity ~= INVALID_ID ) then
+            ItemService:SetItemCreator( entity, self.entity_blueprint )
+            EntityService:PropagateEntityOwner( entity, self.owner )
+        end
 
         if ( #self.grenadesToThrow > 0 ) then
 
@@ -198,8 +200,10 @@ function grenades_pack:OnThrowExecute( state )
     table.remove( self.grenadesToThrow, 1 )
 
     local entity = WeaponService:ThrowGrenade( grenadeBlueprint, self.owner, "att_grenade" )
-    ItemService:SetItemCreator( entity, self.entity_blueprint )
-    EntityService:PropagateEntityOwner( entity, self.owner )
+    if ( entity ~= INVALID_ID ) then
+        ItemService:SetItemCreator( entity, self.entity_blueprint )
+        EntityService:PropagateEntityOwner( entity, self.owner )
+    end
 end
 
 return grenades_pack
