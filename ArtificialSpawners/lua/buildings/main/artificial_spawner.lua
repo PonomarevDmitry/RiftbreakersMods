@@ -74,6 +74,43 @@ function artificial_spawner:OnInteractWithEntityRequest( event )
     self:SpawnWaves()
 end
 
+function artificial_spawner:SpawnWaveLogicFiles( waveLogic, waveLogicMul, spawnDistance, ignoreWater )
+
+    if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
+
+        --LogService:Log( "artificial_spawner:OnHarvestStartEvent - exist : " .. tostring( waveLogic ) )
+
+        local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, spawnDistance, waveLogicMul, ignoreWater )
+
+        for i = 1, #spawnPoint do
+
+            local point = spawnPoint[i]
+
+            if ( point ~= INVALID_ID ) then
+
+                self.data:SetString( "spawn_point", EntityService:GetName( point ) )
+                MissionService:ActivateMissionFlow( "", waveLogic, "default", self.data )
+
+                local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
+
+                local db = EntityService:GetDatabase( pathCleaner )
+                db:SetString( "to_entity", tostring( point ) )
+                db:SetString( "from_entity", tostring( self.entity ) )
+
+            else
+                LogService:Log( "artificial_spawner:OnHarvestStartEvent - could not create a spawn point." )
+            end
+        end
+
+        return true
+
+    elseif ( waveLogic ~= "error" ) then
+        LogService:Log( "artificial_spawner:OnHarvestStartEvent - file does not exist : " .. waveLogic )
+    end
+
+    return false
+end
+
 function artificial_spawner:SpawnWaves()
 
     local cooldown = 5
@@ -90,8 +127,10 @@ function artificial_spawner:SpawnWaves()
         local blueprintDatabase = EntityService:GetBlueprintDatabase( blueprintName )
 
         local waveLogic			= blueprintDatabase:GetStringOrDefault( "wave_logic_file", "error" )
+        local bossLogic			= blueprintDatabase:GetStringOrDefault( "boss_logic_file",  "error" )
         local waveLogicMul		= blueprintDatabase:GetIntOrDefault( "wave_logic_file_mul", 1 )
-        local waterOverride		= self.data:GetIntOrDefault( "water_override", 0 )
+        local bossLogicMul		= blueprintDatabase:GetIntOrDefault( "boss_logic_file_mul",  0 )
+        local waterOverride		= blueprintDatabase:GetIntOrDefault( "water_override", 0 )
         local waveSpawnDistance = blueprintDatabase:GetIntOrDefault( "wave_spawn_distance", 40 )
 
         local ignoreWater = false
@@ -112,38 +151,13 @@ function artificial_spawner:SpawnWaves()
             waveEffect = blueprintDatabase:GetString( "wave_started_effect" ) or ""
         end
 
-        if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
-
-            local spawnPointArray = UnitService:CreateDynamicSpawnPoints( self.entity, waveSpawnDistance, waveLogicMul, ignoreWater )
-
-            for i = 1, #spawnPointArray do
-
-                local point = spawnPointArray[i]
-
-                if ( point ~= INVALID_ID ) then
-
-                    self.data:SetString( "spawn_point", EntityService:GetName( point ) )
-
-                    MissionService:ActivateMissionFlow( "", waveLogic, "default", self.data )
-
-                    local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
-
-                    local db = EntityService:GetDatabase( pathCleaner )			
-                    db:SetString( "to_entity", tostring( point ) )
-                    db:SetString( "from_entity", tostring( self.entity ) )
-
-                else
-                    LogService:Log( "artificial_spawner:OnHarvestStartEvent - could not create a spawn point." )
-                end
-            end
-        else
-            LogService:Log( "artificial_spawner:OnHarvestStartEvent - file does not exist : " .. tostring( waveLogic ) )
-        end
+        self:SpawnWaveLogicFiles( waveLogic, waveLogicMul, waveSpawnDistance, ignoreWater )
+        self:SpawnWaveLogicFiles( bossLogic, bossLogicMul, waveSpawnDistance, ignoreWater )
     end
-    
+
     local delay = self.data:GetFloatOrDefault( "delay", 0 )
 
-    
+
     if ( waveEffect ~= "" ) then
         EffectService:SpawnEffect(self.entity, waveEffect);
     end
