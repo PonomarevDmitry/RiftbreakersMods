@@ -619,6 +619,16 @@ end
 
 function upgrade_all_map_cat_upgrader_tool:CreateMarkEntity( building )
 
+    local blueprintName = EntityService:GetBlueprintName( building )
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+
+    if ( buildingDescRef.limit_name == "hq" ) then
+        return
+    end
+
     local markerBlueprintName = "misc/marked_building_to_upgrade_minimap_icon"
 
     local childreen = EntityService:GetChildren(building, true)
