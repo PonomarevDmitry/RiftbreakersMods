@@ -390,66 +390,66 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
     return entities
 end
 
-function picker_tool:OnActivateSelectorRequest()
+picker_tool.isBuilding = function( entity )
+    if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-    local isBuilding = function( entity )
-        if( EntityService:GetGroup( entity ) == "##ruins##" ) then
+        return false
+    end
 
-            return false
-        end
+    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
-        if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
+        return false
+    end
 
-            return false
-        end
+    if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
 
-        if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+        return false
+    end
 
-            return false
-        end
+    return true
+end
+
+picker_tool.isRuins = function ( entity )
+
+    if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
         return true
     end
 
-    local isRuins = function ( entity )
+    return false
+end
 
-        if( EntityService:GetGroup( entity ) == "##ruins##" ) then
+picker_tool.isResource = function ( entity )
 
-            return true
-        end
+    if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
 
-        return false
+        return true
     end
 
-    local isResource = function ( entity )
+    return false
+end
 
-        if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
+picker_tool.isResourceVolume = function ( entity )
 
-            return true
-        end
+    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
-        return false
+        return true
     end
 
-    local isResourceVolume = function ( entity )
+    return false
+end
 
-        if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
+function picker_tool:OnActivateSelectorRequest()
 
-            return true
-        end
-
-        return false
-    end
-
-    if ( self:ChangeSelectorToEntityByFilter( isBuilding ) ) then
+    if ( self:ChangeSelectorToEntityByFilter( self.isBuilding ) ) then
         return
     end
 
-    if ( self:ChangeSelectorToEntityByFilter( isRuins ) ) then
+    if ( self:ChangeSelectorToEntityByFilter( self.isRuins ) ) then
         return
     end
 
-    if ( self:ChangeSelectorToEntityByFilter( isResource ) ) then
+    if ( self:ChangeSelectorToEntityByFilter( self.isResource ) ) then
         return
     end
 
@@ -476,7 +476,7 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
-    if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
+    if ( self:ChangeSelectorToEntityByFilter( self.isResourceVolume ) ) then
         return
     end
 
