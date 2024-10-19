@@ -453,6 +453,29 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
+    local currentEntityPosition = EntityService:GetPosition( self.entity )
+
+    local terrainCellEntityId = EnvironmentService:GetTerrainCell(currentEntityPosition)
+
+    if ( EntityService:HasComponent( terrainCellEntityId, "GameplayResourceLayerComponent")) then
+
+        local gameplayResourceLayerComponentRef = reflection_helper(EntityService:GetComponent(terrainCellEntityId, "GameplayResourceLayerComponent"))
+
+        if ( gameplayResourceLayerComponentRef.resource ~= nil and gameplayResourceLayerComponentRef.resource.resource ~= nil and gameplayResourceLayerComponentRef.resource.resource.id ~= nil ) then
+
+            local resourceId = gameplayResourceLayerComponentRef.resource.resource.id or ""
+
+            if ( resourceId ~= "" ) then
+
+                local blueprintName = self:GetMineBlueprintName( resourceId, self.resourceBluprintsNames ) or ""
+
+                if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                    return
+                end
+            end
+        end
+    end
+
     if ( self:ChangeSelectorToEntityByFilter( isResourceVolume ) ) then
         return
     end
@@ -462,11 +485,9 @@ function picker_tool:OnActivateSelectorRequest()
 
 
 
-    local currentBiome = MissionService:GetCurrentBiomeName()
 
-    local currentEntityPosition = EntityService:GetPosition( self.entity )
 
-    local terrainType, overrideTerrains = self:GetTerrainTypes( currentEntityPosition )
+    local terrainType, overrideTerrains = self:GetTerrainTypes( terrainCellEntityId )
 
     local isQuickSand = (terrainType == "quicksand")
     local hasDesertFloor = (IndexOf( overrideTerrains, "desert_floor" ) ~= nil)
@@ -520,7 +541,9 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
+    
 
+    local currentBiome = MissionService:GetCurrentBiomeName()
 
     if ( currentBiome == "caverns" ) then
 
@@ -554,12 +577,10 @@ function picker_tool:OnActivateSelectorRequest()
     end
 end
 
-function picker_tool:GetTerrainTypes( position )
+function picker_tool:GetTerrainTypes( terrainCellEntityId )
 
     local terrainType = ""
     local overrideTerrains = {}
-
-    local terrainCellEntityId = EnvironmentService:GetTerrainCell(position)
 
     if ( terrainCellEntityId ~= nil and terrainCellEntityId ~= INVALID_ID ) then
 
@@ -634,16 +655,26 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
 
     if ( EntityService:HasComponent( entity, "ResourceComponent" ) ) then
 
-        local blueprintName = self:GetMineBlueprintName( entity, self.resourceBluprintsNames ) or ""
+        local resourceId = self:GetLinkedResource(entity)
 
-        return blueprintName
+        if ( resourceId ~= "" ) then
+
+            local blueprintName = self:GetMineBlueprintName( resourceId, self.resourceBluprintsNames ) or ""
+
+            return blueprintName
+        end
     end
 
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
-        local blueprintName = self:GetMineBlueprintName( entity, self.resourceVolumeBluprintsNames ) or ""
+        local resourceId = self:GetLinkedResource(entity)
 
-        return blueprintName
+        if ( resourceId ~= "" ) then
+
+            local blueprintName = self:GetMineBlueprintName( resourceId, self.resourceVolumeBluprintsNames ) or ""
+
+            return blueprintName
+        end
     end
 
     return EntityService:GetBlueprintName(entity)
@@ -688,55 +719,55 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
     return true
 end
 
-function picker_tool:GetMineBlueprintName( entity, selectedBluprintsNames )
+function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
 
-    local resourceId = self:GetLinkedResource(entity)
+    if ( resourceId == "" ) then
 
-    if ( resourceId ~= "" ) then
+        return ""
+    end
 
-        for lowName in Iter( selectedBluprintsNames ) do
+    for lowName in Iter( selectedBluprintsNames ) do
 
-            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
-            if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
-                goto continue
-            end
-
-            local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
-            if ( buildingDesc == nil ) then
-                goto continue
-            end
-
-            local buildingDescRef = reflection_helper( buildingDesc )
-
-            local resourceRequirement = buildingDescRef.resource_requirement
-            if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
-                goto continue
-            end
-
-            local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
-            if ( not isResourceRequired ) then
-                goto continue
-            end
-
-            if ( resourceId == "mud_vein" ) then
-
-                local lastLowName = self:GetLastMudVeinExtractor()
-
-                if ( lastLowName == lowName ) then
-
-                    goto continue
-                end
-
-                self:SetLastMudVeinExtractor(lowName)
-            end
-
-            do
-                return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-            end
-
-            ::continue::
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
+            goto continue
         end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        local resourceRequirement = buildingDescRef.resource_requirement
+        if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
+            goto continue
+        end
+
+        local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
+        if ( not isResourceRequired ) then
+            goto continue
+        end
+
+        if ( resourceId == "mud_vein" ) then
+
+            local lastLowName = self:GetLastMudVeinExtractor()
+
+            if ( lastLowName == lowName ) then
+
+                goto continue
+            end
+
+            self:SetLastMudVeinExtractor(lowName)
+        end
+
+        do
+            return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+        end
+
+        ::continue::
     end
 
     --if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
