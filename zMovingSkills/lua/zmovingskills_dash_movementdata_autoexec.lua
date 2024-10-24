@@ -21,7 +21,7 @@ local InjectChangeMovingSkillBlueprintSpecialMovementDataComponent = function(bl
     
         local specialMovementDataComponentRef = reflection_helper(specialMovementDataComponent)
 
-        specialMovementDataComponentRef.max_speed.base = "75"
+        specialMovementDataComponentRef.max_speed.base = "100"
         specialMovementDataComponentRef.max_time = "0.5"
 
         --LogService:Log(tostring(specialMovementDataComponentRef))
