@@ -450,6 +450,37 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
             goto continue
         end
 
+        local resourceRequirement = buildingDescRef.resource_requirement
+        if ( resourceRequirement ~= nil or resourceRequirement.count > 0 ) then
+
+            local buildingStatusComponent = EntityService:GetComponent( entity, "BuildingStatusComponent" )
+            if ( buildingStatusComponent ~= nil ) then
+
+                local buildingStatusComponentRef = reflection_helper( buildingStatusComponent )
+
+                if ( buildingStatusComponentRef ~= nil and buildingStatusComponentRef.status and buildingStatusComponentRef.status.missing_resources and buildingStatusComponentRef.status.missing_resources.count > 0 ) then
+
+                    for i = 1,resourceRequirement.count do
+
+                        local resource = resourceRequirement[i] or ""
+
+                        if ( resource ~= "" ) then
+
+                            for j = 1,buildingStatusComponentRef.status.missing_resources.count do
+
+                                local missingResource = buildingStatusComponentRef.status.missing_resources[j] or ""
+
+                                if ( missingResource ~= "" and missingResource == resource ) then
+
+                                    goto continue
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
         Insert( result, entity )
 
         ::continue::

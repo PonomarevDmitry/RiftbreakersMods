@@ -387,6 +387,39 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
         return false
     end
 
+    local buildingDescRef = reflection_helper( buildingDesc )
+
+    local resourceRequirement = buildingDescRef.resource_requirement
+    if ( resourceRequirement ~= nil or resourceRequirement.count > 0 ) then
+
+        local buildingStatusComponent = EntityService:GetComponent( entity, "BuildingStatusComponent" )
+        if ( buildingStatusComponent ~= nil ) then
+
+            local buildingStatusComponentRef = reflection_helper( buildingStatusComponent )
+
+            if ( buildingStatusComponentRef ~= nil and buildingStatusComponentRef.status and buildingStatusComponentRef.status.missing_resources and buildingStatusComponentRef.status.missing_resources.count > 0 ) then
+
+                for i = 1,resourceRequirement.count do
+
+                    local resource = resourceRequirement[i] or ""
+
+                    if ( resource ~= "" ) then
+
+                        for j = 1,buildingStatusComponentRef.status.missing_resources.count do
+
+                            local missingResource = buildingStatusComponentRef.status.missing_resources[j] or ""
+
+                            if ( missingResource ~= "" and missingResource == resource ) then
+
+                                return false
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
     local isGroup = (self.selectedMode == self.modeBuildingGroup)
 
     if ( isGroup ) then
@@ -396,8 +429,6 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
         end
 
         if ( self.selectedType == "tower" or self.selectedType == "trap" or self.selectedType == "gate" ) then
-
-            local buildingDescRef = reflection_helper( buildingDesc )
 
             if ( buildingDescRef.type == self.selectedType ) then
                 return true
