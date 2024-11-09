@@ -83,6 +83,10 @@ function ghost_building:OnInit()
     if ( lowName == "wall_gate" and mod_building_gateconstruction ~= nil and mod_building_gateconstruction == 1 ) then
         self.isBuildingGate = true
     end
+
+    if ( mod_ghost_building_count ~= nil and mod_ghost_building_count == 1 ) then
+        self.currentMarkerBuildingCount = EntityService:SpawnAndAttachEntity( "misc/ghost_building_menu", self.selector )
+    end
 end
 
 function ghost_building:OnBuildingStartEvent( evt )
@@ -332,6 +336,8 @@ function ghost_building:OnUpdate()
                 self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * countBuildable )
             end
         end
+
+        self:UpdateBuildingCount( #arrayX * #arrayZ )
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
@@ -342,6 +348,8 @@ function ghost_building:OnUpdate()
         end
 
         BuildingService:CheckAndFixBuildingConnection(self.entity)
+
+        self:UpdateBuildingCount( 0 )
     end
 
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
@@ -362,6 +370,34 @@ function ghost_building:OnUpdate()
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
+end
+
+function ghost_building:UpdateBuildingCount( buildingCount )
+
+    if ( self.currentMarkerBuildingCount == nil) then
+        return
+    end
+
+    local markerDB = EntityService:GetDatabase( self.currentMarkerBuildingCount )
+
+    if ( markerDB == nil ) then
+        return
+    end
+
+    if ( buildingCount == 0 ) then
+
+        markerDB:SetInt("building_visible", 0)
+        markerDB:SetString("message_text", "")
+        return
+    end
+
+    
+    local menuIcon = self.desc.menu_icon
+    
+    local messageText = '<img="' .. menuIcon .. '">x' .. tostring(buildingCount)
+
+    markerDB:SetInt("building_visible", 1)
+    markerDB:SetString("message_text", messageText)
 end
 
 function ghost_building:IsInvertTransform( exitVector, possibleSelectedEnts, positionX, positionZ )
@@ -972,6 +1008,11 @@ function ghost_building:OnRelease()
 
         EntityService:RemoveEntity(self.currentMarkerGaps)
         self.currentMarkerGaps = nil
+    end
+
+    if ( self.currentMarkerBuildingCount ~= nil) then
+        EntityService:RemoveEntity(self.currentMarkerBuildingCount)
+        self.currentMarkerBuildingCount = nil
     end
 
     self.gridEntities = {}
