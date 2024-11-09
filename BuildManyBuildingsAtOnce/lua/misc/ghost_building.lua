@@ -86,6 +86,7 @@ function ghost_building:OnInit()
 
     if ( mod_ghost_building_count ~= nil and mod_ghost_building_count == 1 ) then
         self.currentMarkerBuildingCount = EntityService:SpawnAndAttachEntity( "misc/ghost_building_menu", self.selector )
+        EntityService:SetPosition( self.currentMarkerBuildingCount, -gridSize.x, 0, gridSize.z )
     end
 end
 
@@ -360,8 +361,11 @@ function ghost_building:OnUpdate()
     end
 
     local gridSize = BuildingService:GetBuildingGridSize(self.entity)
-
+    
     EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z)
+    if ( self.currentMarkerBuildingCount ~= nil ) then
+        EntityService:SetPosition( self.currentMarkerBuildingCount, -gridSize.x, 0, gridSize.z)
+    end
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
