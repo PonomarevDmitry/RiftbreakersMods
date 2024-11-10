@@ -1,1 +1,0 @@
-mod_ghost_building_count = 1
