@@ -84,10 +84,8 @@ function ghost_building:OnInit()
         self.isBuildingGate = true
     end
 
-    if ( mod_ghost_building_count ~= nil and mod_ghost_building_count == 1 ) then
-        self.currentMarkerBuildingCount = EntityService:SpawnAndAttachEntity( "misc/ghost_building_menu", self.selector )
-        EntityService:SetPosition( self.currentMarkerBuildingCount, -gridSize.x, 0, gridSize.z )
-    end
+    self.currentMarkerBuildingCount = EntityService:SpawnAndAttachEntity( "misc/ghost_building_menu", self.selector )
+    EntityService:SetPosition( self.currentMarkerBuildingCount, -gridSize.x, 0, gridSize.z )
 end
 
 function ghost_building:OnBuildingStartEvent( evt )
@@ -338,7 +336,7 @@ function ghost_building:OnUpdate()
             end
         end
 
-        self:UpdateBuildingCount( #arrayX * #arrayZ )
+        self:UpdateBuildingCount( #arrayX * #arrayZ, countBuildable )
     else
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
@@ -350,7 +348,7 @@ function ghost_building:OnUpdate()
 
         BuildingService:CheckAndFixBuildingConnection(self.entity)
 
-        self:UpdateBuildingCount( 0 )
+        self:UpdateBuildingCount( 0, 0 )
     end
 
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
@@ -376,7 +374,7 @@ function ghost_building:OnUpdate()
     end
 end
 
-function ghost_building:UpdateBuildingCount( buildingCount )
+function ghost_building:UpdateBuildingCount( totalBuildings, countBuildable )
 
     if ( self.currentMarkerBuildingCount == nil) then
         return
@@ -388,7 +386,7 @@ function ghost_building:UpdateBuildingCount( buildingCount )
         return
     end
 
-    if ( buildingCount == 0 ) then
+    if ( totalBuildings == 0 ) then
 
         markerDB:SetInt("building_visible", 0)
         markerDB:SetString("message_text", "")
@@ -398,7 +396,7 @@ function ghost_building:UpdateBuildingCount( buildingCount )
     
     local menuIcon = self.desc.menu_icon
     
-    local messageText = '<img="' .. menuIcon .. '">x' .. tostring(buildingCount)
+    local messageText = '<img="' .. menuIcon .. '"> ${gui/hud/ghost_building_menu/total} ' .. tostring(totalBuildings) .. ' ${gui/hud/ghost_building_menu/buildable} ' .. tostring(countBuildable)
 
     markerDB:SetInt("building_visible", 1)
     markerDB:SetString("message_text", messageText)
