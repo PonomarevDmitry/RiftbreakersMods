@@ -72,8 +72,20 @@ function buildings_builder_mass_tool:InitializeValues()
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity, false )
 
-    local markerBlueprint = "misc/marker_selector_buildings_builder_mass_tool_" .. self.marker
+    local markerBlueprint = "misc/marker_selector_buildings_builder_mass_tool"
     self.markerEntity = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+    local number = tonumber(self.marker)
+    local firstNumber = math.floor( number / 10 )
+    local secondNumber = number % 10
+
+    if ( firstNumber ~= 0 ) then
+        markerBlueprint = "misc/marker_buildings_templates_numbers_" .. tostring(firstNumber) .. "x"
+        self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+    end
+
+    markerBlueprint = "misc/marker_buildings_templates_numbers_x" .. tostring(secondNumber)
+    self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
 
     self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -1, 0, 1 )
@@ -1394,6 +1406,16 @@ function buildings_builder_mass_tool:OnRelease()
     if ( self.markerEntity ~= nil ) then
         EntityService:RemoveEntity(self.markerEntity)
         self.markerEntity = nil
+    end
+
+    if ( self.firstNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.firstNumberEntity)
+        self.firstNumberEntity = nil
+    end
+
+    if ( self.secondNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.secondNumberEntity)
+        self.secondNumberEntity = nil
     end
 
     for buildingTemplate in Iter(self.templateEntities) do
