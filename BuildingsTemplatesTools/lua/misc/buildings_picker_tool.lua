@@ -12,9 +12,22 @@ end
 function buildings_picker_tool:OnInit()
 
     self.marker = self.data:GetString("marker")
-    local markerBlueprint = "misc/marker_selector_buildings_picker_tool_" .. self.marker
+    local markerBlueprint = "misc/marker_selector_buildings_picker_tool"
 
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+
+    local number = tonumber(self.marker)
+    local firstNumber = math.floor( number / 10 )
+    local secondNumber = number % 10
+
+    if ( firstNumber ~= 0 ) then
+        markerBlueprint = "misc/marker_buildings_templates_numbers_" .. tostring(firstNumber) .. "x"
+        self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+    end
+
+    markerBlueprint = "misc/marker_buildings_templates_numbers_x" .. tostring(secondNumber)
+    self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
     self.popupShown = false
 
     self.templateEntities = {}
@@ -708,6 +721,17 @@ function buildings_picker_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
+        self.childEntity = nil
+    end
+
+    if ( self.firstNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.firstNumberEntity)
+        self.firstNumberEntity = nil
+    end
+
+    if ( self.secondNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.secondNumberEntity)
+        self.secondNumberEntity = nil
     end
 
     if ( buildings_tool_base.OnRelease ) then
