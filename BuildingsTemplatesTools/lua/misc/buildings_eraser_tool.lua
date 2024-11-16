@@ -25,7 +25,9 @@ function buildings_eraser_tool:OnInit()
     self.templateFormat = self.data:GetString("template_format")
 
     self.currentChildTemplate = ""
-    self.childEntity = nil
+
+    local markerBlueprint = "misc/marker_selector_buildings_eraser_tool"
+    self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
     self:UpdateMarker()
 
@@ -34,23 +36,77 @@ end
 
 function buildings_eraser_tool:UpdateMarker()
 
-    if ( self.currentChildTemplate ~= self.selectedTemplate or self.childEntity == nil) then
+    if ( self.currentChildTemplate == self.selectedTemplate) then
+        return
+    end
 
-        -- Destroy old marker
-        if (self.childEntity ~= nil) then
+    local markerBlueprint = ""
 
-            EntityService:RemoveEntity(self.childEntity)
-            self.childEntity = nil
+    if ( self.selectedTemplate == self.allTemplatesName ) then
+
+        if ( self.firstNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.firstNumberEntity)
+            self.firstNumberEntity = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_buildings_eraser_tool_" .. self.selectedTemplate
+        if ( self.secondNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.secondNumberEntity)
+            self.secondNumberEntity = nil
+        end
 
-        -- Create new marker
-        self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        if ( self.allNumberEntity == nil) then
 
-        -- Save number of wall layers
-        self.currentChildTemplate = self.selectedTemplate
+            markerBlueprint = "misc/marker_buildings_templates_numbers_all"
+
+            self.allNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        end
+
+    else
+
+        if ( self.allNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.allNumberEntity)
+            self.allNumberEntity = nil
+        end
+
+        local number = tonumber(self.selectedTemplate)
+
+        local firstNumber = math.floor( number / 10 )
+        local secondNumber = number % 10
+
+        if ( firstNumber ~= 0 ) then
+            markerBlueprint = "misc/marker_buildings_templates_numbers_" .. tostring(firstNumber) .. "x"
+
+            if ( self.firstNumberEntity == nil or EntityService:GetBlueprintName(self.firstNumberEntity) ~= markerBlueprint ) then
+
+                if ( self.firstNumberEntity ~= nil) then
+                    EntityService:RemoveEntity(self.firstNumberEntity)
+                    self.firstNumberEntity = nil
+                end  
+
+                self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+            end
+        else
+
+            if ( self.firstNumberEntity ~= nil) then
+                EntityService:RemoveEntity(self.firstNumberEntity)
+                self.firstNumberEntity = nil
+            end            
+        end
+
+        markerBlueprint = "misc/marker_buildings_templates_numbers_x" .. tostring(secondNumber)
+
+        if ( self.secondNumberEntity == nil or EntityService:GetBlueprintName(self.secondNumberEntity) ~= markerBlueprint ) then
+
+            if ( self.secondNumberEntity ~= nil) then
+                EntityService:RemoveEntity(self.secondNumberEntity)
+                self.secondNumberEntity = nil
+            end  
+
+            self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        end
     end
+
+    self.currentChildTemplate = self.selectedTemplate
 end
 
 function buildings_eraser_tool:FillMarkerMessage()
@@ -388,6 +444,21 @@ function buildings_eraser_tool:OnRelease()
     if ( self.childEntity ~= nil) then
         EntityService:RemoveEntity(self.childEntity)
         self.childEntity = nil
+    end
+
+    if ( self.firstNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.firstNumberEntity)
+        self.firstNumberEntity = nil
+    end
+
+    if ( self.secondNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.secondNumberEntity)
+        self.secondNumberEntity = nil
+    end
+
+    if ( self.allNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.allNumberEntity)
+        self.allNumberEntity = nil
     end
 
     if ( buildings_tool_base.OnRelease ) then
