@@ -123,4 +123,19 @@ function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selected
     end
 end
 
+function BuildingsTemplatesUtils:GetMaxAvailableTemplate()
+
+    for number = 60, 1, -1 do
+
+        local pickerToolBlueprint = "buildings/tools/buildings_picker_" .. string.format( "%02d", number )
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", pickerToolBlueprint ) ) then
+
+            return number
+        end
+    end
+
+    return 1
+end
+
 return BuildingsTemplatesUtils

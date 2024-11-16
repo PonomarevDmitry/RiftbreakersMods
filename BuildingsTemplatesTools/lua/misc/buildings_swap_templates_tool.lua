@@ -21,8 +21,8 @@ function buildings_swap_templates_tool:OnInit()
     self.selectedTemplateFrom = "01";
     self.selectedTemplateTo = "01";
 
-    self.numberFrom = self.data:GetInt("number_from")
-    self.numberTo = self.data:GetInt("number_to")
+    self.numberFrom = 1
+    self.numberTo = BuildingsTemplatesUtils:GetMaxAvailableTemplate()
     self.templateFormat = self.data:GetString("template_format")
 
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )

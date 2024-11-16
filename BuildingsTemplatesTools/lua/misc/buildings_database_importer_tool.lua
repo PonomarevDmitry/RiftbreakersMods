@@ -20,8 +20,8 @@ function buildings_database_importer_tool:OnInit()
 
     self.selectedTemplate = self.allTemplatesName;
 
-    self.numberFrom = self.data:GetInt("number_from")
-    self.numberTo = self.data:GetInt("number_to")
+    self.numberFrom = 1
+    self.numberTo = BuildingsTemplatesUtils:GetMaxAvailableTemplate()
     self.templateFormat = self.data:GetString("template_format")
 
     local selectedDatabaseNumber = BuildingsTemplatesUtils:GetCurrentPersistentDatabase(self.selector)
