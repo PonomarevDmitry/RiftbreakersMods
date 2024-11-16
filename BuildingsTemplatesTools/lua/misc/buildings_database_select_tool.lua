@@ -24,7 +24,9 @@ function buildings_database_select_tool:OnInit()
     self.selectedDatabaseNumber = BuildingsTemplatesUtils:GetCurrentPersistentDatabase(self.selector)
 
     self.markerMode = ""
-    self.markerEntity = nil
+
+    local markerBlueprint = "misc/marker_selector_buildings_database_select_tool"
+    self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
     self:UpdateMarker()
 
@@ -33,23 +35,79 @@ end
 
 function buildings_database_select_tool:UpdateMarker()
 
-    if ( self.markerMode ~= self.selectedMode or self.markerEntity == nil) then
+    if ( self.markerMode == self.selectedMode) then
+        return
+    end
 
-        -- Destroy old marker
-        if (self.markerEntity ~= nil) then
+    local markerBlueprint = ""
 
-            EntityService:RemoveEntity(self.markerEntity)
-            self.markerEntity = nil
+    if ( self.selectedMode == self.modeCurrentDatabase ) then
+
+        if ( self.firstNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.firstNumberEntity)
+            self.firstNumberEntity = nil
         end
 
-        local markerBlueprint = "misc/marker_selector_buildings_database_select_tool_" .. self.selectedMode
+        if ( self.secondNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.secondNumberEntity)
+            self.secondNumberEntity = nil
+        end
 
-        -- Create new marker
-        self.markerEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        if ( self.currentNumberEntity == nil) then
 
-        -- Save number of wall layers
-        self.markerMode = self.selectedMode
+            markerBlueprint = "misc/marker_buildings_templates_numbers_current"
+
+            self.currentNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        end
+
+    else
+
+        if ( self.currentNumberEntity ~= nil) then
+            EntityService:RemoveEntity(self.currentNumberEntity)
+            self.currentNumberEntity = nil
+        end
+
+        local number = tonumber(self.selectedMode)
+
+        local firstNumber = math.floor( number / 10 )
+        local secondNumber = number % 10
+
+        if ( firstNumber ~= 0 ) then
+            markerBlueprint = "misc/marker_buildings_templates_numbers_" .. tostring(firstNumber) .. "x"
+
+            if ( self.firstNumberEntity == nil or EntityService:GetBlueprintName(self.firstNumberEntity) ~= markerBlueprint ) then
+
+                if ( self.firstNumberEntity ~= nil) then
+                    EntityService:RemoveEntity(self.firstNumberEntity)
+                    self.firstNumberEntity = nil
+                end  
+
+                self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+
+                EntityService:SetPosition( self.firstNumberEntity, 0, 0, 0.7 )
+            end
+        else
+
+            if ( self.firstNumberEntity ~= nil) then
+                EntityService:RemoveEntity(self.firstNumberEntity)
+                self.firstNumberEntity = nil
+            end            
+        end
+
+        markerBlueprint = "misc/marker_buildings_templates_numbers_x" .. tostring(secondNumber)
+
+        if ( self.secondNumberEntity == nil or EntityService:GetBlueprintName(self.secondNumberEntity) ~= markerBlueprint ) then
+
+            if ( self.secondNumberEntity ~= nil) then
+                EntityService:RemoveEntity(self.secondNumberEntity)
+                self.secondNumberEntity = nil
+            end  
+
+            self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+        end
     end
+
+    self.markerMode = self.selectedTemplate
 end
 
 function buildings_database_select_tool:FillMarkerMessage()
@@ -191,6 +249,21 @@ function buildings_database_select_tool:OnRelease()
     if ( self.markerEntity ~= nil) then
         EntityService:RemoveEntity(self.markerEntity)
         self.markerEntity = nil
+    end
+
+    if ( self.firstNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.firstNumberEntity)
+        self.firstNumberEntity = nil
+    end
+
+    if ( self.secondNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.secondNumberEntity)
+        self.secondNumberEntity = nil
+    end
+
+    if ( self.currentNumberEntity ~= nil) then
+        EntityService:RemoveEntity(self.currentNumberEntity)
+        self.currentNumberEntity = nil
     end
 
     if ( buildings_tool_base.OnRelease ) then
