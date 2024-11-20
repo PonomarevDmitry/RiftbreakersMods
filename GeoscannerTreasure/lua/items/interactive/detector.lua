@@ -152,7 +152,14 @@ function detector:OnExecuteDetecting()
 	local entEnemy = foundEnemy.entity
 	local distanceEnemy = foundEnemy.distance
 
-	local defaultDiscoverDistance = 30
+	local defaultDiscoverDistance = 10
+
+	if ( mod_default_discover_distance and type(mod_default_discover_distance) == "number" and mod_default_discover_distance > 0 ) then
+
+		defaultDiscoverDistance = mod_default_discover_distance
+
+		LogService:Log( "defaultDiscoverDistance: " .. tostring(defaultDiscoverDistance))
+	end
 
 	--LogService:Log( "EnemyEntitiesCount: ".. tostring(#enemyEntities) .. " EnemyEnt: "  .. tostring(entEnemy) .. ":" .. tostring(distanceEnemy))
 	--LogService:Log( "NormalEnt: " .. tostring(ent) .. ":" .. tostring(distance))
