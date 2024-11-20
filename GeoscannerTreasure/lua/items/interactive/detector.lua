@@ -157,8 +157,6 @@ function detector:OnExecuteDetecting()
 	if ( mod_default_discover_distance and type(mod_default_discover_distance) == "number" and mod_default_discover_distance > 0 ) then
 
 		defaultDiscoverDistance = mod_default_discover_distance
-
-		LogService:Log( "defaultDiscoverDistance: " .. tostring(defaultDiscoverDistance))
 	end
 
 	--LogService:Log( "EnemyEntitiesCount: ".. tostring(#enemyEntities) .. " EnemyEnt: "  .. tostring(entEnemy) .. ":" .. tostring(distanceEnemy))
