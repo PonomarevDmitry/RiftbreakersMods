@@ -704,6 +704,33 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
 
     blueprintName = buildingDescHelper.bp
 
+    if ( blueprintName == "buildings/resources/pipe_straight_windowless" ) then
+
+        blueprintName = "buildings/resources/pipe_straight"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02" or blueprintName == "buildings/defense/wall_vine_straight_03" ) then
+
+        blueprintName = "buildings/defense/wall_vine_straight_01"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_2" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_2" ) then
+
+        blueprintName = "buildings/defense/wall_vine_straight_01_lvl_2"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_3" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_3" ) then
+
+        blueprintName = "buildings/defense/wall_vine_straight_01_lvl_3"
+    end
+
+    buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return false
+    end
+
+    local buildingDescHelper = reflection_helper(buildingDesc)
+
     QueueEvent( "ChangeSelectorRequest", self.selector, buildingDescHelper.bp, buildingDescHelper.ghost_bp )
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
