@@ -14,7 +14,7 @@ local turrets_cluster_unlock_researches_autoexec = function(evt)
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
     if ( researchComponent == nil ) then
-        return nodes
+        return
     end
 
     local researchComponentRef = reflection_helper( researchComponent )
