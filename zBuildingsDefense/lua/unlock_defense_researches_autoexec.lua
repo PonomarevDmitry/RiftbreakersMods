@@ -1,5 +1,10 @@
 local unlock_defense_researches_autoexec = function(evt)
 
+    local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return
+    end
+
     --PlayerService:UnlockResearch( "gui/menu/research/name/towers_morphium_lvl1" )
 
     PlayerService:UnhideResearch( "gui/menu/research/name/towers_morphium_lvl1" )
