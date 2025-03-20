@@ -33,6 +33,37 @@ ConsoleService:RegisterCommand( "debug_start_vote", function( args )
 	QueueEvent( "LuaGlobalEvent", event_sink, "DebugStartVote", {} )
 end)
 
+
+ConsoleService:RegisterCommand( "debug_build_buildings_around_player", function( args )
+    if not Assert( #args >= 3, "Command requires at least three arguments! [radius] [count] [bluperint1 ] [blueprint2] ..."  ) then return end
+    local radius = tonumber(args[1])
+    local count = tonumber(args[2])
+    local player = PlayerService:GetLeadingPlayer();
+    local mech = PlayerService:GetPlayerControlledEnt(player )
+
+    local transform = EntityService:GetWorldTransform(mech)
+    for i=3,#args do
+        local spots = FindService:FindEmptySpotsInRadius(mech, 0, radius, "", "");
+        local blueprint = args[i]
+        for j=1,count do
+            while( #spots > 0) do
+                local index = RandInt(1, #spots)
+                transform.scale = {x=1,y=1,z=1}
+                transform.orientation = {x=0,y=0,z=0,w=1}
+                transform.position = spots[index]
+                table.remove(spots, index)
+                
+                if ( BuildingService:CanBuildBuildingAtSpot( transform, player, blueprint, 1  )) then
+                    QueueEvent("BuildBuildingRequest", INVALID_ID, player, blueprint, transform, true )
+                    break
+                end
+            end
+        end
+    end
+
+end)
+
+
 ConsoleService:RegisterCommand( "cheat_set_player_health", function( args )
     if not Assert( #args >= 1, "Command requires at least one argument!" ) then return end
     local entity = FindService:FindEntityByType( "player" )
