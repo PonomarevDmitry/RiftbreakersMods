@@ -1,0 +1,23 @@
+import * from "materials/scripts/pbr.material"
+
+material loot/resources/cosmic_specimen : pbr/reflections
+{
+	set_texture_alias albedo			materials/textures/loot/resources/cosmic_specimen_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/specimen_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/specimen_packed.dds
+	//set_texture_alias gradient			materials/textures/gradient/cloudy_gradient.dds 168 5
+
+	glow 3
+	//reflection 1 0
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 1 1 2 1 
+			}
+		}
+	}
+}

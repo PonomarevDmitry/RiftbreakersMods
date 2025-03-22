@@ -20,7 +20,7 @@ EntityBlueprint
 				FloatData
 				{
 					key		"speed_acceleration"
-					value	"6.0"
+					value	"14.0"
 				}
 				FloatData
 				{
@@ -82,17 +82,17 @@ EntityBlueprint
 
 	BombAmmoComponent
 	{
-		explosion_effect 		"effects/enemies_cosmic_gnerot/underground_rock_damage"
+		explosion_effect 		"effects/enemies_cosmic_gnerot/spike_emerge"
 
 		DamagePattern
 		{
-			area_damage_radius 	"8"
+			area_damage_radius 	"12"
 
 			Damages
 			{
 				Damage
 				{
-					value 		"90"
+					value 		"140"
 					type 		"cosmic"
 				}
 			}
@@ -150,8 +150,8 @@ EntityBlueprint
 			eat_time							float::"15.0"
 			bp_on_range_attack					string:"units/ground/cosmic_gnerot_boss_attack"
 			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
-			range_attack_underground_offset		float:"-8.0"
-			range_attack_cooldown				float:"8.0"
+			range_attack_underground_offset		float:"-14.0"
+			range_attack_cooldown				float:"2.0"
 		}		
 	}
 
@@ -186,8 +186,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"9000"
-		health 						"9000"
+		max_health 					"7000"
+		health 						"7000"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -207,13 +207,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.0"
-		acid			"2.0"
+		fire			"1.0"
+		acid			"1.5"
 		energy			"0.0"
-		cryo			"0.0"
-		area			"2.0"
-		cosmic			"0.0"
-		plasmoid		"2.0"
+		cryo			"0.5"
+		area			"0.3"
+		cosmic			"0.5"
+		plasmoid		"1.0"
+		reflect_damage_max_percent 		"0.03"
 	}
 
 	NavMeshMovementComponent
@@ -376,6 +377,7 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_1"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						slash_effect 				"items/weapons/power_fist_slash_grey"
 						attack_start_time			"0.83"
 						attack_end_time				"1.10"
 						attack_duration 			"2.00"
@@ -390,6 +392,7 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_2"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
+						slash_effect 				"items/weapons/power_fist_slash_grey"
 						attack_start_time			"0.75"
 						attack_end_time				"1.00"
 						attack_duration 			"2.00"
@@ -402,41 +405,44 @@ EntityBlueprint
 					MeleeDamage
 					{
 						name 				"close_attack_1"
+						attack_effect 		"effects/weapons_melee_power_fist/sonic_fist_attack_grey"
+						hit_on_end 			"1"
 				
 						ammo_definition
 						{
-							friendly_fire	"pass"
-							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+							on_enemy_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_enemy"
+							on_world_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
+							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
 
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
-							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+							friendly_fire			"pass"
+							area_damage_impact_type "once"
+							collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
 						}
 					}
 
 					MeleeDamage
 					{
 						name 				"close_attack_2"
+						attack_effect 		"effects/weapons_melee_power_fist/sonic_fist_attack_grey"
+						hit_on_end 			"1"
 				
 						ammo_definition
 						{
-							friendly_fire	"pass"
-							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+							on_enemy_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_enemy"
+							on_world_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
+							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
 
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
-							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+							friendly_fire			"pass"
+							area_damage_impact_type "once"
+							collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
 
 							DamagePattern
 							{
-								Damages
-								{
-									Damage
-									{
-										value 	"80"
-										type 	"physical"
-									}
-								}
+								area_damage_type				"normal"
+								area_damage_radial_effect		"effects/weapons_melee_power_fist/sonic_fist_shockwave"
+								area_damage_splash_effect   	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
+								area_damage_angle				"45"
+								area_damage_speed				"50"
 							}
 						}
 					}

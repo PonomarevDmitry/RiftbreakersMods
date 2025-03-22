@@ -12,7 +12,7 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_laser_tripleshoot"
 		menu_icon			"gui/hud/building_icons/tower_laser_tripleshoot"
 		require 			"headquarters"
-		order				"9"
+		order				"9.5"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_laser_tripleshoot_lvl_2"
@@ -26,10 +26,10 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"250"
-					steel 		"175"
-					cosmonite_ore	"80"
+					carbonium 	"150"
+					steel 		"75"
 					ai			"1"
+					cosmonite_ore 	"50"
 				}
 			}
 		}
@@ -326,30 +326,6 @@ EntityBlueprint
 			}
 		}
 	}
-
-	EffectDesc
-	{
-		EffectBaseBlueprints
-		{
-			"buildings/effects_small_base"
-		}
-		////////////////////////MISC/////////////////////////
-		EffectGroup
-		{
-			group "lamp"
-			enabled "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/tower_white_searchlight"
-					bone "att_muzzle"
-					random_delay "3"
-				}
-			}
-		}
-	}
 }
 
 EntityBlueprint
@@ -371,8 +347,8 @@ EntityBlueprint
 	{
 		range 					"50"
 
-		on_enemy_hit_effect 			"effects/weapons_energy/tripleshot_laser_hit"
-		on_world_hit_effect 			"effects/weapons_energy/tripleshot_laser_hit"
+		on_enemy_hit_effect 			"effects/weapons_energy/tripleshot_laserz_hit"
+		on_world_hit_effect 			"effects/weapons_energy/tripleshot_laserz_hit"
 		on_resisted_hit_effect 			"effects/weapons_generic/projectile_hit_resisted"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|air_unit|shield"
@@ -393,6 +369,7 @@ EntityBlueprint
 		end_name 	"items/weapons/energy/laser_small_stop"
 	}
 }
+
 EntityBlueprint
 {
 	name  "buildings/defense/tower_laser_tripleshoot_ghost"
@@ -443,23 +420,4 @@ EntityBlueprint
 		max_radius 40
 	}
 }
-	BombAmmoComponent
-	{
-		explosion_effect 		"effects/items/power_jump_explosion"
 
-		DamagePattern
-		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
-			
-			Damages
-			{
-				Damage
-				{
-					value 			"100"
-					type			"energy"
-				}
-			}
-		}
-	}
-}

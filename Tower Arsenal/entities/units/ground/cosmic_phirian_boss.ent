@@ -5,23 +5,28 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.5"
-		fire			"1.0"
-		acid			"1.0"
-		energy			"1.0"
+		fire			"0.9"
+		acid			"0.9"
+		energy			"0.9"
 		cryo			"0.5"
-		area			"1.0"	
+		area			"1.0"
+		cosmic			"0.6"
+		plasmoid		"1.0"
+		reflect_damage_max_percent 		"0.02"
 	}
 
 	StunDataComponent
 	{
-		stagger_time 					"0.25"
-		stagger_health_threshold		"0.075"
-		stagger_long_time				"0.85"
-		stagger_long_health_threshold	"0.15"
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
 		
-		stagger_cooldown				"1.0"
-		stagger_long_cooldown			"3.5"
-		stun_cooldown					"15"
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
 	}
 	
 	NavMeshMovementComponent
@@ -219,8 +224,8 @@ EntityBlueprint
 		script "lua/units/ground/phirian.lua"
 		database
 		{
-			min_scale	float:"1.35"
-			max_scale	float:"1.42"
+			min_scale	float:"1.32"
+			max_scale	float:"1.44"
 		}			
 	}
 
@@ -245,10 +250,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"12200"
-		health 						"12200"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -265,12 +268,30 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/phirian.mesh"
+		mesh 		"meshes/units/ground/phirian_boss.mesh"
 		material 	"units/ground/cosmic_phirian_boss"
 	}
 
 	EffectDesc
-	{		
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/phirian"
+		}	
+		EffectGroup
+		{
+			group "death_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_phirian/death_splash_alpha"
+					bone "Hip_1"
+					always_up "1"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"boss_trail"
@@ -732,24 +753,23 @@ EntityBlueprint
 					MeleeDamage
 					{
 						name 						"close_attack"
-
+						hit_on_middle				"1"
 						ammo_definition
 						{
-							friendly_fire			"pass"
-							hit_effect_direction	"up"  //inverse, normal, up
 							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
 							on_world_hit_effect 	"effects/enemies_phirian/sword_hit_world"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
-
-							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|vegetation|shield"
-
+							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+							friendly_fire			"pass"
+							area_damage_impact_type "disabled"
+							collision_3d 			"world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+		
 							DamagePattern
 							{
 								Damages
 								{
 									Damage
 									{
-										value 	"60"
+										value 	"140"
 										type 	"cosmic"
 									}
 								}

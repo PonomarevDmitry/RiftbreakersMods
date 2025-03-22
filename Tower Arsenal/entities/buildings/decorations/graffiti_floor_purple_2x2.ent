@@ -1,0 +1,195 @@
+EntityBlueprint
+{
+	name	"buildings/decorations/graffiti_floor_purple_2x2"
+
+	BuildingDesc
+	{
+		name					"graffiti_floor_purple_2x2"
+		bp						"buildings/decorations/graffiti_floor_purple_2x2"
+		category				"decorations"
+
+		localization_id			"gui/hud/building_name/graffiti_floor_purple"
+		description				"gui/hud/building_description/graffiti_floor_purple"
+		menu_icon				"gui/hud/building_icons/graffiti_floor_purple"
+
+		order					"0.5"
+		type					"floor"
+		require					"headquarters"
+
+		building_functionality	"BUILD_ON_WATER"
+		building_mode			"radius"
+		exclude_terrain_types	"quicksand,magma_hot_ground,magma_very_hot_ground,creeper_area"
+		overrides				"floor"
+
+		buildable				"0"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name			"default"
+				building_time	1
+				building_cost
+				{
+					carbonium 	"5"		
+				}
+			}
+		}
+	}
+
+	LuaDesc
+	{
+		script	"lua/buildings/building.lua"
+		database
+		{
+			remove_lua_after_build	int:"1"
+		}
+	}
+
+	//ParticleDesc
+	//{
+	//	name	"rift/power_jump_explosion"
+	//}
+
+	ResistanceComponent
+	{
+		creeper_area		"1"
+		default_factor		"0"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type				"static"
+				group_id			"floor"
+				physics_material	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x	3.9
+						y	0.1
+						z	3.9
+					}
+				}
+			}
+		}
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x	"-2"
+				y	"0"
+				z	"-2"
+			}
+			max
+			{
+				x	"2"
+				y	"0.1"
+				z	"2"
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		type	2
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	3.9
+				y	3.9
+				z	3.9
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"acid_floor"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name	"buildings/decorations/graffiti_floor_purple_2x2_random"
+			RandomBlueprintDesc
+			{
+				Blueprint
+				{
+					blueprint	"buildings/decorations/graffiti_floor_purple_2x2_1"
+				}
+				Blueprint
+				{
+					blueprint	"buildings/decorations/graffiti_floor_purple_2x2_2"
+				}
+				Blueprint
+				{
+					blueprint	"buildings/decorations/graffiti_floor_purple_2x2_3"
+				}
+				Blueprint
+				{
+					blueprint	"buildings/decorations/graffiti_floor_purple_2x2_4"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/decorations/graffiti_floor_purple_2x2_1"
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+		material	"buildings/decorations/graffiti_floor_purple_4x4_01"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/decorations/graffiti_floor_purple_2x2_2"
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+		material	"buildings/decorations/graffiti_floor_purple_4x4_02"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/decorations/graffiti_floor_purple_2x2_3"
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+		material	"buildings/decorations/graffiti_floor_purple_4x4_03"
+		flags		"2"
+	}
+}
+
+EntityBlueprint
+{
+	name			"buildings/decorations/graffiti_floor_purple_2x2_4"
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_2x2_nosides.mesh"
+		material	"buildings/decorations/graffiti_floor_purple_4x4_04"
+		flags		"2"
+	}
+}

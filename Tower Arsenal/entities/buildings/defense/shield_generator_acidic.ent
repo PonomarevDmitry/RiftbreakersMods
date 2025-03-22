@@ -7,7 +7,7 @@ EntityBlueprint
 		name 				"shield_generator_acidic"
 		bp   				"buildings/defense/shield_generator_acidic"
 		ghost_bp   			"buildings/defense/shield_generator_acidic_ghost"
-		category 			"defense_modd"
+		category 			"defense"
 		localization_id		"gui/hud/building_name/shield_generator_acidic"
 		description			"gui/hud/building_description/shield_generator_acidic"
 		menu_icon			"gui/hud/building_icons/shield_generator_acidic"
@@ -26,11 +26,23 @@ EntityBlueprint
 				building_time 10
 				building_cost
 				{
-					carbonium 	"500"
-					steel 		"250"					
+					carbonium 	"1000"
+					steel 		"500"
+					plasmanite 	"250"
 				}
-			}		
-		}		
+			}
+
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					carbonium 	"1000"
+					steel 		"850"
+				}
+			}
+		}
 	}
 
 	ResourceConverterDesc
@@ -39,13 +51,13 @@ EntityBlueprint
 		{
 			GameplayResource
 			{
-				resource 			"energy"
-				value			 	"25"
+				resource 	"energy"
+				value 		"25"
 			}
 			GameplayResource
 			{
-				resource 	"water"
-				value 		"10"
+				resource 	"plasmoid"
+				value 		"25"
 				attachment	"att_in_1"
 			}			
 			
@@ -61,7 +73,7 @@ EntityBlueprint
 		{
 			cone_effect				string:"build_cone_3x3"
 			cone_effect_sell		string:"sell_big"
-			range					float:"22"
+			range					float:"30"
 			interval				float:"1"
 			shield_bp				string:"buildings/defense/shield_generator_plasma/shield_acidic"
 			display_radius_group	string:"shield_generator"
@@ -338,8 +350,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"1000"
-		health 						"1"
+		max_health 					"1000"//maximum HP
+		health 						"0"//set to 0 for no stacking or set to 1 for it to stack
 	}
 
 	//Required. The Reflection script sources data from this, and will crash if it is missing.

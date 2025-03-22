@@ -11,12 +11,11 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_spazz"
 		menu_icon			"gui/hud/building_icons/tower_spazz"
 		require 			"headquarters"
-		order				"1"
+		order				"5"
 		type				"tower"
 		overrides			"wall,tower"
 		upgrade				"buildings/defense/tower_spazz_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
-
 
 		costs
 		{
@@ -98,7 +97,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_basic_lvl_1.mesh"
+		mesh "meshes/buildings/defense/tower_shotgun_lvl_1.mesh"
 		material "buildings/defense/tower_spazz_lvl_1"
 	}
 
@@ -198,7 +197,6 @@ EntityBlueprint
 
 	WeaponItemDesc
 	{
-
 	}
 
 	TowerDesc
@@ -207,13 +205,13 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		target "ground_unit_small|ground_unit|ground_unit_medium|air_unit"
+		target "ground_unit|air_unit"
+		find_type "farthest"
 		target_ignore "invisible"
 		speed "300"
-		find_type	"farthest"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "2"
+			range_min "0"
 			range_max "25"
 			aiming_range "30"
 		}
@@ -249,12 +247,12 @@ EntityBlueprint
 
 		ammo_blueprint 						"buildings/defense/tower_plasma_shotgun_projectile"
 
+		muzzles_per_fire 					"1"
 		muzzle_flash_effect 				"effects/weapons_shotguns/shotgun_muzzle_flash"
 		fire_effect 						"effects/weapons_shotguns/shotgun_fire"
 
-		burst_column_spacing 		"0"
 		burst_rate 					"0.2"
-		burst_column_angle 			"70"
+		burst_column_angle 			"45"
 	}
 
 	DestroyDesc
@@ -365,6 +363,7 @@ EntityBlueprint
 	ProjectileAmmoComponent
 	{
 		distribution 			"dissipation"
+		diameter				"1"
 		
 		on_enemy_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
 		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
@@ -372,17 +371,11 @@ EntityBlueprint
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
-		
-		DamagePattern
-		{
-			area_damage_effect_scale	"splash"
-			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
-		}			
 	}
 
-	LifeTimeDesc
-	{
-		time 		0.2
-		type 		"camera"
-	}
+	//LifeTimeDesc
+	//{
+	//	time 		0.2
+	//	type 		"camera"
+	//}
 }

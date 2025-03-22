@@ -1,0 +1,309 @@
+EntityBlueprint
+{
+	name "units/skills/torando"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/torando"
+		description 	"gui/hud/enemy_skill_description/torando"
+		icon 			"gui/menu/inventory/stat_icons/torando_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"items/skills/tornado"
+			stat_bp					string:"items/skills/tornado"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"5.5"
+			spawn_min_time			float:"0.65"
+			spawn_max_time			float:"0.85"
+			meteors_in_one_spawn	int:"3" 
+			radius					int:"4"
+			delay_min				float:"1.00"
+			delay_max				float:"2.00"
+			spread					float:"10"
+		}			
+	}
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/torando_lvl_4"
+	base_blueprint "units/skills/torando"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/torando"
+		description 	"gui/hud/enemy_skill_description/torando"
+		icon 			"gui/menu/inventory/stat_icons/torando_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/meteor_shower.lua"
+		database
+		{
+			meteor_blueprint		string:"items/skills/tornado"
+			stat_bp					string:"items/skills/tornado"
+			type					string:"follow_player"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			radius			          "15"
+			speed			          "0"
+			rotate_speed	          "0"
+			wander_jitter_multiplier  "0"
+			oscillation_radius        "15"
+		//damage_per_sec	          "600" 
+		//type                      "target_player"		
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		8
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_acid"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_green"
+					offset "0 10 0"
+				}	
+				Effect
+				{
+					blueprint "effects/items/tornado_muzzle"					
+				}					
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name "weather/tornado_big_local_wind"
+			
+			PointWindDesc
+			{
+				power_max   "-15000"
+				power_min   "-15000"
+				radius      "25"
+			}    
+
+			AttachmentDesc
+			{
+				attachment "att_wind"
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "logic/tornado_big_global_wind"
+
+			DirectionalWindDesc
+			{		
+				power_frequency "0.2"
+				power_max "5000"
+				power_min "1000"
+				rotation_frequency "0.1"
+				rotation_max "10.0"
+				random_power_time_deviation "0"
+				random_rotation_time_deviation "0.04"
+				position_frequency_factor "0.001"
+			}
+			
+			SceneEditorDesc
+			{
+				mesh 		"meshes/wind.mesh"
+			}
+		}
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado"
+	
+	WeaponItemDesc
+	{
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/tornado"
+		visibility		"visible|radar"	
+		additional_z_order	"20"	
+	}
+
+	TornadoDesc
+	{
+		radius			          "15"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "600" 
+		type                      "target_player"		
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"10"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"acid"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		8
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_acid"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_green"
+					offset "0 10 0"
+				}	
+				Effect
+				{
+					blueprint "effects/items/tornado_muzzle"					
+				}					
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name "weather/tornado_big_local_wind"
+			
+			PointWindDesc
+			{
+				power_max   "-15000"
+				power_min   "-15000"
+				radius      "25"
+			}    
+
+			AttachmentDesc
+			{
+				attachment "att_wind"
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "logic/tornado_big_global_wind"
+
+			DirectionalWindDesc
+			{		
+				power_frequency "0.2"
+				power_max "5000"
+				power_min "1000"
+				rotation_frequency "0.1"
+				rotation_max "10.0"
+				random_power_time_deviation "0"
+				random_rotation_time_deviation "0.04"
+				position_frequency_factor "0.001"
+			}
+			
+			SceneEditorDesc
+			{
+				mesh 		"meshes/wind.mesh"
+			}
+		}
+	}
+}	

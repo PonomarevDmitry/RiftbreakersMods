@@ -2,9 +2,8 @@ system rift/tripleshot_laser_hit
 {
     nonvisible_update_timeout                   1
     scale_velocity                              0.02
-    scale                                       0.02 0.02 0.02
+    scale                                       0.03 0.03 0.03
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 300
     technique sparks
@@ -72,7 +71,7 @@ system rift/tripleshot_laser_hit
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/spark_rectangle_red_01
+        material                                particles/lightning_circle_2x2_red_01
         renderer                                Billboard
         {
             render_queue_group                  63
@@ -259,7 +258,7 @@ system rift/tripleshot_laser_hit
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/mp_flare_ring
+        material                                particles_noatlas/alien_marker_ring_red_01
         renderer                                Billboard
         {
             billboard_rotation_type             vertex
@@ -410,6 +409,65 @@ system rift/tripleshot_laser_hit
             time_colour                         0    0 0 0 0
             time_colour                         0.508696  0.715 0 0 1
             time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator Affector331
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -2
+                max                             2
+            }
+        }
+    }
+    technique ball_1
+    {
+        visual_particle_quota                   40
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_red
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       dyn_curved_linear
+            {
+                control_point                   0 4
+                control_point                   3 20
+            }
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.8
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             100
+                max                             150
+            }
+            keep_local                          true
+            colour                              0.262745 0.937255 0.870588 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 0 0.149467 0
+            time_colour                         0.504348  1 0.501961 0.533864 1
+            time_colour                         1    1 0 0.128114 0
         }
         affector                                TextureRotator Affector331
         {

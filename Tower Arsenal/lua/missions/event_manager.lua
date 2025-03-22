@@ -1154,12 +1154,10 @@ function event_manager:SpawnEvent( action, participants )
 		( translatedEventName == "spawn_blue_moon" ) or
 		( translatedEventName == "spawn_dust_storm" ) or
 		--ARCTIC EVENTS START
+		( translatedEventName == "spawn_cosmic_moon" ) or
+		( translatedEventName == "spawn_cosmic_rock_rain" ) or
 		( translatedEventName == "cosmic_kermon_attack" ) or
-		( translatedEventName == "cosmic_kermon_attack_hard" ) or
-		( translatedEventName == "cosmic_kermon_attack_very_hard" ) or
 		( translatedEventName == "cosmic_phirian_attack" ) or
-		( translatedEventName == "cosmic_phirian_attack_hard" ) or
-		( translatedEventName == "cosmic_phirian_attack_very_hard" ) or
 		( translatedEventName == "spawn_invasion_easy" ) or
 		( translatedEventName == "arcticisland_spore_comet" ) or
 		( translatedEventName == "spawn_cosmic_creeper" ) or
@@ -1167,6 +1165,8 @@ function event_manager:SpawnEvent( action, participants )
 		( translatedEventName == "spawn_cosmic_meteor_shower" ) or
 		( translatedEventName == "spawn_cosmic_tornado_near_player" ) or
 		( translatedEventName == "spawn_cosmic_tornado_near_base" ) or
+		( translatedEventName == "spawn_cryogenic_tornado_near_player" ) or
+		( translatedEventName == "spawn_cryogenic_tornado_near_base" ) or
 		--ARCTIC EVENTS END
 		--SWAMP EVENTS START
 		( translatedEventName == "spawn_tornado_near_player" ) or

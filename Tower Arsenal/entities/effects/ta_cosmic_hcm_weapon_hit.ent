@@ -1,0 +1,65 @@
+EntityBlueprint
+{
+	name effects/weapon_hit/cosmic_hcm_projectile_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_violet_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_hcm_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+			
+		}
+	}
+	BurningComponent
+	{
+		spread_radius 			"5.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}
+	
+}
+

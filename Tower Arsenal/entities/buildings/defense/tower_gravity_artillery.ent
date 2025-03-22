@@ -25,9 +25,20 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 		"150"
-					steel 			"100"
-					cosmonite_ore	"50"
+					carbonium 	"150"
+					steel 		"100"
+					ai			"1"
+				}
+			}
+			
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					carbonium 	"250"
+					steel 		"100"
 					ai			"1"
 				}
 			}
@@ -338,22 +349,6 @@ EntityBlueprint
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "lamp"
-			enabled "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/tower_omni_light"
-					bone "att_muzzle"
-					random_delay "3"
-				}
-			}
-		}
-
-		EffectGroup
-		{
 			group "working"
 			enabled "0"
 
@@ -390,8 +385,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/blob_1.mesh"
-		material    "projectiles/blob_cosmic"
+		mesh 		"meshes/projectiles/mortar_sentry_projectile.mesh"
+		material 	"projectiles/cosmic_mortar_sentry_projectile"
 	}
 
 	SkeletonDesc
@@ -419,7 +414,7 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name 		"items/weapons/fluid/corrosive_gun_fire"
+		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
 	EffectDesc
@@ -454,13 +449,11 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			ribbon/drone_trail_violet
+				material 			"ribbon/drone_trail_violet"
 				update_bounds 		1
-				fade_out_time		0.5
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
 
 				Ribbons
 				{

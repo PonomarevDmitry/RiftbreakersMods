@@ -2,9 +2,8 @@ system rift/md_pulse_laser_hit
 {
     nonvisible_update_timeout                   1
     scale_velocity                              0.02
-    scale                                       0.02 0.02 0.02
+    scale                                       0.03 0.03 0.03
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 300
     technique sparks
@@ -259,7 +258,7 @@ system rift/md_pulse_laser_hit
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/mp_flare_ring
+        material                                particles/shockwave_03
         renderer                                Billboard
         {
             billboard_rotation_type             vertex
@@ -284,16 +283,16 @@ system rift/md_pulse_laser_hit
             }
             all_particle_dimensions             dyn_random
             {
-                min                             100
+                min                             150
                 max                             150
             }
             keep_local                          true
-            colour                              0.206 0 1 1
+            colour                              0.643972 0.551601 1 1
         }
         affector                                Colour 
         {
             time_colour                         0    0 0.135232 1 0
-            time_colour                         0.504348  0.501961 0.51614 1 1
+            time_colour                         0.504348  0 0.055 0.594 1
             time_colour                         1    0 0.0498221 1 0
         }
         affector                                TextureRotator Affector331
@@ -333,7 +332,7 @@ system rift/md_pulse_laser_hit
                 control_point                   3 10
             }
             time_to_live                        1.2
-            all_particle_dimensions             100
+            all_particle_dimensions             10
             keep_local                          true
             direction                           0 0 0
             box_width                           50
@@ -387,8 +386,6 @@ system rift/md_pulse_laser_hit
         {
             emission_rate                       dyn_curved_linear
             {
-                control_point                   0 20
-                control_point                   3 100
             }
             angle                               360
             time_to_live                        dyn_random

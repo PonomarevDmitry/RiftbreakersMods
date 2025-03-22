@@ -6,14 +6,12 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/units/ground/drexolian.lua"
+		script "lua/units/ground/cosmic_drexolian.lua"
 		database
 		{
-			min_scale			float:	"1.50"
-			max_scale			float:	"1.60"
-			crystal_grow_speed	float:	"1.5"
-			crystal_grow_bp		string:	"units/ground/cosmic_gulgor_boss/grow_crystal"
-			crystal_bp			string:	"units/ground/cosmic_gulgor_boss/crystal"
+			min_scale	float:"1.52"
+			max_scale	float:"1.63"
+			waller		string:"misc/waller_cosmic"
 		}
 	}
 
@@ -368,7 +366,7 @@ EntityBlueprint
 					explosion_min_power 	"5000"
 					//explosion_effect 		"effects/enemies_bomogan/artillery_explosion"	
 					part_prefix 			"meshes/units/ground/canoptrix"
-					part_material 			"projectiles/drexolian_projectile"
+					part_material 			"units/ground/cosmic_drexolian_boss"
 					//part_effect 			"effects/enemies_generic/blood_trail_green"
 					part_physics_material   "gibs_light"					
 				}
@@ -451,11 +449,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"0.5"
-		fire			"1.0"
-		acid			"2.0"
+		fire			"4.0"
+		acid			"1.0"
 		energy			"1.0"
-		cryo			"0.5"
+		cryo			"0.1"
 		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"0.6"
+		reflect_damage_max_percent 		"0.02"
 	}
 
 	StunDataComponent
@@ -474,7 +475,7 @@ EntityBlueprint
 	{
 		angle_turn_speed				"180"
 		unit_soft_radius				"2.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
 		dominance_group				    "0"
 	}
 	
@@ -1002,7 +1003,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh "meshes/projectiles/gnerot/rock_debris_01.mesh"
-		material "units/ground/cosmic_gnerot"
+		material "props/rocks/cliff/cliff_debris"
 	}
 
 
@@ -1018,7 +1019,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh "meshes/projectiles/gnerot/rock_debris_02.mesh"
-		material "units/ground/cosmic_gnerot"
+		material "props/rocks/cliff/cliff_debris"
 	}
 
 
@@ -1034,7 +1035,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh "meshes/projectiles/gnerot/rock_debris_03.mesh"
-		material "units/ground/cosmic_gnerot"
+		material "props/rocks/cliff/cliff_debris"
 	}
 
 
@@ -1050,7 +1051,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh "meshes/projectiles/gnerot/rock_debris_04.mesh"
-		material "units/ground/cosmic_gnerot"
+		material "props/rocks/cliff/cliff_debris"
 	}
 
 
@@ -1066,7 +1067,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh "meshes/projectiles/gnerot/rock_debris_05.mesh"
-		material "units/ground/cosmic_gnerot"
+		material "props/rocks/cliff/cliff_debris"
 	}
 
 
@@ -1104,19 +1105,4 @@ EntityBlueprint
 			}
 		}
 	}
-}
-
-EntityBlueprint
-{
-	name "effects/enemies_cosmic_drexolian_boss/wall_part_trail"
-
-	base_blueprints
-	{
-		effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/cosmic_drexolian_boss_wall_part_trail"
-	}	
 }

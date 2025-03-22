@@ -1,0 +1,456 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_canceroth_boss"
+	base_blueprint "units/ground/cosmic_canceroth_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/canceroth.lua"
+		database
+		{
+			min_scale						float:"1.40"
+			max_scale						float:"1.50"
+			children_count					int:"55"
+			child_bp                        string:"units/ground/cosmic_canceroth_child"
+			create_child_timer				float:"0.5"
+			speed_factor    				float:"0.3"
+			idle_speed                      float:"0.25"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version 		int:"1"
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_canceroth_boss"
+		visibility 		"radar"	
+		additional_z_order "1"		
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/canceroth.mesh"
+		material 	"units/ground/cosmic_canceroth_boss"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/canceroth"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "canceroth_child"
+	}
+
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_canceroth_boss_base"
+
+	StateMachineDesc
+	{
+		template_name "canceroth"
+		params
+		{
+			aggressive_speed					float:"4"
+			aggressive_acceleration				float:"4"
+			not_aggressive_speed				float:"2"
+			not_aggressive_acceleration			float:"2"
+			rotate_speed						float:"5"
+			priority_target						string:"player|headquarters|energy|tower"
+			priority_target_distance			float:"20"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"40"
+		unit_soft_radius				"2.7"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|height_path_blocker|mud_vein|sludge_vein"
+		dominance_group				    "0"
+	}
+
+	NavMeshCostReducerComponent
+	{
+		cost_type					"cavern_wall"
+		cost_value					"3000"
+		ignore_flow_field_mask		"cavern_wall"
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.1"
+		fire			"0.5"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+		cosmic			"0.3"
+		plasmoid		"1.0"
+		reflect_damage_max_percent 		"0.02"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"1.0"
+		stagger_long_time				"0.75"
+		stagger_long_health_threshold	"1.0"
+		
+		stagger_cooldown				"1.5"
+		stagger_long_cooldown			"4.0"
+		stun_cooldown					"6666"
+		force_stagger_chance 			"0"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r "3.0"
+						position 
+						{
+							x "0.0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	AirGroundNavigationComponent
+	{
+
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.2"
+		add_extra_height      "2.0"
+		look_forward_distance "4.0"
+		allow_canyons		  "1"
+	}
+
+	AIUnitGroupNonPackableComponent
+	{
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_canceroth_boss"
+		can_activate 0
+	}	
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_canceroth/death"
+					explosion_effect_scale 	"1"
+					part_prefix 			"meshes/units/ground/canceroth"
+					part_material 			"units/ground/cosmic_canceroth_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}
+	
+	EffectDesc
+	{
+
+		//EffectGroup
+		//{			
+		//	group "idle_random"
+		//	enabled "0"		
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/enemies_canceroth/idle"
+		//		}
+		//	}
+		//}	
+		//EffectGroup
+		//{						
+		//	group "death"
+		//	enabled "0"				
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/enemies_canceroth/death_long"	
+		//			bone "att_death"
+		//		}
+		//	}
+		//}
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+					bone "att_death"
+					scale "3 3 3"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+				}
+			}
+		}			
+	
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "3 3 3"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "3 3 3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "3 3 3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_black"
+					bone "att_death"
+					scale "3 3 3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 7 0"
+					scale "3 3 3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_canceroth/healing"
+					bone "rootB"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"energy"
+			enabled "1"			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_canceroth/canceroth_cosmic"
+					bone "rootB"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"light"
+			enabled "1"			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/point/canceroth"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/canceroth/destructor"
+	
+	NetReplicationDisabledComponent
+	{
+
+	}	
+
+	DamageTriggerComponent
+	{
+		damage_amount	10
+		always_kill		1
+		collision 		"vegetation|destructible"
+	
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "4.5"
+			}
+		}
+	}
+}

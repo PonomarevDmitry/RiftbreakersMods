@@ -53,7 +53,7 @@ return function()
 	rules.objectivesLogic = 
 	{
 		{ name = "logic/objectives/kill_cosmic_arachnoid_elite.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/kill_cosmic_magmoth_ultra_boss_elite.logic", minDifficultyLevel = 2 },
+		{ name = "logic/objectives/kill_cosmic_magmoth_boss_elite.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/kill_cosmic_phirian_boss_elite.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/kill_cosmic_gnerot_boss_elite.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_cosmic_crystal_creeper.logic", minDifficultyLevel = 2 },
@@ -76,65 +76,127 @@ return function()
 		{
 			 -- difficulty level 1		
 			{ 
-			"logic/missions/survival/attack_level_1_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_1_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_1_id_2_ArcticIslands.logic",
-		},
+				"logic/missions/survival/attack_level_1_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_1_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_1_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_1_id_2_ArcticIslands_alpha.logic",
+			},
 	
-		 -- difficulty level 2
-		{ 			
-			"logic/missions/survival/attack_level_2_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_2_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_2_id_2_ArcticIslands.logic",
-		},
+			 -- difficulty level 2
+			{ 			
+				"logic/missions/survival/attack_level_2_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_2_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_2_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_2_id_2_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 3
-		{ 
-			"logic/missions/survival/attack_level_3_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_3_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_3_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 3
+			{ 
+				"logic/missions/survival/attack_level_3_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_3_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_3_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_3_id_2_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 4
-		{ 			
-			"logic/missions/survival/attack_level_4_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_4_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_4_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 4
+			{ 			
+				"logic/missions/survival/attack_level_4_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_4_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_4_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_4_id_2_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_4_id_3_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_4_id_3_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 5
-		{ 
-			"logic/missions/survival/attack_level_5_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_5_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_5_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 5
+			{ 
+				"logic/missions/survival/attack_level_5_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_5_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_5_id_2_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_5_id_2_ArcticIslands_alpha.logic",	
+				"logic/missions/survival/attack_level_5_id_3_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_5_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_5_id_4_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_5_id_4_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 6
-		{ 
-			"logic/missions/survival/attack_level_6_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_6_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_6_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 6
+			{ 
+				"logic/missions/survival/attack_level_6_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_6_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_6_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_6_id_2_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_6_id_2_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_6_id_2_ArcticIslands_alpha.logic",	
+				"logic/missions/survival/attack_level_6_id_3_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_6_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_6_id_4_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_6_id_4_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_6_id_5_ArcticIslands.logic",			
+				"logic/missions/survival/attack_level_6_id_5_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 7
-		{ 
-			"logic/missions/survival/attack_level_7_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_7_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_7_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 7
+			{ 
+				"logic/missions/survival/attack_level_7_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_7_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_2_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_7_id_3_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_7_id_4_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_4_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_7_id_5_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_7_id_5_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 8
-		{ 
-			"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_8_id_3_ArcticIslands.logic",
-		},
+			 -- difficulty level 8
+			{ 
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
+			},
 
-		 -- difficulty level 9
-		{ 
-			"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
-			"logic/missions/survival/attack_level_8_id_3_ArcticIslands.logic",
+			 -- difficulty level 9
+			{ 
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_1_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
+				"logic/missions/survival/attack_level_8_id_2_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_level_8_id_3_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_level_8_id_4_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_ultra.logic",
 			},
 		},
 	}

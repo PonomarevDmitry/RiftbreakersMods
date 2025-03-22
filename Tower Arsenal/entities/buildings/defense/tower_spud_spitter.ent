@@ -13,8 +13,8 @@ EntityBlueprint
 		menu_icon			"gui/hud/building_icons/tower_spud_spitter"
 		require 			"headquarters"
 		order				"2"
-		type				"tower"
-		overrides			"tower,wall"
+		type				"tower,pipe"
+		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		upgrade				"buildings/defense/tower_spud_spitter_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"	
 
@@ -41,7 +41,13 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"1"
+				value 		"5"
+			}
+			GameplayResource
+			{
+				resource 			"plasmoid"
+				value			 	"5"
+				attachment			"att_in_1"
 			}
 		}
 
@@ -205,13 +211,13 @@ EntityBlueprint
 	TurretDesc
 	{
 		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
-		target_ignore "invisible"
+		target_ignore "invisible|air_unit"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "0"
-			range_max "35"
-			aiming_range "40"
+			range_min "5"
+			range_max "45"
+			aiming_range "50"
 		}
 
 		aiming_cooldown "1"
@@ -244,9 +250,9 @@ EntityBlueprint
 		ammo_blueprint 			"buildings/defense/tower_spud_spitter_projectile"
 		muzzle_flash_effect 	"effects/weapons_fluid/cryo_spitter_muzzle"
 
-		burst_column_spacing 	"0.25"
-		burst_rate 				"0.25"
-		burst_column_angle 		"0"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
 	}
 
 	DestroyDesc
@@ -325,26 +331,41 @@ EntityBlueprint
 
 	EffectDesc
 	{
-		EffectBaseBlueprints
-		{
-			"buildings/effects_small_base"
-		}
-		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "lamp"
+			group "att_in_1"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_1"
+					offset "-0.2 1.0 0.0"
+					orientation "-0 -90 0"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "shooting"
 			enabled "0"
 
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/tower_white_searchlight"
+					blueprint "effects/mech/laser_pointer_bluee"
 					bone "att_muzzle"
-					random_delay "3"
+					random_delay	"0.01"
 				}
 			}
-		}	
+		}
+	}
+}
+
 	}
 }
 
@@ -361,7 +382,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
-		material    "projectiles/magmoth_projectile_cryo"
+		material    "projectiles/laser_blue"
 	}
 
 	MinimapItemDesc
@@ -387,17 +408,12 @@ EntityBlueprint
 		name 		"items/weapons/melee_power_fist/sonic_fist_attack"
 	}
 
-	ParticleDesc
-	{
-		name    "rift/blu_plasma_projectile"
-	}
-
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/plasma_spud_explosion"
-		on_world_hit_effect 	"effects/plasma_spud_explosion"
-		on_resisted_hit_effect 	"effects/plasma_spud_explosion"
 		friendly_fire			"pass"
+		on_enemy_hit_effect 	"effects/weapons_energy/ta_heavy_plasma_hit"
+		on_world_hit_effect 	"effects/weapons_energy/ta_heavy_plasma_hit"
+		on_resisted_hit_effect 	"effects/weapons_energy/ta_heavy_plasma_hit"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"
@@ -409,10 +425,133 @@ EntityBlueprint
 		}			
 	}
 
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "2 6 2"
+				}
+			}
+		}			
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+		material 			ribbon/drone_trail_blue_02
+		update_bounds 		1
+		fade_out_time		0.5
+		tesselation_step 	0.1
+		manual_fade 		0
+
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 0.5"
+					}
+
+					Ribbon
+					{
+						offset "0 0 -0.5"
+					}
+				}
+			}
+		}
+	}
+
 	LifeTimeDesc
 	{
-		time 		1.6
-		//type 		"camera"
+		time 		0.3
+		type 		"camera"
+	}
+	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_and_machines/pipe_ta
+
+	base_blueprint 
+	{
+		"effects/no_lifetime"		//minipipes
+	}
+
+	IdDesc
+	{
+		name "##tower_arsenal##"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/resources/pipe_straight.mesh"
+		material "buildings/resources/pipe_straight"
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "resources/resource_empty_fresnel"
+			}
+		}	
 	}
 }
 
+EntityBlueprint
+{
+	name effects/weapons_energy/ta_heavy_plasma_hit
+
+	base_blueprints
+	{
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"20"
+		radius 	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/ta_heavy_plasma_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/heavy_plasma_hit"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0	
+		}
+	}	
+}

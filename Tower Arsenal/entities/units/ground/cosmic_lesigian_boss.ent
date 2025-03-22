@@ -7,8 +7,8 @@ EntityBlueprint
 		template_name "lesigian"
 		params
 		{
-			aggressive_speed					float:"10"
-			aggressive_acceleration				float:"20"
+			aggressive_speed					float:"20"
+			aggressive_acceleration				float:"40"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"4"
 			rotate_speed						float:"450"
@@ -20,10 +20,10 @@ EntityBlueprint
 			max_idle_time						float:"8.0"
 			bp_on_range_attack					string:"units/ground/lesigian/lightning"
 			warning_effect_on_range_attack		string:"effects/enemies_cosmic_lesigian/lightning_explosion"
-			lightning_attack_offset				float:"50.0"
+			lightning_attack_offset				float:"100.0"
 			lightning_attack_cooldown			float:"15"
 			lightning_attack_prepare_min_time	float:"0.5"
-			lightning_attack_prepare_max_time	float:"2.6"
+			lightning_attack_prepare_max_time	float:"0.6"
 			teleport_start_distance			    float:"12"
 			teleport_cooldown					float:"2.5"
 			teleport_distance					float:"30"
@@ -34,14 +34,15 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.5"
+		physical		"0.7"
 		fire			"1.0"
-		acid			"2.0"
+		acid			"1.0"
 		energy			"1.0"
-		cryo			"0.5"
-		area			"1.0"
-		cosmic			"0.5"
-		plasmoid		"1.0"
+		cryo			"1.0"
+		area			"0.9"
+		cosmic			"0.4"
+		plasmoid		"0.6"
+		reflect_damage_max_percent 		"0.03"
 	}
 
 	StunDataComponent
@@ -478,8 +479,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"7250"
-		health 						"7250"
+		max_health 					"2250"
+		health 						"2250"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -518,12 +519,10 @@ EntityBlueprint
 
 
 		ammo_blueprint 				"units/ground/cosmic_lesigian_boss/attack_range"
-
 		muzzle_flash_effect 		"effects/enemies_cosmic_lesigian/muzzle"
-
-		burst_column_spacing 		"0"
-		burst_rate 					"0"
-		burst_column_angle 			"0"
+		burst_column_spacing 		"1.2"
+		burst_rate 					"0.20"
+		burst_column_angle 			"1"
 	}
 
 	children
@@ -551,12 +550,12 @@ EntityBlueprint
 				speed 			"20000"
 				aim_volume 		"SphericalAimVolume"
 				{
-					range_min 	"12"
-					range_max 	"33"
+					range_min 	"15"
+					range_max 	"50"
 				}
 
-				aiming_cooldown 		"1"
-				aiming_target_time 		"2"
+				aiming_cooldown 		"0.1"
+				aiming_target_time 		"0.2"
 				aiming_idle_angle 		"20"
 				pitch 					"att_muzzle"
 				yaw 					"att_muzzle"

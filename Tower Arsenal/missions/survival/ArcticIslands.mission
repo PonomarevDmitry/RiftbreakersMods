@@ -9,70 +9,63 @@ MissionDef
     player_spawn_logic  "logic/loadout/player_loadout_survival_arcticIslands.logic"
 
 	script_database
-	
-	    creature_volumes_min_distance   "123.0"
-		creature_volumes_density        "1"
-	
 	{
+		spawn_near_position string:"-160.59,0.00,-20.49"    
+	}
+
 		Strings
 		Floats
 		Vectors
 		Integers
-	}
+
+	creature_volumes_min_distance   "123.0"
+	creature_volumes_density        "1"
+
 	tile_spawn_rules
 	{
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_01.tile
 		{
-			max_instances	1			
-			min_instances	1			
+			max_instances	1
+			min_instances	1
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_1.tile
 		{
-			min_instances	2
 			random_weight	2.0
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_2.tile
 		{
-			min_instances	1
 			random_weight	1.0
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_3.tile
 		{
-			min_instances	1
 			random_weight	1.0
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_4.tile
 		{
-			max_instances	1
 			min_instances	1
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_5.tile
 		{
-			min_instances	2
 			random_weight	1.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons__01.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons_01.tile
 		{
-			min_instances	1
-			random_weight	1.0
+			random_weight	3.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_01.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons_02.tile
 		{
-			min_instances	1
-			random_weight	1.0
+			random_weight	3.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_02.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons_03.tile
 		{
-			min_instances	1
-			random_weight	1.0
+			random_weight	3.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_03.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plan_07.tile
 		{
-			min_instances	2
-			random_weight	2.0
+			random_weight	4.0
 		}
 	}
-	
+
 	ambient_creature_species
     {
         ground
@@ -201,12 +194,47 @@ MissionDef
             CreatureVolume
             {
                 creature_species    "cosmic_gnerot"
-                volume_spawn_ratio  "0.6"
+                volume_spawn_ratio  "0.9"
             }
 		}
 
-	}
+		guardian_standard
+        {		
+            CreatureVolume
+            {
+                creature_species    "cosmic_nerilian_boss"
+				volume_spawn_ratio  "1"
+            }
+        }
 
+        guardian_advanced
+        {				
+            CreatureVolume
+            {
+                creature_species    "cosmic_nerilian_boss"
+				volume_spawn_ratio  "1"
+            }
+        }
+
+        guardian_superior
+        {			
+            CreatureVolume
+            {
+                creature_species    "cosmic_nerilian_boss"
+				volume_spawn_ratio  "1"
+            }
+        }
+
+        guardian_extreme
+        {		
+            CreatureVolume
+            {
+                creature_species    "cosmic_nerilian_boss"
+                volume_spawn_ratio  "1"
+            }	
+        }
+    }
+	
     mission_object_spawners
 	{
         MarkerBlueprintSpawner
@@ -446,30 +474,32 @@ MissionDef
                         max   	 	int:"500"
                     }
                 }
-				
+
 				spawners/loot_spawner
                 {
-                    spawn_instances_minmax      5,10
+                    spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
 
                     database
                     {	
-                        blueprint 	string:"items/loot/resources/shard_voidinite_ore_item"
-                        min   	 	int:"500"
-                        max   	 	int:"750"
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"100"
+                        max   	 	int:"250"
+						package_size    int:"3"
                     }
                 }
-				
+
 				spawners/loot_spawner
                 {
-                    spawn_instances_minmax      5,10
+                    spawn_instances_minmax      0,2
                     spawn_discoverable_level    1
 
                     database
                     {	
                         blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"500"
-                        max   	 	int:"750"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"5"
                     }
                 }
             }
@@ -878,6 +908,17 @@ MissionDef
 
     starting_resources
     {
+		ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+            min_resources   "15000"
+            max_resources   "20000"
+
+            min_spawned_volumes "1"
+            max_spawned_volumes "1"
+        }
+
         ResourceVolume
         {
             resource        "carbon_vein"
@@ -912,6 +953,16 @@ MissionDef
             min_spawned_volumes "1"
             max_spawned_volumes "1"
         }
+		
+        ResourceVolume
+        {
+            resource        "flammable_gas_vent"            
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+			
+            is_infinite        "1"			
+        }	
 		
 		ResourceVolume
         {

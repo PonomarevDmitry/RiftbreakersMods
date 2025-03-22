@@ -1,0 +1,53 @@
+import * from "materials/scripts/pbr.material"
+
+material projectiles/mod_railgun_projectile_base
+{
+    render_group 60
+    technique
+    {
+        pass
+        {
+            depth_write off
+			scene_blend alpha_blend
+
+            vertex_program_ref forward_object_texture_skinned_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_fp
+            {
+            }
+
+            texture_unit diffuse
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+
+            texture_unit emissive
+            {
+                texture materials/textures/error.dds
+				filtering 	   anisotropic
+				max_anisotropy 16
+            }
+        }
+    }
+}
+
+material projectiles/cosmic_railgun_projectile_beam : projectiles/mod_railgun_projectile_base
+{
+	set_texture_alias diffuse           materials/textures/projectiles/cosmic_railgun_projectile_beam.dds
+	set_texture_alias emissive          materials/textures/projectiles/railgun_projectile_beam_emissive.dds
+
+    glow 20
+}
+
+material projectiles/mod_railgun_projectile_spiral : projectiles/mod_railgun_projectile_base
+{
+    set_texture_alias diffuse           materials/textures/projectiles/mod_railgun_projectile_spiral.dds
+	set_texture_alias emissive          materials/textures/projectiles/railgun_projectile_spiral_emissive.dds
+
+    glow 50
+}
+

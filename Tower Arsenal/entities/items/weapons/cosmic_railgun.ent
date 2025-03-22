@@ -1,11 +1,26 @@
 EntityBlueprint
 {
 	name  "items/weapons/cosmic_railgun_projectile"
-	
+
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/tower_railgun_projectile.mesh"
-		material    "ribbon/drone_trail_violet"
+		mesh "meshes/projectiles/tower_railgun_projectile.mesh"
+
+		SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "projectiles/cosmic_railgun_projectile_beam"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "projectiles/mod_railgun_projectile_spiral"
+			}
+		}
 	}
 
 	SkeletonDesc
@@ -111,20 +126,16 @@ EntityBlueprint
         {
             ChargeLevel
             {
-				name 						"comsic_railgun_charge_level_1"
-
+				name 						"charge_level_1"
 				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
                 charging_effect          	"effects/weapons_generic/cosmic_weapon_charging_lvl1"
                 //charged_effect        		"effects/weapons_generic/cosmic_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/cosmic_weapon_charged_lvl1"
                 charge_muzzle_flash_effect  "effects/weapons_energy/cosmic_railgun_fire_charged"
-
                 charge_time_start           "0.3"
                 charge_time_end             "1"
                 charge_muzzle_idx           "0"
-
                 ammo_blueprint 				"items/weapons/cosmic_railgun_projectile"
-
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
 				burst_column_angle_factor		"1"
@@ -132,19 +143,15 @@ EntityBlueprint
 
             ChargeLevel
             {
-				name 						"comsic_railgun_charge_level_2"
-
+				name 						"charge_level_2"
                 charging_effect          	"effects/weapons_generic/cosmic_weapon_charging_lvl1"
                 charged_effect        		"effects/weapons_generic/cosmic_weapon_charging_maximum"
                 charge_end_effect           "effects/weapons_generic/cosmic_weapon_charged_lvl1"
                 charge_muzzle_flash_effect  "effects/weapons_energy/cosmic_railgun_fire_charged"
-
                 charge_time_start           "1"
                 charge_time_end             "2"
                 charge_muzzle_idx           "0"
-
                 ammo_blueprint 				"items/weapons/cosmic_railgun_projectile"
-
 				burst_rate_factor				"1"
 				burst_column_spacing_factor		"1"
 				burst_column_angle_factor		"1"
@@ -424,6 +431,7 @@ EntityBlueprint
 
 	CostDesc
 }
+//cheat_add_item items/weapons/cosmic_root_blades_item 1
 //cheat_add_item items/weapons/cosmic_blade_item 1
 //cheat_add_item units/drones/drone_player_offensive_plasmoid_standard 1
 //cheat_add_item items/consumables/acidic_sentry_extreme_item 1

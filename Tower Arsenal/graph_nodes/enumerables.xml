@@ -3,7 +3,7 @@
     <list id="input_masks" source="INPUT_SHOOT,INPUT_BUILD,INPUT_CHARGE,INPUT_SPECIAL,INPUT_SWITCH,INPUT_CANCEL,INPUT_WAVE,INPUT_PAUSE,INPUT_NEXT,INPUT_PREV,INPUT_WEAPON_1,INPUT_WEAPON_2,INPUT_WEAPON_3,INPUT_WEAPON_4" />
     <list id="permission_masks" source="PP_MOVEMENT,PP_BUILD_MODE,PP_BUILD_TOWER,PP_FIGHTER_MODE,PP_INTERMISSION,PP_ACTION_MENU,PP_WEAPON_1,PP_WEAPON_2,PP_WEAPON_3,PP_WEAPON_4,PP_CHARGE_WEAPON_1,PP_CHARGE_WEAPON_2,PP_CHARGE_WEAPON_3,PP_CHARGE_WEAPON_4,PP_CHARGE_COLLECT,PP_SHOW_GHOST_TOWER" />
     <list id="physics_type" source="static,dynamic,kinematic" />
-    <list id="item_slots" source="LEFT_HAND,RIGHT_HAND,DASH_SKILL,USABLE_1,USABLE_2,USABLE_3,USABLE_4,USABLE_5,USABLE_6,USABLE_7,USABLE_8,USABLE_9,USABLE_0,UPGRADE_1,UPGRADE_2,UPGRADE_3,UPGRADE_4,UPGRADE_5,UPGRADE_6,UPGRADE_7,UPGRADE_8,UPGRADE_9,UPGRADE_10,UPGRADE_11,UPGRADE_12,UPGRADE_13,UPGRADE_14,UPGRADE_15,UPGRADE_16,DRILL,HARVESTER,EXTRACTOR,EXCAVATOR,ACTIVATOR,LIFT,HOLDER,SHIELD,SKIN_1" />
+    <list id="item_slots" source="LEFT_HAND,RIGHT_HAND,DASH_SKILL,USABLE_1,USABLE_2,USABLE_3,USABLE_4,USABLE_5,USABLE_6,USABLE_7,USABLE_8,UPGRADE_1,UPGRADE_2,UPGRADE_3,UPGRADE_4,DRILL,HARVESTER,EXTRACTOR,EXCAVATOR,ACTIVATOR,LIFT,HOLDER,SHIELD,SKIN_1" />
     <list id="resources"> 
 		ai
 		steel
@@ -18,30 +18,32 @@
 		biomass_plant
 		biomass_animal
 		hazenite
+		plasmanite
 		uranium
 		uranium_ore
-		cosmonite_ore
 		tanzanite
 		palladium
 		titanium
+		cosmonite_ore
 		cobalt
 		ferdonite
 		rhodonite
 		sample_crystal
 		sample_poo
-		specimen_phirian
-		specimen_gnerot
 		specimen_bradron
 		specimen_canoptrix
 		specimen_arachnoid
 		specimen_flurian
+		specimen_flurian_alpha
+		specimen_flurian_ultra
 		specimen_hammeroceros
 		specimen_octabit
 		specimen_stregaros		
 		specimen_creeper
+		specimen_cryo_plant
 		specimen_cosmic_yeast
 		specimen_cosmic_crystal_creeper
-		specimen_cryo_plant
+		specimen_cosmic_crystal
 		specimen_crystal_entwined_blue
 		specimen_crystal_pure_red
 		specimen_mushroom_spiky_bulb_red
@@ -74,8 +76,6 @@
     <list id="weather_damage_type" source="acid_rain,blue_hail" />
     <list id="resource_types" source="MissionDef,CampaignDef" />
 	<list id="playlists">
-		music/roya_cruise
-		music/endless
 		music/adventure
 		music/adventure_metallic
 		music/adventure_caverns
@@ -112,7 +112,6 @@
 		music/silence
     </list>
 	<list id="enemy_ground">
-		units/ground/random_bosses
 		units/ground/arachnoid_boss
 		units/ground/arachnoid_boss_easy
 		units/ground/arachnoid_sentinel
@@ -144,35 +143,6 @@
 		units/ground/canoptrix_crystal
 		units/ground/canoptrix_crystal_alpha
 		units/ground/canoptrix_crystal_ultra
-		units/ground/cosmic_arachnoid_boss
-		units/ground/cosmic_canoptrix_crystal
-		units/ground/cosmic_canoptrix_crystal_alpha
-		units/ground/cosmic_arachnoid_sentinel_crystal
-		units/ground/cosmic_arachnoid_sentinel_crystal_alpha
-		units/ground/cosmic_kafferroceros
-		units/ground/cosmic_kafferroceros_alpha
-		units/ground/cosmic_necrodon
-		units/ground/cosmic_kermon
-		units/ground/cosmic_kermon_omega_boss
-		units/ground/cosmic_phirian
-		units/ground/cosmic_phirian_boss
-		units/ground/cosmic_lesigian
-		units/ground/cosmic_lesigian_boss
-		units/ground/cosmic_flurian_boss
-		units/ground/cosmic_hedroner
-		units/ground/cosmic_drexolian_boss
-		units/ground/cosmic_drillgor_boss
-		units/ground/cosmic_baxmoth
-		units/ground/cosmic_baxmoth_boss
-		units/ground/cosmic_bomogan
-		units/ground/cosmic_morirot
-		units/ground/cosmic_morirot_boss
-		units/ground/cosmic_hedroner_boss
-		units/ground/cosmic_magmoth_ultra_boss
-		units/ground/cosmic_magmoth_ultra
-		units/ground/cosmic_gnerot
-		units/ground/cosmic_gnerot_boss
-		units/ground/cosmic_gulgor_boss
 		units/ground/crawlog
 		units/ground/crawlog_alpha
 		units/ground/crawlog_ultra
@@ -295,13 +265,91 @@
 		units/ground/zorant
 		units/ground/zorant_alpha
 		units/ground/zorant_ultra
+		units/ground/random_bosses
+		units/ground/cosmic_arachnoid_boss
+		units/ground/cosmic_canoptrix_crystal
+		units/ground/cosmic_canoptrix_crystal_alpha
+		units/ground/cosmic_canoptrix_crystal_ultra
+		units/ground/cosmic_arachnoid_sentinel_crystal
+		units/ground/cosmic_arachnoid_sentinel_crystal_alpha
+		units/ground/cosmic_arachnoid_sentinel_crystal_ultra
+		units/ground/cosmic_kafferroceros
+		units/ground/cosmic_kafferroceros_alpha
+		units/ground/cosmic_kafferroceros_ultra
+		units/ground/cosmic_nerilian
+		units/ground/cosmic_nerilian_alpha
+		units/ground/cosmic_nerilian_ultra
+		units/ground/cosmic_nerilian_boss
+		units/ground/cosmic_necrodon
+		units/ground/cosmic_necrodon_alpha
+		units/ground/cosmic_necrodon_ultra
+		units/ground/cosmic_kermon
+		units/ground/cosmic_kermon_alpha
+		units/ground/cosmic_kermon_ultra
+		units/ground/cosmic_kermon_omega_boss
+		units/ground/cosmic_phirian
+		units/ground/cosmic_phirian_alpha
+		units/ground/cosmic_phirian_ultra
+		units/ground/cosmic_phirian_boss
+		units/ground/cosmic_lesigian
+		units/ground/cosmic_lesigian_alpha
+		units/ground/cosmic_lesigian_ultra
+		units/ground/cosmic_lesigian_boss
+		units/ground/cosmic_flurian_boss
+		units/ground/cosmic_hedroner
+		units/ground/cosmic_hedroner_alpha
+		units/ground/cosmic_hedroner_ultra
+		units/ground/cosmic_drexolian_boss
+		units/ground/cosmic_drillgor_boss
+		units/ground/cosmic_baxmoth
+		units/ground/cosmic_baxmoth_alpha
+		units/ground/cosmic_baxmoth_ultra
+		units/ground/cosmic_baxmoth_boss
+		units/ground/cosmic_bomogan
+		units/ground/cosmic_bomogan_alpha
+		units/ground/cosmic_bomogan_ultra
+		units/ground/cosmic_morirot
+		units/ground/cosmic_morirot_alpha
+		units/ground/cosmic_morirot_ultra
+		units/ground/cosmic_mushbit
+		units/ground/cosmic_stregaros_boss
+		units/ground/cosmic_morirot_boss
+		units/ground/cosmic_hedroner_boss
+		units/ground/cosmic_magmoth
+		units/ground/cosmic_magmoth_alpha
+		units/ground/cosmic_magmoth_ultra
+		units/ground/cosmic_magmoth_boss
+		units/ground/cosmic_gnerot
+		units/ground/cosmic_gnerot_alpha
+		units/ground/cosmic_gnerot_ultra
+		units/ground/cosmic_gnerot_boss
+		units/ground/cosmic_gulgor_boss
+		units/ground/cosmic_bradron_boss
 	</list>
     <list id="wave_find_types" source="Direction,Name,Group,CreateDynamic,RandomBorder" />
     <list id="wave_group" source="spawn_enemy_border_east,spawn_enemy_border_west,spawn_enemy_border_north,spawn_enemy_border_south,spawn_cavern_spline"/>
     <list id="wave_direction" source="spawn_direction_1,spawn_direction_2,spawn_direction_3,spawn_direction_4"/>
     <list id="team_relationship" source="hostility,escape"/>
-    <list id="creature_species">		
-		random_bosses
+    <list id="creature_species">
+		boss_all_random
+		boss_acid_random
+		boss_caverns_random
+		boss_desert_random
+		boss_magma_random
+		boss_metallic_random
+		boss_jungle_random
+		boss_swamp_random
+		boss_baxmoth_random
+		boss_gnerot_random
+		boss_krocoon_random
+		boss_magmoth_random
+		boss_mudroner_random
+		boss_nerilian_random
+		boss_nurglax_random
+		boss_phirian_random
+		boss_stregaros_random
+		alien_tower_plasma_elite
+		alien_tower_artillery_elite
 		arachnoid_sentinel
 		arachnoid_sentinel_crystal
 		baxmoth
@@ -324,35 +372,6 @@
 		crader
 		crawlog
 		crysder
-		cosmic_necrodon
-		cosmic_kermon
-		cosmic_kermon_omega_boss
-		cosmic_phirian
-		cosmic_phirian_boss
-		cosmic_lesigian
-		cosmic_lesigian_boss
-		cosmic_hedroner
-		cosmic_hedroner_boss
-		cosmic_flurian_boss
-		cosmic_drexolian_boss
-		cosmic_baxmoth
-		cosmic_baxmoth_boss
-		cosmic_drillgor_boss
-		cosmic_bomogan
-		cosmic_morirot
-		cosmic_morirot_boss
-		cosmic_gnerot
-		cosmic_gnerot_boss
-		cosmic_gulgor_boss
-		cosmic_canoptrix_crystal
-		cosmic_canoptrix_crystal_alpha
-		cosmic_arachnoid_sentinel_crystal
-		cosmic_arachnoid_sentinel_crystal_alpha
-		cosmic_magmoth_ultra_boss
-		cosmic_magmoth_ultra
-		cosmic_arachnoid_boss
-		cosmic_kafferroceros
-		cosmic_kafferroceros_alpha
 		darnot
 		drexolian
 		drexolian_jungle
@@ -440,5 +459,90 @@
 		wingmite
 		quelver
 		zorant
+		alien_tower_artillery_cosmo_elite
+		alien_tower_artillery_cosmo_mkII_elite
+		cosmic_nerilian
+		cosmic_nerilian_alpha
+		cosmic_nerilian_ultra
+		cosmic_necrodon
+		cosmic_necrodon_alpha
+		cosmic_necrodon_ultra
+		cosmic_kermon
+		cosmic_kermon_alpha
+		cosmic_kermon_ultra
+		cosmic_phirian
+		cosmic_phirian_alpha
+		cosmic_phirian_ultra
+		cosmic_lesigian
+		cosmic_lesigian_alpha
+		cosmic_lesigian_ultra
+		cosmic_hedroner
+		cosmic_hedroner_alpha
+		cosmic_hedroner_ultra
+		cosmic_baxmoth
+		cosmic_baxmoth_alpha
+		cosmic_baxmoth_ultra
+		cosmic_bomogan
+		cosmic_bomogan_alpha
+		cosmic_bomogan_ultra
+		cosmic_morirot
+		cosmic_morirot_alpha
+		cosmic_morirot_ultra
+		cosmic_gnerot
+		cosmic_gnerot_alpha
+		cosmic_gnerot_ultra
+		cosmic_canoptrix_crystal
+		cosmic_canoptrix_crystal_alpha
+		cosmic_canoptrix_crystal_ultra
+		cosmic_arachnoid_sentinel_crystal
+		cosmic_arachnoid_sentinel_crystal_alpha
+		cosmic_arachnoid_sentinel_crystal_ultra
+		cosmic_kafferroceros
+		cosmic_kafferroceros_alpha
+		cosmic_kafferroceros_ultra
+		cosmic_mushbit
+		cosmic_magmoth
+		cosmic_magmoth_alpha
+		cosmic_magmoth_ultra		
+		random_bosses
+		cosmic_nerilian_boss
+		cosmic_arachnoid_boss
+		cosmic_baxmoth_boss
+		cosmic_bradron_boss
+		cosmic_drillgor_boss
+		cosmic_morirot_boss
+		cosmic_magmoth_boss
+		cosmic_phirian_boss
+		cosmic_kermon_omega_boss
+		cosmic_lesigian_boss
+		cosmic_hedroner_boss
+		cosmic_flurian_boss
+		cosmic_drexolian_boss
+		cosmic_stregaros_boss
+		cosmic_gnerot_boss
+		cosmic_gulgor_boss			
+		spawner_bradron_elite
+		spawner_canceroth_elite
+		spawner_canoptrix_elite
+		spawner_flurian_elite
+		spawner_fungor_elite
+		spawner_granan_elite
+		spawner_morirot_elite
+		spawner_mushbit_elite
+		spawner_octabit_elite
+		spawner_plutrodon_elite
+		spawner_stickrid_elite
+		spawner_wingmite_elite
+		spawner_arctic_boss
+		spawner_cosmic_base
+		spawner_cosmic_baxmoth
+		spawner_cosmic_canoptrix
+		spawner_cosmic_gnerot
+		spawner_cosmic_hedroner
+		spawner_cosmic_kermon
+		spawner_cosmic_lesigian
+		spawner_cosmic_magmoth_ultra
+		spawner_cosmic_morirot
+		spawner_cosmic_phirian
 	</list>
 </enumerables> 

@@ -99,7 +99,7 @@ return function()
 	rules.objectivesLogic =
 	{
 		{ name = "logic/objectives/kill_cosmic_arachnoid_elite.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/kill_cosmic_magmoth_ultra_boss_elite.logic", minDifficultyLevel = 5 },
+		{ name = "logic/objectives/kill_cosmic_magmoth_boss_elite.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/kill_cosmic_phirian_boss_elite.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/kill_cosmic_gnerot_boss_elite.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_cosmic_crystal_creeper.logic", minDifficultyLevel = 5 },

@@ -1,0 +1,192 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// EXAMPLE ////////////////////////////////////////////
+//
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_cryo"				// name of the new species
+//
+//    volume_non_aggressive_distance      "60"                            // distance between player<>unit where they start evading
+//    volume_aggressive_distance      	  "15"                            // distance between player<>unit where they start evading
+//
+//    creatures
+//    {       
+//		Creature
+//        {
+//            blueprint                       "units/ground/stregaros_boss_cryo" // base blueprint for the new species
+//            min_difficulty_factor           "0.0"                              // minimum difficulty points for the boss to show up (those points gradually grow in the campaign mode)
+//            max_difficulty_factor           "1.0"                              // maximum difficulty points for the boss to show up
+//            
+//            min_unit_skill_count            "0"								// minimum number of skills that this species will have (random between min an max)
+//            max_unit_skill_count            "1"								// maximum number of skills that this species will have (random between min an max)
+//
+//            max_unit_skill_level            "1"								// maximum level of a skill that will be assigned during spawn (skills have 5 difficulty levels from 0 to 4)
+//            exclude_unit_skills             "resurrect,drones"				// list of skill names that this species cannot have
+
+//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,drones,eggs,meteor_shower,resurrect,shockwave,swarm,underground_rock,waller" // full list
+
+//	          force_include_unit_skills       "waller"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+//	          additional_include_unit_skills  "additional_damage_wave_fire"				// this adds a skill for this species (it DOES NOT takes up unit skill slot - its an additional skill)
+//
+//			  unit_skill_overrides												// this can manually OVERRIDE any skill parameters for this species
+//			  {
+//				eggs															// name of the skill
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"					// component name and parameter name for a skill to be overriden
+//						value 	"units/ground/zorant"							// new value (in this case it is used to override default species spawned from eggs)
+//					}
+//				}
+//
+//				// eggs_lvl_1,2,3 etc will use overrides from eggs
+//
+//				eggs_lvl_4
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"
+//						value 	"units/ground/zorant_ultra"
+//					}
+//				}
+//			  }
+//            
+//            extra_unit_modifiers										// this can MODIFY unit parameters (only select parametrs have support for this)
+//            {
+//                health                      "10000"                   // accepted values: +/- 1000 flat value or +/- 20% to add pct value
+//				  movement_speed			  "20%"						// only PCT values accepted for now
+//				  resistance_all			  "30%"
+//				  resistance_fire			  "-50%"
+//				  resistance_physical		  "50%"
+//                //resistance_{damage_type}  "x%"
+//            }
+//
+//            volume_spawn_proximity_factor    "1"
+//        }
+//    }
+//}
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_random"
+//    creatures_group											// weighted random
+//	  {
+//			xxx_boss_cryo 1.0
+//			xxx_boss_fire 1.0
+//			xxx_boss_acid 1.0
+//	}
+//}
+
+///////////////////////////////////// ALIEN TOWER PLASMA ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"alien_tower_artillery_cosmo_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"50"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 - STANDARD /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_spawner"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"0"
+			}
+        }
+		Creature       ////////////////////// LVL 2 - EQUIVALENT OF ALPHA /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_spawner"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+        }
+		Creature       ////////////////////// LVL 3 - EQUIVALENT OF ULTRA /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_spawner"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+        }
+    }
+}
+
+///////////////////////////////////// ALIEN TOWER ARTILLERY ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"alien_tower_artillery_cosmo_mkII_elite"
+    volume_non_aggressive_distance      	"60"
+    volume_aggressive_distance      		"50"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 - STANDARD /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_mkII_spawner"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"0"
+			}
+        }
+		Creature       ////////////////////// LVL 2 - EQUIVALENT OF ALPHA /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_mkII_spawner"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+        }
+		Creature       ////////////////////// LVL 3 - EQUIVALENT OF ULTRA /////////////////////////////
+        {
+            blueprint               		"units/ground/alien_tower_artillery_cosmo_mkII_spawner"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"3000"
+			}
+        }
+    }
+}

@@ -25,13 +25,26 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
+					ai			"1"
 					carbonium 	"100"
 					steel 		"50"
-					titanium	"20"
+					plasmanite	"20"
+				}
+			}
+			
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					carbonium 	"150"
+					steel 		"100"
+					titanium	"50"
 					ai			"1"
 				}
-			}		
-		}			
+			}
+		}
 	}
 
 	ResourceConverterDesc // must be here for AI
@@ -207,14 +220,14 @@ EntityBlueprint
 	TurretDesc
 	{
 		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
+		find_type "farthest"
 		target_ignore "invisible|air_unit"
-		find_type	"farthest"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "4"
-			range_max "40"
-			aiming_range "42"
+			range_min "8"
+			range_max "50"
+			aiming_range "55"
 		}
 
 		aiming_cooldown "1"
@@ -307,9 +320,10 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_fluid/fire_spitter_muzzle"
 
-		burst_column_spacing 		"1"
-		burst_rate 					"0.10"
-		burst_column_angle 			"1"
+		use_accuracy				"0"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.1"
+		//burst_column_angle 			"5"
 	}
 
 	DestroyDesc
@@ -517,27 +531,20 @@ EntityBlueprint
 		on_enemy_hit_effect 		"effects/weapons_mortars/flamatic_explosion"
 		on_world_hit_effect 		"effects/weapons_mortars/flamatic_explosion"
 		on_resisted_hit_effect 		"effects/weapons_mortars/flamatic_explosion"
-		hit_effect_direction 		"up"
+		//hit_effect_direction 		"up"
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
 		collision_2d 				"ground_unit|destructible"
 
-		cluster_count 				"2"
-		cluster_max_generation      "0"
-		cluster_explosion_radius	"4"
-		fly_time_limit 				"5"
+		artillery_gravity_factor 	"8"
+		artillery_min_angle 		"90"
+		artillery_max_angle 		"45"
 
-		DamagePattern
+		Damages
 		{
-			area_damage_radius	"2"
-			area_damage_speed	"30"
-
-			Damages
+			Damage
 			{
-				Damage
-				{
-					value 			"150"
-					type			"fire"
-				}
+				value 			"150"
+				type			"fire"
 			}
 		}
 	}
@@ -550,9 +557,11 @@ EntityBlueprint
 			{
 				material 			ribbon/mortar_trail_red
 				update_bounds 		1
-				fade_out_time		1.9
-				tesselation_step 	0.1
-				manual_fade 		1
+				fade_out_time		0.2
+				uv_scroll			"0 -0.1"
+				tiling_distance     "0"
+				tesselation_step 	"0.2"
+				keep_local			"0"
 		
 				Ribbons
 				{

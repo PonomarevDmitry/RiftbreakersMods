@@ -1,0 +1,129 @@
+EntityBlueprint
+{ 
+	name "items/loot/resources/cosmic_specimen_base"
+
+	MeshDesc
+	{
+		mesh 		"meshes/misc/specimen.mesh"
+		material 	"loot/resources/cosmic_specimen"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/misc/specimen"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "idle"
+				animTime "0.0"
+			}
+		}
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/cosmic_specimen_idle"							
+				}
+			}
+		}		
+	}	
+}
+
+EntityBlueprint
+{ 
+		name "items/loot/resources/cosmic_specimen_base_item"
+
+	LuaDesc
+	{
+		script "lua/items/misc/resource_giver.lua"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						y "2.5"
+						x "2.5"
+						z "2.5"					
+					}			
+				}	
+				mass 		"380"	
+				inertia
+				{
+					x   0
+					y   1
+					z   0
+				}					
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		//EffectGroup
+		//{
+		//	group "loot_spawn"
+		//	enabled "0"		
+		//	
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/loot/loot_spawn"							
+		//		}
+		//	}
+		//}	
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_collect_specimen"							
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "loot_max"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/loot_max"							
+				}
+			}
+		}
+	}
+}
+

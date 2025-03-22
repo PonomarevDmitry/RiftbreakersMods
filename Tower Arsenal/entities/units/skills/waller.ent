@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/waller"
+	base_blueprint "units/skills/skill_base"
 
 	StateMachineDesc
 	{
@@ -46,10 +47,71 @@ EntityBlueprint
 			}	
 		}
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name 			"units/skills/waller_lvl_2"
+	base_blueprint	"units/skills/waller"
+	
+	SkillLinkUnitComponent
 	{
+		name 			"gui/hud/enemy_skill_name/waller_lvl_2"
+		description 	"gui/hud/enemy_skill_description/waller"
+		icon 			"gui/menu/inventory/stat_icons/waller_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/waller_obstacle_lvl_2"
+		}			
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/waller_lvl_3"
+	base_blueprint	"units/skills/waller"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/waller_lvl_3"
+		description 	"gui/hud/enemy_skill_description/waller"
+		icon 			"gui/menu/inventory/stat_icons/waller_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/waller_obstacle_lvl_3"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/waller_lvl_4"
+	base_blueprint	"units/skills/waller"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/waller_lvl_4"
+		description 	"gui/hud/enemy_skill_description/waller"
+		icon 			"gui/menu/inventory/stat_icons/waller_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/waller_obstacle_lvl_4"
+		}			
 	}
 }
 
@@ -62,13 +124,46 @@ EntityBlueprint
 		script "lua/misc/waller.lua"
 		database
 		{
-			wall_bp			string:"units/skills/waller_obstacle_root"
+			wall_bp			string:"misc/root_wall_cosmic"
 			side_distance	float:"10"
 			back_distance	float:"16"
 			front_distance	float:"20"
 			step			float:"2.0"
 		}			
 	}
+
+	LifeTimeDesc
+	{
+		time 		12
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/waller_obstacle_lvl_2"
+	base_blueprint	"units/skills/waller_obstacle"
+
+	LifeTimeDesc
+	{
+		time 		9
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/waller_obstacle_lvl_3"
+	base_blueprint	"units/skills/waller_obstacle"
+
+	LifeTimeDesc
+	{
+		time 		6
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/waller_obstacle_lvl_4"
+	base_blueprint	"units/skills/waller_obstacle"
 
 	LifeTimeDesc
 	{

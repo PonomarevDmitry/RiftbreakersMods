@@ -1,0 +1,166 @@
+EntityBlueprint
+{
+	name "misc/cosmic_waller"
+
+	LuaDesc
+	{
+		script "lua/misc/waller.lua"
+		database
+		{
+			crystal_grow_speed	float:	"1.5"
+			crystal_grow_bp		string:	"units/ground/cosmic_gulgor_boss/grow_crystal"
+			crystal_bp		    string:	"units/ground/cosmic_gulgor_boss/crystal"
+			side_distance	float:"10"
+			back_distance	float:"16"
+			front_distance	float:"20"
+			step			float:"2.0"
+		}			
+	}
+
+	LifeTimeDesc
+	{
+		time 		25
+	}
+}
+
+EntityBlueprint
+{
+	name "misc/cosmic_root_wall"
+	
+	base_blueprints
+	{
+		misc/cosmic_waller_random
+	}	
+
+	LuaDesc
+	{
+		script "lua/misc/root_wall.lua"
+		database
+		{
+			life_time	float:"20"		
+		}
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     "static"
+				group_id    "destructible"
+				physics_material  "default"
+				Shapes
+				{
+   					PhysicsBoxShape
+   					{
+    						x	2.8
+    						y	16
+    						z	2.8
+   					}	
+				}
+			}
+		}
+	}
+
+	TeamDesc
+	{
+		team "none"
+	}
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type 	"1"
+		cost_type 			"path_blocker"
+		flow_field_size		"0.7"
+	}
+
+	HealthDesc
+	{
+		max_health 					"150"
+		health 						"150"
+		is_manual					"0"
+		update_health_uniform 		"1"		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/enemies_drexolian/wall_explosion"
+					part_physics_material   "debris_heavy"	
+					part_material 			"props/rocks/cliff/cliff_small"
+					part_prefix 			"meshes/misc/building_small_parts_generic"
+					part_effect 			"effects/enemies_drexolian/wall_part_trail"	
+				}
+			}			
+		}		
+	}
+	
+	EffectDesc
+	{	
+		EffectGroup
+		{
+			group "dig_up"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drexolian/wall_dig_up"
+					//bone "att_digup_left"
+					always_up "1"
+				}
+			}
+		}	
+	}
+}
+
+EntityBlueprint
+{
+	name  "misc/cosmic_waller_random"	
+	
+	MeshDesc
+	{
+		mesh		"meshes/error.mesh" // it will be replaced by content of randomized mesh
+		material	"error"		
+	}
+
+	RandomMeshComponent
+	{
+		random_meshes
+		{
+			MeshDesc
+			{
+				material "misc/waller"
+				mesh "meshes/misc/waller_01.mesh"
+			}
+
+			MeshDesc
+			{
+				material "misc/waller"
+				mesh "meshes/misc/waller_02.mesh"
+			}
+
+			MeshDesc
+			{
+				material "misc/waller"
+				mesh "meshes/misc/waller_03.mesh"
+			}
+		}
+	}
+}
+

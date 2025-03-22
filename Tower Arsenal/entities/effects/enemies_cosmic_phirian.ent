@@ -38,7 +38,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/enemies_phirian/sword_hit_world
+	name effects/enemies_cosmic_phirian_boss/sword_hit_world
 
 	base_blueprints
 	{
@@ -46,15 +46,27 @@ EntityBlueprint
 		effects/default
 	}
 
-	ParticleDesc
+	LuaDesc
 	{
-		name    "rift/mech_sword_world_hit"
+		script "lua/items/misc/slash.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/flame_blade_slash.mesh"
+		material 	"slash/cosmic_fire"	
 	}
 	
-	SoundDesc
+	ParticleDesc
 	{
-		name "items/weapons/melee_sharp/sword_hit_world"
-	}
+		name    "rift/cosmic_blade_shockwave_slash"
+	}	
+
+	//ParticleDesc
+	//{
+	//	name    "rift/cosmic_blade_hit"
+	//}
+
 }
 
 EntityBlueprint
@@ -113,7 +125,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"90"
-					type			"gravity"
+					type			"cosmic"
 				}
 			}
 		}
@@ -202,6 +214,48 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/enemies_cosmic_phirian_alpha/dash
+
+	base_blueprints 
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_magmoth_alpha_projectile"
+	}
+
+	SoundDesc
+	{
+		name "enemies/phirian/dash"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_phirian_ultra/dash
+
+	base_blueprints 
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_magmoth_ultra_projectile"
+	}
+
+	SoundDesc
+	{
+		name "enemies/phirian/dash"
+	}
+}
+
+EntityBlueprint
+{
 	name effects/enemies_cosmic_phirian/dash_ribbon
 	
 	LifeTimeDesc
@@ -212,6 +266,70 @@ EntityBlueprint
 	RibbonComponent
 	{		
 		material 			"ribbon/melee_trail_violet"
+		update_bounds 		1
+		fade_out_time		0.4
+		tesselation_step 	0.1
+		manual_fade 		0
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "3 6 0"
+			}
+
+			Ribbon
+			{
+				offset "4 0 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_phirian_alpha/dash_ribbon
+	
+	LifeTimeDesc
+	{
+		time "1.2"
+	}
+
+	RibbonComponent
+	{		
+		material 			"ribbon/grenade_trail_blue"
+		update_bounds 		1
+		fade_out_time		0.4
+		tesselation_step 	0.1
+		manual_fade 		0
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "3 6 0"
+			}
+
+			Ribbon
+			{
+				offset "4 0 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_phirian_ultra/dash_ribbon
+	
+	LifeTimeDesc
+	{
+		time "1.2"
+	}
+
+	RibbonComponent
+	{		
+		material 			"ribbon/drone_trail_blue_02"
 		update_bounds 		1
 		fade_out_time		0.4
 		tesselation_step 	0.1
@@ -276,9 +394,9 @@ EntityBlueprint
 	
 	RibbonComponent
 	{		
-		material 			"ribbon/melee_trail_violet"
+		material 			"ribbon/drone_trail_cosmic"
 		update_bounds 		1
-		fade_out_time		0.3
+		fade_out_time		0.5
 		tesselation_step 	0.1
 		manual_fade 		0
 
@@ -296,3 +414,58 @@ EntityBlueprint
 		}
 	}
 }
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_phirian_alpha/sword_slash
+	
+	RibbonComponent
+	{		
+		material 			"ribbon/drone_trail_cosmic"
+		update_bounds 		1
+		fade_out_time		0.5
+		tesselation_step 	0.1
+		manual_fade 		0
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "5 0 0"
+			}
+
+			Ribbon
+			{
+				offset "-1 0 0"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_phirian_ultra/sword_slash
+
+	RibbonComponent
+	{		
+		material 			"ribbon/drone_trail_blue_02"
+		update_bounds 		1
+		fade_out_time		0.5
+		tesselation_step 	0.1
+		manual_fade 		0
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "5 0 0"
+			}
+
+			Ribbon
+			{
+				offset "-1 0 0"
+			}
+		}
+	}
+}
+

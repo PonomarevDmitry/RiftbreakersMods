@@ -1,0 +1,861 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_magmoth_boss_base"
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	StateMachineDesc
+	{
+		template_name "magmoth"
+		params
+		{
+			aggressive_speed					float:"8"
+			aggressive_acceleration				float:"16"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"450"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			teleport_start_distance			    float:"12"
+			teleport_cooldown					float:"15"
+			teleport_distance					float:"30"
+			teleport_min_building_distance		float:"30"
+			teleport_time						float:"0.65"
+		}		
+	}
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"0.8"
+		acid			"2.0"
+		energy			"2.0"
+		cryo			"0.9"
+		area			"0.8"
+		cosmic			"0.6"
+		plasmoid		"1.0"
+		reflect_damage_max_percent 		"0.020"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.8"
+		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	UnitsSpawnerDesc
+	{
+		blueprint						"units/ground/egg_cosmic_magmoth_ultra"
+		amount_on_single_spawn			"9"
+		max_spawn						"9"
+		time_to_spawn					"20"
+		unit_state_spawn				"1"  // do not touch
+		max_spawn_distance				"20"
+		spawn_type						"egg"
+		spawn_marker_bp					"effects/messages_and_markers/objective_marker_violet"
+		spawn_marker_life_time			"30"
+		can_spawn_when_visible			"0"
+		defend_radius					"40"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_medium|spawner"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/magmoth"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "magmoth"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/magmoth_c1.nxs"
+					}
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_magmoth_boss"
+		can_activate 0
+	}
+	
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}	
+
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "12"
+			range_max "27"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/enemies_cosmic_magmoth_ultra_boss/death"	
+					part_prefix 			"meshes/units/ground/magmoth"
+					part_material 			"units/ground/cosmic_magmoth_boss"
+					part_effect 			"effects/enemies_generic/boss_trail_cosmic"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "Body_1"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}	
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_magmoth/idle"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_magmoth_ultra_boss/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		
+		EffectGroup
+		{			
+			group "move_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_magmoth/run"
+				}
+			}
+		}	
+		
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.3 1.3 1.3"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "teleport"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_magmoth_ultra_boss/teleport"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_fire"	
+					bone "att_death"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_fire"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}	
+
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cosmic"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_fire"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 4 0"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_magmoth_boss"
+
+	base_blueprint "units/ground/cosmic_magmoth_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/cosmic_magmoth.lua"
+		database
+		{
+			min_scale	      float:"1.5"
+			max_scale	      float:"1.5"
+			//fuse_bp			  string:"effects/enemies_generic/time_damage_cosmic"
+		}			
+	}
+
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "Body_1"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}	
+	}	
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"6150"
+		health 						"6150"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/magmoth.mesh"
+		material 	"units/ground/cosmic_magmoth_boss"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		ammo_blueprint 				"units/ground/cosmic_magmoth_boss/attack_range"
+
+		burst_column_spacing 		"5.0"
+		burst_rate 					"1.0"
+		burst_column_angle 			"45"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_magmoth_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_magmoth/attack_start"
+						attack_start_time			"0.53"
+						attack_end_time				"0.63"
+						attack_duration 			"1.53"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_magmoth/attack_start"
+						attack_start_time			"0.57"
+						attack_end_time				"0.67"
+						attack_duration 			"1.43"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"20.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.5"
+						y "4.0"
+						z "2.5"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint 
+{	
+	name "units/ground/cosmic_magmoth_boss/attack_range"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/magmoth_projectile.mesh"
+		material    "projectiles/cosmic_magmoth_projectile"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/time_damage_cosmic"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		distribution 			"dissipation"
+
+		on_enemy_hit_effect 	"effects/cosmic_corrosive_explosion_small"
+		on_world_hit_effect 	"effects/cosmic_corrosive_explosion_small"	
+		on_shield_hit_effect	"effects/cosmic_corrosive_explosion_small"
+		hit_effect_direction	"up"
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire			"pass"
+	}
+
+	SoundDesc
+	{
+		name "destructibles/fire"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_magmoth_boss/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "2"
+				z "4"
+			}
+		}
+	}
+}
+

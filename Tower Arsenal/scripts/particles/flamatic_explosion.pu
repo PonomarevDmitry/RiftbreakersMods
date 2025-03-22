@@ -5,7 +5,6 @@ system rift/flamatic_explosion_big
     scale_velocity                              0.025
     scale                                       0.02 0.02 0.02
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 50
     technique firealpha2
@@ -83,7 +82,7 @@ system rift/flamatic_explosion_big
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/explosion_and_smoke_red_anim
+        material                                particles/smoke_anim
         renderer                                Billboard
         {
             render_queue_group                  62
@@ -93,12 +92,11 @@ system rift/flamatic_explosion_big
         }
         emitter                                 Circle 
         {
-            emission_rate                       50
-            angle                               80
+            angle                               40
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             1.5
+                max                             1.1
             }
             velocity                            dyn_random
             {
@@ -111,6 +109,7 @@ system rift/flamatic_explosion_big
                 max                             250
             }
             position                            0 25 0
+            colour                              1 0 0 1
             force_emission                      true
             radius                              60
         }
@@ -139,9 +138,10 @@ system rift/flamatic_explosion_big
         }
         affector                                Colour Affector68
         {
-            time_colour                         0    1 1 1 1
-            time_colour                         0.804348  1 1 1 1
-            time_colour                         1    0.501961 0.501961 0.501961 0
+            time_colour                         0    0.715 0 0 1
+            time_colour                         0.804348  0.715 0 0 1
+            time_colour                         1    1 0 0 0
+            colour_operation                    multiply
         }
     }
     technique sparks
@@ -233,7 +233,7 @@ system rift/flamatic_explosion_big
                 max                             50
             }
             position                            0 25 0
-            colour                              0.313726 0.313726 0.313726 1
+            colour                              1 0 0 1
             force_emission                      true
         }
         affector                                TextureAnimator Affector49
@@ -261,10 +261,9 @@ system rift/flamatic_explosion_big
         }
         affector                                Colour Affector358
         {
-            time_colour                         0    1 1 1 1
-            time_colour                         0.502174  1 1 1 1
-            time_colour                         1    1 1 1 0
-            colour_operation                    multiply
+            time_colour                         0    0.715 0 0 1
+            time_colour                         0.502174  0.715 0 0 1
+            time_colour                         1    1 0 0 0
         }
     }
     technique lines

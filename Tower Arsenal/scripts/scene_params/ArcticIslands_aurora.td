@@ -31,16 +31,15 @@ TimeOfDayPreset
 		}
 
 		skybox_specular_intensity "0.125"
-		physics_gravity_factor "1.000"
 		time_of_day "2"
 		skybox_diffuse_intensity "0.180"
 		clouds_opacity "0.000"
 		bloom_params
 		light_color
 		{
-			z "0.250"
+			z "0.586"
 			x "1.000"
-			y "0.753"
+			y "0.829"
 			w "20.000"
 		}
 
@@ -70,6 +69,7 @@ TimeOfDayPreset
 		weather_haptic
 		weather_effect
 		weather_wind "effects/wind/medium"
+		weather_biome_mod
 		weather_type "0"
 	}
 
@@ -104,16 +104,15 @@ TimeOfDayPreset
 		}
 
 		skybox_specular_intensity "0.850"
-		physics_gravity_factor "1.000"
 		time_of_day "0"
 		skybox_diffuse_intensity "0.500"
 		clouds_opacity "0.000"
 		bloom_params
 		light_color
 		{
-			z "0.376"
-			x "1.000"
-			y "0.784"
+			z "0.234"
+			x "0.502"
+			y "0.464"
 			w "12.000"
 		}
 
@@ -143,6 +142,7 @@ TimeOfDayPreset
 		weather_haptic
 		weather_effect
 		weather_wind "effects/wind/medium"
+		weather_biome_mod
 		weather_type "0"
 	}
 
@@ -176,22 +176,21 @@ TimeOfDayPreset
 			fade_in_falloff "10.000"
 		}
 
-		skybox_specular_intensity "0.050"
-		physics_gravity_factor "1.000"
+		skybox_specular_intensity "0.405"
 		time_of_day "3"
-		skybox_diffuse_intensity "0.100"
-		clouds_opacity "0.000"
+		skybox_diffuse_intensity "0.000"
+		clouds_opacity "0.341"
 		bloom_params
 		light_color
 		{
-			z "0.000"
-			x "0.000"
-			y "0.000"
-			w "0.000"
+			z "0.581"
+			x "0.286"
+			y "0.590"
+			w "12.000"
 		}
 
 		weather_effect
-		light_size "0.200"
+		light_size "0.636"
 		fog_params
 		{
 			end "68.000"
@@ -240,17 +239,16 @@ TimeOfDayPreset
 		}
 
 		skybox_specular_intensity "0.100"
-		physics_gravity_factor "1.000"
 		time_of_day "1"
 		skybox_diffuse_intensity "0.180"
 		clouds_opacity "0.000"
 		bloom_params
 		light_color
 		{
-			z "0.102"
-			x "0.982"
-			y "0.361"
-			w "20.000"
+			z "0.647"
+			x "0.388"
+			y "0.655"
+			w "12.000"
 		}
 
 		weather_effect

@@ -27,7 +27,18 @@ EntityBlueprint
 				{
 					carbonium 	"200"
 					steel 		"150"
-					titanium	"45"
+					ai			"1"
+				}
+			}
+			
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					carbonium 	"250"
+					steel 		"100"
 					ai			"1"
 				}
 			}
@@ -336,22 +347,6 @@ EntityBlueprint
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "lamp"
-			enabled "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/tower_omni_light"
-					bone "att_muzzle"
-					random_delay "3"
-				}
-			}
-		}
-
-		EffectGroup
-		{
 			group "working"
 			enabled "0"
 
@@ -387,14 +382,15 @@ EntityBlueprint
 		}
 	}
 }
+
 EntityBlueprint
 {
 	name "buildings/defense/tower_flame_artillery_projectile"
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/blob_1.mesh"
-		material 	"projectiles/blob_fire"
+		mesh 		"meshes/projectiles/mortar_sentry_projectile.mesh"
+		material 	"projectiles/flame_mortar_sentry_projectile"
 	}
 
 	SkeletonDesc
@@ -428,7 +424,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name 		"items/weapons/fluid/corrosive_gun_fire"
+		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
 	ArtilleryAmmoComponent
@@ -438,6 +434,7 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapon_hit/incendiary_mine_explosion"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
 	}
+
 	EffectDesc
 	{
 		EffectGroup

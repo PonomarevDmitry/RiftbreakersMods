@@ -26,10 +26,10 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"300"
-					steel 		"150"
-					titanium	"120"
-					ai			"1"
+					ai				"1"
+					carbonium		"300"
+					steel			"150"
+					cosmonite_ore	"150"
 				}
 			}
 		}
@@ -334,21 +334,6 @@ EntityBlueprint
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "lamp"
-			enabled "0"
-
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/tower_white_searchlight"
-					bone "att_muzzle"
-					random_delay "3"
-				}
-			}
-		}
-		EffectGroup
-		{
 			group "working"
 			enabled "0"
 
@@ -439,7 +424,11 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_minigun_magma_projectile"
 
-	base_blueprint "effects/weapons_bullet/minigun_bullet"
+	base_blueprints
+	{
+		effects/weapons_bullet/flame_minigun_bullet
+		effects/no_lifetime
+	}
 
 	ProjectileAmmoComponent
 	{
@@ -466,68 +455,10 @@ EntityBlueprint
 		friendly_fire			"pass"
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility			"radar"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/blood_trail_animated_fire"
-	}
-
-	SoundDesc
-	{
-		name 		"buildings/defense/tower_minigun"
-	}
-
 	LifeTimeDesc
 	{
-		time 		1.6
+		time 		2
 		//type 		"camera"
 	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{
-				material 			"ribbon/minigun_trail_red"
-				update_bounds 		1
-				fade_out_time		0.2
-				uv_scroll			"0 -0.5"
-				tiling_distance     "4"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-		
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0 -0.6"
-					}
-		
-					Ribbon
-					{
-						offset "0 0 0.6"
-					}
-				}
-			}
-		}
-	}	
 }
 

@@ -78,25 +78,10 @@ EntityBlueprint
 				Damage
 				{
 					value 			"35"
-					type			"gravity"
+					type			"cosmic"
 				}
 			}
 		}
-	}	
-	
-	BurningComponent
-	{
-		spread_radius 			"5.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-		disable_light_fade_out "1"
 	}	
 	
 	ShockWaveDesc
@@ -201,19 +186,6 @@ EntityBlueprint
 	{
 		name "enemies/magmoth/projectile_hit"
 	}
-	BurningComponent
-	{
-		spread_radius 			"1.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-	
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-	
-		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-	}		
 }
 
 EntityBlueprint
@@ -272,6 +244,70 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/boss_trail_cosmic"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/magmoth/muzzle"
+	}	
+}
+
+EntityBlueprint 
+{
+	name "effects/enemies_cosmic_magmoth_alpha/projectile"
+
+	base_blueprints
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
+	RibbonComponent
+	{
+		material 			ribbon/melee_trail_blue
+		update_bounds 		1
+		fade_out_time		0.40
+		uv_scroll			"0 -1.5"
+		tiling_distance     "0"
+		tesselation_step 	"0.15"
+		keep_local			"0"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_magmoth_alpha_projectile"
+	}
+
+	SoundDesc
+	{
+		name 		"enemies/magmoth/muzzle"
+	}	
+}
+
+EntityBlueprint 
+{
+	name "effects/enemies_cosmic_magmoth_ultra/projectile"
+
+	base_blueprints
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
+	RibbonComponent
+	{
+		material 			ribbon/melee_trail_blue
+		update_bounds 		1
+		fade_out_time		0.40
+		uv_scroll			"0 -1.5"
+		tiling_distance     "0"
+		tesselation_step 	"0.15"
+		keep_local			"0"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_magmoth_ultra_projectile"
 	}
 
 	SoundDesc

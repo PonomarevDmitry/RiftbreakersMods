@@ -25,12 +25,26 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
+					ai			"1"
 					carbonium 	"100"
 					steel 		"50"
+					plasmanite	"20"
+				}
+			}
+			
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					carbonium 	"150"
+					steel 		"100"
+					titanium	"50"
 					ai			"1"
 				}
-			}		
-		}			
+			}
+		}
 	}
 
 	ResourceConverterDesc // must be here for AI
@@ -206,13 +220,14 @@ EntityBlueprint
 	TurretDesc
 	{
 		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
+		find_type "farthest"
 		target_ignore "invisible|air_unit"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "8"
-			range_max "40"
-			aiming_range "42"
+			range_max "50"
+			aiming_range "55"
 		}
 
 		aiming_cooldown "1"
@@ -222,6 +237,7 @@ EntityBlueprint
 		yaw "be_turret"
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
+		//gravity_factor "8"
 	}
 
 	BurstWeaponComponent
@@ -304,9 +320,10 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_energy/tower_plasma_gun_fire"
 
-		burst_column_spacing 		"0"
-		burst_rate 					"0.05"
-		burst_column_angle 			"10"
+		use_accuracy				"0"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.1"
+		//burst_column_angle 			"5"
 	}
 
 	DestroyDesc
@@ -472,27 +489,22 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_energy/energy_explosion_small"
 		on_world_hit_effect 	"effects/weapons_energy/energy_explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_energy/energy_explosion_small"
-		hit_effect_direction 	"up"
+		//hit_effect_direction 	"up"
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
 		collision_2d 				"ground_unit|destructible"
-		
-		cluster_count 				"6"
-		cluster_max_generation      "0"
-		cluster_explosion_radius	"4"
-		fly_time_limit 				"5"
 
-		DamagePattern
+		artillery_gravity_factor 	"8"
+		artillery_min_angle 		"90"
+		artillery_max_angle 		"45"
+		explosion_effect 			"effects/weapons_mortars/cosmic_explosion"
+		explosion_delay 			"1.9"
+
+		Damages
 		{
-			area_damage_radius	"4"
-			area_damage_speed	"30"
-
-			Damages
+			Damage
 			{
-				Damage
-				{
-					value 			"150"
-					type			"plasmoid"
-				}
+				value 			"150"
+				type			"plasmoid"
 			}
 		}
 	}

@@ -3,45 +3,7 @@ system rift/flame_plasma_projectile
     scale_velocity                              0.007
     scale                                       0.005 0.009 0.009
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 40
-    technique glow
-    {
-        keep_local                              true
-        visual_particle_quota                   1
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/glow_nocolor
-        renderer                                Billboard
-        {
-            billboard_type                      oriented_self
-            billboard_origin                    bottom_center
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Point trail1
-        {
-            emission_rate                       1500
-            angle                               0
-            time_to_live                        dyn_random
-            {
-                min                             0.2
-                max                             0.3
-            }
-            velocity                            0.01
-            particle_width                      1000
-            particle_height                     2800
-            position                            1000 0 0
-            direction                           -1 0 0
-            auto_direction                      true
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    1 0.251961 0 0.206406
-            time_colour                         1    1 0.251961 0 0.19573
-        }
-    }
     technique trail0
     {
         visual_particle_quota                   5
@@ -120,6 +82,7 @@ system rift/flame_plasma_projectile
             keep_local                          true
             direction                           -1 0 0
             end_texture_coords_range            3
+            colour                              0.960854 0.143615 0 1
         }
         affector                                Scale 
         {
@@ -235,6 +198,43 @@ system rift/flame_plasma_projectile
         affector                                Scale Affector35
         {
             xyz_scale                           -30
+        }
+    }
+    technique glow
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_nocolor
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       0
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0
+                max                             0
+            }
+            velocity                            0.01
+            particle_width                      1000
+            particle_height                     2800
+            position                            1000 0 0
+            direction                           -1 0 0
+            auto_direction                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 0.251961 0 0.206406
+            time_colour                         1    1 0.251961 0 0.234875
         }
     }
 }

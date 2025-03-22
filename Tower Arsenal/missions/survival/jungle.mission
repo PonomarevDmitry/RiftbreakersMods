@@ -83,12 +83,6 @@ MissionDef
             
             CreatureVolume
             {
-                creature_species    "cosmic_necrodon"
-                volume_spawn_ratio  "0.3"
-            }
-            
-            CreatureVolume
-            {
                 creature_species    "arachnoid_sentinel"
                 volume_spawn_ratio  "1.25"
             }
@@ -111,11 +105,11 @@ MissionDef
                 volume_spawn_ratio  "0.2"
             }
 			
-			//CreatureVolume
-            //{
-            //    creature_species    "drexolian_jungle"
-            //    volume_spawn_ratio  "0.1"
-            //}
+			CreatureVolume
+            {
+                creature_species    "drexolian_jungle"
+                volume_spawn_ratio  "0.1"
+            }
 			
             CreatureVolume
             {
@@ -152,41 +146,41 @@ MissionDef
             }
         }
 		
-		//guardian_standard
-        //{            	
-        //    CreatureVolume
-        //    {
-        //        creature_species    "canoptrix"
-		//		volume_spawn_ratio  "1"
-        //    }
-        //}
-		//
-        //guardian_advanced
-        //{            	
-        //    CreatureVolume
-        //    {
-        //        creature_species    "canoptrix"
-		//		volume_spawn_ratio  "1"
-        //    }
-        //}
-		//
-        //guardian_superior
-        //{            		
-        //    CreatureVolume
-        //    {
-        //        creature_species    "canoptrix"
-		//		volume_spawn_ratio  "1"
-        //    }
-        //}
-		//
-        //guardian_extreme
-        //{            		
-        //    CreatureVolume
-        //    {
-        //        creature_species    "canoptrix"
-		//		volume_spawn_ratio  "1"
-        //    }
-        //}
+		guardian_standard
+        {            	
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+				volume_spawn_ratio  "1"
+            }
+        }
+		
+        guardian_advanced
+        {            	
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+				volume_spawn_ratio  "1"
+            }
+        }
+		
+        guardian_superior
+        {            		
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+				volume_spawn_ratio  "1"
+            }
+        }
+		
+        guardian_extreme
+        {            		
+            CreatureVolume
+            {
+                creature_species    "canoptrix"
+				volume_spawn_ratio  "1"
+            }
+        }
     }
 	
 	mission_object_spawners
@@ -261,6 +255,34 @@ MissionDef
                         blueprint 	    string:"items/loot/resources/shard_carbonium_item"
                         min   	 	    int:"200"
                         max   	 	    int:"500"
+						package_size    int:"5"
+                    }
+                }
+
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"100"
+                        max   	 	int:"250"
+						package_size    int:"3"
+                    }
+                }
+
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      0,2
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
 						package_size    int:"5"
                     }
                 }
@@ -618,17 +640,6 @@ MissionDef
             min_resources   "12000"
             max_resources   "18000"
 
-            min_spawned_volumes "2"
-            max_spawned_volumes "2"
-        }
-		
-		ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-
-            min_resources   "4000"
-            max_resources   "8000"
-            
             min_spawned_volumes "2"
             max_spawned_volumes "2"
         }

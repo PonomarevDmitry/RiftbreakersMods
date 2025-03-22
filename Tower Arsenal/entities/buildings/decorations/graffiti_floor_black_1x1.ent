@@ -1,0 +1,113 @@
+EntityBlueprint
+{
+	name	"buildings/decorations/graffiti_floor_black_1x1"
+
+	BuildingDesc
+	{
+		name					"graffiti_floor_black_1x1"
+		bp						"buildings/decorations/graffiti_floor_black_1x1"
+		category				"decorations"
+
+		localization_id			"gui/hud/building_name/graffiti_floor_black"
+		description				"gui/hud/building_description/graffiti_floor_black"
+		menu_icon				"gui/hud/building_icons/floor_gtwo_1x1"
+
+		order					"0.5"
+		type					"floor"
+		require					"headquarters"
+
+		building_functionality	"BUILD_ON_WATER"
+		building_mode			"radius"
+		exclude_terrain_types	"quicksand,magma_hot_ground,magma_very_hot_ground,creeper_area"
+		overrides				"floor"
+
+		buildable				"0"
+		building_group			"graffiti_floor_purple_1x1"
+
+		costs
+		{
+			BuildingCostInfo
+			{
+				name			"default"
+				building_time	1
+				building_cost
+				{
+					carbonium	"2"
+				}
+			}
+		}
+	}
+
+	LuaDesc
+	{
+		script	"lua/buildings/building.lua"
+		database
+		{
+			remove_lua_after_build	int:"1"
+		}
+	}
+
+	//ParticleDesc
+	//{
+	//	name	"rift/mech_dash_acid"
+	//}
+
+	ResistanceComponent
+	{
+		creeper_area		"1"
+		default_factor		"0"
+	}
+
+	MeshDesc
+	{
+		mesh		"meshes/buildings/decorations/floor_basic_1x1_nosides.mesh"
+		material	"buildings/decorations/graffiti_floor_black_1x1"
+		flags		"2"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type				"static"
+				group_id			"floor"
+				physics_material	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x	1.9
+						y	0.1
+						z	1.9
+					}
+				}
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		type	2
+
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	1.9
+				y	1.9
+				z	1.9
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"acid_floor"
+	}
+
+	WeaponItemDesc
+	{
+	}
+}

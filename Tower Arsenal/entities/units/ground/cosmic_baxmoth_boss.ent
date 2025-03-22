@@ -7,8 +7,8 @@ EntityBlueprint
 		template_name "baxmoth"
 		params
 		{
-			aggressive_speed					float:"5"
-			aggressive_acceleration				float:"40"
+			aggressive_speed					float:"6"
+			aggressive_acceleration				float:"80"
 			not_aggressive_speed				float:"5"
 			not_aggressive_acceleration			float:"40"
 			spawning_drone_rotate_speed			float:"300"
@@ -30,13 +30,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.5"
+		fire			"0.7"
 		acid			"1.0"
-		energy			"1.0"
-		cryo			"0.5"
+		energy			"0.8"
+		cryo			"0.8"
 		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.0"
+		reflect_damage_max_percent 		"0.04"
 	}
 
 	StunDataComponent
@@ -50,7 +51,7 @@ EntityBlueprint
 		stagger_long_cooldown			"3.5"
 		stun_cooldown					"15"
 		
-		force_stagger_chance 			"1"
+		force_stagger_chance 			"0.025"
 	}
 	
 	NavMeshMovementComponent
@@ -171,7 +172,7 @@ EntityBlueprint
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
 					explosion_effect_scale 	"1"
-					explosion_effect 		"effects/enemies_neutral/poogret_death"	
+					explosion_effect 		"effects/enemies_baxmoth/death"	
 					part_prefix 			"meshes/units/ground/baxmoth"
 					part_material 			"units/ground/cosmic_baxmoth_boss"
 					part_effect 			"effects/enemies_generic/blood_trail_violet"
@@ -185,6 +186,24 @@ EntityBlueprint
 
 	EffectDesc
 	{
+		EffectBaseBlueprints
+		{
+			"units/ground/cosmic_baxmoth_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_baxmoth/death_long_energy"	
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
 		EffectGroup
 		{			
 			group "idle_random"
@@ -518,8 +537,8 @@ EntityBlueprint
 		script "lua/units/ground/baxmoth.lua"
 		database
 		{
-			min_scale	float:"1.2"
-			max_scale	float:"1.2"
+			min_scale	float:"1.1"
+			max_scale	float:"1.1"
 		}		
 	}
 
@@ -545,10 +564,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"3000"
+		health 						"3000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -565,17 +582,17 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/baxmoth.mesh"
+		mesh 		"meshes/units/ground/baxmoth_boss.mesh"
 		material 	"units/ground/cosmic_baxmoth_boss"
 	}
 
 	TurretDesc
 	{
-		name   			"attack"
-		target			"player|ground_unit|building"
-		target_ignore 	"wall|invisible"
-		speed 			"200"
-		aim_volume 		"SphericalAimVolume"
+		name   "attack"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "200"
+		aim_volume "SphericalAimVolume"
 		{
 			range_min "0"
 			range_max "34"
@@ -594,7 +611,7 @@ EntityBlueprint
 	{
 		blueprint					"units/air/baxmoth_drone_cosmic"
 		spawn_effect				"effects/enemies_cosmic_baxmoth/drone_spawn"
-		max_spawn					"25"
+		max_spawn					"40"
 		attachment_to_spawn_from	"spawn"
 		spawn_time					"0.1"
 		spawn_disabled				"1"
@@ -651,7 +668,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"45.0"
-										type 	"cosmic"
+										type 	"energy"
 									}
 								}
 							}

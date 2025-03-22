@@ -1,0 +1,1002 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_stregaros_boss"
+
+	base_blueprint "units/ground/cosmic_stregaros_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/cosmic_stregaros_boss_copy.lua"
+		database
+		{
+			min_scale			float:"1.18"
+			max_scale			float:"1.33"
+			resurrect_bp		string:"units/ground/cosmic_stregaros_boss_resurrect"
+			resurrect_min_time	float:"5"
+			resurrect_max_time	float:"10"
+			resurrect_chance	float:"100"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"2.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stregaros_boss.mesh"
+		material 	"units/ground/cosmic_stregaros_boss"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					//explosion_type 			"centered"
+					//explosion_max_power 	"8000"
+					//explosion_min_power 	"5000"
+					//explosion_effect 		"effects/enemies_stregaros/death"	
+					part_prefix 			"meshes/units/ground/stregaros"
+					part_material 			"units/ground/cosmic_stregaros_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_stregaros_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.50"
+						//attack_end_time			"0.68"
+						//attack_duration 			"1.37"
+						attack_start_time			"0.63"
+						attack_end_time				"0.85"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.43"
+						//attack_end_time			"0.50"
+						//attack_duration 			"1.50"
+						attack_start_time			"0.54"
+						attack_end_time				"0.63"
+						attack_duration 			"1.88"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.56"
+						//attack_end_time			"0.86"
+						//attack_duration 			"1.37"
+						attack_start_time			"0.70"
+						attack_end_time				"1.08"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"50"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "6.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_stregaros_boss/shield"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	HealthDesc
+	{
+		max_health 					"10"
+		health 						"10"
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.0"
+		fire			"0.0"
+		acid			"0.0"
+		energy			"0.0"
+		cryo			"0.0"
+		area			"0.0"
+		plasmoid		"0.0"
+		cosmic			"0.0"
+		reflect_damage_max_percent 		"0.03"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.04"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+	}
+
+	TypeDesc
+	{
+		type "shield"
+	}
+
+	TeamDesc
+	{
+		team "stregaros"
+	}
+
+	PhysicsDesc
+    {
+    	objects
+    	{
+    		PhysicsObjectDesc
+    		{
+                group_id    "shield"
+                type        "kinematic"
+                
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3"
+						y "10"
+						z "6"
+					}
+				}
+            }
+        }
+    }
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_stregaros_boss/trigger"
+
+	NetReplicationDisabledComponent
+	{
+
+	}
+
+	AttachmentDesc
+	{
+		attachment "att_attack_trigger"
+	}
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			ExcludeTypeTriggerFilter
+			{
+				type "prop"
+			}
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.5"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_stregaros_boss_base"
+
+	StateMachineDesc
+	{
+		template_name "stregaros"
+		params
+		{
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"24"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"3"
+			shielding_speed						float:"5"
+			shielding_acceleration				float:"10"
+			rotate_speed						float:"350"
+			priority_target						string:"player|headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"8.0"
+			max_idle_time						float:"12.0"
+			shielding_distance					float:"22.0"
+			shielding_cooldown					float:"1.0"
+		}		
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"0.5"
+		acid			"1.0"
+		energy			"2.0"
+		cryo			"1.0"
+		area			"0.5"
+		plasmoid		"1.0"
+		cosmic			"0.5"
+		reflect_damage_max_percent 		"0.04"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.15"
+		stagger_health_threshold		"0.04"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.1"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "stregaros"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/ground/stregaros"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "stregaros"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"kinematic"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/stregaros_c1.nxs"
+					}				
+				}
+			}
+		}
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+	}
+
+	MovementDataComponent
+	{
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000"
+		bending_radius	"4"
+	}
+
+	FlammableComponentDesc
+	{
+		fire_spread_interval 			"4.0"
+		fire_spread_radius 				"0.1"
+		fire_probability 				"0.1"
+		burning_time 					"6"
+		burned_recovery_time 			"0"		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.7"
+		max "1"
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_stregaros_boss"
+		can_activate 0
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/stregaros_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/death_long_energy"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{			
+			group "idle_random"
+			enabled "0"		
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/idle"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/death_long"	
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrected"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"resurrecting"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/resurrect_body"
+					bone "att_death"
+					scale "1.8 1.8 1.8"	
+					always_up "1"						
+				}
+			}
+		}			
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "move_random"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/walk"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "run"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_stregaros/run"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_fire"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_acid"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_energy"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_blue"
+					bone "att_death"
+					scale "1.8 1.8 1.8"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"stunned"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_stunned"
+					offset "0 6.5 0"
+					scale "0.9 0.9 0.9"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/enemy_healing_medium"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "aura_healing"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_healing"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_acid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_acid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_cryo"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_energy"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_energy"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_shockwave"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_shockwave"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "aura_resurrect"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/aura_resurrect"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}			
+	}
+
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"4.0"
+			float 						"9.0"
+		}
+	}
+
+	TerrainAffectedComponent
+	{
+		name "unit"
+	}
+}
+EntityBlueprint
+{
+	name "units/ground/cosmic_stregaros_boss_resurrect"
+
+	base_blueprint "units/ground/cosmic_stregaros_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/cosmic_stregaros_boss.lua"
+		database
+		{
+			min_scale				float:"1.35"
+			max_scale				float:"1.40"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"3000"
+		health 						"3000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"2.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/stregaros_boss.mesh"
+		material 	"units/ground/cosmic_stregaros_boss"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/crawlog_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_crawlog/resurrected"
+					bone "att_death"
+					//random_delay "3"
+				}
+			}
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_stregaros_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.50"
+						//attack_end_time			"0.68"
+						//attack_duration 			"1.37"
+						attack_start_time			"0.63"
+						attack_end_time				"0.85"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.43"
+						//attack_end_time			"0.50"
+						//attack_duration 			"1.50"
+						attack_start_time			"0.54"
+						attack_end_time				"0.63"
+						attack_duration 			"1.88"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_stregaros/attack_start"
+						//attack_start_time			"0.56"
+						//attack_end_time			"0.86"
+						//attack_duration 			"1.37"
+						attack_start_time			"0.70"
+						attack_end_time				"1.08"
+						attack_duration 			"1.71"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"50"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "4.0"
+						y "6.0"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}

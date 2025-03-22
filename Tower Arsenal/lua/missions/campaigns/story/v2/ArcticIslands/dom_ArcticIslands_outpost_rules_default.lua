@@ -1,11 +1,12 @@
 return function()
     local rules = {}
 
-	rules.maxObjectivesAtOnce = 8
-	rules.eventsPerIdleState = 1
-	rules.eventsPerPrepareState = 1 -- [0,1]
+	rules.maxObjectivesAtOnce = 2
+	rules.eventsPerIdleState = 2
+	rules.eventsPerPrepareState = 0 -- [0,1]
 	rules.pauseAttacks = false
 	rules.prepareAttacks = true
+	rules.baseTimeBetweenObjectives = 2400
 
 	rules.gameEvents = 
 	{
@@ -21,48 +22,43 @@ return function()
 		{ action = "boss_attack", type = "NEGATIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4 },
 		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 2, logicFile="logic/event/shegret_attack.logic", weight = 3 },
 		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/event/shegret_attack.logic", weight = 3 },
-		{ action = "cosmic_kermon_attack", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_kermon_attack.logic", weight = 3 },
-		{ action = "cosmic_kermon_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_kermon_attack.logic", weight = 3 },
-		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
-		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
-		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/comsic_meteor_shower.logic", minTime = 30, maxTime = 60, weight = 2 },
-		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_meteor_shower.logic", minTime = 30, maxTime = 60, weight = 2 },
+		{ action = "cosmic_kermon_attack", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/cosmic_kermon_attack.logic", weight = 3 },
+		{ action = "cosmic_kermon_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/cosmic_kermon_attack.logic", weight = 3 },
+		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
+		{ action = "cosmic_phirian_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/cosmic_phirian_attack.logic", weight = 3 },
+		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 5, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
+		{ action = "spawn_invasion_easy", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 5, logicFile="logic/weather/invasion_easy.logic", minTime = 30, maxTime = 60, weight = 0.5 },
+		--{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
+		--{ action = "spawn_comet_boss_cosmic_hedroner", type = "NEGATIVE", gameStates = "IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/event/comet_boss_cosmic_hedroner", minTime = 30, maxTime = 60, weight = 0.5 },
+		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/comsic_meteor_shower.logic", minTime = 5, maxTime = 10, weight = 2 },
+		{ action = "spawn_cosmic_meteor_shower", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_meteor_shower.logic", minTime = 5, maxTime = 10, weight = 2 },
 		{ action = "spawn_cosmic_tornado_near_player", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_player.logic", weight = 0.5 },
 		{ action = "spawn_cosmic_tornado_near_player", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_player.logic", weight = 0.5 },
 		{ action = "spawn_cosmic_tornado_near_base", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_base.logic", minTime = 30, maxTime = 60, weight = 0.5 },
 		{ action = "spawn_cosmic_tornado_near_base", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cosmic_tornado_near_base.logic", minTime = 30, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_earthquake", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/earthquake.logic", minTime = 60, maxTime = 60, weight = 0.5 },
-		{ action = "spawn_fog", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/fog.logic", minTime = 60, maxTime = 120 },
-		{ action = "spawn_fog", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/fog.logic", minTime = 60, maxTime = 120 },
-		{ action = "spawn_thunderstorm", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/thunderstorm.logic", minTime = 60, maxTime = 120 },
-		{ action = "spawn_thunderstorm", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/thunderstorm.logic", minTime = 60, maxTime = 120 },
-		{ action = "spawn_super_moon", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/super_moon.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_weak", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_weak.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_weak", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_weak.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_strong", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_strong.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_strong", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_strong.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_none", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/wind_none.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_wind_none", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/wind_none.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		{ action = "spawn_blooming_air", type = "POSITIVE", gameStates="IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/blooming_air.logic", minTime = 120, maxTime = 180 },
-		{ action = "spawn_blooming_air", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/blooming_air.logic", minTime = 120, maxTime = 180 },		
-		{ action = "spawn_monsoon", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/monsoon.logic", minTime = 60, maxTime = 120, weight = 2 },
-		{ action = "spawn_monsoon", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/monsoon.logic", minTime = 60, maxTime = 120, weight = 2 },
+		{ action = "spawn_cosmic_moon", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/cosmic_moon.logic", weight = 2 },
+		{ action = "spawn_cosmic_moon", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/cosmic_moon.logic", weight = 2 },
+		{ action = "spawn_cryogenic_tornado_near_player", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cryogenic_tornado_near_player.logic", weight = 2 },
+		{ action = "spawn_cryogenic_tornado_near_player", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/cryogenic_tornado_near_player.logic", weight = 2 },
+		{ action = "spawn_cryogenic_tornado_near_base", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/cryogenic_tornado_near_base.logic", minTime = 120, maxTime = 140, weight = 3 },
+		{ action = "spawn_cryogenic_tornado_near_base", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/cryogenic_tornado_near_base.logic", minTime = 120, maxTime = 140, weight = 3 },
 	}
 
-	rules.addResourcesOnRunOut =
+	rules.addResourcesOnRunOut = 
 	{
-		{ name = "cosmonite_ore_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
+		{ name = "cosmonite_ore_vein", runOutPercentageOnMap = 30, minToSpawn = 10000, maxToSpawn = 20000 },
 	}
 
-	rules.timeToNextDifficultyLevel =
-	{
+	rules.majorAttackLogic =
+	{			
+		{ level = 2, minLevel = 5, prepareTime = 300, entryLogic = "logic/dom/major_attack_1_entry.logic", exitLogic = "logic/dom/major_attack_1_exit.logic" },     
+	}
+
+	rules.timeToNextDifficultyLevel = 
+	{			
 		200, -- difficulty level 1
 		600, -- difficulty level 2
-		600, -- difficulty level 3
+		600, -- difficulty level 3	
 		600, -- difficulty level 4
 		600, -- difficulty level 5
 		600, -- difficulty level 6
@@ -71,38 +67,32 @@ return function()
 		600, -- difficulty level 9
 	}
 
-	rules.prepareSpawnTime =
-	{
-		360,  -- difficulty level 1
-		360,  -- difficulty level 2
-		360,  -- difficulty level 3
-		360,  -- difficulty level 4
-		360,  -- difficulty level 5
-		360,  -- difficulty level 6
-		360,  -- difficulty level 7
-		360,  -- difficulty level 8
-		360,  -- difficulty level 9
+	rules.prepareSpawnTime = 
+	{			
+		120,  -- difficulty level 1
+		120,  -- difficulty level 2
+		120,  -- difficulty level 3
+		120,  -- difficulty level 4	
+		120,  -- difficulty level 5	
+		120,  -- difficulty level 6	
+		120,  -- difficulty level 7
+		120,  -- difficulty level 8	
+		120,  -- difficulty level 9	
 	}
 
-	rules.buildingsUpgradeStartsLogic =
-	{
-		{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },
-		{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },
-		{ name = "headquarters_lvl_4", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },
-		{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },
-		{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },
-		{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },
+	rules.buildingsUpgradeStartsLogic = 
+	{			
+ 
 	}
 
 	rules.objectivesLogic =
 	{
-		{ name = "logic/objectives/kill_cosmic_hedroner_boss.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/kill_cosmic_arachnoid_elite.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/destroy_cosmic_hedroner_boss.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 }, 
+		{ name = "logic/objectives/destroy_nest_arctic_boss.logic", minDifficultyLevel = 3, maxDifficultyLevel = 5 },
+		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 },
 		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_kermon_multiple.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/destroy_nest_cosmic_morirot_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 }, 
+		{ name = "logic/objectives/destroy_nest_cosmic_morirot_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 },
 		{ name = "logic/objectives/destroy_nest_cosmic_morirot_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_baxmoth_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_lesigian_multiple.logic", minDifficultyLevel = 2 },
@@ -112,65 +102,87 @@ return function()
 		{ name = "logic/objectives/destroy_nest_cosmic_magmoth_ultra_multiple.logic", minDifficultyLevel = 2 },
 	}
 
-	rules.cooldownAfterAttacks =
-	{
+	rules.cooldownAfterAttacks = 
+	{			
 		60,  -- difficulty level 1
 		90,  -- difficulty level 2
 		120,  -- difficulty level 3
-		180,  -- difficulty level 4
-		180,  -- difficulty level 5
-		180,  -- difficulty level 6
+		180,  -- difficulty level 4	
+		180,  -- difficulty level 5	
+		180,  -- difficulty level 6	
 		240,  -- difficulty level 7
-		240,  -- difficulty level 8
-		240,  -- difficulty level 9
+		240,  -- difficulty level 8	
+		240,  -- difficulty level 9	
 	}
 
-	rules.idleTime =
-	{
-		0,  -- difficulty level 1
-		0,  -- difficulty level 2
-		0,  -- difficulty level 3
-		0,  -- difficulty level 4
-		0,  -- difficulty level 5
-		0,  -- difficulty level 6
-		0,  -- difficulty level 7
-		0,  -- difficulty level 8
-		0,  -- difficulty level 9
+	rules.idleTime = 
+	{			
+		450,  -- difficulty level 1
+		600,  -- difficulty level 2
+		660,  -- difficulty level 3
+		720,  -- difficulty level 4	
+		780,  -- difficulty level 5	
+		840,  -- difficulty level 6	
+		900,  -- difficulty level 7
+		900,  -- difficulty level 8	
+		900,  -- difficulty level 9	
 	}
 
-	rules.maxAttackCountPerDifficulty =
-	{
+	rules.maxAttackCountPerDifficulty = 
+	{			
 		1,  -- difficulty level 1
-		2,  -- difficulty level 2
-		2,  -- difficulty level 3
-		3,  -- difficulty level 4
-		3,  -- difficulty level 5
-		3,  -- difficulty level 6
+		1,  -- difficulty level 2
+		2,  -- difficulty level 3		
+		2,  -- difficulty level 4
+		2,  -- difficulty level 5
+		2,  -- difficulty level 6
 		3,  -- difficulty level 7
 		3,  -- difficulty level 8
 		4,  -- difficulty level 9
+	}
+	
+	rules.prepareAttackDefinitions =
+	{
+		 -- difficulty level 1
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 2
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 3		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 4		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 5		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 6		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 7		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 8		
+			"logic/dom/attack_level_1_prepare.logic",
+		 -- difficulty level 9		
+			"logic/dom/attack_level_1_prepare.logic",		
 	}
 
 	rules.wavesEntryDefinitions =
 	{
 		 -- difficulty level 1
-			"logic/missions/survival/attack_level_1_entry.logic",
+			"logic/dom/attack_level_1_entry.logic",
 		 -- difficulty level 2
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 3
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 4
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 5
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 6
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 7
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 8
-			"logic/missions/survival/attack_level_2_entry.logic",
-		 -- difficulty level 9
-			"logic/missions/survival/attack_level_2_entry.logic",
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 3		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 4		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 5		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 6		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 7		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 8		
+			"logic/dom/attack_level_2_entry.logic",
+		 -- difficulty level 9		
+			"logic/dom/attack_level_2_entry.logic",		
 	}
 
 	rules.waves =

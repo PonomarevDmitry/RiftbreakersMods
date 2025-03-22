@@ -14,8 +14,8 @@ EntityBlueprint
 		menu_icon			"gui/hud/building_icons/tower_spud_spitter_lvl2"
 		require 			"headquarters"
 		order				"2"
-		type				"tower"
-		overrides			"tower,wall"
+		type				"tower,pipe"
+		overrides			"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		upgrade				"buildings/defense/tower_spud_spitter_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"	
 
@@ -35,6 +35,30 @@ EntityBlueprint
 		}
 	}
 	
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"5"
+			}
+			GameplayResource
+			{
+				resource 			"plasmoid"
+				value			 	"5"
+				attachment			"att_in_1"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
 	HealthDesc
 	{
 		max_health 					"750"
@@ -95,9 +119,9 @@ EntityBlueprint
 		ammo_blueprint 			"buildings/defense/tower_spud_spitter_projectile"
 		muzzle_flash_effect 	
 
-		burst_column_spacing 	"0.20"
-		burst_rate 				"0.25"
-		burst_column_angle 		"0"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
 	}	
 	
 	WeaponItemDesc
@@ -107,4 +131,42 @@ EntityBlueprint
 	TowerDesc
 	{
 	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_1"
+					offset "-0.2 1.0 0.0"
+					orientation "-0 -90 0"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_bluee"
+					bone "att_muzzle"
+					random_delay	"0.01"
+				}
+			}
+		}
+	}
 }
+
+

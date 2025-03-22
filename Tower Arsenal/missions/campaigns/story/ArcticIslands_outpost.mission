@@ -4,60 +4,60 @@ MissionDef
 	localization_id	"gui/menu/planetary_scanner/mission_ArcticIslands_new_resource"
 	description		"gui/menu/planetary_scanner/mission_ArcticIslands_new_resource_description"
 
+	script_database
+	{
+		spawn_near_position string:"-160.59,0.00,-20.49"    
+	}
+
     biomes          "ArcticIslands"
     map_size		8
-	
+
 	tile_spawn_rules
-	{		
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_1.tile
-		{			
-			min_instances	4
-			random_weight	4.0
-		}		
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_01.tile
-		{			
-			min_instances	4
-			random_weight	4.0
-		}		
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_2.tile
+	{
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_01.tile
 		{
-			max_instances	1
+			min_instances	1
+			max_instances	2
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_1.tile
+		{
 			random_weight	1.0
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_4.tile
 		{
-			max_instances	1
-			min_instances	1.0
+			random_weight	2.0
 		}
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_5.tile
 		{
-			max_instances	3
-			random_weight	3.0
+			random_weight	2.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons__01.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_01.tile
 		{
-			min_instances	3
-			random_weight	3.0
+			random_weight	2.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_01.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_03.tile
 		{
 			random_weight	3.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_02.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_04.tile
 		{
 			random_weight	3.0
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_03.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_05.tile
 		{
-			random_weight	3.0
+			random_weight	4.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_06.tile
+		{
+			random_weight	4.0
 		}
 	}
-    
+
 	failed_action   "remain"
 	success_action  "remain"
 	
 	creature_volumes_min_distance   "96.0"
-	creature_volumes_density        "0.75"
+	creature_volumes_density        "1.50"
     threat  "1"
     block_outpost_remove "1"
 
@@ -99,7 +99,7 @@ MissionDef
         {
             CreatureVolume
             {
-                creature_species    "sulphorit"
+                creature_species    "moltug_crystal"
             }
         }
 
@@ -107,39 +107,40 @@ MissionDef
         {
 			CreatureVolume
             {
-                creature_species    "cosmic_kafferroceros"
+                creature_species    "cosmic_nerilian"
                 volume_spawn_ratio  "1.0"
             }  
 			
             CreatureVolume
             {
                 creature_species    "cosmic_baxmoth"
-                volume_spawn_ratio  "1.5"
+                volume_spawn_ratio  "0.5"
             }  
 			
             CreatureVolume
             {
                 creature_species    "cosmic_necrodon"
-                volume_spawn_ratio  "1"
+                volume_spawn_ratio  "0.7"
             }
             CreatureVolume
             {
                 creature_species    "cosmic_kermon"
-                volume_spawn_ratio  "1.15"
+                volume_spawn_ratio  "0.3"
             }  
 			
             CreatureVolume
             {
                 creature_species    "cosmic_phirian"
-                volume_spawn_ratio  "1.0"
+                volume_spawn_ratio  "1.3"
             }  
 			
 			CreatureVolume
             {
                 creature_species    "cosmic_lesigian"
-                volume_spawn_ratio  "0.5"
+                volume_spawn_ratio  "1.0"
             }  
 		}
+
 		liquid_units
         {            
 			CreatureVolume
@@ -148,6 +149,7 @@ MissionDef
                 volume_spawn_ratio  "0.25"
             }
 		}
+
 		resource_units
         {
             CreatureVolume
@@ -156,6 +158,7 @@ MissionDef
                 volume_spawn_ratio  "0.5"
             }
         }
+
 	}
 
     mission_object_spawners
@@ -204,47 +207,55 @@ MissionDef
          GridSpawner
         {
             spawn_pool               "cosmo_artillery"
+            spawn_at_marker          "logic/spawn_alien_tower_artillery_cosmo"
             spawn_team               "enemy"
+			
+			spawn_minmax_distance_from_edge 100
             spawn_instances_minmax    1,2
-
-        
+			
             spawn_min_distance_from_pools
             {
-				player_spawn_point      100
-                mission_objective   	70
-                loot_containers         50
-				resource_volumes		10
+                mission_objective   	80
+				player_spawn_point      200
+				resource_volumes		15
 				yeast_root				50
             }
 
             spawn_blueprints
             {
                 units/ground/alien_tower_artillery_cosmo_spawner
+                {
+					spawn_chance           1.0
+                }
             }
         }
-	    
+		
          GridSpawner
         {
             spawn_pool               "cosmo_mkII"
+            spawn_at_marker          "logic/spawn_alien_tower_artillery_cosmo_mkII"
             spawn_team               "enemy"
-            spawn_instances_minmax    2,3
-
-        
+			
+			spawn_minmax_distance_from_edge 100
+            spawn_instances_minmax    1,2
+			
             spawn_min_distance_from_pools
             {
-				player_spawn_point      100
-                mission_objective   	70
-                loot_containers         50
-				resource_volumes		10
+                mission_objective   	80
+				player_spawn_point      200
+				resource_volumes		15
 				yeast_root				50
             }
 
             spawn_blueprints
             {
                 units/ground/alien_tower_artillery_cosmo_mkII_spawner
-			}
+                {
+					spawn_chance           1.5
+                }
+            }
         }
-	    
+		
 		GridSpawner
         {
             spawn_pool                  "loot_containers_small"
@@ -334,10 +345,10 @@ MissionDef
                 {                 
                     spawn_chance           0.1
                 }
-				props/special/power_wells/power_well_source_drones
-                {                 
-                    spawn_chance           0.1
-                }
+				//props/special/power_wells/power_well_source_drones
+                //{                 
+                //    spawn_chance           0.1
+                //}
 				props/special/power_wells/power_well_source_ammo
                 {                 
                     spawn_chance           0.1
@@ -390,14 +401,29 @@ MissionDef
 
                 spawners/loot_spawner
                 {
-                    spawn_instances_minmax      5,10
+                    spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
 
                     database
                     {	
                         blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"500"
-                        max   	 	int:"750"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"5"
+                    }
+                }
+
+                spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"5"
                     }
                 }
 
@@ -412,38 +438,11 @@ MissionDef
                         min   	 	int:"200"
                         max   	 	int:"500"
 						package_size    int:"5"
-                    }
-                }
+					}
+				}
             }
         }
-        
-		GridSpawner
-        {
-            spawn_pool                  "underground_mushrooms"
-	        spawn_team                  "enemy"
-	
-            spawn_min_distance_from_pools
-            {
-                player_spawn_point      100
-                loot_containers         70
-                loot_containers_small   30
-                power_well				30
-				mission_objective		70
-                underground_treasures   70
-                underground_mushrooms   70
-            }
-	
-            spawn_blueprints
-            {  
-                props/special/undergound_mushroom/undergound_mushroom_hidden
-                {
-                    spawn_group_radius          "30"
-                    spawn_group_count           "15"   
-					spawn_group_object_distance "5"
-                }
-            }
-        }
-	}	
+    }
 
 	random_resources
     {
@@ -451,11 +450,21 @@ MissionDef
         {
             resource        "cosmonite_ore_vein"
 			
-            min_resources   "30000"
-            max_resources   "40000"
+            min_resources   "4000"
+            max_resources   "8000"
 
-            min_spawned_volumes "12"
-            max_spawned_volumes "14"
+            min_spawned_volumes "5"
+            max_spawned_volumes "8"
+        }
+		ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+            min_resources   "12000"
+            max_resources   "25000"
+
+            min_spawned_volumes "15"
+            max_spawned_volumes "20"
         }
         ResourceVolume
         {
@@ -463,8 +472,8 @@ MissionDef
 			
 			required_discovery_lvl	"1"
 			
-            min_resources   "30000"
-            max_resources   "40000"
+            min_resources   "3000"
+            max_resources   "4000"
 
             min_spawned_volumes "12"
             max_spawned_volumes "14"
@@ -555,29 +564,7 @@ MissionDef
             min_spawned_volumes "2"
             max_spawned_volumes "4"
         }
-
-		ResourceVolume
-        {
-            resource        "flammable_gas_vent"
-            
-            is_infinite     "1"            
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
-		ResourceVolume
-        {
-            resource        "flammable_gas_vent"
-			required_discovery_lvl	"1"			
-            
-			is_infinite        "1"		
-            min_spawned_volumes "1"
-            max_spawned_volumes "2"
-        }					
-    }
-
-    min_starting_distance "16.0"
-    max_starting_distance "96.0"
+	}
 
     starting_resources
     {
@@ -585,11 +572,11 @@ MissionDef
         {
             resource        "cosmonite_ore_vein"
 			
-            min_resources   "30000"
-            max_resources   "40000"
+            min_resources   "20000"
+            max_resources   "30000"
 
-            min_spawned_volumes "4"
-            max_spawned_volumes "6"
+            min_spawned_volumes "3"
+            max_spawned_volumes "5"
         }
 
        ResourceVolume

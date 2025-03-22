@@ -25,8 +25,8 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"80"
-					steel 		"70"			
+					carbonium 	"200"
+					steel 		"150"
 					ai			"1"
 				}
 			}		
@@ -356,13 +356,13 @@ EntityBlueprint
 	
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/blob_1.mesh"
-		material 	"projectiles/laser_blue"
+		mesh 		"meshes/projectiles/mortar_sentry_projectile.mesh"
+		material 	"projectiles/plasmoid_mortar_sentry_projectile"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/projectiles/grenade_shell"
+		name "meshes/projectiles/artillery_shell"
 	}
 
 	MinimapItemDesc
@@ -391,7 +391,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name 		"items/weapons/fluid/corrosive_gun_fire"
+		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
 	EffectDesc
@@ -418,19 +418,33 @@ EntityBlueprint
 		hit_effect_direction 		"up"
 	}
 
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_cosmic"
+					bone "att_exhaust"
+					scale "0.5 0.5 0.5"
+				}
+			}
+		}
+	}
+
 	children
 	{
 		EntityBlueprint
 		{
 			RibbonComponent
 			{		
-				material 			ribbon/drone_trail_blue_01
+				material 			"ribbon/drone_trail_blue_01"
 				update_bounds 		1
-				fade_out_time		0.2
-				uv_scroll			"0 -0.1"
-				tiling_distance     "0"
-				tesselation_step 	"0.2"
-				keep_local			"0"
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
 
 				Ribbons
 				{

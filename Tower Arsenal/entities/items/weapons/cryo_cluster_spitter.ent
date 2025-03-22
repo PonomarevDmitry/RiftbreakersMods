@@ -38,9 +38,9 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_fluid/cryo_spitter_muzzle"
 
-		burst_column_spacing 		"0.5"
-		burst_rate 					"0.3"
-		//burst_column_angle 			"5"
+		burst_column_spacing 		"5.0"
+		burst_rate 					"1.0"
+		burst_column_angle 			"90"
 	}
 
 	EffectDesc
@@ -349,59 +349,48 @@ EntityBlueprint
 	{
 		on_enemy_hit_effect 		"effects/weapons_fluid/cryotic_explosion_big"
 		on_world_hit_effect 		"effects/weapons_fluid/cryotic_explosion_big"
-		on_resisted_hit_effect 	"effects/weapons_fluid/cryotic_explosion_big"
+		on_resisted_hit_effect 		"effects/weapons_fluid/cryotic_explosion_big"
 		hit_effect_direction 		"up"
-		on_world_explosion_delay	"1"
-		on_enemy_explosion_delay	"0"
+		on_world_explosion_delay	"1.5"
+		on_enemy_explosion_delay	"0.2"
 
-		explosion_delay_effect 		"lights/point/blue_very_small"
+		explosion_delay_effect 		"effects/weapons_explosive/cryo_spitter_armed"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
 
-		diameter					"0.50"
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
 
-		artillery_min_angle 		"60"
-		artillery_max_angle 		"60"
-
-		cluster_count 				"6"
-		cluster_max_generation      "0.9"
-		cluster_explosion_radius	"4"
-		//fly_time_limit 				"1.5"
+		//cluster_count 				"8"
+		cluster_max_generation      "0.7"
+		cluster_explosion_radius	"8"
+		//fly_time_limit 				"0.7"
 
 		DamagePattern
 		{
-			area_damage_radius	"8"
+			area_damage_radius	"3"
 			area_damage_speed	"30"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"150"
+					value 			"3"
 					type			"cryo"
 				}
 			}
-		}
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
+			TimeDamages
 			{
-				Effect
+				TimeDamage
 				{
-					blueprint "effects/weapons_explosive/grenade_projectile"
-				}
-				Effect
-				{
-					blueprint "effects/weapons_explosive/grenade_throw"
+					value			"30"
+					duration		"5"
+					type			"cryo"
 				}
 			}			
 		}
 	}
-	
+
 	children
 	{
 		EntityBlueprint
@@ -516,4 +505,27 @@ EntityBlueprint
 		}			
 	}	
 }		
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/cryo_spitter_armed
+
+	base_blueprints
+	{
+		lights/point/blue_very_small
+		effects/no_lifetime
+	}
+
+	ShockWaveDesc
+	{
+		power 	"100"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_grenade_armed"
+	}
+}
 

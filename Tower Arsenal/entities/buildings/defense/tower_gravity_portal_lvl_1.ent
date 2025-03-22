@@ -26,10 +26,23 @@ EntityBlueprint
 				building_time 20
 				building_cost
 				{
-					carbonium 	"500"
-					steel 		"250"
-					ai			"1"
-					cobalt		"200"
+					ai				"1"
+					carbonium 		"500"
+					steel 			"250"
+					cosmonite_ore 	"250"
+				}
+			}
+			
+			BuildingCostInfo
+			{
+				name "survival"
+				building_time 1.5
+				building_cost
+				{
+					ai				"1"
+					carbonium 		"500"
+					steel 			"250"
+					cosmonite_ore 	"250"
 				}
 			}
 		}
@@ -55,7 +68,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower_portal.lua"
+		script "lua/buildings/defense/tower_gravity_portal.lua"
 
 		database
 		{
@@ -135,11 +148,6 @@ EntityBlueprint
 	{
 		name "meshes/buildings/defense/tower_portal_lvl_1"
 	}
-	
-	//AnimationGraphDesc
-	//{
-	//	animation_graph_name "building_working"
-	//}	
 
 	TypeDesc
 	{
@@ -426,7 +434,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_defense/tower_portal_loading"
+					blueprint "effects/buildings_defense/tower_gravity_portal_loading"
 					bone "att_energy"
 				}
 			}
@@ -440,7 +448,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_defense/tower_portal_ready"
+					blueprint "effects/buildings_defense/tower_gravity_portal_ready"
 					bone "att_energy"
 				}
 			}
@@ -520,7 +528,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/tower_portal_bomb.lua"
+		script "lua/buildings/defense/tower_gravity_portal_bomb.lua"
 
 		database
 		{
@@ -542,7 +550,7 @@ EntityBlueprint
 			SubMesh
 			{
 				id "1"
-				material "items/skills/rift_portal_energy"
+				material "projectiles/laser_violet"
 			}
 			SubMesh
 			{
@@ -552,7 +560,7 @@ EntityBlueprint
 			SubMesh
 			{
 				id "2"
-				material "items/skills/rift_portal_energy_2"
+				material "projectiles/laser_violet"
 			}
 		}		
 	}
@@ -585,7 +593,6 @@ EntityBlueprint
 		}			
 	}		
 }
-
 EntityBlueprint
 {
 	name "buildings/defense/tower_gravity_portal_bomb"
@@ -614,10 +621,40 @@ EntityBlueprint
 				Damage
 				{
 					value 			"300"
-					type			"gravity"
+					type			"cosmic"
 				}
 			}
 		}
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_defense/tower_gravity_portal_loading
+
+	base_blueprints
+	{
+		effects/no_lifetime
+		//lights/point/blue_super_small
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_portal_loading"
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_defense/tower_gravity_portal_ready
+
+	base_blueprints
+	{
+		effects/no_lifetime
+		lights/point/violet_small
+	}
+
+	ParticleDesc
+	{
+		name    "rift/tower_gravity_portal_ready"
 	}
 }
 

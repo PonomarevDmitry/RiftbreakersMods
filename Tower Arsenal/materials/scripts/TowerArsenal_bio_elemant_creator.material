@@ -50,3 +50,339 @@ material gui/hud/building_icons/bio_elemant_creator_disabled : gui/default
 //	set_texture_alias diffuse materials/textures/gui/hud/building_icons/bio_elemant_creator_lvl3_disabled.dds
 
 
+material buildings/resources/liquid_material_storage_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_lvl_1_emissive.dds
+}
+
+material buildings/resources/liquid_material_storage_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_lvl_1_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_lvl_1_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_lvl_1_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_lvl_1_emissive.dds
+}
+
+material buildings/resources/liquid_material_storage : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_emissive.dds
+}
+
+material buildings/resources/liquid_material_storage_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_emissive.dds
+}
+
+material buildings/resources/liquid_material_storage_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_lvl_3_emissive.dds
+
+	glow 7
+}
+
+material buildings/resources/liquid_material_storage_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/resources/liquid_material_storage_lvl_3_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/resources/liquid_material_storage_lvl_3_normal.dds
+	set_texture_alias packed			materials/textures/buildings/resources/liquid_material_storage_lvl_3_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/resources/liquid_material_storage_lvl_3_emissive.dds
+}
+
+material buildings/defense/repair_facility : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_emissive.dds
+
+	glow 22
+}
+
+material buildings/defense/repair_facility_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_emissive.dds
+
+	glow 22
+}
+
+material buildings/defense/repair_facility_energy
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 100
+            emissive 0 10 0 1
+
+            vertex_program_ref  shield_vp
+            {
+            }
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 5 0 5
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/buildings/defense/repair_facility_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture         materials/textures/buildings/defense/repair_facility_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture    materials/textures/items/shields/shield_grad.dds 59 4
+				filtering bilinear
+            }
+
+            texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+        }
+    }
+}
+
+
+material buildings/defense/repair_facility_energy_dissolve : buildings/defense/repair_facility_energy
+{
+    technique
+    {
+        pass
+        {
+			glow 6
+			dissolve 0 10 20 1
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 10 20 1
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+        }
+    }
+}
+
+material buildings/defense/repair_facility_lvl_1 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_lvl_1_main_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_lvl_1_main_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_lvl_1_main_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_lvl_1_main_emissive.dds
+
+	glow 18
+}
+
+material buildings/defense/repair_facility_lvl_1_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_lvl_1_main_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_lvl_1_main_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_lvl_1_main_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_lvl_1_main_emissive.dds
+
+	glow 18
+}
+
+material buildings/defense/repair_facility_lvl_1_energy
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 10
+            emissive 0 10 0 1
+
+            vertex_program_ref  shield_vp
+            {
+            }
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 5 0 5
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/buildings/defense/repair_facility_lvl_1_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture         materials/textures/buildings/defense/repair_facility_lvl_1_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture    materials/textures/items/shields/shield_grad.dds 59 4
+				filtering bilinear
+            }
+
+            texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+        }
+    }
+}
+
+material buildings/defense/repair_facility_energy_lvl_1_dissolve : buildings/defense/repair_facility_energy
+{
+    technique
+    {
+        pass
+        {
+			glow 6
+			dissolve 0 10 20 1
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 10 20 1
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+        }
+    }
+}
+
+material buildings/defense/repair_facility_lvl_3 : buildings/destructible
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_lvl_3_main_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_lvl_3_main_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_lvl_3_main_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_lvl_3_main_emissive.dds
+
+	glow 18
+}
+
+material buildings/defense/repair_facility_lvl_3_dissolve : pbr/height_dissolve
+{
+	set_texture_alias albedo			materials/textures/buildings/defense/repair_facility_lvl_3_main_albedo.dds
+	set_texture_alias normal			materials/textures/buildings/defense/repair_facility_lvl_3_main_normal.dds
+	set_texture_alias packed			materials/textures/buildings/defense/repair_facility_lvl_3_main_packed.dds
+	set_texture_alias emissive			materials/textures/buildings/defense/repair_facility_lvl_3_main_emissive.dds
+
+	glow 18
+}
+
+material buildings/defense/repair_facility_lvl_3_energy
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 10
+            emissive 0 10 0 1
+
+            vertex_program_ref  shield_vp
+            {
+            }
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 5 0 5
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+
+            texture_unit diffuse
+            {
+                texture 		materials/textures/buildings/defense/repair_facility_lvl_3_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit emissive
+            {
+                texture         materials/textures/buildings/defense/repair_facility_lvl_3_energy_albedo.dds
+                filtering 		anisotropic
+            }
+
+            texture_unit gradient
+            {
+                anim_texture    materials/textures/items/shields/shield_grad.dds 59 4
+				filtering bilinear
+            }
+
+            texture_unit dissolve
+			{
+				texture materials/textures/noise_tiled_01.dds
+				filtering bilinear
+			}
+        }
+    }
+}
+
+material buildings/defense/repair_facility_energy_lvl_3_dissolve : buildings/defense/repair_facility_energy
+{
+    technique
+    {
+        pass
+        {
+			glow 6
+			dissolve 0 10 20 1
+
+            fragment_program_ref shield_fp
+            {
+                param_named cFresnelColor 	float4 0 10 20 1
+                param_named cFresnelBias    float 0
+                param_named cFresnelScale   float 1
+                param_named cFresnelPower   float 2
+                param_named cAlpha          float 1
+            }
+        }
+    }
+}
+

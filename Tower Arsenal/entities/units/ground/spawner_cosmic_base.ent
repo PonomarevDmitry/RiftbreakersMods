@@ -783,14 +783,14 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/grenade_shell.mesh"
-		material 	"projectiles/laser_violet"
+		mesh 		"meshes/units/ground/bomogan_projectile.mesh"
+		material    "projectiles/laser_violet"
 	}
 
-	ParticleDesc
-	{
-		name    "rift/anoryxian_energy_wave"
-	}
+	//ParticleDesc
+	//{
+	//	name    "rift/anoryxian_energy_wave"
+	//}
 
 	PhysicsDesc
 	{
@@ -829,6 +829,14 @@ EntityBlueprint
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"2.5"
+			area_damage_radius		"2"
+			time_damage_interval	"0.1"
+		}
 	}
 
 	children
@@ -837,11 +845,11 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{		
-				material 			ribbon/melee_slash_violet
+				material 			ribbon/cosmic_violet
 				update_bounds 		1
-				fade_out_time		0.75
-				uv_scroll			"0 -2.5"
-				tiling_distance     "0"
+				fade_out_time		0.2
+				uv_scroll			"0 -0.5"
+				tiling_distance     "4"
 				tesselation_step 	"0.25"
 				keep_local			"0"
 

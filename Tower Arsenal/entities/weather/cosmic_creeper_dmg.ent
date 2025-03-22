@@ -1,24 +1,13 @@
 EntityBlueprint 
 {	
-		name "weather/cosmic_creeper_dmg"
+	name "weather/cosmic_creeper_dmg"
 
-	MeshDesc
+	MinimapItemDesc
 	{
-		mesh 			"meshes/projectiles/granite_rock_small.mesh"
-		material 		"units/ground/cosmic_crystal_creeper_root_base"
+		type			"image"
+		icon_material 	"effects/messages_and_markers/objective_marker"
+		visibility		"radar"
 	}
-	
- 	ShadowExcludeComponent
-	{
-
-	}	
-
-	//MinimapItemDesc
-	//{
-	//	type			"image"
-	//	icon_material 	"effects/messages_and_markers/objective_marker"
-	//	visibility		"radar"
-	//}
 
 	VegetationBendingComponentDesc
 	{
@@ -30,8 +19,8 @@ EntityBlueprint
 	{
 		diameter				"20"		
 		friendly_fire			"pass"
-		on_enemy_hit_effect 		"effects/cosmo/projectile_hit"
-		on_world_hit_effect 		"effects/cosmo/projectile_hit"
+		on_enemy_hit_effect 		"effects/cosmic_meteor_explosion"
+		on_world_hit_effect 		"effects/cosmic_meteor_explosion"
 		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
 		
 		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
@@ -61,24 +50,10 @@ EntityBlueprint
 		frequency 		"20"
 		group			"special"
 	}
-	
+
 	LifeTimeDesc
 	{
 		time 		3
 	}	
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/projectiles_and_trails/cosmic_trail"
-				}
-			}
-		}
-	}
 }
 

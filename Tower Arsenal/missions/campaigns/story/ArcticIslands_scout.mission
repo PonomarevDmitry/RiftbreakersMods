@@ -5,40 +5,65 @@ MissionDef
 	description		"gui/menu/planetary_scanner/mission_ArcticIslands_scout_description"
 
     biomes          "ArcticIslands"
-    map_size		6
+    map_size		7
 	
 	tile_spawn_rules
 	{
 		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_canyons__01.tile
 		{
 			min_instances	1
-			random_weight	1.0
+			max_instances	3
 		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_01.tile
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_1.tile
 		{
-			min_instances	1
-			random_weight	1.0
-		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_02.tile
-		{
-			min_instances	1
-			random_weight	1.0
-		}
-		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_cliffs_03.tile
-		{
-			min_instances	2
 			random_weight	2.0
 		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_2.tile
+		{
+			random_weight	2.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_3.tile
+		{
+			random_weight	2.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_01.tile
+		{
+			random_weight	4.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_03.tile
+		{
+			random_weight	4.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_04.tile
+		{
+			random_weight	4.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_05.tile
+		{
+			random_weight	4.0
+		}
+		biomes/ArcticIslands/tiles/ArcticIslands/ArcticIslands_plains_06.tile
+		{
+			random_weight	4.0
+		}
 
+	}
+
+	prefab_exclude_variants
+    {
+        scenoiry // prefab name
+		{
+			wyginus_trees_and_blue_grass
+		}
 	}
 
 	failed_action   "remain"
 	success_action  "remove"
 
-	creature_volumes_min_distance   "76.0"
-	creature_volumes_density        "0.75"
+	creature_volumes_min_distance   "128.0"
+	creature_volumes_density        "0.95"
 
-    threat  "0.75"
+    threat  "0.35"
     ambient_creature_species
     {
         ground
@@ -77,7 +102,7 @@ MissionDef
         {
             CreatureVolume
             {
-                creature_species    "sulphorit"
+                creature_species    "moltug_crystal"
             }
         }
 
@@ -164,61 +189,7 @@ MissionDef
                 }
             }
         }
-		
-         GridSpawner
-        {
-            spawn_pool               "alien_tower_artillery_cosmo"
-            spawn_team               "enemy"
-            spawn_instances_minmax    10,10
-			spawn_chance              1
 
-        
-            spawn_min_distance_from_pools
-            {
-				player_spawn_point      100
-                mission_objective   	70
-                loot_containers         50
-				resource_volumes		10
-				yeast_root				50
-            }
-
-            spawn_blueprints
-            {
-                units/ground/alien_tower_artillery_cosmo_spawner
-                {            
-					spawn_instances_minmax      40,40
-					spawn_chance           1
-                }
-            }
-        }
-	    
-         GridSpawner
-        {
-            spawn_pool               "alien_tower_artillery_cosmo_mkII"
-            spawn_team               "enemy"
-            spawn_instances_minmax    15,15
-			spawn_chance              1
-
-        
-            spawn_min_distance_from_pools
-            {
-				player_spawn_point      100
-                mission_objective   	70
-                loot_containers         50
-				resource_volumes		10
-				yeast_root				50
-            }
-
-            spawn_blueprints
-            {
-                units/ground/alien_tower_artillery_cosmo_mkII_spawner
-                {            
-					spawn_instances_minmax      40,40
-					spawn_chance           1
-                }
-			}
-        }
-	    
 		GridSpawner
         {
             spawn_pool                  "yeast_root"
@@ -334,10 +305,10 @@ MissionDef
                 {                 
                     spawn_chance           0.1
                 }
-				props/special/power_wells/power_well_source_drones
-                {                 
-                    spawn_chance           0.1
-                }
+				//props/special/power_wells/power_well_source_drones
+                //{                 
+                //    spawn_chance           0.1
+                //}
 				props/special/power_wells/power_well_source_ammo
                 {                 
                     spawn_chance           0.1
@@ -404,16 +375,74 @@ MissionDef
 
 				spawners/loot_spawner
                 {
-                    spawn_instances_minmax      5,10
+                    spawn_instances_minmax      1,3
                     spawn_discoverable_level    1
 
                     database
                     {	
-                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"500"
-                        max   	 	int:"750"
-						package_size    int:"3"
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"20"
+                        max   	 	int:"50"
+						package_size    int:"1"
                     }
+                }
+            }
+		}
+
+         GridSpawner
+        {
+            spawn_pool               "logic/spawn_alien_tower_artillery_cosmo"
+            spawn_team               "enemy"
+			
+			spawn_minmax_distance_from_edge 100
+			
+            spawn_min_distance_from_pools
+            {
+                mission_objective   	80
+				player_spawn_point      200
+                loot_containers         50
+                loot_containers_small   120
+                underground_treasures   10
+				resource_volumes		10
+				enemy					5
+				yeast_root				50
+            }
+
+            spawn_blueprints
+            {
+                units/ground/alien_tower_artillery_cosmo_spawner
+                {            
+					spawn_instances_minmax      5,5
+					spawn_chance           1
+                }
+            }
+        }
+		
+         GridSpawner
+        {
+            spawn_pool               "logic/spawn_alien_tower_artillery_cosmo_mkII"
+            spawn_team               "enemy"
+			
+			spawn_minmax_distance_from_edge 100
+			
+            spawn_min_distance_from_pools
+            {
+                mission_objective   	80
+				player_spawn_point      200
+                loot_containers         50
+                loot_containers_small   120
+                underground_treasures   10
+				resource_volumes		10
+				enemy					5
+				yeast_root				50
+            }
+
+            spawn_blueprints
+            {
+                units/ground/alien_tower_artillery_cosmo_mkII_spawner
+                {            
+					spawn_instances_minmax      5,5
+					spawn_chance           1
                 }
             }
         }
@@ -421,30 +450,6 @@ MissionDef
 
     random_resources
     {
-		ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-            min_resources   "3000"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-			required_discovery_lvl	"1"
-			
-            min_resources   "3000"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-		
         ResourceVolume
         {
             resource        "carbon_vein"

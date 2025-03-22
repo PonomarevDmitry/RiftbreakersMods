@@ -25,10 +25,10 @@ EntityBlueprint
 				building_time 2.5
 				building_cost
 				{
-					carbonium 	"300"
-					steel 		"150"
-					titanium	"120"
-					ai			"1"
+					ai				"1"
+					carbonium		"300"
+					steel			"150"
+					cosmonite_ore	"150"
 				}
 			}		
 		}		
@@ -387,14 +387,8 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/point/fire_violet_very_small
+		effects/weapons_bullet/cosmic_minigun_bullet
 		effects/no_lifetime
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/projectiles/corrosive_gun_projectile.mesh"
-		material    "projectiles/laser_violet"
 	}
 
 	ProjectileAmmoComponent
@@ -422,66 +416,10 @@ EntityBlueprint
 		friendly_fire			"pass"
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility			"radar"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/blood_trail_animated_cryo"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/minigun_gun"
-	}
-
 	LifeTimeDesc
 	{
-		time 		1.6
+		time 		2
 		//type 		"camera"
 	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{
-				material 			ribbon/minigun_trail_violet
-				update_bounds 		1
-				fade_out_time		0.2
-				uv_scroll			"0 -0.5"
-				tiling_distance     "4"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0 0.5"
-					}
-
-					Ribbon
-					{
-						offset "0 0 -0.5"
-				}
-			}
-		}	
-	}
 }
+

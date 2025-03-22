@@ -132,7 +132,7 @@ EntityBlueprint
 {
 	name "units/ground/egg_cosmic_canoptrix_crystal_alpha"
 
-	base_blueprint "units/ground/egg_canoptrix"
+	base_blueprint "units/ground/egg_cosmic_canoptrix_crystal"
 
 	MeshDesc
 	{
@@ -152,10 +152,10 @@ EntityBlueprint
 					explosion_max_power 	"5000"
 					explosion_min_power 	"2500"
 					explosion_effect_scale 	"1.0"
-					explosion_effect 		"effects/enemies_hammeroceros/death"
-					part_prefix 			"meshes/units/ground/spawner_canoptrix_eggs_02"
-					part_material 			"units/ground/spawner_canoptrix_eggs"
-					part_effect 			"effects/enemies_generic/blood_trail_red"
+					explosion_effect 		"effects/enemies_anoryxian/death_egg"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material	"gibs_light"					
 				}
 
@@ -168,6 +168,51 @@ EntityBlueprint
 	EggDesc
 	{
 		blueprint				"units/ground/cosmic_canoptrix_crystal_alpha"
+		time_to_hatch			"90"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_canoptrix_crystal_ultra"
+
+	base_blueprint "units/ground/egg_cosmic_canoptrix_crystal"
+
+		MeshDesc
+	{
+		mesh "meshes/units/ground/anoryxian_egg.mesh"
+		material "units/ground/anoryxian_egg"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_anoryxian/death_egg"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_canoptrix_crystal_ultra"
 		time_to_hatch			"90"
 		unit_state_spawn		"state_not_aggressive" // do not touch
 	}

@@ -36,11 +36,11 @@ EntityBlueprint
 		ammo_blueprint 				"items/weapons/acidic_cluster_projectile"
 
 		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_fluid/cryo_spitter_muzzle"
+		muzzle_flash_effect 		"effects/weapons_fluid/acid_spitter_muzzle"
 
-		burst_column_spacing 		"0.5"
-		burst_rate 					"0.3"
-		//burst_column_angle 			"5"
+		burst_column_spacing 		"5.0"
+		burst_rate 					"1.0"
+		burst_column_angle 			"90"
 	}
 
 	EffectDesc
@@ -111,7 +111,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/laser_pointer"
+					blueprint "effects/mech/laser_pointer_green"
 					bone "att_muzzle_1"
 				}
 			}
@@ -149,11 +149,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/grenade_cluster_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
+			bp						string:"items/weapons/acidic_cluster_projectile"
 			aim_bp					string:"effects/weapons_generic/mech_acid_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
 		}
@@ -196,11 +196,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/grenade_cluster_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
+			bp						string:"items/weapons/acidic_cluster_projectile"
 			aim_bp					string:"effects/weapons_generic/mech_acid_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
 		}
@@ -231,11 +231,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/grenade_cluster_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
+			bp						string:"items/weapons/acidic_cluster_projectile"
 			aim_bp					string:"effects/weapons_generic/mech_acid_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
 		}
@@ -278,11 +278,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/grenade_weapon.lua"
+		script "lua/items/weapons/grenade_cluster_weapon.lua"
 
 		database
 		{
-			bp						string:"items/consumables/grenade"
+			bp						string:"items/weapons/acidic_cluster_projectile"
 			aim_bp					string:"effects/weapons_generic/mech_acid_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"
 		}
@@ -351,48 +351,48 @@ EntityBlueprint
 		on_world_hit_effect 		"effects/weapons_fluid/acidic_explosion_big"
 		on_resisted_hit_effect 		"effects/weapons_fluid/acidic_explosion_big"
 		hit_effect_direction 		"up"
-		on_world_explosion_delay	"1"
-		on_enemy_explosion_delay	"0"
+		on_world_explosion_delay	"1.5"
+		on_enemy_explosion_delay	"0.2"
 
-		explosion_delay_effect 		"lights/point/green_very_small"
+		explosion_delay_effect 		"effects/weapons_explosive/acidic_spitter_armed"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
 
-		diameter					"0.50"
+		diameter					"1"
 
-		artillery_min_angle 		"60"
-		artillery_max_angle 		"60"
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
 
-		cluster_count 				"6"
-		cluster_max_generation      "0.9"
-		cluster_explosion_radius	"4"
-		//fly_time_limit 				"1.5"
+		//cluster_count 				"8"
+		cluster_max_generation      "0.7"
+		cluster_explosion_radius	"8"
+		//fly_time_limit 				"0.7"
 
 		DamagePattern
 		{
-			area_damage_effect_scale	"splash"
-			area_damage_effect	 "effects/weapons_fluid/acidic_explosion_big"
-		}
-	}
-	
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
+			area_damage_radius	"3"
+			area_damage_speed	"30"
+
+			Damages
 			{
-				Effect
+				Damage
 				{
-					blueprint "effects/weapons_explosive/grenade_projectile"
+					value 			"3"
+					type			"acid"
 				}
-				Effect
+			}
+			TimeDamages
+			{
+				TimeDamage
 				{
-					blueprint "effects/weapons_explosive/grenade_throw"
+					value			"30"
+					duration		"5"
+					type			"acid"
 				}
 			}			
 		}
 	}
-	
+
 	children
 	{
 		EntityBlueprint
@@ -507,4 +507,27 @@ EntityBlueprint
 		}			
 	}	
 }		
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/acidic_spitter_armed
+
+	base_blueprints
+	{
+		lights/point/green_very_small
+		effects/no_lifetime
+	}
+
+	ShockWaveDesc
+	{
+		power 	"100"
+		speed 	"30"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_grenade_armed"
+	}
+}
 
