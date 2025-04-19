@@ -15,7 +15,7 @@ end
 
 function fertilizer_flora_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool_green", self.entity )
     end
 end
 
