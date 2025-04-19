@@ -9,8 +9,13 @@ end
 
 function heal_neutral_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_heal_neutral_tool", self.entity)
+    
+    self.heal_effect = self.data:GetStringOrDefault("heal_effect", "")
 
-    self.effect_blueprint = self.data:GetStringOrDefault("heal_effect", "")
+    if ( self.heal_effect and self.heal_effect ~= "" ) then
+
+        self.heal_effectArray = Split(self.heal_effect, ",")
+    end
 
     self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
 end
@@ -121,8 +126,12 @@ function heal_neutral_tool:OnActivateEntity( entity )
 
     HealthService:SetHealth( entity, HealthService:GetMaxHealth( entity) )
 
-    if ( self.effect_blueprint ~= "" ) then
-        EffectService:SpawnEffect( entity, self.effect_blueprint )
+    if ( self.heal_effectArray and #self.heal_effectArray > 0 ) then
+
+        for effectName in Iter(self.heal_effectArray) do
+
+            EffectService:SpawnEffect( entity, effectName )
+        end
     end
 end
 
