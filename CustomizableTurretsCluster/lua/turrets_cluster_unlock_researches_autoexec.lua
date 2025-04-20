@@ -8,6 +8,56 @@ local supported_research_list = {
         ["research_category"] = "gui/menu/research/category_weapons_equipment",
         ["research_name"] = "gui/menu/research/name/consumable_scanner_turret_standard",
     },
+
+    -- Expanded Arsenal Turrets
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_acid_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_acid_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_alien_influence_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_alien_influence_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_magma_caster_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_magma_caster_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_gravity_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_gravity_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_grenadier_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_grenadier_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_radio_shotgun_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_radio_shotgun_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_thumper_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_thumper_turret_standard",
+    },
+
+    {
+        ["name"] = "gui/menu/research/name/turrets_cluster_mods_expanded_arsenal_crystal_turret_standard_item",
+        ["research_category"] = "gui/menu/research/category_EA_weapons_research",
+        ["research_name"] = "gui/menu/research/name/consumable_crystal_turret_standard",
+    },
 }
 
 local turrets_cluster_unlock_researches_autoexec = function(evt)
