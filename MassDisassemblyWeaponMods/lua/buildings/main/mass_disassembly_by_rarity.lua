@@ -157,7 +157,7 @@ function mass_disassembly_by_rarity:OnGuiPopupResultEventResult( evt)
 
         mass_disassembly_utils:DestroyAllWeaponMods(self.entity, self.hashRarityBlueprint, self.resourcesValues, nil)
 
-    elseif ( eventResult == "button_before_storage_limit" ) then
+    elseif ( eventResult == "button_not_waste" ) then
 
         mass_disassembly_utils:DestroyBeforeStorageLimit(self.entity, self.hashRarityBlueprint, self.resourcesValues, nil)
 
