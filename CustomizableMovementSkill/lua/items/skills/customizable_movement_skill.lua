@@ -30,7 +30,7 @@ end
 function customizable_movement_skill:InitThrowStateMachine()
 
     self.machine = self:CreateStateMachine()
-    self.machine:AddState( "dash", { execute="OnDashExecute" } )
+    self.machine:AddState( "dash", { execute="OnDashExecute", exit="OnDashExit" } )
 end
 
 function customizable_movement_skill:OnEquipped()
@@ -47,20 +47,26 @@ function customizable_movement_skill:OnActivate()
         self:InitThrowStateMachine()
     end
 
+    local trailTypeBlueprint = self:GetModBlueprintName(4)
+    if ( trailTypeBlueprint and trailTypeBlueprint ~= "" ) then
+
+        local database = EntityService:GetBlueprintDatabase( trailTypeBlueprint )
+
+        self.trailTime = database:GetFloatOrDefault( "trail_time", 1 )
+        self.trailSpacing = database:GetFloatOrDefault( "trail_spacing", 1 )
+        self.trailExtend = database:GetFloatOrDefault( "trail_extend_time", 0.5 )
+        self.trailEffect = database:GetStringOrDefault( "trail_effect", "" ) or ""
+    else
+        self.trailTime = 1
+        self.trailSpacing = 1
+        self.trailExtend = 0.5
+        self.trailEffect = ""
+    end
+
     local explosionStart = self:GetModBlueprintName(2)
     if ( explosionStart and explosionStart ~= "" ) then
 
         self:SpawnExplosion( explosionStart )
-    end
-    
-
-    local trailType = self:GetModBlueprintName(4)
-    if ( trailType and trailType ~= "" ) then
-
-        self.trailTime = self.data:GetFloatOrDefault( "trail_time", 1 )
-        self.trailSpacing = self.data:GetFloatOrDefault( "trail_spacing", 1 )
-        self.trailExtend = self.data:GetFloatOrDefault( "trail_extend_time", 0.5 )
-        self.trailEffect = self.data:GetStringOrDefault( "trail_effect", "" )
     end
 
     local movementType = self:GetModBlueprintName(1)
@@ -108,7 +114,7 @@ function customizable_movement_skill:OnDashExecute( state )
         return
     end
     
-    self.trailSpacing = self.trailSpacing or 0
+    self.trailSpacing = self.trailSpacing or 1
 
     if ( self.lastPosition == nil ) then
 
@@ -135,31 +141,40 @@ function customizable_movement_skill:OnDashExecute( state )
 
     if (self.set == false and EntityService:IsDashing( self.owner ) == false ) then
     
-        self.trailExtend = self.trailExtend or 0
+        self.trailExtend = self.trailExtend or 0.5
 
         state:SetDurationLimit( self.trailExtend )
         self.set = true
-
-        local explosionEnd = self:GetModBlueprintName(3)
-        if ( explosionEnd and explosionEnd ~= "" ) then
-
-            self:SpawnExplosion( explosionEnd )
-        end
     end 
+end
+
+function customizable_movement_skill:OnDashExit()
+
+    local explosionEnd = self:GetModBlueprintName(3)
+    if ( explosionEnd and explosionEnd ~= "" ) then
+
+        self:SpawnExplosion( explosionEnd )
+    end
 end
 
 function customizable_movement_skill:SpawnTrailEffect()
 
-    if ( self.trailEffect == nil or self.trailEffect == "" ) then
+    self.trailEffect = self.trailEffect or ""
+
+    if ( self.trailEffect == "" ) then
         return
     end
 
     local spot = EntityService:GetPosition( self.owner )
     spot.y = EnvironmentService:GetTerrainHeight(spot)
 
-    local trail = EntityService:SpawnEntity( self.trailEffect, spot, "" )
+    local team = EntityService:GetTeam( self.owner )
+
+    local trail = EntityService:SpawnEntity( self.trailEffect, spot, team )
 
     ItemService:SetItemCreator( trail, EntityService:GetBlueprintName(self.entity) )
+
+    self.trailTime = self.trailTime or 1
 
     EntityService:PropagateEntityOwner( trail, self.owner )
     EntityService:DissolveEntity( trail, self.trailTime, 1.0 )
@@ -174,14 +189,8 @@ function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
     local database = EntityService:GetBlueprintDatabase( modExplosionBlueprint )
 
 
-
     local explosionBlueprint = database:GetStringOrDefault( "bp", "" )
     local att = database:GetStringOrDefault( "att", "" )
-
-    local radiusBp = database:GetStringOrDefault( "radius_bp", "")
-    local radiusSize = database:GetFloatOrDefault( "radius_size", 0 )
-    local radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
-
 
 
     local spawned = EntityService:SpawnEntity( explosionBlueprint, self.owner, att, team )
@@ -192,6 +201,19 @@ function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
     EntityService:PropagateEntityOwner( spawned, self.owner )
 
     EntityService:FadeEntity( spawned, DD_FADE_IN, 0.5 )
+
+
+
+    local radiusBp = database:GetStringOrDefault( "radius_bp", "") or ""
+    local radiusSize = database:GetFloatOrDefault( "radius_size", 0 )
+    local radiusLifeTime = database:GetFloatOrDefault( "radius_lifetime", 0 )
+
+    if ( radiusBp == nil or radiusBp == "" ) then
+
+        radiusBp = self.trailEffect
+    end
+
+    radiusBp = radiusBp or ""
 
     if ( radiusBp ~= "" ) then
 
