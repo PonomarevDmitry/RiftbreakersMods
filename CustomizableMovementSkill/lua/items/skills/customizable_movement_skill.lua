@@ -31,6 +31,7 @@ function customizable_movement_skill:InitThrowStateMachine()
 
     self.machine = self:CreateStateMachine()
     self.machine:AddState( "dash", { execute="OnDashExecute", exit="OnDashExit" } )
+    self.machine:AddState( "rolling", { from="*", enter="OnRollEnter", exit="OnRollExit"} )
 end
 
 function customizable_movement_skill:OnEquipped()
@@ -82,8 +83,54 @@ function customizable_movement_skill:OnActivate()
         self.lastPosition = nil
 
         --self.machine:ChangeState("dash")
-    else
+
+    elseif ( movementType == "items/customizable_movement_skill_mods/type_dodge_roll_item" ) then
+
+        self:RegisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
+
+        LogService:Log("type_dodge_roll_item self.item " .. tostring(EntityService:GetBlueprintName(self.item)) .. "  " .. tostring(self.item))
+
+        local specialMovementDataComponent = EntityService:GetComponent( self.item, "SpecialMovementDataComponent" )
+        if ( specialMovementDataComponent ~= nil ) then
+
+            local specialMovementDataComponentRef = reflection_helper(specialMovementDataComponent)
+
+            specialMovementDataComponentRef.param_name = "is_rolling"
+            specialMovementDataComponentRef.block_aiming_dir = "1"
+            specialMovementDataComponentRef.disable_unit_collision = "1"
+
+            LogService:Log("type_dodge_roll_item specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
+        end
+
+        local database = EntityService:GetBlueprintDatabase( movementType )
+
+        self.rollSpeed = database:GetFloatOrDefault("roll_speed", 2.0 )
+
+        local db = EntityService:GetDatabase( self.owner )
+        db:SetFloat( "roll_speed", self.rollSpeed )
     
+        EntityService:Dash( self.owner, self.item )
+
+        self.set = false
+        self.lastPosition = nil
+
+        self.machine:ChangeState("dash")
+    else
+
+        LogService:Log("type_dash_item self.item " .. tostring(EntityService:GetBlueprintName(self.item)) .. "  " .. tostring(self.item))
+
+        local specialMovementDataComponent = EntityService:GetComponent( self.item, "SpecialMovementDataComponent" )
+        if ( specialMovementDataComponent ~= nil ) then
+
+            local specialMovementDataComponentRef = reflection_helper(specialMovementDataComponent)
+
+            specialMovementDataComponentRef.param_name = "is_dashing"
+            specialMovementDataComponentRef.block_aiming_dir = "0"
+            specialMovementDataComponentRef.disable_unit_collision = "0"
+
+            LogService:Log("type_dash_item specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
+        end
+
         EntityService:Dash( self.owner, self.item )
 
         self.set = false
@@ -154,6 +201,30 @@ function customizable_movement_skill:OnDashExit()
     if ( explosionEnd and explosionEnd ~= "" ) then
 
         self:SpawnExplosion( explosionEnd )
+    end
+end
+
+function customizable_movement_skill:OnRollEnter( state )
+    EntityService:DisableCollisions( self.owner )
+    HealthService:SetImmortality( self.owner, true )
+    EntityService:ChangeCharacterControllerGroupId( self.owner, "debris" )
+end
+
+function customizable_movement_skill:OnRollExit()
+
+    self.machine:Deactivate()
+    self:UnregisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
+
+    EntityService:EnableCollisions( self.owner )
+    HealthService:SetImmortality( self.owner, false )
+    EntityService:ChangeCharacterControllerGroupId( self.owner, "character" )
+end
+
+function customizable_movement_skill:OnAnimationMarkerReached(evt)
+    if ( evt:GetMarkerName() == "roll_start" ) then
+        self.machine:ChangeState("rolling")
+    elseif ( evt:GetMarkerName() == "roll_end" ) then
+        self.machine:Deactivate()
     end
 end
 
