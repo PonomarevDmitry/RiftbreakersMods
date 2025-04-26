@@ -708,7 +708,14 @@ function flora_cultivator:OnUpdateProductionExecute()
                 "rhodonite",
                 "tanzanite",
                 "hazenite",
-                "ferdonite"
+                "ferdonite",
+
+                -- Tower Arsenal
+                "cosmonite_ore",
+                "plasmanite",
+
+                -- Expanded Arsenal
+                "voidinite_ore"
             }
 
             local resourceList = PlayerService:GetGlobalResourcesList()
