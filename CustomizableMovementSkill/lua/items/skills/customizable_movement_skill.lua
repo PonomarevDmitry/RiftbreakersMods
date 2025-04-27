@@ -430,7 +430,7 @@ function customizable_movement_skill:SpawnMine(modMineBlueprint)
     EntityService:PropagateEntityOwner( spawned, self.owner )
 
     
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
+    EntityService:SpawnEntity( "effects/customizable_movement_skill/mine_created", spawned, "" )
 
 
     local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
