@@ -14,6 +14,9 @@ function customizable_movement_skill:OnInit()
     if ( self.machine == nil ) then
         self:InitThrowStateMachine()
     end
+        
+    self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
+    self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
 end
 
 function customizable_movement_skill:OnLoad()
@@ -25,6 +28,9 @@ function customizable_movement_skill:OnLoad()
     if ( self.machine == nil ) then
         self:InitThrowStateMachine()
     end
+        
+    self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
+    self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
 end
 
 function customizable_movement_skill:InitThrowStateMachine()
@@ -75,9 +81,6 @@ function customizable_movement_skill:OnActivate()
     local databaseMovementType = EntityService:GetBlueprintDatabase( movementType )
 
     if ( movementType == "items/customizable_movement_skill_mods/type_teleport_item" ) then
-        
-        self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
-        self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
 
         self.maxDistance = databaseMovementType:GetFloatOrDefault("distance", -1.0 )
         
@@ -92,6 +95,9 @@ function customizable_movement_skill:OnActivate()
             self:RegisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
 
             PlayerService:TeleportPlayer( self.owner, foundPos.second, 0.2, 0.1, 0.2 )
+        else
+
+            ItemService:ResetCooldown( self.entity, 0.0 )
         end
 
     elseif ( movementType == "items/customizable_movement_skill_mods/type_jump_item" ) then
