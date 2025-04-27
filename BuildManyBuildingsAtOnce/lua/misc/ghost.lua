@@ -31,6 +31,8 @@ function ghost:InitializeValues()
     local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent"))
     self.blueprint = buildingComponent.bp
 
+    self:AddToBuildingDescLampOverrides()
+
     self.desc = reflection_helper(BuildingService:GetBuildingDesc( self.blueprint ))
 
     Assert(self.desc ~= nil, "ERROR: " .. self.blueprint .. " doesn't have BuildingDesc! It will crash now!")
@@ -206,6 +208,43 @@ function ghost:OnRotateSelectorRequest()
         EntityService:RemoveEntity(self.rotateInfoChild)
         self.rotateInfoChild = nil
         ConsoleService:ExecuteCommand( "showed_rotate_info 1" )
+    end
+end
+
+function ghost:AddToBuildingDescLampOverrides()
+
+    local blueprint = ResourceManager:GetBlueprint( self.blueprint )
+
+    local building_component = blueprint:GetComponent("BuildingDesc")
+
+    if ( building_component ~= nil ) then
+
+        local hashLampValue = CalcHash("lamp")
+
+        building_component:GetField("type"):SetValue("lamp")
+
+        local overridesArray = building_component:GetField("overrides"):ToContainer()
+
+        local existedStringHash = nil
+
+        for k=0,overridesArray:GetItemCount()-1 do
+
+            local stringHash = overridesArray:GetItem(k)
+
+            local stringHashRef = reflection_helper(stringHash)
+
+            if ( stringHashRef.hash == hashLampValue  ) then
+
+                existedStringHash = stringHash
+            end
+        end
+
+        if ( existedStringHash == nil ) then
+
+            local newStringHash = overridesArray:CreateItem()
+
+            newStringHash:GetField("hash"):SetValue(tostring(hashLampValue))
+        end
     end
 end
 
