@@ -70,6 +70,12 @@ function customizable_movement_skill:OnActivate()
         self:SpawnExplosion( explosionStart )
     end
 
+    local mineStart = self:GetModBlueprintName(5)
+    if ( mineStart and mineStart ~= "" ) then
+
+        self:SpawnMine( mineStart )
+    end
+
     local movementType = self:GetModBlueprintName(1)
     if ( movementType == nil or movementType == "" ) then
         movementType = "items/customizable_movement_skill_mods/type_dash_item"
@@ -88,8 +94,6 @@ function customizable_movement_skill:OnActivate()
 
         self:RegisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
 
-        LogService:Log("type_dodge_roll_item self.item " .. tostring(EntityService:GetBlueprintName(self.item)) .. "  " .. tostring(self.item))
-
         local specialMovementDataComponent = EntityService:GetComponent( self.item, "SpecialMovementDataComponent" )
         if ( specialMovementDataComponent ~= nil ) then
 
@@ -98,8 +102,6 @@ function customizable_movement_skill:OnActivate()
             specialMovementDataComponentRef.param_name = "is_rolling"
             specialMovementDataComponentRef.block_aiming_dir = "1"
             specialMovementDataComponentRef.disable_unit_collision = "1"
-
-            LogService:Log("type_dodge_roll_item specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
         end
 
         local database = EntityService:GetBlueprintDatabase( movementType )
@@ -117,8 +119,6 @@ function customizable_movement_skill:OnActivate()
         self.machine:ChangeState("dash")
     else
 
-        LogService:Log("type_dash_item self.item " .. tostring(EntityService:GetBlueprintName(self.item)) .. "  " .. tostring(self.item))
-
         local specialMovementDataComponent = EntityService:GetComponent( self.item, "SpecialMovementDataComponent" )
         if ( specialMovementDataComponent ~= nil ) then
 
@@ -127,8 +127,6 @@ function customizable_movement_skill:OnActivate()
             specialMovementDataComponentRef.param_name = "is_dashing"
             specialMovementDataComponentRef.block_aiming_dir = "0"
             specialMovementDataComponentRef.disable_unit_collision = "0"
-
-            LogService:Log("type_dash_item specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
         end
 
         EntityService:Dash( self.owner, self.item )
@@ -201,6 +199,12 @@ function customizable_movement_skill:OnDashExit()
     if ( explosionEnd and explosionEnd ~= "" ) then
 
         self:SpawnExplosion( explosionEnd )
+    end
+
+    local mineEnd = self:GetModBlueprintName(6)
+    if ( mineEnd and mineEnd ~= "" ) then
+
+        self:SpawnMine( mineEnd )
     end
 end
 
@@ -300,6 +304,38 @@ function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
             EntityService:DissolveEntity( trail, radiusLifeTime, 1.0 )
         end
     end
+end
+
+function customizable_movement_skill:SpawnMine(modMineBlueprint)
+
+    local selfBlueprint = EntityService:GetBlueprintName( self.entity )
+
+    local team = EntityService:GetTeam( self.owner )
+
+    local database = EntityService:GetBlueprintDatabase( modMineBlueprint )
+
+    local mineBlueprintName = database:GetString("bp")
+
+
+    local spot = EntityService:GetPosition( self.owner )
+
+    spot.y = EnvironmentService:GetTerrainHeight(spot)
+
+    local spawned = EntityService:SpawnEntity( mineBlueprintName, spot, team)
+
+    EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
+
+    ItemService:SetItemCreator( spawned, mineBlueprintName )
+    EntityService:PropagateEntityOwner( spawned, self.owner )
+
+    
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
+
+
+    local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
+
+    --QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
+    EntityService:FadeEntity( spawned, DD_FADE_IN, dissolveTime )
 end
 
 function customizable_movement_skill:GetModBlueprintName(slotNumber)
