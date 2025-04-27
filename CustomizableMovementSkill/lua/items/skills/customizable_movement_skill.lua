@@ -31,7 +31,7 @@ function customizable_movement_skill:InitThrowStateMachine()
 
     self.machine = self:CreateStateMachine()
     self.machine:AddState( "dash", { execute="OnDashExecute", exit="OnDashExit" } )
-    self.machine:AddState( "rolling", { from="*", enter="OnRollEnter", exit="OnRollExit"} )
+    self.machine:AddState( "rolling", { from="*", enter="OnRollEnter", execute="OnRollExecute",exit="OnRollExit"} )
 end
 
 function customizable_movement_skill:OnEquipped()
@@ -64,24 +64,40 @@ function customizable_movement_skill:OnActivate()
         self.trailEffect = ""
     end
 
-    local explosionStart = self:GetModBlueprintName(2)
-    if ( explosionStart and explosionStart ~= "" ) then
-
-        self:SpawnExplosion( explosionStart )
-    end
-
-    local mineStart = self:GetModBlueprintName(5)
-    if ( mineStart and mineStart ~= "" ) then
-
-        self:SpawnMine( mineStart )
-    end
-
     local movementType = self:GetModBlueprintName(1)
     if ( movementType == nil or movementType == "" ) then
         movementType = "items/customizable_movement_skill_mods/type_dash_item"
     end
 
-    if ( movementType == "items/customizable_movement_skill_mods/type_jump_item" ) then
+    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
+    self:UnregisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
+
+    local databaseMovementType = EntityService:GetBlueprintDatabase( movementType )
+
+    if ( movementType == "items/customizable_movement_skill_mods/type_teleport_item" ) then
+        
+        self:RegisterHandler( self.entity, "TeleportAppearEnter",  "OnTeleportAppearEnter" )
+        self:RegisterHandler( self.entity, "TeleportAppearExit",  "OnTeleportAppearExit" )
+
+        self.maxDistance = databaseMovementType:GetFloatOrDefault("distance", -1.0 )
+        
+        local pos = PlayerService:GetWeaponLookPoint( self.owner )
+
+        local foundPos = PlayerService:FindPositionForTeleport( self.owner, pos, self.maxDistance )
+        if ( foundPos.first ) then
+
+            self:SpawnStartExplosion()
+            self:SpawnStartMine()
+
+            self:RegisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
+
+            PlayerService:TeleportPlayer( self.owner, foundPos.second, 0.2, 0.1, 0.2 )
+        end
+
+    elseif ( movementType == "items/customizable_movement_skill_mods/type_jump_item" ) then
+
+        self:SpawnStartExplosion()
+        self:SpawnStartMine()
     
         EntityService:Dash( self.owner, self.item )
 
@@ -91,6 +107,9 @@ function customizable_movement_skill:OnActivate()
         --self.machine:ChangeState("dash")
 
     elseif ( movementType == "items/customizable_movement_skill_mods/type_dodge_roll_item" ) then
+
+        self:SpawnStartExplosion()
+        self:SpawnStartMine()
 
         self:RegisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
 
@@ -104,9 +123,7 @@ function customizable_movement_skill:OnActivate()
             specialMovementDataComponentRef.disable_unit_collision = "1"
         end
 
-        local database = EntityService:GetBlueprintDatabase( movementType )
-
-        self.rollSpeed = database:GetFloatOrDefault("roll_speed", 2.0 )
+        self.rollSpeed = databaseMovementType:GetFloatOrDefault("roll_speed", 2.0 )
 
         local db = EntityService:GetDatabase( self.owner )
         db:SetFloat( "roll_speed", self.rollSpeed )
@@ -116,8 +133,11 @@ function customizable_movement_skill:OnActivate()
         self.set = false
         self.lastPosition = nil
 
-        self.machine:ChangeState("dash")
+        --self.machine:ChangeState("rolling")
     else
+
+        self:SpawnStartExplosion()
+        self:SpawnStartMine()
 
         local specialMovementDataComponent = EntityService:GetComponent( self.item, "SpecialMovementDataComponent" )
         if ( specialMovementDataComponent ~= nil ) then
@@ -195,17 +215,9 @@ end
 
 function customizable_movement_skill:OnDashExit()
 
-    local explosionEnd = self:GetModBlueprintName(3)
-    if ( explosionEnd and explosionEnd ~= "" ) then
+    self:SpawnEndExplosion()
 
-        self:SpawnExplosion( explosionEnd )
-    end
-
-    local mineEnd = self:GetModBlueprintName(6)
-    if ( mineEnd and mineEnd ~= "" ) then
-
-        self:SpawnMine( mineEnd )
-    end
+    self:SpawnEndMine()
 end
 
 function customizable_movement_skill:OnRollEnter( state )
@@ -214,14 +226,61 @@ function customizable_movement_skill:OnRollEnter( state )
     EntityService:ChangeCharacterControllerGroupId( self.owner, "debris" )
 end
 
+function customizable_movement_skill:OnRollExecute( state )
+
+    if ( EntityService:IsAlive( self.owner ) == false ) then
+        self.set = true
+        state:Exit()
+        return
+    end
+    
+    self.trailSpacing = self.trailSpacing or 1
+
+    if ( self.lastPosition == nil ) then
+
+        self.lastPosition = EntityService:GetPosition( self.owner )
+        self.lastPosition.y = EnvironmentService:GetTerrainHeight(self.lastPosition)
+
+        self:SpawnTrailEffect()
+
+    else
+        local currentPosition = EntityService:GetPosition( self.owner )
+        currentPosition.y = EnvironmentService:GetTerrainHeight(currentPosition)
+
+        local distance = Distance( currentPosition, self.lastPosition )
+
+        if ( distance >= self.trailSpacing  ) then
+
+            self.lastPosition = currentPosition
+            self.lastPosition.x = self.lastPosition.x + RandFloat( -0.5, 0.5 )
+            self.lastPosition.z = self.lastPosition.z + RandFloat( -0.5, 0.5 )
+
+            self:SpawnTrailEffect()
+        end
+    end
+
+    if (self.set == false and EntityService:IsDashing( self.owner ) == false ) then
+    
+        self.trailExtend = self.trailExtend or 0.5
+
+        state:SetDurationLimit( self.trailExtend )
+        self.set = true
+    end 
+end
+
 function customizable_movement_skill:OnRollExit()
 
     self.machine:Deactivate()
+
     self:UnregisterHandler( self.owner, "AnimationMarkerReached", "OnAnimationMarkerReached" )
 
     EntityService:EnableCollisions( self.owner )
     HealthService:SetImmortality( self.owner, false )
     EntityService:ChangeCharacterControllerGroupId( self.owner, "character" )
+
+    self:SpawnEndExplosion()
+
+    self:SpawnEndMine()
 end
 
 function customizable_movement_skill:OnAnimationMarkerReached(evt)
@@ -253,6 +312,24 @@ function customizable_movement_skill:SpawnTrailEffect()
 
     EntityService:PropagateEntityOwner( trail, self.owner )
     EntityService:DissolveEntity( trail, self.trailTime, 1.0 )
+end
+
+function customizable_movement_skill:SpawnStartExplosion()
+
+    local explosionStart = self:GetModBlueprintName(2)
+    if ( explosionStart and explosionStart ~= "" ) then
+
+        self:SpawnExplosion( explosionStart )
+    end
+end
+
+function customizable_movement_skill:SpawnEndExplosion()
+
+    local explosionEnd = self:GetModBlueprintName(3)
+    if ( explosionEnd and explosionEnd ~= "" ) then
+
+        self:SpawnExplosion( explosionEnd )
+    end
 end
 
 function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
@@ -306,6 +383,24 @@ function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
     end
 end
 
+function customizable_movement_skill:SpawnStartMine()
+
+    local mineStart = self:GetModBlueprintName(5)
+    if ( mineStart and mineStart ~= "" ) then
+
+        self:SpawnMine( mineStart )
+    end
+end
+
+function customizable_movement_skill:SpawnEndMine()
+
+    local mineEnd = self:GetModBlueprintName(6)
+    if ( mineEnd and mineEnd ~= "" ) then
+
+        self:SpawnMine( mineEnd )
+    end
+end
+
 function customizable_movement_skill:SpawnMine(modMineBlueprint)
 
     local selfBlueprint = EntityService:GetBlueprintName( self.entity )
@@ -336,6 +431,23 @@ function customizable_movement_skill:SpawnMine(modMineBlueprint)
 
     --QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
     EntityService:FadeEntity( spawned, DD_FADE_IN, dissolveTime )
+end
+
+function customizable_movement_skill:OnTeleportAppearEnter()
+    self.data:SetInt("leaving", 1)
+end
+
+function customizable_movement_skill:OnTeleportAppearExit()
+    self.data:SetInt("leaving", 0)
+end
+
+function customizable_movement_skill:OnOwnerRiftTeleportEndEvent()
+
+    self:UnregisterHandler( self.owner, "RiftTeleportEndEvent", "OnOwnerRiftTeleportEndEvent" )
+
+    self:SpawnEndExplosion()
+
+    self:SpawnEndMine()
 end
 
 function customizable_movement_skill:GetModBlueprintName(slotNumber)
