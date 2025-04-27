@@ -18,7 +18,7 @@ function customizable_movement_skill_panel:OnInit()
 
     self:RegisterEventHandlers()
 
-    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_skills" )
 
     self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/customizable_movement_skill_1_item")
 end
@@ -31,7 +31,7 @@ function customizable_movement_skill_panel:OnLoad()
 
     self:RegisterEventHandlers()
 
-    self.data:SetString("action_icon", "gui/menu/research/icons/consumables" )
+    self.data:SetString("action_icon", "gui/menu/research/icons/mech_basic_skills" )
 
     self.skillName = self.data:GetStringOrDefault("skill_name", "items/skills/customizable_movement_skill_1_item")
 end
