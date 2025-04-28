@@ -1,0 +1,161 @@
+EntityBlueprint
+{
+	name	"items/customizable_movement_mines/proximity_mine_holo_decoy_base"
+	
+	base_blueprint	"items/consumables/proximity_mine_base"
+
+	MeshDesc
+	{
+		mesh		"meshes/items/consumables/holo_decoy.mesh"
+		material	"items/consumables/holo_decoy"
+	}
+
+	SkeletonDesc
+	{
+		name	"meshes/units/drones/tower_mines_drones/drone_mine_root_holo_decoy"
+	}
+
+	LifeTimeDesc
+	{
+		time	20
+	}
+	
+	TriggerDesc
+	{
+		owner		"self"
+		collision	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team			"hostility"
+				check_parent	"0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r	"5"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			group "mine_unarmed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_placed"
+					bone "att_light"
+				}
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_armed"
+					bone "att_light"
+					delay "2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			enabled "0"
+			group	"mine_armed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_activated"
+					bone "att_light"
+				}
+			}
+		}
+	}
+}
+
+
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_holo_decoy_standard"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_holo_decoy_base"
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/holo_decoy_mech"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_holo_decoy_advanced"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_holo_decoy_base"
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/holo_decoy_mech_advanced"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_holo_decoy_superior"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_holo_decoy_base"
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/holo_decoy_mech_superior"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_holo_decoy_extreme"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_holo_decoy_base"
+
+	LuaDesc
+	{
+		script "lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/consumables/holo_decoy_mech_extreme"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}

@@ -1,0 +1,264 @@
+EntityBlueprint
+{
+	name			"items/customizable_movement_mines/proximity_mine_sonic_base"
+	
+	base_blueprint	"items/consumables/proximity_mine_base"
+	
+	MeshDesc
+	{
+		mesh		"meshes/items/consumables/grenade_sonic.mesh"
+		material	"items/consumables/grenade_sonic"
+	}
+
+	SkeletonDesc
+	{
+		name	"meshes/units/drones/tower_mines_drones/drone_mine_root_sonic"
+	}
+
+	LifeTimeDesc
+	{
+		time	20
+	}
+	
+	TriggerDesc
+	{
+		owner		"self"
+		collision	"ground_unit"
+
+		Filters
+		{
+			TeamRelationTriggerFilter
+			{
+				team			"hostility"
+				check_parent	"0"
+			}
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r	"5"
+			}
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			group "mine_unarmed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_placed"
+					bone "att_light"
+				}
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_armed"
+					bone "att_light"
+					delay "2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			enabled "0"
+			group	"mine_armed"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/mech_mine_beacon_activated"
+					bone "att_light"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_sonic_standard"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_sonic_base"
+
+	LuaDesc
+	{
+		script	"lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/customizable_movement_mines/proximity_mine_sonic_standard_explosion"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_sonic_advanced"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_sonic_base"
+
+	LuaDesc
+	{
+		script	"lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/customizable_movement_mines/proximity_mine_sonic_advanced_explosion"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_sonic_superior"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_sonic_base"
+
+	LuaDesc
+	{
+		script	"lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/customizable_movement_mines/proximity_mine_sonic_superior_explosion"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"items/customizable_movement_mines/proximity_mine_sonic_extreme"
+
+	base_blueprint		"items/customizable_movement_mines/proximity_mine_sonic_base"
+
+	LuaDesc
+	{
+		script	"lua/items/consumables/proximity_mine.lua"
+
+		database
+		{
+			bp					string:"items/customizable_movement_mines/proximity_mine_sonic_extreme_explosion"
+			delay				float:"0.5"
+			delay_before_armed	float:"0.5"
+		}
+	}
+}
+
+
+
+
+
+
+EntityBlueprint
+{
+	name	"items/customizable_movement_mines/proximity_mine_sonic_standard_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect		"effects/weapons_explosive/sonic_blast"
+
+		DamagePattern
+		{
+			area_damage_radius	"20"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value			"150"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/customizable_movement_mines/proximity_mine_sonic_advanced_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect		"effects/weapons_explosive/sonic_blast"
+
+		DamagePattern
+		{
+			area_damage_radius	"20.3"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value			"200"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/customizable_movement_mines/proximity_mine_sonic_superior_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect		"effects/weapons_explosive/sonic_blast"
+
+		DamagePattern
+		{
+			area_damage_radius	"20.6"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value			"250"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name	"items/customizable_movement_mines/proximity_mine_sonic_extreme_explosion"
+
+	BombAmmoComponent
+	{
+		explosion_effect		"effects/weapons_explosive/sonic_blast"
+
+		DamagePattern
+		{
+			area_damage_radius	"20.9"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value			"300"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
