@@ -676,7 +676,7 @@ function flora_cultivator:OnUpdateProductionExecute()
 
             self.data:SetString("production_group.rows." .. rowName .. ".name", inventoryCompRef.name )
             self.data:SetString("production_group.rows." .. rowName .. ".icon", "gui/hud/tools_icons/sapling" )
-            self.data:SetString("production_group.rows." .. rowName .. ".value",  "" )
+            self.data:SetString("production_group.rows." .. rowName .. ".value", "" )
 
             rowNumber = rowNumber + 1
         end
