@@ -92,6 +92,12 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
     local DRONE_FADE_TIME = 0.3
 
+    local team = EntityService:GetTeam(self.entity)
+
+    local level = BuildingService:GetBuildingLevel( self.entity )
+
+    local hoverMinHeight = 9 + 2 * (level - 1)
+
     local isActive = ( self.data:GetIntOrDefault( "activated", 0 ) == 1 )
 
     local blueprints = Split( self.drone_blueprint, ",")
@@ -108,7 +114,7 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
                 local drone_blueprint = blueprints[ (droneIdx % #blueprints) + 1 ]
 
-                local drone = EntityService:SpawnEntity( drone_blueprint, attachment, EntityService:GetTeam(self.entity) )
+                local drone = EntityService:SpawnEntity( drone_blueprint, attachment, team )
 
                 EntityService:SetScale( drone, 0.75,0.75,0.75 )
 
@@ -129,9 +135,11 @@ function tower_mine_layer_with_slots:SpawnDrones()
                 self:DroneSpawned( drone )
 
                 local database = EntityService:GetDatabase( drone )
-                database:SetInt("drone_id", droneIdx )
-                database:SetFloat("drone_search_radius", self.drone_search_radius )
-                database:SetString("plant_blueprint", towerMineBlueprint )
+                database:SetInt( "drone_id", droneIdx )
+                database:SetFloat( "drone_search_radius", self.drone_search_radius )
+                database:SetString( "plant_blueprint", towerMineBlueprint )
+
+                database:SetFloat( "hover_min_height", hoverMinHeight )
 
                 droneIdx = droneIdx + 1
 
