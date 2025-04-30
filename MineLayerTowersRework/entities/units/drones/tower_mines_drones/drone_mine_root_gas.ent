@@ -1,6 +1,6 @@
 EntityBlueprint
 {
-	name	"units/drones/tower_mines_drones/drone_mine_root_acid"
+	name	"units/drones/tower_mines_drones/drone_mine_root_gas"
 	
 	base_blueprint	"items/consumables/proximity_mine_base"
 
@@ -10,7 +10,7 @@ EntityBlueprint
 	
 		database
 		{
-			bp					string:"units/drones/drone_mine_root_acid_explosion"
+			bp					string:"units/drones/drone_mine_root_gas_explosion"
 			delay				float:"1.0"
 			delay_before_armed	float:"1.0"
 		}
@@ -18,8 +18,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh		"meshes/projectiles/floating_mine.mesh"
-		material	"items/weapons/floating_mines_acid"
+		mesh		"meshes/items/consumables/grenade_gas.mesh"
+		material	"items/consumables/grenade_gas"
 	}
 
 	SkeletonDesc
@@ -92,24 +92,33 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name	"units/drones/drone_mine_root_acid_explosion"
+	name	"units/drones/drone_mine_root_gas_explosion"
+	
+	LifeTimeDesc
+	{
+		time	6
+	}
 
 	BombAmmoComponent
 	{
-		explosion_effect		"effects/weapon_hit/acid_mine_explosion"
+		explosion_effect			"effects/items/gas_grenade_smoke"
 
 		DamagePattern
 		{
-			area_damage_radius	"8"
-
-			Damages
+			area_damage_type		"timed"
+			area_damage_duration	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
 			{
-				Damage
+				TimeDamage
 				{
-					value			"300"
+					value			"20"
+					duration		"1"
 					type			"acid"
 				}
-			}
+			}			
 		}
 	}
 }
