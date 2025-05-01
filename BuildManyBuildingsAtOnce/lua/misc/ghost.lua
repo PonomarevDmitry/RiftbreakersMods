@@ -221,8 +221,6 @@ function ghost:AddToBuildingDescLampOverrides()
 
         local hashLampValue = CalcHash("lamp")
 
-        building_component:GetField("type"):SetValue("lamp")
-
         local overridesArray = building_component:GetField("overrides"):ToContainer()
 
         local existedStringHash = nil
