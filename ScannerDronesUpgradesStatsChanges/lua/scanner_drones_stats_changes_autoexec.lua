@@ -97,7 +97,7 @@ local new_values = {
     },
 }
 
-InjectChangeListScannerDronesEntityModDescValues(new_values)
+--InjectChangeListScannerDronesEntityModDescValues(new_values)
 
 --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
 --
