@@ -198,6 +198,10 @@ local supported_item_blueprints = {
     "items/skills/teleport_emergency_ice_advanced_item",
     "items/skills/teleport_emergency_ice_superior_item",
     "items/skills/teleport_emergency_ice_extreme_item",
+
+    "items/skills/customizable_movement_skill_1_item",
+    "items/skills/customizable_movement_skill_2_item",
+    "items/skills/customizable_movement_skill_3_item",
 }
 
 InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
