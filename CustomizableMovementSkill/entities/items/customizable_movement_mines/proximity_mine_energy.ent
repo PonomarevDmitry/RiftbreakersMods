@@ -2,17 +2,11 @@ EntityBlueprint
 {
 	name			"items/customizable_movement_mines/proximity_mine_energy_base"
 	
-	base_blueprint	"items/consumables/proximity_mine_base"
-
-	MeshDesc
-	{
-		mesh		"meshes/projectiles/floating_mine.mesh"
-		material	"units/drones/tower_mines_drones/drone_mine_root_energy"
-	}
+	base_blueprint	"items/customizable_movement_mines/proximity_mine_base"
 
 	SkeletonDesc
 	{
-		name	"meshes/projectiles/floating_mine"
+		name	"meshes/items/customizable_movement_mines/proximity_mine_floating"
 	}
 
 	LifeTimeDesc
@@ -43,6 +37,28 @@ EntityBlueprint
 		}
 	}
 	
+	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh		"meshes/projectiles/floating_mine.mesh"
+				material	"items/customizable_movement_mines/proximity_mine_energy"
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y	"0.5"
+					x	"0"
+					z	"0"
+				}
+			}
+		}
+	}
+	
 	EffectDesc
 	{
 		EffectGroup
@@ -60,7 +76,7 @@ EntityBlueprint
 
 				Effect
 				{
-					blueprint	"effects/items/mech_floating_mine_cryo_beacon_armed"
+					blueprint	"effects/customizable_movement_mines/mech_mine_beacon_armed"
 					bone		"att_light"
 					delay		"2"
 				}
