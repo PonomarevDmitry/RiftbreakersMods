@@ -1,3 +1,5 @@
+require("lua/utils/table_utils.lua")
+
 local InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown = function(blueprintsList, cooldownValue)
 
     for _,blueprintName in ipairs(blueprintsList) do
@@ -205,3 +207,47 @@ local supported_item_blueprints = {
 }
 
 InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
+
+
+
+RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+
+    if (evt == nil) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    if ( entity == nil or entity == INVALID_ID) then
+        return
+    end
+
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    local itemType = ItemService:GetItemType(entity)
+
+    if ( itemType ~= "dash_skill" and itemType ~= "movement_skill" ) then
+        return
+    end
+
+    local entityBlueprintName = EntityService:GetBlueprintName(entity)
+
+    if ( IndexOf( supported_item_blueprints, entityBlueprintName ) == nil ) then
+        return
+    end
+
+    local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
+    if ( inventoryItemComponent ~= nil ) then
+
+        inventoryItemComponent:GetField("cooldown"):SetValue("0.5")
+    end
+
+    local inventoryItemRuntimeDataComponent = EntityService:GetComponent(entity, "InventoryItemRuntimeDataComponent")
+    if ( inventoryItemRuntimeDataComponent ~= nil ) then
+
+        inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue("0.5")
+    end
+
+end)
