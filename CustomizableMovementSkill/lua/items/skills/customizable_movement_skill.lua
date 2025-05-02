@@ -164,19 +164,6 @@ function customizable_movement_skill:OnActivate()
     end
 end
 
-function customizable_movement_skill:CanActivate()
-
-    if ( item.CanActivate ) then
-        item.CanActivate(self)
-    end
-
-    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
-        return false
-    end
-
-    return true
-end
-
 function customizable_movement_skill:OnDashExecute( state )
 
     if ( EntityService:IsAlive( self.owner ) == false ) then
