@@ -208,7 +208,12 @@ local supported_item_blueprints = {
 
 InjectChangeMovingSkillBlueprintInventoryItemComponentCooldown(supported_item_blueprints, "0.5")
 
+local supported_item_hash = {}
 
+for _,blueprintName in ipairs(supported_item_blueprints) do
+
+    supported_item_hash[blueprintName] = 1
+end
 
 RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
@@ -234,7 +239,7 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
     local entityBlueprintName = EntityService:GetBlueprintName(entity)
 
-    if ( IndexOf( supported_item_blueprints, entityBlueprintName ) == nil ) then
+    if ( supported_item_hash[entityBlueprintName] == 1 ) then
         return
     end
 
