@@ -111,6 +111,10 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
     local entity = evt:GetEntity()
 
+    if ( entity == nil or entity == INVALID_ID) then
+        return
+    end
+
     if ( not EntityService:IsAlive( entity ) ) then
         return
     end
