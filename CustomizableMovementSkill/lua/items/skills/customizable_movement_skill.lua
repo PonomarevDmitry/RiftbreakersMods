@@ -125,6 +125,9 @@ function customizable_movement_skill:OnActivate()
             local specialMovementDataComponentRef = reflection_helper(specialMovementDataComponent)
 
             specialMovementDataComponentRef.param_name = "is_rolling"
+            specialMovementDataComponentRef.start_effect = ""
+            specialMovementDataComponentRef.continuous_effect = ""
+
             specialMovementDataComponentRef.block_aiming_dir = "1"
             specialMovementDataComponentRef.disable_unit_collision = "1"
         end
@@ -139,7 +142,7 @@ function customizable_movement_skill:OnActivate()
         self.set = false
         self.lastPosition = nil
 
-        --self.machine:ChangeState("rolling")
+        self.machine:ChangeState("rolling")
     else
 
         self:SpawnStartExplosion()
@@ -151,8 +154,13 @@ function customizable_movement_skill:OnActivate()
             local specialMovementDataComponentRef = reflection_helper(specialMovementDataComponent)
 
             specialMovementDataComponentRef.param_name = "is_dashing"
+            specialMovementDataComponentRef.start_effect = "dash_start_long"
+            specialMovementDataComponentRef.continuous_effect = "dash_trail_long"
+
             specialMovementDataComponentRef.block_aiming_dir = "0"
             specialMovementDataComponentRef.disable_unit_collision = "0"
+
+            LogService:Log("specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
         end
 
         EntityService:Dash( self.owner, self.item )
