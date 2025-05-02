@@ -26,6 +26,8 @@ function floor_rebuilder_tool:OnInit()
         4,
     }
 
+    self.hoverEntities = {}
+
     self.nowBuildingLine = false
     self.buildStartPosition = nil
     self.gridEntities = {}
@@ -677,6 +679,10 @@ end
 
 function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
 
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
     local possibleSelectedEnts = {}
 
     for xIndex=1,#self.gridEntities do
@@ -690,10 +696,6 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
             if ( EntityService:IsAlive( entity ) ) then
 
                 local position = EntityService:GetPosition( entity )
-
-                local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-                local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
 
                 local min = VectorSub(position, scaleVector)
                 local max = VectorAdd(position, scaleVector)
@@ -745,6 +747,38 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
         Insert(selectedEntities, entity )
 
         ::continue::
+    end
+
+    if ( #self.gridEntities > 0 ) then
+
+        if ( self.hoverEntities ~= nil) then
+            for entity in Iter(self.hoverEntities) do
+                self:RemovedFromSelection( entity )
+            end
+        end
+        self.hoverEntities = {}
+
+    else
+
+        local min = VectorSub(selectorPosition, scaleVector)
+        local max = VectorAdd(selectorPosition, scaleVector)
+    
+        local list = FindService:FindFloorsByBox( min, max )
+
+        for entity in Iter(list) do
+            local meshEntity = BuildingService:GetMeshEntity(entity)
+            EntityService:SetMaterial( meshEntity, "selector/hologram_pass", "selected" )
+        end
+
+        for entity in Iter(self.hoverEntities) do
+
+            if ( IndexOf( list, entity ) == nil ) then
+
+                self:RemovedFromSelection( entity )
+            end
+        end
+
+        self.hoverEntities = list
     end
 
     return selectedEntities
@@ -1081,6 +1115,13 @@ end
 function floor_rebuilder_tool:OnRelease()
 
     self:ClearGridEntities()
+
+    if ( self.hoverEntities ~= nil) then
+        for entity in Iter(self.hoverEntities) do
+            self:RemovedFromSelection( entity )
+        end
+    end
+    self.hoverEntities = {}
 
     self.nowBuildingLine = false
     self.buildStartPosition = nil
