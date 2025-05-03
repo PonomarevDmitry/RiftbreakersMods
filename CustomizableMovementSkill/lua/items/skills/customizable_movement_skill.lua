@@ -160,7 +160,7 @@ function customizable_movement_skill:OnActivate()
             specialMovementDataComponentRef.block_aiming_dir = "0"
             specialMovementDataComponentRef.disable_unit_collision = "0"
 
-            LogService:Log("specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
+            --LogService:Log("specialMovementDataComponentRef " .. tostring(specialMovementDataComponentRef))
         end
 
         EntityService:Dash( self.owner, self.item )
