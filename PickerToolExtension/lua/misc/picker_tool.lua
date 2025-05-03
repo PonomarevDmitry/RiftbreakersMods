@@ -575,6 +575,18 @@ function picker_tool:OnActivateSelectorRequest()
             end
         end
     end
+
+    if ( currentBiome == "acid" ) then
+
+        local lowName = "floor_acid_1x1"
+        local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+        local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+        if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+            return
+        end
+    end
 end
 
 function picker_tool:GetTerrainTypes( terrainCellEntityId )
