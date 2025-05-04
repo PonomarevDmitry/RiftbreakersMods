@@ -1,0 +1,120 @@
+EntityBlueprint
+{
+	name					"buildings/tools/spawner_activate"
+
+	BuildingDesc
+	{
+		name				"spawner_activate"
+		bp					"buildings/tools/spawner_activate"
+		ghost_bp			"buildings/tools/spawner_activate_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/spawner_activate"
+		description			"gui/hud/building_description/spawner_activate"
+		menu_icon			"gui/hud/tools_icons/spawner_activate_tool"
+
+		order				"100.125"
+		type				"spawner_activate"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/spawner_activate_ghost"
+
+	BuildingDesc
+	{
+		name				"spawner_activate_ghost"
+		buildable			"0"
+		type				"spawner_activate"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/spawner_activate_tool.lua"
+
+		database
+		{
+			action			string:"spawner_activate"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/spawner_activate_all_map"
+
+	BuildingDesc
+	{
+		name				"spawner_activate_all_map"
+		bp					"buildings/tools/spawner_activate_all_map"
+		ghost_bp			"buildings/tools/spawner_activate_all_map_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/spawner_activate_all_map"
+		description			"gui/hud/building_description/spawner_activate_all_map"
+		menu_icon			"gui/hud/tools_icons/spawner_activate_all_map_tool"
+
+		order				"100.125"
+		type				"sell"
+
+		buildable			"0"
+		building_group		"spawner_activate"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/spawner_activate_all_map_ghost"
+
+	BuildingDesc
+	{
+		name				"spawner_activate_all_map_ghost"
+		buildable			"0"
+		type				"sell"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/spawner_activate_all_map_tool.lua"
+
+		database
+		{
+			action			string:"spawner_activate_all_map"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
