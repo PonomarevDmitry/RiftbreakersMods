@@ -16,6 +16,28 @@ function mass_disassembly_by_rarity_tool:OnInit()
     self.scaleMap = {
         1,
     }
+
+    self.data:SetInt("slot_visible_1", 0)
+    self.data:SetInt("slot_visible_2", 0)
+    self.data:SetInt("slot_visible_3", 0)
+
+    self.data:SetInt("slot_time_visible_1", 0)
+    self.data:SetInt("slot_time_visible_2", 0)
+    self.data:SetInt("slot_time_visible_3", 0)
+
+    self.data:SetInt("slot_rarity_1", 0)
+    self.data:SetInt("slot_rarity_2", 0)
+    self.data:SetInt("slot_rarity_3", 0)
+
+    self.data:SetString("slot_icon_1", "")
+    self.data:SetString("slot_icon_2", "")
+    self.data:SetString("slot_icon_3", "")
+
+    self.data:SetString("slot_name_1", "")
+    self.data:SetString("slot_name_2", "")
+    self.data:SetString("slot_name_3", "")
+
+    self.data:SetInt("menu_visible", 0)
 end
 
 function mass_disassembly_by_rarity_tool:GetScaleFromDatabase()
@@ -50,10 +72,37 @@ function mass_disassembly_by_rarity_tool:OnRotate()
 end
 
 function mass_disassembly_by_rarity_tool:OnActivateSelectorRequest()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
-
 function mass_disassembly_by_rarity_tool:OnGuiPopupResultEvent( evt )
+
+
+
+
+
+
+
+
+
+
+
 end
 
 return mass_disassembly_by_rarity_tool
