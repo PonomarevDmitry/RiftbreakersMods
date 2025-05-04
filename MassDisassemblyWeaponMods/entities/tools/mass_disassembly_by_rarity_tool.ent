@@ -1,0 +1,59 @@
+EntityBlueprint
+{
+	name					"buildings/tools/mass_disassembly_by_rarity_tool"
+
+	BuildingDesc
+	{
+		name				"mass_disassembly_by_rarity_tool"
+		bp					"buildings/tools/mass_disassembly_by_rarity_tool"
+		ghost_bp			"buildings/tools/mass_disassembly_by_rarity_tool_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/mass_disassembly_by_rarity_tool"
+		description			"gui/hud/building_description/mass_disassembly_by_rarity_tool"
+		menu_icon			"gui/hud/tools_icons/mass_disassembly_by_rarity_tool"
+
+		order				"100"
+		type				"mass_disassembly_by_rarity_tool"
+
+		buildable			"0"
+		building_group		"mass_disassembly"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/mass_disassembly_by_rarity_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"mass_disassembly_by_rarity_tool_ghost"
+		buildable			"0"
+		type				"mass_disassembly_by_rarity_tool"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/mass_disassembly_by_rarity_tool.lua"
+
+		database
+		{
+			action			string:"mass_disassembly_by_rarity_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
