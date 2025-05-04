@@ -543,7 +543,24 @@ function buildings_tool_base:GetMaxAvailableLevel( blueprintName )
 
         if ( self:IsBlueprintAvailable( buildingDescRef.upgrade ) ) then
 
-            return self:GetMaxAvailableLevel( buildingDescRef.upgrade )
+            local list = BuildingService:GetBuildCosts( buildingDescRef.upgrade, self.playerId )
+
+            local allResourcesUnlocked = true
+
+            for resourceCost in Iter(list) do
+                
+                if ( not PlayerService:IsResourceUnlocked(resourceCost.first) ) then
+
+                    allResourcesUnlocked = false
+
+                    break
+                end
+            end
+
+            if ( allResourcesUnlocked ) then
+
+                return self:GetMaxAvailableLevel( buildingDescRef.upgrade )
+            end
         end
     end
 
