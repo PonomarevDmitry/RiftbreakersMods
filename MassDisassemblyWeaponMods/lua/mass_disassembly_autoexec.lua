@@ -3,6 +3,7 @@ local mass_disassembly_autoexec = function(evt)
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent ~= nil ) then
         BuildingService:UnlockBuilding("buildings/main/mass_disassembly")
+        BuildingService:UnlockBuilding("buildings/main/mass_disassembly_by_rarity")
         BuildingService:UnlockBuilding("buildings/main/mass_disassembly_equal_and_lower")
         
         BuildingService:UnlockBuilding("buildings/tools/mass_disassembly_by_rarity_tool")
