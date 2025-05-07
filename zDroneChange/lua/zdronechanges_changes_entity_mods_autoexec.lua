@@ -221,8 +221,8 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_mods_chance] = "3",
-            [EntityModType.loot_resources_chance] = "3",
+            [EntityModType.loot_mods_chance] = "0.6",
+            [EntityModType.loot_resources_chance] = "0.6",
         },
     },
 
@@ -238,8 +238,8 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_mods_chance] = "4",
-            [EntityModType.loot_resources_chance] = "4",
+            [EntityModType.loot_mods_chance] = "0.8",
+            [EntityModType.loot_resources_chance] = "0.8",
         },
     },
 
@@ -255,8 +255,8 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_mods_chance] = "5",
-            [EntityModType.loot_resources_chance] = "5",
+            [EntityModType.loot_mods_chance] = "1",
+            [EntityModType.loot_resources_chance] = "1",
         },
     },
 
@@ -272,8 +272,8 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_mods_chance] = "6",
-            [EntityModType.loot_resources_chance] = "6",
+            [EntityModType.loot_mods_chance] = "1.2",
+            [EntityModType.loot_resources_chance] = "1.2",
         },
     },
 }
