@@ -31,7 +31,9 @@ function ghost:InitializeValues()
     local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent"))
     self.blueprint = buildingComponent.bp
 
-    self:AddToBuildingDescLampOverrides()
+    if ( mod_add_lamp_to_overrides ~= nil and mod_add_lamp_to_overrides == 1 ) then
+        self:AddToBuildingDescLampOverrides()
+    end
 
     self.desc = reflection_helper(BuildingService:GetBuildingDesc( self.blueprint ))
 
