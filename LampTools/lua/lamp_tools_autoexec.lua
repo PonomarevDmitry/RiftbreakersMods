@@ -98,7 +98,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local parameterName = "$selected_lamp_blueprint"
 
-    if ( selector ) then
+    if ( selector and selector != INVALID_ID ) then
 
         local selectorDB = EntityService:GetDatabase( selector )
         if ( selectorDB ) then

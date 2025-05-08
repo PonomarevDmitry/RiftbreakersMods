@@ -28,7 +28,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     local parameterName = "$selected_wall_small_blueprint"
 
     local selector = evt:GetEntity()
-    if ( selector ) then
+    if ( selector and selector != INVALID_ID ) then
 
         local selectorDB = EntityService:GetDatabase( selector )
         if ( selectorDB ) then

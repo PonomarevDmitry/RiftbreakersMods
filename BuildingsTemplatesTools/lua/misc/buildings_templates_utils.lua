@@ -14,7 +14,7 @@ function BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
     local selectorDB = nil
 
-    if ( selector ~= nil ) then
+    if ( selector ~= nil and selector ~= INVALID_ID ) then
         selectorDB = EntityService:GetDatabase( selector )
     end
 
