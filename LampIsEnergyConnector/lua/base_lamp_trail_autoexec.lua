@@ -87,7 +87,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     local parameterName = "$" .. lowName .. "_trail_blueprint"
 
     local selector = evt:GetEntity()
-    if ( selector and selector != INVALID_ID ) then
+    if ( selector and selector ~= INVALID_ID ) then
 
         local selectorDB = EntityService:GetDatabase( selector )
         if ( selectorDB ) then

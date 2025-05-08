@@ -51,7 +51,7 @@ function base_lamp_trail:GetLampBlueprint()
     local blueprintName = ""
 
     local selector = PlayerService:GetPlayerSelector(self.playerId)
-    if ( selector and selector != INVALID_ID ) then
+    if ( selector and selector ~= INVALID_ID ) then
 
         local selectorDB = EntityService:GetDatabase( selector )
         if ( selectorDB and selectorDB:HasString(parameterName) ) then
