@@ -35,6 +35,8 @@ function energy_connector_tool:OnInit()
     self.currentChainMarker = nil
     self.currentChainMarkeValue = nil
 
+    self.correctionVectors = self:GetCorrectionVectors(100)
+
     self:SpawnGhostConnectorEntities()
 end
 
@@ -434,20 +436,18 @@ function energy_connector_tool:OnUpdate()
 
         local currentTransform = EntityService:GetWorldTransform( self.entity )
 
-        local spots = BuildingService:FindSpotsByDistance( self.buildTransform, currentTransform, self.radius, self.connectorBlueprintName )
+        local spots = self:FindSpotsByDistance( self.buildTransform, currentTransform )
+
+        local currentSize = self:CheckSizeExists(self.currentSize)
+        currentSize = math.abs(currentSize)
+
+        local newAdditionalVectors = self:FindPositionsToBuildLine( currentSize )
 
         for spot in Iter( spots ) do
 
-            local currentSize = self:CheckSizeExists(self.currentSize)
+            for i=1,#newAdditionalVectors do
 
-            local createChain = ( currentSize < 0 or self.type == 0 )
-            currentSize = math.abs(currentSize)
-
-            local newPositions = self:FindPositionsToBuildLine( currentSize )
-
-            for i=1,#newPositions do
-
-                local newPosition = newPositions[i]
+                local newPosition = newAdditionalVectors[i]
 
                 local transform = {}
                 transform.scale = spot.scale
@@ -532,17 +532,17 @@ function energy_connector_tool:FinishLineBuild()
 
         Remove( buildingsTransformsArray, nearestSpotTransform )
 
-        local spots = BuildingService:FindSpotsByDistance( nearestSpotTransform, selfTransform, self.radius, self.connectorBlueprintName )
+        local spots = self:FindSpotsByDistance( nearestSpotTransform, selfTransform )
 
         if ( #spots > 0 ) then
 
+            local newAdditionalVectors = self:FindPositionsToBuildLine( currentSize )
+
             for spot in Iter( spots ) do
 
-                local newPositions = self:FindPositionsToBuildLine( currentSize )
+                for i=1,#newAdditionalVectors do
 
-                for i=1,#newPositions do
-
-                    local newPosition = newPositions[i]
+                    local newPosition = newAdditionalVectors[i]
 
                     local transform = {}
                     transform.scale = spot.scale
@@ -562,6 +562,262 @@ function energy_connector_tool:FinishLineBuild()
             self:BuildEnergyConnectorsFromGhosts()
             return
         end
+    end
+end
+
+function energy_connector_tool:FindSpotsByDistance(startTransform, endTransform)
+
+    local spots = BuildingService:FindSpotsByDistance( startTransform, endTransform, self.radius, self.connectorBlueprintName )
+
+    if ( #spots == 0 ) then
+        return spots
+    end
+
+    local result = self:GetBuildableSpotsArray(spots)
+
+    return result
+end
+
+function energy_connector_tool:GetBuildableSpotsArray(spots)
+
+    LogService:Log("GetBuildableSpotsArray Calc")
+
+    local result = {}
+
+    for i = 1,#spots do
+            
+        local spot = spots[i]
+
+        local correctedTransform = self:GetBuildableSpot(spot)
+
+        if ( #result > 0 ) then
+
+            local lastSpot = result[#result]
+
+            local difference = math.max( math.abs(lastSpot.position.x - correctedTransform.position.x), math.abs(lastSpot.position.z - correctedTransform.position.z) )
+
+            LogService:Log("difference " .. tostring(difference))
+
+            if ( difference > self.radius ) then
+
+                local newPosition = {}
+                newPosition.x = SnapValue( (correctedTransform.position.x + lastSpot.position.x) / 2, 2.0 )
+                newPosition.y = spot.position.y
+                newPosition.z = SnapValue( (correctedTransform.position.z + lastSpot.position.z) / 2, 2.0 )
+
+                local transform = {}
+                transform.scale = spot.scale
+                transform.orientation = spot.orientation
+                transform.position = newPosition
+
+                local transform = self:GetBuildableSpot(transform)
+
+                Insert( result, transform )
+            end
+        end
+
+        Insert( result, correctedTransform )
+    end
+
+    LogService:Log("GetBuildableSpotsArray End")
+
+    return result
+end
+
+function energy_connector_tool:GetBuildableSpot(spot)
+
+    if ( not self:IsTransformOccupied(spot) ) then
+
+        LogService:Log("Adding spot.position.x " .. tostring(spot.position.x) .. " spot.position.z " .. tostring(spot.position.z))
+
+        return spot
+    end
+
+    local transform = {}
+    transform.scale = spot.scale
+    transform.orientation = spot.orientation
+
+    for i=1,#self.correctionVectors do
+
+        local correctionVector = self.correctionVectors[i]
+
+        local newPosition = {}
+        newPosition.x = spot.position.x + correctionVector.x
+        newPosition.y = spot.position.y
+        newPosition.z = spot.position.z + correctionVector.z
+
+        transform.position = newPosition
+
+        if ( not self:IsTransformOccupied(transform) ) then
+                        
+            LogService:Log("Adding correctionVector.x " .. tostring(correctionVector.x) .. " correctionVector.z " .. tostring(correctionVector.z))
+
+            LogService:Log("Adding transform.position.x " .. tostring(transform.position.x) .. " transform.position.z " .. tostring(transform.position.z))
+
+            return transform
+        end
+    end
+
+    return spot
+end
+
+function energy_connector_tool:AddToHash(hashPositions, position)
+
+    hashPositions[position.x] = hashPositions[position.x] or {}
+
+    local hashXPosition = hashPositions[position.x]
+
+    if ( hashXPosition[position.z] ~= nil ) then
+
+        return false
+    end
+
+    hashXPosition[position.z] = true
+
+    return true
+end
+
+function energy_connector_tool:HashContains(hashPositions, position)
+
+    hashPositions[position.x] = hashPositions[position.x] or {}
+
+    local hashXPosition = hashPositions[position.x]
+
+    if ( hashXPosition[position.z] ~= nil ) then
+
+        return true
+    end
+
+    return false
+end
+
+function energy_connector_tool:IsTransformOccupied(transform)
+
+    local isSpaceOccupied = BuildingService:IsSpaceOccupied( transform.position, "", "" )
+    if ( isSpaceOccupied ) then
+
+        return true
+    end
+
+    local terrainCellEntityId = EnvironmentService:GetTerrainCell(transform.position)
+
+    local buildingBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "BuildingBlockerLayerComponent" )
+    if ( buildingBlockerLayerComponent ~= nil ) then
+        return true
+    end
+
+    local worldBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "WorldBlockerLayerComponent" )
+    if ( worldBlockerLayerComponent ~= nil ) then
+        return true
+    end
+
+    local testBuildable = self:CheckEntityBuildable( self.linesEntities[1], transform )
+    if ( testBuildable == nil ) then
+
+        return true
+    end
+
+    if ( testBuildable.flag == CBF_CAN_BUILD ) then
+
+        return false
+    end
+
+    return true
+end
+
+function energy_connector_tool:GetCorrectionVectors(cellCount)
+
+    local result = {}
+
+    for indexZ = 0,cellCount do
+        for indexX = 0,indexZ do
+
+            self:AddVectorToResult(result, indexX, indexZ)
+
+            if ( indexX ~= indexZ ) then
+
+                self:AddVectorToResult(result, indexZ, indexX)
+            end
+        end
+    end
+
+    --local sorter = function( position1, position2 )
+    --
+    --    if (position1.maxIndex ~= position2.maxIndex) then
+    --
+    --        return position1.maxIndex < position2.maxIndex
+    --    end
+    --
+    --    if (position1.totalIndex ~= position2.totalIndex) then
+    --
+    --        return position1.totalIndex < position2.totalIndex
+    --    end
+    --
+    --    if (position1.x ~= position2.x) then
+    --
+    --        return position1.x > position2.x
+    --    end
+    --
+    --    return position1.z > position2.z
+    --end
+    --
+    --table.sort(result, sorter)
+
+    return result
+end
+
+function energy_connector_tool:AddVectorToResult(result, indexX, indexZ)
+
+    local delta = 2
+
+    local maxIndex = math.max(indexX, indexZ)
+    local totalIndex = indexX + indexZ
+
+    local newPosition = nil
+
+    newPosition = {}
+    newPosition.x = indexX * delta
+    newPosition.z = indexZ * delta
+
+    newPosition.maxIndex = maxIndex
+    newPosition.totalIndex = totalIndex
+
+    Insert( result, newPosition )
+
+    if ( indexX ~= 0 and indexZ ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = - indexX * delta
+        newPosition.z = - indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
+    end
+
+    if ( indexX ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = - indexX * delta
+        newPosition.z = indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
+    end
+
+    if ( indexZ ~= 0 ) then
+
+        newPosition = {}
+        newPosition.x = indexX * delta
+        newPosition.z = - indexZ * delta
+
+        newPosition.maxIndex = maxIndex
+        newPosition.totalIndex = totalIndex
+
+        Insert( result, newPosition )
     end
 end
 
