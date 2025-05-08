@@ -49,8 +49,16 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     end
 
     local selector = evt:GetEntity()
+    if ( selector == nil or selector == INVALID_ID ) then
+        return
+    end
+    
+    local playerReferenceComponent = EntityService:GetComponent(selector, "PlayerReferenceComponent")
+    if ( playerReferenceComponent == nil ) then
+        return
+    end
 
-    local playerReferenceComponent = reflection_helper( EntityService:GetComponent(selector, "PlayerReferenceComponent") )
+    local playerReferenceComponent = reflection_helper( playerReferenceComponent )
     local playerId = playerReferenceComponent.player_id
 
     local lowName = BuildingService:FindLowUpgrade( blueprintName )
