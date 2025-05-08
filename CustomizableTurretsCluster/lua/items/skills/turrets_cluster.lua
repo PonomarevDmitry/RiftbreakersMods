@@ -24,7 +24,7 @@ function turrets_cluster:OnActivate()
     originalPosition.y = pos.second.y
     originalPosition.z = pos.second.z
 
-    local positions = self:FindPositionsToBuild(10)
+    local positions = self:FindPositionsToBuild(20)
 
     local position = nil
     local positionNumber = 1
@@ -194,9 +194,25 @@ end
 
 function turrets_cluster:IsPositionOccupied(newPosition)
 
-    local result = BuildingService:IsSpaceOccupied( newPosition, "", "" )
+    local isSpaceOccupied = BuildingService:IsSpaceOccupied( newPosition, "", "" )
+    if ( isSpaceOccupied ) then
 
-    return result
+        return true
+    end
+
+    local terrainCellEntityId = EnvironmentService:GetTerrainCell(newPosition)
+
+    local buildingBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "BuildingBlockerLayerComponent" )
+    if ( buildingBlockerLayerComponent ~= nil ) then
+        return true
+    end
+
+    local worldBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "WorldBlockerLayerComponent" )
+    if ( worldBlockerLayerComponent ~= nil ) then
+        return true
+    end
+
+    return false
 end
 
 function turrets_cluster:FindPositionsToBuild(cellCount)
