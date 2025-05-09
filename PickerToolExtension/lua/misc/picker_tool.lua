@@ -36,9 +36,9 @@ function picker_tool:FillSelectedBlueprints()
         "steel_factory",
         "rare_element_mine",
 
-        "bio_condenser",
-
         "liquid_pump",
+
+        "bio_condenser",
 
         "geothermal_powerplant",
         "gas_extractor",
@@ -771,6 +771,8 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
         return ""
     end
 
+    local maxDeltaLast = 1.5
+
     for lowName in Iter( selectedBluprintsNames ) do
 
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
@@ -798,14 +800,18 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
 
         if ( resourceId == "mud_vein" or resourceId == "carbon_vein" ) then
 
-            local lastLowName = self:GetLastVeinExtractor(resourceId)
+            local currentTime = GetLogicTime()
 
-            if ( lastLowName == lowName ) then
+            local lastLowName, lastTime = self:GetLastVeinExtractor(resourceId)
+            
+            local delta = currentTime - lastTime
+
+            if ( lastLowName == lowName and delta < maxDeltaLast ) then
 
                 goto continue
             end
 
-            self:SetLastVeinExtractor(resourceId, lowName)
+            self:SetLastVeinExtractor(resourceId, lowName, currentTime)
         end
 
         do
@@ -1064,14 +1070,17 @@ end
 function picker_tool:GetLastVeinExtractor(resourceId)
 
     local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
+    local parameterTimeName = "$last_" .. resourceId .. "_extractor_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     local lowName = ""
+    local timeValue = 0
 
     if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
         lowName = selectorDB:GetStringOrDefault(parameterName, "") or ""
+        timeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
     end
 
     if ( lowName == "" ) then
@@ -1081,22 +1090,28 @@ function picker_tool:GetLastVeinExtractor(resourceId)
             local campaignDatabase = CampaignService:GetCampaignData()
             if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
                 lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+                timeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
             end
         end
     end
 
-    return lowName
+    timeValue = timeValue or 0
+
+    return lowName, timeValue
 end
 
-function picker_tool:SetLastVeinExtractor(resourceId, lowName)
+function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
 
     local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
+
+    local parameterTimeName = "$last_" .. resourceId .. "_extractor_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     if ( selectorDB ) then
 
         selectorDB:SetString(parameterName, lowName)
+        selectorDB:SetFloat(parameterTimeName, timeValue)
     end
 
     if ( CampaignService.GetCampaignData ) then
@@ -1104,6 +1119,7 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName)
         local campaignDatabase = CampaignService:GetCampaignData()
         if ( campaignDatabase ) then
             campaignDatabase:SetString( parameterName, lowName )
+            campaignDatabase:SetFloat( parameterTimeName, timeValue )
         end
     end
 end
