@@ -413,6 +413,29 @@ function harvester_drone:OnHarvestEnter(state)
     state:SetDurationLimit(self.harvest_duration)
 
     local target = self:GetDroneActionTarget();
+
+    local isUnitEntity = EntityService:HasComponent( target, "AIUnitComponent" )
+                            or EntityService:HasComponent( target, "NeutralUnitComponent" )
+                            or EntityService:HasComponent( target, "WaveUnitComponent" )
+                            or EntityService:HasComponent( target, "AggressiveStateComponent" )
+                            or EntityService:HasComponent( target, "NotAggressiveStateComponent" )
+                            ;
+
+    if ( isUnitEntity ) then
+
+        local isAlive = HealthService:IsAlive( target )
+
+        if ( isAlive ) then
+
+            self:UnlockAllTargets()
+            self:SetTargetActionFinished()
+
+            self:TryFindNewTarget()
+
+            return state:Exit()
+        end
+    end
+
     Insert(self.exclude_targets, target)
 
     local resources = GetGatherableResources( target, self.harvest_vegetation )
@@ -468,6 +491,28 @@ function harvester_drone:OnHarvestExecute(state, dt)
 
     if not EntityService:IsAlive( target ) then
         return state:Exit()
+    end
+
+    local isUnitEntity = EntityService:HasComponent( target, "AIUnitComponent" )
+                            or EntityService:HasComponent( target, "NeutralUnitComponent" )
+                            or EntityService:HasComponent( target, "WaveUnitComponent" )
+                            or EntityService:HasComponent( target, "AggressiveStateComponent" )
+                            or EntityService:HasComponent( target, "NotAggressiveStateComponent" )
+                            ;
+
+    if ( isUnitEntity ) then
+
+        local isAlive = HealthService:IsAlive( target )
+
+        if ( isAlive ) then
+
+            self:UnlockAllTargets()
+            self:SetTargetActionFinished()
+
+            self:TryFindNewTarget()
+
+            return state:Exit()
+        end
     end
 
     for resource, _ in pairs( self.storage ) do
