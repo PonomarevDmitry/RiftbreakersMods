@@ -61,19 +61,27 @@ function portal_chain_tool:OnActivateSelectorRequest()
 
     ConcatUnique( entities, FindService:FindEntitiesByBlueprint( "buildings/main/outpost" ) )
 
-    if ( #entities == 0 ) then
-        return
+    if ( #entities > 0 ) then
+
+        local target = FindClosestEntity( self.entity, entities )
+
+        if ( target ~= nil and target ~= INVALID_ID ) then
+
+            self.buildStartTransform = EntityService:GetWorldTransform( target )
+
+            self:BuildPortals()
+        else
+
+            self.buildStartTransform = EntityService:GetWorldTransform( self.entity )
+
+            self:BuildEntity(self.ghostPortal, self.buildStartTransform, true)
+        end
+    else
+
+        self.buildStartTransform = EntityService:GetWorldTransform( self.entity )
+
+        self:BuildEntity(self.ghostPortal, self.buildStartTransform, true)
     end
-
-    local target = FindClosestEntity( self.entity, entities )
-
-    if ( target == nil or target == INVALID_ID ) then
-        return
-    end
-
-    self.buildStartTransform = EntityService:GetWorldTransform( target )
-
-    self:BuildPortals()
 
     self.activated = true
 end
