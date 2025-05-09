@@ -76,7 +76,7 @@ local supported_item_blueprints = {
         ["name"] = "units/drones/drone_resource_collector",
         ["floats"] = {
 
-            ["harvest_storage"] = 150.0,
+            ["harvest_storage"] = 450.0,
         },
     },
 
@@ -84,7 +84,7 @@ local supported_item_blueprints = {
         ["name"] = "units/drones/drone_flora_collector",
         ["floats"] = {
 
-            ["harvest_storage"] = 150.0,
+            ["harvest_storage"] = 450.0,
         },
     },
 
