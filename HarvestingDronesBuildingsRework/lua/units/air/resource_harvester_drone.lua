@@ -67,7 +67,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                 return false
             end
 
-            if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+            if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "WaveUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
 
                 local isAlive = HealthService:IsAlive( entity )
 
