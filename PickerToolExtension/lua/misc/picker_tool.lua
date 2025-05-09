@@ -42,6 +42,8 @@ function picker_tool:FillSelectedBlueprints()
 
         "geothermal_powerplant",
         "gas_extractor",
+
+        "carbonium_powerplant",
     }
 
     self.resourceVolumeBluprintsNames = {
@@ -52,6 +54,8 @@ function picker_tool:FillSelectedBlueprints()
 
         "geothermal_powerplant",
         "gas_extractor",
+
+        "carbonium_powerplant",
     }
 
     local isCampaignBiome = MissionService:IsCampaignBiome()
@@ -84,6 +88,8 @@ function picker_tool:FillSelectedBlueprints()
         ["carbonium_factory"] = "buildings/resources/carbonium_factory",
         ["steel_factory"] = "buildings/resources/steel_factory",
         ["rare_element_mine"] = "buildings/resources/rare_element_mine",
+
+        ["carbonium_powerplant"] = "buildings/energy/carbonium_powerplant",
 
         ["liquid_pump"] = "buildings/resources/liquid_pump",
 
@@ -790,16 +796,16 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
             goto continue
         end
 
-        if ( resourceId == "mud_vein" ) then
+        if ( resourceId == "mud_vein" or resourceId == "carbon_vein" ) then
 
-            local lastLowName = self:GetLastMudVeinExtractor()
+            local lastLowName = self:GetLastVeinExtractor(resourceId)
 
             if ( lastLowName == lowName ) then
 
                 goto continue
             end
 
-            self:SetLastMudVeinExtractor(lowName)
+            self:SetLastVeinExtractor(resourceId, lowName)
         end
 
         do
@@ -1055,9 +1061,9 @@ function picker_tool:OnRelease()
     end
 end
 
-function picker_tool:GetLastMudVeinExtractor()
+function picker_tool:GetLastVeinExtractor(resourceId)
 
-    local parameterName = "$last_mud_vein_extractor_blueprint"
+    local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -1082,9 +1088,9 @@ function picker_tool:GetLastMudVeinExtractor()
     return lowName
 end
 
-function picker_tool:SetLastMudVeinExtractor(lowName)
+function picker_tool:SetLastVeinExtractor(resourceId, lowName)
 
-    local parameterName = "$last_mud_vein_extractor_blueprint"
+    local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
