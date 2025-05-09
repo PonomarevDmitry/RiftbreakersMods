@@ -71,6 +71,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                                     or EntityService:HasComponent( entity, "NeutralUnitComponent" )
                                     or EntityService:HasComponent( entity, "WaveUnitComponent" )
                                     or EntityService:HasComponent( entity, "AggressiveStateComponent" )
+                                    or EntityService:HasComponent( entity, "NotAggressiveStateComponent" )
                                     ;
 
             if ( isUnitEntity ) then
