@@ -580,8 +580,6 @@ end
 
 function energy_connector_tool:GetBuildableSpotsArray(spots)
 
-    LogService:Log("GetBuildableSpotsArray Calc")
-
     local result = {}
 
     for i = 1,#spots do
@@ -595,8 +593,6 @@ function energy_connector_tool:GetBuildableSpotsArray(spots)
             local lastSpot = result[#result]
 
             local difference = math.max( math.abs(lastSpot.position.x - correctedTransform.position.x), math.abs(lastSpot.position.z - correctedTransform.position.z) )
-
-            LogService:Log("difference " .. tostring(difference))
 
             if ( difference > self.radius ) then
 
@@ -619,16 +615,12 @@ function energy_connector_tool:GetBuildableSpotsArray(spots)
         Insert( result, correctedTransform )
     end
 
-    LogService:Log("GetBuildableSpotsArray End")
-
     return result
 end
 
 function energy_connector_tool:GetBuildableSpot(spot)
 
     if ( not self:IsTransformOccupied(spot) ) then
-
-        LogService:Log("Adding spot.position.x " .. tostring(spot.position.x) .. " spot.position.z " .. tostring(spot.position.z))
 
         return spot
     end
@@ -650,10 +642,6 @@ function energy_connector_tool:GetBuildableSpot(spot)
 
         if ( not self:IsTransformOccupied(transform) ) then
                         
-            LogService:Log("Adding correctionVector.x " .. tostring(correctionVector.x) .. " correctionVector.z " .. tostring(correctionVector.z))
-
-            LogService:Log("Adding transform.position.x " .. tostring(transform.position.x) .. " transform.position.z " .. tostring(transform.position.z))
-
             return transform
         end
     end
