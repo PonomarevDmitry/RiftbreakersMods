@@ -38,7 +38,7 @@ local InjectChangeMechMovementDataValues = function(blueprintName, acceleration,
 end
 
 local accelerationValue = "100"
-local deaccelerationValue = "200"
+local deaccelerationValue = "300"
 
 InjectChangeMechMovementDataValues("player/character_base", accelerationValue, deaccelerationValue)
 
