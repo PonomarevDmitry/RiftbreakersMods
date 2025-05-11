@@ -25,7 +25,14 @@ function liquid_decompressor:OnInit()
     self.postfix = self.data:GetStringOrDefault( "postfix", "_storage")
     EntityService:SetSubMeshMaterial( self.entity, "resources/resource_empty_fresnel", 1, "default" )
 
-    self.showLiquidIcon = 1
+    local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+    if ( PlayerService:IsInFighterMode( owner ) ) then
+        self.showLiquidIcon = 0
+    else
+        self.showLiquidIcon = 1
+    end
+
     self:registerBuildMenuTracker()
 end
 
@@ -63,7 +70,9 @@ function liquid_decompressor:CreateMenuEntity()
 
         local visible = 0
 
-        if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+        local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
             visible = self.showLiquidIcon
         end
 
@@ -164,7 +173,9 @@ function liquid_decompressor:SetCompressorLiquidMenuVisible()
 
     local visible = 0
 
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
+    local owner = self.data:GetIntOrDefault( "owner", 0 )
+
+    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
         visible = self.showLiquidIcon
     end
 
