@@ -36,8 +36,21 @@ function DebugSerializeUtils:SerializeField( fieldName, field )
 end
 
 function DebugSerializeUtils:SerializeTable( field )
-    local data = "[" .. type( field ) .. "] {\n"
+
+    local fieldsArray = {}
+
     for key, value in pairs( field ) do
+
+        Insert(fieldsArray, key)
+    end
+
+    table.sort(fieldsArray)
+
+    local data = "[" .. type( field ) .. "] {\n"
+
+    for key in Iter( fieldsArray ) do
+
+        local value = field[key]
 
         local keyDesc = DebugSerializeUtils:SerializeObject( key )
 
@@ -59,6 +72,7 @@ function DebugSerializeUtils:SerializeTable( field )
             end
         end
     end
+
     return data .. "}"
 end
 
