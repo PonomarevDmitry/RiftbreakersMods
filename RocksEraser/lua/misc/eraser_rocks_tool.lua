@@ -112,6 +112,8 @@ function eraser_rocks_tool:OnActivateEntity( entity )
 
     --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
 
+    local dissolveTime = RandFloat( 1.0, 2.0 )
+
     if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
 
         EntityService:DisableCollisions( entity )
@@ -119,13 +121,9 @@ function eraser_rocks_tool:OnActivateEntity( entity )
         BuildingService:DisablePhysics( entity )
 
         EntityService:RequestDestroyPattern( entity, "default" )
-
-        local dissolveTime = RandFloat( 1.0, 2.0 )
-        EntityService:DissolveEntity( entity, dissolveTime )
-    else
-        
-        EntityService:RemoveEntity(entity)
     end
+
+    EntityService:DissolveEntity( entity, dissolveTime )
 
     --EntityService:ChangePhysicsGroupId( entity, "destructible" )
 
