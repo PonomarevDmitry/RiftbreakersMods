@@ -6,6 +6,7 @@ local eraser_rocks_tool_autoexec = function(evt)
     end
 
     BuildingService:UnlockBuilding("buildings/tools/eraser_rocks")
+    BuildingService:UnlockBuilding("buildings/tools/eraser_rocks_and_flora")
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
