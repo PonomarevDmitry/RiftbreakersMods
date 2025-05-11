@@ -50,6 +50,12 @@ end
 
 function provoke_creatures_tool:OnRotateSelectorRequest(evt)
 
+    local maxDeltaTime = 1
+    local maxCountToSwithTo1k = 14
+    local maxCountToSwithTo2k = 24
+
+
+
     local degree = evt:GetDegree()
 
     local change = 1
@@ -58,6 +64,36 @@ function provoke_creatures_tool:OnRotateSelectorRequest(evt)
     end
 
     local delta = change * self.stepValue
+
+
+
+    self.countToSpeedUp = self.countToSpeedUp or 0
+    self.lastRotateTime = self.lastRotateTime or 0
+
+    local currentTime = GetLogicTime()
+
+    local deltaFromLast = currentTime - self.lastRotateTime
+
+    if ( deltaFromLast < maxDeltaTime ) then
+
+        if ( self.countToSpeedUp > maxCountToSwithTo2k ) then
+
+            delta = delta * 5
+
+        elseif ( self.countToSpeedUp > maxCountToSwithTo1k ) then
+
+            delta = delta * 2
+        end
+
+        self.countToSpeedUp = self.countToSpeedUp + 1
+    else
+
+        self.countToSpeedUp = 0
+    end
+
+    self.lastRotateTime = currentTime
+
+
 
     local newValue = self.currentValue + delta
 
@@ -103,7 +139,7 @@ function provoke_creatures_tool:OnActivateSelectorRequest()
 
     EffectService:SpawnEffect( self.entity, "effects/enemies_generic/wave_start" )
 
-    EntityService:ChangeAIGroupsToAggressive( self.entity, self.currentValue, false )
+    EntityService:ChangeAIGroupsToAggressive( self.entity, self.currentValue, true )
 end
 
 return provoke_creatures_tool
