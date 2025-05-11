@@ -95,31 +95,6 @@ local supported_item_blueprints = {
     "items/skills/jump_cryo_superior_item",
     "items/skills/jump_cryo_extreme_item",
 
-    "items/skills/dash_explosion_acid_standard_item",
-    "items/skills/dash_explosion_acid_advanced_item",
-    "items/skills/dash_explosion_acid_superior_item",
-    "items/skills/dash_explosion_acid_extreme_item",
-
-    "items/skills/dash_explosion_area_standard_item",
-    "items/skills/dash_explosion_area_advanced_item",
-    "items/skills/dash_explosion_area_superior_item",
-    "items/skills/dash_explosion_area_extreme_item",
-
-    "items/skills/dash_explosion_cryo_standard_item",
-    "items/skills/dash_explosion_cryo_advanced_item",
-    "items/skills/dash_explosion_cryo_superior_item",
-    "items/skills/dash_explosion_cryo_extreme_item",
-
-    "items/skills/dash_explosion_energy_standard_item",
-    "items/skills/dash_explosion_energy_advanced_item",
-    "items/skills/dash_explosion_energy_superior_item",
-    "items/skills/dash_explosion_energy_extreme_item",
-
-    "items/skills/dash_explosion_fire_standard_item",
-    "items/skills/dash_explosion_fire_advanced_item",
-    "items/skills/dash_explosion_fire_superior_item",
-    "items/skills/dash_explosion_fire_extreme_item",
-
 
 
     "items/skills/teleport_attack_acid_standard_item",
