@@ -1,5 +1,6 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
 local item = require("lua/items/item.lua")
 
@@ -67,12 +68,16 @@ end
 
 function auto_mines_laying:OnUnequipped()
 
+    self.lastSpawnedPosition = nil
+
     if ( self.isWorking ) then
         self:StopWorking()
     end
 end
 
 function auto_mines_laying:StopWorking()
+
+    self.lastSpawnedPosition = nil
 
     self.isWorking = false
 
@@ -205,10 +210,40 @@ end
 
 function auto_mines_laying:OnDelayExecute( state )
 
+    local minDistanceBetweenLast = 5
+
+    if ( self.lastSpawnedPosition ~= nil ) then
+
+        local spot = EntityService:GetPosition( self.owner )
+        spot.y = EnvironmentService:GetTerrainHeight(spot)
+
+        local distance = Distance(self.lastSpawnedPosition, spot)
+
+        if ( distance < minDistanceBetweenLast ) then
+            return
+        end
+    end
+
     self.machine:ChangeState("placemine")
 end
 
 function auto_mines_laying:OnPlaceMineExecute( state )
+
+    local minDistanceBetweenLast = 5
+
+    if ( self.lastSpawnedPosition ~= nil ) then
+
+        local spot = EntityService:GetPosition( self.owner )
+        spot.y = EnvironmentService:GetTerrainHeight(spot)
+
+        local distance = Distance(self.lastSpawnedPosition, spot)
+
+        if ( distance < minDistanceBetweenLast ) then
+
+            self.machine:ChangeState("delay")
+            return
+        end
+    end
 
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
@@ -326,6 +361,8 @@ function auto_mines_laying:SpawnMine(mineBlueprintName)
     local spot = EntityService:GetPosition( self.owner )
 
     spot.y = EnvironmentService:GetTerrainHeight(spot)
+
+    self.lastSpawnedPosition = spot
 
     local spawned = EntityService:SpawnEntity( mineBlueprintName, spot, EntityService:GetTeam( self.owner ))
 
