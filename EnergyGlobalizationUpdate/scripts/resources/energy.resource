@@ -7,7 +7,7 @@ GameplayResourceDef
 	icon			"gui/hud/resource_icons/energy_icon"
 	bigger_icon		"gui/hud/resource_icons/energy_icon_bigger"
 	order   		"1"
-	allow_overflow 	"1"
+	allow_overflow 	"0"
 	hud_visible 	"always"
 }
 
