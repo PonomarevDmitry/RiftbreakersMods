@@ -1,5 +1,6 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/numeric_utils.lua")
 
 class 'picker_tool' ( tool )
 
@@ -26,6 +27,13 @@ function picker_tool:OnInit()
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
     self.radiusShowRuins = 100.0
+
+    -- Rotate matrix
+    --   X Z
+    -- X 0 -1
+    -- Z 1 0
+    self.transformXX = 0; self.transformXZ = -1;
+    self.transformZX = 1; self.transformZZ = 0;
 end
 
 function picker_tool:FillSelectedBlueprints()
@@ -455,11 +463,26 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
+    
+
+    local currentEntityPosition = EntityService:GetPosition( self.entity )
+
+    if ( self:CheckPositionForInOutLiquid( currentEntityPosition ) ) then
+
+        local blueprintName = "buildings/resources/pipe_straight"
+
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+            return
+        end
+    end
+
+
+
     if ( self:ChangeSelectorToEntityByFilter( self.isResource ) ) then
         return
     end
 
-    local currentEntityPosition = EntityService:GetPosition( self.entity )
+
 
     local terrainCellEntityId = EnvironmentService:GetTerrainCell(currentEntityPosition)
 
@@ -481,6 +504,7 @@ function picker_tool:OnActivateSelectorRequest()
             end
         end
     end
+
 
 
 
@@ -600,6 +624,203 @@ function picker_tool:OnActivateSelectorRequest()
             return
         end
     end
+end
+
+function picker_tool:CheckPositionForInOutLiquid( currentEntityPosition )
+
+    local maxDistance = 4
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+
+    local vector = { ["x"] = 2, ["z"] = 0 }
+
+    for i=1,4 do
+
+        for coef=1,2 do
+
+            local newPosition = {}
+
+            newPosition.x = currentEntityPosition.x + coef * vector.x
+            newPosition.y = currentEntityPosition.y
+            newPosition.z = currentEntityPosition.z + coef * vector.z
+
+            local min = VectorSub(newPosition, vectorBounds)
+            local max = VectorAdd(newPosition, vectorBounds)
+
+            local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
+
+            for entity in Iter( possibleSelectedEnts ) do
+
+                local blueprintName = EntityService:GetBlueprintName( entity )
+
+                local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+                if ( buildingDesc == nil ) then
+                    goto labelContinue
+                end
+
+                local resourceStorageComponent = EntityService:GetComponent( entity, "ResourceStorageComponent")
+                if ( resourceStorageComponent ~= nil ) then
+
+                    local resourceStorageRef = reflection_helper( resourceStorageComponent )
+                    if ( self:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, maxDistance ) ) then
+
+                        return true
+                    end
+                end
+
+                local blueprint = ResourceManager:GetBlueprint( blueprintName )
+                if ( blueprint == nil ) then
+                    goto labelContinue
+                end
+
+                local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
+                if ( resourceConverterDesc ~= nil ) then
+
+                    local resourceConverterRef = reflection_helper(resourceConverterDesc)
+                    if ( resourceConverterRef ~= nil ) then
+
+                        if ( self:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, maxDistance ) ) then
+
+                            return true
+                        end
+                    end
+                end
+
+                ::labelContinue::
+            end
+        end
+
+        local newVectorX = self.transformXX * vector.x + self.transformXZ * vector.z
+        local newVectorZ = self.transformZX * vector.x + self.transformZZ * vector.z
+
+        vector.x = newVectorX;
+        vector.z = newVectorZ;
+    end
+
+    return false
+end
+
+function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, maxDistance )
+
+    if ( resourceStorageRef.Storages == nil or resourceStorageRef.Storages.count <= 0 ) then
+
+        return false
+    end
+
+    local count = resourceStorageRef.Storages.count
+
+    for i=1,count do
+
+        local storage = resourceStorageRef.Storages[i]
+
+        if ( storage.attachment == nil or storage.attachment.count == 0 ) then
+
+            goto labelContinue
+        end
+
+        for attachmentIndex = 1,storage.attachment.count do
+                                
+            local attachmentName = storage.attachment[attachmentIndex]
+                                    
+            if ( attachmentName ~= nil and attachmentName ~= "" ) then
+
+                local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
+
+                attachmentPosition.x = SnapValue( attachmentPosition.x, 1 )
+                attachmentPosition.z = SnapValue( attachmentPosition.z, 1 )
+
+                local distance = math.max( math.abs(currentEntityPosition.x - attachmentPosition.x), math.abs(currentEntityPosition.z - attachmentPosition.z) )
+
+                if ( distance <= maxDistance ) then
+
+                    return true
+                end
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return false
+end
+
+function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, maxDistance )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    local inValue = resourceConverterRef["in"]
+    if ( inValue ~= nil and inValue.count > 0 ) then
+                    
+        if ( self:NearLocalAttachment( entity, currentEntityPosition, inValue, maxDistance ) ) then
+
+            return true
+        end
+    end
+
+    local outValue = resourceConverterRef["out"]
+    if ( outValue ~= nil and outValue.count > 0 ) then
+                    
+        if ( self:NearLocalAttachment( entity, currentEntityPosition, outValue, maxDistance ) ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function picker_tool:NearLocalAttachment( entity, currentEntityPosition, converterArray, maxDistance )
+                
+    for index = 1,converterArray.count do
+                
+        local gameResource = converterArray[index]
+
+        if ( gameResource == nil or gameResource.value == nil or gameResource.value <= 0 ) then
+
+            goto labelContinue
+        end
+
+        if ( EntityService:HasComponent( entity, "PipeComponent" ) ) then
+
+            return true
+        end
+
+        --if ( gameResource.group ~= 1 and gameResource.group ~= 8 and gameResource.group ~= 12 ) then
+        --
+        --    goto labelContinue
+        --end
+
+        if ( gameResource.attachment == nil or gameResource.attachment.count == 0 ) then
+
+            goto labelContinue
+        end
+
+        for attachmentIndex = 1,gameResource.attachment.count do
+                                
+            local attachmentName = gameResource.attachment[attachmentIndex]
+                                    
+            if ( attachmentName ~= nil and attachmentName ~= "" ) then
+
+                local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
+
+                attachmentPosition.x = SnapValue( attachmentPosition.x, 1 )
+                attachmentPosition.z = SnapValue( attachmentPosition.z, 1 )
+
+                local distance = math.max( math.abs(currentEntityPosition.x - attachmentPosition.x), math.abs(currentEntityPosition.z - attachmentPosition.z) )
+
+                if ( distance <= maxDistance ) then
+
+                    return true
+                end
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return false
 end
 
 function picker_tool:GetTerrainTypes( terrainCellEntityId )
