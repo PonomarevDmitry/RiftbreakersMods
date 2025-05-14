@@ -482,11 +482,50 @@ function picker_tool:OnActivateSelectorRequest()
         end
     end
 
+
+
+
+
+
+
     if ( self:ChangeSelectorToEntityByFilter( self.isResourceVolume ) ) then
         return
     end
 
+    
 
+    local currentBiome = MissionService:GetCurrentBiomeName()
+
+    if ( currentBiome == "caverns" ) then
+
+        local minModificator = 0.05
+
+        local windModificator = BuildingService:GetWindPowerModificator( self.entity )
+        if ( windModificator >= minModificator ) then
+
+            local lowName = "wind_turbine"
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                return
+            end
+        end
+
+        local solarModificator = BuildingService:GetSolarPowerModificator( self.entity )
+        if ( solarModificator >= minModificator ) then
+
+            local lowName = "solar_panels"
+            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
+
+            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
+
+            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                return
+            end
+        end
+    end
 
 
 
@@ -549,38 +588,6 @@ function picker_tool:OnActivateSelectorRequest()
 
     
 
-    local currentBiome = MissionService:GetCurrentBiomeName()
-
-    if ( currentBiome == "caverns" ) then
-
-        local minModificator = 0.05
-
-        local windModificator = BuildingService:GetWindPowerModificator( self.entity )
-        if ( windModificator >= minModificator ) then
-
-            local lowName = "wind_turbine"
-            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-
-            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
-                return
-            end
-        end
-
-        local solarModificator = BuildingService:GetSolarPowerModificator( self.entity )
-        if ( solarModificator >= minModificator ) then
-
-            local lowName = "solar_panels"
-            local defaultBlueprintName = self.selectedBluprintsHash[lowName]
-
-            local blueprintName = self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
-
-            if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
-                return
-            end
-        end
-    end
 
     if ( currentBiome == "acid" ) then
 
