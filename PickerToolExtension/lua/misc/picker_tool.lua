@@ -27,13 +27,6 @@ function picker_tool:OnInit()
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
     self.radiusShowRuins = 100.0
-
-    -- Rotate matrix
-    --   X Z
-    -- X 0 -1
-    -- Z 1 0
-    self.transformXX = 0; self.transformXZ = -1;
-    self.transformZX = 1; self.transformZZ = 0;
 end
 
 function picker_tool:FillSelectedBlueprints()
@@ -628,86 +621,159 @@ end
 
 function picker_tool:CheckPositionForInOutLiquid( currentEntityPosition )
 
-    local maxDistance = 4
-
     local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-    local vectorBounds = VectorMulByNumber(boundsSize , 2)
+    local vectorBounds = VectorMulByNumber(boundsSize, 4)
 
-    local vector = { ["x"] = 2, ["z"] = 0 }
+    local min = VectorSub(currentEntityPosition, vectorBounds)
+    local max = VectorAdd(currentEntityPosition, vectorBounds)
 
-    for i=1,4 do
+    local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
 
-        for coef=1,2 do
+    for entity in Iter( possibleSelectedEnts ) do
 
-            local newPosition = {}
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
-            newPosition.x = currentEntityPosition.x + coef * vector.x
-            newPosition.y = currentEntityPosition.y
-            newPosition.z = currentEntityPosition.z + coef * vector.z
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto labelContinue
+        end
 
-            local min = VectorSub(newPosition, vectorBounds)
-            local max = VectorAdd(newPosition, vectorBounds)
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+        if ( blueprint == nil ) then
+            goto labelContinue
+        end
 
-            local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
+        local targetGridSize = BuildingService:GetBuildingGridSize(entity)
+        local entityPosition = EntityService:GetPosition( entity )
 
-            for entity in Iter( possibleSelectedEnts ) do
+        local entityPerimeter = {}
+        entityPerimeter.minX = entityPosition.x - targetGridSize.x - 1
+        entityPerimeter.maxX = entityPosition.x + targetGridSize.x + 1
 
-                local blueprintName = EntityService:GetBlueprintName( entity )
+        entityPerimeter.minZ = entityPosition.z - targetGridSize.z - 1
+        entityPerimeter.maxZ = entityPosition.z + targetGridSize.z + 1
+        entityPerimeter.y = entityPosition.y
 
-                local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
-                if ( buildingDesc == nil ) then
-                    goto labelContinue
-                end
+        local entityPerimeterPositions = self:GetPerimeterPositions( entityPerimeter )
 
-                local resourceStorageComponent = EntityService:GetComponent( entity, "ResourceStorageComponent")
-                if ( resourceStorageComponent ~= nil ) then
+        local resourceStorageComponent = blueprint:GetComponent( "ResourceStorageComponent")
+        if ( resourceStorageComponent ~= nil ) then
 
-                    local resourceStorageRef = reflection_helper( resourceStorageComponent )
-                    if ( self:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, maxDistance ) ) then
+            local resourceStorageRef = reflection_helper( resourceStorageComponent )
+            if ( self:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, entityPerimeter, entityPerimeterPositions ) ) then
 
-                        return true
-                    end
-                end
-
-                local blueprint = ResourceManager:GetBlueprint( blueprintName )
-                if ( blueprint == nil ) then
-                    goto labelContinue
-                end
-
-                local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
-                if ( resourceConverterDesc ~= nil ) then
-
-                    local resourceConverterRef = reflection_helper(resourceConverterDesc)
-                    if ( resourceConverterRef ~= nil ) then
-
-                        if ( self:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, maxDistance ) ) then
-
-                            return true
-                        end
-                    end
-                end
-
-                ::labelContinue::
+                return true
             end
         end
 
-        local newVectorX = self.transformXX * vector.x + self.transformXZ * vector.z
-        local newVectorZ = self.transformZX * vector.x + self.transformZZ * vector.z
+        local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
+        if ( resourceConverterDesc ~= nil ) then
 
-        vector.x = newVectorX;
-        vector.z = newVectorZ;
+            local resourceConverterRef = reflection_helper(resourceConverterDesc)
+            if ( resourceConverterRef ~= nil ) then
+
+                if ( self:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, entityPerimeter, entityPerimeterPositions ) ) then
+
+                    return true
+                end
+            end
+        end
+
+        ::labelContinue::
     end
 
     return false
 end
 
-function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, maxDistance )
+function picker_tool:GetPerimeterPositions( entityPerimeter )
+
+	local result = {}
+
+    local value = entityPerimeter.minZ + 2
+
+    while (value < entityPerimeter.maxZ) do
+
+        local newPosition = {}
+
+        newPosition.x = entityPerimeter.maxX
+        newPosition.y = entityPerimeter.y
+        newPosition.z = value
+
+        Insert(result, newPosition)
+
+        value = value + 2
+    end
+    
+
+
+    value = entityPerimeter.maxX - 2
+
+    while (value > entityPerimeter.minX) do
+
+        local newPosition = {}
+
+        newPosition.x = value
+        newPosition.y = entityPerimeter.y
+        newPosition.z = entityPerimeter.maxZ
+
+        Insert(result, newPosition)
+
+        value = value - 2
+    end
+    
+
+
+    value = entityPerimeter.maxZ - 2
+
+    while (value > entityPerimeter.minZ) do
+
+        local newPosition = {}
+
+        newPosition.x = entityPerimeter.minX
+        newPosition.y = entityPerimeter.y
+        newPosition.z = value
+
+        Insert(result, newPosition)
+
+        value = value - 2
+    end
+    
+
+
+    value = entityPerimeter.minX + 2
+
+    while (value < entityPerimeter.maxX) do
+
+        local newPosition = {}
+
+        newPosition.x = value
+        newPosition.y = entityPerimeter.y
+        newPosition.z = entityPerimeter.minZ
+
+        Insert(result, newPosition)
+
+        value = value + 2
+    end
+
+	return result
+end
+
+function picker_tool:GetDistanceXZ( vector1, vector2 )
+	local vector = {}
+	vector.x = (vector2.x - vector1.x)
+	vector.z = (vector2.z - vector1.z)
+	return math.sqrt( vector.x * vector.x + vector.z * vector.z)
+end
+
+function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, entityPerimeter, entityPerimeterPositions )
 
     if ( resourceStorageRef.Storages == nil or resourceStorageRef.Storages.count <= 0 ) then
 
         return false
     end
+
+    local result = false
 
     local count = resourceStorageRef.Storages.count
 
@@ -728,14 +794,17 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
 
                 local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
 
-                attachmentPosition.x = SnapValue( attachmentPosition.x, 1 )
-                attachmentPosition.z = SnapValue( attachmentPosition.z, 1 )
+                EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", attachmentPosition, EntityService:GetTeam(self.entity) )
 
-                local distance = math.max( math.abs(currentEntityPosition.x - attachmentPosition.x), math.abs(currentEntityPosition.z - attachmentPosition.z) )
+                local nearPerimeterPosition = self:GetNearPerimeterPosition(attachmentPosition, entityPerimeterPositions)
 
-                if ( distance <= maxDistance ) then
+                local min,max = self:GetAttachmentBox(nearPerimeterPosition, entityPerimeter)
+                
+                if ( min.x <= currentEntityPosition.x and currentEntityPosition.x <= max.x and min.z <= currentEntityPosition.z and currentEntityPosition.z <= max.z ) then
 
-                    return true
+                    result = true
+
+                    --return true
                 end
             end
         end
@@ -743,35 +812,47 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
         ::labelContinue::
     end
 
-    return false
+    return result
+
+    --return false
 end
 
-function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, maxDistance )
+function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, entityPerimeter, entityPerimeterPositions )
+
+    local result = false
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
     local inValue = resourceConverterRef["in"]
     if ( inValue ~= nil and inValue.count > 0 ) then
                     
-        if ( self:NearLocalAttachment( entity, currentEntityPosition, inValue, maxDistance ) ) then
+        if ( self:NearLocalAttachment( entity, currentEntityPosition, inValue, entityPerimeter, entityPerimeterPositions ) ) then
 
-            return true
+            result = true
+
+            --return true
         end
     end
 
     local outValue = resourceConverterRef["out"]
     if ( outValue ~= nil and outValue.count > 0 ) then
                     
-        if ( self:NearLocalAttachment( entity, currentEntityPosition, outValue, maxDistance ) ) then
+        if ( self:NearLocalAttachment( entity, currentEntityPosition, outValue, entityPerimeter, entityPerimeterPositions ) ) then
 
-            return true
+            result = true
+
+            --return true
         end
     end
 
-    return false
+    return result
+
+    --return false
 end
 
-function picker_tool:NearLocalAttachment( entity, currentEntityPosition, converterArray, maxDistance )
+function picker_tool:NearLocalAttachment( entity, currentEntityPosition, converterArray, entityPerimeter, entityPerimeterPositions )
+
+    local result = false
                 
     for index = 1,converterArray.count do
                 
@@ -784,7 +865,9 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
 
         if ( EntityService:HasComponent( entity, "PipeComponent" ) ) then
 
-            return true
+            result = true
+
+            --return true
         end
 
         --if ( gameResource.group ~= 1 and gameResource.group ~= 8 and gameResource.group ~= 12 ) then
@@ -805,14 +888,17 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
 
                 local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
 
-                attachmentPosition.x = SnapValue( attachmentPosition.x, 1 )
-                attachmentPosition.z = SnapValue( attachmentPosition.z, 1 )
+                EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", attachmentPosition, EntityService:GetTeam(self.entity) )
 
-                local distance = math.max( math.abs(currentEntityPosition.x - attachmentPosition.x), math.abs(currentEntityPosition.z - attachmentPosition.z) )
+                local nearPerimeterPosition = self:GetNearPerimeterPosition(attachmentPosition, entityPerimeterPositions)
 
-                if ( distance <= maxDistance ) then
+                local min,max = self:GetAttachmentBox(nearPerimeterPosition, entityPerimeter)
+                
+                if ( min.x <= currentEntityPosition.x and currentEntityPosition.x <= max.x and min.z <= currentEntityPosition.z and currentEntityPosition.z <= max.z ) then
 
-                    return true
+                    result = true
+
+                    --return true
                 end
             end
         end
@@ -820,7 +906,80 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
         ::labelContinue::
     end
 
-    return false
+    return result
+
+    --return false
+end
+
+function picker_tool:GetNearPerimeterPosition( attachmentPosition, entityPerimeterPositions )
+
+    local result = nil
+    local minDistance = nil
+
+    for newPosition in Iter( entityPerimeterPositions ) do
+                
+        local distance = self:GetDistanceXZ( attachmentPosition, newPosition )
+
+        if ( minDistance == nil or distance < minDistance ) then
+
+            minDistance = distance
+            result = newPosition
+        end
+    end
+
+    return result
+end
+
+function picker_tool:GetAttachmentBox(nearPerimeterPosition, entityPerimeter )
+
+    local min = {}
+    local max = {}
+
+    min.x = 0
+    min.z = 0
+    
+    max.x = 0
+    max.z = 0
+
+    if ( nearPerimeterPosition.x == entityPerimeter.minX ) then
+
+        min.x = nearPerimeterPosition.x - 3
+        max.x = nearPerimeterPosition.x + 1
+    
+        min.z = nearPerimeterPosition.z - 3
+        max.z = nearPerimeterPosition.z + 3
+
+    elseif ( nearPerimeterPosition.x == entityPerimeter.maxX ) then
+
+        min.x = nearPerimeterPosition.x - 1
+        max.x = nearPerimeterPosition.x + 3
+    
+        min.z = nearPerimeterPosition.z - 3
+        max.z = nearPerimeterPosition.z + 3
+
+    elseif ( nearPerimeterPosition.z == entityPerimeter.minZ ) then
+
+        min.x = nearPerimeterPosition.x - 3
+        max.x = nearPerimeterPosition.x + 3
+    
+        min.z = nearPerimeterPosition.z - 3
+        max.z = nearPerimeterPosition.z + 1
+
+    elseif ( nearPerimeterPosition.z == entityPerimeter.maxZ ) then
+
+        min.x = nearPerimeterPosition.x - 3
+        max.x = nearPerimeterPosition.x + 3
+    
+        min.z = nearPerimeterPosition.z - 1
+        max.z = nearPerimeterPosition.z + 3
+    end
+
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=min.x, y=nearPerimeterPosition.y, z=min.z }, EntityService:GetTeam(self.entity) )
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=min.x, y=nearPerimeterPosition.y, z=max.z }, EntityService:GetTeam(self.entity) )
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=max.x, y=nearPerimeterPosition.y, z=min.z }, EntityService:GetTeam(self.entity) )
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=max.x, y=nearPerimeterPosition.y, z=max.z }, EntityService:GetTeam(self.entity) )
+
+    return min,max
 end
 
 function picker_tool:GetTerrainTypes( terrainCellEntityId )
