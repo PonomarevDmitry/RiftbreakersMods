@@ -773,8 +773,6 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
         return false
     end
 
-    local result = false
-
     local count = resourceStorageRef.Storages.count
 
     for i=1,count do
@@ -792,9 +790,7 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
                                     
             if ( attachmentName ~= nil and attachmentName ~= "" ) then
 
-                local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
-
-                EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", attachmentPosition, EntityService:GetTeam(self.entity) )
+                local attachmentPosition = self:GetEntityAttachmentPosition(entity, attachmentName)
 
                 local nearPerimeterPosition = self:GetNearPerimeterPosition(attachmentPosition, entityPerimeterPositions)
 
@@ -802,9 +798,7 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
                 
                 if ( min.x <= currentEntityPosition.x and currentEntityPosition.x <= max.x and min.z <= currentEntityPosition.z and currentEntityPosition.z <= max.z ) then
 
-                    result = true
-
-                    --return true
+                    return true
                 end
             end
         end
@@ -812,14 +806,40 @@ function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPositi
         ::labelContinue::
     end
 
-    return result
+    return false
+end
 
-    --return false
+function picker_tool:GetEntityAttachmentPosition( entity, attachmentName )
+
+    local attachmentHash = CalcHash(attachmentName)
+
+    local effectComponent = EntityService:GetComponent( entity, "EffectComponent")
+    if ( effectComponent ~= nil ) then
+
+        local effectComponentRef = reflection_helper( effectComponent )
+
+        if ( effectComponentRef.effects ~= nil and effectComponentRef.effects.count > 0 ) then
+                
+            for index = 1,effectComponentRef.effects.count do
+                
+                local effectRef = effectComponentRef.effects[index]
+                    
+                if ( effectRef.entity ~= nil and effectRef.entity.id ~= nil and effectRef.group ~= nil and effectRef.group.hash ~= nil ) then
+
+                    if ( tostring(attachmentHash) == tostring(effectRef.group.hash) ) then
+
+                        return EntityService:GetPosition(effectRef.entity.id)
+                    end
+                end
+            end
+        end
+    end
+
+
+    return EntityService:GetPosition(entity, attachmentName)
 end
 
 function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, entityPerimeter, entityPerimeterPositions )
-
-    local result = false
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -828,9 +848,7 @@ function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosit
                     
         if ( self:NearLocalAttachment( entity, currentEntityPosition, inValue, entityPerimeter, entityPerimeterPositions ) ) then
 
-            result = true
-
-            --return true
+            return true
         end
     end
 
@@ -839,21 +857,15 @@ function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosit
                     
         if ( self:NearLocalAttachment( entity, currentEntityPosition, outValue, entityPerimeter, entityPerimeterPositions ) ) then
 
-            result = true
-
-            --return true
+            return true
         end
     end
 
-    return result
-
-    --return false
+    return false
 end
 
 function picker_tool:NearLocalAttachment( entity, currentEntityPosition, converterArray, entityPerimeter, entityPerimeterPositions )
 
-    local result = false
-                
     for index = 1,converterArray.count do
                 
         local gameResource = converterArray[index]
@@ -865,9 +877,7 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
 
         if ( EntityService:HasComponent( entity, "PipeComponent" ) ) then
 
-            result = true
-
-            --return true
+            return true
         end
 
         --if ( gameResource.group ~= 1 and gameResource.group ~= 8 and gameResource.group ~= 12 ) then
@@ -886,9 +896,7 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
                                     
             if ( attachmentName ~= nil and attachmentName ~= "" ) then
 
-                local attachmentPosition = EntityService:GetPosition(entity, attachmentName)
-
-                EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", attachmentPosition, EntityService:GetTeam(self.entity) )
+                local attachmentPosition = self:GetEntityAttachmentPosition(entity, attachmentName)
 
                 local nearPerimeterPosition = self:GetNearPerimeterPosition(attachmentPosition, entityPerimeterPositions)
 
@@ -896,9 +904,7 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
                 
                 if ( min.x <= currentEntityPosition.x and currentEntityPosition.x <= max.x and min.z <= currentEntityPosition.z and currentEntityPosition.z <= max.z ) then
 
-                    result = true
-
-                    --return true
+                    return true
                 end
             end
         end
@@ -906,9 +912,7 @@ function picker_tool:NearLocalAttachment( entity, currentEntityPosition, convert
         ::labelContinue::
     end
 
-    return result
-
-    --return false
+    return false
 end
 
 function picker_tool:GetNearPerimeterPosition( attachmentPosition, entityPerimeterPositions )
@@ -973,11 +977,6 @@ function picker_tool:GetAttachmentBox(nearPerimeterPosition, entityPerimeter )
         min.z = nearPerimeterPosition.z - 1
         max.z = nearPerimeterPosition.z + 3
     end
-
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=min.x, y=nearPerimeterPosition.y, z=min.z }, EntityService:GetTeam(self.entity) )
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=min.x, y=nearPerimeterPosition.y, z=max.z }, EntityService:GetTeam(self.entity) )
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=max.x, y=nearPerimeterPosition.y, z=min.z }, EntityService:GetTeam(self.entity) )
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", { x=max.x, y=nearPerimeterPosition.y, z=max.z }, EntityService:GetTeam(self.entity) )
 
     return min,max
 end
