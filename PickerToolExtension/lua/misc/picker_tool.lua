@@ -662,6 +662,14 @@ function picker_tool:OnActivateSelectorRequest()
 
 
 
+
+
+    if ( self:ChangeSelectorToFloor( currentEntityPosition ) ) then
+        return
+    end
+
+
+
     local terrainType, overrideTerrains = self:GetTerrainTypes( terrainCellEntityId )
 
     local isQuickSand = (terrainType == "quicksand")
@@ -730,6 +738,50 @@ function picker_tool:OnActivateSelectorRequest()
             return
         end
     end
+end
+
+function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, 0.5)
+
+    local min = VectorSub(currentEntityPosition, scaleVector)
+    local max = VectorAdd(currentEntityPosition, scaleVector)
+
+    local possibleSelectedEnts = FindService:FindFloorsByBox( min, max )
+
+    for entity in Iter( possibleSelectedEnts ) do
+
+        local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        if ( buildingComponent == nil ) then
+            goto labelContinue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        if string.find( blueprintName, "4" ) then
+
+            blueprintName = string.gsub( blueprintName, "4", "1" )
+
+        elseif string.find( blueprintName, "3" ) then
+
+            blueprintName = string.gsub( blueprintName, "3", "1" )
+
+        elseif string.find( blueprintName, "2" ) then
+
+            blueprintName = string.gsub( blueprintName, "2", "1" )
+        end
+
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+
+            return true
+        end
+
+        ::labelContinue::
+    end
+
+    return false
 end
 
 function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
