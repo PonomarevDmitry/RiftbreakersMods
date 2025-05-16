@@ -573,7 +573,7 @@ function picker_tool:OnActivateSelectorRequest()
 
     local currentEntityPosition = EntityService:GetPosition( self.entity )
 
-    if ( self:CheckPositionForInOutLiquid( currentEntityPosition ) ) then
+    if ( self:CheckPositionForInOutAttachment( currentEntityPosition ) ) then
 
         local blueprintName = "buildings/resources/pipe_straight"
 
@@ -732,7 +732,7 @@ function picker_tool:OnActivateSelectorRequest()
     end
 end
 
-function picker_tool:CheckPositionForInOutLiquid( currentEntityPosition )
+function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
 
     local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
