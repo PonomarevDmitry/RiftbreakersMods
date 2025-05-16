@@ -2,6 +2,8 @@ local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
+local LastSelectedBlueprintsListUtils = require("lua/utils/picker_tool_last_selected_blueprints_utils.lua")
+
 class 'picker_tool' ( tool )
 
 function picker_tool:__init()
@@ -14,6 +16,8 @@ end
 
 function picker_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_picker", self.entity)
+    self.menuEntity = EntityService:SpawnAndAttachEntity("misc/picker_tool/picker_tool_menu", self.entity)
+
     self.popupShown = false
 
     self.scaleMap = {
@@ -27,6 +31,53 @@ function picker_tool:OnInit()
     self.previousMarkedRuins = {}
     -- Radius from player to highlight
     self.radiusShowRuins = 100.0
+
+    self.list_name = "$picker_tool.last_selected_buildings"
+
+    self.modeBuilding = 0
+    self.modeBuildingLastSelected = 100
+
+    self.defaultModesArray = { self.modeBuilding }
+
+    self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
+
+    self.selectedMode = self.modeBuilding
+
+    self:SetBuildingIcon()
+end
+
+function picker_tool:SetBuildingIcon()
+
+    local messageText = ""
+    local buildingIconVisible = 0
+    local buildingIcon = ""
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        local indexBuilding = self.selectedMode - self.modeBuildingLastSelected
+
+        local buildingNumber = #self.lastSelectedBuildingsArray - indexBuilding
+
+        local buildingBlueprint = self.lastSelectedBuildingsArray[buildingNumber]
+
+        self.lastSelectedBuilding = buildingBlueprint
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
+
+        if ( menuIcon ~= "" ) then
+
+            buildingIcon = menuIcon
+            buildingIconVisible = 1
+
+            messageText = "${gui/hud/picker_tool/last_building}: " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+        end
+    end
+
+    local markerDB = EntityService:GetDatabase( self.menuEntity )
+
+    markerDB:SetInt("building_visible", buildingIconVisible)
+    markerDB:SetString("building_icon", buildingIcon)
+    markerDB:SetString("message_text", messageText)
 end
 
 function picker_tool:FillSelectedBlueprints()
@@ -243,6 +294,10 @@ end
 
 function picker_tool:FindEntitiesToSelect( selectorComponent )
 
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+        return {}
+    end
+
     local selectedItems = tool.FindEntitiesToSelect( self, selectorComponent )
 
     local selectorPosition = selectorComponent.position
@@ -447,6 +502,16 @@ picker_tool.isResourceVolume = function ( entity )
 end
 
 function picker_tool:OnActivateSelectorRequest()
+
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
+
+        if ( self:ChangeSelectorToBlueprint(self.lastSelectedBuilding) ) then
+
+            return
+        end
+
+        return
+    end
 
     if ( self:ChangeSelectorToEntityByFilter( self.isBuilding ) ) then
         return
@@ -688,7 +753,7 @@ end
 
 function picker_tool:GetPerimeterPositions( entityPerimeter )
 
-	local result = {}
+    local result = {}
 
     local value = entityPerimeter.minZ + 2
 
@@ -756,14 +821,14 @@ function picker_tool:GetPerimeterPositions( entityPerimeter )
         value = value + 2
     end
 
-	return result
+    return result
 end
 
 function picker_tool:GetDistanceXZ( vector1, vector2 )
-	local vector = {}
-	vector.x = (vector2.x - vector1.x)
-	vector.z = (vector2.z - vector1.z)
-	return math.sqrt( vector.x * vector.x + vector.z * vector.z)
+    local vector = {}
+    vector.x = (vector2.x - vector1.x)
+    vector.z = (vector2.z - vector1.z)
+    return math.sqrt( vector.x * vector.x + vector.z * vector.z)
 end
 
 function picker_tool:CheckEntityResourceStorageDesc( entity, currentEntityPosition, resourceStorageRef, entityPerimeter, entityPerimeterPositions )
@@ -1090,6 +1155,8 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
         return false
     end
 
+    blueprintName = self:CorrectBlueprintExceptions(blueprintName)
+
     local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
         return false
@@ -1108,25 +1175,7 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
 
     blueprintName = buildingDescHelper.bp
 
-    if ( blueprintName == "buildings/resources/pipe_straight_windowless" ) then
-
-        blueprintName = "buildings/resources/pipe_straight"
-    end
-
-    if ( blueprintName == "buildings/defense/wall_vine_straight_02" or blueprintName == "buildings/defense/wall_vine_straight_03" ) then
-
-        blueprintName = "buildings/defense/wall_vine_straight_01"
-    end
-
-    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_2" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_2" ) then
-
-        blueprintName = "buildings/defense/wall_vine_straight_01_lvl_2"
-    end
-
-    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_3" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_3" ) then
-
-        blueprintName = "buildings/defense/wall_vine_straight_01_lvl_3"
-    end
+    blueprintName = self:CorrectBlueprintExceptions(blueprintName)
 
     buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
     if ( buildingDesc == nil ) then
@@ -1148,6 +1197,31 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
     QueueEvent("ChangeBuildingRequest", self.selector, lowName )
 
     return true
+end
+
+function picker_tool:CorrectBlueprintExceptions( blueprintName )
+
+    if ( blueprintName == "buildings/resources/pipe_straight_windowless" ) then
+
+        return "buildings/resources/pipe_straight"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02" or blueprintName == "buildings/defense/wall_vine_straight_03" ) then
+
+        return "buildings/defense/wall_vine_straight_01"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_2" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_2" ) then
+
+        return "buildings/defense/wall_vine_straight_01_lvl_2"
+    end
+
+    if ( blueprintName == "buildings/defense/wall_vine_straight_02_lvl_3" or blueprintName == "buildings/defense/wall_vine_straight_03_lvl_3" ) then
+
+        return "buildings/defense/wall_vine_straight_01_lvl_3"
+    end
+
+    return blueprintName
 end
 
 function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
@@ -1448,6 +1522,8 @@ function picker_tool:OnRelease()
     end
     self.previousMarkedRuins = {}
 
+    EntityService:RemoveEntity(self.menuEntity)
+
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
     end
@@ -1508,6 +1584,169 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
             campaignDatabase:SetFloat( parameterTimeName, timeValue )
         end
     end
+end
+
+function picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
+
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
+    local selectorDB = EntityService:GetDatabase( selector )
+
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+
+    if ( self.selectedBuildingBlueprint ~= "" and self.selectedBuildingBlueprint ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
+
+        LastSelectedBlueprintsListUtils:RemoveBuildingAndUpgradesFromList(self.lastSelectedBuildingsArray, self.selectedBuildingBlueprint)
+    end
+
+    local modeValuesArray = Copy(defaultModesArray)
+
+    for index=0,#self.lastSelectedBuildingsArray-1 do
+
+        Insert(modeValuesArray, (modeBuildingLastSelected + index))
+    end
+
+    return modeValuesArray
+end
+
+function picker_tool:OnRotateSelectorRequest(evt)
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.modeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.modeValuesArray[newIndex]
+
+    self.selectedMode = newValue
+
+    self:SetBuildingIcon()
+end
+
+function picker_tool:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf(self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
+end
+
+function picker_tool:GetMenuIcon( blueprintName )
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    return menuIcon,buildingDescRef
+end
+
+function picker_tool:GetBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    self.cacheBlueprintsMenuIcons = self.cacheBlueprintsMenuIcons or {}
+
+    if ( self.cacheBlueprintsMenuIcons[blueprintName] == nil ) then
+
+        self.cacheBlueprintsMenuIcons[blueprintName] = self:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+    end
+
+    return self.cacheBlueprintsMenuIcons[blueprintName]
+end
+
+function picker_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
+
+    local menuIcon = ""
+
+    local baseBuildingDesc = BuildingService:FindBaseBuilding( blueprintName )
+    if ( baseBuildingDesc ~= nil ) then
+
+        local baseBuildingDescRef = reflection_helper( baseBuildingDesc )
+
+        menuIcon = baseBuildingDescRef.menu_icon or ""
+
+        if ( menuIcon ~= "" ) then
+            return menuIcon
+        end
+    end
+
+
+    menuIcon = buildingDescRef.menu_icon or ""
+
+    if ( menuIcon ~= "" ) then
+        return menuIcon
+    end
+
+    if ( buildingDescRef.connect.count > 0 ) then
+
+        for i=1,buildingDescRef.connect.count do
+
+            local connectRecord = buildingDescRef.connect[i]
+
+            for j=1,connectRecord.value.count do
+
+                local connectBlueprintName = connectRecord.value[j]
+
+                if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
+                    goto continue
+                end
+
+                local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
+                if ( connectBuildingDesc == nil ) then
+                    goto continue
+                end
+
+                local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
+                if ( connectBuildingDescRef == nil ) then
+                    goto continue
+                end
+
+                local menuIcon = connectBuildingDescRef.menu_icon or ""
+
+                if ( menuIcon ~= "" ) then
+                    return menuIcon
+                end
+            end
+
+            ::continue::
+        end
+    end
+
+    return ""
 end
 
 return picker_tool
