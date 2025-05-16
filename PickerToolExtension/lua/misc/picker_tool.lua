@@ -543,7 +543,22 @@ picker_tool.isResourceVolume = function ( entity )
 
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
-        return true
+        local childrenList = EntityService:GetChildren( entity, false )
+
+        for childResource in Iter( childrenList ) do
+
+            if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
+                goto labelContinue
+            end
+
+            local resourceValue = EntityService:GetResourceAmount( childResource )
+            if ( resourceValue.second > 0 ) then
+
+                return true
+            end
+
+            ::labelContinue::
+        end
     end
 
     return false
