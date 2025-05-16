@@ -256,11 +256,11 @@ function picker_tool:MarkEntity( entity )
             for childResource in Iter( childrenList ) do
 
                 if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 if ( IndexOf( self.selectedResourceComponents, childResource ) == nil ) then
@@ -269,7 +269,7 @@ function picker_tool:MarkEntity( entity )
 
                 QueueEvent( "SelectEntityRequest", childResource )
 
-                ::continue::
+                ::labelContinue::
             end
         end
 
@@ -302,11 +302,11 @@ function picker_tool:RemovedFromSelection( entity )
             for childResource in Iter( childrenList ) do
 
                 if ( not EntityService:HasComponent( childResource, "ResourceComponent" ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 if ( not EntityService:HasComponent( childResource, "SelectableComponent" ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 if ( IndexOf( self.selectedResourceComponents, childResource ) ~= nil ) then
@@ -315,7 +315,7 @@ function picker_tool:RemovedFromSelection( entity )
 
                 QueueEvent( "DeselectEntityRequest", childResource )
 
-                ::continue::
+                ::labelContinue::
             end
         end
 
@@ -394,16 +394,20 @@ function picker_tool:AddResourceVolumes( selectedItems, selectorPosition )
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( resourceVolumeEntities, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
+        end
+
+        if ( not self.isResourceVolume(entity) ) then
+            goto labelContinue
         end
 
         Insert( resourceVolumeEntities, entity )
 
-        ::continue::
+        ::labelContinue::
     end
 
     local sorter = function( lhs, rhs )
@@ -440,16 +444,16 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( resourceComponents, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         Insert( resourceComponents, entity )
 
-        ::continue::
+        ::labelContinue::
     end
 
     local sorter = function( lhs, rhs )
@@ -472,7 +476,7 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
     for entity in Iter( selectedEntities ) do
 
         if ( IndexOf( entities, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local blueprintName = EntityService:GetBlueprintName(entity)
@@ -480,21 +484,21 @@ function picker_tool:FilterSelectedEntities( selectedEntities )
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
 
         if ( buildingDesc == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) == false ) then
-            goto continue
+            goto labelContinue
         end
 
         local buildingDescRef = reflection_helper( buildingDesc )
         if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
-            goto continue
+            goto labelContinue
         end
 
         Insert(entities, entity)
 
-        ::continue::
+        ::labelContinue::
     end
 
     return entities
@@ -1353,24 +1357,24 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
         local defaultBlueprintName = self.selectedBluprintsHash[lowName]
 
         if ( not ResourceManager:ResourceExists( "EntityBlueprint", defaultBlueprintName ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local buildingDesc = BuildingService:GetBuildingDesc( defaultBlueprintName )
         if ( buildingDesc == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local buildingDescRef = reflection_helper( buildingDesc )
 
         local resourceRequirement = buildingDescRef.resource_requirement
         if ( resourceRequirement == nil or resourceRequirement.count <= 0 ) then
-            goto continue
+            goto labelContinue
         end
 
         local isResourceRequired = self:IsResourceRequired( resourceRequirement, resourceId )
         if ( not isResourceRequired ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( resourceId == "mud_vein" or resourceId == "carbon_vein" ) then
@@ -1383,7 +1387,7 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
 
             if ( lastLowName == lowName and delta < maxDeltaLast ) then
 
-                goto continue
+                goto labelContinue
             end
 
             self:SetLastVeinExtractor(resourceId, lowName, currentTime)
@@ -1393,7 +1397,7 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
             return self:GetSelectorBlueprintName( lowName, defaultBlueprintName )
         end
 
-        ::continue::
+        ::labelContinue::
     end
 
     --if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) and EntityService:CompareType( entity, "water" ) ) then
@@ -1553,16 +1557,16 @@ function picker_tool:HighlightRuins()
 
         -- If the ruin is not included in the new list
         if ( IndexOf( ruinsList, ruinEntity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
 
-        ::continue::
+        ::labelContinue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
@@ -1589,30 +1593,30 @@ function picker_tool:FindBuildingRuins()
     for ruinEntity in Iter( ruinsList ) do
 
         if ( IndexOf( result, ruinEntity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( self.selectedEntities, ruinEntity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local database = EntityService:GetDatabase( ruinEntity )
         if ( database == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( not database:HasString("blueprint") ) then
-            goto continue
+            goto labelContinue
         end
 
         local ruinsBlueprint = database:GetString("blueprint")
         if ( not ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprint ) ) then
-            goto continue
+            goto labelContinue
         end
 
         Insert( result, ruinEntity )
 
-        ::continue::
+        ::labelContinue::
     end
 
     return result
@@ -1837,17 +1841,17 @@ function picker_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
                 local connectBlueprintName = connectRecord.value[j]
 
                 if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
                 if ( connectBuildingDesc == nil ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
                 if ( connectBuildingDescRef == nil ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local menuIcon = connectBuildingDescRef.menu_icon or ""
@@ -1857,7 +1861,7 @@ function picker_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
                 end
             end
 
-            ::continue::
+            ::labelContinue::
         end
     end
 
