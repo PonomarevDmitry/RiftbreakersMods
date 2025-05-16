@@ -71,13 +71,61 @@ function picker_tool:SetBuildingIcon()
 
             messageText = "${gui/hud/picker_tool/last_building}: " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
         end
+    else
+
+        --messageText = self:GetLastBuildinsDescription()
     end
 
     local markerDB = EntityService:GetDatabase( self.menuEntity )
-
-    markerDB:SetInt("building_visible", buildingIconVisible)
+    
+    markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
     markerDB:SetString("message_text", messageText)
+end
+
+function picker_tool:GetLastBuildinsDescription()
+
+    local buildingsIcons = ""
+
+    local lineLength = 0
+    local maxLineLength = 40
+
+    for i=#self.lastSelectedBuildingsArray,1,-1 do
+
+        local buildingBlueprint = self.lastSelectedBuildingsArray[i]
+
+        local menuIcon, buildingDescRef = self:GetMenuIcon( buildingBlueprint )
+
+        if ( menuIcon == "" ) then
+            goto labelContinue
+        end
+
+        if ( lineLength > 0 ) then
+
+            lineLength = lineLength + 1
+            buildingsIcons = buildingsIcons .. " "
+        end
+
+        local countStringLen = 2
+
+        if ( lineLength + countStringLen + 1 > maxLineLength ) then
+
+            buildingsIcons = buildingsIcons .. "\n"
+            lineLength = 0
+
+        else
+            buildingsIcons = buildingsIcons .. " "
+            lineLength = lineLength + 1
+        end
+
+        lineLength = lineLength + countStringLen
+
+        buildingsIcons = buildingsIcons .. '<img="' .. menuIcon .. '">'
+
+        ::labelContinue::
+    end
+
+    return buildingsIcons
 end
 
 function picker_tool:FillSelectedBlueprints()
