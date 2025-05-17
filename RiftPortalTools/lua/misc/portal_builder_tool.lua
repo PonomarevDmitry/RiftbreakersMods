@@ -471,6 +471,8 @@ function portal_builder_tool:OnActivateSelectorRequest()
 
     if ( self.buildStartPosition == nil ) then
 
+        self.sizeChanged = false
+
         self.buildTransform = EntityService:GetWorldTransform( self.entity )
         self.activated = true
     else
@@ -495,7 +497,10 @@ function portal_builder_tool:OnDeactivateSelectorRequest()
     self.buildTransform = nil
     self.activated = false
 
-    self:FinishLineBuild()
+    if ( not self.sizeChanged ) then
+
+        self:FinishLineBuild()
+    end
 end
 
 function portal_builder_tool:OnRotateSelectorRequest(evt)
@@ -522,6 +527,7 @@ function portal_builder_tool:OnRotateSelectorRequest(evt)
         local selectorDB = EntityService:GetDatabase( self.selector )
         selectorDB:SetInt(self.configNameSize, newValue)
 
+        self.sizeChanged = true
     else
 
         -- Inverting rotation
