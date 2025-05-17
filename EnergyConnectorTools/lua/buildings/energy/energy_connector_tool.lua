@@ -33,7 +33,7 @@ function energy_connector_tool:OnInit()
     self.currentMarkerBlueprint = ""
 
     self.currentChainMarker = nil
-    self.currentChainMarkeValue = nil
+    self.currentChainMarkerValue = nil
 
     self.correctionVectors = self:GetCorrectionVectors(100)
 
@@ -386,9 +386,9 @@ function energy_connector_tool:UpdateMarker(currentSize, createChain)
         end
     end
 
-    if ( self.currentChainMarkeValue ~= createChain ) then
+    if ( self.currentChainMarkerValue ~= createChain ) then
 
-        self.currentChainMarkeValue = createChain
+        self.currentChainMarkerValue = createChain
 
         local markerBlueprint = "misc/marker_selector_energy_connector_tool_chain"
 
