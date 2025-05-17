@@ -5,6 +5,8 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
+local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
+
 class 'portal_builder_tool' ( portal_base_tool )
 
 function portal_builder_tool:__init()
@@ -13,112 +15,190 @@ end
 
 function portal_builder_tool:OnInit()
 
+    self:RegisterHandler( self.selector, "RotateSelectorRequest",   "OnRotateSelectorRequest" )
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     EntityService:SetVisible( self.entity, false )
     EntityService:SetScale( self.entity, 2, 1, 2 )
 
+    self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+    EntityService:SetPosition( self.infoChild, -1, 0, 1)
+
     self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
 
-    self.configNameDirection = "$portal_builder_tool_size"
+    self.configNameDirection = "$portal_builder_tool_direction"
+    self.configNameSize = "$portal_builder_tool_size"
 
-    self.currentDirection = selectorDB:GetIntOrDefault(self.configNameDirection, self.defaultRadius)
-    self.currentDirection = self:CheckSizeExists(self.currentDirection)
+    self.currentDirection = selectorDB:GetIntOrDefault(self.configNameDirection, 1)
+    self.currentDirection = self:CheckDirectionExists(self.currentDirection)
 
-    self.currentMarker = nil
+    self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, 1)
+    self.currentSize = self:CheckSizeExists(self.currentSize)
+
     self.currentMarkerSize = 0
-    self.currentMarkerBlueprint = ""
 
-    self:SpawnGhostConnectorEntities()
+    self.currentCellCountMarkerPlus = nil
+    self.currentCellCountMarkerNumber1 = nil
+    self.currentCellCountMarkerNumber2 = nil
+    self.currentCellCountMarkerNumber3 = nil
+
+    -- 36,22   0,44
+
+    self:SpawnGhostEntities()
 end
 
-function portal_builder_tool:GetConfigArray()
+function portal_builder_tool:GetDirectionConfigArray()
 
-    if ( self.configArray == nil ) then
+    if ( self.configDirectionArray == nil ) then
 
-        self.configArray = { }
+        local vectorZ = { ["x"] = 0, ["z"] = 44 }
+        local vector_Z = { ["x"] = 0, ["z"] = -44 }
 
-        for i=1,self.radius do
+        local vectorXZ = { ["x"] = 36, ["z"] = 22 }
+        local vector_XZ = { ["x"] = -36, ["z"] = 22 }
+        local vectorX_Z = { ["x"] = 36, ["z"] = -22 }
+        local vector_X_Z = { ["x"] = -36, ["z"] = -22 }
 
-            Insert( self.configArray, i )
-            Insert( self.configArray, -i )
-        end
+        self.configDirectionArray = {
+
+            { vector_Z },
+            { vector_Z, vectorX_Z },
+
+            { vectorX_Z },
+            { vectorX_Z, vectorXZ },
+
+            { vectorXZ },
+            { vectorXZ, vectorZ },
+
+            { vectorZ },
+            { vectorZ, vector_XZ },
+
+            { vector_XZ },
+            { vector_XZ, vector_X_Z },
+
+            { vector_X_Z },
+            { vector_X_Z, vector_Z },
+
+            { vector_Z, vectorX_Z, vectorXZ, vectorZ, vector_XZ, vector_X_Z },
+        }
     end
 
-    return self.configArray
+    return self.configDirectionArray
 end
 
-function portal_builder_tool:CheckSizeExists( currentDirection )
+function portal_builder_tool:CheckDirectionExists( currentDirection )
 
-    if ( currentDirection == nil ) then
-        return self.defaultRadius
-    end
+    currentDirection = tonumber(currentDirection)
 
-    if ( currentDirection == 0 ) then
-        return self.defaultRadius
-    end
+    currentDirection = currentDirection or 1
 
-    local configArray = self:GetConfigArray()
+    local directionConfigArray = self:GetDirectionConfigArray()
 
+    local maxIndex = #directionConfigArray
 
-    local index = IndexOf( configArray, currentDirection )
-    if ( index == nil ) then
-
-        return self.defaultRadius
+    if ( currentDirection > maxIndex ) then
+        currentDirection = 1
+    elseif( currentDirection < 1 ) then
+        currentDirection = maxIndex
     end
 
     return currentDirection
 end
 
-function portal_builder_tool:SpawnGhostConnectorEntities()
+function portal_builder_tool:CheckSizeExists( currentSize )
 
-    local currentDirection = self:CheckSizeExists(self.currentDirection)
+    if ( currentSize == nil ) then
+        return 1
+    end
 
-    local createChain = ( currentDirection < 0 or self.type == 0 )
-    currentDirection = math.abs(currentDirection)
+    currentSize = tonumber(currentSize)
+
+    currentSize = currentSize or 1
+
+    if ( currentSize < 1 ) then
+
+        currentSize = 1
+    end
+
+    return currentSize
+end
+
+function portal_builder_tool:SpawnGhostEntities()
 
     local currentTransform = EntityService:GetWorldTransform( self.entity )
     local orientation = currentTransform.orientation
 
-    local newPositions = self:FindPositionsToBuildLine( currentDirection )
 
-    if ( #self.linesEntities > #newPositions ) then
 
-        for i=#self.linesEntities,#newPositions + 1,-1 do
-            local lineEnt = self.linesEntities[i]
-            EntityService:RemoveEntity(lineEnt)
-            self.linesEntities[i] = nil
+    local currentDirection = self:CheckDirectionExists(self.currentDirection)
+    local currentSize = self:CheckSizeExists(self.currentSize)
+
+    local newPositionsArray,hashPositions = self:FindPositionsToBuildLine( currentDirection, currentSize )
+
+
+
+
+    local oldLinesEntities = self.linesEntities
+    local oldLinesEntityInfo = self.linesEntityInfo
+    local oldGridEntities = self.gridEntities
+
+    local newLinesEntities = {}
+    local newLinesEntityInfo = {}
+    local newGridEntities = {}
+
+    for i=1,#newPositionsArray do
+
+        local newPosition = newPositionsArray[i]
+
+        local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
+
+        if ( lineEnt == nil ) then
+
+            lineEnt = self:SpawnGhostPortalEntity(newPosition, orientation)
+            
+            self:RemoveUselessComponents(lineEnt)
         end
 
-    elseif ( #self.linesEntities < #newPositions ) then
+        Insert( newLinesEntities, lineEnt )
+        self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
 
-        for i=#self.linesEntities + 1 ,#newPositions do
+        local entityInfo = {}
 
-            local lineEnt = self:SpawnGhostConnectorEntity(newPositions[i], orientation)
+        entityInfo.position = newPosition
+        entityInfo.entity = lineEnt
 
-            Insert( self.linesEntities, lineEnt )
+        Insert( newLinesEntityInfo, entityInfo )
+    end
+
+    for i=#oldLinesEntityInfo,1,-1 do
+
+        local entityInfo = oldLinesEntityInfo[i]
+
+        local lineEnt = entityInfo.entity
+
+        local lineEntPosition = entityInfo.position
+
+        if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
+
+            EntityService:RemoveEntity( lineEnt )
+            oldLinesEntityInfo[i] = nil
         end
     end
 
-    Assert(#self.linesEntities == #newPositions, "ERROR: something wrong with line positioning: " .. tostring(#self.linesEntities) .. "/" .. tostring(#newPositions))
+    self.linesEntities = newLinesEntities
+    self.linesEntityInfo = newLinesEntityInfo
+    self.gridEntities = newGridEntities
 
-    for i=1,#newPositions do
 
-        local transform = {}
 
-        transform.scale = {x=1,y=1,z=1}
-        transform.orientation = orientation
-        transform.position = newPositions[i]
 
-        local lineEnt = self.linesEntities[i]
-
-        EntityService:SetPosition( lineEnt, newPositions[i])
-        EntityService:SetOrientation( lineEnt, orientation )
-    end
 
     self.buildCost = {}
 
-    local list = BuildingService:GetBuildCosts( self.connectorBlueprintName, self.playerId )
+    local list = BuildingService:GetBuildCosts( self.portalBlueprintName, self.playerId )
     for resourceCost in Iter(list) do
 
         if ( self.buildCost[resourceCost.first] == nil ) then
@@ -128,250 +208,236 @@ function portal_builder_tool:SpawnGhostConnectorEntities()
         self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #self.linesEntities )
     end
 
-    self:UpdateMarker(currentDirection, createChain)
+    self:UpdateMarker(currentSize)
 end
 
-function portal_builder_tool:FindPositionsToBuildLine(currentDirection)
+function portal_builder_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
-    currentDirection = math.abs(currentDirection)
+    if ( gridEntities[newPositionX] == nil) then
 
-    if ( self.type == 1 ) then
-
-        return self:FindPositionsType1(currentDirection)
-
-    elseif ( self.type == 2 ) then
-
-        return self:FindPositionsType2(currentDirection)
-
-    elseif ( self.type == 3 ) then
-
-        return self:FindPositionsType3(currentDirection)
+        return nil
     end
 
+    local arrayXPosition = gridEntities[newPositionX]
+
+    if ( arrayXPosition[newPositionZ] == nil ) then
+
+        return nil
+    end
+
+    return arrayXPosition[newPositionZ]
+end
+
+function portal_builder_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
+
+    if ( gridEntities[newPositionX] == nil) then
+
+        gridEntities[newPositionX] = {}
+    end
+
+    local arrayXPosition = gridEntities[newPositionX]
+
+    arrayXPosition[newPositionZ] = lineEnt
+end
+
+function portal_builder_tool:HashContains( hashPositions, newPositionX, newPositionZ )
+
+    if ( hashPositions[newPositionX] == nil) then
+
+        return false
+    end
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    if ( hashXPosition[newPositionZ] == nil ) then
+
+        return false
+    end
+
+    return true
+end
+
+function portal_builder_tool:RemoveUselessComponents(entity)
+
+    if ( EntityService:HasComponent( entity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( entity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( entity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( entity, "GhostLineCreatorComponent" )
+    end
+end
+
+function portal_builder_tool:FindPositionsToBuildLine(currentDirection, currentSize)
+
+    local directionConfigArray = self:GetDirectionConfigArray()
+
+    LogService:Log("currentDirection " .. tostring(currentDirection))
+
+    local vectorsArrays = directionConfigArray[currentDirection]
+
+    LogService:Log("vectorsArrays " .. debug_serialize_utils:SerializeObject(vectorsArrays))
+
     local result = {}
+    local hashPositions = {}
 
     local newPosition = nil
 
     newPosition = {}
-    newPosition.y = 0
     newPosition.x = 0
     newPosition.z = 0
 
     Insert( result, newPosition )
 
-    return result
-end
+    local tempArray = {}
 
-function portal_builder_tool:FindPositionsType1(currentDirection)
+    Insert( tempArray, newPosition )
 
-    local result = {}
+    self:AddToHash(hashPositions, newPosition.x, newPosition.z )
 
-    local delta = currentDirection * 2
+    for i=1,currentSize do
 
-    local newPosition = nil
+        local newPositions = {}
 
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = 0
+        for position in Iter(tempArray) do
 
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = delta
-    newPosition.z = delta
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = - delta
-    newPosition.z = delta
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = delta
-    newPosition.z = - delta
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = - delta
-    newPosition.z = - delta
-
-    Insert( result, newPosition )
-
-    return result
-end
-
-function portal_builder_tool:FindPositionsType2(currentDirection)
-
-    local result = {}
-
-    local delta = currentDirection * 2
-
-    local newPosition = nil
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = 0
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = delta
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = delta
-    newPosition.z = 0
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = 0
-    newPosition.z = - delta
-
-    Insert( result, newPosition )
-
-    newPosition = {}
-    newPosition.y = 0
-    newPosition.x = - delta
-    newPosition.z = 0
-
-    Insert( result, newPosition )
-
-    return result
-end
-
-function portal_builder_tool:FindPositionsType3(currentDirection)
-
-    local result = {}
-
-    local delta = currentDirection * 2
-
-    for indexX = 0,1 do
-        for indexZ = 0,1 do
-
-            local maxIndex = math.max(indexX, indexZ)
-            local totalIndex = indexX + indexZ
-
-            local newPosition = nil
-
-            newPosition = {}
-            newPosition.y = 0
-            newPosition.x = indexX * delta
-            newPosition.z = indexZ * delta
-
-            newPosition.maxIndex = maxIndex
-            newPosition.totalIndex = totalIndex
-
-            Insert( result, newPosition )
-
-            if ( indexZ ~= 0 ) then
+            for vector in Iter(vectorsArrays) do
 
                 newPosition = {}
-                newPosition.y = 0
-                newPosition.x = indexX * delta
-                newPosition.z = - indexZ * delta
+                newPosition.x = position.x + vector.x
+                newPosition.z = position.z + vector.z
 
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
+                if ( self:AddToHash( hashPositions, newPosition.x, newPosition.z ) ) then
 
-                Insert( result, newPosition )
-            end
-
-            if ( indexX ~= 0 ) then
-
-                newPosition = {}
-                newPosition.y = 0
-                newPosition.x = - indexX * delta
-                newPosition.z = indexZ * delta
-
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
-
-                Insert( result, newPosition )
-            end
-
-            if ( indexX ~= 0 and indexZ ~= 0 ) then
-
-                newPosition = {}
-                newPosition.y = 0
-                newPosition.x = - indexX * delta
-                newPosition.z = - indexZ * delta
-
-                newPosition.maxIndex = maxIndex
-                newPosition.totalIndex = totalIndex
-
-                Insert( result, newPosition )
+                    Insert( result, newPosition )
+                    Insert( newPositions, newPosition )
+                end
             end
         end
+
+        tempArray = newPositions
     end
 
-    local sorter = function( position1, position2 )
-
-        if (position1.maxIndex ~= position2.maxIndex) then
-
-            return position1.maxIndex < position2.maxIndex
-        end
-
-        if (position1.totalIndex ~= position2.totalIndex) then
-
-            return position1.totalIndex < position2.totalIndex
-        end
-
-        if (position1.x ~= position2.x) then
-
-            return position1.x < position2.x
-        end
-
-        return position1.z < position2.z
-    end
-
-    table.sort(result, sorter)
-
-    return result
+    return result, hashPositions
 end
 
-function portal_builder_tool:UpdateMarker(currentDirection)
+function portal_builder_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
 
-    currentDirection = math.abs(currentDirection)
+    if ( hashPositions[newPositionX] == nil) then
 
-    if ( self.currentMarkerSize ~= currentDirection ) then
+        hashPositions[newPositionX] = {}
+    end
 
-        self.currentMarkerSize = currentDirection
+    local hashXPosition = hashPositions[newPositionX]
 
-        local markerBlueprint = "misc/marker_selector_portal_builder_tool_radius_" .. tostring(currentDirection)
+    if ( hashXPosition[newPositionZ] ~= nil ) then
 
-        if ( currentDirection > 16 ) then
-            markerBlueprint = "misc/marker_selector_portal_builder_tool_radius_g16"
-        end
+        return false
+    end
 
-        if ( self.currentMarkerBlueprint ~= markerBlueprint or self.currentMarker == nil ) then
+    hashXPosition[newPositionZ] = true
 
-            -- Destroy old marker
-            if (self.currentMarker ~= nil) then
+    return true
+end
 
-                EntityService:RemoveEntity(self.currentMarker)
-                self.currentMarker = nil
+function portal_builder_tool:UpdateMarker(currentSize)
+
+    if ( self.currentMarkerSize ~= currentSize ) then
+
+        self.currentMarkerSize = currentSize 
+        
+        
+        number = tonumber(currentSize)
+
+
+        local number1 = number % 10
+        number = number - number1
+
+        local number2 = math.floor( (number % 100) / 10 )
+        number = number - number2
+
+        local number3 = math.floor( (number % 1000) / 100 )
+        number = number - number3
+
+        if ( currentSize > 999 ) then
+        
+            number1 = 9
+            number2 = 9
+            number3 = 9
+
+            if ( self.currentCellCountMarkerPlus == nil ) then
+
+                self.currentCellCountMarkerPlus = EntityService:SpawnAndAttachEntity("misc/marker_selector_portal_builder_tool_number_plus", self.selector)
             end
+        else
 
-            self.currentMarkerBlueprint = markerBlueprint
-
-            self.currentMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
-            EntityService:SetPosition( self.currentMarker, 0, 0, -2 )
+            if ( self.currentCellCountMarkerPlus ~= nil ) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerPlus)
+                self.currentCellCountMarkerPlus = nil
+            end
         end
+
+        markerBlueprint = "misc/marker_selector_portal_builder_tool_number_" .. tostring(number1)
+
+        if ( self.currentCellCountMarkerNumber1 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber1) ~= markerBlueprint ) then
+
+            if ( self.currentCellCountMarkerNumber1 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber1)
+                self.currentCellCountMarkerNumber1 = nil
+            end  
+
+            self.currentCellCountMarkerNumber1 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
+            EntityService:SetPosition( self.currentCellCountMarkerNumber1, 0, 0, -2.9 )
+        end
+
+        if ( number2 ~= 0 or number3 ~= 0 ) then
+
+            markerBlueprint = "misc/marker_selector_portal_builder_tool_number_" .. tostring(number2)
+
+            if ( self.currentCellCountMarkerNumber2 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber2) ~= markerBlueprint ) then
+
+                if ( self.currentCellCountMarkerNumber2 ~= nil) then
+                    EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+                    self.currentCellCountMarkerNumber2 = nil
+                end
+
+                self.currentCellCountMarkerNumber2 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
+                EntityService:SetPosition( self.currentCellCountMarkerNumber2, 0, 0, -2.9 )
+            end
+        else
+
+            if ( self.currentCellCountMarkerNumber2 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+                self.currentCellCountMarkerNumber2 = nil
+            end            
+        end
+
+        if ( number3 ~= 0 ) then
+
+            markerBlueprint = "misc/marker_selector_portal_builder_tool_number_" .. tostring(number3)
+
+            if ( self.currentCellCountMarkerNumber3 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber3) ~= markerBlueprint ) then
+
+                if ( self.currentCellCountMarkerNumber3 ~= nil) then
+                    EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+                    self.currentCellCountMarkerNumber3 = nil
+                end
+
+                self.currentCellCountMarkerNumber3 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
+                EntityService:SetPosition( self.currentCellCountMarkerNumber3, 0, 0, -3.8 )
+            end
+        else
+
+            if ( self.currentCellCountMarkerNumber3 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+                self.currentCellCountMarkerNumber3 = nil
+            end            
+        end
+
+        
     end
 end
 
@@ -388,7 +454,7 @@ function portal_builder_tool:OnUpdate()
 
 
 
-    self:CreateInfoChild()
+
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -397,261 +463,20 @@ function portal_builder_tool:OnUpdate()
     else
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
-
-
-
-    if ( self.activated and self.buildTransform ~= nil ) then
-
-        
-    end
 end
 
 function portal_builder_tool:OnActivateSelectorRequest()
 
-    self:FinishLineBuild()
+    if ( self.buildStartPosition == nil ) then
 
-    self.buildTransform = EntityService:GetWorldTransform( self.entity )
-    self.activated = true
+        self.buildTransform = EntityService:GetWorldTransform( self.entity )
+        self.activated = true
+    else
+        self:FinishLineBuild()
+    end
 end
 
 function portal_builder_tool:FinishLineBuild()
-
-    local currentDirection = self:CheckSizeExists(self.currentDirection)
-
-    local createChain = ( currentDirection < 0 or self.type == 0 )
-    currentDirection = math.abs(currentDirection)
-
-    if ( not createChain ) then
-
-        self:BuildEnergyConnectorsFromGhosts()
-        return
-    end
-
-    local buildingsTransformsArray = {}
-
-    local entitiesBuildings = FindService:FindEntitiesByType( "building" )
-
-    for entity in Iter( entitiesBuildings ) do
-
-        local resourceStorageComponent = EntityService:GetComponent( entity, "ResourceStorageComponent")
-        if ( resourceStorageComponent == nil ) then
-            goto continue
-        end
-
-        local resourceStorageRef = reflection_helper( resourceStorageComponent )
-        if ( not self:HasDistributionRadius( resourceStorageRef ) ) then
-            goto continue
-        end
-
-        local transform = EntityService:GetWorldTransform( entity )
-
-        Insert( buildingsTransformsArray, transform )
-
-        ::continue::
-    end
-
-
-    if ( #buildingsTransformsArray == 0 ) then
-
-        self:BuildEnergyConnectorsFromGhosts()
-        return
-    end
-
-    local selfTransform = EntityService:GetWorldTransform( self.entity )
-
-    while ( #buildingsTransformsArray > 0 ) do
-
-        local nearestSpotTransform = self:GetNearestSpot(selfTransform.position, buildingsTransformsArray)
-        if ( nearestSpotTransform == nil ) then
-
-            self:BuildEnergyConnectorsFromGhosts()
-            return
-        end
-
-        Remove( buildingsTransformsArray, nearestSpotTransform )
-
-        local spots = self:FindSpotsByDistance( nearestSpotTransform, selfTransform )
-
-        if ( #spots > 0 ) then
-
-            local newAdditionalVectors = self:FindPositionsToBuildLine( currentDirection )
-
-            for spot in Iter( spots ) do
-
-                for i=1,#newAdditionalVectors do
-
-                    local newPosition = newAdditionalVectors[i]
-
-                    local transform = {}
-                    transform.scale = spot.scale
-                    transform.orientation = spot.orientation
-
-                    transform.position = {}
-                    transform.position.x = spot.position.x + newPosition.x
-                    transform.position.y = spot.position.y + newPosition.y
-                    transform.position.z = spot.position.z + newPosition.z
-
-                    local lineEnt = self.linesEntities[i]
-
-                    self:BuildEntity(lineEnt, transform, true)
-                end
-            end
-
-            self:BuildEnergyConnectorsFromGhosts()
-            return
-        end
-    end
-end
-
-function portal_builder_tool:FindSpotsByDistance(startTransform, endTransform)
-
-    local spots = BuildingService:FindSpotsByDistance( startTransform, endTransform, self.radius, self.connectorBlueprintName )
-
-    if ( #spots == 0 ) then
-        return spots
-    end
-
-    local result = self:GetBuildableSpotsArray(spots)
-
-    return result
-end
-
-function portal_builder_tool:GetBuildableSpotsArray(spots)
-
-    local result = {}
-
-    for i = 1,#spots do
-            
-        local spot = spots[i]
-
-        local correctedTransform = self:GetBuildableSpot(spot)
-
-        if ( #result > 0 ) then
-
-            local lastSpot = result[#result]
-
-            local difference = math.max( math.abs(lastSpot.position.x - correctedTransform.position.x), math.abs(lastSpot.position.z - correctedTransform.position.z) )
-
-            if ( difference > self.radius ) then
-
-                local newPosition = {}
-                newPosition.x = SnapValue( (correctedTransform.position.x + lastSpot.position.x) / 2, 2.0 )
-                newPosition.y = spot.position.y
-                newPosition.z = SnapValue( (correctedTransform.position.z + lastSpot.position.z) / 2, 2.0 )
-
-                local transform = {}
-                transform.scale = spot.scale
-                transform.orientation = spot.orientation
-                transform.position = newPosition
-
-                local transform = self:GetBuildableSpot(transform)
-
-                Insert( result, transform )
-            end
-        end
-
-        Insert( result, correctedTransform )
-    end
-
-    return result
-end
-
-function portal_builder_tool:GetBuildableSpot(spot)
-
-    if ( not self:IsTransformOccupied(spot) ) then
-
-        return spot
-    end
-
-    local transform = {}
-    transform.scale = spot.scale
-    transform.orientation = spot.orientation
-
-    for i=1,#self.correctionVectors do
-
-        local correctionVector = self.correctionVectors[i]
-
-        local newPosition = {}
-        newPosition.x = spot.position.x + correctionVector.x
-        newPosition.y = spot.position.y
-        newPosition.z = spot.position.z + correctionVector.z
-
-        transform.position = newPosition
-
-        if ( not self:IsTransformOccupied(transform) ) then
-                        
-            return transform
-        end
-    end
-
-    return spot
-end
-
-function portal_builder_tool:AddToHash(hashPositions, position)
-
-    hashPositions[position.x] = hashPositions[position.x] or {}
-
-    local hashXPosition = hashPositions[position.x]
-
-    if ( hashXPosition[position.z] ~= nil ) then
-
-        return false
-    end
-
-    hashXPosition[position.z] = true
-
-    return true
-end
-
-function portal_builder_tool:HashContains(hashPositions, position)
-
-    hashPositions[position.x] = hashPositions[position.x] or {}
-
-    local hashXPosition = hashPositions[position.x]
-
-    if ( hashXPosition[position.z] ~= nil ) then
-
-        return true
-    end
-
-    return false
-end
-
-function portal_builder_tool:IsTransformOccupied(transform)
-
-    local isSpaceOccupied = BuildingService:IsSpaceOccupied( transform.position, "", "" )
-    if ( isSpaceOccupied ) then
-
-        return true
-    end
-
-    local terrainCellEntityId = EnvironmentService:GetTerrainCell(transform.position)
-
-    local buildingBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "BuildingBlockerLayerComponent" )
-    if ( buildingBlockerLayerComponent ~= nil ) then
-        return true
-    end
-
-    local worldBlockerLayerComponent = EntityService:GetComponent( terrainCellEntityId, "WorldBlockerLayerComponent" )
-    if ( worldBlockerLayerComponent ~= nil ) then
-        return true
-    end
-
-    local testBuildable = self:CheckEntityBuildable( self.linesEntities[1], transform )
-    if ( testBuildable == nil ) then
-
-        return true
-    end
-
-    if ( testBuildable.flag == CBF_CAN_BUILD ) then
-
-        return false
-    end
-
-    return true
-end
-
-function portal_builder_tool:BuildEnergyConnectorsFromGhosts()
 
     for i=1,#self.linesEntities do
 
@@ -663,74 +488,15 @@ function portal_builder_tool:BuildEnergyConnectorsFromGhosts()
     end
 end
 
-function portal_builder_tool:HasDistributionRadius( resourceStorageRef )
-
-    if ( resourceStorageRef ~= nil and resourceStorageRef.Storages ~= nil ) then
-
-        local count = resourceStorageRef.Storages.count
-
-        for i=1,count do
-
-            local storage = resourceStorageRef.Storages[i]
-
-            if ( tostring(storage.group) == "12" and storage.distribution_radius >= 1 ) then
-
-                if ( storage.resource and storage.resource.resource and storage.resource.resource.id and storage.resource.resource.id == "energy" ) then
-
-                    return true
-                end
-            end
-        end
-    end
-
-    return false
-end
-
-function portal_builder_tool:GetNearestSpot( entityPosition, buildingsTransformsArray )
-
-    local currentSpot = nil
-    local currentDistance = nil
-
-    for spot in Iter( buildingsTransformsArray ) do
-
-        local distance = Distance( entityPosition, spot.position )
-
-        if currentSpot == nil or distance < currentDistance then
-
-            currentSpot = spot;
-            currentDistance = distance
-
-            local lineDistance = self:GetDistance( entityPosition, spot.position )
-
-            if ( lineDistance <= self.radius ) then
-
-                return currentSpot
-            end
-        end
-    end
-
-    return currentSpot
-end
-
-function portal_builder_tool:GetDistance( position1, position2 )
-
-    local dx = math.abs(position1.x - position2.x)
-    local dz = math.abs(position1.z - position2.z)
-
-    return math.max(dx, dz)
-end
-
 function portal_builder_tool:OnDeactivateSelectorRequest()
 
     self.buildTransform = nil
     self.activated = false
+
+    self:FinishLineBuild()
 end
 
 function portal_builder_tool:OnRotateSelectorRequest(evt)
-
-    if ( self.type == 0 ) then
-        return
-    end
 
     local degree = evt:GetDegree()
 
@@ -739,32 +505,48 @@ function portal_builder_tool:OnRotateSelectorRequest(evt)
         change = -1
     end
 
-    local currentDirection = self:CheckSizeExists(self.currentDirection)
+    if ( self.activated ) then
 
-    local configArray = self:GetConfigArray()
+        local currentSize = self:CheckSizeExists(self.currentSize)
 
-    local index = IndexOf( configArray, currentDirection )
-    if ( index == nil ) then
-        index = 1
+        local newValue = currentSize + change
+
+        if ( newValue < 0 ) then
+            newValue = 0
+        end
+
+        self.currentSize = newValue
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+        selectorDB:SetInt(self.configNameSize, newValue)
+
+    else
+
+        -- Inverting rotation
+        if ( mod_invert_rotation ~= nil and mod_invert_rotation == 1 ) then
+            change = -change
+        end
+
+        local currentDirection = self:CheckDirectionExists(self.currentDirection)
+
+        local configArray = self:GetDirectionConfigArray()
+
+        local maxIndex = #configArray
+
+        local newIndex = currentDirection + change
+        if ( newIndex > maxIndex ) then
+            newIndex = 1
+        elseif( newIndex < 1 ) then
+            newIndex = maxIndex
+        end
+
+        self.currentDirection = newIndex
+
+        local selectorDB = EntityService:GetDatabase( self.selector )
+        selectorDB:SetInt(self.configNameDirection, newIndex)
     end
 
-    local maxIndex = #configArray
-
-    local newIndex = index + change
-    if ( newIndex > maxIndex ) then
-        newIndex = maxIndex
-    elseif( newIndex < 1 ) then
-        newIndex = 1
-    end
-
-    local newValue = configArray[newIndex]
-
-    self.currentDirection = newValue
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
-    selectorDB:SetInt(self.configNameDirection, newValue)
-
-    self:SpawnGhostConnectorEntities()
+    self:SpawnGhostEntities()
 end
 
 function portal_builder_tool:OnRelease()
@@ -775,6 +557,8 @@ function portal_builder_tool:OnRelease()
         end
     end
     self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
 
     self.currentMarkerSize = 0
     self.currentMarkerBlueprint = ""
@@ -783,6 +567,34 @@ function portal_builder_tool:OnRelease()
 
         EntityService:RemoveEntity(self.currentMarker)
         self.currentMarker = nil
+    end
+
+    if (self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+
+    if (self.currentCellCountMarkerNumber1 ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber1)
+        self.currentCellCountMarkerNumber1 = nil
+    end
+
+    if (self.currentCellCountMarkerNumber2 ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+        self.currentCellCountMarkerNumber2 = nil
+    end
+
+    if (self.currentCellCountMarkerNumber3 ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+        self.currentCellCountMarkerNumber3 = nil
+    end
+
+    if (self.currentCellCountMarkerPlus ~= nil) then
+        EntityService:RemoveEntity(self.currentCellCountMarkerPlus)
+        self.currentCellCountMarkerPlus = nil
     end
 
     if ( portal_base_tool.OnRelease ) then
