@@ -16,6 +16,19 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
         return
     end
 
+
+
+    local blueprintDatabase = EntityService:GetBlueprintDatabase( blueprintName )
+    if ( blueprintDatabase ~= nil ) then
+        if ( blueprintDatabase:HasInt("$entities_storage_changes2_autoexec") ) then
+            return
+        end
+
+        blueprintDatabase:SetInt("$entities_storage_changes2_autoexec", 1)
+    end
+
+    
+
     local resourceStorageComponent = blueprint:GetComponent("ResourceStorageComponent")
     if ( resourceStorageComponent == nil ) then
         LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' ResourceStorageComponent NOT EXISTS.")
@@ -99,6 +112,8 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
                 
                 maxField:SetValue( tostring(hashGlobalChanges[cacheKey]) )
 
+                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId " .. resourceIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
+
                 goto labelContinue
             end
         else
@@ -122,7 +137,7 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
                         hashGlobalChanges[cacheKey] = newValue
                     end
 
-                    --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' configObj.group_coef[groupIdString] ~= nil " .. tostring(configObj.group_coef[groupIdString]))
+                    LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId " .. groupIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
                 
                     maxField:SetValue( tostring(hashGlobalChanges[cacheKey]) )
                 end
@@ -270,3 +285,18 @@ local new_storage_values = {
 }
 
 InjectChangeListBlueprintStorageValues(new_storage_values)
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    InjectChangeListBlueprintStorageValues(new_storage_values)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    InjectChangeListBlueprintStorageValues(new_storage_values)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    InjectChangeListBlueprintStorageValues(new_storage_values)
+end)
