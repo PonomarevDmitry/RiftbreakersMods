@@ -68,8 +68,11 @@ function floor_tool:InitializeValues()
     self.cellCount = self:CheckCellCount(self.cellCount)
 
     self.currentCellCount = 0
-    self.currentCellCountMarker = nil
-    self.currentCellCountMarkerBlueprint = ""
+    
+    self.currentCellCountMarkerPlus = nil
+    self.currentCellCountMarkerNumber1 = nil
+    self.currentCellCountMarkerNumber2 = nil
+    self.currentCellCountMarkerNumber3 = nil
 
     self:FillBuildingDesc()
 
@@ -97,6 +100,9 @@ end
 
 function floor_tool:OnRotateSelectorRequest(evt)
 
+    local maxDeltaTime = 1
+    local maxCountToSwithTo1k = 14
+
     local degree = evt:GetDegree()
 
     local change = 1
@@ -105,9 +111,43 @@ function floor_tool:OnRotateSelectorRequest(evt)
     end
 
 
+    local trimValue = nil
+
+    self.countToSpeedUp = self.countToSpeedUp or 0
+    self.lastRotateTime = self.lastRotateTime or 0
+
+    local currentTime = GetLogicTime()
+
+    local deltaFromLast = currentTime - self.lastRotateTime
+
+    if ( deltaFromLast < maxDeltaTime ) then
+
+        if ( self.countToSpeedUp > maxCountToSwithTo1k ) then
+
+            change = change * 5
+            trimValue = 5
+        end
+
+        self.countToSpeedUp = self.countToSpeedUp + 1
+    else
+
+        self.countToSpeedUp = 0
+    end
+
+    self.lastRotateTime = currentTime
+
+
+
     local cellCount = self:CheckCellCount(self.cellCount)
 
     local newValue = cellCount + change
+
+    if ( trimValue ~= nil ) then
+
+        newValue = newValue - ( (newValue + 1) % trimValue)
+    end
+
+
 
     if ( newValue < 0 ) then
         newValue = 0
@@ -280,26 +320,96 @@ function floor_tool:UpdateMarker(cellCount)
 
     if ( self.currentCellCount ~= currentScale ) then
 
+        local markerBlueprint = ""
+
         self.currentCellCount = currentScale
 
-        local markerBlueprint = "misc/marker_selector_floor_size_" .. currentScale
+        local number = tonumber(currentScale)
 
-        if ( currentScale > 16 ) then
-            markerBlueprint = "misc/marker_selector_floor_size_g16"
+
+        local number1 = number % 10
+        number = number - number1
+
+        local number2 = math.floor( (number % 100) / 10 )
+        number = number - number2
+
+        local number3 = math.floor( (number % 1000) / 100 )
+        number = number - number3
+
+        if ( currentScale > 999 ) then
+        
+            number1 = 9
+            number2 = 9
+            number3 = 9
+
+            if ( self.currentCellCountMarkerPlus == nil ) then
+
+                self.currentCellCountMarkerPlus = EntityService:SpawnAndAttachEntity("misc/marker_selector_floor_number_plus", self.selector)
+            end
+        else
+
+            if ( self.currentCellCountMarkerPlus ~= nil ) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerPlus)
+                self.currentCellCountMarkerPlus = nil
+            end
         end
 
-        if ( self.currentCellCountMarkerBlueprint ~= markerBlueprint or self.currentCellCountMarker == nil ) then
+        markerBlueprint = "misc/marker_selector_floor_number_" .. tostring(number1)
 
-            -- Destroy old marker
-            if (self.currentCellCountMarker ~= nil) then
+        if ( self.currentCellCountMarkerNumber1 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber1) ~= markerBlueprint ) then
 
-                EntityService:RemoveEntity(self.currentCellCountMarker)
-                self.currentCellCountMarker = nil
+            if ( self.currentCellCountMarkerNumber1 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber1)
+                self.currentCellCountMarkerNumber1 = nil
+            end  
+
+            self.currentCellCountMarkerNumber1 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+        end
+
+        if ( number2 ~= 0 or number3 ~= 0 ) then
+
+            markerBlueprint = "misc/marker_selector_floor_number_" .. tostring(number2)
+
+            if ( self.currentCellCountMarkerNumber2 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber2) ~= markerBlueprint ) then
+
+                if ( self.currentCellCountMarkerNumber2 ~= nil) then
+                    EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+                    self.currentCellCountMarkerNumber2 = nil
+                end
+
+                self.currentCellCountMarkerNumber2 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
+                EntityService:SetPosition( self.currentCellCountMarkerNumber2, 0, 0, -0.9 )
             end
+        else
 
-            self.currentCellCountMarkerBlueprint = markerBlueprint
+            if ( self.currentCellCountMarkerNumber2 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+                self.currentCellCountMarkerNumber2 = nil
+            end            
+        end
 
-            self.currentCellCountMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+        if ( number3 ~= 0 ) then
+
+            markerBlueprint = "misc/marker_selector_floor_number_" .. tostring(number3)
+
+            if ( self.currentCellCountMarkerNumber3 == nil or EntityService:GetBlueprintName(self.currentCellCountMarkerNumber3) ~= markerBlueprint ) then
+
+                if ( self.currentCellCountMarkerNumber3 ~= nil) then
+                    EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+                    self.currentCellCountMarkerNumber3 = nil
+                end
+
+                self.currentCellCountMarkerNumber3 = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
+
+                EntityService:SetPosition( self.currentCellCountMarkerNumber3, 0, 0, -1.8 )
+            end
+        else
+
+            if ( self.currentCellCountMarkerNumber3 ~= nil) then
+                EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+                self.currentCellCountMarkerNumber3 = nil
+            end            
         end
     end
 end
@@ -740,12 +850,28 @@ function floor_tool:OnRelease()
     self:ClearGridEntities()
 
     self.currentCellCount = 0
-    self.currentCellCountMarkerBlueprint = ""
 
-    if (self.currentCellCountMarker ~= nil) then
+    if (self.currentCellCountMarkerNumber1 ~= nil) then
 
-        EntityService:RemoveEntity(self.currentCellCountMarker)
-        self.currentCellCountMarker = nil
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber1)
+        self.currentCellCountMarkerNumber1 = nil
+    end
+
+    if (self.currentCellCountMarkerNumber2 ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber2)
+        self.currentCellCountMarkerNumber2 = nil
+    end
+
+    if (self.currentCellCountMarkerNumber3 ~= nil) then
+
+        EntityService:RemoveEntity(self.currentCellCountMarkerNumber3)
+        self.currentCellCountMarkerNumber3 = nil
+    end
+
+    if (self.currentCellCountMarkerPlus ~= nil) then
+        EntityService:RemoveEntity(self.currentCellCountMarkerPlus)
+        self.currentCellCountMarkerPlus = nil
     end
 
     self.currentSize = 0

@@ -427,11 +427,7 @@ function floor_center_tool:UpdateMarker()
 
     self.currentMarkerSize = currentSize
 
-    local markerBlueprint = "misc/marker_selector_floor_size_" .. currentSize
-
-    if ( currentSize > 16 ) then
-        markerBlueprint = "misc/marker_selector_floor_size_g16"
-    end
+    local markerBlueprint = "misc/marker_selector_floor_number_" .. tostring(currentSize)
 
     if ( self.currentMarkerBlueprint ~= markerBlueprint or self.currentMarker == nil ) then
 
@@ -445,6 +441,8 @@ function floor_center_tool:UpdateMarker()
         self.currentMarkerBlueprint = markerBlueprint
 
         self.currentMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+        EntityService:SetPosition( self.currentMarker, 0, 0, -0.3 )
     end
 end
 
