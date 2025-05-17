@@ -158,7 +158,9 @@ function portal_builder_tool:SpawnGhostEntities()
         if ( lineEnt == nil ) then
 
             lineEnt = self:SpawnGhostPortalEntity(newPosition, orientation)
-            
+
+            EntityService:SpawnAndAttachEntity( "misc/marked_portal_builder_tool_ghost_minimap_icon", lineEnt )
+
             self:RemoveUselessComponents(lineEnt)
         end
 
