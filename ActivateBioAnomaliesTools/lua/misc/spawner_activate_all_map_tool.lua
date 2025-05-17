@@ -33,7 +33,7 @@ function spawner_activate_all_map_tool:OnInit()
         local idComponentName = EntityService:GetName( entity )
 
         -- Ignore Into Dark Anomaly to do not create a soft lock. 
-        if ( idComponentName == "dlc_2_anomaly" ) then
+        if ( idComponentName == "dlc_2_anomaly" or idComponentName == "swamp_harvest_anomaly" ) then
             goto labelContinue
         end
 
