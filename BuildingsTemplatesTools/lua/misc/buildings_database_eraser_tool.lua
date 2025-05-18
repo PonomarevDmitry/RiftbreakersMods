@@ -34,6 +34,8 @@ function buildings_database_eraser_tool:OnInit()
     local markerBlueprint = "misc/marker_selector_buildings_database_eraser_tool"
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
+    self.templateEntities = {}
+
     self:UpdateMarker()
 
     self:FillMarkerMessage()
@@ -63,7 +65,7 @@ function buildings_database_eraser_tool:UpdateMarker()
 
             markerBlueprint = "misc/marker_buildings_templates_numbers_all"
 
-            self.allNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+            self.allNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
         end
 
     else
@@ -88,7 +90,7 @@ function buildings_database_eraser_tool:UpdateMarker()
                     self.firstNumberEntity = nil
                 end  
 
-                self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+                self.firstNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
             end
         else
 
@@ -107,7 +109,7 @@ function buildings_database_eraser_tool:UpdateMarker()
                 self.secondNumberEntity = nil
             end  
 
-            self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
+            self.secondNumberEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector)
         end
     end
 
@@ -115,6 +117,8 @@ function buildings_database_eraser_tool:UpdateMarker()
 end
 
 function buildings_database_eraser_tool:FillMarkerMessage()
+
+    self:CleanTemplateEntities()
 
     self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
 
@@ -181,12 +185,201 @@ function buildings_database_eraser_tool:FillMarkerMessage()
             local buildingsIcons = self:GetTemplateBuildingsIcons(persistentTemplateString)
 
             markerText = markerText .. "${" .. templateEraseCaption .. "}:\n" .. buildingsIcons
+
+            self:SpawnBuildinsTemplates(persistentTemplateString)
         end
 
         markerDB:SetString("message_text", markerText)
 
         markerDB:SetInt("menu_visible", 1)
     end
+end
+
+function buildings_database_eraser_tool:SpawnBuildinsTemplates(templateString)
+
+    -- templateString format:
+    -- blueprint1:ent1PosX,ent1PosZ,ent1OrientY,ent1OrientW;ent2PosX,ent2PosZ,ent2OrientY,ent2OrientW|blueprint2:ent3PosX,ent3PosZ,ent3OrientY,ent3OrientW;ent4PosX,ent4PosZ,ent4OrientY,ent4OrientW
+
+    -- Delimiter between blueprints groups: "|"
+    -- Delimiter between blueprint name and array of entities coordinates: ":"
+    -- Delimiter between entities in array of entities coordinates: ";"
+    -- Delimiter between coordinates for single entity: ","
+    -- blueprint1, blueprint2 - blueprints names
+
+    -- ent1PosX, ent2PosX, ent3PosX, ent4PosX - entities relative position.x
+    -- ent1PosZ, ent2PosZ, ent3PosZ, ent4PosZ - entities relative position.z
+
+    -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
+    -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
+
+
+    local team = EntityService:GetTeam( self.entity )
+
+    local delimiterBlueprintsGroups = "|";
+    local delimiterBlueprintName = ":";
+    local delimiterEntitiesArray = ";";
+    local delimiterBetweenCoordinates = ",";
+
+    -- Split by "|" blueprints groups
+    local blueprintsGroupsArray = Split( templateString, delimiterBlueprintsGroups )
+
+    for template in Iter( blueprintsGroupsArray ) do
+
+        -- Split by ":" blueprint template
+        local blueprintValuesArray = Split( template, delimiterBlueprintName )
+
+        -- Only 2 values in blueprintValuesArray
+        if ( #blueprintValuesArray ~= 2 ) then
+            goto continue
+        end
+
+        -- First blueprintName
+        local blueprintName = blueprintValuesArray[1]
+        -- Second array with entities coordinates
+        local entitiesCoordinatesString = blueprintValuesArray[2]
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            goto continue
+        end
+
+        --if ( not BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        --    goto continue
+        --end
+
+        local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+        if ( buildingDesc == nil ) then
+            goto continue
+        end
+
+        local buildingDescRef = reflection_helper( buildingDesc )
+        if ( buildingDescRef == nil ) then
+            goto continue
+        end
+
+        if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
+            goto continue
+        end
+
+        local buildCosts = BuildingService:GetBuildCosts( blueprintName, self.playerId )
+        --if ( #buildCosts == 0 ) then
+        --    goto continue
+        --end
+
+        -- Do not create cubes for building_mode "line"
+        local createCube = not ( buildingDescRef.building_mode == "line" )
+
+        -- Split array of coordinates by ";"
+        local entitiesCoordinatesArray = Split( entitiesCoordinatesString, delimiterEntitiesArray )
+
+        for entityString in Iter( entitiesCoordinatesArray ) do
+
+            self:CreateSingleBuildingTemplate( blueprintName, buildingDescRef, createCube, entityString, buildCosts, delimiterBetweenCoordinates )
+        end
+
+        ::continue::
+    end
+
+    if ( #self.templateEntities > 0 ) then
+
+        if ( #self.templateEntities > 1 ) then
+
+            for i=2,#self.templateEntities do
+
+                local buildingTemplate = self.templateEntities[i]
+
+                if ( EntityService:HasComponent( buildingTemplate.entity, "DisplayRadiusComponent" ) ) then
+
+                    EntityService:RemoveComponent( buildingTemplate.entity, "DisplayRadiusComponent" )
+                end
+
+                if ( EntityService:HasComponent( buildingTemplate.entity, "GhostLineCreatorComponent" ) ) then
+
+                    EntityService:RemoveComponent( buildingTemplate.entity, "GhostLineCreatorComponent" )
+                end
+            end
+        end
+
+        local firstBuildingTemplate = self.templateEntities[1]
+        local firstEntity = firstBuildingTemplate.entity
+
+        local gridSize = BuildingService:GetBuildingGridSize( firstEntity )
+
+        self.currentScale = math.max(gridSize.x, gridSize.z)
+        EntityService:SetScale( self.entity, gridSize.x, 1, gridSize.z )
+    end
+
+    self:SetChildrenPosition()
+    self:RescaleChild()
+end
+
+function buildings_database_eraser_tool:CreateSingleBuildingTemplate( blueprintName, buildingDesc, createCube, entityString, buildCosts, delimiterBetweenCoordinates )
+
+    -- Split coordinates by ","
+    local valuesArray = Split( entityString, delimiterBetweenCoordinates )
+
+    -- Only 4 values in valuesArray
+    if ( #valuesArray < 4 ) then
+        return
+    end
+
+    local positionX = tonumber( valuesArray[1] )
+    local positionZ = tonumber( valuesArray[2] )
+
+    local orientationY = tonumber( valuesArray[3] )
+    local orientationW = tonumber( valuesArray[4] )
+
+    -- Parse to number successful
+    if ( positionX == nil or positionZ == nil or orientationY == nil or orientationW == nil ) then
+        return
+    end
+
+    local databaseInfo = valuesArray[5]
+
+    local buildingTemplate = {}
+
+    buildingTemplate.blueprint = blueprintName
+    buildingTemplate.databaseInfo = databaseInfo
+
+    buildingTemplate.buildingDesc = buildingDesc
+    buildingTemplate.createCube = createCube
+
+    buildingTemplate.positionX = positionX
+    buildingTemplate.positionZ = positionZ
+
+    local orientation = {}
+
+    orientation.x = 0
+    orientation.y = orientationY
+    orientation.z = 0
+    orientation.w = orientationW
+
+    buildingTemplate.orientation = orientation
+
+    local newPosition = {}
+
+    newPosition.x = positionX
+    newPosition.y = 0
+    newPosition.z = positionZ
+
+    local buildingEntity = nil
+
+    if ( buildingDesc.ghost_bp ~= "" and buildingDesc.ghost_bp ~= nil ) then
+
+        buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.ghost_bp, self.selector )
+    else
+        buildingEntity = EntityService:SpawnAndAttachEntity( buildingDesc.bp, self.selector )
+    end
+
+    EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
+
+    EntityService:SetPosition( buildingEntity, newPosition )
+    EntityService:SetOrientation( buildingEntity, orientation )
+
+    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+
+    buildingTemplate.entity = buildingEntity
+
+    Insert( self.templateEntities, buildingTemplate )
 end
 
 function buildings_database_eraser_tool:AddedToSelection( entity )
@@ -422,6 +615,23 @@ function buildings_database_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
     self:FillMarkerMessage()
 end
 
+function buildings_database_eraser_tool:CleanTemplateEntities()
+
+    for buildingTemplate in Iter(self.templateEntities) do
+
+        EntityService:RemoveEntity(buildingTemplate.entity)
+        buildingTemplate.entity = nil
+    end
+
+    self.templateEntities = {}
+
+    self.currentScale = 1
+    EntityService:SetScale( self.entity, 1, 1, 1 )
+
+    self:SetChildrenPosition()
+    self:RescaleChild()
+end
+
 function buildings_database_eraser_tool:OnRelease()
 
     if ( self.childEntity ~= nil) then
@@ -443,6 +653,8 @@ function buildings_database_eraser_tool:OnRelease()
         EntityService:RemoveEntity(self.allNumberEntity)
         self.allNumberEntity = nil
     end
+
+    self:CleanTemplateEntities()
 
     if ( buildings_tool_base.OnRelease ) then
         buildings_tool_base.OnRelease(self)
