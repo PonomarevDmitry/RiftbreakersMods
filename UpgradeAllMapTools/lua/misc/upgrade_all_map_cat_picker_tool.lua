@@ -86,7 +86,7 @@ function upgrade_all_map_cat_picker_tool:UpdateMarker()
 
         markerDB:SetString("building_icon", menuIcon)
         markerDB:SetString("message_text", messageText)
-        markerDB:SetInt("building_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
 
     elseif ( self.selectedCategory ~= nil and self.selectedCategory ~= "" ) then
 
@@ -98,11 +98,11 @@ function upgrade_all_map_cat_picker_tool:UpdateMarker()
 
         markerDB:SetString("building_icon", menuIcon)
         markerDB:SetString("message_text", messageText)
-        markerDB:SetInt("building_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
     else
         markerDB:SetString("building_icon", "")
         markerDB:SetString("message_text", "")
-        markerDB:SetInt("building_visible", 0)
+        markerDB:SetInt("menu_visible", 0)
     end
 end
 

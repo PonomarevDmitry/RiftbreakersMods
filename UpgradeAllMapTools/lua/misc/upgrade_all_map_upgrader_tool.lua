@@ -122,7 +122,7 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", buildingIconVisible)
+    markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
     markerDB:SetString("message_text", messageText)
 end
