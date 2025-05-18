@@ -118,7 +118,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -131,7 +131,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         local markerText = "${" .. templateCaption .. "}: ${gui/hud/messages/building_templates/empty_template}"
 
         markerDB:SetString("message_text", markerText)
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -232,10 +232,10 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
         EntityService:SetPosition( self.infoChild, -gridSize.x, 0, gridSize.z )
 
         markerDB:SetString("message_text", "")
-        markerDB:SetInt("message_visible", 0)
+        markerDB:SetInt("menu_visible", 0)
     else
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/building_impossible")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
     end
 end
 

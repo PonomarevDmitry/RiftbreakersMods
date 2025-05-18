@@ -127,7 +127,7 @@ function buildings_database_select_tool:FillMarkerMessage()
         local markerText = "${gui/hud/building_templates/current_database}:\n" .. databaseCaption
 
         markerDB:SetString("message_text", markerText)
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
 
     else
 
@@ -137,7 +137,7 @@ function buildings_database_select_tool:FillMarkerMessage()
 
         markerDB:SetString("message_text", markerText)
 
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
     end
 end
 

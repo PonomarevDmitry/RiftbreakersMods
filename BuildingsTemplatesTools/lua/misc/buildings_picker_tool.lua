@@ -49,7 +49,7 @@ function buildings_picker_tool:FillMarkerMessage()
     
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -58,7 +58,7 @@ function buildings_picker_tool:FillMarkerMessage()
     if ( self.currentTemplateString == "" ) then
 
         markerDB:SetString("message_text", "")
-        markerDB:SetInt("message_visible", 0)
+        markerDB:SetInt("menu_visible", 0)
         return
     end
 
@@ -77,7 +77,7 @@ function buildings_picker_tool:FillMarkerMessage()
     end
 
     markerDB:SetString("message_text", markerText)
-    markerDB:SetInt("message_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 end
 
 function buildings_picker_tool:AddedToSelection( entity )

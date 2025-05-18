@@ -27,7 +27,7 @@ function buildings_tool_base:HideMarkerMessage()
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
     markerDB:SetString("message_text", "")
-    markerDB:SetInt("message_visible", 0)
+    markerDB:SetInt("menu_visible", 0)
 end
 
 function buildings_tool_base:GetTemplateBuildingsIcons(templateString)

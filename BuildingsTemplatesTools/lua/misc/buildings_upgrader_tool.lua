@@ -124,7 +124,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -171,7 +171,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
             end
         end
 
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
 
     else
 
@@ -214,7 +214,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
             end
         end
 
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
     end
 end
 

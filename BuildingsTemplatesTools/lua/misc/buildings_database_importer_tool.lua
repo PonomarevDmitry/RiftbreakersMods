@@ -126,13 +126,13 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
     if ( campaignDatabase == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
     if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -223,7 +223,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
     end
 
     markerDB:SetString("message_text", markerText)
-    markerDB:SetInt("message_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 end
 
 function buildings_database_importer_tool:AddedToSelection( entity )

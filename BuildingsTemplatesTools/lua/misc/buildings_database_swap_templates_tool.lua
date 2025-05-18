@@ -41,7 +41,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
     if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
-        markerDB:SetInt("message_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
         return
     end
 
@@ -96,7 +96,7 @@ function buildings_database_swap_templates_tool:FillMarkerMessage()
 
     markerDB:SetString("message_text", markerText)
 
-    markerDB:SetInt("message_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 end
 
 function buildings_database_swap_templates_tool:AddedToSelection( entity )
