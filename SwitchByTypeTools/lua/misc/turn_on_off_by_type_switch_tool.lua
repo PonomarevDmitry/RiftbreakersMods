@@ -19,7 +19,7 @@ function turn_on_off_by_type_switch_tool:OnInit()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 
     if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
