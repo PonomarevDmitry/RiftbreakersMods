@@ -136,7 +136,6 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     end
 
     local team = EntityService:GetTeam( self.entity )
-    local currentPosition = EntityService:GetWorldTransform( self.entity ).position
 
     local delimiterBlueprintsGroups = "|";
     local delimiterBlueprintName = ":";
