@@ -71,7 +71,7 @@ function cultivator_sapling_picker_tool:UpdateMarker()
 
         markerDB:SetString("sapling_icon", saplingIcon)
         markerDB:SetString("sapling_name", messageText)
-        markerDB:SetInt("sapling_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
 
     elseif ( self.SelectedItemBlueprint ~= nil and self.SelectedItemBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.SelectedItemBlueprint ) ) then
 
@@ -88,11 +88,11 @@ function cultivator_sapling_picker_tool:UpdateMarker()
 
         markerDB:SetString("sapling_icon", saplingIcon)
         markerDB:SetString("sapling_name", messageText)
-        markerDB:SetInt("sapling_visible", 1)
+        markerDB:SetInt("menu_visible", 1)
     else
         markerDB:SetString("sapling_icon", "")
         markerDB:SetString("sapling_name", "")
-        markerDB:SetInt("sapling_visible", 0)
+        markerDB:SetInt("menu_visible", 0)
     end
 end
 

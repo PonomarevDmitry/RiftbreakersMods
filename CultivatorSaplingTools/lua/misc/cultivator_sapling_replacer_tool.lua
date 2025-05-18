@@ -25,7 +25,7 @@ function cultivator_sapling_replacer_tool:OnInit()
     local markerDB = EntityService:GetDatabase( self.childEntity )
     markerDB:SetString("sapling_icon", saplingIcon)
     markerDB:SetString("sapling_name", saplingName)
-    markerDB:SetInt("sapling_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 end
 
 function cultivator_sapling_replacer_tool:GetSaplingItem()
