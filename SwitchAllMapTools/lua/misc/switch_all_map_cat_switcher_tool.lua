@@ -230,7 +230,7 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
