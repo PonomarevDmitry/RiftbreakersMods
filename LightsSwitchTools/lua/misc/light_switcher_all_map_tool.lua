@@ -72,7 +72,7 @@ function light_switcher_all_map_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
     markerDB:SetString("message_text", messageText)
 end
 
