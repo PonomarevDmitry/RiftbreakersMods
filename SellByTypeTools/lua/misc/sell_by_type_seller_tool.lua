@@ -17,6 +17,11 @@ function sell_by_type_seller_tool:OnInit()
     local marker_name = self.data:GetString("marker_name")
     self.childEntity = EntityService:SpawnAndAttachEntity(marker_name, self.entity)
 
+
+    self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
+    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
+
+
     self:InitLowUpgradeList()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
@@ -29,8 +34,24 @@ function sell_by_type_seller_tool:OnInit()
 
         if ( menuIcon ~= "" ) then
 
+            local messageText = ""
+
+            if (self.placeRuins) then
+                messageText = "${gui/hud/sell_by_type/place_ruins}"
+            end
+
+            if (self.isGroup) then
+
+                if (string.len(messageText) > 0) then
+
+                    messageText = messageText .. "\n"
+                end
+
+                messageText = messageText .. "${gui/hud/sell_by_type/building_group}"
+            end
+
             markerDB:SetString("building_icon", menuIcon)
-            markerDB:SetString("message_text", "")
+            markerDB:SetString("message_text", messageText)
         else
 
             markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
@@ -41,11 +62,6 @@ function sell_by_type_seller_tool:OnInit()
         markerDB:SetString("building_icon", "gui/menu/research/icons/missing_icon_big")
         markerDB:SetString("message_text", "gui/hud/sell_by_type/building_not_selected")
     end
-
-
-
-    self.placeRuins = (self.data:GetIntOrDefault("place_ruins", 0) == 1)
-    self.isGroup = (self.data:GetIntOrDefault("is_group", 0) == 1)
 
     self:SetTypeSetting()
 
