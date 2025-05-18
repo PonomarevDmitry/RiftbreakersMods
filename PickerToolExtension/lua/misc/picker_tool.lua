@@ -69,7 +69,7 @@ function picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/picker_tool/last_building}: " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/picker_tool/last_building} " .. tostring(indexBuilding + 1) .. ":\n${" .. buildingDescRef.localization_id .. "}"
         end
     else
 
