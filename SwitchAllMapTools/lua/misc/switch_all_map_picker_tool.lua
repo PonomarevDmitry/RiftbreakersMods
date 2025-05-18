@@ -83,7 +83,7 @@ function switch_all_map_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/switch_all_map/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/switch_all_map/current_building}:\n${" .. buildingDescRef.localization_id .. "}"
         end
     end
 
