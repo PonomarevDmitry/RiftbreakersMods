@@ -84,7 +84,7 @@ function sell_by_type_picker_tool:UpdateMarker()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/sell_by_type/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/sell_by_type/current_building}:\n${" .. buildingDescRef.localization_id .. "}"
         else
 
             buildingIconVisible = 0
