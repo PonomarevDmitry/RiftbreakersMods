@@ -69,7 +69,7 @@ function sell_by_type_picker_tool:UpdateMarker()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/sell_by_type/last_building} " .. tostring(indexBuilding + 1) .. ": ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/sell_by_type/last_building} " .. tostring(indexBuilding + 1) .. ":\n${" .. buildingDescRef.localization_id .. "}"
         else
 
             buildingIconVisible = 0
@@ -95,7 +95,7 @@ function sell_by_type_picker_tool:UpdateMarker()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", buildingIconVisible)
+    markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
 
     markerDB:SetString("message_text", messageText)

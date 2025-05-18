@@ -21,7 +21,7 @@ function sell_by_type_seller_tool:OnInit()
 
     local markerDB = EntityService:GetDatabase( self.childEntity )
 
-    markerDB:SetInt("building_visible", 1)
+    markerDB:SetInt("menu_visible", 1)
 
     if ( self.selectedBuildingBlueprint ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
