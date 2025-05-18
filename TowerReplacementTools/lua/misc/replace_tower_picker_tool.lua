@@ -92,7 +92,7 @@ function replace_tower_picker_tool:SetBuildingIcon()
             buildingIcon = menuIcon
             buildingIconVisible = 1
 
-            messageText = "${gui/hud/messages/replace_tower_tool/current_building} ${" .. buildingDescRef.localization_id .. "}"
+            messageText = "${gui/hud/messages/replace_tower_tool/current_building}:\n${" .. buildingDescRef.localization_id .. "}"
         end
     end
 
