@@ -18,6 +18,8 @@ function picker_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_picker", self.entity)
     self.menuEntity = EntityService:SpawnAndAttachEntity("misc/picker_tool/picker_tool_menu", self.entity)
 
+    self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
+
     self.popupShown = false
 
     self.scaleMap = {
@@ -42,6 +44,8 @@ function picker_tool:OnInit()
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
     self.selectedMode = self.modeBuilding
+
+    self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" )
 
     self:SetBuildingIcon()
 end
@@ -278,6 +282,12 @@ function picker_tool:MarkEntity( entity )
         if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
             QueueEvent( "SelectEntityRequest", entity )
         end
+
+    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self:isNeutralUnit(entity) ) then
+
+        if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            QueueEvent( "SelectEntityRequest", entity )
+        end
     else
 
         local skinned = EntityService:IsSkinned(entity)
@@ -324,6 +334,12 @@ function picker_tool:RemovedFromSelection( entity )
         if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
             QueueEvent( "DeselectEntityRequest", entity )
         end
+
+    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self:isNeutralUnit(entity) ) then
+
+        if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+            QueueEvent( "DeselectEntityRequest", entity )
+        end
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
@@ -355,6 +371,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
     self:AddResourceVolumes( selectedItems, selectorPosition )
 
     self:AddResourceComponents( selectedItems, selectorPosition )
+
+    if ( self.healingToolExists ) then
+        self:AddNeutralUnits( selectedItems, selectorPosition )
+    end
 
     return selectedItems
 end
@@ -469,6 +489,77 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
     ConcatUnique( selectedItems, resourceComponents )
 end
 
+function picker_tool:AddNeutralUnits( selectedItems, selectorPosition )
+
+    local result = {}
+
+    local predicate = {
+
+        signature = "HealthComponent",
+
+        filter = function(entity)
+
+            if ( not EntityService:IsAlive(entity) ) then
+                return false
+            end
+
+            if ( not HealthService:IsAlive(entity) ) then
+                return false
+            end
+
+            if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
+
+                return false
+            end
+
+            if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+
+                return true
+            end
+
+            return false
+        end
+    }
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        LogService:Log("AddNeutralUnits entity " .. tostring(entity))
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
 function picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
@@ -568,6 +659,24 @@ picker_tool.isResourceVolume = function ( entity )
     return false
 end
 
+function picker_tool:isNeutralUnit( entity )
+
+    if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
+
+        return false
+    end
+
+    if ( EntityService:HasComponent( entity, "HealthComponent" ) )  then
+
+        if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
 function picker_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -586,6 +695,21 @@ function picker_tool:OnActivateSelectorRequest()
 
     if ( self:ChangeSelectorToEntityByFilter( self.isRuins ) ) then
         return
+    end
+
+    if ( self.healingToolExists ) then
+
+        for entity in Iter( self.selectedEntities ) do
+
+            if ( self:isNeutralUnit(entity) ) then
+
+                local blueprintName = "buildings/tools/heal_neutral_tool"
+
+                if ( self:ChangeSelectorToBlueprint( blueprintName, true ) ) then
+                    return true
+                end
+            end
+        end
     end
 
     
@@ -1268,7 +1392,9 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
     return EntityService:GetBlueprintName(entity)
 end
 
-function picker_tool:ChangeSelectorToBlueprint( blueprintName )
+function picker_tool:ChangeSelectorToBlueprint( blueprintName, ignoreBuildCosts )
+
+    ignoreBuildCosts = ignoreBuildCosts or false
 
     if ( blueprintName == "" ) then
         return false
@@ -1288,8 +1414,11 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName )
 
     local buildingDescHelper = reflection_helper(buildingDesc)
 
-    if ( buildingDescHelper.build_cost == nil or buildingDescHelper.build_cost.resource == nil or buildingDescHelper.build_cost.resource.count == nil or buildingDescHelper.build_cost.resource.count <= 0 ) then
-        return false
+    if ( not ignoreBuildCosts ) then
+
+        if ( buildingDescHelper.build_cost == nil or buildingDescHelper.build_cost.resource == nil or buildingDescHelper.build_cost.resource.count == nil or buildingDescHelper.build_cost.resource.count <= 0 ) then
+            return false
+        end
     end
 
     blueprintName = buildingDescHelper.bp
@@ -1584,9 +1713,7 @@ end
 
 function picker_tool:FindBuildingRuins()
 
-    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
-
-    local ruinsList = FindService:FindEntitiesByGroupInRadius( player, "##ruins##", self.radiusShowRuins )
+    local ruinsList = FindService:FindEntitiesByGroupInRadius( self.player, "##ruins##", self.radiusShowRuins )
 
     local result = {}
 
