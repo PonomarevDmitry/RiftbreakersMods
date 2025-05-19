@@ -372,6 +372,10 @@ function detector:IsResourceValidForBiome( resourceName, veinName, isCampaignBio
 
 		return ( resourceName == "hazenite" )
 
+	elseif ( biomeName == "swamp" ) then
+
+		return ( resourceName == "hazenite" or resourceName == "rhodonite" or resourceName == "tanzanite" or resourceName == "ferdonite" )
+
 	else
 
 		return true
