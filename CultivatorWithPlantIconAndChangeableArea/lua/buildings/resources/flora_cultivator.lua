@@ -773,7 +773,7 @@ function flora_cultivator:OnUpdateProductionExecute()
 
             for resourceName in Iter( resourceNamesList ) do
 
-                if ( self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
+                if ( PlayerService:IsResourceUnlocked( resourceName ) and self:IsResourceInGatherable( resourceName, gatherCompRef.resources.resource ) ) then
 
                     local rowName = self:AddResourceToProductionGroup(resourceName, rowNumber)
 
