@@ -26,18 +26,32 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
 
         blueprintDatabase:SetInt("$entities_storage_changes2_autoexec", 1)
     end
+    
+    if ( configObj.database_blueprint ~= nil ) then
 
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( configObj.database_blueprint )
+        if ( blueprintDatabase ~= nil ) then
+
+            --LogService:Log("InjectChangeBlueprintStorageValues blueprintDatabase EXISTS configObj.database_blueprint = '" .. configObj.database_blueprint)
+
+            if ( blueprintDatabase:HasInt("$entities_storage_changes2_autoexec") ) then
+                return
+            end
+
+            blueprintDatabase:SetInt("$entities_storage_changes2_autoexec", 1)
+        end
+    end
     
 
     local resourceStorageComponent = blueprint:GetComponent("ResourceStorageComponent")
     if ( resourceStorageComponent == nil ) then
-        LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' ResourceStorageComponent NOT EXISTS.")
+        --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' ResourceStorageComponent NOT EXISTS.")
         return
     end
 
     local storagesArray = resourceStorageComponent:GetField("Storages"):ToContainer()
     if ( storagesArray == nil ) then
-        LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceStorageComponent:GetField('Storages'):ToContainer() NOT EXISTS.")
+        --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceStorageComponent:GetField('Storages'):ToContainer() NOT EXISTS.")
         return
     end
 
@@ -54,7 +68,7 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
         local storageObject = storagesArray:GetItem(i)
             
         if ( storageObject == nil ) then
-            LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' storageObject == nil")
+            --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' storageObject == nil")
 
             goto labelContinue
         end
@@ -112,7 +126,7 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
                 
                 maxField:SetValue( tostring(hashGlobalChanges[cacheKey]) )
 
-                LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId " .. resourceIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
+                --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' resourceId " .. resourceIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
 
                 goto labelContinue
             end
@@ -137,7 +151,7 @@ local InjectChangeBlueprintStorageValues = function(blueprintName, configObj, ne
                         hashGlobalChanges[cacheKey] = newValue
                     end
 
-                    LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId " .. groupIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
+                    --LogService:Log("InjectChangeBlueprintStorageValues Blueprint '" .. blueprintName .. "' groupId " .. groupIdString .. " new Value " .. tostring(hashGlobalChanges[cacheKey]))
                 
                     maxField:SetValue( tostring(hashGlobalChanges[cacheKey]) )
                 end
@@ -189,8 +203,6 @@ local new_storage_values = {
         },
 
         ["list"] = {
-
-            "player/player",
 
             "buildings/main/headquarters",
             "buildings/main/outpost",
@@ -280,6 +292,28 @@ local new_storage_values = {
             "buildings/resources/solid_material_storage",
             "buildings/resources/solid_material_storage_lvl_2",
             "buildings/resources/solid_material_storage_lvl_3",
+        },
+    },
+
+    {
+        ["database_blueprint"] = "player/character_base",
+
+        ["energy_coef"] = 4,
+
+        ["other_coef"] = 4,
+
+        ["group_coef"] = {
+
+            ["0"] = 4, -- global
+            ["1"] = 4, -- local
+
+            ["9"] = 4, -- ammo_mech
+            ["10"] = 4, -- ammo_tower
+        },
+
+        ["list"] = {
+
+            "player/player",
         },
     },
 }
