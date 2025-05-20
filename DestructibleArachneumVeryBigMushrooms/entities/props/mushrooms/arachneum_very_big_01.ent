@@ -1,0 +1,229 @@
+EntityBlueprint
+{
+	name "props/mushrooms/arachneum_very_big_01"
+
+	base_blueprints
+	{
+		 props/base/flammable_big
+		 props/base/resistant_big
+	}
+
+	HealthDesc
+	{
+		max_health 				"1000"
+		health 					"1000"
+		is_manual				"1"
+	}
+
+	NodeCullerDesc
+	{
+		cost_type "prop"
+		nav_mesh_cull_type "1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/arachneum_very_big_01.mesh"
+		material "props/mushrooms/arachneum_very_big_01_bottom"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/mushrooms/arachneum_very_big_01"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"destructible"
+				physics_material 	 "default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/arachneum_very_big_01_c1.nxs"
+					}
+
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/arachneum_very_big_01_c2.nxs"
+					}
+				}
+			}
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/props/bright_orange_medium"
+					offset "0 7.3 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_big"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/mushroom_big_violet"
+
+					part_material	 		"props/mushrooms/arachneum_big"
+					part_prefix 			"meshes/props/mushrooms/arachneum_big_01"
+					part_effect 			"effects/destructibles/mushroom_part_trail_violet"
+
+					//part_linear_damping		"1"
+				}
+			}
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+
+					part_material 			"props/mushrooms/arachneum_big"
+					part_prefix 			"meshes/props/mushrooms/arachneum_big_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+
+					//part_linear_damping		"1"
+				}
+			}
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name  "props/mushrooms/arachneum_very_big_01_child"
+
+			AttachmentDesc
+			{
+				attachment 	"att_top"
+			}
+
+			MeshDesc
+			{
+				mesh "meshes/props/mushrooms/arachneum_very_big_01_child.mesh"
+				material "props/mushrooms/arachneum_very_big_01_top"
+			}
+
+			TypeDesc
+			{
+				type "prop|flora"
+			}
+
+			PhysicsDesc
+			{
+				objects
+				{
+					PhysicsObjectDesc
+					{
+						type     			"static"
+						group_id    		"destructible"
+						physics_material 	 "default"
+						Shapes
+						{
+							PhysicsMeshShape
+							{
+								mesh "meshes/props/mushrooms/arachneum_very_big_01_child_c1.nxs"
+							}
+						}
+					}
+				}
+			}
+
+			HealthDesc
+			{
+				max_health 				"1000"
+				health 					"1000"
+				is_manual				"1"
+			}
+
+			DestroyDesc
+			{
+				DestroyPatterns
+				{
+					Pair
+					{
+						key "default"
+						value
+						{
+							explosion_type 			"centered"
+							explosion_max_power 	"6000"
+							explosion_min_power 	"2000"
+							explosion_effect 		"effects/destructibles/mushroom_big_violet"
+
+							part_material	 		"props/mushrooms/arachneum_big"
+							part_prefix 			"meshes/props/mushrooms/arachneum_big_01"
+							part_effect 			"effects/destructibles/mushroom_part_trail_violet"
+
+							//part_linear_damping		"1"
+						}
+					}
+					Pair
+					{
+						key "burned"
+						value
+						{
+							explosion_type 			"centered"
+							explosion_max_power 	"6000"
+							explosion_min_power 	"2000"
+							explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+
+							part_material 			"props/mushrooms/arachneum_big"
+							part_prefix 			"meshes/props/mushrooms/arachneum_big_01"
+							part_effect 			"effects/destructibles/tree_burned_part_trail"
+
+							//part_linear_damping		"1"
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+}
