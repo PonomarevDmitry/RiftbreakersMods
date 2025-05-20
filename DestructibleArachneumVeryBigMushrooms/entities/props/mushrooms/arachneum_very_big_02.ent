@@ -5,20 +5,14 @@ EntityBlueprint
 	base_blueprints
 	{
 		 props/base/flammable_big
-		 props/base/resistant_big
+		 props/base/resistant_giant
 	}
 
 	HealthDesc
 	{
-		max_health 				"1000"
-		health 					"1000"
+		max_health 				"5000"
+		health 					"5000"
 		is_manual				"1"
-	}
-
-	NodeCullerDesc
-	{
-		cost_type "prop"
-		nav_mesh_cull_type "1"
 	}
 
 	MeshDesc
@@ -27,14 +21,14 @@ EntityBlueprint
 		material "props/mushrooms/arachneum_very_big_02_bottom"
 	}
 
-	TypeDesc
-	{
-		type "prop|flora"
-	}
-
 	SkeletonDesc
 	{
 		name "meshes/props/mushrooms/arachneum_very_big_02"
+	}
+
+	TypeDesc
+	{
+		type "prop|flora"
 	}
 
 	PhysicsDesc
@@ -61,35 +55,23 @@ EntityBlueprint
 			}
 		}
 	}
-	
-	EffectDesc
-	{
-		EffectGroup
-		{           
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "lights/props/bright_orange_medium"
-					offset "0 5.5 0"
-				}
-			}
-		}
 
-		EffectGroup
-		{
-			group 	"time_damage_fire"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/destructibles/tree_fire_big"
-					offset "0 1 0"
-				}
-			}
-		}
+	NodeCullerDesc
+	{
+		cost_type "prop"
+		nav_mesh_cull_type "1"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"5000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
 	}
 
 	DestroyDesc
@@ -132,12 +114,48 @@ EntityBlueprint
 			}
 		}
 	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{           
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/props/bright_orange_medium"
+					offset "0 5.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/tree_fire_big"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
 
 	children
 	{
 		EntityBlueprint
 		{
 			name  "props/mushrooms/arachneum_very_big_02_child"
+
+			base_blueprints
+			{
+				 props/base/flammable_big
+				 props/base/resistant_giant
+			}
 
 			AttachmentDesc
 			{
@@ -177,9 +195,21 @@ EntityBlueprint
 
 			HealthDesc
 			{
-				max_health 				"1000"
-				health 					"1000"
+				max_health 				"5000"
+				health 					"5000"
 				is_manual				"1"
+			}
+
+			VegetationComponentDesc
+			{
+				bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+				bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+				bending_spring_time				"2.0"		// czas wygaszania
+				bending_spring_damping			"30.0"		// wygluszanie oscylacji
+				bending_spring_phases			"3.0"		// ilosc oscylacji
+				bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+				breaking_force_threshold		"5000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+				bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
 			}
 
 			DestroyDesc
