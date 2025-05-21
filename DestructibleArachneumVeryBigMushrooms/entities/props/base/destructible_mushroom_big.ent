@@ -2,11 +2,36 @@ EntityBlueprint
 {
 	name	"props/base/resistant_destructible_mushroom_big"
 
+	HealthDesc
+	{
+		max_health 				"5000"
+		health 					"5000"
+		is_manual				"1"
+	}
+
 	ResistanceComponent
 	{
 		min_damage_threshold 	"500"
 		//fire 					"0.11"
 		gravity 				"1000"
+	}
+
+	NodeCullerDesc
+	{
+		cost_type "prop"
+		nav_mesh_cull_type "1"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"5000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
 	}
 
 	
