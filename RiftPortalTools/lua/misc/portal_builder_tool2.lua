@@ -473,7 +473,6 @@ function portal_builder_tool2:OnActivateSelectorRequest()
 
         self.sizeChanged = false
 
-        self.buildTransform = EntityService:GetWorldTransform( self.entity )
         self.activated = true
     else
         self:FinishLineBuild()
@@ -494,7 +493,6 @@ end
 
 function portal_builder_tool2:OnDeactivateSelectorRequest()
 
-    self.buildTransform = nil
     self.activated = false
 
     if ( not self.sizeChanged ) then
