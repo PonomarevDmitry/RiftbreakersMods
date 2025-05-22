@@ -469,7 +469,9 @@ end
 
 function portal_builder_tool2:OnActivateSelectorRequest()
 
-    if ( self.buildStartPosition == nil ) then
+    self.activated = self.activated or false
+
+    if ( self.activated == false ) then
 
         self.sizeChanged = false
 
