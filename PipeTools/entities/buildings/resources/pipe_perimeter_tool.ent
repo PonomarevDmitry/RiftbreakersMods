@@ -1,0 +1,60 @@
+EntityBlueprint
+{
+	name					"buildings/resources/pipe_perimeter_tool"
+
+	BuildingDesc
+	{
+		name				"pipe_perimeter_tool"
+		bp					"buildings/resources/pipe_perimeter_tool"
+		ghost_bp			"buildings/resources/pipe_perimeter_tool_ghost"
+		category			"resources"
+
+		localization_id		"gui/hud/building_name/pipe_perimeter_tool"
+		description			"gui/hud/building_description/pipe_perimeter_tool"
+		menu_icon			"gui/hud/tools_icons/pipe_perimeter_tool"
+
+		order				"9"
+		type				"pipe_perimeter_tool"
+		require				"headquarters"
+
+		building_group		"pipeline"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/resources/pipe_perimeter_tool_ghost"
+
+	BuildingDesc
+	{
+		name				"pipe_perimeter_tool_ghost"
+		buildable			"0"
+		type				"pipe_perimeter_tool"
+		category			"resources"
+	}
+
+	LuaDesc
+	{
+		script				"lua/buildings/resources/pipe_perimeter_tool.lua"
+
+		database
+		{
+			action			string:"pipe_perimeter_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}

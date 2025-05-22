@@ -9,6 +9,7 @@ local pipe_area_tools_autoexec = function(evt)
 
     local hasAreaTool = false
     local hasDiagonalTool = false
+    local hasPerimeterTool = false
     local hasPencilTool = false
 
     local hasBuilding = false
@@ -31,6 +32,10 @@ local pipe_area_tools_autoexec = function(evt)
             hasPencilTool = true
         end
 
+        if ( unlocked == "pipe_perimeter_tool" ) then
+            hasPerimeterTool = true
+        end
+
         if ( unlocked == "pipeline" ) then
             hasBuilding = true
         end
@@ -46,6 +51,9 @@ local pipe_area_tools_autoexec = function(evt)
         end
         if ( not hasPencilTool ) then
             BuildingService:UnlockBuilding("buildings/resources/pipe_pencil_tool")
+        end
+        if ( not hasPerimeterTool ) then
+            BuildingService:UnlockBuilding("buildings/resources/pipe_perimeter_tool")
         end
     end
 end
@@ -74,5 +82,6 @@ RegisterGlobalEventHandler("NewAwardEvent", function(evt)
         BuildingService:UnlockBuilding("buildings/resources/pipe_area_tool")
         BuildingService:UnlockBuilding("buildings/resources/pipe_diagonal_tool")
         BuildingService:UnlockBuilding("buildings/resources/pipe_pencil_tool")
+        BuildingService:UnlockBuilding("buildings/resources/pipe_perimeter_tool")
     end
 end)

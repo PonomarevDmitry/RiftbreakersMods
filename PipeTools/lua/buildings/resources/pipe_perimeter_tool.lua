@@ -1,0 +1,926 @@
+local tool = require("lua/misc/tool.lua")
+require("lua/utils/table_utils.lua")
+
+class 'pipe_perimeter_tool' ( tool )
+
+function pipe_perimeter_tool:__init()
+    tool.__init(self,self)
+end
+
+function pipe_perimeter_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_pipe_perimeter_tool", self.entity)
+
+    self.pipeBlueprintName = "buildings/resources/pipe_straight"
+
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.pipeBlueprintName ) )
+
+    self.ghostBlueprintName = buildingDesc.ghost_bp
+
+    self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
+
+    -- Marker with number of pipe layers
+    self.markerLinesConfig = 0
+    self.currentMarkerLines = nil
+
+    self.configNamePipesCount = "$perimeter_pipe_lines_count"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    -- Pipe layers config
+    self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
+    self.pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    self:UpdateMarker()
+end
+
+function pipe_perimeter_tool:OnPreInit()
+    self.initialScale = { x=8, y=1, z=8 }
+end
+
+function pipe_perimeter_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
+end
+
+function pipe_perimeter_tool:UpdateMarker()
+
+    -- Pipe layers config
+    local pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    -- Correct Marker to show right number of pipe layers
+    if ( self.markerLinesConfig ~= pipeLinesCount or self.currentMarkerLines == nil) then
+
+        -- Destroy old marker
+        if (self.currentMarkerLines ~= nil) then
+
+            EntityService:RemoveEntity(self.currentMarkerLines)
+            self.currentMarkerLines = nil
+        end
+
+        local markerBlueprint = "misc/marker_selector_diagonal_pipe_lines_" .. tostring( pipeLinesCount )
+
+        -- Create new marker
+        self.currentMarkerLines = EntityService:SpawnAndAttachEntity(markerBlueprint, self.selector )
+        EntityService:SetPosition( self.currentMarkerLines, 0, 0, -2 )
+
+        -- Save number of pipe layers
+        self.markerLinesConfig = pipeLinesCount
+    end
+end
+
+function pipe_perimeter_tool:OnUpdate()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    self.buildCost = {}
+
+    -- Pipe layers config
+    local pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    local team = EntityService:GetTeam(self.entity)
+
+    local currentTransform = EntityService:GetWorldTransform( self.entity )
+
+    local newPositionsArray, hashPositions = self:FindPositionsToBuildLine( pipeLinesCount )
+
+    local oldLinesEntities = self.linesEntities
+    local oldLinesEntityInfo = self.linesEntityInfo
+    local oldGridEntities = self.gridEntities
+
+    local newLinesEntities = {}
+    local newLinesEntityInfo = {}
+    local newGridEntities = {}
+
+    for i=1,#newPositionsArray do
+
+        local newPosition = newPositionsArray[i]
+        newPosition.y = currentTransform.position.y
+
+        local lineEnt = self:GetEntityFromGrid( oldGridEntities, newPosition.x, newPosition.z )
+
+        if ( lineEnt == nil ) then
+
+            lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
+            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            EntityService:RemoveComponent(lineEnt, "LuaComponent")
+            EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
+
+            EntityService:SetOrientation(lineEnt, currentTransform.orientation )
+            EntityService:SetPosition( lineEnt, newPosition)
+        end
+
+        Insert( newLinesEntities, lineEnt )
+        self:InsertEntityToGrid( newGridEntities, lineEnt, newPosition.x, newPosition.z  )
+
+        local entityInfo = {}
+
+        entityInfo.position = newPosition
+        entityInfo.entity = lineEnt
+
+        Insert( newLinesEntityInfo, entityInfo )
+    end
+
+    for i=#oldLinesEntityInfo,1,-1 do
+
+        local entityInfo = oldLinesEntityInfo[i]
+
+        local lineEnt = entityInfo.entity
+
+        local lineEntPosition = entityInfo.position
+
+        if ( not self:HashContains( hashPositions, lineEntPosition.x, lineEntPosition.z ) ) then
+
+            EntityService:RemoveEntity( lineEnt )
+            oldLinesEntityInfo[i] = nil
+        end
+    end
+
+    for i=1,#newLinesEntities do
+
+        local lineEnt = newLinesEntities[i]
+
+        local transform = EntityService:GetWorldTransform( lineEnt )
+
+        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, i )
+
+        if ( testBuildable ~= nil) then
+            self:AddToEntitiesToSellList(testBuildable)
+        end
+
+        BuildingService:CheckAndFixBuildingConnection( lineEnt )
+    end
+
+    self.linesEntities = newLinesEntities
+    self.linesEntityInfo = newLinesEntityInfo
+    self.gridEntities = newGridEntities
+
+
+    if ( #newPositionsArray > 0 ) then
+
+        local list = BuildingService:GetBuildCosts( self.pipeBlueprintName, self.playerId )
+        for resourceCost in Iter(list) do
+
+            if ( self.buildCost[resourceCost.first] == nil ) then
+                self.buildCost[resourceCost.first] = 0
+            end
+
+            self.buildCost[resourceCost.first] = self.buildCost[resourceCost.first] + ( resourceCost.second * #newPositionsArray )
+        end
+    end
+
+
+
+    if ( self.infoChild == nil ) then
+        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
+        EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+
+    local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
+
+    if ( onScreen ) then
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, self.buildCost )
+    else
+        BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
+    end
+
+    --if ( self.activated )  then
+    --    self:OnActivateEntity( ent )
+    --end
+end
+
+function pipe_perimeter_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
+
+    if ( gridEntities[newPositionX] == nil) then
+
+        return nil
+    end
+
+    local arrayXPosition = gridEntities[newPositionX]
+
+    if ( arrayXPosition[newPositionZ] == nil ) then
+
+        return nil
+    end
+
+    return arrayXPosition[newPositionZ]
+end
+
+function pipe_perimeter_tool:InsertEntityToGrid( gridEntities, lineEnt, newPositionX, newPositionZ )
+
+    if ( gridEntities[newPositionX] == nil) then
+
+        gridEntities[newPositionX] = {}
+    end
+
+    local arrayXPosition = gridEntities[newPositionX]
+
+    arrayXPosition[newPositionZ] = lineEnt
+end
+
+function pipe_perimeter_tool:HashContains( hashPositions, newPositionX, newPositionZ )
+
+    if ( hashPositions[newPositionX] == nil) then
+
+        return false
+    end
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    if ( hashXPosition[newPositionZ] == nil ) then
+
+        return false
+    end
+
+    return true
+end
+
+function pipe_perimeter_tool:FindPositionsToBuildLine( pipeLinesCount )
+
+    local result = {}
+    local hashPositions = {}
+
+    for entity in Iter( self.selectedEntities ) do
+
+        local gridCullerComponent = EntityService:GetComponent( entity, "GridCullerComponent" )
+        if( gridCullerComponent == nil ) then
+            goto labelContinue
+        end
+
+        local gridCullerComponentRef = reflection_helper(gridCullerComponent)
+
+        local min, max = self:GetEntityMinMax(gridCullerComponentRef)
+
+        if ( min == nil or max == nil ) then
+            goto labelContinue
+        end
+
+        for i=1,pipeLinesCount do
+
+            min.x = min.x - 2
+            min.z = min.z - 2
+
+            max.x = max.x + 2
+            max.z = max.z + 2
+
+            local entityPerimeterPositions = self:GetPerimeterPositions( min, max )
+
+            for position in Iter( entityPerimeterPositions ) do
+
+                if ( self:AddToHash(hashPositions, position.x, position.z ) ) then
+                
+                    Insert(result, position)
+                end
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return result, hashPositions
+end
+
+function pipe_perimeter_tool:GetPerimeterPositions( min, max )
+
+    local result = {}
+
+    local value = min.z
+
+    while (value < max.z) do
+
+        local newPosition = {}
+
+        newPosition.x = max.x
+        newPosition.z = value
+
+        Insert(result, newPosition)
+
+        value = value + 2
+    end
+    
+
+
+    value = max.x
+
+    while (value > min.x) do
+
+        local newPosition = {}
+
+        newPosition.x = value
+        newPosition.z = max.z
+
+        Insert(result, newPosition)
+
+        value = value - 2
+    end
+    
+
+
+    value = max.z
+
+    while (value > min.z) do
+
+        local newPosition = {}
+
+        newPosition.x = min.x
+        newPosition.z = value
+
+        Insert(result, newPosition)
+
+        value = value - 2
+    end
+    
+
+
+    value = min.x
+
+    while (value < max.x) do
+
+        local newPosition = {}
+
+        newPosition.x = value
+        newPosition.z = min.z
+
+        Insert(result, newPosition)
+
+        value = value + 2
+    end
+
+    return result
+end
+
+function pipe_perimeter_tool:GetEntityMinMax(gridCullerComponentRef)
+
+    local min = nil
+    local max = nil
+
+    local indexes = gridCullerComponentRef.terrain_cell_entities
+    for i=indexes.count,1,-1 do
+
+        local idx = indexes[i].id
+
+        local pos = FindService:GetCellOrigin(idx)
+
+        if ( min == nil ) then
+            min = {}
+            min.x = pos.x
+            min.z = pos.z
+        end
+
+        if ( max == nil ) then
+            max = {}
+            max.x = pos.x
+            max.z = pos.z
+        end
+
+        min.x = math.min(min.x, pos.x)
+        min.z = math.min(min.z, pos.z)
+
+        max.x = math.max(max.x, pos.x)
+        max.z = math.max(max.z, pos.z)
+    end
+
+    return min, max
+end
+
+-- Check position has not already been added to hashPositions
+function pipe_perimeter_tool:AddToHash(hashPositions, newPositionX, newPositionZ)
+
+    if ( hashPositions[newPositionX] == nil) then
+
+        hashPositions[newPositionX] = {}
+    end
+
+    local hashXPosition = hashPositions[newPositionX]
+
+    if ( hashXPosition[newPositionZ] ~= nil ) then
+
+        return false
+    end
+
+    hashXPosition[newPositionZ] = true
+
+    return true
+end
+
+
+
+function pipe_perimeter_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local result = {}
+
+    for entity in Iter(selectedEntities ) do
+
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto labelContinue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        if ( blueprintName == "buildings/resources/pipe_straight" or blueprintName == "buildings/resources/pipe_straight_windowless" or blueprintName == "buildings/resources/pipe_junction" ) then
+            goto labelContinue
+        end
+
+        local baseDesc = BuildingService:FindBaseBuilding( blueprintName )
+        if  (baseDesc ~= nil ) then
+
+            local baseDescRef = reflection_helper(baseDesc)
+            if ( baseDescRef.bp == "buildings/resources/pipe_straight" or baseDescRef.bp == "buildings/resources/pipe_straight_windowless" or baseDescRef.bp == "buildings/resources/pipe_junction" ) then
+                goto labelContinue
+            end
+        end
+
+        local pipeComponent = EntityService:GetComponent(entity, "PipeComponent")
+        if ( pipeComponent ~= nil ) then
+
+            Insert( result, entity )
+
+            goto labelContinue
+        end
+
+        if ( self:IsBluepringHasAttachments( blueprintName ) ) then
+
+            Insert( result, entity )
+
+            goto labelContinue
+        end
+
+        ::labelContinue::
+    end
+
+    return result
+end
+
+function pipe_perimeter_tool:IsBluepringHasAttachments( blueprintName )
+
+    self.cacheBlueprints = self.cacheBlueprints or {}
+
+    if ( self.cacheBlueprints[blueprintName] ~= nil ) then
+
+        return self.cacheBlueprints[blueprintName]
+    end
+
+    local result = self:CalcIsBluepringHasAttachments( blueprintName )
+
+    self.cacheBlueprints[blueprintName] = result
+
+    return result
+end
+
+function pipe_perimeter_tool:CalcIsBluepringHasAttachments( blueprintName )
+
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
+        return false
+    end
+
+    local resourceStorageComponent = blueprint:GetComponent( "ResourceStorageComponent")
+    if ( resourceStorageComponent ~= nil ) then
+
+        local resourceStorageRef = reflection_helper( resourceStorageComponent )
+
+        if ( self:IsResourceStorageComponentHasAttachments( resourceStorageRef ) ) then
+
+            return true
+        end
+    end
+
+    local resourceConverterDesc = blueprint:GetComponent("ResourceConverterDesc")
+    if ( resourceConverterDesc ~= nil ) then
+
+        local resourceConverterRef = reflection_helper(resourceConverterDesc)
+        if ( resourceConverterRef ~= nil ) then
+
+            if ( self:IsResourceConverterDescHasAttachments( resourceConverterRef ) ) then
+
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function pipe_perimeter_tool:IsResourceStorageComponentHasAttachments( resourceStorageRef )
+
+    if ( resourceStorageRef.Storages == nil or resourceStorageRef.Storages.count <= 0 ) then
+
+        return false
+    end
+
+    local count = resourceStorageRef.Storages.count
+
+    for i=1,count do
+
+        local storage = resourceStorageRef.Storages[i]
+
+        if ( storage.attachment == nil or storage.attachment.count <= 0 ) then
+
+            goto labelContinue
+        end
+
+        for attachmentIndex = 1,storage.attachment.count do
+                                
+            local attachmentName = storage.attachment[attachmentIndex]
+                                    
+            if ( attachmentName ~= nil and attachmentName ~= "" ) then
+
+                return true
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return false
+end
+
+function pipe_perimeter_tool:IsResourceConverterDescHasAttachments( resourceConverterRef )
+
+    local inValue = resourceConverterRef["in"]
+    if ( inValue ~= nil and inValue.count > 0 ) then
+                    
+        if ( self:IsConverterArray( inValue ) ) then
+
+            return true
+        end
+    end
+
+    local outValue = resourceConverterRef["out"]
+    if ( outValue ~= nil and outValue.count > 0 ) then
+                    
+        if ( self:IsConverterArray( outValue ) ) then
+
+            return true
+        end
+    end
+
+    return false
+end
+
+function pipe_perimeter_tool:IsConverterArray( converterArray )
+
+    for index = 1,converterArray.count do
+                
+        local gameResource = converterArray[index]
+
+        if ( gameResource == nil or gameResource.value == nil or gameResource.value <= 0 ) then
+
+            goto labelContinue
+        end
+
+        if ( gameResource.attachment == nil or gameResource.attachment.count == 0 ) then
+
+            goto labelContinue
+        end
+
+        for attachmentIndex = 1,gameResource.attachment.count do
+                                
+            local attachmentName = gameResource.attachment[attachmentIndex]
+                                    
+            if ( attachmentName ~= nil and attachmentName ~= "" ) then
+
+                return true
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return false
+end
+
+function pipe_perimeter_tool:AddedToSelection( entity )
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+    end
+end
+
+function pipe_perimeter_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial(entity, "selected" )
+end
+
+function pipe_perimeter_tool:CheckConfigExists( pipeLinesCount )
+
+    pipeLinesCount = pipeLinesCount or 1
+
+    local scalePipeLines = self:GetPipeConfigArray()
+
+    local index = IndexOf( scalePipeLines, pipeLinesCount )
+
+    if ( index == nil ) then
+
+        return scalePipeLines[1]
+    end
+
+    return pipeLinesCount
+end
+
+function pipe_perimeter_tool:GetPipeConfigArray()
+
+    if ( self.scalePipeLines == nil ) then
+
+        self.scalePipeLines = {
+            1,
+            2,
+            3,
+            --4,
+            --5,
+            --6,
+        }
+    end
+
+    return self.scalePipeLines
+end
+
+function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    if ( self.activated ) then
+
+        local currentLinesConfig = self:CheckConfigExists(self.pipeLinesCount)
+
+        local scalePipeLines = self:GetPipeConfigArray()
+
+        local index = IndexOf( scalePipeLines, currentLinesConfig )
+        if ( index == nil ) then
+            index = 1
+        end
+
+        local maxIndex = #scalePipeLines
+
+        local newIndex = index + change
+        if ( newIndex > maxIndex ) then
+            newIndex = maxIndex
+        elseif( newIndex < 1 ) then
+            newIndex = 1
+        end
+
+        local newValue = scalePipeLines[newIndex]
+
+        self.pipeLinesCount = newValue
+
+        -- Pipe layers config
+        local selectorDB = EntityService:GetDatabase( self.selector )
+        selectorDB:SetInt(self.configNamePipesCount, newValue)
+
+        self.sizeChanged = true
+
+        self:UpdateMarker()
+    else
+
+        local currentScale = EntityService:GetScale(self.entity).x
+
+        local maxIndex = #self.scaleMap
+
+        local index = IndexOf(self.scaleMap, currentScale )
+        if ( index == nil ) then index = 1 end
+
+        local newValue = index + change
+        if ( newValue > maxIndex ) then
+            newValue = 1
+        elseif( newValue == 0 ) then
+            newValue = maxIndex
+        end
+
+        self.currentScale = self.scaleMap[newValue]
+
+        EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
+
+        self:SetChildrenPosition()
+        self:RescaleChild()
+    end
+
+    self:OnUpdate()
+end
+
+function pipe_perimeter_tool:OnActivateSelectorRequest()
+
+    self.activated = self.activated or false
+
+    if ( self.activated == false ) then
+
+        self.sizeChanged = false
+
+        self.activated = true
+    else
+
+        self:FinishLineBuild()
+    end
+end
+
+function pipe_perimeter_tool:FinishLineBuild()
+
+    self.sizeChanged = self.sizeChanged or false
+
+    if ( self.sizeChanged ) then
+
+        return
+    end
+
+    for i=1,#self.linesEntities do
+
+        local ghostEntity = self.linesEntities[i]
+
+        self:BuildEntity(ghostEntity, false)
+    end
+end
+
+function pipe_perimeter_tool:OnDeactivateSelectorRequest()
+
+    self.activated = false
+
+    self.sizeChanged = self.sizeChanged or false
+
+    if ( not self.sizeChanged ) then
+
+        self:FinishLineBuild()
+    end
+end
+
+function pipe_perimeter_tool:AddToEntitiesToSellList(testBuildable)
+
+    if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
+
+        return
+    end
+
+    local buildingToSellCount = testBuildable.entities_to_sell.count
+
+    for i = 1,buildingToSellCount do
+
+        local entityToSell = testBuildable.entities_to_sell[i]
+
+        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
+
+            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
+
+                local skinned = EntityService:IsSkinned(entityToSell)
+
+                if ( skinned ) then
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
+                else
+                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
+                end
+
+                Insert(self.oldBuildingsToSell, entityToSell)
+            end
+        end
+    end
+end
+
+function pipe_perimeter_tool:CheckEntityBuildable( entity, transform, id )
+
+    id = id or 1
+    local test = nil
+
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.pipeBlueprintName, id )
+
+    if ( test == nil ) then
+        return
+    end
+
+    local testBuildable = reflection_helper(test:ToTypeInstance(), test )
+
+    local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
+    local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
+
+    local skinned = EntityService:IsSkinned(entity)
+
+    if ( testBuildable.flag == CBF_REPAIR ) then
+        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+            end
+        else
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+            end
+        end
+    else
+        if ( canBuildOverride ) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+            end
+        elseif ( canBuild ) then
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        else
+            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        end
+    end
+
+    return testBuildable
+end
+
+function pipe_perimeter_tool:BuildEntity(entity, createCube)
+
+    createCube = createCube or false
+
+    local transform = EntityService:GetWorldTransform( entity )
+
+    local testBuildable = self:CheckEntityBuildable( entity , transform )
+
+    if ( testBuildable == nil ) then
+
+        return
+    end
+
+    local missingResources = testBuildable.missing_resources
+    if ( missingResources.count > 0 ) then
+
+        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
+
+        if ( missingResources.count  == 1 ) then
+
+            local singleMissingResource = missingResources[1]
+
+            if ( self.announcements and self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
+
+                soundAnnouncement = self.announcements[singleMissingResource]
+            end
+        end
+
+        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
+
+        return testBuildable.flag
+    end
+
+    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
+
+    if ( testBuildable.flag == CBF_CAN_BUILD ) then
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+
+    elseif( testBuildable.flag == CBF_OVERRIDES ) then
+
+        for entityToSell in Iter(testBuildable.entities_to_sell) do
+            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+        end
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+
+    elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
+
+        QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
+    end
+
+    return testBuildable.flag
+end
+
+function pipe_perimeter_tool:RemoveMaterialFromOldBuildingsToSell()
+
+    if ( self.oldBuildingsToSell ~= nil ) then
+        for entityToSell in Iter( self.oldBuildingsToSell ) do
+            EntityService:RemoveMaterial(entityToSell, "selected" )
+        end
+    end
+    self.oldBuildingsToSell = {}
+end
+
+function pipe_perimeter_tool:OnRelease()
+
+    self:RemoveMaterialFromOldBuildingsToSell()
+
+    if ( self.infoChild ~= nil) then
+        EntityService:RemoveEntity(self.infoChild)
+        self.infoChild = nil
+    end
+
+    for ghost in Iter(self.linesEntities) do
+        EntityService:RemoveEntity(ghost)
+    end
+    self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
+
+    -- Destroy Marker with layers count
+    if (self.currentMarkerLines ~= nil) then
+
+        EntityService:RemoveEntity(self.currentMarkerLines)
+        self.currentMarkerLines = nil
+    end
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
+end
+
+return pipe_perimeter_tool
