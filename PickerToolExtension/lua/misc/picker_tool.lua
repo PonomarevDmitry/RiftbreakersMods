@@ -1149,8 +1149,6 @@ end
 
 function picker_tool:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, entityPerimeter, entityPerimeterPositions )
 
-    local blueprintName = EntityService:GetBlueprintName( entity )
-
     local inValue = resourceConverterRef["in"]
     if ( inValue ~= nil and inValue.count > 0 ) then
                     
