@@ -23,6 +23,8 @@ function portal_builder_tool:OnInit()
 
     self:RegisterHandler( self.selector, "RotateSelectorRequest",   "OnRotateSelectorRequest" )
 
+    self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
+
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     EntityService:SetVisible( self.entity, false )
@@ -48,9 +50,30 @@ function portal_builder_tool:OnInit()
     self.currentCellCountMarkerNumber2 = nil
     self.currentCellCountMarkerNumber3 = nil
 
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+
     -- 36,22   0,44
 
     self:SpawnGhostEntities()
+end
+
+function portal_builder_tool:OnBuildingStartEvent( evt)
+
+    local playerReferenceComponent = EntityService:GetComponent( evt:GetEntity(), "PlayerReferenceComponent")
+
+    local owner = -1
+
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        owner = helper.player_id
+    end
+
+    if ( owner ~= self.playerId ) then
+        return
+    end
+    
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
 end
 
 function portal_builder_tool:GetDirectionConfigArray()
@@ -603,6 +626,9 @@ function portal_builder_tool:OnRelease()
         EntityService:RemoveEntity(self.currentCellCountMarkerPlus)
         self.currentCellCountMarkerPlus = nil
     end
+
+    HideBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    HideBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
 
     if ( portal_base_tool.OnRelease ) then
         portal_base_tool.OnRelease(self)
