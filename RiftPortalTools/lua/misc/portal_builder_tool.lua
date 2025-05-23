@@ -13,6 +13,12 @@ function portal_builder_tool:__init()
     portal_base_tool.__init(self,self)
 end
 
+function portal_builder_tool:OnPreInit()
+
+    self.configNameDirection = "$portal_builder_tool_direction"
+    self.configNameSize = "$portal_builder_tool_size"
+end
+
 function portal_builder_tool:OnInit()
 
     self:RegisterHandler( self.selector, "RotateSelectorRequest",   "OnRotateSelectorRequest" )
@@ -28,9 +34,6 @@ function portal_builder_tool:OnInit()
     self.linesEntities = {}
     self.linesEntityInfo = {}
     self.gridEntities = {}
-
-    self.configNameDirection = "$portal_builder_tool_direction"
-    self.configNameSize = "$portal_builder_tool_size"
 
     self.currentDirection = selectorDB:GetIntOrDefault(self.configNameDirection, 1)
     self.currentDirection = self:CheckDirectionExists(self.currentDirection)
