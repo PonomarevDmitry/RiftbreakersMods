@@ -790,6 +790,11 @@ function ghost_building:OnActivate()
         self.buildStartPosition = transform
         EntityService:SetVisible( self.entity, false )
 
+        if ( self.isBuildingWithGaps ) then
+
+            self.data:SetString("action", "GapsRotating")
+        end
+
         self:OnUpdate()
     else
         self:FinishLineBuild()
@@ -803,6 +808,11 @@ function ghost_building:FinishLineBuild()
     if ( self.nowBuildingLine ~= true ) then
 
         return
+    end
+
+    if ( self.isBuildingWithGaps ) then
+
+        self.data:SetString("action", "")
     end
 
     local allEntities = self:GetAllEntities()
