@@ -5,8 +5,6 @@ require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 require("lua/utils/numeric_utils.lua")
 
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
-
 class 'portal_builder_tool2' ( portal_base_tool )
 
 function portal_builder_tool2:__init()
@@ -274,11 +272,7 @@ function portal_builder_tool2:FindPositionsToBuildLine(currentDirection, current
 
     local directionConfigArray = self:GetDirectionConfigArray()
 
-    LogService:Log("currentDirection " .. tostring(currentDirection))
-
     local vectorsArrays = directionConfigArray[currentDirection]
-
-    LogService:Log("vectorsArrays " .. debug_serialize_utils:SerializeObject(vectorsArrays))
 
     local result = {}
     local hashPositions = {}
