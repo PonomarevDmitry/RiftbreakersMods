@@ -46,6 +46,7 @@ function picker_tool:OnInit()
     self.selectedMode = self.modeBuilding
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" )
+    self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" )
 
     self:SetBuildingIcon()
 end
@@ -283,10 +284,18 @@ function picker_tool:MarkEntity( entity )
             QueueEvent( "SelectEntityRequest", entity )
         end
 
-    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self:isNeutralUnit(entity) ) then
+    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self.isNeutralUnit(entity, self.player) ) then
 
         if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
             QueueEvent( "SelectEntityRequest", entity )
+        end
+    elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
         end
     else
 
@@ -335,11 +344,14 @@ function picker_tool:RemovedFromSelection( entity )
             QueueEvent( "DeselectEntityRequest", entity )
         end
 
-    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self:isNeutralUnit(entity) ) then
+    elseif ( self.healingToolExists and EntityService:HasComponent( entity, "HealthComponent" ) and self.isNeutralUnit(entity, self.player) ) then
 
         if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
             QueueEvent( "DeselectEntityRequest", entity )
         end
+    elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
+
+        EntityService:RemoveMaterial( entity, "selected" )
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
@@ -371,6 +383,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
     self:AddResourceVolumes( selectedItems, selectorPosition )
 
     self:AddResourceComponents( selectedItems, selectorPosition )
+
+    if ( self.activateBioAnomaliesExists ) then
+        self:AddBioAnomalies( selectedItems, selectorPosition )
+    end
 
     if ( self.healingToolExists ) then
         self:AddNeutralUnits( selectedItems, selectorPosition )
@@ -540,7 +556,82 @@ function picker_tool:AddNeutralUnits( selectedItems, selectorPosition )
             goto labelContinue
         end
 
-        LogService:Log("AddNeutralUnits entity " .. tostring(entity))
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
+function picker_tool:AddBioAnomalies( selectedItems, selectorPosition )
+
+    local result = {}
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+
+    local tempCollection = FindService:FindEntitiesByGroupInBox( "loot_container", min, max )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        if ( not EntityService:IsAlive( entity ) ) then
+            goto labelContinue
+        end
+
+        local idComponentName = EntityService:GetName( entity )
+
+        -- Ignore Into Dark Anomaly to do not create a soft lock. 
+        if ( idComponentName == "dlc_2_anomaly" or idComponentName == "swamp_harvest_anomaly" ) then
+            goto labelContinue
+        end
+
+        local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
+        if ( interactiveComponent == nil ) then
+            goto labelContinue
+        end
+
+        local interactiveComponentRef = reflection_helper( interactiveComponent )
+        if ( interactiveComponentRef.slot ~= "HARVESTER" ) then
+            goto labelContinue
+        end
+
+        local databaseEntity = EntityService:GetDatabase( entity )
+        if ( databaseEntity == nil ) then
+            goto labelContinue
+        end
+            
+        if ( not databaseEntity:HasString("wave_logic_file") and not databaseEntity:HasString("boss_logic_file") ) then
+
+            goto labelContinue
+        end
+
+        if ( databaseEntity:HasString("forced_group") ) then
+
+            goto labelContinue
+        end
 
         Insert( result, entity )
 
@@ -659,9 +750,9 @@ picker_tool.isResourceVolume = function ( entity )
     return false
 end
 
-function picker_tool:isNeutralUnit( entity )
+picker_tool.isNeutralUnit = function ( entity, player )
 
-    if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
+    if ( entity == nil or entity == INVALID_ID ) then
 
         return false
     end
@@ -670,11 +761,63 @@ function picker_tool:isNeutralUnit( entity )
 
         if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
 
-            return true
+            if ( not EntityService:IsInTeamRelation(player, entity, "hostility") ) then
+
+                return true
+            end
         end
     end
 
     return false
+end
+
+picker_tool.isBioAnomaly = function( entity )
+
+    if ( entity == nil or entity == INVALID_ID ) then
+
+        return false
+    end
+
+    local entityGroup = EntityService:GetGroup( entity )
+
+    if ( entityGroup ~= "loot_container" ) then
+
+        return false
+    end
+
+    local idComponentName = EntityService:GetName( entity )
+
+    -- Ignore Into Dark Anomaly to do not create a soft lock. 
+    if ( idComponentName == "dlc_2_anomaly" or idComponentName == "swamp_harvest_anomaly" ) then
+        return false
+    end
+
+    local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
+    if ( interactiveComponent == nil ) then
+        return false
+    end
+
+    local interactiveComponentRef = reflection_helper( interactiveComponent )
+    if ( interactiveComponentRef.slot ~= "HARVESTER" ) then
+        return false
+    end
+
+    local databaseEntity = EntityService:GetDatabase( entity )
+    if ( databaseEntity == nil ) then
+        return false
+    end
+            
+    if ( not databaseEntity:HasString("wave_logic_file") and not databaseEntity:HasString("boss_logic_file") ) then
+
+        return false
+    end
+
+    if ( databaseEntity:HasString("forced_group") ) then
+
+        return false
+    end
+
+    return true
 end
 
 function picker_tool:OnActivateSelectorRequest()
@@ -697,18 +840,17 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self.activateBioAnomaliesExists ) then
+
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isBioAnomaly, "buildings/tools/spawner_activate", true ) ) then
+            return
+        end
+    end
+
     if ( self.healingToolExists ) then
 
-        for entity in Iter( self.selectedEntities ) do
-
-            if ( self:isNeutralUnit(entity) ) then
-
-                local blueprintName = "buildings/tools/heal_neutral_tool"
-
-                if ( self:ChangeSelectorToBlueprint( blueprintName, true ) ) then
-                    return true
-                end
-            end
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isNeutralUnit, "buildings/tools/heal_neutral_tool", true ) ) then
+            return
         end
     end
 
@@ -1338,11 +1480,28 @@ function picker_tool:ChangeSelectorToEntityByFilter( filterFunc )
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( filterFunc(entity) ) then
+        if ( filterFunc(entity, self.player) ) then
 
             local blueprintName = self:GetLinkedEntityBlueprint( entity ) or ""
 
             if ( blueprintName ~= "" and self:ChangeSelectorToBlueprint( blueprintName ) ) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function picker_tool:ChangeSelectorToTargetBlueprintByFilter( filterFunc, targetBlueprint, ignoreBuildCosts )
+
+    ignoreBuildCosts = ignoreBuildCosts or false
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( filterFunc(entity, self.player) ) then
+
+            if ( self:ChangeSelectorToBlueprint( targetBlueprint, ignoreBuildCosts ) ) then
                 return true
             end
         end
