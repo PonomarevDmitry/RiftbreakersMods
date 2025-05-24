@@ -129,7 +129,7 @@ function building_search_select_tool:FilterSelectedEntities( selectedEntities )
 
     local result = {}
 
-    if ( self.selectedMode ~= self.modeBuilding and self.selectedMode ~= self.modeBuildingGroup and self.selectedMode ~= self.modeBuildingCategory ) then
+    if ( self.selectedMode >= self.modeBuildingLastSelected ) then
         return result
     end
 
@@ -178,8 +178,6 @@ function building_search_select_tool:OnActivateSelectorRequest()
         return
     end
 
-    local isGroup = (self.selectedMode == self.modeBuildingGroup)
-
     for entity in Iter( self.selectedEntities ) do
 
         local blueprintName = EntityService:GetBlueprintName(entity)
@@ -201,6 +199,8 @@ function building_search_select_tool:OnActivateSelectorRequest()
         if ( self.selectedMode == self.modeBuilding or self.selectedMode == self.modeBuildingGroup ) then
 
             if ( blueprintName ~= "" ) then
+
+                local isGroup = (self.selectedMode == self.modeBuildingGroup)
 
                 self:AddBlueprintToLastList(blueprintName, self.selector)
 
