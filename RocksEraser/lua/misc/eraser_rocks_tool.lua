@@ -100,9 +100,17 @@ function eraser_rocks_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function eraser_rocks_tool:AddedToSelection( entity )
+
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    end
 end
 
 function eraser_rocks_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function eraser_rocks_tool:OnRotate()
