@@ -77,16 +77,16 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         Insert( result, entity )
 
-        ::continue::
+        ::labelContinue::
     end
 
 
@@ -99,31 +99,31 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
-            goto continue2
+            goto labelContinue2
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue2
+            goto labelContinue2
         end
 
         local blueprintName = EntityService:GetBlueprintName(entity)
         if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
-            goto continue2
+            goto labelContinue2
         end
 
         local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
         if ( enablerComponent == nil ) then
-            goto continue2
+            goto labelContinue2
         end
 
         local enablerComponentRef = reflection_helper(enablerComponent)
         if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
-            goto continue2
+            goto labelContinue2
         end
 
         Insert( result, entity )
 
-        ::continue2::
+        ::labelContinue2::
     end
 
     
