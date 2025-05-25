@@ -1,0 +1,219 @@
+EntityBlueprint
+{
+	name				"units/drones/drone_player_flora_collector_base"
+
+	base_blueprint	"units/drones/drone_base"
+
+	StateMachineDesc
+	{
+		template_name	"drone"
+		params
+		{
+			hover_height						float:"7"
+			hover_min_height					float:"7"
+
+			owner_movement						string:"land"
+			owner_movement_speed_near			float:"2"
+			owner_movement_speed_far			float:"5"
+			owner_movement_trigger_distance		float:"15.0"
+
+			target_movement						string:"hover"
+			target_manual_rotation				int:"1"
+			target_search_mode					string:"always"
+
+			target_movement_speed_near			float:"5"
+			target_movement_speed_far			float:"5"
+			target_movement_trigger_distance	float:"1.0"
+		}
+	}
+
+	MovementDataComponent
+	{
+		acceleration
+		{
+			base	"100"
+		}
+		
+		deacceleration
+		{
+			base	"100"
+		}
+		
+		max_speed
+		{
+			base	"250"
+		}
+	}
+
+	AirNavigationComponent
+	{
+		keep_height_speed	"3.0"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_flora_collector.mesh"
+		material "units/drones/drone_flora_collector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_flora_collector"
+	}
+
+	AnimationGraphDesc
+	{
+		animation_graph_name "flora_collector_drone"
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/drones/drone_base"
+		}	
+
+		EffectGroup
+		{
+			group "work"
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_gather_resources"
+				}
+
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_flora_collector_standard"
+
+	base_blueprint		"units/drones/drone_player_flora_collector_base"
+	
+	LuaDesc
+	{
+		script "lua/units/air/player_resource_harvester_drone.lua"
+
+		database
+		{
+			search_radius 		float:"25.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			search_type			string:""
+
+			harvest_time		float:"3.0"
+			harvest_storage		float:"150"
+			
+			unload_time			float:"3.0"
+			
+			min_scale			float:"0.9"
+			max_scale			float:"0.9"
+			
+			drone_harvest_factor	float:"1"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_flora_collector_advanced"
+
+	base_blueprint		"units/drones/drone_player_flora_collector_base"
+	
+	LuaDesc
+	{
+		script "lua/units/air/player_resource_harvester_drone.lua"
+
+		database
+		{
+			search_radius 		float:"30.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			search_type			string:""
+
+			harvest_time		float:"2.5"
+			harvest_storage		float:"200"
+			
+			unload_time			float:"2.5"
+			
+			min_scale			float:"0.9"
+			max_scale			float:"0.9"
+			
+			drone_harvest_factor	float:"2"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_flora_collector_superior"
+
+	base_blueprint		"units/drones/drone_player_flora_collector_base"
+	
+	LuaDesc
+	{
+		script "lua/units/air/player_resource_harvester_drone.lua"
+
+		database
+		{
+			search_radius 		float:"35.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			search_type			string:""
+
+			harvest_time		float:"2.0"
+			harvest_storage		float:"250"
+			
+			unload_time			float:"2.0"
+			
+			min_scale			float:"0.9"
+			max_scale			float:"0.9"
+			
+			drone_harvest_factor	float:"3"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_flora_collector_extreme"
+
+	base_blueprint		"units/drones/drone_player_flora_collector_base"
+	
+	LuaDesc
+	{
+		script "lua/units/air/player_resource_harvester_drone.lua"
+
+		database
+		{
+			search_radius 		float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			search_type			string:""
+
+			harvest_time		float:"1.5"
+			harvest_storage		float:"300"
+			
+			unload_time			float:"1.5"
+			
+			min_scale			float:"0.9"
+			max_scale			float:"0.9"
+			
+			drone_harvest_factor	float:"4"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+}
