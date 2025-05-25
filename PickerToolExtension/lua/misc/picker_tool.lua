@@ -45,10 +45,10 @@ function picker_tool:OnInit()
 
     self.selectedMode = self.modeBuilding
 
-    self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" )
-    self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" )
-    self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" )
-    self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" )
+    self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
+    self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
+    self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
+    self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
 
     self:SetBuildingIcon()
 end
