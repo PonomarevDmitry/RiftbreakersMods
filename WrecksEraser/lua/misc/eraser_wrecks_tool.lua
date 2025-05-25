@@ -19,31 +19,47 @@ end
 
 function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
 
-    local predicate = {
-
-        signature="TypeComponent",
-
-        filter = function(entity)
-
-            if ( EntityService:CompareType( entity, "wreck" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "wreck_small" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "wreck_medium" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "wreck_large" ) ) then
-                return true
-            end
-
-            return false
-        end
-    };
+    --local teamWreak = EntityService:GetTeam("wreck")
+    --
+    --local predicate = {
+    --
+    --    filter = function(entity)
+    --
+    --        if ( EntityService:HasComponent( entity, "TeamComponent" ) ) then
+    --        
+    --            if ( EntityService:GetTeam( entity ) == teamWreak ) then
+    --        
+    --                return true
+    --            end
+    --        end
+    --
+    --        if ( EntityService:HasComponent( entity, "WreckTeamComponent" ) ) then
+    --        
+    --            return true
+    --        end
+    --
+    --        if ( EntityService:HasComponent( entity, "TypeComponent" ) ) then
+    --        
+    --            if ( EntityService:CompareType( entity, "wreck" ) ) then
+    --                return true
+    --            end
+    --
+    --            if ( EntityService:CompareType( entity, "wreck_small" ) ) then
+    --                return true
+    --            end
+    --
+    --            if ( EntityService:CompareType( entity, "wreck_medium" ) ) then
+    --                return true
+    --            end
+    --
+    --            if ( EntityService:CompareType( entity, "wreck_large" ) ) then
+    --                return true
+    --            end
+    --        end
+    --
+    --        return false
+    --    end
+    --};
 
     local position = selectorComponent.position
 
@@ -54,7 +70,13 @@ function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
     local minVector = VectorSub(position, scaleVector)
     local maxVector = VectorAdd(position, scaleVector)
 
-    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
+    --local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
+
+    local aabb = {}
+    aabb.min = minVector
+    aabb.max = maxVector
+
+    local tempCollection = FindService:FindEntitiesByTeamInBox( "wreck", aabb )
 
     local possibleSelectedEnts = {}
 
