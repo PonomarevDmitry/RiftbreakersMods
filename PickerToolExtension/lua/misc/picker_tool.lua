@@ -47,6 +47,7 @@ function picker_tool:OnInit()
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" )
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" )
+    self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" )
 
     self:SetBuildingIcon()
 end
@@ -297,6 +298,14 @@ function picker_tool:MarkEntity( entity )
         else
             EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
         end
+    elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
     else
 
         local skinned = EntityService:IsSkinned(entity)
@@ -352,6 +361,11 @@ function picker_tool:RemovedFromSelection( entity )
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+
+    elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
+
+        EntityService:RemoveMaterial( entity, "selected" )
+
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
@@ -390,6 +404,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     if ( self.healingToolExists ) then
         self:AddNeutralUnits( selectedItems, selectorPosition )
+    end
+
+    if ( self.wrecksEraserExists ) then
+        self:AddWrecks( selectedItems, selectorPosition )
     end
 
     return selectedItems
@@ -651,6 +669,56 @@ function picker_tool:AddBioAnomalies( selectedItems, selectorPosition )
     ConcatUnique( selectedItems, result )
 end
 
+function picker_tool:AddWrecks( selectedItems, selectorPosition )
+
+    local result = {}
+
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale + 1)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+    
+    
+    local aabb = {}
+    aabb.min = min
+    aabb.max = max
+
+    local tempCollection = FindService:FindEntitiesByTeamInBox( "wreck", aabb )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        if ( not EntityService:IsAlive( entity ) ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
 function picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
@@ -763,7 +831,9 @@ picker_tool.isNeutralUnit = function ( entity, player )
 
             if ( not EntityService:IsInTeamRelation(player, entity, "hostility") ) then
 
-                return true
+                if ( HealthService:IsAlive(entity) ) then
+                    return true
+                end
             end
         end
     end
@@ -820,6 +890,24 @@ picker_tool.isBioAnomaly = function( entity )
     return true
 end
 
+picker_tool.isWreck = function( entity )
+
+    if ( EntityService:HasComponent( entity, "TeamComponent" ) ) then
+            
+        if ( EntityService:GetTeam( entity ) == EntityService:GetTeam("wreck") ) then
+            
+            return true
+        end
+    end
+    
+    if ( EntityService:HasComponent( entity, "WreckTeamComponent" ) ) then
+            
+        return true
+    end
+
+    return false
+end
+
 function picker_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -850,6 +938,13 @@ function picker_tool:OnActivateSelectorRequest()
     if ( self.healingToolExists ) then
 
         if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isNeutralUnit, "buildings/tools/heal_neutral_tool", true ) ) then
+            return
+        end
+    end
+
+    if ( self.wrecksEraserExists ) then
+
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isWreck, "buildings/tools/eraser_wrecks", true ) ) then
             return
         end
     end
@@ -1442,6 +1537,8 @@ function picker_tool:GetTerrainTypes( terrainCellEntityId )
 
             local terrainTypeLayerComponentRef = reflection_helper(terrainTypeLayerComponent)
 
+            --LogService:Log("terrainTypeLayerComponentRef " .. tostring(terrainTypeLayerComponentRef))
+
             if ( terrainTypeLayerComponentRef.terrain_type and terrainTypeLayerComponentRef.terrain_type.resource and terrainTypeLayerComponentRef.terrain_type.resource.name ) then
 
                 terrainType = terrainTypeLayerComponentRef.terrain_type.resource.name
@@ -1453,6 +1550,8 @@ function picker_tool:GetTerrainTypes( terrainCellEntityId )
         if ( overrideTerrainComponent ~= nil ) then
 
             local overrideTerrainComponentRef = reflection_helper(overrideTerrainComponent)
+
+            --LogService:Log("overrideTerrainComponentRef " .. tostring(overrideTerrainComponentRef))
 
             if ( overrideTerrainComponentRef.terrain_overrides ) then
 
