@@ -346,14 +346,20 @@ end
 
 function harvester_drone:UnloadResource( resource, amount )
 
-    local harvestFactor = 1.0
+    local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    local harvestFactor = databaseSelf:GetFloatOrDefault("drone_harvest_factor", 1.0)
 
     local owner = self:GetDroneOwnerTarget();
-    if owner ~= INVALID_ID then
+    if ( owner ~= INVALID_ID and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
         local database = EntityService:GetDatabase( owner )
-        if database ~= nil then
+        if ( database ~= nil ) then
 
-            harvestFactor = database:GetFloatOrDefault("drone_harvest_factor", 1.0)
+            local blueprintDatabase = EntityService:GetBlueprintDatabase(owner) or database
+            if ( blueprintDatabase ~= nil and blueprintDatabase:HasFloat("drone_harvest_factor") ) then
+
+                harvestFactor = blueprintDatabase:GetFloatOrDefault("drone_harvest_factor", 1.0)
+            end
 
             local key = "harvested_resources." .. resource
 
