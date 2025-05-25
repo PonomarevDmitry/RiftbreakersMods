@@ -131,8 +131,7 @@ end
 
 function eraser_wrecks_tool:OnActivateEntity( entity )
 
-    local dissolveTime = RandFloat( 1.0, 2.0 )
-    EntityService:DissolveEntity( entity, dissolveTime )
+    EntityService:DissolveEntity( entity, 0.5 )
 end
 
 return eraser_wrecks_tool
