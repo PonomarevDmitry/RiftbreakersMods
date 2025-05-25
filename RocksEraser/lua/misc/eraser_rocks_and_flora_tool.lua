@@ -10,6 +10,10 @@ end
 function eraser_rocks_and_flora_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_eraser_rocks_and_flora_tool", self.entity)
 
+    self.poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
+    self.poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
+    self.poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
+
     self.previousSelectedFlora = {}
     self.selectedEntitiesFlora = {}
 end
@@ -227,12 +231,22 @@ function eraser_rocks_and_flora_tool:OnUpdate()
 
     self.selectedEntitiesFlora = result
 
-    if ( self.activated )  then
+    for entity in Iter( previousSelectedFlora ) do
 
-        for entity in Iter( self.selectedEntitiesFlora ) do 
+        if ( IndexOf( self.selectedEntitiesFlora, entity ) == nil ) then
 
-            if ( IndexOf( previousSelectedFlora, entity ) == nil ) then
-            
+            self:RemovedFromSelectionFlora( entity )
+        end
+    end
+
+    for entity in Iter( self.selectedEntitiesFlora ) do
+
+        if ( IndexOf( previousSelectedFlora, entity ) == nil ) then
+
+            self:AddedToSelectionFlora( entity )
+
+            if ( self.activated ) then
+
                 self:OnActivateEntityFlora( entity )
             end
         end
@@ -250,6 +264,20 @@ function eraser_rocks_and_flora_tool:AddedToSelection( entity )
 end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
+end
+
+function eraser_rocks_and_flora_tool:AddedToSelectionFlora( entity )
+
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+    end
+end
+
+function eraser_rocks_and_flora_tool:RemovedFromSelectionFlora( entity )
     EntityService:RemoveMaterial( entity, "selected" )
 end
 
@@ -291,6 +319,17 @@ function eraser_rocks_and_flora_tool:OnActivateEntityFlora( entity )
     EntityService:RequestDestroyPattern( entity, "default" )
 
     QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
+end
+
+function eraser_rocks_and_flora_tool:OnRelease()
+
+    for entity in Iter( self.selectedEntitiesFlora ) do
+        self:RemovedFromSelectionFlora( entity )
+    end
+
+    if ( tool.OnRelease ) then
+        tool.OnRelease(self)
+    end
 end
 
 return eraser_rocks_and_flora_tool
