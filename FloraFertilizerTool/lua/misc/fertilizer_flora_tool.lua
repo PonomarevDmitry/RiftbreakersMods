@@ -69,9 +69,17 @@ function fertilizer_flora_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function fertilizer_flora_tool:AddedToSelection( entity )
+
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+    end
 end
 
 function fertilizer_flora_tool:RemovedFromSelection( entity )
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function fertilizer_flora_tool:OnRotate()
