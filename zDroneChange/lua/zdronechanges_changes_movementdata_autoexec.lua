@@ -61,128 +61,128 @@ local new_values = {
     {
         ["name"] = "units/drones/drone_flora_collector",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_resource_collector",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_repair_facility_base",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_repair_facility_lvl_1",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_repair_facility_lvl_2",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_repair_facility_lvl_3",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_repair_standard",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_repair_advanced",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_repair_superior",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_repair_extreme",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_loot_collector_standard",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_loot_collector_advanced",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_loot_collector_superior",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_player_loot_collector_extreme",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_loot_collector",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 
     {
         ["name"] = "units/drones/drone_flora_cultivator",
 
-        ["acceleration"] = "50",
-        ["deacceleration"] = "50",
+        ["acceleration"] = "100",
+        ["deacceleration"] = "100",
         ["max_speed"] = "250",
     },
 }
