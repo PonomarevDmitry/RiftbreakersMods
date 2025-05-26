@@ -264,24 +264,27 @@ function attack_drone:OnOwnerDistanceCheckExecute()
     if not EntityService:IsAlive(owner) then
         return
     end
+    
+    if ( EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil ) then
 
-    local pointEntity = self:GetDroneFindCenterPoint()
+        local pointEntity = self:GetDroneFindCenterPoint()
 
-    local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(self.entity, owner, pointEntity)
+        local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(self.entity, owner, pointEntity)
 
-    if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
+        if ( self.search_radius and distance > self.search_radius * 2.0 ) then
 
-        if self.is_enabled then
-            QueueEvent( "DisableDroneRequest", self.entity )
-            QueueEvent( "EnableDroneRequest", self.entity )
+            if self.is_enabled then
+                QueueEvent( "DisableDroneRequest", self.entity )
+                QueueEvent( "EnableDroneRequest", self.entity )
+            end
+
+            local target_position = closestPosition
+            target_position.y = EntityService:GetPositionY(self.entity)
+
+            EntityService:Teleport(self.entity, target_position)
+            --QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
+            EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.3 )
         end
-
-        local target_position = closestPosition
-        target_position.y = EntityService:GetPositionY(self.entity)
-
-        EntityService:Teleport(self.entity, target_position)
-        --QueueEvent( "FadeEntityInRequest", self.entity, 0.3 )
-        EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.3 )
     end
 
     local action_target = self:GetDroneActionTarget()
