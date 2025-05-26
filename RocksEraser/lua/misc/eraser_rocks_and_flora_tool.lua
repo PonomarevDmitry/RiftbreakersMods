@@ -298,8 +298,6 @@ end
 
 function eraser_rocks_and_flora_tool:OnActivateEntity( entity )
 
-    local dissolveTime = RandFloat( 1.0, 2.0 )
-
     if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
 
         EntityService:DisableCollisions( entity )
@@ -309,7 +307,7 @@ function eraser_rocks_and_flora_tool:OnActivateEntity( entity )
         EntityService:RequestDestroyPattern( entity, "default" )
     end
 
-    EntityService:DissolveEntity( entity, dissolveTime )
+    EntityService:DissolveEntity( entity, 0.5 )
 end
 
 function eraser_rocks_and_flora_tool:OnActivateEntityFlora( entity )
@@ -318,7 +316,7 @@ function eraser_rocks_and_flora_tool:OnActivateEntityFlora( entity )
 
     EntityService:RequestDestroyPattern( entity, "default" )
 
-    QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
+    QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 end
 
 function eraser_rocks_and_flora_tool:OnRelease()
