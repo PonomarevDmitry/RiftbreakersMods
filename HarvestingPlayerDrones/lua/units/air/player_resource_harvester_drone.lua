@@ -115,6 +115,10 @@ function player_resource_harvester_drone:FillInitialParams()
     self.unload_duration = self.data:GetFloat("unload_time");
     self.exclude_targets = self.exclude_targets or {}
 
+    local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    self.harvestFactor = databaseSelf:GetFloatOrDefault("drone_harvest_factor", 1.0)
+
 
 
     --if self.debug == nil then
@@ -233,11 +237,7 @@ end
 
 function player_resource_harvester_drone:UnloadResource( resource, amount )
 
-    local databaseSelf = EntityService:GetBlueprintDatabase( self.entity ) or self.data
-
-    local harvestFactor = databaseSelf:GetFloatOrDefault("drone_harvest_factor", 1.0)
-
-    PlayerService:AddResourceAmount(resource, amount * harvestFactor);
+    PlayerService:AddResourceAmount(resource, amount * self.harvestFactor);
 
     self:UpdateResourceStorage(resource, -amount);
 end
