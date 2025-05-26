@@ -511,7 +511,7 @@ function player_resource_harvester_drone:OnOwnerDistanceCheckExecute()
             QueueEvent( "EnableDroneRequest", self.entity )
         end
 
-        local target_position = closestPosition
+        local target_position = EntityService:GetPosition( owner )
         target_position.y = EntityService:GetPositionY(self.entity)
 
         EntityService:Teleport(self.entity, target_position)
