@@ -90,6 +90,80 @@ local supported_item_blueprints = {
 
 
 
+
+
+    {
+        ["name"] = "units/drones/drone_player_flora_collector_standard",
+        ["floats"] = {
+
+            ["harvest_storage"] = 450.0,
+        },
+    },
+
+    {
+        ["name"] = "units/drones/drone_player_flora_collector_advanced",
+        ["floats"] = {
+
+            ["harvest_storage"] = 600.0,
+        },
+    },
+
+    {
+        ["name"] = "units/drones/drone_player_flora_collector_superior",
+        ["floats"] = {
+
+            ["harvest_storage"] = 750.0,
+        },
+    },
+
+    {
+        ["name"] = "units/drones/drone_player_flora_collector_extreme",
+        ["floats"] = {
+
+            ["harvest_storage"] = 900.0,
+        },
+    },
+
+
+
+    
+
+    {
+        ["name"] = "items/upgrades/player_flora_collector_equipment_standard_item",
+        ["ints"] = {
+
+            ["drone_count"] = 10,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/player_flora_collector_equipment_advanced_item",
+        ["ints"] = {
+
+            ["drone_count"] = 20,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/player_flora_collector_equipment_superior_item",
+        ["ints"] = {
+
+            ["drone_count"] = 30,
+        },
+    },
+
+    {
+        ["name"] = "items/upgrades/player_flora_collector_equipment_extreme_item",
+        ["ints"] = {
+
+            ["drone_count"] = 40,
+        },
+    },
+
+
+
+
+
     {
         ["name"] = "items/upgrades/scanner_equipment_advanced_item",
         ["ints"] = {
