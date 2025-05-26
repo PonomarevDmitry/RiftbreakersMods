@@ -1,7 +1,6 @@
 require("lua/utils/find_utils.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/throttler_utils.lua")
-require("lua/utils/area_center_point_utils.lua")
 
 local base_drone = require("lua/units/air/base_drone.lua")
 class 'player_resource_harvester_drone' ( base_drone )
@@ -118,10 +117,10 @@ function player_resource_harvester_drone:FillInitialParams()
 
 
 
-    if self.debug == nil then
-        self.debug = self:CreateStateMachine();
-        self.debug:AddState("debug", { execute="OnDebugExecute" } );
-    end
+    --if self.debug == nil then
+    --    self.debug = self:CreateStateMachine();
+    --    self.debug:AddState("debug", { execute="OnDebugExecute" } );
+    --end
 
     EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.3 )
             
@@ -223,8 +222,6 @@ end
 
 function player_resource_harvester_drone:OnUnloadEnter(state)
 
-    LogService:Log("OnUnloadEnter " .. tostring(self.entity))
-
     state:SetDurationLimit(self.unload_duration)
 
     for resource, amount in pairs( self.storage ) do
@@ -246,8 +243,6 @@ function player_resource_harvester_drone:UnloadResource( resource, amount )
 end
 
 function player_resource_harvester_drone:OnUnloadExecute(state, dt)
-
-    LogService:Log("OnUnloadExecute " .. tostring(self.entity))
 
     local max_change_amount = ( self.harvest_storage / self.unload_duration ) * dt;
     for resource, amount in pairs( self.storage ) do
@@ -276,8 +271,6 @@ end
 
 function player_resource_harvester_drone:OnUnloadExit(state)
 
-    LogService:Log("OnUnloadExit " .. tostring(self.entity))
-
     for resource, amount in pairs( self.storage ) do
         self:UnloadResource(resource, amount )
     end
@@ -290,13 +283,11 @@ end
 
 function player_resource_harvester_drone:OnHarvestEnter(state)
 
-    LogService:Log("OnHarvestEnter " .. tostring(self.entity))
-
-    if g_debug_resource_harvester then
-        self.debug:ChangeState("debug")
-    else
-        self.debug:Deactivate()
-    end
+    --if g_debug_resource_harvester then
+    --    self.debug:ChangeState("debug")
+    --else
+    --    self.debug:Deactivate()
+    --end
     state:SetDurationLimit(self.harvest_duration)
 
     local target = self:GetDroneActionTarget();
@@ -373,8 +364,6 @@ end
 
 function player_resource_harvester_drone:OnHarvestExecute(state, dt)
 
-    LogService:Log("OnHarvestExecute " .. tostring(self.entity))
-
     local max_change_amount = ( self.harvest_storage / self.harvest_duration ) * dt;
 
     local target = self:GetDroneActionTarget();
@@ -421,8 +410,6 @@ function player_resource_harvester_drone:OnHarvestExecute(state, dt)
 end
 
 function player_resource_harvester_drone:OnHarvestExit()
-
-    LogService:Log("OnHarvestExit " .. tostring(self.entity))
 
     local target = self:GetDroneActionTarget();
     if EntityService:IsAlive( target ) then
@@ -516,10 +503,7 @@ function player_resource_harvester_drone:OnOwnerDistanceCheckExecute()
         return
     end
 
-    local pointEntity = self:GetDroneFindCenterPoint()
-
-    local distance, closestPosition = GetDistanceAndClosestPositionToLineSegment(self.entity, owner, pointEntity)
-
+    local distance = EntityService:GetDistance2DBetween( self.entity, owner )
     if self.search_radius and distance > self.search_radius * 2.0 and EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil then
 
         if self.is_enabled then
