@@ -1,20 +1,20 @@
-local tool = require("lua/misc/tool.lua")
+local pipe_base_tool = require("lua/buildings/resources/pipe_base_tool.lua")
+require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/string_utils.lua")
+require("lua/utils/building_utils.lua")
 
-class 'pipe_perimeter_tool' ( tool )
+class 'pipe_perimeter_tool' ( pipe_base_tool )
 
 function pipe_perimeter_tool:__init()
-    tool.__init(self,self)
+    pipe_base_tool.__init(self,self)
 end
 
 function pipe_perimeter_tool:OnInit()
+
+    EntityService:SetVisible( self.entity, true )
+
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_pipe_perimeter_tool", self.entity)
-
-    self.pipeBlueprintName = "buildings/resources/pipe_straight"
-
-    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( self.pipeBlueprintName ) )
-
-    self.ghostBlueprintName = buildingDesc.ghost_bp
 
     self.linesEntities = {}
     self.linesEntityInfo = {}
@@ -33,6 +33,8 @@ function pipe_perimeter_tool:OnInit()
     self.pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
 
     self:UpdateMarker()
+
+    self:RescaleChild()
 end
 
 function pipe_perimeter_tool:OnPreInit()
@@ -43,6 +45,59 @@ function pipe_perimeter_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
+end
+
+function pipe_perimeter_tool:InitializeValues()
+
+    pipe_base_tool.InitializeValues(self)
+
+    self.childPos = {}
+
+    self.selectedEntities = {}
+
+    self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
+
+    local scale = self:GetScaleFromDatabase()
+    EntityService:SetScale(self.entity, scale.x, scale.y, scale.z)
+
+    local orientation = {x=0,y=0,z=0,w=1}
+    EntityService:SetOrientation( self.entity, orientation )
+
+    self:SpawnCornerBlueprint()
+
+    self.currentScale = scale.x
+
+    self.activated = false
+    self:SetChildrenPosition()
+    
+    local children = EntityService:GetChildren( self.corners, true )
+    for child in Iter(children ) do
+        if ( EntityService:GetComponent(child, "GuiComponent") ~= nil ) then
+            self.infoChild = child
+        end
+    end 
+
+    self.scaleMap = {
+        1,
+        2,
+        3,
+        4,
+        8,
+        12,
+        16,
+        20,
+        24,
+        28,
+        32,
+    }
+end
+
+function pipe_perimeter_tool:GetScaleFromDatabase()
+    local scale = {}
+    scale.x = self.data:GetFloatOrDefault("resize_scale_x", self.initialScale.x)
+    scale.y = self.data:GetFloatOrDefault("resize_scale_y",  self.initialScale.y)
+    scale.z = self.data:GetFloatOrDefault("resize_scale_z",  self.initialScale.z)
+    return scale
 end
 
 function pipe_perimeter_tool:UpdateMarker()
@@ -72,6 +127,28 @@ function pipe_perimeter_tool:UpdateMarker()
 end
 
 function pipe_perimeter_tool:OnUpdate()
+
+    self:RescaleChild()
+
+    local selectorComponent = EntityService:GetComponent(self.selector, "BuildingSelectorComponent")
+
+    local previousSelection = self.selectedEntities
+
+    self.selectedEntities = self:FindEntitiesToSelect( reflection_helper(selectorComponent) )
+
+    for ent in Iter( previousSelection ) do 
+        if ( IndexOf( self.selectedEntities, ent ) == nil ) then
+            self:RemovedFromSelection( ent )
+        end
+    end
+    
+    for ent in Iter( self.selectedEntities ) do 
+
+        if ( IndexOf( previousSelection, ent ) == nil ) then
+
+            self:AddedToSelection( ent )
+        end
+    end
 
     self:RemoveMaterialFromOldBuildingsToSell()
 
@@ -173,10 +250,7 @@ function pipe_perimeter_tool:OnUpdate()
 
 
 
-    if ( self.infoChild == nil ) then
-        self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
-        EntityService:SetPosition( self.infoChild, -1, 0, 1)
-    end
+    self:CreateInfoChild()
 
     local onScreen = CameraService:IsOnScreen( self.infoChild, 1 )
 
@@ -187,8 +261,55 @@ function pipe_perimeter_tool:OnUpdate()
     end
 
     --if ( self.activated )  then
-    --    self:OnActivateEntity( ent )
+    --
+    --    for ent in Iter( self.selectedEntities ) do 
+    --
+    --        if ( IndexOf( previousSelection, ent ) == nil ) then
+    --
+    --            self:OnActivateEntity( ent )
+    --        end
+    --    end
     --end
+end
+
+function pipe_perimeter_tool:FindEntitiesToSelect( selectorComponent )
+    local position = selectorComponent.position 
+    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale))
+    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale))
+    local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
+
+    local distances = {}
+    for entity in Iter( possibleSelectedEnts) do
+        distances[entity] = EntityService:GetDistanceBetween( self.entity, entity );    
+    end
+
+    local sorter = function( lh, rh )
+        return distances[lh] < distances[rh]
+    end
+
+    table.sort(possibleSelectedEnts, sorter)
+
+    local selectedEntities = {}
+    for entity in Iter(possibleSelectedEnts ) do
+        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
+        if ( selectableComponent == nil ) then goto continue end
+    
+        local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+        
+        if ( buildingComponent ~= nil ) then
+            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+            if ( mode <= 2 ) then goto continue end 
+        end
+    
+        Insert(selectedEntities, entity )
+        ::continue::
+    end
+    
+    if ( self.FilterSelectedEntities ) then
+        selectedEntities = self:FilterSelectedEntities( selectedEntities )
+    end
+    
+    return selectedEntities
 end
 
 function pipe_perimeter_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
@@ -750,159 +871,40 @@ function pipe_perimeter_tool:OnDeactivateSelectorRequest()
     end
 end
 
-function pipe_perimeter_tool:AddToEntitiesToSellList(testBuildable)
-
-    if( testBuildable == nil or testBuildable.flag ~= CBF_OVERRIDES ) then
-
-        return
+function pipe_perimeter_tool:RescaleChild()
+    local scale = EntityService:GetScale( self.entity )
+    scale.x = 1.0 / scale.x
+    scale.z  = 1.0 / scale.z
+    if ( self.childEntity ~= nil and self.childEntity ~= INVALID_ID ) then
+        EntityService:SetScale( self.childEntity,  scale.x, scale.y, scale.z )
     end
-
-    local buildingToSellCount = testBuildable.entities_to_sell.count
-
-    for i = 1,buildingToSellCount do
-
-        local entityToSell = testBuildable.entities_to_sell[i]
-
-        if ( entityToSell ~= nil and EntityService:IsAlive( entityToSell) ) then
-
-            if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
-
-                local skinned = EntityService:IsSkinned(entityToSell)
-
-                if ( skinned ) then
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
-                end
-
-                Insert(self.oldBuildingsToSell, entityToSell)
-            end
-        end
+    if ( self.corners ~= nil ) then
+        EntityService:SetScale( self.corners,  scale.x, scale.y, scale.z )
     end
 end
 
-function pipe_perimeter_tool:CheckEntityBuildable( entity, transform, id )
-
-    id = id or 1
-    local test = nil
-
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.pipeBlueprintName, id )
-
-    if ( test == nil ) then
-        return
-    end
-
-    local testBuildable = reflection_helper(test:ToTypeInstance(), test )
-
-    local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
-    local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
-
-    local skinned = EntityService:IsSkinned(entity)
-
-    if ( testBuildable.flag == CBF_REPAIR ) then
-        if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+function pipe_perimeter_tool:SetChildrenPosition()
+    local diagonal = VectorMulByNumber(self.boundsSize , self.currentScale)
+    diagonal.y = 1
+    local children = EntityService:GetChildren( self.corners, true )
+    for child in Iter(children ) do
+        local childPos = EntityService:GetLocalPosition(child)
+        if ( self.childPos[child] == nil ) then
+            self.childPos[child] = childPos
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+            childPos = self.childPos[child]
         end
-    else
-        if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
-        elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
-        else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
-        end
+        childPos = VectorMul(childPos, diagonal)
+        EntityService:SetPosition(child,childPos)
     end
-
-    return testBuildable
-end
-
-function pipe_perimeter_tool:BuildEntity(entity, createCube)
-
-    createCube = createCube or false
-
-    local transform = EntityService:GetWorldTransform( entity )
-
-    local testBuildable = self:CheckEntityBuildable( entity , transform )
-
-    if ( testBuildable == nil ) then
-
-        return
-    end
-
-    local missingResources = testBuildable.missing_resources
-    if ( missingResources.count > 0 ) then
-
-        local soundAnnouncement = "voice_over/announcement/not_enough_resources"
-
-        if ( missingResources.count  == 1 ) then
-
-            local singleMissingResource = missingResources[1]
-
-            if ( self.announcements and self.announcements[singleMissingResource] ~= nil and self.announcements[singleMissingResource] ~= "" ) then
-
-                soundAnnouncement = self.announcements[singleMissingResource]
-            end
-        end
-
-        QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, self.playerEntity, false )
-
-        return testBuildable.flag
-    end
-
-    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
-
-    if ( testBuildable.flag == CBF_CAN_BUILD ) then
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-
-    elseif( testBuildable.flag == CBF_OVERRIDES ) then
-
-        for entityToSell in Iter(testBuildable.entities_to_sell) do
-            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
-        end
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
-
-    elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
-
-        QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
-    end
-
-    return testBuildable.flag
-end
-
-function pipe_perimeter_tool:RemoveMaterialFromOldBuildingsToSell()
-
-    if ( self.oldBuildingsToSell ~= nil ) then
-        for entityToSell in Iter( self.oldBuildingsToSell ) do
-            EntityService:RemoveMaterial(entityToSell, "selected" )
-        end
-    end
-    self.oldBuildingsToSell = {}
 end
 
 function pipe_perimeter_tool:OnRelease()
 
-    self:RemoveMaterialFromOldBuildingsToSell()
-
-    if ( self.infoChild ~= nil) then
-        EntityService:RemoveEntity(self.infoChild)
-        self.infoChild = nil
+    for ent in Iter(self.selectedEntities ) do
+        self:RemovedFromSelection( ent )
     end
+    EntityService:RemoveEntity(self.corners)
 
     for ghost in Iter(self.linesEntities) do
         EntityService:RemoveEntity(ghost)
@@ -918,8 +920,8 @@ function pipe_perimeter_tool:OnRelease()
         self.currentMarkerLines = nil
     end
 
-    if ( tool.OnRelease ) then
-        tool.OnRelease(self)
+    if ( pipe_base_tool.OnRelease ) then
+        pipe_base_tool.OnRelease(self)
     end
 end
 

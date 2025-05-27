@@ -44,8 +44,6 @@ function pipe_base_tool:InitializeValues()
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
     EntityService:SetVisible( self.entity , false )
 
-    self:CreateInfoChild()
-
     self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
 
