@@ -42,7 +42,7 @@ function pipe_base_tool:InitializeValues()
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
-    EntityService:SetVisible( self.entity , false )
+    EntityService:SetVisible( self.entity, false )
 
     self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
@@ -211,7 +211,7 @@ function pipe_base_tool:BuildEntity(entity, createCube)
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    local testBuildable = self:CheckEntityBuildable( entity , transform )
+    local testBuildable = self:CheckEntityBuildable( entity, transform )
 
     if ( testBuildable == nil ) then
 
