@@ -312,6 +312,53 @@ function pipe_perimeter_tool:FindEntitiesToSelect( selectorComponent )
     return selectedEntities
 end
 
+function pipe_perimeter_tool:FilterSelectedEntities( selectedEntities ) 
+
+    local result = {}
+
+    for entity in Iter(selectedEntities ) do
+
+        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
+        if ( buildingComponent == nil ) then
+            goto labelContinue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        if ( blueprintName == "buildings/resources/pipe_straight" or blueprintName == "buildings/resources/pipe_straight_windowless" or blueprintName == "buildings/resources/pipe_junction" ) then
+            goto labelContinue
+        end
+
+        local baseDesc = BuildingService:FindBaseBuilding( blueprintName )
+        if  (baseDesc ~= nil ) then
+
+            local baseDescRef = reflection_helper(baseDesc)
+            if ( baseDescRef.bp == "buildings/resources/pipe_straight" or baseDescRef.bp == "buildings/resources/pipe_straight_windowless" or baseDescRef.bp == "buildings/resources/pipe_junction" ) then
+                goto labelContinue
+            end
+        end
+
+        local pipeComponent = EntityService:GetComponent(entity, "PipeComponent")
+        if ( pipeComponent ~= nil ) then
+
+            Insert( result, entity )
+
+            goto labelContinue
+        end
+
+        if ( self:IsBluepringHasAttachments( blueprintName ) ) then
+
+            Insert( result, entity )
+
+            goto labelContinue
+        end
+
+        ::labelContinue::
+    end
+
+    return result
+end
+
 function pipe_perimeter_tool:GetEntityFromGrid( gridEntities, newPositionX, newPositionZ )
 
     if ( gridEntities[newPositionX] == nil) then
@@ -524,55 +571,6 @@ function pipe_perimeter_tool:AddToHash(hashPositions, newPositionX, newPositionZ
     hashXPosition[newPositionZ] = true
 
     return true
-end
-
-
-
-function pipe_perimeter_tool:FilterSelectedEntities( selectedEntities ) 
-
-    local result = {}
-
-    for entity in Iter(selectedEntities ) do
-
-        local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
-        if ( buildingComponent == nil ) then
-            goto labelContinue
-        end
-
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
-        if ( blueprintName == "buildings/resources/pipe_straight" or blueprintName == "buildings/resources/pipe_straight_windowless" or blueprintName == "buildings/resources/pipe_junction" ) then
-            goto labelContinue
-        end
-
-        local baseDesc = BuildingService:FindBaseBuilding( blueprintName )
-        if  (baseDesc ~= nil ) then
-
-            local baseDescRef = reflection_helper(baseDesc)
-            if ( baseDescRef.bp == "buildings/resources/pipe_straight" or baseDescRef.bp == "buildings/resources/pipe_straight_windowless" or baseDescRef.bp == "buildings/resources/pipe_junction" ) then
-                goto labelContinue
-            end
-        end
-
-        local pipeComponent = EntityService:GetComponent(entity, "PipeComponent")
-        if ( pipeComponent ~= nil ) then
-
-            Insert( result, entity )
-
-            goto labelContinue
-        end
-
-        if ( self:IsBluepringHasAttachments( blueprintName ) ) then
-
-            Insert( result, entity )
-
-            goto labelContinue
-        end
-
-        ::labelContinue::
-    end
-
-    return result
 end
 
 function pipe_perimeter_tool:IsBluepringHasAttachments( blueprintName )
