@@ -10,43 +10,6 @@ function pipe_perimeter_tool:__init()
     pipe_base_tool.__init(self,self)
 end
 
-function pipe_perimeter_tool:OnInit()
-
-    EntityService:SetVisible( self.entity, true )
-
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_pipe_perimeter_tool", self.entity)
-
-    self.linesEntities = {}
-    self.linesEntityInfo = {}
-    self.gridEntities = {}
-
-    -- Marker with number of pipe layers
-    self.markerLinesConfig = 0
-    self.currentMarkerLines = nil
-
-    self.configNamePipesCount = "$perimeter_pipe_lines_count"
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
-    -- Pipe layers config
-    self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
-    self.pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
-
-    self:UpdateMarker()
-
-    self:RescaleChild()
-end
-
-function pipe_perimeter_tool:OnPreInit()
-    self.initialScale = { x=8, y=1, z=8 }
-end
-
-function pipe_perimeter_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
-    end
-end
-
 function pipe_perimeter_tool:InitializeValues()
 
     pipe_base_tool.InitializeValues(self)
@@ -57,7 +20,7 @@ function pipe_perimeter_tool:InitializeValues()
 
     self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
 
-    local scale = self:GetScaleFromDatabase()
+    local scale = self.initialScale
     EntityService:SetScale(self.entity, scale.x, scale.y, scale.z)
 
     local orientation = {x=0,y=0,z=0,w=1}
@@ -68,7 +31,6 @@ function pipe_perimeter_tool:InitializeValues()
     self.currentScale = scale.x
 
     self.activated = false
-    self:SetChildrenPosition()
     
     local children = EntityService:GetChildren( self.corners, true )
     for child in Iter(children ) do
@@ -92,12 +54,48 @@ function pipe_perimeter_tool:InitializeValues()
     }
 end
 
-function pipe_perimeter_tool:GetScaleFromDatabase()
-    local scale = {}
-    scale.x = self.data:GetFloatOrDefault("resize_scale_x", self.initialScale.x)
-    scale.y = self.data:GetFloatOrDefault("resize_scale_y",  self.initialScale.y)
-    scale.z = self.data:GetFloatOrDefault("resize_scale_z",  self.initialScale.z)
-    return scale
+function pipe_perimeter_tool:OnPreInit()
+    self.initialScale = { x=8, y=1, z=8 }
+end
+
+function pipe_perimeter_tool:OnInit()
+
+    EntityService:SetVisible( self.entity, true )
+
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_pipe_perimeter_tool", self.entity)
+
+    self.linesEntities = {}
+    self.linesEntityInfo = {}
+    self.gridEntities = {}
+
+    -- Marker with number of pipe layers
+    self.markerLinesConfig = 0
+    self.currentMarkerLines = nil
+    
+    self.configNameScale = "$perimeter_pipe_scale"
+    self.configNamePipesCount = "$perimeter_pipe_lines_count"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    -- Pipe layers config
+    self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
+    self.pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+
+    self.currentScale = selectorDB:GetIntOrDefault(self.configNameScale, self.currentScale)
+
+    EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
+
+    self:UpdateMarker()
+    
+    self:SetChildrenPosition()
+    self:RescaleChild()
+end
+
+function pipe_perimeter_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
 end
 
 function pipe_perimeter_tool:UpdateMarker()
@@ -260,22 +258,22 @@ function pipe_perimeter_tool:OnUpdate()
         BuildingService:OperateBuildCosts( self.infoChild, self.playerId, {} )
     end
 
-    --if ( self.activated )  then
-    --
-    --    for ent in Iter( self.selectedEntities ) do 
-    --
-    --        if ( IndexOf( previousSelection, ent ) == nil ) then
-    --
-    --            self:OnActivateEntity( ent )
-    --        end
-    --    end
-    --end
+    if ( self.activated )  then
+    
+        for ent in Iter( self.selectedEntities ) do 
+    
+            if ( IndexOf( previousSelection, ent ) == nil ) then
+    
+                self:OnActivateEntity( ent )
+            end
+        end
+    end
 end
 
 function pipe_perimeter_tool:FindEntitiesToSelect( selectorComponent )
     local position = selectorComponent.position 
-    local min = VectorSub(position, VectorMulByNumber(self.boundsSize , self.currentScale))
-    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize , self.currentScale))
+    local min = VectorSub(position, VectorMulByNumber(self.boundsSize, self.currentScale))
+    local max = VectorAdd(position, VectorMulByNumber(self.boundsSize, self.currentScale))
     local possibleSelectedEnts = FindService:FindGridOwnersByBox( min, max )
 
     local distances = {}
@@ -760,6 +758,8 @@ end
 
 function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
 
+    self.activated = self.activated or false
+
     local degree = evt:GetDegree()
 
     local change = 1
@@ -767,7 +767,13 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
         change = -1
     end
 
-    if ( self.activated ) then
+    local playerPosition = EntityService:GetPosition(self.playerEntity)
+    
+    local entityPosition = EntityService:GetPosition(self.entity)
+
+    local isPipeCount = ( entityPosition.x < playerPosition.x )
+
+    if ( isPipeCount and not self.activated ) then
 
         local currentLinesConfig = self:CheckConfigExists(self.pipeLinesCount)
 
@@ -795,17 +801,17 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
         local selectorDB = EntityService:GetDatabase( self.selector )
         selectorDB:SetInt(self.configNamePipesCount, newValue)
 
-        self.sizeChanged = true
-
         self:UpdateMarker()
     else
 
-        local currentScale = EntityService:GetScale(self.entity).x
+        local currentScale = self.currentScale
 
         local maxIndex = #self.scaleMap
 
-        local index = IndexOf(self.scaleMap, currentScale )
-        if ( index == nil ) then index = 1 end
+        local index = IndexOf( self.scaleMap, currentScale )
+        if ( index == nil ) then 
+            index = 1
+        end
 
         local newValue = index + change
         if ( newValue > maxIndex ) then
@@ -818,6 +824,9 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
 
         EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
 
+        local selectorDB = EntityService:GetDatabase( self.selector )
+        selectorDB:SetInt(self.configNameScale, self.currentScale)
+
         self:SetChildrenPosition()
         self:RescaleChild()
     end
@@ -827,46 +836,72 @@ end
 
 function pipe_perimeter_tool:OnActivateSelectorRequest()
 
-    self.activated = self.activated or false
+    self.activated = true
 
-    if ( self.activated == false ) then
-
-        self.sizeChanged = false
-
-        self.activated = true
-    else
-
-        self:FinishLineBuild()
+    for entity in Iter( self.selectedEntities ) do
+        self:OnActivateEntity( entity )
     end
 end
 
-function pipe_perimeter_tool:FinishLineBuild()
+function pipe_perimeter_tool:OnActivateEntity( entity )
 
-    self.sizeChanged = self.sizeChanged or false
-
-    if ( self.sizeChanged ) then
-
+    local gridCullerComponent = EntityService:GetComponent( entity, "GridCullerComponent" )
+    if( gridCullerComponent == nil ) then
         return
     end
 
-    for i=1,#self.linesEntities do
+    local gridCullerComponentRef = reflection_helper(gridCullerComponent)
 
-        local ghostEntity = self.linesEntities[i]
+    local min, max = self:GetEntityMinMax(gridCullerComponentRef)
 
-        self:BuildEntity(ghostEntity, false)
+    if ( min == nil or max == nil ) then
+        return
+    end
+
+    local newPositionsArray = {}
+    local hashPositions = {}
+
+    local pipeLinesCount = self:CheckConfigExists(self.pipeLinesCount)
+
+    for i=1,pipeLinesCount do
+
+        min.x = min.x - 2
+        min.z = min.z - 2
+
+        max.x = max.x + 2
+        max.z = max.z + 2
+
+        local entityPerimeterPositions = self:GetPerimeterPositions( min, max )
+
+        for position in Iter( entityPerimeterPositions ) do
+
+            if ( self:AddToHash(hashPositions, position.x, position.z ) ) then
+                
+                Insert(newPositionsArray, position)
+            end
+        end
+    end
+
+
+    local currentTransform = EntityService:GetWorldTransform( self.entity )
+
+    for i=1,#newPositionsArray do
+
+        local newPosition = newPositionsArray[i]
+        newPosition.y = currentTransform.position.y
+
+        local ghostEntity = self:GetEntityFromGrid( self.gridEntities, newPosition.x, newPosition.z )
+
+        if ( ghostEntity ~= nil ) then
+
+            self:BuildEntity(ghostEntity, false)
+        end
     end
 end
 
 function pipe_perimeter_tool:OnDeactivateSelectorRequest()
 
     self.activated = false
-
-    self.sizeChanged = self.sizeChanged or false
-
-    if ( not self.sizeChanged ) then
-
-        self:FinishLineBuild()
-    end
 end
 
 function pipe_perimeter_tool:RescaleChild()
@@ -874,10 +909,10 @@ function pipe_perimeter_tool:RescaleChild()
     scale.x = 1.0 / scale.x
     scale.z  = 1.0 / scale.z
     if ( self.childEntity ~= nil and self.childEntity ~= INVALID_ID ) then
-        EntityService:SetScale( self.childEntity,  scale.x, scale.y, scale.z )
+        EntityService:SetScale( self.childEntity, scale.x, scale.y, scale.z )
     end
     if ( self.corners ~= nil ) then
-        EntityService:SetScale( self.corners,  scale.x, scale.y, scale.z )
+        EntityService:SetScale( self.corners, scale.x, scale.y, scale.z )
     end
 end
 
