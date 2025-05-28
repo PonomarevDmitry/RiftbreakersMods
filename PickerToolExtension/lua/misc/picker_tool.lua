@@ -302,7 +302,7 @@ function picker_tool:AddedToSelection( entity )
         else
             EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
         end
-    elseif ( self.minesEraserExists and self.isMine(entity) ) then
+    elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
@@ -370,9 +370,10 @@ function picker_tool:RemovedFromSelection( entity )
 
         EntityService:RemoveMaterial( entity, "selected" )
 
-    elseif ( self.minesEraserExists and self.isMine(entity) ) then
+    elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
@@ -984,7 +985,7 @@ picker_tool.isWreck = function( entity )
     return false
 end
 
-picker_tool.isMine = function( entity )
+picker_tool.isLandMine = function( entity )
 
     if ( EntityService:HasComponent( entity, "TerrainAffectedComponent" ) ) then
             
@@ -1054,7 +1055,7 @@ function picker_tool:OnActivateSelectorRequest()
 
     if ( self.minesEraserExists ) then
 
-        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isMine, "buildings/tools/eraser_mines", true ) ) then
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isLandMine, "buildings/tools/eraser_mines", true ) ) then
             return
         end
     end
