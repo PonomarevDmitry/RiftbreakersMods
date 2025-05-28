@@ -50,6 +50,7 @@ function picker_tool:OnInit()
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
     self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks_and_flora" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
+    self.lootCollectorExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/loot_collecting" ) and (mod_picker_tool_extension_loot_collecting_tool ~= nil and mod_picker_tool_extension_loot_collecting_tool == 1);
 
     self:SetBuildingIcon()
 end
@@ -319,6 +320,8 @@ function picker_tool:AddedToSelection( entity )
         else
             EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
         end
+    elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
+
     else
 
         local skinned = EntityService:IsSkinned(entity)
@@ -386,6 +389,8 @@ function picker_tool:RemovedFromSelection( entity )
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+
+    elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
@@ -462,6 +467,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     if ( self.rocksEraserExists ) then
         self:AddRocks( selectedItems, minScaleHalf, maxScaleHalf, sorter )
+    end
+
+    if ( self.lootCollectorExists ) then
+        self:AddLoot( selectedItems, min, max, sorter )
     end
 
     return selectedItems
@@ -801,6 +810,64 @@ function picker_tool:AddRocks( selectedItems, min, max, sorter )
     ConcatUnique( selectedItems, result )
 end
 
+function picker_tool:AddLoot( selectedItems, min, max, sorter )
+
+    local result = {}
+
+    local predicate = {
+
+        signature = "BlueprintComponent,IdComponent,ParentComponent",
+
+        filter = function(entity)
+
+            local entity_name = EntityService:GetName(entity);
+            if ( entity_name ~= "#loot#" ) then
+                return false;
+            end
+
+            if ( not EntityService:IsAlive(entity) ) then
+                return false
+            end
+
+            local test_entity = EntityService:GetParent( entity )
+            if ( test_entity == INVALID_ID ) then
+                test_entity = entity
+            end
+
+            if EntityService:GetComponent( test_entity, "PhysicsComponent") == nil then
+                return false
+            end
+
+            return ItemService:CanFitResourceGiver( self.player, test_entity )
+        end
+    }
+    
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        if ( not EntityService:IsAlive( entity ) ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
 function picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
@@ -1037,6 +1104,30 @@ picker_tool.isRock = function( entity )
     return true
 end
 
+picker_tool.isLoot = function ( entity, player )
+
+    if ( entity == nil or entity == INVALID_ID ) then
+
+        return false
+    end
+
+    local entity_name = EntityService:GetName(entity)
+    if ( entity_name ~= "#loot#" ) then
+        return false
+    end
+
+    local test_entity = EntityService:GetParent( entity )
+    if ( test_entity == INVALID_ID ) then
+        test_entity = entity
+    end
+
+    if EntityService:GetComponent( test_entity, "PhysicsComponent") == nil then
+        return false
+    end
+
+    return ItemService:CanFitResourceGiver( player, test_entity )
+end
+
 function picker_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -1098,6 +1189,13 @@ function picker_tool:OnActivateSelectorRequest()
     if ( self.minesEraserExists ) then
 
         if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isLandMine, "buildings/tools/eraser_mines", true ) ) then
+            return
+        end
+    end
+
+    if ( self.lootCollectorExists ) then
+
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isLoot, "buildings/tools/loot_collecting", true ) ) then
             return
         end
     end

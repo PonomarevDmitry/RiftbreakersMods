@@ -7,3 +7,5 @@ mod_picker_tool_extension_eraser_wrecks_tool = 1
 mod_picker_tool_extension_eraser_mines_tool = 1
 
 mod_picker_tool_extension_eraser_rocks_tool = 1
+
+mod_picker_tool_extension_loot_collecting_tool = 1
