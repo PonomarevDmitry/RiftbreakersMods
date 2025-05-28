@@ -247,11 +247,6 @@ end
 
 function picker_tool:AddedToSelection( entity )
 
-    self:MarkEntity( entity )
-end
-
-function picker_tool:MarkEntity( entity )
-
     if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
 
         self.selectedResourceComponents = self.selectedResourceComponents or {}
@@ -390,7 +385,7 @@ function picker_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        self:MarkEntity( entity )
+        self:AddedToSelection( entity )
     end
 end
 
