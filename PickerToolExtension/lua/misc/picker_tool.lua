@@ -49,6 +49,7 @@ function picker_tool:OnInit()
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
+    self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks_and_flora" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
 
     self:SetBuildingIcon()
 end
@@ -310,6 +311,14 @@ function picker_tool:AddedToSelection( entity )
         else
             EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
         end
+    elseif ( self.rocksEraserExists and self.isRock(entity) ) then
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        end
     else
 
         local skinned = EntityService:IsSkinned(entity)
@@ -371,6 +380,10 @@ function picker_tool:RemovedFromSelection( entity )
         EntityService:RemoveMaterial( entity, "selected" )
 
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
+
+        EntityService:RemoveMaterial( entity, "selected" )
+
+    elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
 
@@ -445,6 +458,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     if ( self.minesEraserExists ) then
         self:AddMines( selectedItems, minPlus, maxPlus, sorter )
+    end
+
+    if ( self.rocksEraserExists ) then
+        self:AddRocks( selectedItems, minScaleHalf, maxScaleHalf, sorter )
     end
 
     return selectedItems
@@ -723,6 +740,67 @@ function picker_tool:AddMines( selectedItems, min, max, sorter )
     ConcatUnique( selectedItems, result )
 end
 
+function picker_tool:AddRocks( selectedItems, min, max, sorter )
+
+    local result = {}
+
+    local predicate = {
+
+        filter = function( entity )
+
+            local blueprintName = EntityService:GetBlueprintName( entity )
+            if ( blueprintName == "" or blueprintName == nil ) then
+                return false
+            end
+        
+            local stringIndex = string.find( blueprintName, "props/rocks/" )
+        
+            if ( stringIndex == nil or stringIndex ~= 1 ) then
+                return false
+            end
+
+            if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+
+                local groupId = EntityService:GetPhysicsGroupId( entity )
+
+                if ( groupId == "destructible" ) then
+
+                    return true
+                else
+                    return false
+                end
+            end
+
+            return true
+        end
+    }
+    
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        if ( not EntityService:IsAlive( entity ) ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
 function picker_tool:FilterSelectedEntities( selectedEntities )
 
     local entities = {}
@@ -931,6 +1009,34 @@ picker_tool.isLandMine = function( entity )
     return false
 end
 
+picker_tool.isRock = function( entity )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return false
+    end
+        
+    local stringIndex = string.find( blueprintName, "props/rocks/" )
+        
+    if ( stringIndex == nil or stringIndex ~= 1 ) then
+        return false
+    end
+
+    if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+
+        local groupId = EntityService:GetPhysicsGroupId( entity )
+
+        if ( groupId == "destructible" ) then
+
+            return true
+        else
+            return false
+        end
+    end
+
+    return true
+end
+
 function picker_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -972,6 +1078,15 @@ function picker_tool:OnActivateSelectorRequest()
     end
 
 
+
+
+
+    if ( self.rocksEraserExists ) then
+
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isRock, "buildings/tools/eraser_rocks_and_flora", true ) ) then
+            return
+        end
+    end
 
     if ( self.wrecksEraserExists ) then
 
