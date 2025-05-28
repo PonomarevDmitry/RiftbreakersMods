@@ -400,46 +400,64 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    self:AddRuins( selectedItems, selectorPosition )
+    local boundsSize = { x=1.0, y=100.0, z=1.0 }
 
-    self:AddResourceVolumes( selectedItems, selectorPosition )
+    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
 
-    self:AddResourceComponents( selectedItems, selectorPosition )
+    local minScaleHalf = VectorSub(selectorPosition, scaleVector)
+    local maxScaleHalf = VectorAdd(selectorPosition, scaleVector)
+
+    scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+
+    local min = VectorSub(selectorPosition, scaleVector)
+    local max = VectorAdd(selectorPosition, scaleVector)
+
+    scaleVector = VectorMulByNumber(boundsSize, self.currentScale + 1)
+
+    local minPlus = VectorSub(selectorPosition, scaleVector)
+    local maxPlus = VectorAdd(selectorPosition, scaleVector)
+
+    local sorter = function( lhs, rhs )
+        local position1 = EntityService:GetPosition( lhs )
+        local position2 = EntityService:GetPosition( rhs )
+        local distance1 = Distance( selectorPosition, position1 )
+        local distance2 = Distance( selectorPosition, position2 )
+        return distance1 < distance2
+    end
+
+    self:AddRuins( selectedItems, minScaleHalf, maxScaleHalf, sorter )
+
+    self:AddResourceVolumes( selectedItems, minScaleHalf, maxScaleHalf, sorter )
+
+    self:AddResourceComponents( selectedItems, minScaleHalf, maxScaleHalf, sorter )
 
     if ( self.activateBioAnomaliesExists ) then
-        self:AddBioAnomalies( selectedItems, selectorPosition )
+        self:AddBioAnomalies( selectedItems, min, max, sorter )
     end
 
     if ( self.healingToolExists ) then
-        self:AddNeutralUnits( selectedItems, selectorPosition )
+        self:AddNeutralUnits( selectedItems, min, max, sorter )
     end
 
     if ( self.wrecksEraserExists ) then
-        self:AddWrecks( selectedItems, selectorPosition )
+        self:AddWrecks( selectedItems, minPlus, maxPlus, sorter )
     end
 
     if ( self.minesEraserExists ) then
-        self:AddMines( selectedItems, selectorPosition )
+        self:AddMines( selectedItems, minPlus, maxPlus, sorter )
     end
 
     return selectedItems
 end
 
-function picker_tool:AddRuins( selectedItems, selectorPosition )
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
+function picker_tool:AddRuins( selectedItems, min, max )
 
     local ruins = FindService:FindEntitiesByGroupInBox( "##ruins##", min, max )
 
     ConcatUnique( selectedItems, ruins )
 end
 
-function picker_tool:AddResourceVolumes( selectedItems, selectorPosition )
+function picker_tool:AddResourceVolumes( selectedItems, min, max, sorter )
 
     local resourceVolumeEntities = {}
 
@@ -447,13 +465,6 @@ function picker_tool:AddResourceVolumes( selectedItems, selectorPosition )
 
         signature="ResourceVolumeComponent"
     }
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
@@ -476,20 +487,12 @@ function picker_tool:AddResourceVolumes( selectedItems, selectorPosition )
         ::labelContinue::
     end
 
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
-    end
-
     table.sort(resourceVolumeEntities, sorter)
 
     ConcatUnique( selectedItems, resourceVolumeEntities )
 end
 
-function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
+function picker_tool:AddResourceComponents( selectedItems, min, max, sorter )
 
     local resourceComponents = {}
 
@@ -497,13 +500,6 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
 
         signature="ResourceComponent"
     }
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
@@ -522,20 +518,12 @@ function picker_tool:AddResourceComponents( selectedItems, selectorPosition )
         ::labelContinue::
     end
 
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
-    end
-
     table.sort(resourceComponents, sorter)
 
     ConcatUnique( selectedItems, resourceComponents )
 end
 
-function picker_tool:AddNeutralUnits( selectedItems, selectorPosition )
+function picker_tool:AddNeutralUnits( selectedItems, min, max, sorter )
 
     local result = {}
 
@@ -567,13 +555,6 @@ function picker_tool:AddNeutralUnits( selectedItems, selectorPosition )
         end
     }
 
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
-
     local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
     for entity in Iter( tempCollection ) do
@@ -591,29 +572,14 @@ function picker_tool:AddNeutralUnits( selectedItems, selectorPosition )
         ::labelContinue::
     end
 
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
-    end
-
     table.sort(result, sorter)
 
     ConcatUnique( selectedItems, result )
 end
 
-function picker_tool:AddBioAnomalies( selectedItems, selectorPosition )
+function picker_tool:AddBioAnomalies( selectedItems, min, max, sorter )
 
     local result = {}
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
 
     local tempCollection = FindService:FindEntitiesByGroupInBox( "loot_container", min, max )
 
@@ -668,30 +634,14 @@ function picker_tool:AddBioAnomalies( selectedItems, selectorPosition )
         ::labelContinue::
     end
 
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
-    end
-
     table.sort(result, sorter)
 
     ConcatUnique( selectedItems, result )
 end
 
-function picker_tool:AddWrecks( selectedItems, selectorPosition )
+function picker_tool:AddWrecks( selectedItems, min, max, sorter )
 
     local result = {}
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale + 1)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
-    
     
     local aabb = {}
     aabb.min = min
@@ -718,29 +668,14 @@ function picker_tool:AddWrecks( selectedItems, selectorPosition )
         ::labelContinue::
     end
 
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
-    end
-
     table.sort(result, sorter)
 
     ConcatUnique( selectedItems, result )
 end
 
-function picker_tool:AddMines( selectedItems, selectorPosition )
+function picker_tool:AddMines( selectedItems, min, max, sorter )
 
     local result = {}
-
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale + 1)
-
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
 
     local predicate = {
 
@@ -781,14 +716,6 @@ function picker_tool:AddMines( selectedItems, selectorPosition )
         Insert( result, entity )
 
         ::labelContinue::
-    end
-
-    local sorter = function( lhs, rhs )
-        local position1 = EntityService:GetPosition( lhs )
-        local position2 = EntityService:GetPosition( rhs )
-        local distance1 = Distance( selectorPosition, position1 )
-        local distance2 = Distance( selectorPosition, position2 )
-        return distance1 < distance2
     end
 
     table.sort(result, sorter)
