@@ -418,22 +418,26 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     local selectorPosition = selectorComponent.position
 
-    local boundsSize = { x=1.0, y=100.0, z=1.0 }
+    local boundsSizeMin = { x=1.0, y=4.0, z=1.0 }
+    local boundsSizeMax = { x=1.0, y=100.0, z=1.0 }
+    
+    local scaleVectorMin = VectorMulByNumber(boundsSizeMin, self.currentScale - 0.5)
+    local scaleVectorMax = VectorMulByNumber(boundsSizeMax, self.currentScale - 0.5)
 
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale - 0.5)
+    local minScaleHalf = VectorSub(selectorPosition, scaleVectorMin)
+    local maxScaleHalf = VectorAdd(selectorPosition, scaleVectorMax)
 
-    local minScaleHalf = VectorSub(selectorPosition, scaleVector)
-    local maxScaleHalf = VectorAdd(selectorPosition, scaleVector)
+    scaleVectorMin = VectorMulByNumber(boundsSizeMin, self.currentScale)
+    scaleVectorMax = VectorMulByNumber(boundsSizeMax, self.currentScale)
 
-    scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
+    local min = VectorSub(selectorPosition, scaleVectorMin)
+    local max = VectorAdd(selectorPosition, scaleVectorMax)
 
-    local min = VectorSub(selectorPosition, scaleVector)
-    local max = VectorAdd(selectorPosition, scaleVector)
+    scaleVectorMin = VectorMulByNumber(boundsSizeMin, self.currentScale + 1)
+    scaleVectorMax = VectorMulByNumber(boundsSizeMax, self.currentScale + 1)
 
-    scaleVector = VectorMulByNumber(boundsSize, self.currentScale + 1)
-
-    local minPlus = VectorSub(selectorPosition, scaleVector)
-    local maxPlus = VectorAdd(selectorPosition, scaleVector)
+    local minPlus = VectorSub(selectorPosition, scaleVectorMin)
+    local maxPlus = VectorAdd(selectorPosition, scaleVectorMax)
 
     local sorter = function( lhs, rhs )
         local position1 = EntityService:GetPosition( lhs )
