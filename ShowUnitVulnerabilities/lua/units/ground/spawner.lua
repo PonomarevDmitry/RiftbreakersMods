@@ -70,12 +70,12 @@ function spawner:ShowVulnerabilitiesMenu(evt)
 
 	local resistanceComponentRef = reflection_helper(resistanceComponent)
 
-	local damageType = evt:GetDamageType()
-
-	local currentResistance = self:GetResistanceToDamage(damageType, resistanceComponentRef)
-	if ( currentResistance > 1 ) then
-		return
-	end
+	--local damageType = evt:GetDamageType()
+	--
+	--local currentResistance = self:GetResistanceToDamage(damageType, resistanceComponentRef)
+	--if ( currentResistance > 1 ) then
+	--	return
+	--end
 
 	globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
