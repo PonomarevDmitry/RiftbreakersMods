@@ -265,7 +265,7 @@ function attack_drone:OnOwnerDistanceCheckExecute()
         return
     end
     
-    if ( EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil ) then
+    if ( not EntityService:HasComponent(self.entity, "IsVisibleComponent") ) then
 
         local pointEntity = self:GetDroneFindCenterPoint()
 
