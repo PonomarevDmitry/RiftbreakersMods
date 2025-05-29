@@ -14,8 +14,8 @@ function provoke_creatures_tool:OnInit()
         1,
     }
 
-    self.currentValue = 100
-    self.stepValue = 5
+    self.currentValue = 200
+    self.stepValue = 10
 
     self.configName = "$provoke_creatures_tool_config"
 
