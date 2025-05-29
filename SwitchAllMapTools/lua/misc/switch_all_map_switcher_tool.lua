@@ -258,7 +258,7 @@ function switch_all_map_switcher_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
+        if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
             local skinned = EntityService:IsSkinned(entity)
 
