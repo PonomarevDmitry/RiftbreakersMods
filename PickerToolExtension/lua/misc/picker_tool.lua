@@ -572,6 +572,13 @@ function picker_tool:AddNeutralUnits( selectedItems, min, max, sorter )
                 return false
             end
 
+            local healthComponent = EntityService:GetComponent( entity, "HealthComponent")
+
+            local healthComponentRef = reflection_helper( healthComponent )
+            if ( healthComponentRef.max_health < 10 ) then
+                return false
+            end
+
             if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
 
                 return true
@@ -974,15 +981,23 @@ picker_tool.isNeutralUnit = function ( entity, player )
         return false
     end
 
-    if ( EntityService:HasComponent( entity, "HealthComponent" ) )  then
+    if ( not EntityService:HasComponent( entity, "HealthComponent" ) )  then
+        return false
+    end
 
-        if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+    local healthComponent = EntityService:GetComponent( entity, "HealthComponent")
 
-            if ( not EntityService:IsInTeamRelation(player, entity, "hostility") ) then
+    local healthComponentRef = reflection_helper( healthComponent )
+    if ( healthComponentRef.max_health < 10 ) then
+        return false
+    end
 
-                if ( HealthService:IsAlive(entity) ) then
-                    return true
-                end
+    if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+
+        if ( not EntityService:IsInTeamRelation(player, entity, "hostility") ) then
+
+            if ( HealthService:IsAlive(entity) ) then
+                return true
             end
         end
     end
