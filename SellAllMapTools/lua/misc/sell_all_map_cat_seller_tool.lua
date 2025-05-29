@@ -364,7 +364,7 @@ function sell_all_map_cat_seller_tool:OnUpdate()
 
         local buildingDescRef = reflection_helper( buildingDesc )
 
-        if ( EntityService:GetComponent(entity, "IsVisibleComponent") ~= nil ) then
+        if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
             local skinned = EntityService:IsSkinned(entity)
 
