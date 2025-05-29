@@ -56,7 +56,7 @@ function base_unit:ShowVulnerabilitiesMenu(evt)
 		return
 	end
 
-	if ( EntityService:GetComponent(self.entity, "IsVisibleComponent") == nil ) then
+	if ( not EntityService:HasComponent(self.entity, "IsVisibleComponent") ) then
 		return
 	end
 
@@ -135,7 +135,7 @@ function base_unit:GetGlobalMenuEntity(blueprintName)
 
 		if ( parent ~= nil and parent ~= INVALID_ID ) then
 
-			if ( EntityService:GetComponent(parent, "IsVisibleComponent") ~= nil ) then
+			if ( EntityService:HasComponent(parent, "IsVisibleComponent") ) then
 				return menuEntity
 			end
 		end
