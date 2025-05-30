@@ -72,9 +72,9 @@ function fertilizer_flora_tool:AddedToSelection( entity )
 
     local skinned = EntityService:IsSkinned(entity)
     if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
     else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
     end
 end
 
