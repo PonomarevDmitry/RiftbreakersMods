@@ -53,6 +53,7 @@ function picker_tool:OnInit()
     self.lootCollectorExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/loot_collecting" ) and (mod_picker_tool_extension_loot_collecting_tool ~= nil and mod_picker_tool_extension_loot_collecting_tool == 1);
 
     self.floorRebuilderExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/floor_rebuilder" );
+    self.ruinsEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/sell_2_ruins_eraser" ) and (mod_picker_tool_extension_ruins_eraser_tool ~= nil and mod_picker_tool_extension_ruins_eraser_tool == 1);
 
     self:SetBuildingIcon()
 end
@@ -1165,7 +1166,7 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
-    if ( self:ChangeSelectorToEntityByFilter( self.isRuins ) ) then
+    if ( self:ChangeSelectorToRuins() ) then
         return
     end
 
@@ -1384,6 +1385,51 @@ function picker_tool:OnActivateSelectorRequest()
             return
         end
     end
+end
+
+function picker_tool:ChangeSelectorToRuins()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( not self.isRuins(entity) ) then
+            goto labelContinue
+        end
+
+        local blueprintName = self:GetLinkedEntityBlueprint( entity ) or ""
+
+        if ( blueprintName == "" ) then
+            goto labelContinue
+        end
+
+        local currentTime = GetLogicTime()
+
+        if ( self.ruinsEraserExists ) then
+
+            local lastBlueprintName, lastEntityId = self:GetLastBlueprint("ruins", currentTime)
+
+            if ( lastBlueprintName == blueprintName and entity == lastEntityId ) then
+
+                if ( self:ChangeSelectorToBlueprint( "buildings/tools/sell_2_ruins_eraser", true ) ) then
+
+                    self:SetLastBlueprint("ruins", currentTime, "buildings/tools/sell_2_ruins_eraser", entity)
+                    return true
+                end
+            end
+        end
+
+        if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+
+            if ( self.ruinsEraserExists ) then
+                self:SetLastBlueprint("ruins", currentTime, blueprintName, entity)
+            end
+
+            return true
+        end
+
+        ::labelContinue::
+    end
+
+    return false
 end
 
 function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
@@ -2023,7 +2069,7 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
         return ""
     end
 
-    local maxDeltaLast = 1.5
+    local maxDeltaLast = 1
 
     for lowName in Iter( selectedBluprintsNames ) do
 
@@ -2572,9 +2618,11 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
 
     lastTimeValue = lastTimeValue or 0
 
-    local maxDeltaLast = 1.5
+    local maxDeltaLast = 1
 
     local delta = currentTime - lastTimeValue
+
+    --LogService:Log("currentTime " .. tostring(currentTime) .. "      currentTime+maxDeltaLast " .. tostring(currentTime+maxDeltaLast).. "      delta " .. tostring(delta))
 
     if ( delta >= maxDeltaLast ) then
 
