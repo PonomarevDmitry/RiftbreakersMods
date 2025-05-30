@@ -52,6 +52,8 @@ function picker_tool:OnInit()
     self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks_and_flora" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
     self.lootCollectorExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/loot_collecting" ) and (mod_picker_tool_extension_loot_collecting_tool ~= nil and mod_picker_tool_extension_loot_collecting_tool == 1);
 
+    self.floorRebuilderExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/floor_rebuilder" );
+
     self:SetBuildingIcon()
 end
 
@@ -1416,8 +1418,28 @@ function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
 
             blueprintName = string.gsub( blueprintName, "2", "1" )
         end
+                    
+        local currentTime = GetLogicTime()
+
+        if ( self.floorRebuilderExists ) then
+
+            local lastBlueprintName = self:GetLastFloor(currentTime)
+
+            if ( lastBlueprintName == blueprintName ) then
+
+                if ( self:ChangeSelectorToBlueprint( "buildings/tools/floor_rebuilder", true ) ) then
+
+                    self:SetLastFloor("buildings/tools/floor_rebuilder", currentTime)
+                    return true
+                end
+            end
+        end
 
         if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
+
+            if ( self.floorRebuilderExists ) then
+                self:SetLastFloor(blueprintName, currentTime)
+            end
 
             return true
         end
@@ -2514,6 +2536,71 @@ function picker_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
     end
 
     return ""
+end
+
+function picker_tool:GetLastFloor(currentTime)
+
+    local parameterName = "$picker_tool_last_floor_blueprint"
+    local parameterTimeName = "$picker_tool_last_floor_blueprint_time"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    local lastValue = ""
+    local lastTimeValue = 0
+
+    if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+        lastValue = selectorDB:GetStringOrDefault(parameterName, "") or ""
+        lastTimeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
+    end
+
+    if ( lastValue == "" ) then
+
+        if ( CampaignService.GetCampaignData ) then
+        
+            local campaignDatabase = CampaignService:GetCampaignData()
+            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+                lastValue = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
+                lastTimeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
+            end
+        end
+    end
+
+    lastTimeValue = lastTimeValue or 0
+
+    local maxDeltaLast = 1.5
+
+    local delta = currentTime - lastTimeValue
+
+    if ( delta >= maxDeltaLast ) then
+
+        lastValue = ""
+    end
+
+    return lastValue
+end
+
+function picker_tool:SetLastFloor(blueprintName, timeValue)
+
+    local parameterName = "$picker_tool_last_floor_blueprint"
+    local parameterTimeName = "$picker_tool_last_floor_blueprint_time"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    if ( selectorDB ) then
+
+        selectorDB:SetString(parameterName, blueprintName)
+        selectorDB:SetFloat(parameterTimeName, timeValue)
+    end
+
+    if ( CampaignService.GetCampaignData ) then
+    
+        local campaignDatabase = CampaignService:GetCampaignData()
+        if ( campaignDatabase ) then
+            campaignDatabase:SetString( parameterName, blueprintName )
+            campaignDatabase:SetFloat( parameterTimeName, timeValue )
+        end
+    end
 end
 
 return picker_tool
