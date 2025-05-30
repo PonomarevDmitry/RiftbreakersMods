@@ -1423,13 +1423,13 @@ function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
 
         if ( self.floorRebuilderExists ) then
 
-            local lastBlueprintName = self:GetLastFloor(currentTime)
+            local lastBlueprintName = self:GetLastBlueprint("floor", currentTime)
 
             if ( lastBlueprintName == blueprintName ) then
 
                 if ( self:ChangeSelectorToBlueprint( "buildings/tools/floor_rebuilder", true ) ) then
 
-                    self:SetLastFloor("buildings/tools/floor_rebuilder", currentTime)
+                    self:SetLastBlueprint("floor", currentTime, "buildings/tools/floor_rebuilder")
                     return true
                 end
             end
@@ -1438,7 +1438,7 @@ function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
         if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
 
             if ( self.floorRebuilderExists ) then
-                self:SetLastFloor(blueprintName, currentTime)
+                self:SetLastBlueprint("floor", currentTime, blueprintName)
             end
 
             return true
@@ -2538,10 +2538,10 @@ function picker_tool:CalculateBuildingMenuIcon( blueprintName, buildingDescRef )
     return ""
 end
 
-function picker_tool:GetLastFloor(currentTime)
+function picker_tool:GetLastBlueprint(suffix, currentTime)
 
-    local parameterName = "$picker_tool_last_floor_blueprint"
-    local parameterTimeName = "$picker_tool_last_floor_blueprint_time"
+    local parameterName = "$picker_tool_last_" .. suffix .. "_blueprint"
+    local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -2580,10 +2580,10 @@ function picker_tool:GetLastFloor(currentTime)
     return lastValue
 end
 
-function picker_tool:SetLastFloor(blueprintName, timeValue)
+function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName)
 
-    local parameterName = "$picker_tool_last_floor_blueprint"
-    local parameterTimeName = "$picker_tool_last_floor_blueprint_time"
+    local parameterName = "$picker_tool_last_" .. suffix .. "_blueprint"
+    local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
