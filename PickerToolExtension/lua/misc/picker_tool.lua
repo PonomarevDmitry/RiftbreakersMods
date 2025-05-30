@@ -1960,6 +1960,8 @@ function picker_tool:ChangeSelectorToBlueprint( blueprintName, ignoreBuildCosts 
         lowName = buildingDescHelper.name
     end
 
+    --LogService:Log("lowName " .. tostring(lowName) .. " buildingDescHelper.name " .. tostring(buildingDescHelper.name))
+
     BuildingService:SetBuildingLastLevel( self.playerId, lowName, buildingDescHelper.name )
 
     QueueEvent("ChangeBuildingRequest", self.selector, lowName )
@@ -2297,8 +2299,8 @@ end
 
 function picker_tool:GetLastVeinExtractor(resourceId)
 
-    local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
-    local parameterTimeName = "$last_" .. resourceId .. "_extractor_time"
+    local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
+    local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -2330,9 +2332,8 @@ end
 
 function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
 
-    local parameterName = "$last_" .. resourceId .. "_extractor_blueprint"
-
-    local parameterTimeName = "$last_" .. resourceId .. "_extractor_time"
+    local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
+    local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
