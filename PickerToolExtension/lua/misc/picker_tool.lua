@@ -1423,13 +1423,13 @@ function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
 
         if ( self.floorRebuilderExists ) then
 
-            local lastBlueprintName = self:GetLastBlueprint("floor", currentTime)
+            local lastBlueprintName, lastEntityId = self:GetLastBlueprint("floor", currentTime)
 
-            if ( lastBlueprintName == blueprintName ) then
+            if ( lastBlueprintName == blueprintName and entity == lastEntityId ) then
 
                 if ( self:ChangeSelectorToBlueprint( "buildings/tools/floor_rebuilder", true ) ) then
 
-                    self:SetLastBlueprint("floor", currentTime, "buildings/tools/floor_rebuilder")
+                    self:SetLastBlueprint("floor", currentTime, "buildings/tools/floor_rebuilder", entity)
                     return true
                 end
             end
@@ -1438,7 +1438,7 @@ function picker_tool:ChangeSelectorToFloor( currentEntityPosition )
         if ( self:ChangeSelectorToBlueprint( blueprintName ) ) then
 
             if ( self.floorRebuilderExists ) then
-                self:SetLastBlueprint("floor", currentTime, blueprintName)
+                self:SetLastBlueprint("floor", currentTime, blueprintName, entity)
             end
 
             return true
@@ -2542,16 +2542,19 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
 
     local parameterName = "$picker_tool_last_" .. suffix .. "_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
+    local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
     local lastValue = ""
     local lastTimeValue = 0
+    local lastEntityId = INVALID_ID
 
     if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
         lastValue = selectorDB:GetStringOrDefault(parameterName, "") or ""
         lastTimeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
+        lastEntityId = selectorDB:GetIntOrDefault(parameterEntityName, INVALID_ID)
     end
 
     if ( lastValue == "" ) then
@@ -2562,6 +2565,7 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
             if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
                 lastValue = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
                 lastTimeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
+                lastEntityId = campaignDatabase:GetIntOrDefault(parameterEntityName, INVALID_ID)
             end
         end
     end
@@ -2575,15 +2579,20 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
     if ( delta >= maxDeltaLast ) then
 
         lastValue = ""
+        lastEntityId = INVALID_ID
     end
 
-    return lastValue
+    return lastValue, lastEntityId
 end
 
-function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName)
+function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId)
+
+    timeValue = timeValue or 0
+    entityId = entityId or INVALID_ID
 
     local parameterName = "$picker_tool_last_" .. suffix .. "_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
+    local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
     local selectorDB = EntityService:GetDatabase( self.selector )
 
@@ -2591,6 +2600,7 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName)
 
         selectorDB:SetString(parameterName, blueprintName)
         selectorDB:SetFloat(parameterTimeName, timeValue)
+        selectorDB:SetInt(parameterEntityName, entityId)
     end
 
     if ( CampaignService.GetCampaignData ) then
@@ -2599,6 +2609,7 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName)
         if ( campaignDatabase ) then
             campaignDatabase:SetString( parameterName, blueprintName )
             campaignDatabase:SetFloat( parameterTimeName, timeValue )
+            campaignDatabase:SetInt( parameterEntityName, entityId )
         end
     end
 end
