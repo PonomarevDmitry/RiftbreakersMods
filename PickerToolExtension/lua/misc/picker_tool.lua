@@ -49,7 +49,7 @@ function picker_tool:OnInit()
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
-    self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks_and_flora" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
+    self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
     self.lootCollectorExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/loot_collecting" ) and (mod_picker_tool_extension_loot_collecting_tool ~= nil and mod_picker_tool_extension_loot_collecting_tool == 1);
 
     self.floorRebuilderExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/floor_rebuilder" );
@@ -1348,7 +1348,7 @@ function picker_tool:OnActivateSelectorRequest()
 
     if ( self.rocksEraserExists ) then
 
-        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isRock, "buildings/tools/eraser_rocks_and_flora", true ) ) then
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isRock, "buildings/tools/eraser_rocks", true ) ) then
             return
         end
     end
