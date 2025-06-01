@@ -11,3 +11,7 @@ mod_picker_tool_extension_eraser_rocks_tool = 1
 mod_picker_tool_extension_loot_collecting_tool = 1
 
 mod_picker_tool_extension_ruins_eraser_tool = 1
+
+mod_picker_tool_extension_eraser_flora_tool = 1
+
+mod_picker_tool_extension_fertilizer_flora_tool = 1

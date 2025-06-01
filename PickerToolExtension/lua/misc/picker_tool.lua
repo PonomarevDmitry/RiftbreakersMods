@@ -55,6 +55,9 @@ function picker_tool:OnInit()
     self.floorRebuilderExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/floor_rebuilder" );
     self.ruinsEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/sell_2_ruins_eraser" ) and (mod_picker_tool_extension_ruins_eraser_tool ~= nil and mod_picker_tool_extension_ruins_eraser_tool == 1);
 
+    self.floraEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_flora" ) and (mod_picker_tool_extension_eraser_flora_tool ~= nil and mod_picker_tool_extension_eraser_flora_tool == 1);
+    self.floraFertilizerExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/fertilizer_flora" ) and (mod_picker_tool_extension_fertilizer_flora_tool ~= nil and mod_picker_tool_extension_fertilizer_flora_tool == 1);
+
     self:SetBuildingIcon()
 end
 
@@ -303,25 +306,33 @@ function picker_tool:AddedToSelection( entity )
 
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_grey_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_grey", "selected" )
         end
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_deny", "selected" )
         end
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
         local skinned = EntityService:IsSkinned(entity)
         if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
         else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+        end
+    elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
+
+        local skinned = EntityService:IsSkinned(entity)
+        if ( skinned ) then
+            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
+        else
+            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
         end
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
@@ -390,6 +401,10 @@ function picker_tool:RemovedFromSelection( entity )
         EntityService:RemoveMaterial( entity, "selected" )
 
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
+
+        EntityService:RemoveMaterial( entity, "selected" )
+
+    elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
 
@@ -474,6 +489,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     if ( self.rocksEraserExists ) then
         self:AddRocks( selectedItems, minScaleHalf, maxScaleHalf, sorter )
+    end
+
+    if ( self.floraEraserExists or self.floraFertilizerExists ) then
+        self:AddFlora( selectedItems, min, max, sorter )
     end
 
     if ( self.lootCollectorExists ) then
@@ -757,6 +776,97 @@ function picker_tool:AddMines( selectedItems, min, max, sorter )
 
         ::labelContinue::
     end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
+function picker_tool:AddFlora( selectedItems, min, max, sorter )
+
+    local result = {}
+
+    local predicate = {
+
+        signature = "TypeComponent",
+
+        filter = function(entity)
+
+            local blueprintName = EntityService:GetBlueprintName(entity)
+
+            if ( EntityService:CompareType( entity, "flora" ) ) then
+                return true
+            end
+
+            if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+
+                if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+
+                if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+
+                if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+            end
+
+            return false
+        end
+    }
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+
+
+    predicate = {
+        signature = "VegetationLifecycleEnablerComponent"
+    }
+
+    tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue2
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue2
+        end
+
+        if ( not EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent") ) then
+            goto labelContinue2
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue2::
+    end
+
+
+
+
 
     table.sort(result, sorter)
 
@@ -1150,6 +1260,48 @@ picker_tool.isLoot = function ( entity, player )
     return ItemService:CanFitResourceGiver( player, test_entity )
 end
 
+picker_tool.isFlora = function( entity )
+
+    if ( entity == nil or entity == INVALID_ID ) then
+
+        return false
+    end
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    if ( EntityService:HasComponent( entity, "TypeComponent") ) then
+
+        if ( EntityService:CompareType( entity, "flora" ) ) then
+            return true
+        end
+    end
+
+    if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+
+        if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+
+            return true
+        end
+
+        if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
+
+            return true
+        end
+
+        if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
+
+            return true
+        end
+    end
+
+    if ( EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent") ) then
+
+        return true
+    end
+
+    return false
+end
+
 function picker_tool:OnActivateSelectorRequest()
 
     if ( self.selectedMode >= self.modeBuildingLastSelected ) then
@@ -1225,6 +1377,13 @@ function picker_tool:OnActivateSelectorRequest()
     if ( self.healingToolExists ) then
 
         if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isNeutralUnit, "buildings/tools/heal_neutral_tool", true ) ) then
+            return
+        end
+    end
+    
+    if ( self.floraEraserExists or self.floraFertilizerExists ) then
+
+        if ( self:ChangeSelectorToFlora() ) then
             return
         end
     end
@@ -1424,6 +1583,44 @@ function picker_tool:ChangeSelectorToRuins()
             end
 
             return true
+        end
+
+        ::labelContinue::
+    end
+
+    return false
+end
+
+function picker_tool:ChangeSelectorToFlora()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( not self.isFlora(entity) ) then
+            goto labelContinue
+        end
+
+        local currentTime = GetLogicTime()
+
+        local lastBlueprintName, lastEntityId = self:GetLastBlueprint("flora", currentTime)
+
+        if ( self.floraEraserExists and (not self.floraFertilizerExists or lastBlueprintName ~= "buildings/tools/eraser_flora" or entity ~= lastEntityId ) ) then
+
+            if ( self:ChangeSelectorToBlueprint( "buildings/tools/eraser_flora", true ) ) then
+
+                self:SetLastBlueprint("flora", currentTime, "buildings/tools/eraser_flora", entity)
+
+                return true
+            end
+        end
+
+        if ( self.floraFertilizerExists and (not self.floraEraserExists or lastBlueprintName ~= "buildings/tools/fertilizer_flora" or entity ~= lastEntityId ) ) then
+
+            if ( self:ChangeSelectorToBlueprint( "buildings/tools/fertilizer_flora", true ) ) then
+
+                self:SetLastBlueprint("flora", currentTime, "buildings/tools/fertilizer_flora", entity)
+
+                return true
+            end
         end
 
         ::labelContinue::
