@@ -7,6 +7,14 @@ function cultivator_sapling_picker_tool:__init()
     tool.__init(self,self)
 end
 
+function cultivator_sapling_picker_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
+function cultivator_sapling_picker_tool:GetScaleFromDatabase()
+    return { x=1, y=1, z=1 }
+end
+
 function cultivator_sapling_picker_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_picker_tool", self.entity)
     self.popupShown = false
@@ -96,12 +104,10 @@ function cultivator_sapling_picker_tool:UpdateMarker()
     end
 end
 
-function cultivator_sapling_picker_tool:OnPreInit()
-    self.initialScale = { x=1, y=1, z=1 }
-end
-
-function cultivator_sapling_picker_tool:GetScaleFromDatabase()
-    return { x=1, y=1, z=1 }
+function cultivator_sapling_picker_tool:SpawnCornerBlueprint()
+    if ( self.corners == nil ) then
+        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
+    end
 end
 
 function cultivator_sapling_picker_tool:AddedToSelection( entity )
@@ -110,12 +116,6 @@ function cultivator_sapling_picker_tool:AddedToSelection( entity )
         EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
     else
         EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
-end
-
-function cultivator_sapling_picker_tool:SpawnCornerBlueprint()
-    if ( self.corners == nil ) then
-        self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
