@@ -55,6 +55,10 @@ EntityBlueprint
 	}
 }
 
+
+
+
+
 EntityBlueprint
 {
 	name					"buildings/tools/sapling_replacer"
@@ -103,6 +107,69 @@ EntityBlueprint
 		database
 		{
 			action			string:"cultivator_sapling_replacer_tool"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_violet"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/sapling_replacer_all"
+
+	BuildingDesc
+	{
+		name				"sapling_replacer_all"
+		bp					"buildings/tools/sapling_replacer_all"
+		ghost_bp			"buildings/tools/sapling_replacer_all_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/cultivator_sapling_replacer_all_tool"
+		description			"gui/hud/building_description/cultivator_sapling_replacer_all_tool"
+		menu_icon			"gui/hud/tools_icons/cultivator_sapling_replacer_all_tool"
+
+		order				"100"
+		type				"picker"
+
+		building_group		"sapling_picker"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/sapling_replacer_all_ghost"
+
+	BuildingDesc
+	{
+		name				"sapling_replacer_all_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/cultivator_sapling_replacer_all_tool.lua"
+		database
+		{
+			action			string:"cultivator_sapling_replacer_all_tool"
 		}
 	}
 
