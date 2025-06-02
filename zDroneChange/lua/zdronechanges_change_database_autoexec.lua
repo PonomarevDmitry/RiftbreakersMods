@@ -140,7 +140,7 @@ local supported_item_blueprints = {
         ["name"] = "items/upgrades/player_flora_collector_equipment_standard_item",
         ["ints"] = {
 
-            ["drone_count"] = 10,
+            ["drone_count"] = 20,
         },
     },
 
@@ -148,7 +148,7 @@ local supported_item_blueprints = {
         ["name"] = "items/upgrades/player_flora_collector_equipment_advanced_item",
         ["ints"] = {
 
-            ["drone_count"] = 20,
+            ["drone_count"] = 40,
         },
     },
 
@@ -156,7 +156,7 @@ local supported_item_blueprints = {
         ["name"] = "items/upgrades/player_flora_collector_equipment_superior_item",
         ["ints"] = {
 
-            ["drone_count"] = 30,
+            ["drone_count"] = 60,
         },
     },
 
@@ -164,7 +164,7 @@ local supported_item_blueprints = {
         ["name"] = "items/upgrades/player_flora_collector_equipment_extreme_item",
         ["ints"] = {
 
-            ["drone_count"] = 40,
+            ["drone_count"] = 80,
         },
     },
 
