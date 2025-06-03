@@ -122,3 +122,65 @@ local supported_item_blueprints = {
 }
 
 InjectChangeDefenseBuildingBlueprintDatabaseComponent(supported_item_blueprints)
+
+
+
+
+
+local InjectChangeDefenseBuildingGhostValues = function(blueprintName, rangeMax, aimingRange)
+
+    blueprintName = blueprintName .. "_ghost"
+
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
+        return
+    end
+
+    local displayRadiusComponent = blueprint:GetComponent("DisplayRadiusComponent")
+    if ( displayRadiusComponent == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' DisplayRadiusComponent NOT EXISTS.")
+        return
+    end
+
+    local max_radiusField = displayRadiusComponent:GetField("max_radius")
+    if ( max_radiusField == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' displayRadiusComponent:GetField('max_radius') NOT EXISTS.")
+        return
+    end
+
+    max_radiusField:SetValue(rangeMax)
+end
+
+local new_ghost_values = {
+
+    {
+        ["name"] = "buildings/defense/short_range_radar_lvl_2",
+        ["range_max"] = "240",
+    },
+
+    {
+        ["name"] = "buildings/defense/short_range_radar_lvl_3",
+        ["range_max"] = "320",
+    },
+
+    {
+        ["name"] = "buildings/defense/repair_facility_lvl_2",
+        ["range_max"] = "35",
+    },
+
+    {
+        ["name"] = "buildings/defense/repair_facility_lvl_3",
+        ["range_max"] = "45",
+    },
+}
+
+local InjectChangeListDefenseBuildingValues = function(blueprintStorageValues)
+
+    for _, configObject in ipairs(blueprintStorageValues) do
+
+        InjectChangeDefenseBuildingGhostValues(configObject.name, configObject.range_max)
+    end
+end
+
+InjectChangeListDefenseBuildingValues(new_ghost_values)
