@@ -139,3 +139,55 @@ local supported_item_blueprints = {
 }
 
 InjectChangeResourceBuildingBlueprintDatabaseComponent(supported_item_blueprints)
+
+
+
+
+
+local InjectChangeResourceBuildingGhostValues = function(blueprintName, rangeMax, aimingRange)
+
+    blueprintName = blueprintName .. "_ghost"
+
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
+        return
+    end
+
+    local displayRadiusComponent = blueprint:GetComponent("DisplayRadiusComponent")
+    if ( displayRadiusComponent == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' DisplayRadiusComponent NOT EXISTS.")
+        return
+    end
+
+    local max_radiusField = displayRadiusComponent:GetField("max_radius")
+    if ( max_radiusField == nil ) then
+        LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' displayRadiusComponent:GetField('max_radius') NOT EXISTS.")
+        return
+    end
+
+    max_radiusField:SetValue(rangeMax)
+end
+
+local new_ghost_values = {
+
+    {
+        ["name"] = "buildings/resources/flora_collector_lvl_2",
+        ["range_max"] = "30",
+    },
+
+    {
+        ["name"] = "buildings/resources/flora_collector_lvl_3",
+        ["range_max"] = "35",
+    },
+}
+
+local InjectChangeListResourceBuildingValues = function(blueprintStorageValues)
+
+    for _, configObject in ipairs(blueprintStorageValues) do
+
+        InjectChangeResourceBuildingGhostValues(configObject.name, configObject.range_max)
+    end
+end
+
+InjectChangeListResourceBuildingValues(new_ghost_values)
