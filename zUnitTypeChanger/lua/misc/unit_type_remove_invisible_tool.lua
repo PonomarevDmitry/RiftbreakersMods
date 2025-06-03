@@ -110,16 +110,17 @@ end
 
 function unit_type_remove_invisible_tool:AddedToSelection( entity )
 
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "SelectEntityRequest", entity )
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
     end
 end
 
 function unit_type_remove_invisible_tool:RemovedFromSelection( entity )
 
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "DeselectEntityRequest", entity )
-    end
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function unit_type_remove_invisible_tool:OnRotate()
@@ -140,6 +141,24 @@ function unit_type_remove_invisible_tool:OnActivateEntity( entity )
     currentType = string.gsub( currentType, "^[|]*(.-)[|]*$", "%1" )
 
     EntityService:ChangeType( entity, currentType )
+
+
+
+
+
+    local markerBlueprintName = "effects/unit_type_changer_tool/unit_type_changer_ignore"
+
+    local childreen = EntityService:GetChildren(entity, true)
+
+    for childEntity in Iter( childreen ) do
+
+        local blueprintName = EntityService:GetBlueprintName(childEntity)
+
+        if ( blueprintName == markerBlueprintName ) then
+
+            EntityService:RemoveEntity( childEntity )
+        end
+    end
 end
 
 return unit_type_remove_invisible_tool
