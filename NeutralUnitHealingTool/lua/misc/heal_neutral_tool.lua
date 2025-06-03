@@ -57,17 +57,22 @@ function heal_neutral_tool:FindEntitiesToSelect( selectorComponent )
                 return false
             end
 
-            if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
-
+            if ( EntityService:HasComponent( entity, "BuildingComponent" ) ) then
+            
                 return false
             end
 
-            if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+            --if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
+            --
+            --    return false
+            --end
 
-                return true
-            end
+            --if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
+            --
+            --    return true
+            --end
 
-            return false
+            return true
         end
     }
 
@@ -107,16 +112,17 @@ end
 
 function heal_neutral_tool:AddedToSelection( entity )
 
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "SelectEntityRequest", entity )
+    local skinned = EntityService:IsSkinned(entity)
+    if ( skinned ) then
+        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
+    else
+        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
     end
 end
 
 function heal_neutral_tool:RemovedFromSelection( entity )
 
-    if ( EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-        QueueEvent( "DeselectEntityRequest", entity )
-    end
+    EntityService:RemoveMaterial( entity, "selected" )
 end
 
 function heal_neutral_tool:OnRotate()
