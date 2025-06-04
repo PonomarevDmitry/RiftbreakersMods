@@ -57,22 +57,43 @@ function heal_neutral_tool:FindEntitiesToSelect( selectorComponent )
                 return false
             end
 
-            if ( EntityService:HasComponent( entity, "BuildingComponent" ) ) then
+            if ( EntityService:HasComponent( entity, "BuildingComponent" ) or EntityService:HasComponent( entity, "MechComponent" ) ) then
             
                 return false
             end
 
-            --if ( EntityService:IsInTeamRelation(self.player, entity, "hostility") ) then
-            --
-            --    return false
-            --end
+            local isUnitEntity = EntityService:HasComponent( entity, "AIUnitComponent" )
+                or EntityService:HasComponent( entity, "NeutralUnitComponent" )
+                or EntityService:HasComponent( entity, "WaveUnitComponent" )
+                or EntityService:HasComponent( entity, "AggressiveStateComponent" )
+                or EntityService:HasComponent( entity, "NotAggressiveStateComponent" )
+                ;
 
-            --if ( EntityService:HasComponent( entity, "AIUnitComponent" ) or EntityService:HasComponent( entity, "NeutralUnitComponent" ) ) then
-            --
-            --    return true
-            --end
+            local isEnemy = EntityService:IsInTeamRelation(self.player, entity, "hostility")
 
-            return true
+            if ( isUnitEntity ) then
+
+                if ( isEnemy ) then
+
+                    return false
+                else
+                
+                    return true
+                end
+            end
+
+            if ( EntityService:HasComponent( entity, "VegetationComponent" ) ) then
+            
+                if ( isEnemy ) then
+
+                    return true
+                else
+                
+                    return false
+                end
+            end
+
+            return false
         end
     }
 
