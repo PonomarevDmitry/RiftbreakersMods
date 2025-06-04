@@ -105,7 +105,7 @@ function ghost_building_portal_construction:BuildDesertFloor(spot)
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, antiQuickSandFloor ) and BuildingService:CanAffordBuilding( antiQuickSandFloor, self.playerId) ) then
 
-        local buildDesertFloor, positions = self:ShouldBuildDesertFloor( spot.position )
+        local buildDesertFloor = self:ShouldBuildDesertFloor( spot.position )
 
         if ( buildDesertFloor ) then
 
@@ -304,10 +304,6 @@ end
 
 function ghost_building_portal_construction:ShouldBuildDesertFloor( position )
 
-    local result = false
-
-    local positions = {}
-
     local arrayDelta = { -1, 1 }
 
     for deltaX in Iter(arrayDelta) do
@@ -319,16 +315,14 @@ function ghost_building_portal_construction:ShouldBuildDesertFloor( position )
             newPosition.y = position.y
             newPosition.z = position.z + deltaZ
 
-            Insert( positions, newPosition )
-
             if ( self:ShouldBuildDesertFloorOnCell( newPosition ) ) then
                 
-                result = true
+                return true
             end
         end
     end
 
-    return result, positions
+    return false
 end
 
 function ghost_building_portal_construction:ShouldBuildDesertFloorOnCell( position )
