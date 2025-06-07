@@ -1,0 +1,104 @@
+import * from "materials/scripts/pbr.material"
+
+////render_group 29  - excluded from dynamic shadow casting lights
+
+material items/weapons/telsa_gun : pbr/default
+{
+	//render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/lightning_gun_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/lightning_gun_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/lightning_gun_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/telsa_gun_emissive.dds
+
+	glow 3
+}
+
+
+material items/weapons/telsa_gun_advanced : pbr/default
+{
+	//render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/lightning_gun_advanced_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/lightning_gun_advanced_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/lightning_gun_advanced_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/telsa_gun_advanced_emissive.dds
+
+	glow 3
+}
+
+
+material items/weapons/telsa_gun_superior : pbr/default
+{
+	//render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/lightning_gun_superior_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/lightning_gun_superior_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/lightning_gun_superior_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/telsa_gun_superior_emissive.dds
+
+	glow 3
+}
+
+material items/weapons/telsa_gun_extreme : pbr/default
+{
+	//render_group 29
+	dissolve 0 10 20 1
+
+	set_texture_alias albedo			materials/textures/items/weapons/lightning_gun_extreme_albedo.dds
+	set_texture_alias normal			materials/textures/items/weapons/lightning_gun_extreme_normal.dds
+	set_texture_alias packed			materials/textures/items/weapons/lightning_gun_extreme_packed.dds
+	set_texture_alias emissive			materials/textures/items/weapons/telsa_gun_extreme_emissive.dds
+
+	glow 3
+}
+
+material items/weapons/telsa_gun_beam
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 30 0 60 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}

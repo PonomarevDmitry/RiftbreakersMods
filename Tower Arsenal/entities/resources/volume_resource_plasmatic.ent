@@ -1,0 +1,119 @@
+EntityBlueprint
+{
+	name  "resources/volume_resource_plasmatic"
+
+	MeshDesc
+	{
+        mesh        "meshes/water_quad.mesh"
+		material 	"resources/resource_plasmatic"
+        flags       "2"
+	}
+
+	SceneEditorDesc
+    {
+        initial_scale
+        {
+            x "10.0"
+            y "4.0"
+            z "10.0"
+        }
+    }
+
+	TypeDesc
+    {
+        type "water"
+    }
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                group_id    "water"
+                type        "static"
+
+                Shapes
+                {
+                    PhysicsBoxShape
+                    {
+                        x "1"
+                        y "1"
+                        z "1"
+                    }
+                }
+            }
+        }
+    }
+    
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-0.5"
+				y "-0.5"
+				z "-0.5"
+			}
+			max
+			{
+				x "0.5"
+				y "0.5"
+				z "0.5"
+			}	
+		}
+	}
+
+	ResourceVolumeDesc
+	{
+		type 		"plasmatic_vein"
+		amount 		"500"
+		infinity 	"1"
+        disable_custom_renderable "1"
+	}
+}
+
+EntityBlueprint
+{
+	name  "resources/volume_resource_plasmatic_visual_only"
+
+    MeshDesc
+    {
+        mesh        "meshes/water_quad.mesh"
+        material    "resources/resource_plasmatic"
+        flags       "2"
+    }
+
+	SceneEditorDesc
+    {
+        initial_scale
+        {
+            x "10.0"
+            y "4.0"
+            z "10.0"
+        }
+    }
+}
+
+EntityBlueprint
+{
+	name  "resources/volume_resource_plasmatic_visual_only_sphere"
+
+	MeshDesc
+	{
+		mesh        "meshes/sphere.mesh"
+		material 	"resources/resource_plasmatic"
+        flags       "2"
+	}
+
+	SceneEditorDesc
+    {
+        initial_scale
+        {
+            x "10.0"
+            y "0.01"
+            z "10.0"
+        }
+    }
+}

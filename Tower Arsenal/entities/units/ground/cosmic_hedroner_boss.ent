@@ -29,17 +29,15 @@ EntityBlueprint
 		max_spawn_distance				"20"
 		spawn_type						"egg"
 		spawn_marker_bp					"effects/messages_and_markers/wave_marker_nest"
-		spawn_marker_life_time			"30"
+		spawn_marker_life_time			"10"
 		can_spawn_when_visible			"0"
-		defend_radius					"80"
+		defend_radius					"20"
 	}
 
 	HealthDesc
 	{
-		max_health 					"3000"
-		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"9000"
+		health 						"9000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -58,7 +56,7 @@ EntityBlueprint
 	{
 		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		material "gui/hud/bars/elite_boss_health_1x3"
 	}	
 
 	MeshDesc
@@ -75,16 +73,16 @@ EntityBlueprint
 	{
 		ammo_blueprint 				"units/ground/cosmic_hedroner_boss_projectile"
 
-		burst_column_spacing 		"0.8"
-		burst_rate 					"0.15"
-		burst_column_angle 			"1"
+		//burst_column_spacing 		"0"
+		//burst_rate 					"0.1"
+		burst_column_angle 			"23"
 	}
 
 	children
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/hedroner_boss/attack"
+		    name "units/ground/cosmic_hedroner_boss/attack"
 
 			AttachmentDesc
 			{
@@ -273,8 +271,8 @@ EntityBlueprint
 		template_name "hedroner"
 		params
 		{
-			aggressive_speed					float:"7"
-			aggressive_acceleration				float:"14"
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"4"
 			rotate_speed						float:"450"
@@ -284,29 +282,36 @@ EntityBlueprint
 			melee_attack_name					string:"attack_1|attack_2"
 			teleport_distance					float:"30"
 			teleport_min_building_distance		float:"30"
-			teleport_time						float:"2.5"
+			teleport_time						float:"1.0"
 		}		
 	}
 	
 	ResistanceComponent
 	{
-		physical		"1.5"
+		physical		"0.5"
 		fire			"1.0"
-		acid			"0.5"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"0.5"
+		acid			"0.1"
+		energy			"2.0"
+		cryo			"3.0"
+		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.5"
-		reflect_damage_max_percent 		"0.1"
+
+		reflect_damage_max_percent 		"0.025"		
 	}
 
 	StunDataComponent
 	{
 		stagger_time 					"0.20"
-		stagger_health_threshold		"0.08"
+		stagger_health_threshold		"0.025"
 		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.3"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
 	}
 	
 	NavMeshMovementComponent

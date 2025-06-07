@@ -1,8 +1,8 @@
-//editor "scroll(1077.11,-1713.51)|zoom(0.80)"
+//editor "scroll(303.79,-574.11)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "14"
-	editor "6217"
+	version "15"
+	editor "6380"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -187,6 +187,12 @@ FlowGraphTemplate
 					{
 						key "name_is_global"
 						value "0"
+					}
+
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
 					}
 
 				}
@@ -1104,6 +1110,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1176,9 +1188,9 @@ FlowGraphTemplate
 
 		MarkerBlueprintSpawnerNode
 		{
-			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(996,-1740)"
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(1435,-1884)"
 			ignore_excluded_cells_check "0"
-			self_id "entity_marker_blueprint_spawner_9"
+			self_id "entity_marker_blueprint_spawner_2"
 			spawn_at_marker "logic/spawn_objective"
 			spawn_at_marker_name_is_global "1"
 			spawn_at_name
@@ -1187,7 +1199,7 @@ FlowGraphTemplate
 			spawn_instances_minmax "1,1"
 			spawn_minmax_distance_from_edge "100"
 			spawn_pool "objectives"
-			spawn_pool_local "objectives_primary,nest"
+			spawn_pool_local "nest,objectives_primary"
 			spawn_preference "undiscovered"
 			spawn_required "1"
 			spawn_team "enemy"
@@ -1197,8 +1209,8 @@ FlowGraphTemplate
 				//editor "expanded(1)"
 				ObjectSpawn
 				{
-					//editor "layout(object_spawn.xml)|pos(0,0)"
-					spawn_blueprint "units/ground/spawner_cosmic_canoptrix"
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_cosmic_canoptrix"
 					spawn_chance "1"
 					spawn_culls_entities_around "1"
 					spawn_culls_entities_radius "-1"
@@ -1209,7 +1221,8 @@ FlowGraphTemplate
 					spawn_group_count "0"
 					spawn_group_object_distance "0"
 					spawn_group_radius "0.0"
-					spawn_instances_minmax "10,10"
+					spawn_instances_minmax "1,1"
+					spawn_type "creature_species"
 				}
 
 			}
@@ -1236,14 +1249,14 @@ FlowGraphTemplate
 				{
 					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
 					key "objectives"
-					value "64"
+					value "20"
 				}
 
 				Pair_String_float
 				{
 					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
 					key "loot_containers"
-					value "64"
+					value "20"
 				}
 
 				Pair_String_float
@@ -1260,6 +1273,34 @@ FlowGraphTemplate
 					value "128"
 				}
 
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "10"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "enemy"
+					value "10"
+				}
+
 			}
 
 		}
@@ -1268,8 +1309,8 @@ FlowGraphTemplate
 
 	GraphConnections
 	{
-		default "entity_marker_blueprint_spawner_9"
-		entity_marker_blueprint_spawner_9 "logic_wait_5"
+		default "entity_marker_blueprint_spawner_2"
+		entity_marker_blueprint_spawner_2 "logic_wait_5"
 		entity_spawn_objective_marker_5 "entity_remove_4"
 		interface_dialogue_show_group_4 "objective_finish_6"
 		logic_if_alive_advanced_2 "logic_if_alive_advanced_2###true"

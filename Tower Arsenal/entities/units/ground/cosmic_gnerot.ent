@@ -150,7 +150,7 @@ EntityBlueprint
 			max_idle_time						float:"8.0"
 			eat_time							float::"15.0"
 			bp_on_range_attack					string:"units/ground/cosmic_gnerot_attack"
-			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-8.0"
 			range_attack_cooldown				float:"8.0"
 		}		
@@ -175,8 +175,6 @@ EntityBlueprint
 	{
 		max_health 					"3000"
 		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -193,22 +191,29 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"1.5"
-		fire			"1.0"
-		acid			"1.0"
-		energy			"1.0"
-		cryo			"2.0"
-		area			"0.2"
-		cosmic			"0.5"
-		plasmoid		"2.0"
+		physical		"0.1"
+		fire			"0.8"
+		acid			"0.8"
+		energy			"0.9"
+		cryo			"0.8"
+		area			"1.0"
+		cosmic			"0.8"
+		plasmoid		"0.9"
 	}
 
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"90"
 		unit_soft_radius				"2.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	MeshDesc

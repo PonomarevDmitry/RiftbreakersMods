@@ -1,0 +1,155 @@
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_krocoon"
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+	}
+
+	HealthDesc
+	{
+		max_health 					"3"
+		health 						"3"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/egg_canoptrix.mesh"
+		material "units/ground/egg_canoptrix"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "krocoon"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "1"
+						y "1"
+						z "1"
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility "radar"
+						
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"0.5"
+					explosion_effect 		"effects/enemies_canoptrix/death"
+				}
+
+				key "default"
+			}					
+		}
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_krocoon"
+		time_to_hatch			"10"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_canoptrix/death"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_krocoon_alpha"
+
+	base_blueprint "units/ground/egg_cosmic_krocoon"
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_krocoon_alpha"
+		time_to_hatch			"90"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_krocoon_ultra"
+
+	base_blueprint "units/ground/egg_cosmic_krocoon"
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_krocoon_ultra"
+		time_to_hatch			"90"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}

@@ -1,5 +1,72 @@
 EntityBlueprint
 {
+	name  		"items/weapons/cosmic_heavy_plasma_shield"
+
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	LuaDesc
+	{
+		script "lua/items/shields/heavy_plasma_shield.lua"
+
+		database
+		{
+			blink_speed 		float:"3"
+        	glow_factor			float:"10.0"
+        	delta_scale			float:"0.2"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/heavy_plasma_shield.mesh"
+        material 	"items/weapons/cosmic_heavy_plasma_shield"
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_blaster_charging_lvl1"
+	//}
+
+	SoundDesc
+	{
+		start_name 		"items/weapons/energy/heavy_plasma_shield_on"
+		name 			"items/weapons/energy/heavy_plasma_shield_idle"
+		end_name 		"items/weapons/energy/heavy_plasma_shield_off"
+	}
+
+	TypeDesc
+	{
+		type 			"shield"
+	}
+
+	PhysicsDesc
+    {
+    	objects
+    	{
+    		PhysicsObjectDesc
+    		{
+                group_id    "shield"
+                type        "kinematic"
+                
+                Shapes
+                {
+					PhysicsMeshShape
+                    {
+                        mesh "meshes/items/weapons/heavy_plasma_shield_c1.nxs"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+EntityBlueprint
+{
 	name  "items/weapons/cosmic_heavy_plasma"
 
 	MeshDesc
@@ -182,7 +249,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/heavy_plasma_weapon.lua"
+		script "lua/items/weapons/cosmic_heavy_plasma_weapon.lua"
 
 		database
 		{
@@ -232,7 +299,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/heavy_plasma_weapon.lua"
+		script "lua/items/weapons/cosmic_heavy_plasma_weapon.lua"
 
 		database
 		{
@@ -270,7 +337,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/heavy_plasma_weapon.lua"
+		script "lua/items/weapons/cosmic_heavy_plasma_weapon.lua"
 
 		database
 		{
@@ -320,11 +387,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/items/weapons/heavy_plasma_weapon.lua"
+		script "lua/items/weapons/cosmic_heavy_plasma_weapon.lua"
 
 		database
 		{
-			pad_equipped_feedback 				string:"weapon,2,4,4"
+			pad_equipped_feedback 					string:"weapon,2,4,4"
 			pad_active_feedback 					string:"vibration,4,2,80"
 			pad_charge_acquired_feedback			string:"vibration,0,4,40"
 			pad_charge_released_feedback			string:"vibration,0,8,40"
@@ -445,69 +512,3 @@ EntityBlueprint
 	}
 }
 
-EntityBlueprint
-{	
-	name  						"items/weapons/cosmic_plasma_shield"
-
-	base_blueprints
-	{
-		lights/point/fire_violet_very_small
-		effects/no_lifetime
-	}
-
-	LuaDesc
-	{
-		script "lua/items/shields/heavy_plasma_shield.lua"
-
-		database
-		{
-			blink_speed 		float:"3"
-        	glow_factor			float:"10.0"
-        	delta_scale			float:"0.1"
-		}
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/items/weapons/heavy_plasma_shield.mesh"
-        material 	"projectiles/laser_violet"
-	}
-
-	//ParticleDesc
-	//{
-	//	name    "rift/mech_blaster_charging_lvl1"
-	//}
-
-	SoundDesc
-	{
-		start_name 		"items/weapons/energy/heavy_plasma_shield_on"
-		name 			"items/weapons/energy/heavy_plasma_shield_idle"
-		end_name 		"items/weapons/energy/heavy_plasma_shield_off"
-	}
-
-	TypeDesc
-	{
-		type 			"shield"
-	}
-
-	PhysicsDesc
-    {
-    	objects
-    	{
-    		PhysicsObjectDesc
-    		{
-                group_id    "shield"
-                type        "kinematic"
-                
-                Shapes
-                {
-					PhysicsMeshShape
-                    {
-                        mesh "meshes/items/weapons/heavy_plasma_shield_c1.nxs"
-                    }
-                }
-            }
-        }
-    }
-
-}

@@ -2,7 +2,7 @@ EntityBlueprint
 {
 	name  "units/ground/cosmic_canoptrix_crystal_ultra"
 
-	base_blueprint units/ground/canoptrix_ultra_base
+	base_blueprint units/ground/cosmic_canoptrix_crystal
 
 	MeshDesc
 	{
@@ -86,10 +86,17 @@ EntityBlueprint
 	{
 		angle_turn_speed				"200"
 		unit_soft_radius				"0.76"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "1"
 	}
-	
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
 	EffectDesc
 	{		
 		EffectBaseBlueprints

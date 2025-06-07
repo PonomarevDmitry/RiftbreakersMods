@@ -1,0 +1,85 @@
+system rift/liquid_chimney_small
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 8
+    technique smoke
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 4
+            texture_coords_columns              16
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       5
+            angle                               7
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             7
+                max                             10
+            }
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                TextureAnimator Affector13
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                Colour Affector26
+        {
+            time_colour                         0    0.457303 0 0.501961 0
+            time_colour                         0.134783  0.468021 0 0.501961 0.694118
+            time_colour                         0.756522  0.489457 0 0.501961 0.6
+            time_colour                         1    0.41443 0 0.501961 0
+        }
+        affector                                TextureRotator Affector6
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             0.5
+                max                             -0.5
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                LinearForce Affector23
+        {
+            force_vector                        0 10 0
+            force_application                   average
+        }
+        affector                                Scale Affector31
+        {
+            xyz_scale                           10
+        }
+    }
+}

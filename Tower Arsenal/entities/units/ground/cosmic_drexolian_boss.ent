@@ -24,7 +24,7 @@ EntityBlueprint
 	{
 		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		material "gui/hud/bars/elite_boss_health_1x3"
 	}
 
 	MinimapItemDesc
@@ -37,10 +37,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"3000"
-		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"15000"
+		health 						"15000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -57,7 +55,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/drexolian.mesh"
+		mesh 		"meshes/units/ground/drexolian_boss.mesh"
 		material 	"units/ground/cosmic_drexolian_boss"
 	}
 
@@ -121,7 +119,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"50"
+										value 	"150"
 										type 	"physical"
 									}
 								}
@@ -203,7 +201,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"50"
+										value 	"250"
 										type 	"physical"
 									}
 								}
@@ -246,7 +244,7 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time "5"
+		time "12"
 	}
 
 	IdDesc
@@ -339,7 +337,7 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			damage_additional_debuff	"units/ground/drexolian/player_slowdown"
+			damage_additional_debuff	"units/ground/cosmic_drexolian_boss/player_slowdown"
 		}
 	}
 
@@ -366,7 +364,7 @@ EntityBlueprint
 					explosion_min_power 	"5000"
 					//explosion_effect 		"effects/enemies_bomogan/artillery_explosion"	
 					part_prefix 			"meshes/units/ground/canoptrix"
-					part_material 			"units/ground/cosmic_drexolian_boss"
+					part_material 			"projectiles/drexolian_projectile"
 					//part_effect 			"effects/enemies_generic/blood_trail_green"
 					part_physics_material   "gibs_light"					
 				}
@@ -448,15 +446,16 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.5"
-		fire			"4.0"
-		acid			"1.0"
-		energy			"1.0"
-		cryo			"0.1"
+		physical		"0.8"
+		fire			"2.0"
+		acid			"0.9"
+		energy			"0.8"
+		cryo			"0.7"
 		area			"1.0"
-		cosmic			"0.5"
-		plasmoid		"0.6"
-		reflect_damage_max_percent 		"0.02"
+		cosmic			"0.8"
+		plasmoid		"0.7"
+
+		reflect_damage_max_percent 		"0.030"
 	}
 
 	StunDataComponent
@@ -545,25 +544,6 @@ EntityBlueprint
 		}
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "3"
-			y "3"
-		}
-
-		visibility "radar"
-	}
-
 	HighlightComponent
 	{
 	}
@@ -646,7 +626,7 @@ EntityBlueprint
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies_drexolian/death"
-					part_prefix 			"meshes/units/ground/drexolian"
+					part_prefix 			"meshes/units/ground/drexolian_boss"
 					part_material 			"units/ground/cosmic_drexolian_boss"
 					part_effect 			"effects/enemies_generic/blood_trail_wood"
 					part_physics_material   "gibs_heavy"

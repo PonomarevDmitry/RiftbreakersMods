@@ -1,0 +1,360 @@
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun_beam"
+
+	LightningBeamComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_energy/telsa_gun_hit"
+
+		type_mask				"ground_unit"
+		aiming_angle			"120"
+
+		idle_attachments
+		{	
+			IdString "att_lightning_1"
+			IdString "att_lightning_2"
+			IdString "att_lightning_3"
+			IdString "att_lightning_4"
+			IdString "att_lightning_5"
+			IdString "att_lightning_6"
+		}
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/telsa_gun_beam"
+		tesselation_step 		"0.85"
+		beam_min_width 			"0.02"
+		beam_max_width 			"0.10"
+		beam_count 				"4"
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lightning_gun.mesh"
+		material 	"items/weapons/telsa_gun"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/lightning_gun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+	
+	BeamWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "3"
+		}
+
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons/telsa_gun_beam"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}	
+
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/lightning_gun_equipped"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/empty_energy_weapon"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_violet"
+					bone "att_muzzle_1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_energy/lightning_gun_loop"
+				}
+			}
+		}
+
+		//EffectGroup
+		//{
+		//	group "item_deactivated"
+		//	enabled "0"
+		//
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/weapons_energy/lightning_gun_stop"
+		//		}
+		//	}
+		//}
+	}
+}
+
+EntityBlueprint
+{
+	name "items/weapons/telsa_gun_advanced"
+
+	base_blueprint "items/weapons/telsa_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lightning_gun.mesh"
+		material 	"items/weapons/telsa_gun_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		Telsa Gun//"gui/menu/inventory/weapon_name/telsa_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/telsa_gun_advanced"
+		icon		"gui/hud/items_icons/weapons/lightning_gun_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/lightning_gun_advanced"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/telsa_gun_extreme"
+
+	base_blueprint "items/weapons/telsa_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lightning_gun.mesh"
+		material 	"items/weapons/telsa_gun_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		Telsa Gun//"gui/menu/inventory/weapon_name/telsa_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/telsa_gun_extreme"
+		icon		"gui/hud/items_icons/weapons/lightning_gun_extreme"
+		bigger_icon "gui/menu/items_icons/weapons/lightning_gun_extreme"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		Telsa Gun//"gui/menu/inventory/weapon_name/telsa_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/telsa_gun"
+		icon		"gui/hud/items_icons/weapons/lightning_gun"
+		bigger_icon "gui/menu/items_icons/weapons/lightning_gun"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/telsa_gun_superior"
+
+	base_blueprint "items/weapons/telsa_gun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/lightning_gun.mesh"
+		material 	"items/weapons/telsa_gun_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/telsa_gun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"energy"
+		name 		Telsa Gun//"gui/menu/inventory/weapon_name/telsa_gun"
+		holding_pose "range"
+		item_bp		"items/weapons/telsa_gun_superior"
+		icon		"gui/hud/items_icons/weapons/lightning_gun_superior"
+		bigger_icon "gui/menu/items_icons/weapons/lightning_gun_superior"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+		database
+		{
+			pad_equipped_feedback 		string:"vibration,5,4,200"
+		}			
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+

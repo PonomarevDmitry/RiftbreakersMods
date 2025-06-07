@@ -9,7 +9,7 @@ EntityBlueprint
 		buildable 			"0"	
 		name 				"magmatic_burner_lvl_2"
 		bp   				"buildings/resources/magmatic_burner_lvl_2"
-		category 			"resources"
+		category 			"building_modd"
 		type				"pipe"
 		localization_id		"Magmatic Burner"
 		description			"converts flammable gas into extremely hot magma"
@@ -24,11 +24,11 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 30
+				building_time 15
 				building_cost
 				{
-					carbonium 	"400"
-					steel 		"300"		
+					carbonium 		"500"
+					steel 			"400"
 				}
 			}		
 		}
@@ -41,23 +41,23 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"5"
+				value			 	"150"
 			}
 			
 			GameplayResource
 			{
 				resource 			"flammable_gas"
-				value			 	"75"
+				value			 	"50"
 				attachment			"att_in_1"
 				family				"in"
-			}
+			}	
 		}
 		out
 		{
 			GameplayResource
 			{
 				resource 			"magma"
-				value 				"100"
+				value 				"50"
 				attachment			"att_out_1"
 			}
 		}
@@ -70,7 +70,7 @@ EntityBlueprint
 			Storage
 			{
 				resource	 	"magma"
-				max 	 		"150"
+				max 	 		"100"
 				attachment		"att_out_1"
 			}
 		}
@@ -216,5 +216,20 @@ EntityBlueprint
 				}
 			}
 		}			
+		EffectGroup
+		{
+			group "addon"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "ta_effects/buildings_and_machines/magmatic_burner_addon"
+					bone "att_water"
+					scale "1.0 1.0 1.0"
+					offset "-0.0 -1.5 -0.0"
+				}
+			}
+		}
 	}
 }

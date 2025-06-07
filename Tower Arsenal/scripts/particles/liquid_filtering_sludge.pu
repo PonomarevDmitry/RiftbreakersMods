@@ -1,0 +1,59 @@
+system rift/liquid_filtering_sludge
+{
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 2
+    technique sparks_gravity_circle_up
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/smoke_cloud_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              4
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       50
+            angle                               10
+            time_to_live                        0.7
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             125
+                max                             150
+            }
+            keep_local                          true
+            end_texture_coords_range            3
+            start_colour_range                  1 1 1 1
+            radius                              150
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.569143 0.002077 0.58363 0
+            time_colour                         0.508696  0.446584 0 0.501961 1
+            time_colour                         1    0.569143 0.002077 0.58363 0
+        }
+        affector                                Vortex Affector387
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+        affector                                LinearForce Affector705
+        {
+        }
+    }
+}

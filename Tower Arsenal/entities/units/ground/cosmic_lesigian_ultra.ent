@@ -232,6 +232,11 @@ EntityBlueprint
 {	
 	name "units/ground/cosmic_lesigian/lightning_ultra"
 
+	ParticleDesc
+	{
+		name    "rift/enemy_cosmic_energy_projectile_big"
+	}
+
 	VegetationBendingComponentDesc
 	{
 		bending_power	"5000.0"
@@ -240,33 +245,37 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/enemies_lesigian/lightning_explosion"
-		on_world_hit_effect 	"effects/enemies_lesigian/lightning_explosion"			
-		
+		diameter				"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_world_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
-		DamagePattern
-		{
-			area_damage_radius 	"4"
-
-			Damages
-			{
-				Damage
-				{
-					value 	"99"
-					type 	"energy"
-				}
-			}
-		}
+		friendly_fire			"pass"
 	}
 
-	SimpleMovementComponent
+	MinimapItemDesc
 	{
-		movement "SimpleForwardMovement"
+		type	"quad"
+		color 
 		{
-			current_speed "200"
-			max_speed	  "200"
-			acceleration  "200"
+			x "1"
+			y "1"
+			z "0"
+			w "1"
 		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+	}
+
+	LifeTimeDesc
+	{
+		time 		3
 	}
 }

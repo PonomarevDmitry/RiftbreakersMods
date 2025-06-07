@@ -13,7 +13,7 @@ EntityBlueprint
 	{
 		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		material "gui/hud/bars/elite_boss_health_1x3"
 	}	
 
 	StateMachineDesc
@@ -21,8 +21,8 @@ EntityBlueprint
 		template_name "magmoth"
 		params
 		{
-			aggressive_speed					float:"8"
-			aggressive_acceleration				float:"16"
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"24"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"4"
 			rotate_speed						float:"450"
@@ -31,8 +31,8 @@ EntityBlueprint
 			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
 			melee_attack_name					string:"attack_1|attack_2"
 			teleport_start_distance			    float:"12"
-			teleport_cooldown					float:"15"
-			teleport_distance					float:"30"
+			teleport_cooldown					float:"10"
+			teleport_distance					float:"20"
 			teleport_min_building_distance		float:"30"
 			teleport_time						float:"0.65"
 		}		
@@ -40,15 +40,16 @@ EntityBlueprint
 	
 	ResistanceComponent
 	{
-		physical		"1.0"
+		physical		"0.9"
 		fire			"0.8"
-		acid			"2.0"
-		energy			"2.0"
-		cryo			"0.9"
-		area			"0.8"
+		acid			"0.8"
+		energy			"0.8"
+		cryo			"0.5"
+		area			"0.3"
 		cosmic			"0.6"
-		plasmoid		"1.0"
-		reflect_damage_max_percent 		"0.020"
+		plasmoid		"0.8"
+
+		reflect_damage_max_percent 		"0.015"
 	}
 
 	StunDataComponent
@@ -65,12 +66,20 @@ EntityBlueprint
 		force_stagger_chance 			"0.05"
 	}
 	
+	
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	UnitsSpawnerDesc
@@ -174,11 +183,6 @@ EntityBlueprint
 
 	}
 
-	KeepHighNavigationComponent
-	{
-		interpolation_speed  "0.75"
-	}
-
 	SelectableDesc
 	{
 		content "monster_name/cosmic_magmoth_boss"
@@ -195,23 +199,23 @@ EntityBlueprint
 
 	TurretDesc
 	{
-		name   "range"
-		target "player|ground_unit|building"
-		target_ignore "wall|invisible|ignore_as_target"
-		speed "200"
-		aim_volume "SphericalAimVolume"
+		name   			"range"
+		target 			"player|ground_unit|building"
+		target_ignore 	"wall|invisible|ignore_as_target"
+		speed 			"400"
+		aim_volume 		"SphericalAimVolume"
 		{
-			range_min "12"
-			range_max "27"
+			range_min 	"6"
+			range_max 	"27"
 		}
 
-		aiming_cooldown "1"
-		aiming_target_time "2"
-		aiming_idle_angle "20"
-		pitch "att_muzzle"
-		yaw "att_muzzle"
+		aiming_cooldown 		"1"
+		aiming_target_time 		"2"
+		aiming_idle_angle 		"20"
+		pitch 					"att_muzzle"
+		yaw 					"att_muzzle"
 		check_target_visibility "1"
-		use_IK "0"
+		use_IK 					"0"
 	}
 
 	DestroyDesc
@@ -341,7 +345,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_cosmic_magmoth_ultra_boss/teleport"
+					blueprint "effects/enemies_cosmic_magmoth/teleport"
 				}
 			}
 		}		
@@ -595,13 +599,13 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/units/ground/cosmic_magmoth.lua"
+		script "lua/units/ground/magmoth.lua"
 		database
 		{
-			min_scale	      float:"1.5"
-			max_scale	      float:"1.5"
-			//fuse_bp			  string:"effects/enemies_generic/time_damage_cosmic"
-		}			
+			min_scale	          float:"1.80"
+			max_scale	          float:"1.80"
+			fuse_bp			     string:"effects/enemies_cosmic_magmoth/teleport_trail"
+		}
 	}
 
 	EffectDesc
@@ -670,16 +674,18 @@ EntityBlueprint
 	WeaponItemDesc
 	{
 	}
-
+	
 	BurstWeaponComponent
 	{
-		ammo_blueprint 				"units/ground/cosmic_magmoth_boss/attack_range"
-
-		burst_column_spacing 		"5.0"
-		burst_rate 					"1.0"
-		burst_column_angle 			"45"
+		ammo_blueprint 				"units/ground/cosmic_magmoth_boss_projectile"
+		//muzzles_per_fire 			"3"
+		//muzzle_flash_effect 		"effects/weapon_fire/tower_basic"
+	
+		//burst_column_spacing 		"5"
+		//burst_rate 					"0.2"
+		burst_column_angle 			"20"
 	}
-
+	
 	children
 	{
 		EntityBlueprint
@@ -772,17 +778,12 @@ EntityBlueprint
 
 EntityBlueprint 
 {	
-	name "units/ground/cosmic_magmoth_boss/attack_range"
+	name "units/ground/cosmic_magmoth_boss_projectile"
 
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/magmoth_projectile.mesh"
 		material    "projectiles/cosmic_magmoth_projectile"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/time_damage_cosmic"
 	}
 
 	VegetationBendingComponentDesc
@@ -793,21 +794,31 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		distribution 			"dissipation"
-
 		on_enemy_hit_effect 	"effects/cosmic_corrosive_explosion_small"
 		on_world_hit_effect 	"effects/cosmic_corrosive_explosion_small"	
 		on_shield_hit_effect	"effects/cosmic_corrosive_explosion_small"
 		hit_effect_direction	"up"
-		
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-
 		friendly_fire			"pass"
 	}
 
 	SoundDesc
 	{
 		name "destructibles/fire"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_magmoth/projectile"
+				}
+			}
+		}
 	}
 }
 

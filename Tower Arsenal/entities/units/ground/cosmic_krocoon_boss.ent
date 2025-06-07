@@ -1,0 +1,447 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_krocoon_boss"
+
+	base_blueprint "units/ground/krocoon_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/krocoon.lua"
+		database
+		{
+			min_scale	float:"1.30"
+			max_scale	float:"1.30"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"10000"
+		health 						"10000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}	
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"0.5"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"0.1"
+		cosmic			"0.6"
+		plasmoid		"1.0"
+
+		reflect_damage_max_percent 		"0.030"
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.15"
+		stagger_long_time				"0.75"
+		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.5"
+		stagger_long_cooldown			"4.0"
+		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"3.0"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/krocoon_boss.mesh"
+		material 	"units/ground/cosmic_krocoon_boss"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"		
+	}	
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_krocoon_boss"
+		can_activate 0
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_krocoon/death_acid"	
+					part_prefix 			"meshes/units/ground/krocoon_boss"
+					part_material 			"units/ground/cosmic_krocoon_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+			
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_krocoon/death_acid"	
+					part_prefix 			"meshes/units/ground/krocoon_death_2"
+					part_material 			"units/ground/cosmic_krocoon_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "death_2"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/krocoon_base"
+		}			
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"	
+					bone "att_death"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "tip_leg"
+					always_up "1"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "tip_right_arm"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "tip_left_arm"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "be_right_elbow"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "be_left_elbow"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "be_knee"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "be_body"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
+					bone "be_neck"
+				}
+			}
+		}	
+		//EffectGroup
+		//{
+		//	group 	"shadow_caster"
+		//	enabled "1"
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/enemies_generic/boss_shadow_caster_green"
+		//			bone "be_neck"
+		//		}
+		//	}
+		//}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green_metal"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green_metal"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_green"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_krocoon_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_krocoon/attack_start"
+						//attack_start_time			"0.50"
+						//attack_end_time			"0.60"
+						//attack_duration 			"1.50"
+						attack_start_time			"0.75"
+						attack_end_time				"0.90"
+						attack_duration 			"2.25"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_krocoon/attack_start"
+						//attack_start_time			"0.50"
+						//attack_end_time			"0.65"
+						//attack_duration 			"1.43"
+						attack_start_time			"0.75"
+						attack_end_time				"0.98"
+						attack_duration 			"2.15"
+						damage_multiple  			"1"
+					}
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_krocoon/attack_start"
+						//attack_start_time			"0.65"
+						//attack_end_time			"0.85"
+						//attack_duration 			"1.40"
+						attack_start_time			"0.98"
+						attack_end_time				"1.28"
+						attack_duration 			"2.10"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"119"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "5.0"
+						y "4.0"
+						z "2.5"
+						
+						position 
+						{
+							x "1.0"
+							y "0.0"
+							z "0.0"
+						}
+					}	
+				}
+			}
+		}
+	}
+
+	
+}
+

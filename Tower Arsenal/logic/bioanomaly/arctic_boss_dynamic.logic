@@ -1,0 +1,203 @@
+//editor "scroll(3626.25,1179.16)|zoom(0.73)"
+FlowGraphTemplate
+{
+	version "8"
+	editor "6380"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(3642,1482)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(5626,1565)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(3961,1461)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ArcticIslands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3961,1565)"
+			key "true"
+			self_id "logic_if_biome_7###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3961,1593)"
+			key "false"
+			self_id "logic_if_biome_7###false"
+			value
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(4490,1273)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_6"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "random_bosses"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(5392,1565)"
+			self_id "logic_or_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4586,2044)"
+			self_id "logic_or_2"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_if_biome_7"
+		logic_if_biome_7 "logic_if_biome_7###false|logic_if_biome_7###true"
+		logic_if_biome_7###false "logic_or_2"
+		logic_if_biome_7###true "wave_ground_6"
+		logic_or_1 "event_end_0"
+		logic_or_2 "logic_or_1"
+		wave_ground_6 "logic_or_1"
+	}
+
+	GraphComments
+}
+

@@ -43,8 +43,15 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"0.6"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "1"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	MeshDesc
@@ -125,7 +132,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"5.0"
-										type 	"fire"
+										type 	"cosmic"
 									}
 								}
 							}
@@ -220,13 +227,13 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.25"
-		acid			"2.0"
-		energy			"2.0"
-		cryo			"0.25"
-		area			"1.5"	
+		fire			"1.0"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"0.5"
 		cosmic			"0.5"
-		plasmoid		"2.5"	
+		plasmoid		"2.5"
 	}
 
 	StunDataComponent
@@ -465,7 +472,22 @@ EntityBlueprint
 				}
 			}
 		}		
-	
+
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -659,7 +681,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_morirot/fireball"
+					blueprint "effects/enemies_cosmic_morirot/fireball"
 					bone "att_muzzle"
 				}
 			}

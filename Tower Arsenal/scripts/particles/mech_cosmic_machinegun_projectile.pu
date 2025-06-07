@@ -1,0 +1,102 @@
+system rift/mech_cosmic_machinegun_projectile
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0025
+    scale                                       0.002 0.002 0.002
+    tight_bounding_box                          true
+    cache_count                                 75
+    technique 
+    {
+        keep_local                              true
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  68
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            common_up_vector                    1 0 0
+            accurate_facing                     true
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       1500
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.9
+            }
+            velocity                            0.001
+            particle_width                      250
+            particle_height                     450
+            direction                           1 0 0
+            box_width                           500
+        }
+        affector                                Colour Affector2
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 1
+        }
+    }
+    technique sparks2
+    {
+        keep_local                              true
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_violet_01
+        renderer                                Billboard
+        {
+            render_queue_group                  69
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box trail111
+        {
+            emission_rate                       60
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             1000
+                max                             1600
+            }
+            duration                            20
+            particle_width                      dyn_random
+            {
+                min                             15
+                max                             45
+            }
+            particle_height                     dyn_random
+            {
+                min                             80
+                max                             120
+            }
+            position                            -20 0 0
+            direction                           -1 0 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 0.239216
+            time_colour                         0.508696  1 1 1 0.74902
+            time_colour                         1    1 1 1 0
+        }
+        affector                                Scale Affector35
+        {
+            xyz_scale                           -3
+        }
+    }
+}

@@ -6,14 +6,14 @@ EntityBlueprint
 	{
 		name 				"magmatic_converter"
 		bp   				"buildings/resources/magmatic_converter"
-		category 			"resources"
+		category 			"building_modd"
 		localization_id		"Magmatic Converter"
 		description			"converts magma into pure plasma  "
 		menu_icon			"gui/hud/building_icons/magmatic_converter"
 		type				"pipe"
 		require 			"headquarters"
 		upgrade				"buildings/resources/magmatic_converter_lvl_2"	
-		order				"44"	
+		order				"6"	
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"		
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 
@@ -22,12 +22,12 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 45
+				building_time 25
 				building_cost
 				{
-					carbonium 		"350"
-					steel 			"200"
-					cosmonite_ore	"50"
+					carbonium 		"400"
+					steel 			"300"
+					cobalt			"200"
 				}
 			}		
 		}
@@ -40,7 +40,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"10"
+				value 		"100"
 			}
 			GameplayResource
 			{
@@ -55,27 +55,25 @@ EntityBlueprint
 		{
 			GameplayResource
 			{
-				resource 	"plasma"
+				resource 	"cosmoganic"
 				value 		"25"
 				attachment	"att_out_1"
 			}
 		}
 		priority 4		
 	}
-
 	ResourceStorageDesc
 	{
 		Storages
 		{
 			Storage
 			{
-				resource	 	"plasma"
-				max 	 		"50"
+				resource	 	"cosmoganic"
+				max 	 		"100"
 				attachment		"att_out_1"
 			}
 		}
-	}	
-	
+	}
 	LuaDesc
 	{
 		script "lua/buildings/building.lua"

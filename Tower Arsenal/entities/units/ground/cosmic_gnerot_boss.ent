@@ -25,7 +25,7 @@ EntityBlueprint
 				FloatData
 				{
 					key		"origin_to_stop_above_ground_height"
-					value	"0.0"
+					value	"0.8"
 				}		
 			}	
 		}			
@@ -86,13 +86,13 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_radius 	"12"
+			area_damage_radius 	"16"
 
 			Damages
 			{
 				Damage
 				{
-					value 		"140"
+					value 		"250"
 					type 		"cosmic"
 				}
 			}
@@ -134,8 +134,8 @@ EntityBlueprint
 		template_name "gnerot"
 		params
 		{
-			aggressive_speed					float:"6"
-			aggressive_acceleration				float:"60"
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"90"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"30"
 			rotate_speed						float:"350"
@@ -149,7 +149,7 @@ EntityBlueprint
 			max_idle_time						float:"8.0"
 			eat_time							float::"15.0"
 			bp_on_range_attack					string:"units/ground/cosmic_gnerot_boss_attack"
-			warning_effect_on_range_attack		string:"effects/enemies_gnerot/spike_warning"
+			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-14.0"
 			range_attack_cooldown				float:"2.0"
 		}		
@@ -160,8 +160,8 @@ EntityBlueprint
 		script "lua/units/ground/gnerot.lua"
 		database
 		{
-			min_scale	float:"1.8"
-			max_scale	float:"1.8"
+			min_scale	float:"1.40"
+			max_scale	float:"1.45"
 		}			
 	}
 
@@ -181,15 +181,13 @@ EntityBlueprint
 	{
 		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		material "gui/hud/bars/elite_boss_health_1x3"
 	}	
 
 	HealthDesc
 	{
-		max_health 					"7000"
-		health 						"7000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"10000"
+		health 						"10000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -206,15 +204,16 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"1.0"
-		fire			"1.0"
-		acid			"1.5"
-		energy			"0.0"
-		cryo			"0.5"
-		area			"0.3"
-		cosmic			"0.5"
-		plasmoid		"1.0"
-		reflect_damage_max_percent 		"0.03"
+		physical		"0.1"
+		fire			"0.8"
+		acid			"0.9"
+		energy			"0.8"
+		cryo			"0.7"
+		area			"1.1"
+		cosmic			"0.9"
+		plasmoid		"0.8"
+
+		reflect_damage_max_percent 		"0.020"
 	}
 
 	NavMeshMovementComponent
@@ -227,8 +226,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		material "units/ground/cosmic_gnerot"
-		mesh "meshes/units/ground/gnerot_caverns.mesh"
+		material "units/ground/cosmic_gnerot_boss"
+		mesh "meshes/units/ground/cosmic_gnerot_boss.mesh"
 	}
 
 	SelectableDesc
@@ -377,7 +376,6 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_1"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						slash_effect 				"items/weapons/power_fist_slash_grey"
 						attack_start_time			"0.83"
 						attack_end_time				"1.10"
 						attack_duration 			"2.00"
@@ -392,7 +390,6 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_2"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						slash_effect 				"items/weapons/power_fist_slash_grey"
 						attack_start_time			"0.75"
 						attack_end_time				"1.00"
 						attack_duration 			"2.00"
@@ -405,49 +402,46 @@ EntityBlueprint
 					MeleeDamage
 					{
 						name 				"close_attack_1"
-						attack_effect 		"effects/weapons_melee_power_fist/sonic_fist_attack_grey"
-						hit_on_end 			"1"
 				
 						ammo_definition
 						{
-							on_enemy_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_enemy"
-							on_world_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
-							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
-							friendly_fire			"pass"
-							area_damage_impact_type "once"
-							collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 						}
 					}
 
 					MeleeDamage
 					{
 						name 				"close_attack_2"
-						attack_effect 		"effects/weapons_melee_power_fist/sonic_fist_attack_grey"
-						hit_on_end 			"1"
 				
 						ammo_definition
 						{
-							on_enemy_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_enemy"
-							on_world_hit_effect 	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
-							on_resisted_hit_effect 	"effects/weapons_generic/melee_hit_resisted"
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
 
-							friendly_fire			"pass"
-							area_damage_impact_type "once"
-							collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building|vegetation|shield"
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
 							DamagePattern
 							{
-								area_damage_type				"normal"
-								area_damage_radial_effect		"effects/weapons_melee_power_fist/sonic_fist_shockwave"
-								area_damage_splash_effect   	"effects/weapons_melee_power_fist/sonic_fist_hit_object"
-								area_damage_angle				"45"
-								area_damage_speed				"50"
+								Damages
+								{
+									Damage
+									{
+										value 	"130.0"
+										type 	"physical"
+									}
+								}
 							}
 						}
 					}
 				}
-				
+
 				MeleeShapes
 				{
 					PhysicsBoxShape

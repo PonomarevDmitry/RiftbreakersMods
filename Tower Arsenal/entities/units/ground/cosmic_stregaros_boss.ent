@@ -6,15 +6,11 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/units/ground/cosmic_stregaros_boss_copy.lua"
+		script "lua/units/ground/stregaros.lua"
 		database
 		{
 			min_scale			float:"1.18"
 			max_scale			float:"1.33"
-			resurrect_bp		string:"units/ground/cosmic_stregaros_boss_resurrect"
-			resurrect_min_time	float:"5"
-			resurrect_max_time	float:"10"
-			resurrect_chance	float:"100"
 		}			
 	}
 
@@ -25,10 +21,15 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"4000"
-		health 						"4000"
+		max_health 					"18000"
+		health 						"18000"
 		is_manual					"1"
 		update_health_uniform 		"1"
+		//movement_speed				"15"
+
+		//forcefield					"50"
+		//forcefield_regen 			"20"
+		//forcefield_regen_cooldown 	"10"
 
 		DestructionLevels
 		{
@@ -213,10 +214,11 @@ EntityBlueprint
 		acid			"0.0"
 		energy			"0.0"
 		cryo			"0.0"
-		area			"0.0"
+		area			"0.8"
 		plasmoid		"0.0"
 		cosmic			"0.0"
-		reflect_damage_max_percent 		"0.03"
+
+		reflect_damage_max_percent 		"0.030"
 	}
 
 	StunDataComponent
@@ -321,10 +323,10 @@ EntityBlueprint
 		{
 			aggressive_speed					float:"12"
 			aggressive_acceleration				float:"24"
-			not_aggressive_speed				float:"3"
-			not_aggressive_acceleration			float:"3"
-			shielding_speed						float:"5"
-			shielding_acceleration				float:"10"
+			not_aggressive_speed				float:"5"
+			not_aggressive_acceleration			float:"5"
+			shielding_speed						float:"12"
+			shielding_acceleration				float:"18"
 			rotate_speed						float:"350"
 			priority_target						string:"player|headquarters|energy|tower"
 			priority_target_distance			float:"40"
@@ -332,22 +334,23 @@ EntityBlueprint
 			melee_attack_name					string:"attack_1|attack_2|attack_3"
 			min_idle_time						float:"8.0"
 			max_idle_time						float:"12.0"
-			shielding_distance					float:"22.0"
-			shielding_cooldown					float:"1.0"
+			shielding_distance					float:"28.0"
+			shielding_cooldown					float:"0.5"
 		}		
 	}
 
 	ResistanceComponent
 	{
-		physical		"0.5"
-		fire			"0.5"
-		acid			"1.0"
-		energy			"2.0"
-		cryo			"1.0"
-		area			"0.5"
-		plasmoid		"1.0"
-		cosmic			"0.5"
-		reflect_damage_max_percent 		"0.04"
+		physical		"0.4"
+		fire			"0.8"
+		acid			"0.8"
+		energy			"0.8"
+		cryo			"0.7"
+		area			"1.0"
+		plasmoid		"0.8"
+		cosmic			"0.9"
+
+		reflect_damage_max_percent 		"0.030"
 	}
 
 	StunDataComponent
@@ -375,7 +378,7 @@ EntityBlueprint
 	{
 		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		material "gui/hud/bars/elite_boss_health_1x3"
 	}	
 
 	TypeDesc
@@ -796,207 +799,5 @@ EntityBlueprint
 	TerrainAffectedComponent
 	{
 		name "unit"
-	}
-}
-EntityBlueprint
-{
-	name "units/ground/cosmic_stregaros_boss_resurrect"
-
-	base_blueprint "units/ground/cosmic_stregaros_boss_base"
-
-	LuaDesc
-	{
-		script "lua/units/ground/cosmic_stregaros_boss.lua"
-		database
-		{
-			min_scale				float:"1.35"
-			max_scale				float:"1.40"
-		}			
-	}
-
-	DatabaseComponent
-	{
-		version int:"1"	
-	}
-
-	MinimapItemDesc
-	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
-	}
-
-	HealthBarDesc
-	{
-		type "0"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
-	}	
-
-	HealthDesc
-	{
-		max_health 					"3000"
-		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
-		is_manual					"1"
-		update_health_uniform 		"1"
-
-		DestructionLevels
-		{
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_comp_delay 					"0"
-				//destroyed_state_effect_group 		"0_state"
-			}
-		}		
-	}
-	
-	NavMeshMovementComponent
-	{
-		angle_turn_speed				"240"
-		unit_soft_radius				"2.8"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
-		dominance_group				    "0"
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/units/ground/stregaros_boss.mesh"
-		material 	"units/ground/cosmic_stregaros_boss"
-	}
-	
-	EffectDesc
-	{
-		EffectBaseBlueprints
-		{
-			"units/ground/crawlog_base"
-		}
-		////////////////////////MISC/////////////////////////
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_crawlog/resurrected"
-					bone "att_death"
-					//random_delay "3"
-				}
-			}
-		}
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-		    name "units/ground/cosmic_stregaros_boss/attack"
-
-			NetReplicationDisabledComponent
-			{
-
-			}
-
-			AttachmentDesc
-			{
-				attachment "att_attack_trigger"
-			}
-
-			MeleeWeaponDesc
-			{
-				MeleeAttacks
-				{
-					MeleeAttack 
-					{
-						type 						"simple"
-						attack_name 				"attack_1"
-						attack_speed_param_name  	"attack_speed"
-						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_stregaros/attack_start"
-						//attack_start_time			"0.50"
-						//attack_end_time			"0.68"
-						//attack_duration 			"1.37"
-						attack_start_time			"0.63"
-						attack_end_time				"0.85"
-						attack_duration 			"1.71"
-						damage_multiple  			"1"
-					}
-
-					MeleeAttack 
-					{
-						type 						"simple"
-						attack_name 				"attack_2"
-						attack_speed_param_name  	"attack_speed"
-						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_stregaros/attack_start"
-						//attack_start_time			"0.43"
-						//attack_end_time			"0.50"
-						//attack_duration 			"1.50"
-						attack_start_time			"0.54"
-						attack_end_time				"0.63"
-						attack_duration 			"1.88"
-						damage_multiple  			"1"
-					}
-
-					MeleeAttack 
-					{
-						type 						"simple"
-						attack_name 				"attack_3"
-						attack_speed_param_name  	"attack_speed"
-						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_stregaros/attack_start"
-						//attack_start_time			"0.56"
-						//attack_end_time			"0.86"
-						//attack_duration 			"1.37"
-						attack_start_time			"0.70"
-						attack_end_time				"1.08"
-						attack_duration 			"1.71"
-						damage_multiple  			"1"
-					}
-				}
-
-				MeleeDamages
-				{
-					MeleeDamage
-					{
-						name 						"close_attack"
-
-						ammo_definition
-						{
-							friendly_fire			"pass"
-							hit_effect_direction	"up"  //inverse, normal, up
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
-
-							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
-
-							DamagePattern
-							{
-								Damages
-								{
-									Damage
-									{
-										value 	"50"
-										type 	"physical"
-									}
-								}
-							}
-						}
-					}
-				}
-
-				MeleeShapes
-				{
-					PhysicsBoxShape
-					{
-						x "4.0"
-						y "6.0"
-						z "3.0"
-					}	
-				}
-			}
-		}
 	}
 }

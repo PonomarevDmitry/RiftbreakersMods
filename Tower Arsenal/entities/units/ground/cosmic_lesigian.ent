@@ -18,10 +18,10 @@ EntityBlueprint
 			melee_attack_name					string:"attack_1|attack_2"
 			min_idle_time						float:"4.0"
 			max_idle_time						float:"8.0"
-			bp_on_range_attack					string:"units/ground/lesigian/lightning"
-			warning_effect_on_range_attack		string:"effects/enemies_cosmic_lesigian/lightning_explosion"
+			bp_on_range_attack					string:"units/ground/cosmic_lesigian/lightning"
+			warning_effect_on_range_attack		string:"units/ground/lesigian/cosmic_lightning_danger_marker"
 			lightning_attack_offset				float:"50.0"
-			lightning_attack_cooldown			float:"15"
+			lightning_attack_cooldown			float:"5"
 			lightning_attack_prepare_min_time	float:"0.5"
 			lightning_attack_prepare_max_time	float:"2.6"
 			teleport_start_distance			    float:"12"
@@ -652,15 +652,32 @@ EntityBlueprint
 		}
 	}
 }
-
-EntityBlueprint
-{
+EntityBlueprint 
+{	
 	name "units/ground/cosmic_lesigian/attack_range"
 
-	base_blueprints 
+	ParticleDesc
 	{
-		lights/point/violet_very_small
-		effects/no_lifetime
+		name    "rift/enemy_cosmic_energy_projectile_big"
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"5000.0"
+		bending_radius	"5.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		diameter				"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_world_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire			"pass"
 	}
 
 	MinimapItemDesc
@@ -679,24 +696,6 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
-	}
-
-	ProjectileAmmoComponent
-	{
-		diameter				"0.2"
-
-		on_enemy_hit_effect 	"effects/enemies_genric/energy_hit_medium"
-		on_world_hit_effect 	"effects/enemies_genric/energy_hit_medium"
-		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
-
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-
-		friendly_fire			"pass"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/enemy_cosmic_energy_projectile_big"
 	}
 
 	LifeTimeDesc
@@ -744,6 +743,23 @@ EntityBlueprint
 			current_speed "200"
 			max_speed	  "200"
 			acceleration  "200"
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/ground/lesigian/cosmic_lightning_danger_marker"
+	base_blueprint effects/decals/cosmic_shield
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+
+		database
+		{
+			override_radius		float:"4"
+			override_time   	float:"1.5"
 		}
 	}
 }

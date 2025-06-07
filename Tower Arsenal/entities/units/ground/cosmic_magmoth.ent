@@ -46,8 +46,15 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	TypeDesc
@@ -153,11 +160,6 @@ EntityBlueprint
 	GroundNavigationComponent
 	{
 
-	}
-
-	KeepHighNavigationComponent
-	{
-		interpolation_speed  "0.75"
 	}
 
 	SelectableDesc
@@ -315,7 +317,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_cosmic_magmoth_ultra_boss/teleport"
+					blueprint "effects/enemies_cosmic_magmoth/teleport"
 				}
 			}
 		}		
@@ -572,7 +574,7 @@ EntityBlueprint
 		{
 			min_scale	         float:"0.95"
 			max_scale	         float:"1.05"
-			//fuse_bp			     string:""
+			fuse_bp			     string:"effects/enemies_cosmic_magmoth/teleport_trail"
 		}			
 	}
 
@@ -726,11 +728,6 @@ EntityBlueprint
 		bending_radius	"5.0"
 	}
 
-	ParticleDesc
-	{
-		name    "rift/cosmic_magmoth_projectile_boss"
-	}
-
 	ProjectileAmmoComponent
 	{
 		on_enemy_hit_effect 	"effects/cosmic_magmoth_explosion_small"
@@ -751,9 +748,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_cosmic_magmoth_ultra_boss/projectile"
-					//bone "Body_1"
-					scale "1.0 1.0 0.6"
+					blueprint "effects/enemies_cosmic_magmoth/projectile"
 				}
 			}
 		}

@@ -24,11 +24,13 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.5"
-		acid			"1.0"
+		fire			"1.5"
+		acid			"0.5"
 		energy			"1.0"
-		cryo			"2.0"
-		area			"1.5"	
+		cryo			"0.5"
+		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"0.5"	
 	}	
 
 	StunDataComponent
@@ -43,8 +45,15 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.4"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"// |mud_vein|water_vein // put this in if you wont them to walk on water and mud
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	TypeDesc
@@ -364,6 +373,20 @@ EntityBlueprint
 			}
 		}
 		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"time_damage_physical"

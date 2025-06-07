@@ -283,10 +283,10 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.25"
+		fire			"0.5"
 		acid			"2.0"
 		energy			"1.0"
-		cryo			"0.25"
+		cryo			"0.5"
 		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.5"
@@ -308,8 +308,15 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	TypeDesc
@@ -697,13 +704,12 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_cosmic"
+					blueprint "effects/time_damage_cosmic"
 					bone "att_death"
 					scale "1.5 1.5 1.5"
 				}
 			}
 		}
-		
 		EffectGroup
 		{
 			group 	"time_damage_physical"

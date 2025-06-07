@@ -589,34 +589,6 @@ MissionDef
                     }
                 }
 
-				spawners/loot_spawner
-                {
-                    spawn_instances_minmax      3,5
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
-                        min   	 	int:"100"
-                        max   	 	int:"250"
-						package_size    int:"3"
-                    }
-                }
-				
-				spawners/loot_spawner
-                {
-                    spawn_instances_minmax      0,2
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"200"
-                        max   	 	int:"500"
-						package_size    int:"5"
-                    }
-                }
-				
                 spawners/loot_spawner
                 {
                     spawn_instances_minmax      0,2
@@ -628,6 +600,34 @@ MissionDef
                         min   	 	int:"200"
                         max   	 	int:"500"
 						package_size    int:"5"
+                    }
+                }
+
+                spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"3"
+                    }
+                }
+
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"3"
                     }
                 }
 
@@ -750,6 +750,30 @@ MissionDef
     {
         ResourceVolume
         {
+            resource        "cosmonite_ore_vein"
+			
+            min_resources   "1500"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
+
+        ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "2000"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
+
+        ResourceVolume
+        {
             resource        "carbon_vein"
 
             min_resources   "5000"
@@ -770,32 +794,8 @@ MissionDef
 
             min_spawned_volumes "2"
             max_spawned_volumes "4"
-        }
-		
-		ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-            min_resources   "2000"
-            max_resources   "4000"
+        }		
 
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-			required_discovery_lvl	"1"
-			
-            min_resources   "2000"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-		
         ResourceVolume
         {
             resource        "iron_vein"
@@ -991,7 +991,7 @@ MissionDef
             min_spawned_volumes "2"
             max_spawned_volumes "2"
         }
-		
+
         ResourceVolume
         {
             resource        "iron_vein"

@@ -101,6 +101,10 @@ function dom_mananger:init()
 	self:RegisterHandler( event_sink, "LuaGlobalEvent",       		   "OnLuaGlobalEvent" )
 	self:RegisterHandler( event_sink, "RespawnFailedEvent",			   "OnRespawnFailedEvent" )
 	self:RegisterHandler( event_sink, "PlayerDiedEvent",			   "OnPlayerDiedEvent" )
+	self:RegisterHandler( event_sink, "PlayerCreateRequest",		"OnPlayerCreateRequest" )
+	self:RegisterHandler( event_sink, "PlayerRemovedEvent",		"OnPlayerRemovedEvent" )
+	
+	
 
     self.spawner = self:CreateStateMachine()
     self.spawner:AddState( "spawn", { enter="OnEnterSpawn", execute="OnExecuteSpawn", exit= "OnExitSpawn" } )
@@ -170,6 +174,8 @@ function dom_mananger:init()
 	self.player_death_position 	 = {}
 
 	self.version = 1
+
+	self.playersCounter = 0
 end
 
 function dom_mananger:Update( dt)
@@ -203,12 +209,14 @@ function dom_mananger:Update( dt)
 	local debug = "DEBUG DOM MANAGER:"
 	debug = debug .. "\n"
 
+	debug = debug .. " Current difficulty level: " .. tostring( self.currentDifficultyLevel ) .. "\n"
+	debug = debug .. " Max difficulty level : " .. tostring( self.freezedDifficultyLevel ) .. "\n"
+	debug = debug .. " Creature difficulty level: " .. tostring( CampaignService:GetCreaturesBaseDifficulty() ) .. "\n"
+	debug = debug .. " Players count: " .. tostring( self.playersCounter ) .. "\n"
+
 	local difficultyState = self.difficultyIncrease:GetCurrentState()
 	if difficultyState ~= "" then
 		local state = self.difficultyIncrease:GetState( difficultyState )
-
-		debug = debug .. " Current difficulty level: " .. tostring( self.currentDifficultyLevel ) .. "\n"
-		debug = debug .. " Max difficulty level : " .. tostring( self.freezedDifficultyLevel ) .. "\n"
 		debug = debug .. " Time to next difficulty level : " .. tostring( state:GetDurationLimit() - state:GetDuration() )
 	end
 
@@ -281,6 +289,10 @@ function dom_mananger:OnLoad()
 		self:RegisterHandler( event_sink, "StartUpgradingEvent",        	   "OnStartUpgradingEvent" )
 		self:UnregisterHandler( event_sink, "BuildingStartEvent",        	   "OnBuildingStartEvent" )
 		self.version = 1
+	end
+
+	if ( self.playersCounter == nil ) then
+		self.playersCounter = 0
 	end
 
 	self.player_death_position 	 = self.player_death_position or {}
@@ -933,6 +945,8 @@ function dom_mananger:OnExitDifficultyIncrease( state )
 		self:VerboseLog("OnExitDifficultyIncrease : Difficulty level is max - " .. tostring( self.currentDifficultyLevel ) )
 	end
 
+	self:IncreaseCreaturesBaseDifficulty()
+
 end
 
 function dom_mananger:RandomizeSpawnPoint( borderSpawnPointGroupName, waveData )
@@ -1082,12 +1096,12 @@ function dom_mananger:GetAttackCount( currentDifficultyLevel )
 end
 
 function dom_mananger:GetMultiplayerAttackCount( currentDifficultyLevel )
-	local playersCount = #PlayerService:GetAllPlayers() - 1
+	local playersCount = self.playersCounter - 1
 
 	self:VerboseLog("GetMultiplayerAttackCount : " .. tostring( playersCount ) )
 
 	if ( playersCount > 0 ) then
-		return self.rules.multiplayerWaves[currentDifficultyLevel].additionalWaves + playersCount
+		return self.rules.multiplayerWaves[currentDifficultyLevel].additionalWaves + 1
 	else
 		return 0
 	end
@@ -1095,6 +1109,17 @@ end
 
 function dom_mananger:GetPrepareSpawnTime()
 	return self.rules.prepareSpawnTime[self.currentDifficultyLevel]
+end
+
+function dom_mananger:GetCooldownAfterAttacksTime()
+	
+	local factor = 1
+
+	if ( self.playersCounter > 1 ) then
+		factor = 1 + self.playersCounter * DifficultyService:GetWaveCooldownPerPlayerFactor()
+	end
+
+	return ( self.rules.cooldownAfterAttacks[self.currentDifficultyLevel] / factor )
 end
 
 function dom_mananger:GetIdleTime()
@@ -1109,11 +1134,53 @@ function dom_mananger:OnEnterWait( state )
 	self:SetSuspended( true )
 	CampaignService:OperateDOMPlanetaryJump( true )
 
+	self:IncreaseCreaturesBaseDifficulty()
+
 	state:SetDurationLimit( 5 )
 end
 
+
+function dom_mananger:IncreaseCreaturesBaseDifficulty()
+	self:VerboseLog("IncreaseCreaturesBaseDifficulty" )
+
+	if ( self.rules.creatureDifficultyIncrementPerDOMDifficulty ~= nil ) then
+
+		local index = Clamp( self.playersCounter, 1, #self.rules.creatureDifficultyIncrementPerDOMDifficulty )
+
+		CampaignService:IncreaseCreaturesBaseDifficulty( self.rules.creatureDifficultyIncrementPerDOMDifficulty[index][self.currentDifficultyLevel] )
+	end
+end
+
+function dom_mananger:RevertCreaturesBaseDifficulty()
+	self:VerboseLog( "RevertCreaturesBaseDifficulty" )
+
+	if ( self.rules.creatureDifficultyIncrementPerDOMDifficulty ~= nil ) then
+
+		local index = Clamp( self.playersCounter, 1, #self.rules.creatureDifficultyIncrementPerDOMDifficulty )
+
+		for i = 1, self.currentDifficultyLevel do
+			CampaignService:DecreaseCreaturesBaseDifficulty( self.rules.creatureDifficultyIncrementPerDOMDifficulty[index][i] )
+		end	
+	end
+end
+
+function dom_mananger:UpdateCreaturesBaseDifficulty()
+	self:VerboseLog( "UpdateCreaturesBaseDifficulty" )
+
+	if ( self.rules.creatureDifficultyIncrementPerDOMDifficulty ~= nil ) then
+
+		local index = Clamp( self.playersCounter, 1, #self.rules.creatureDifficultyIncrementPerDOMDifficulty )
+
+		for i = 1, self.currentDifficultyLevel do
+			CampaignService:IncreaseCreaturesBaseDifficulty( self.rules.creatureDifficultyIncrementPerDOMDifficulty[index][i] )
+		end	
+	end
+end
+
 function dom_mananger:OnExitWait( state )
+
 	self:VerboseLog("OnExitWait" )
+
 
 	--if ( self.wavesDisabled == false ) then
 	--	self.spawner:ChangeState( "streaming" )
@@ -1225,7 +1292,7 @@ end
 
 function dom_mananger:OnEnterCooldownAfterSpawnTime( state )
 	self:VerboseLog("OnEnterCooldownAfterSpawnTime" )
-	self.cooldownTimer = self.rules.cooldownAfterAttacks[self.currentDifficultyLevel]
+	self.cooldownTimer = self:GetCooldownAfterAttacksTime()
 end
 
 function dom_mananger:OnExecuteCooldownAfterSpawnTime( state, dt )
@@ -1768,6 +1835,26 @@ function dom_mananger:OnPlayerDiedEvent( evt )
 	self:DropPlayerItems(evt:GetEntity(), evt:GetPlayerId())
 
 	self.player_death_position[ evt:GetPlayerId() ] = EntityService:GetPosition( evt:GetEntity() )
+end
+
+function dom_mananger:OnPlayerCreateRequest( evt )
+	LogService:Log( "dom_mananger:OnPlayerCreateRequest" )
+
+	self:RevertCreaturesBaseDifficulty()
+
+	self.playersCounter = self.playersCounter + 1
+
+	self:UpdateCreaturesBaseDifficulty()
+end
+
+function dom_mananger:OnPlayerRemovedEvent( evt )
+	LogService:Log( "dom_mananger:OnPlayerRemovedEvent" )	
+	
+	self:RevertCreaturesBaseDifficulty()
+
+	self.playersCounter = self.playersCounter - 1
+
+	self:UpdateCreaturesBaseDifficulty()
 end
 
 return dom_mananger

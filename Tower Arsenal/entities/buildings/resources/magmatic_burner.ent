@@ -6,14 +6,14 @@ EntityBlueprint
 	{
 		name 				"magmatic_burner"
 		bp   				"buildings/resources/magmatic_burner"
-		category 			"resources"
+		category 			"building_modd"
 		type				"pipe"
 		localization_id		"Magmatic Burner"
 		description			"converts flammable gas into extremely hot magma"
 		menu_icon			"gui/hud/building_icons/magmatic_burner"
 		upgrade				"buildings/resources/magmatic_burner_lvl_2"
 		require 			"headquarters"
-		order				"43"	
+		order				"5"	
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"		
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		
@@ -22,11 +22,11 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 30
+				building_time 15
 				building_cost
 				{
-					carbonium 	"300"
-					steel 		"250"		
+					carbonium 	"400"
+					steel 		"300"
 				}
 			}		
 		}
@@ -39,7 +39,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"5"
+				value			 	"100"
 			}
 			
 			GameplayResource
@@ -48,14 +48,14 @@ EntityBlueprint
 				value			 	"50"
 				attachment			"att_in_1"
 				family				"in"
-			}
+			}	
 		}
 		out
 		{
 			GameplayResource
 			{
 				resource 			"magma"
-				value 				"50"
+				value 				"25"
 				attachment			"att_out_1"
 			}
 		}
@@ -68,7 +68,7 @@ EntityBlueprint
 			Storage
 			{
 				resource	 	"magma"
-				max 	 		"100"
+				max 	 		"50"
 				attachment		"att_out_1"
 			}
 		}
@@ -398,22 +398,26 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/boss_trail_fire"
-					bone "att_WATER_1"
-					scale "0.5 0.4 0.5"
-				}
-				Effect
-				{
-					blueprint "effects/buildings/magma_building_atmosphere"
-					bone "att_WATER_1"
-					scale "0.3 0.3 0.3"
-				}
-				Effect
-				{
 					blueprint "effects/buildings_energy/magma_powerplant_working"	
 					delay "0.5"					
 				}	
 			}
-		}	
+		}
+		EffectGroup
+		{
+			group "addon"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "ta_effects/buildings_and_machines/magmatic_burner_addon"
+					bone "att_water"
+					scale "1.0 1.0 1.0"
+					offset "-0.0 -1.9 -0.0"
+				}
+			}
+		}
 	}
 }
+

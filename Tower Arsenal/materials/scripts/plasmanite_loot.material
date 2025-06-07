@@ -28,4 +28,40 @@ material loot/resources/shard_plasmanite : loot/resources
 	}
 }
 
+material loot/resources/cosmic_biomass_plant : loot/resources
+{
+	set_texture_alias albedo			materials/textures/loot/resources/cosmic_biomass_plant_albedo.dds
+	set_texture_alias normal			materials/textures/loot/resources/biomass_plant_normal.dds
+	set_texture_alias packed			materials/textures/loot/resources/biomass_plant_packed.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_loot_fp
+			{
+				param_named cFresnelColor 	float4 2 0 2 1
+			}
+		}
+	}
+}
+
 //----------------------END----------------------\\
+
+//material loot/resources/biomass_animal : loot/resources
+//{
+//	set_texture_alias albedo			materials/textures/loot/resources/biomass_animal_albedo.dds
+//	set_texture_alias normal			materials/textures/loot/resources/biomass_animal_normal.dds
+//	set_texture_alias packed			materials/textures/loot/resources/biomass_animal_packed.dds
+//
+//	technique
+//	{
+//		pass
+//		{
+//			fragment_program_ref deferred_loot_fp
+//			{
+//				param_named cFresnelColor 	float4 1 0 0 1
+//			}
+//		}
+//	}
+//}

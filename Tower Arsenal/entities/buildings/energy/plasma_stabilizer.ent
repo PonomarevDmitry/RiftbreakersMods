@@ -17,22 +17,21 @@ EntityBlueprint
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
 		is_shortcut_bindable	"0"
-		radius_name			"pump"
-		min_radius			"35"
-		min_radius_effect   	"voice_over/announcement/building_too_close"		
+		//radius_name			"pump"
+		//min_radius			"10"
+		//min_radius_effect   	"voice_over/announcement/building_too_close"		
 		
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 80
+				building_time 60
 				building_cost
 				{
 					carbonium 		"450"
 					steel 			"400"
-					plasmanite		"400"
-					cosmonite_ore	"400"
+					//cosmonite_ore	"400"
 				}
 			}
 		}
@@ -44,10 +43,17 @@ EntityBlueprint
 		{
 			GameplayResource
 			{
-				resource 	"cosmoganic"
-				value 		"25"
-				attachment	"att_in_1"
-				family		"cosmoganic"
+				resource 		"cosmoganic"
+				value 			"25"
+				attachment		"att_in_1"
+				family			"in"
+			}	
+			GameplayResource
+			{
+				resource 		"cosmoganic_gas"
+				value			"50"
+				attachment		"att_in_1"
+				family			"in"
 			}
 		}
 
@@ -56,7 +62,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"energy"
-				value			 	"500"
+				value			 	"750"
 			}
 		}
 		priority 9
@@ -70,7 +76,7 @@ EntityBlueprint
 			Storage
 			{
 				resource 			"energy"
-				value			 	"1000"
+				value			 	"750"
 			}
 		}
 	}
@@ -83,7 +89,7 @@ EntityBlueprint
 		{
 			cone_effect				 string:"build_cone_3x3"
 			cone_effect_sell		 string:"sell_big"
-			range					 float:"35"
+			//range					 float:"10"
 
 			display_radius_blueprint string:"effects/decals/range_circle_repair"
 			display_radius_group	 string:"plasma_stabilizer"

@@ -1,0 +1,304 @@
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_cascade"
+	base_blueprint "units/skills/skill_base"
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"30"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_cascade"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_lightning_shower_icon"
+	}
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"35"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/laser_orb_weapon"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"2.5"
+			spawn_min_time		float:"6.0"
+			spawn_max_time		float:"7.0"
+			orbs_in_one_spawn	int:"1"
+			delay_min			float:"1.0"
+			delay_max			float:"2.0"
+			delay_offset		float:"0.35"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_cascade_lvl_2"
+	base_blueprint "units/skills/laser_orb"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_cascade_lvl_2"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_lightning_shower_icon"
+	}
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/laser_orb_weapon_lvl_2"
+			warning_radius      float:"2.5"
+			spawn_min_time		float:"6.0"
+			spawn_max_time		float:"7.0"
+			orbs_in_one_spawn	int:"2"
+			delay_min			float:"1.0"
+			delay_max			float:"2.0"
+			delay_offset		float:"0.65"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_cascade_lvl_3"
+	base_blueprint "units/skills/laser_orb"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_cascade_lvl_3"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_lightning_shower_icon"
+	}
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/laser_orb_weapon_lvl_3"
+			warning_radius      float:"2.5"
+			spawn_min_time		float:"6.0"
+			spawn_max_time		float:"7.0"
+			orbs_in_one_spawn	int:"3"
+			delay_min			float:"1.0"
+			delay_max			float:"2.0"
+			delay_offset		float:"0.65"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/cosmic_lightning_cascade_lvl_4"
+	base_blueprint "units/skills/laser_orb"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_lightning_cascade_lvl_4"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_lightning_shower_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/laser_orb_weapon_lvl_4"
+			warning_radius      float:"2.5"
+			spawn_min_time		float:"6.0"
+			spawn_max_time		float:"7.0"
+			orbs_in_one_spawn	int:"4"
+			delay_min			float:"1.0"
+			delay_max			float:"2.0"
+			delay_offset		float:"0.65"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/laser_orb_weapon"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/alien_structures/core_wreckage_energy_ball.mesh"
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/core_wreckage_energy_ball"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "props/special/core_wreckage_energy_ball_shell"
+			}
+		}
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/skills/lightning_orb"
+	}
+
+
+	WeaponItemDesc
+	{
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/orb_fly.lua"
+		database
+		{
+			rotate_speed			float:"0.5"
+		}			
+	}
+
+	LifeTimeDesc
+	{
+		time	8.0
+	}
+
+	TurretDesc
+	{
+		target ""
+		target_ignore "invisible"
+		speed "0"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+			aiming_range "30"
+		}
+
+		aiming_cooldown "100"
+		aiming_target_time "100"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "0"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/skills/laser_orb_ammmo"
+
+		fire_effect 				"effects/weapons_energy/laser_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/laser_orb_weapon_lvl_2"
+	base_blueprint	"units/skills/laser_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/laser_orb_weapon_lvl_3"
+	base_blueprint	"units/skills/laser_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/laser_orb_weapon_lvl_4"
+	base_blueprint	"units/skills/laser_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/laser_orb_ammmo"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/skills/rift_portal_energy_2"
+	}
+
+	LaserBeamComponent
+	{
+		range 					"50"
+
+		on_enemy_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_world_hit_effect 	"effects/weapons_energy/laser_small_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		friendly_fire			"pass"
+		collision_block 		"world|world_blocker"
+
+
+        damage_factor_max       "9.0"
+        damage_factor_increase  "5"
+        damage_factor_decrease  "10.0"
+        damage_max_beam_scale 	"5.0"
+		damage_max_beam_glow 	"6.5"
+	}
+
+	SoundDesc
+	{
+		name 		"items/weapons/energy/laser_small_loop"
+		start_name 	"items/weapons/energy/laser_small_start"
+		end_name 	"items/weapons/energy/laser_small_stop"
+	}
+}
+

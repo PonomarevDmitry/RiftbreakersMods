@@ -3,9 +3,51 @@ system rift/cosmic_arachnoid_projectile_boss
     scale_velocity                              0.003
     scale                                       0.003 0.003 0.003
     tight_bounding_box                          true
-    category                                    RIFT
-    fade_out                                    true
     cache_count                                 40
+    technique trail0
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/violet_plasma_hit_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       15
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.5
+            }
+            particle_width                      400
+            particle_height                     400
+            keep_local                          true
+            direction                           -1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            x_scale                             -150
+            y_scale                             750
+            since_start_system                  true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.12549 0.12549 0.12549 0.74902
+            time_colour                         0.502174  0.12549 0.12549 0.12549 0.494118
+            time_colour                         1    0.121569 0.121569 0.121569 0
+        }
+    }
     technique trail
     {
         visual_particle_quota                   60
@@ -13,7 +55,7 @@ system rift/cosmic_arachnoid_projectile_boss
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/cosmo_muzzleflash_atlas
+        material                                particles/cosmic_plasma_projectile
         renderer                                Billboard
         {
             render_queue_group                  62
@@ -103,12 +145,12 @@ system rift/cosmic_arachnoid_projectile_boss
     }
     technique trail3
     {
-        visual_particle_quota                   100
+        visual_particle_quota                   60
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/spark_rectangle_purp_01
+        material                                particles/spark_violet_01
         renderer                                Billboard
         {
             render_queue_group                  65
@@ -116,9 +158,9 @@ system rift/cosmic_arachnoid_projectile_boss
             billboard_origin                    top_center
             billboard_rotation_type             vertex
         }
-        emitter                                 Box trail1
+        emitter                                 Point trail1
         {
-            emission_rate                       100
+            emission_rate                       30
             angle                               45
             time_to_live                        dyn_random
             {

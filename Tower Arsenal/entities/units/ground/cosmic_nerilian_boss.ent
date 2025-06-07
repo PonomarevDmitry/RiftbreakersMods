@@ -19,12 +19,17 @@ EntityBlueprint
 		version int:"1"	
 	}
 
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}	
+
 	HealthDesc
 	{
-		max_health 					"1800"
-		health 						"1800"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"15000"
+		health 						"15000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -37,14 +42,7 @@ EntityBlueprint
 			}
 		}		
 	}
-	
-	HealthBarDesc
-	{
-		type "2"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
-	}	
-	
+
 	ResistanceComponent
 	{
 		physical		"1.0"
@@ -55,7 +53,8 @@ EntityBlueprint
 		area			"1.5"
 		cosmic			"0.5"
 		plasmoid		"1.0"
-		reflect_damage_max_percent 		"0.1"
+
+		reflect_damage_max_percent 		"0.010"
 	}
 	
 	StunDataComponent
@@ -86,7 +85,7 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
 		visibility 		"radar"		
 	}	
 

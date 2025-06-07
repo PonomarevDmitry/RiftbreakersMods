@@ -1,0 +1,263 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_kafferroceros_boss"
+
+	base_blueprint units/ground/kafferroceros_base
+
+	LuaDesc
+	{
+		script "lua/units/ground/kafferroceros.lua"
+		database
+		{
+			min_scale	float:"1.6"
+			max_scale	float:"1.6"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"8000"
+		health 						"8000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+	
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility 		"radar"	
+		additional_z_order "1"		
+	}
+
+	ResistanceComponent
+	{
+		physical		"2.0"
+		fire			"1.0"
+		acid			"1.0"
+		energy			"0.5"
+		cryo			"1.0"
+		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"0.7"
+		reflect_damage_max_percent 		"0.030"
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"3"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "1"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/kafferroceros_boss.mesh"
+		material 	"units/ground/cosmic_kafferroceros_boss"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_kafferroceros_boss"		
+		can_activate 0
+	}
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/kafferroceros_base"
+		}	
+		
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
+	}	
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/kafferroceros_boss_physical/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_effect"
+			}		
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"charge_attack"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"charge_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.0"
+						attack_end_time				"0.2"
+						attack_duration 			"1.97"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.26"
+						attack_end_time				"0.40"
+						attack_duration 			"1.21"
+						damage_multiple  			"1"
+					}
+
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.33"
+						attack_end_time				"0.46"
+						attack_duration 			"1.21"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"charge_attack"
+
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+							
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"199.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+
+					MeleeDamage
+					{
+						name 				"close_attack"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"40"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x 2.0
+						y 1.5
+						z 1.0
+						
+						position 
+						{
+							x "-1.0"
+							y "0.0"
+							z "0.0"
+						}
+					}	
+				}
+			}
+		}
+	}
+}
+

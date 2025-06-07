@@ -268,6 +268,7 @@ return function()
 				--"logic/missions/survival/attack_level_1_id_2.logic",
 				"logic/missions/survival/attack_level_1_id_2_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_1_id_2_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 	
 			 -- difficulty level 2
@@ -278,6 +279,7 @@ return function()
 				--"logic/missions/survival/attack_level_2_id_2.logic",
 				"logic/missions/survival/attack_level_2_id_2_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_2_id_2_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 3
@@ -288,6 +290,7 @@ return function()
 				--"logic/missions/survival/attack_level_3_id_2.logic",
 				"logic/missions/survival/attack_level_3_id_2_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_3_id_2_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 4
@@ -304,6 +307,7 @@ return function()
 				--"logic/missions/survival/attack_level_4_id_4.logic",
 				"logic/missions/survival/attack_level_4_id_4_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_4_id_4_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 5
@@ -320,6 +324,7 @@ return function()
 				--"logic/missions/survival/attack_level_5_id_4.logic",
 				"logic/missions/survival/attack_level_5_id_4_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_5_id_4_ArcticIslands_ultra.logic",			
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 6
@@ -353,7 +358,8 @@ return function()
 				--"logic/missions/survival/attack_level_6_id_5.logic",			
 				"logic/missions/survival/attack_level_6_id_5_ArcticIslands_alpha.logic",			
 				"logic/missions/survival/attack_level_6_id_5_ArcticIslands_alpha.logic",			
-				"logic/missions/survival/attack_level_6_id_5_ArcticIslands_ultra.logic",				
+				"logic/missions/survival/attack_level_6_id_5_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 7
@@ -388,6 +394,7 @@ return function()
 				"logic/missions/survival/attack_level_7_id_5_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_7_id_5_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_7_id_5_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 8
@@ -422,6 +429,7 @@ return function()
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 
 			 -- difficulty level 9
@@ -471,6 +479,7 @@ return function()
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_alpha.logic",
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_ultra.logic",
 				"logic/missions/survival/attack_level_8_id_5_ArcticIslands_ultra.logic",
+				"logic/missions/survival/attack_boss_ArcticIslands.logic",
 			},
 		},
 

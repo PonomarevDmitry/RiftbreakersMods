@@ -1,0 +1,97 @@
+material slash/base
+{
+	render_group 60
+
+	glow 1
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check off
+			scene_blend alpha_blend
+			//cull_hardware none
+
+            vertex_program_ref forward_object_texture_world_vp
+            {
+            }
+
+			fragment_program_ref slash_fp
+			{
+        		param_named    		cTime            float 0.0
+			}
+
+			texture_unit slash
+			{
+				texture materials/textures/slash_01.dds
+				filtering bilinear
+				tex_address_mode clamp
+			}
+
+			texture_unit noise
+			{	
+				texture materials/textures/noise_tiled.dds
+				filtering bilinear
+			}	
+
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 2
+                tex_address_mode wrap
+				filtering bilinear
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+		}
+	}
+}
+
+material slash/cosmic : slash/base
+{
+	render_group 61
+
+    set_texture_alias slash materials/textures/slash_01.dds
+
+    glow 30
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref slash_fp
+			{
+        		param_named         cEmissiveColor1  float4 3 0 2.5 1
+        		param_named         cEmissiveColor2  float4 6 0 5 1
+        		param_named    		cTime            float 0.0
+			}
+		}
+	}
+}
+
+material slash/cosmic_bg : slash/base
+{
+	render_group 60
+
+	set_texture_alias slash materials/textures/slash_02.dds
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref slash_fp
+			{
+        		param_named         cEmissiveColor1  float4 2 0 1 1
+        		param_named         cEmissiveColor2  float4 3 0 2.5 1
+        		param_named    		cTime            float 0.0
+			}
+		}
+	}
+}

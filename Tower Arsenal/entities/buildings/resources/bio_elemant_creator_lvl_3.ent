@@ -2,14 +2,15 @@ EntityBlueprint
 {
 	name				"buildings/resources/bio_elemant_creator_lvl_3"
 
-	base_blueprint 	buildings/resources/bio_elemant_creator_lvl_2
+	base_blueprint 	"buildings/resources/bio_elemant_creator_lvl_2"
 
 	BuildingDesc
 	{
 		buildable			"0"		
 		name 				"bio_elemant_creator_lvl_3"
 		bp   				"buildings/resources/bio_elemant_creator_lvl_3"
-		category 			"resources"
+		ghost_bp   			"buildings/resources/bio_elemant_creator_ghost"
+		category 			"building_modd"
 		type				"pipe"
 		localization_id		"gui/hud/building_name/bio_elemant_creator"
 		description			"gui/hud/building_description/bio_elemant_creator"
@@ -24,11 +25,11 @@ EntityBlueprint
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 80
+				building_time 60
 				building_cost
 				{
-					carbonium 	"850"
-					steel 		"600"
+					carbonium 		"850"
+					steel 			"600"
 					cosmonite_ore	"450"
 				}
 			}		
@@ -42,28 +43,32 @@ EntityBlueprint
 		{
 			GameplayResource
 			{
-				resource 			"energy"
-				value			 	"10"
-			}
+				resource 			"plasmoid"
+				value			 	"25"
+				attachment			"att_in_2"
+				//family				"in"
+			}	
 			
 			GameplayResource
 			{
-				resource 			"cosmonite_ore"
-				value			 	"1.5"
-			}
-			
-			GameplayResource
-			{
-				resource 			"plasmanite"
-				value			 	"1.5"
-			}
+				resource 			"cosmoganic_gas"
+				value			 	"25"
+				attachment			"att_in_3"
+				//family				"in"
+			}	
 			
 			GameplayResource
 			{
 				resource 			"cosmoganic"
-				value			 	"25"
+				value			 	"100"
 				attachment			"att_in_1"
-				family				"in"
+				//family				"in"
+			}	
+			
+			GameplayResource
+			{
+				resource 			"energy"
+				value			 	"200"
 			}
 		}
 		
@@ -86,7 +91,7 @@ EntityBlueprint
 			Storage
 			{
 				resource	 	"bio_plasma_charged"
-				max 	 		"150"
+				max 	 		"300"
 				attachment		"att_out_1"
 			}
 		}
@@ -190,6 +195,37 @@ EntityBlueprint
 		}	
 		EffectGroup
 		{
+			group "att_in_2"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_arrow_1"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group "att_in_3"
+			enabled "0"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"								
+					bone "att_in_arrow_2"
+					orientation "-180.0 0.0 0"
+				}
+			}
+		}	
+		EffectGroup
+		{
 			group "att_out_1"
 			enabled "0"				
 			delay "0"
@@ -243,5 +279,52 @@ EntityBlueprint
 				}
 			}
 		}
+		
+/////////////////////////////// exrta //////////////////////////////////////	
+		EffectGroup
+		{
+			group "tamod"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/bio_elemant_creator"
+					bone "att_in_1"
+					scale "1.0 1.0 1.0"
+					offset "-2.2 -0.3 -0.0"
+				}
+			}
+		}		
 	}
 }
+EntityBlueprint
+{
+	name  "buildings/defense/bio_elemant_creator_ghost"
+
+	LuaDesc
+	{
+		script "lua/misc/ghost_building.lua"
+	}
+
+	EffectDesc
+////////////////////////////   EXRTA    //////////////////////////
+	{
+		EffectGroup
+		{
+			group "tamod"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/bio_elemant_creator"
+					bone "att_in_1"
+					scale "1.0 1.0 1.0"
+					offset "-2.2 -0.3 -0.0"
+				}
+			}
+		}
+	}
+}
+

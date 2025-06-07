@@ -1,0 +1,164 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/cosmic_boss"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/alien_acid_elite"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/cosmic_boss_projectile"
+
+		muzzles_per_fire 			"5"
+		muzzle_flash_effect 		"effects/enemies_arachnoid/acid_spit"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/cosmic_boss_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"cosmic_boss"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/cosmic_boss"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+		name						"alien_cosmic_boss"
+		damage_type					"cosmic"
+		
+		stat_def_vec
+		{
+			WeaponStatDef
+			{
+				max_value "2.000"
+				min_value "2.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "FIRE_RATE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.000"
+				min_value "1.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "FIRE_PER_BURST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "10.000"
+				min_value "10.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "FIRE_PER_SHOT"
+			}
+
+			WeaponStatDef
+			{
+				max_value "30.000"
+				min_value "30.000"
+				stat_features "BASE_MINMAX|MODABLE|STATISTIC"
+				stat_type "DAMAGE_VALUE"
+			}
+
+			WeaponStatDef
+			{
+				max_value "1.000"
+				min_value "1.000"
+				stat_features "BASE_MINMAX|MODABLE"
+				stat_type "AMMO_COST"
+			}
+
+			WeaponStatDef
+			{
+				max_value "100.000"
+				min_value "100.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_SPEED"
+			}
+
+			WeaponStatDef
+			{
+				max_value "10.000"
+				min_value "10.000"
+				stat_features "BASE_MINMAX"
+				stat_type "AMMO_SPREAD"
+			}
+
+			WeaponStatDef
+			{
+				max_value "25.000"
+				min_value "25.000"
+				stat_features "BASE_MINMAX"
+				stat_type "BEAM_RANGE"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/cosmic_boss_projectile"
+
+	base_blueprint "effects/enemies_arachnoid/cosmic_projectile_boss"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/laser_violet"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_cosmic_arachnoid/projectile_explosion"
+		on_world_hit_effect 	"effects/enemies_cosmic_arachnoid/projectile_explosion"			
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		collision_2d 				"ground_unit|hitbox"
+	}
+}
+

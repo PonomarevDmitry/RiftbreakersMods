@@ -1,0 +1,58 @@
+system rift/mech_shotgun_bullet
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.002
+    scale                                       0.002 0.002 0.002
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 75
+    technique 
+    {
+        keep_local                              true
+        visual_particle_quota                   15
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  68
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            common_up_vector                    1 0 0
+            accurate_facing                     true
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       50
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            velocity                            0.001
+            particle_width                      dyn_random
+            {
+                min                             250
+                max                             250
+            }
+            particle_height                     dyn_random
+            {
+                min                             800
+                max                             2000
+            }
+            direction                           1 0 0
+            box_width                           2000
+            box_height                          300
+            box_depth                           1000
+        }
+        affector                                Colour Affector2
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

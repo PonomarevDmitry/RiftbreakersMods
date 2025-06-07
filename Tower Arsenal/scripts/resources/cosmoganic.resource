@@ -9,3 +9,4 @@ GameplayResourceDef
 	hud_visible 	"build_menu"
 	order   		"26.2"
 }
+

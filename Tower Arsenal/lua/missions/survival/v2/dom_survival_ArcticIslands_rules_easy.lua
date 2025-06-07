@@ -54,13 +54,13 @@ return function()
 	
 	rules.objectivesLogic = 
 	{
-		{ name = "logic/objectives/kill_cosmic_arachnoid_elite.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/kill_cosmic_magmoth_boss_elite.logic", minDifficultyLevel = 2 },
-		{ name = "logic/objectives/kill_cosmic_phirian_boss_elite.logic", minDifficultyLevel = 6 },
-		{ name = "logic/objectives/kill_cosmic_gnerot_boss_elite.logic", minDifficultyLevel = 6 },
-		{ name = "logic/objectives/destroy_cosmic_crystal_creeper.logic", minDifficultyLevel = 6 },
+		{ name = "logic/objectives/kill_elite_random_bosses.logic", minDifficultyLevel = 2 },
+		{ name = "logic/objectives/destroy_cosmic_crystal_creeper.logic", minDifficultyLevel = 3 },
 		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 }, 
+		{ name = "logic/objectives/destroy_nest_cosmic_canoptrix_multiple.logic", minDifficultyLevel = 2 },
 		{ name = "logic/objectives/destroy_nest_cosmic_morirot_single.logic", minDifficultyLevel = 2, maxDifficultyLevel = 3 }, 
+		{ name = "logic/objectives/destroy_nest_cosmic_morirot_multiple.logic", minDifficultyLevel = 4 },
+		{ name = "logic/objectives/destroy_nest_arctic_boss.logic", minDifficultyLevel = 4, maxDifficultyLevel = 5 }, 
 	}
 
     return rules;

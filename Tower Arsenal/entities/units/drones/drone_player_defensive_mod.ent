@@ -1,0 +1,273 @@
+EntityBlueprint
+{
+	name  			"units/drones/drone_player_defensive_mod_standard"
+    base_blueprint  "units/drones/drone_base"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement			string:"follow"
+			owner_movement_speed_near       	 float:"0.75"
+			owner_movement_speed_far          	 float:"1.5"
+			owner_movement_trigger_distance 	float:"8.0"
+
+			target_movement			string:"follow"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone_mod.lua"
+
+		database
+		{
+			search_interval  float:"0.35"
+			search_radius	 float:"10.0"
+			min_scale			float:"0.1"
+			max_scale			float:"0.1"
+		}
+	}
+	
+	VegetationBendingComponentDesc
+	{
+		bending_power	"500.0"
+		bending_radius	"5.0"
+	}	
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/drones/drone_crystal_collector"
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/defensive_trail_standard"
+					scale "2.6 2.6 2.6"
+					offset "0 8.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "mesh_addon_01"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_mesh_addon_01"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.6 1.6 1.6"
+					offset "0 8.5 0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_mod_advanced"
+	base_blueprint		"units/drones/drone_player_defensive_mod_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone_mod.lua"
+
+		database
+		{
+			search_interval  float:"0.3"
+			search_radius	 float:"11.0"
+			min_scale			float:"0.1"
+			max_scale			float:"0.1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/defensive_trail_advanced"
+					scale "2.6 2.6 2.6"
+					offset "0 8.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "mesh_addon_01"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_mesh_addon_02"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.7 1.7 1.7"
+					offset "0 8.5 0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_mod_superior"
+	base_blueprint		"units/drones/drone_player_defensive_mod_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone_mod.lua"
+
+		database
+		{
+			search_interval  float:"0.25"
+			search_radius	 float:"12.0"
+			min_scale			float:"0.1"
+			max_scale			float:"0.1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/defensive_trail_superior"
+					scale "2.6 2.6 2.6"
+					offset "0 8.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "mesh_addon_01"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_mesh_addon_03"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.8 1.8 1.8"
+					offset "0 8.5 0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_defensive_mod_extreme"
+	base_blueprint		"units/drones/drone_player_defensive_mod_standard"
+	LuaDesc
+	{
+		script "lua/units/air/defensive_drone_mod.lua"
+
+		database
+		{
+			search_interval  float:"0.2"
+			search_radius	 float:"13.0"
+			min_scale			float:"0.1"
+			max_scale			float:"0.1"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_crystal_collector.mesh"
+		material "units/drones/drone_crystal_collector"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/defensive_trail_extreme"
+					scale "2.6 2.6 2.6"
+					offset "0 8.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "mesh_addon_01"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/drone_mesh_addon_04"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.9 1.9 1.9"
+					offset "0 8.5 0"
+				}
+			}
+		}
+	}
+}

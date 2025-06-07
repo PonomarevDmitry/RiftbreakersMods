@@ -36,7 +36,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/buildings/defense/reflection_shield_generator.lua"
+		script "lua/buildings/defense/ta_reflection_shield_generator.lua"
 		
 		database
 		{
@@ -44,9 +44,9 @@ EntityBlueprint
 			cone_effect_sell		string:"sell_big"
 			range					float:"40"
 			interval				float:"1"
-			shield_bp				string:"buildings/defense/shield_generator_plasma/shield_acidic_lvl_3"
+			shield_bp				string:"buildings/defense/shield_generator_acidic/shield_acidic_lvl_3"
 			display_radius_group	string:"shield_generator"
-			display_radius_blueprint string:"effects/decals/range_circle_shield"
+			display_radius_blueprint string:"effects/decals/acidic_shield"
 		}
 	}
 
@@ -125,7 +125,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "buildings/defense/shield_generator_plasma/shield_acidic_lvl_3"
+	name  "buildings/defense/shield_generator_acidic/shield_acidic_lvl_3"
 
 	IdDesc
 	{
@@ -186,7 +186,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/shield_plasma_down"
+					blueprint "effects/buildings_and_machines/shield_acidic_down"
 				}
 			}
 		}
@@ -195,69 +195,7 @@ EntityBlueprint
 	ShieldComponent
 	{
 		owner	"custom"
-		highlight_material	"highlight/shield_plasma"
+		highlight_material	"highlight/shield_acidic"
 	}
-}
-
-EntityBlueprint
-{
-	name  "buildings/defense/shield_generator_acidic_ghost"
-
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/shield_generator.mesh"
-		material "selector/hologram_blue"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/buildings/defense/shield_generator"
-	}
-
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ghost_building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsSphereShape
-					{
-						r "1.45"
-	
-						position 
-						{
-							x "0.0"
-							y "1.0"
-							z "0.0"
-						}
-					}			
-				}
-			}
-		}
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-   			PhysicsBoxShape
-   			{
-    				x	4
-    				y	4
-    				z	4
-   			}			
-		}
-	}
-
-	DisplayRadiusDesc
-	{
-		max_radius 30
-	}
-		
 }
 

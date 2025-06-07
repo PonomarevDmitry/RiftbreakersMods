@@ -9,9 +9,25 @@ EntityBlueprint
 		script "lua/units/ground/magmoth.lua"
 		database
 		{
-			min_scale	      float:"1.35"
-			max_scale	      float:"1.45"
+			min_scale	          float:"1.35"
+			max_scale	          float:"1.45"
+			fuse_bp			     string:"effects/enemies_cosmic_magmoth/teleport_trail"
 		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.8"
+		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall|mud_vein|water_vein"
+		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	DatabaseComponent
@@ -152,6 +168,23 @@ EntityBlueprint
 			}
 		}
 	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "teleport"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_magmoth/teleport_ultra"
+				}
+			}
+		}
+	}
 }
 
 EntityBlueprint 
@@ -170,11 +203,6 @@ EntityBlueprint
 		bending_radius	"5.0"
 	}
 
-	ParticleDesc
-	{
-		name    "rift/cosmic_magmoth_ultra_projectile"
-	}
-
 	ProjectileAmmoComponent
 	{
 		on_enemy_hit_effect 	"effects/cosmic_magmoth_explosion_ultra"
@@ -186,19 +214,18 @@ EntityBlueprint
 		friendly_fire			"pass"
 	}
 
-	//EffectDesc
-	//{
-	//	EffectGroup
-	//	{
-	//		Effects
-	//		{
-	//			Effect
-	//			{
-	//				blueprint "effects/enemies_cosmic_magmoth_ultra_boss/projectile"
-	//				//bone "Body_1"
-	//				scale "1.0 1.0 0.6"
-	//			}
-	//		}
-	//	}
-	//}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_magmoth/projectile_ultra"
+				}
+			}
+		}
+	}
 }
+

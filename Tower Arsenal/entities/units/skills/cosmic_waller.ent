@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/cosmic_waller"
+	//base_blueprint "units/skills/skill_base"
 
 	StateMachineDesc
 	{
@@ -17,7 +18,7 @@ EntityBlueprint
 	SkillLinkUnitComponent
 	{
 		name 			"gui/hud/enemy_skill_name/cosmic_waller"
-		description 	"gui/hud/enemy_skill_description/cosmic_waller"
+		description 	"gui/hud/enemy_skill_description/waller"
 		icon 			"gui/menu/inventory/stat_icons/cosmic_waller_icon"
 	}
 
@@ -46,10 +47,71 @@ EntityBlueprint
 			}	
 		}
 	}
+}
 
-	NetReplicationDisabledComponent
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_lvl_2"
+	base_blueprint	"units/skills/cosmic_waller"
+	
+	SkillLinkUnitComponent
 	{
+		name 			"gui/hud/enemy_skill_name/cosmic_waller_lvl_2"
+		description 	"gui/hud/enemy_skill_description/cosmic_waller"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_waller_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/cosmic_waller_obstacle_lvl_2"
+		}			
+	}
+}
 
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_lvl_3"
+	base_blueprint	"units/skills/cosmic_waller"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_waller_lvl_3"
+		description 	"gui/hud/enemy_skill_description/cosmic_waller"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_waller_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/cosmic_waller_obstacle_lvl_3"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_lvl_4"
+	base_blueprint	"units/skills/cosmic_waller"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cosmic_waller_lvl_4"
+		description 	"gui/hud/enemy_skill_description/cosmic_waller"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_waller_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/waller.lua"
+		database
+		{
+			waller_blueprint		string:"units/skills/cosmic_waller_obstacle_lvl_4"
+		}			
 	}
 }
 
@@ -62,13 +124,46 @@ EntityBlueprint
 		script "lua/misc/waller.lua"
 		database
 		{
-			wall_bp				string:"units/ground/cosmic_gulgor_boss/crystal"
-			side_distance		float:"20"
-			back_distance		float:"20"
-			front_distance		float:"20"
-			step				float:"2.0"
+			wall_bp			string:"units/skills/cosmic_waller_obstacle_root"
+			side_distance	float:"10"
+			back_distance	float:"16"
+			front_distance	float:"20"
+			step			float:"2.0"
 		}			
 	}
+
+	LifeTimeDesc
+	{
+		time 		12
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_obstacle_lvl_2"
+	base_blueprint	"units/skills/cosmic_waller_obstacle"
+
+	LifeTimeDesc
+	{
+		time 		9
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_obstacle_lvl_3"
+	base_blueprint	"units/skills/cosmic_waller_obstacle"
+
+	LifeTimeDesc
+	{
+		time 		6
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cosmic_waller_obstacle_lvl_4"
+	base_blueprint	"units/skills/cosmic_waller_obstacle"
 
 	LifeTimeDesc
 	{
@@ -90,3 +185,146 @@ EntityBlueprint
 		}
 	}
 }
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_exolian/wall_debris"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_exolian/wall_debris_01"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_exolian/wall_debris_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_exolian/wall_debris_03"
+		}		
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_exolian/wall_debris_04"
+		}		
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_exolian/wall_debris_05"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_01"
+
+	base_blueprint "units/ground/cosmic_exolian/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_01.mesh"
+		material 	"projectiles/laser_violet"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_02"
+
+	base_blueprint "units/ground/cosmic_exolian/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_02.mesh"
+		material 	"projectiles/laser_violet"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_03"
+
+	base_blueprint "units/ground/cosmic_exolian/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_03.mesh"
+		material 	"projectiles/laser_violet"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_04"
+
+	base_blueprint "units/ground/cosmic_exolian/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_04.mesh"
+		material 	"projectiles/laser_violet"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_05"
+
+	base_blueprint "units/ground/cosmic_exolian/wall_debris_base"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/gnerot/rock_debris_05.mesh"
+		material 	"projectiles/laser_violet"
+	}
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_exolian/wall_debris_base"
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"loot"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x 	"1.0"
+						y 	"0.75"
+						z 	"1.0"
+					}				
+				}
+				mass 		"380"				
+			}
+		}
+	}
+}
+

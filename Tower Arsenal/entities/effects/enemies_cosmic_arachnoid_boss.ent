@@ -4,7 +4,7 @@ EntityBlueprint
 
 	base_blueprints 
 	{
-		lights/point/explosion_violet_medium
+		lights/point/violet_medium
 		effects/default
 	}
 
@@ -28,7 +28,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cosmic_arachnoid_projectile_trail"
+		name    "rift/cosmic_arachnoid_projectile_boss"
 	}
 
 	LifeTimeDesc
@@ -58,20 +58,6 @@ EntityBlueprint
 			}
 		}		
 	}	
-	
-	BurningComponent
-	{
-		spread_radius 			"0.1"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-	
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-	
-		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-	}		
 }
 
 EntityBlueprint
@@ -80,7 +66,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/explosion_violet_big
+		 lights/point/explosion_violet_small
 		 effects/default
 	}
 
@@ -127,25 +113,25 @@ EntityBlueprint
 		group			"explosion_small"
 	}
 
-	SoundDesc
-	{
-		name "enemies/arachnoid/acid_spit"
-	}
-
 	BurningComponent
 	{
-		spread_radius 			"0.1"			// radius to spread fire
+		spread_radius 			"2.0"			// radius to spread fire
 		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-	
+
 		spread_timer
 		{
 			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
 		}
-	
+
 		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
-		burning_time			"0.05"	// how long it will burn in seconds
+		burning_time			"0.01"	// how long it will burn in seconds
 		disable_light_fade_out "1"
-	}		
+	}	
+
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_spit"
+	}
 }
 
 EntityBlueprint

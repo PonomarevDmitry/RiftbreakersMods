@@ -1,7 +1,7 @@
-//editor "scroll(2673.84,-496.96)|zoom(0.53)"
+//editor "scroll(4027.58,-426.65)|zoom(0.87)"
 FlowGraphTemplate
 {
-	version "48"
+	version "23"
 	editor "6380"
 	GraphNodes
 	{
@@ -35,7 +35,28 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_generic.xml)|pos(-5688,-5)"
+			//editor "layout(mission_end.xml)|pos(5659,122)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-5385,34)"
 			database
 			{
 				Integers
@@ -158,7 +179,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "units/ground/cosmic_yeast_root_origin_acid_scout"
+						value "units/ground/cosmic_yeast_root_acid_scout"
 					}
 
 				}
@@ -778,7 +799,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_gather_resource.xml)|pos(2877,-113)"
+			//editor "layout(objective_gather_resource.xml)|pos(2993,-96)"
 			database
 			{
 				Integers
@@ -880,7 +901,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3894,-69)"
+			//editor "layout(logic_wait.xml)|pos(3725,-25)"
 			database
 			{
 				Floats
@@ -888,7 +909,7 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "duration"
-						value "5"
+						value "0.00"
 					}
 
 				}
@@ -897,6 +918,37 @@ FlowGraphTemplate
 
 			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(4168,101)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.75"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_0"
 		}
 
 		LuaBehaviourNode
@@ -930,7 +982,7 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "aggressive_radius"
-						value "99"
+						value "96.00"
 					}
 
 					FloatData
@@ -997,7 +1049,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "units/ground/cosmic_crystal_creeper_root_cosmic_scout"
+						value "units/ground/creeper_root_acid_scout"
 					}
 
 				}
@@ -1079,130 +1131,6 @@ FlowGraphTemplate
 						value "true"
 					}
 
-				}
-
-			}
-
-		}
-
-		DialogGroupNode
-		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(-6682,251)"
-			global "0"
-			interrupt "0"
-			priority "0"
-			self_id "interface_dialogue_show_group_0"
-			timeout "0"
-			dialogs
-			{
-				//editor "expanded(1)"
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/arctic/mech_scout_11"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/arctic/ashley_scout_11"
-				}
-
-			}
-
-		}
-
-		DialogGroupNode
-		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(-3697,-995)"
-			global "0"
-			interrupt "0"
-			priority "0"
-			self_id "interface_dialogue_show_group_1"
-			timeout "0"
-			dialogs
-			{
-				//editor "expanded(1)"
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/arctic/mech_scout_12"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/arctic/ashley_scout_12"
-				}
-
-			}
-
-		}
-
-		DialogGroupNode
-		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(-3906,-370)"
-			global "0"
-			interrupt "0"
-			priority "0"
-			self_id "interface_dialogue_show_group_2"
-			timeout "0"
-			dialogs
-			{
-				//editor "expanded(1)"
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/arctic/ashley_scout_13"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/arctic/mech_scout_13"
-				}
-
-			}
-
-		}
-
-		DialogGroupNode
-		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(2146,-378)"
-			global "0"
-			interrupt "0"
-			priority "0"
-			self_id "interface_dialogue_show_group_3"
-			timeout "0"
-			dialogs
-			{
-				//editor "expanded(1)"
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/ashley"
-					sound_name "voice_over/arctic/ashley_scout_14"
-				}
-
-				DialogInfo
-				{
-					//editor "layout(dialog_info.xml)|pos(0,0)"
-					extended_duration "0"
-					gui_id "gui/hud/dialogs/mech"
-					sound_name "voice_over/arctic/mech_scout_14"
 				}
 
 			}
@@ -1317,7 +1245,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(-5974,122)"
+			//editor "layout(logic_wait.xml)|pos(-6682,76)"
 			database
 			{
 				Floats
@@ -1702,7 +1630,7 @@ FlowGraphTemplate
 					IntData
 					{
 						key "count"
-						value "3"
+						value "5"
 					}
 
 				}
@@ -1712,7 +1640,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "blueprint"
-						value "units/ground/cosmic_yeast_root_origin_acid_scout"
+						value "units/ground/cosmic_yeast_root_acid_scout"
 					}
 
 					StringData
@@ -1847,7 +1775,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait_on_event.xml)|pos(5889,-516)"
+			//editor "layout(logic_wait_on_event.xml)|pos(5852,-485)"
 			database
 			{
 				Integers
@@ -1878,7 +1806,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(6315,-520)"
+			//editor "layout(objective_finish.xml)|pos(6201,-489)"
 			database
 			{
 				Integers
@@ -2098,117 +2026,137 @@ FlowGraphTemplate
 			value
 		}
 
-		LuaBehaviourNode
+		DialogGroupNode
 		{
-			//editor "layout(mission_change_creature_difficulty.xml)|pos(4333,-78)"
-			database
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-6016,426)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_4"
+			timeout "0"
+			dialogs
 			{
-				Floats
+				//editor "expanded(1)"
+				DialogInfo
 				{
-					FloatData
-					{
-						key "value"
-						value "0.75"
-					}
-
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/arctic/mech_scout_11"
 				}
 
-				Strings
+				DialogInfo
 				{
-					StringData
-					{
-						key "mode"
-						value "increment"
-					}
-
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/arctic/ashley_scout_11"
 				}
 
 			}
 
-			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
-			self_id "mission_change_creature_difficulty_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(mission_end.xml)|pos(6069,-66)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "mission_result"
-						value "win"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/mission_end.lua"
-			self_id "mission_end_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_event_send.xml)|pos(5499,-94)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "is_event_local"
-						value "0"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "event_name"
-						value "OnGraffitiFloorUnlocked"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_event_send.lua"
-			self_id "logic_event_send_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(mission_enable_research.xml)|pos(4792,-75)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "research_name"
-						value "gui/menu/research/name/graffiti_floor"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/mission_enable_research.lua"
-			self_id "mission_enable_research_0"
 		}
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(4162,-1141)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-3941,-382)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_6"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/arctic/ashley_scout_13"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/arctic/mech_scout_13"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-3734,-1012)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_2"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/arctic/mech_scout_12"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/arctic/ashley_scout_12"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2159,-857)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_7"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/arctic/ashley_scout_14"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/arctic/mech_scout_14"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(4107,-1248)"
 			global "0"
 			interrupt "0"
 			priority "1.00"
-			self_id "interface_dialogue_show_group_6"
+			self_id "interface_dialogue_show_group_8"
 			timeout "0"
 			dialogs
 			{
@@ -2275,7 +2223,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_enable_research.xml)|pos(4347,-206)"
+			//editor "layout(mission_enable_research.xml)|pos(4194,-171)"
 			database
 			{
 				Strings
@@ -2291,7 +2239,59 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/mission_state/mission_enable_research.lua"
-			self_id "mission_enable_research_1"
+			self_id "mission_enable_research_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_enable_research.xml)|pos(4655,234)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/graffiti_floor"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_enable_research.lua"
+			self_id "mission_enable_research_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(5267,235)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "OnGraffitiFloorUnlocked"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_2"
 		}
 
 	}
@@ -2303,14 +2303,14 @@ FlowGraphTemplate
 		entity_spawn_player_0 "event_graph_2|logic_wait_10|logic_wait_on_destroy_1|logic_wait_on_event_0"
 		entity_spawn_single_1 "entity_remove_0|interface_minimap_show_zone_1"
 		entity_spawn_world_random_0 "logic_wait_3"
-		interface_dialogue_show_group_3 "interface_hud_show_text_0"
-		interface_dialogue_show_group_6 "objective_generic_2"
+		interface_dialogue_show_group_7 "interface_hud_show_text_0"
+		interface_dialogue_show_group_8 "objective_generic_2"
 		interface_hud_show_text_0 "logic_wait_0"
 		interface_minimap_show_zone_1 "interface_minimap_hide_zone_1"
-		logic_event_send_1 "mission_end_1"
+		logic_event_send_2 "mission_end_0"
 		logic_if_exist_entity_1 "entity_spawn_world_random_0"
 		logic_if_exist_entity_new_1 "logic_if_exist_entity_new_1###true"
-		logic_if_exist_entity_new_1###true "entity_spawn_single_0|interface_dialogue_show_group_2|objective_exist_1"
+		logic_if_exist_entity_new_1###true "entity_spawn_single_0|interface_dialogue_show_group_6|objective_exist_1"
 		logic_if_resource_0 "logic_if_resource_0###true"
 		logic_if_resource_0###true "logic_or_2"
 		logic_or_0 "interface_hud_hide_text_0"
@@ -2322,22 +2322,22 @@ FlowGraphTemplate
 		logic_wait_11 "logic_wait_on_destroy_1"
 		logic_wait_2 "objective_gather_resource_0"
 		logic_wait_3 "logic_if_exist_entity_1"
-		logic_wait_5 "interface_dialogue_show_group_6|mission_change_creature_difficulty_0|mission_enable_research_1"
+		logic_wait_5 "interface_dialogue_show_group_8|mission_change_creature_difficulty_0|mission_enable_research_2"
 		logic_wait_7 "objective_exist_0"
 		logic_wait_on_destroy_0 "logic_or_2"
 		logic_wait_on_destroy_1 "enemies_change_ai_groups_to_aggressive_0"
-		logic_wait_on_event_0 "interface_dialogue_show_group_0|logic_if_exist_entity_1|logic_set_global_variable_0|logic_wait_1"
+		logic_wait_on_event_0 "interface_dialogue_show_group_4|logic_if_exist_entity_1|logic_set_global_variable_0|logic_wait_1"
 		logic_wait_on_event_1 "objective_finish_1"
-		mission_change_creature_difficulty_0 "mission_enable_research_0"
-		mission_enable_research_0 "logic_event_send_1"
+		mission_change_creature_difficulty_0 "mission_enable_research_3"
+		mission_enable_research_3 "logic_event_send_2"
 		objective_exist_0 "objective_exist_0###false|objective_exist_0###true"
-		objective_exist_0###true "interface_dialogue_show_group_1|objective_generic_5"
+		objective_exist_0###true "interface_dialogue_show_group_2|objective_generic_5"
 		objective_exist_1 "objective_exist_1###false|objective_exist_1###true"
 		objective_exist_1###false "logic_or_1"
 		objective_exist_1###true "entity_remove_0|interface_minimap_hide_zone_1|objective_finish_5"
 		objective_finish_0 "objective_generic_6"
 		objective_finish_5 "logic_or_1"
-		objective_finish_6 "interface_dialogue_show_group_3|logic_wait_2"
+		objective_finish_6 "interface_dialogue_show_group_7|logic_wait_2"
 		objective_gather_resource_0 "logic_or_0|logic_wait_5"
 		objective_generic_0 "logic_if_exist_entity_new_1|logic_wait_7"
 		objective_generic_2 "objective_status_change_0"

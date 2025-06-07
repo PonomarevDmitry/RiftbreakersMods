@@ -1,30 +1,30 @@
-//----------------------ADVANCED ENERGY WALLS START----------------------\\
+//----------------------SHIELDS START----------------------\\
 
-// shield_generator_plasma
+// shield_generator_acidic
 
 EntityBlueprint
 {
-	name  "effects/buildings_and_machines/shield_cosmo_plasma_down"
+	name  "effects/buildings_and_machines/shield_acidic_down"
 
 	base_blueprints
 	{
-		 lights/point/base_lamp_violet
+		 lights/point/green_small
 		 effects/default
 	}
 
 	ParticleDesc
 	{
-		name    "rift/shield_plasma_down"
+		name    "exor/shield_acidic_down"
 	}
 }
 
 EntityBlueprint
 {
-	name  "effects/buildings_and_machines/shield_generator_plasma_energy"
+	name  "effects/buildings_and_machines/shield_generator_acidic_energy"
 
 	base_blueprints
 	{
-		 lights/point/blue_medium
+		 lights/point/green_medium
 		 effects/no_lifetime
 	}
 
@@ -33,4 +33,741 @@ EntityBlueprint
 		name    "rift/comms_hub_energy"
 	}
 }
+
+EntityBlueprint 
+{
+	name "effects/buildings_and_machines/bio_elemant_creator"
+
+	base_blueprints
+	{
+		//liquid_material_storage_mesh
+		 effects/no_lifetime
+	}
+
+	IdDesc
+	{
+		name "##ta-mod##"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/liquid_material_storage_lvl_1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/buildings/resources/liquid_material_storage_g1.nxs"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/resources/liquid_material_storage_lvl_1.mesh"
+		material 	"buildings/resources/liquid_material_storage_lvl_1"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "resources/resource_empty_fresnel"
+			}
+		}
+	}
+}
+EntityBlueprint 
+{
+	name "effects/buildings_and_machines/bio_elemant_creator_addon"
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		//liquid_material_storage_mesh_ghost
+	}
+
+	IdDesc
+	{
+		name "##mesh_ghost##"
+	}
+
+	MeshDesc
+	{
+		mesh 	"meshes/buildings/resources/liquid_material_storage_lvl_1.mesh"
+		material "selector/hologram_blue"
+	}
+}
+
+EntityBlueprint 
+{
+	name effects/buildings_and_machines/heavy_plasmoid_blaster
+
+	base_blueprints
+	{
+		//liquid_material_storage_mesh
+		 effects/no_lifetime
+	}
+
+	IdDesc
+	{
+		name "##ta-mod##"
+	}
+
+	BuildingDesc
+	{
+	}
+
+	ResourceConverterDesc
+	{
+		in
+		{
+			GameplayResource
+			{
+				resource 	"energy"
+				value 		"5"
+			}
+			GameplayResource
+			{
+				resource 			"plasmoid"
+				value				"25"
+				attachment			"att_in_1,att_in_2,att_in_3,att_in_4"
+			}
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+
+	ResourceStorageDesc
+	{
+		Storages
+		{
+			Storage
+			{
+				resource	 	"plasmoid"
+				max 	 		"3000"
+				attachment		"att_in_1|att_in_2|att_in_3|att_in_4"
+			}
+		}
+	}
+
+	PipeComponent
+	{
+		attachment		"att_in_1,att_in_2,att_in_3,att_in_4"
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/resources/pipe_straight.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_3x3"
+			cone_effect_sell	string:"sell_big"
+			postfix				string:"_storage"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/resources/liquid_material_storage_lvl_1.mesh"
+		material 	"buildings/resources/liquid_material_storage_lvl_1"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "resources/resource_empty_fresnel"
+			}
+		}
+	}
+
+	TypeDesc
+	{
+		type "building|resource"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/liquid_material_storage_lvl_1"
+	}
+
+	NodeCullerDesc
+	{
+		nav_mesh_cull_type "1"
+		cost_type "building"
+		flow_field_size "0.7"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/buildings/resources/liquid_material_storage_g1.nxs"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"2000"
+		explosion_min_power 	"1000"
+	}
+
+	DestroyDesc
+	{
+
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "80_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "60_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "40_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "20_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/explosion_medium_random"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					//explosion_effect 		"effects/buildings_generic/explosion_building_small_01"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_lifetime "3"
+				}
+			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/buildings_generic/building_sand_collapse"
+					part_physics_material   "debris_heavy"
+					part_material 			"misc/building_parts_generic"
+					//part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
+					part_prefix 			"meshes/misc/building_large_parts_generic"
+					part_lifetime "3"
+				}
+
+				key "quicksand"
+			}
+		}
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/liquid_material_storage_lvl_1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsMeshShape
+			{
+				mesh "meshes/buildings/resources/liquid_material_storage_g1.nxs"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/resources/liquid_material_storage_lvl_1.mesh"
+		material 	"buildings/resources/liquid_material_storage_lvl_1"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "resources/resource_empty_fresnel"
+			}
+		}
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"buildings/effects_medium_base"
+		}
+////////////////////////Resources/////////////////////////
+		EffectGroup
+		{
+			group "att_in_1"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_1"
+					//scale "1.0 1.0 1.0"
+					//offset "-1.5 -0.0 -0.0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_2"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_2"
+					//offset "-1.5 -0.0 -0.0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_3"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_3"
+					//offset "-1.5 -0.0 -0.0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "att_in_4"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines/building_arrow"
+					bone "att_in_4"
+					//offset "-1.5 -0.0 -0.0"
+				}
+			}
+		}
+	}
+}
+EntityBlueprint 
+{
+	name ta_effects/buildings_and_machines/magmatic_burner_addon
+
+	base_blueprints
+	{
+		//liquid_material_storage_mesh
+		 effects/no_lifetime
+	}
+
+	IdDesc
+	{
+		name "##ta-mod##"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/resources/uranium_centrifuge.mesh"
+		material "buildings/resources/magmatic_burner_addon"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/uranium_centrifuge"
+	}
+}
+EntityBlueprint 
+{
+	name ta_effects/buildings_and_machines/plasmatic_filtering_plant_addon
+
+	base_blueprints
+	{
+		//liquid_material_storage_mesh
+		 effects/no_lifetime
+	}
+
+	IdDesc
+	{
+		name "##ta-mod##"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/resources/uranium_centrifuge.mesh"
+		material "buildings/resources/plasmatic_filtering_plant_addon"	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/uranium_centrifuge"
+	}
+}
+EntityBlueprint 
+{
+	name "effects/buildings_and_machines/drone_mesh_addon"
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		//liquid_material_storage_mesh_ghost
+	}
+
+	IdDesc
+	{
+		name "##mesh_addon##"
+	}
+
+	MeshDesc
+	{
+		mesh 	"meshes/units/ground/mod_large_bomber_core.mesh"
+		material "units/drones/drone_cultivator"
+	}
+}
+EntityBlueprint 
+{
+	name "effects/buildings_and_machines/drone_mesh_addon_01"
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+		//liquid_material_storage_mesh_ghost
+	}
+
+	IdDesc
+	{
+		name "##mesh_addon_01##"
+	}
+
+	MeshDesc
+	{
+		mesh 	"meshes/units/ground/spaceship_bombs_mod.mesh"
+		material "units/drones/spaceship_mod"
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_and_machines/defensive_trail_standard
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail_defensive"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/defensive_trail_standard"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+EntityBlueprint 
+{
+	name 			"effects/buildings_and_machines/drone_mesh_addon_02"
+	base_blueprints "effects/buildings_and_machines/drone_mesh_addon_01"
+
+	MeshDesc
+	{
+		mesh 	"meshes/units/ground/spaceship_bombs_mod.mesh"
+		material "units/drones/spaceship_mod_advanced"
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_and_machines/defensive_trail_advanced
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail_defensive"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/defensive_trail_advanced"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+EntityBlueprint 
+{
+	name 			"effects/buildings_and_machines/drone_mesh_addon_03"
+	base_blueprints "effects/buildings_and_machines/drone_mesh_addon_01"
+
+	MeshDesc
+	{
+		mesh 	"meshes/units/ground/spaceship_bombs_mod.mesh"
+		material "units/drones/spaceship_mod_superior"
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_and_machines/defensive_trail_superior
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail_defensive"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/defensive_trail_superior"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+EntityBlueprint 
+{
+	name 			"effects/buildings_and_machines/drone_mesh_addon_04"
+	base_blueprints "effects/buildings_and_machines/drone_mesh_addon_01"
+
+	MeshDesc
+	{
+		mesh 	"meshes/units/ground/spaceship_bombs_mod.mesh"
+		material "units/drones/spaceship_mod_extreme"
+	}
+}
+EntityBlueprint
+{
+	name effects/buildings_and_machines/defensive_trail_extreme
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail_defensive"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/defensive_trail_extreme"
+		update_bounds 		1
+		fade_out_time		1.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/buildings_and_machines/drone_defensive_mod_lightning_base
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	LifeTimeDesc
+	{
+		time    "0.2"
+	}	
+}
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/drone_defensive_mod_lightning
+	base_blueprint  effects/buildings_and_machines/drone_defensive_mod_lightning_base
+
+	LightningComponent
+	{
+		material 				"items/weapons/telsa_gun_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"2"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_defensive_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/drone_defensive_mod_lightning_hit
+	base_blueprints
+	{
+		lights/point/violet_small
+		effects/buildings_and_machines/drone_defensive_mod_lightning_base
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_laser_hit"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
 

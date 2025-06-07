@@ -28,7 +28,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cosmic_arachnoid_projectile_trail"
+		name    "rift/cosmic_arachnoid_projectile"
 	}
 
 	SoundDesc
@@ -124,7 +124,7 @@ EntityBlueprint
 
 	base_blueprints 
 	{
-		lights/point/violet_very_small
+		lights/point/blue_very_small
 		effects/default
 	}
 
@@ -148,21 +148,72 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cosmic_arachnoid_projectile_trail"
+		name    "rift/cosmic_arachnoid_projectile_alpha"
 	}
 
-	GridMarkerComponent
-	{
-		mode			"bounds"
-		terrain_type  	"mech_cosmo_trail"	
-		extend  		"2"
-	}
-	
 	LifeTimeDesc
 	{
 		time 		4
 	}
 	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 6 1"
+				}
+			}
+		}		
+	}	
+}
+
+
+EntityBlueprint
+{
+	name "effects/enemies_arachnoid/cosmic_sentinal_ultra_projectile"
+
+	base_blueprints 
+	{
+		lights/point/blue_very_small
+		effects/default
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_arachnoid_projectile_ultra"
+	}
+
+	LifeTimeDesc
+	{
+		time 		4
+	}
+
 	EffectDesc
 	{
 		EffectGroup

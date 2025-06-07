@@ -1,21 +1,21 @@
 EntityBlueprint
 {
 	name "units/ground/cosmic_canoptrix_crystal"
-	
+
 	base_blueprint units/ground/canoptrix_base
-	
+
 	MeshDesc
 	{
 		mesh 		"meshes/units/ground/canoptrix_crystal.mesh"
 		material 	"units/ground/cosmic_canoptrix_crystal"
 	}
-	
+
 	SelectableDesc
 	{
 		content "monster_name/cosmic_canoptrix_crystal"
 		can_activate 0
 	}
-	
+
 	LuaDesc
 	{
 		script "lua/units/ground/canoptrix_crystal.lua"
@@ -25,19 +25,34 @@ EntityBlueprint
 			max_scale	float:"1.4"
 		}
 	}
-	
+
 	ResistanceComponent
 	{
 		physical		"1.0"
 		fire			"0.9"
-		acid			"1.0"
-		energy			"1.0"
-		cryo			"0.9"
+		acid			"0.9"
+		energy			"0.9"
+		cryo			"0.6"
 		area			"1.0"
 		cosmic			"0.9"
-		plasmoid		"1.0"
+		plasmoid		"0.9"
 	}
-	
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -82,7 +97,21 @@ EntityBlueprint
 					scale "0.5 0.5 0.5"
 				}
 			}
-		}		
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
 		EffectGroup
 		{						
 			group "hit_damage"

@@ -1,0 +1,207 @@
+EntityBlueprint
+{
+	name  "units/ground/cosmic_ceros"
+
+	base_blueprint units/ground/kafferroceros_base
+
+	LuaDesc
+	{
+		script "lua/units/ground/kafferroceros.lua"
+		database
+		{
+			min_scale	float:"1.35"
+			max_scale	float:"1.4"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1800"
+		health 						"1800"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"2"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		dominance_group				    "1"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.15"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/cosmic_ceros_1.mesh"
+		material 	"units/ground/cosmic_ceros"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_ceros"		
+		can_activate 0
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_ceros/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_effect"
+			}		
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"charge_attack"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"charge_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.0"
+						attack_end_time				"0.2"
+						attack_duration 			"1.97"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.40"
+						attack_end_time				"0.60"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.50"
+						attack_end_time				"0.70"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"charge_attack"
+
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+							
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"199.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+
+					MeleeDamage
+					{
+						name 				"close_attack"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"74.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x 2.0
+						y 1.5
+						z 1.0
+						
+						position 
+						{
+							x "-1.0"
+							y "0.0"
+							z "0.0"
+						}
+					}	
+				}
+			}
+		}
+	}
+}
+

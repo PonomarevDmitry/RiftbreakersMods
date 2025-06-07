@@ -1158,10 +1158,8 @@ function event_manager:SpawnEvent( action, participants )
 		( translatedEventName == "spawn_cosmic_rock_rain" ) or
 		( translatedEventName == "cosmic_kermon_attack" ) or
 		( translatedEventName == "cosmic_phirian_attack" ) or
-		( translatedEventName == "spawn_invasion_easy" ) or
-		( translatedEventName == "arcticisland_spore_comet" ) or
 		( translatedEventName == "spawn_cosmic_creeper" ) or
-		( translatedEventName == "spawn_comet_boss_cosmic_hedroner" ) or
+		( translatedEventName == "comet_random_bosses" ) or
 		( translatedEventName == "spawn_cosmic_meteor_shower" ) or
 		( translatedEventName == "spawn_cosmic_tornado_near_player" ) or
 		( translatedEventName == "spawn_cosmic_tornado_near_base" ) or

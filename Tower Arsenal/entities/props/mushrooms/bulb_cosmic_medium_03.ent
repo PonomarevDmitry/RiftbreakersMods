@@ -1,0 +1,127 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/bulb_cosmic_medium_03"
+
+	base_blueprints
+	{
+		props/mushrooms/bulb_cosmic_medium_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_03.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_medium_03_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.02"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.02"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/destructibles/acid_bulb_explosion_blue_medium"	
+					
+					part_material	 		"units/ground/cosmic_yeast_branch_set_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_03"
+					part_effect 			"effects/destructibles/cosmic_yeast_part_trail_medium"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					part_material	 		"props/mushrooms/bulb_acid_skin2_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_03"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/bright_blue_small"
+                    offset "0 3 0"
+                }
+            }
+        }
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "ta_effects/destructibles/grass_medium_cosmic"
+					offset "0 1 0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+	}
+}
