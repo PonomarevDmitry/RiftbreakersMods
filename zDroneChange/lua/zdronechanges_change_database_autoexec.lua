@@ -99,6 +99,7 @@ local supported_item_blueprints = {
             ["harvest_storage"] = 450.0,
             ["harvest_time"] = 2.0,
             ["unload_time"] = 2.0,
+            ["search_radius"] = 40.0,
         },
     },
 
@@ -109,6 +110,7 @@ local supported_item_blueprints = {
             ["harvest_storage"] = 600.0,
             ["harvest_time"] = 1.5,
             ["unload_time"] = 1.5,
+            ["search_radius"] = 50.0,
         },
     },
 
@@ -119,6 +121,7 @@ local supported_item_blueprints = {
             ["harvest_storage"] = 750.0,
             ["harvest_time"] = 1.0,
             ["unload_time"] = 1.0,
+            ["search_radius"] = 60.0,
         },
     },
 
@@ -129,6 +132,7 @@ local supported_item_blueprints = {
             ["harvest_storage"] = 900.0,
             ["harvest_time"] = 0.5,
             ["unload_time"] = 0.5,
+            ["search_radius"] = 70.0,
         },
     },
 
