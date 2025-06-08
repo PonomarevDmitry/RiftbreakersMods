@@ -83,6 +83,10 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
                 end
             end
 
+            if ( EntityService:CompareType( entity, "invisible" ) ) then
+                return false
+            end
+
             return true
         end
     };
