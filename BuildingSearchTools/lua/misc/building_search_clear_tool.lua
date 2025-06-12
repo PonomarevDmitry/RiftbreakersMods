@@ -15,10 +15,11 @@ function building_search_clear_tool:OnInit()
     self.modeBuilding = 0
     self.modeBuildingGroup = 1
     self.modeBuildingCategory = 2
-    self.modeAll = 3
+    self.modeBuildingRuins = 3
+    self.modeAll = 99
     self.modeBuildingLastSelected = 100
 
-    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory, self.modeAll }
+    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory, self.modeBuildingRuins, self.modeAll }
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray,self.modeBuildingLastSelected, self.selector)
 
@@ -81,6 +82,13 @@ function building_search_clear_tool:UpdateMarker()
         messageText = "gui/hud/building_search/clear_building_category"
         markerBlueprint = "misc/marker_selector_building_search_clear_category_tool"
 
+    elseif ( self.selectedMode == self.modeBuildingRuins ) then
+
+        buildingIcon = "gui/hud/tools_icons/building_search_clear_ruins_tool"
+
+        messageText = "gui/hud/building_search/clear_building_ruins"
+        markerBlueprint = "misc/marker_selector_building_search_clear_ruins_tool"
+
     else
 
         buildingIcon = "gui/hud/tools_icons/building_search_clear_all_tool"
@@ -139,6 +147,10 @@ function building_search_clear_tool:FilterSelectedEntities( selectedEntities )
         return result
     end
 
+    if ( self.selectedMode == self.modeBuildingRuins ) then
+        return result
+    end
+
     for entity in Iter( selectedEntities ) do
 
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
@@ -187,6 +199,17 @@ function building_search_clear_tool:OnActivateSelectorRequest()
     if ( self.selectedMode == self.modeAll ) then
 
         self:RemoveAllMarkers()
+
+        return
+
+    elseif ( self.selectedMode == self.modeBuildingRuins ) then
+
+        local ruinsList = FindService:FindEntitiesByGroup( "##ruins##" )
+
+        for ruin in Iter( ruinsList ) do
+
+            self:RemoveMarkEntity(ruin)
+        end
 
         return
     end

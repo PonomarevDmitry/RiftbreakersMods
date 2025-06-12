@@ -15,9 +15,10 @@ function building_search_select_tool:OnInit()
     self.modeBuilding = 0
     self.modeBuildingGroup = 1
     self.modeBuildingCategory = 2
+    self.modeBuildingRuins = 3
     self.modeBuildingLastSelected = 100
 
-    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory }
+    self.defaultModesArray = { self.modeBuilding, self.modeBuildingGroup, self.modeBuildingCategory, self.modeBuildingRuins }
 
     self.modeValuesArray = self:FillLastBuildingsList(self.defaultModesArray, self.modeBuildingLastSelected, self.selector)
 
@@ -74,6 +75,13 @@ function building_search_select_tool:UpdateMarker()
 
         messageText = "gui/hud/building_search/select_building_category"
         markerBlueprint = "misc/marker_selector_building_search_select_category_tool"
+
+    elseif ( self.selectedMode == self.modeBuildingRuins ) then
+
+        buildingIcon = "gui/hud/tools_icons/building_search_select_ruins_tool"
+
+        messageText = "gui/hud/building_search/select_building_ruins"
+        markerBlueprint = "misc/marker_selector_building_search_select_ruins_tool"
 
     else
 
@@ -133,6 +141,10 @@ function building_search_select_tool:FilterSelectedEntities( selectedEntities )
         return result
     end
 
+    if ( self.selectedMode == self.modeBuildingRuins ) then
+        return result
+    end
+
     for entity in Iter( selectedEntities ) do
 
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
@@ -173,6 +185,18 @@ function building_search_select_tool:OnActivateSelectorRequest()
         for building in Iter( buildingsList ) do
 
             self:CreateMarkEntity(building)
+        end
+
+        return
+    end
+
+    if ( self.selectedMode == self.modeBuildingRuins ) then
+
+        local ruinsList = FindService:FindEntitiesByGroup( "##ruins##" )
+
+        for ruin in Iter( ruinsList ) do
+
+            self:CreateMarkEntity(ruin)
         end
 
         return
