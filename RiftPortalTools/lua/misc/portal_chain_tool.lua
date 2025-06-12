@@ -13,6 +13,8 @@ end
 
 function portal_chain_tool:OnInit()
 
+    self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
+
     EntityService:SetVisible( self.entity , false )
     EntityService:SetScale( self.entity, 2, 1, 2 )
 
@@ -24,6 +26,38 @@ function portal_chain_tool:OnInit()
     position.z = 0
     
     self.ghostPortal = self:SpawnGhostPortalEntity(position, transform.orientation)
+
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+end
+
+function portal_chain_tool:OnBuildingStartEvent( evt)
+
+    local entity = evt:GetEntity()
+
+    local playerReferenceComponent = EntityService:GetComponent( entity, "PlayerReferenceComponent")
+
+    local owner = -1
+
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        owner = helper.player_id
+    end
+
+    if ( owner ~= self.playerId ) then
+        return
+    end
+    
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    if ( blueprintName == self.portalBlueprintName ) then
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        self:BuildDesertFloor(transform)
+    end
 end
 
 function portal_chain_tool:OnUpdate()
@@ -96,6 +130,9 @@ function portal_chain_tool:OnRotateSelectorRequest(evt)
 end
 
 function portal_chain_tool:OnRelease()
+
+    HideBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    HideBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
 
     EntityService:RemoveEntity(self.ghostPortal)
 

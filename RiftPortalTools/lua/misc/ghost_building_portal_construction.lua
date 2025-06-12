@@ -278,7 +278,7 @@ function ghost_building_portal_construction:FillWithFloors( blueprint, indexes )
         local currentBlueprint = string.gsub( blueprint, tostring(toReplace), tostring(replaced) )
         for vIdx = 1,#data do
             local v = data[vIdx]
-            local transform = self.buildPosition
+            local transform = {}
             transform.orientation = {x=0,y=0,z=0,w=1}
             local infoPos = storage[v[1]]
 

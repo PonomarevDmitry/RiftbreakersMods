@@ -59,7 +59,9 @@ end
 
 function portal_builder_tool:OnBuildingStartEvent( evt)
 
-    local playerReferenceComponent = EntityService:GetComponent( evt:GetEntity(), "PlayerReferenceComponent")
+    local entity = evt:GetEntity()
+
+    local playerReferenceComponent = EntityService:GetComponent( entity, "PlayerReferenceComponent")
 
     local owner = -1
 
@@ -74,6 +76,15 @@ function portal_builder_tool:OnBuildingStartEvent( evt)
     
     ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    if ( blueprintName == self.portalBlueprintName ) then
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        self:BuildDesertFloor(transform)
+    end
 end
 
 function portal_builder_tool:GetDirectionConfigArray()
