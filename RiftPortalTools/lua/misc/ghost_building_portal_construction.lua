@@ -11,10 +11,15 @@ end
 
 function ghost_building_portal_construction:FindMinDistance()
     self.radius = BuildingService:FindEnergyRadius( self.blueprint )
+
+    LogService:Log("self.blueprint " .. tostring(self.blueprint) .. " self.radius " .. tostring(self.radius))
+
     if ( self.radius == nil ) then
         local bounds = EntityService:GetBoundsSize( self.entity )
         self.radius = math.max(bounds.x, bounds.z ) / 2.0
     end
+
+    LogService:Log("self.blueprint " .. tostring(self.blueprint) .. " self.radius " .. tostring(self.radius))
 end
 
 function ghost_building_portal_construction:OnInit()
@@ -24,10 +29,235 @@ function ghost_building_portal_construction:OnInit()
     self:FindMinDistance()
     
     self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
+    self:RegisterHandler( self.selector, "RotateSelectorRequest", "OnRotateSelectorRequest" )
+
     ShowBuildingDisplayRadiusAround( self.entity, self.blueprint )
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
+
+    self.modeValuesArray = {
+
+        "none",
+        "wall_small",
+        "wall_energy",
+        "wall_crystal",
+        "wall_vine"
+    }
+
+    self.wallConfig = {
+    
+        ["wall_small"] = "buildings/defense/wall_small_straight_01",
+
+        ["wall_energy"] = "buildings/defense/wall_energy_straight_01",
+
+        ["wall_crystal"] = "buildings/defense/wall_crystal_straight_01",
+
+        ["wall_vine"] = "buildings/defense/wall_vine_straight_01",
+    }
+
+    self.gateConfig = {
+    
+        ["wall_small"] = "buildings/defense/wall_gate",
+
+        ["wall_energy"] = "buildings/defense/wall_gate_energy",
+
+        ["wall_crystal"] = "buildings/defense/wall_gate_crystal",
+    }
+
+    self.gatePositions = {
+    
+        {
+            ["x"] = 0,
+            ["y"] = 0,
+            ["z"] = -4,
+            ["degree"] = 90,
+        },
+    
+        {
+            ["x"] = -4,
+            ["y"] = 0,
+            ["z"] = 0,
+            ["degree"] = 180,
+        },
+    
+        {
+            ["x"] = 0,
+            ["y"] = 0,
+            ["z"] = 4,
+            ["degree"] = 270,
+        },
+    
+        {
+            ["x"] = 4,
+            ["y"] = 0,
+            ["z"] = 0,
+            ["degree"] = 0,
+        },
+    
+    }
+
+    local vector = { x=0, y=1, z=0 }
+
+    self.vectorByDegree = {}
+
+    self.vectorByDegree[0] = CreateQuaternion( vector, 0 )
+    self.vectorByDegree[90] = CreateQuaternion( vector, 90 )
+    self.vectorByDegree[180] = CreateQuaternion( vector, 180 )
+    self.vectorByDegree[270] = CreateQuaternion( vector, 270 )
+
+    self.randomOrientationArray = {
+        self.vectorByDegree[0],
+        self.vectorByDegree[90],
+        self.vectorByDegree[180],
+        self.vectorByDegree[270]
+    }
+
+    self.configName = "ghost_building_portal_construction_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.selectedMode = selectorDB:GetStringOrDefault(self.configName, "none")
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    selectorDB:SetString(self.configName, self.selectedMode)
+
+    self.currentModeValuesArray = self:FormModeValuesArray()
+
+    self.linesEntities = {}
+
+    self:UpdateGhostEntities()
 end
 
-function ghost_building_portal_construction:OnBuildingStartEvent( evt)
+function ghost_building_portal_construction:UpdateGhostEntities()
+
+    self:ClearGhostEntities()
+
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    if ( self.selectedMode == "none" ) then
+
+        return
+    end
+
+    if ( self.selectedMode == "wall_vine" ) then
+        
+        return
+    end
+
+    local wallBlueprintName = self.wallConfig[self.selectedMode]
+    local gateBlueprintName = self.gateConfig[self.selectedMode]
+
+
+    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
+    gateBlueprintName = self:GetMaxAvailableLevel(gateBlueprintName)
+
+    gateBlueprintNameGhost = gateBlueprintName .. "_ghost"
+
+    for newPosition in Iter(self.gatePositions) do
+        
+        local lineEnt = EntityService:SpawnAndAttachEntity( gateBlueprintNameGhost, self.entity )
+
+        self:RemoveUselessComponents(lineEnt)
+
+        EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+        EntityService:SetPosition( lineEnt, newPosition )
+
+        EntityService:Rotate( lineEnt, 0, 1, 0, newPosition.degree )
+
+        Insert(self.linesEntities, lineEnt)
+    end
+
+
+
+
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
+
+    local connectTypeCorner = 4
+    local connectTypeT = 8
+
+    local blueprintNameCorner = self:GetBlueprintByConnectType( buildingDesc, connectTypeCorner )
+    local blueprintNameT = self:GetBlueprintByConnectType( buildingDesc, connectTypeT )
+end
+
+function ghost_building_portal_construction:BuildWalls(transform)
+
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    if ( self.selectedMode == "none" ) then
+
+        return
+    end
+
+    if ( self.selectedMode == "wall_vine" ) then
+        
+        return
+    end
+
+
+    local wallBlueprintName = self.wallConfig[self.selectedMode]
+    local gateBlueprintName = self.gateConfig[self.selectedMode]
+
+
+    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
+    gateBlueprintName = self:GetMaxAvailableLevel(gateBlueprintName)
+
+    for newPosition in Iter(self.gatePositions) do
+
+        local buildTransform = {}
+
+        buildTransform.position = {}
+        
+        buildTransform.position.x = newPosition.x + transform.position.x
+        buildTransform.position.y = transform.position.y
+        buildTransform.position.z = newPosition.z + transform.position.z
+        
+        buildTransform.scale = { x=1,y=1,z=1 }
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, gateBlueprintName, buildTransform, false )
+    end
+end
+
+function ghost_building_portal_construction:RemoveUselessComponents(entity)
+
+    EntityService:RemoveComponent( entity, "LuaComponent" )
+
+    if ( EntityService:HasComponent( entity, "DisplayRadiusComponent" ) ) then
+        EntityService:RemoveComponent( entity, "DisplayRadiusComponent" )
+    end
+
+    if ( EntityService:HasComponent( entity, "GhostLineCreatorComponent" ) ) then
+        EntityService:RemoveComponent( entity, "GhostLineCreatorComponent" )
+    end
+end
+
+function ghost_building_portal_construction:GetBlueprintByConnectType( buildingDesc, connectType )
+
+    for i=1,buildingDesc.connect.count do
+
+        local connectRecord = buildingDesc.connect[i]
+
+        if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+            local connectBlueprintName = connectRecord.value[1]
+
+            local buildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( connectBlueprintName ) )
+
+            return buildingDescRef.bp
+        end
+    end
+
+    return buildingDesc.bp
+end
+
+function ghost_building_portal_construction:ClearGhostEntities()
+
+    for ghost in Iter(self.linesEntities) do
+        EntityService:RemoveEntity(ghost)
+    end
+    self.linesEntities = {}
+end
+
+function ghost_building_portal_construction:OnBuildingStartEvent( evt )
 
     local entity = evt:GetEntity()
 
@@ -37,10 +267,11 @@ function ghost_building_portal_construction:OnBuildingStartEvent( evt)
         local helper = reflection_helper(playerReferenceComponent)
         owner = helper.player_id
     end
-    if ( owner ~= self.playerId or not self.activated) then
+    if ( owner ~= self.playerId ) then
         return
     end
-
+    
+    ShowBuildingDisplayRadiusAround( self.entity, self.blueprint )
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
 
     local blueprintName = EntityService:GetBlueprintName( entity )
@@ -50,12 +281,14 @@ function ghost_building_portal_construction:OnBuildingStartEvent( evt)
         local transform = EntityService:GetWorldTransform( entity )
 
         self:BuildDesertFloor(transform)
+
+        self:BuildWalls(transform)
     end
 end
 
 function ghost_building_portal_construction:OnUpdate()
     local transform = EntityService:GetWorldTransform( self.entity )
-    local testBuildable = self:CheckEntityBuildable( self.entity , transform )
+    local testBuildable = self:CheckEntityBuildable( self.entity, transform, false, 1 )
 
     if ( self.activated and self.buildPosition ~= nil ) then
         local currentPosition = EntityService:GetWorldTransform( self.entity )
@@ -64,6 +297,19 @@ function ghost_building_portal_construction:OnUpdate()
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
             self.buildPosition = spot
         end
+    end
+
+    for i=1,#self.linesEntities do
+
+        local lineEnt = self.linesEntities[i]
+
+        local transform = EntityService:GetWorldTransform( lineEnt )
+
+        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, i+1 )
+
+        --if ( testBuildable ~= nil) then
+        --    self:AddToEntitiesToSellList(testBuildable)
+        --end
     end
 end
 
@@ -74,7 +320,7 @@ function ghost_building_portal_construction:OnActivate()
 
     self.buildPosition = transform
 
-    if ( self.activated  ) then
+    if ( self.activated ) then
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
@@ -96,6 +342,194 @@ end
 
 function ghost_building_portal_construction:OnRelease()
     HideBuildingDisplayRadiusAround( self.entity, self.blueprint )
+    HideBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
+
+    self:ClearGhostEntities()
+end
+
+function ghost_building_portal_construction:FormModeValuesArray()
+
+    local result = {}
+
+    Insert( result, "none" )
+
+    if ( IndexOf( result, self.selectedMode ) == nil ) then
+
+        Insert( result, self.selectedMode )
+    end
+
+    for mode in Iter( self.modeValuesArray ) do
+        
+        if ( IndexOf( result, mode ) == nil ) then
+
+            Insert( result, mode )
+        end
+    end 
+
+    return result
+end
+
+function ghost_building_portal_construction:CheckModeValueExists( selectedMode )
+
+    selectedMode = selectedMode or self.modeValuesArray[1]
+
+    local index = IndexOf( self.modeValuesArray, selectedMode )
+
+    if ( index == nil ) then
+
+        return self.modeValuesArray[1]
+    end
+
+    return selectedMode
+end
+
+function ghost_building_portal_construction:OnRotateSelectorRequest(evt)
+
+    --LogService:Log("OnRotateSelectorRequest ")
+
+    local degree = evt:GetDegree()
+
+    local change = 1
+    if ( degree > 0 ) then
+        change = -1
+    end
+
+    local selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    local index = IndexOf( self.currentModeValuesArray, selectedMode )
+    if ( index == nil ) then
+        index = 1
+    end
+
+    local maxIndex = #self.currentModeValuesArray
+
+    local newIndex = index + change
+    if ( newIndex > maxIndex ) then
+        newIndex = maxIndex
+    elseif( newIndex <= 0 ) then
+        newIndex = 1
+    end
+
+    local newValue = self.currentModeValuesArray[newIndex]
+
+    if ( self.selectedMode == newValue ) then
+
+        return
+    end
+
+    self.selectedMode = newValue
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    selectorDB:SetString(self.configName, newValue)
+
+    self:UpdateGhostEntities()
+end
+
+function ghost_building_portal_construction:GetMaxAvailableLevel( blueprintName )
+
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return ""
+    end
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    if ( buildingDescRef.upgrade ~= nil and buildingDescRef.upgrade ~= "" ) then
+
+        if ( self:IsBlueprintAvailable( buildingDescRef.upgrade ) ) then
+
+            local list = BuildingService:GetBuildCosts( buildingDescRef.upgrade, self.playerId )
+
+            local allResourcesUnlocked = true
+
+            for resourceCost in Iter(list) do
+                
+                if ( not PlayerService:IsResourceUnlocked(resourceCost.first) ) then
+
+                    allResourcesUnlocked = false
+
+                    break
+                end
+            end
+
+            if ( allResourcesUnlocked ) then
+
+                return self:GetMaxAvailableLevel( buildingDescRef.upgrade )
+            end
+        end
+    end
+
+    return blueprintName
+end
+
+function ghost_building_portal_construction:IsBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function ghost_building_portal_construction:GetResearchForUpgrade( blueprintName )
+
+    self.cacheBlueprintsResearches = self.cacheBlueprintsResearches or {}
+
+    if ( self.cacheBlueprintsResearches[blueprintName] == nil ) then
+
+        self.cacheBlueprintsResearches[blueprintName] = self:CalculateResearchForUpgrade( blueprintName )
+    end
+
+    return self.cacheBlueprintsResearches[blueprintName]
+end
+
+function ghost_building_portal_construction:CalculateResearchForUpgrade( blueprintName )
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
 end
 
 function ghost_building_portal_construction:BuildDesertFloor(spot)
