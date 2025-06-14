@@ -12,14 +12,15 @@ end
 function ghost_building_portal_construction:FindMinDistance()
     self.radius = BuildingService:FindEnergyRadius( self.blueprint )
 
-    LogService:Log("self.blueprint " .. tostring(self.blueprint) .. " self.radius " .. tostring(self.radius))
+    if ( self.radius == nil ) then
+        
+        self.radius = self.desc.min_radius
+    end
 
     if ( self.radius == nil ) then
         local bounds = EntityService:GetBoundsSize( self.entity )
         self.radius = math.max(bounds.x, bounds.z ) / 2.0
     end
-
-    LogService:Log("self.blueprint " .. tostring(self.blueprint) .. " self.radius " .. tostring(self.radius))
 end
 
 function ghost_building_portal_construction:OnInit()
@@ -33,6 +34,26 @@ function ghost_building_portal_construction:OnInit()
 
     ShowBuildingDisplayRadiusAround( self.entity, self.blueprint )
     ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprint )
+
+    self:FillArrays()
+
+    self.configName = "ghost_building_portal_construction_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.selectedMode = selectorDB:GetStringOrDefault(self.configName, "none")
+    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
+
+    selectorDB:SetString(self.configName, self.selectedMode)
+
+    self.currentModeValuesArray = self:CreateModeValuesArray()
+
+    self.linesEntities = {}
+
+    self:UpdateGhostEntities()
+end
+
+function ghost_building_portal_construction:FillArrays()
 
     self.modeValuesArray = {
 
@@ -66,33 +87,162 @@ function ghost_building_portal_construction:OnInit()
     self.gatePositions = {
     
         {
-            ["x"] = 0,
-            ["y"] = 0,
-            ["z"] = -4,
-            ["degree"] = 90,
+            x = 0,
+            y = 0,
+            z = -4,
+            degree = 90,
         },
     
         {
-            ["x"] = -4,
-            ["y"] = 0,
-            ["z"] = 0,
-            ["degree"] = 180,
+            x = -4,
+            y = 0,
+            z = 0,
+            degree = 180,
         },
     
         {
-            ["x"] = 0,
-            ["y"] = 0,
-            ["z"] = 4,
-            ["degree"] = 270,
+            x = 0,
+            y = 0,
+            z = 4,
+            degree = 270,
         },
     
         {
-            ["x"] = 4,
-            ["y"] = 0,
-            ["z"] = 0,
-            ["degree"] = 0,
+            x = 4,
+            y = 0,
+            z = 0,
+            degree = 0,
         },
-    
+    }
+
+    self.wallPositions = {
+
+        ["_x_"] = {
+
+            {
+                x = -3,
+                y = 0,
+                z = -3,
+                degree = 0,
+            },
+
+            {
+                x = 3,
+                y = 0,
+                z = -3,
+                degree = 0,
+            },
+
+            {
+                x = 3,
+                y = 0,
+                z = 3,
+                degree = 0,
+            },
+
+            {
+                x = -3,
+                y = 0,
+                z = 3,
+                degree = 0,
+            },
+        },
+
+        ["_t_"] = {
+
+            {
+                x = -5,
+                y = 0,
+                z = -3,
+                degree = 0,
+            },
+
+            {
+                x = -5,
+                y = 0,
+                z = 3,
+                degree = 0,
+            },
+
+
+
+            {
+                x = -3,
+                y = 0,
+                z = -5,
+                degree = 270,
+            },
+
+            {
+                x = 3,
+                y = 0,
+                z = -5,
+                degree = 270,
+            },
+
+
+
+            {
+                x = 5,
+                y = 0,
+                z = -3,
+                degree = 180,
+            },
+
+            {
+                x = 5,
+                y = 0,
+                z = 3,
+                degree = 180,
+            },
+
+
+
+            {
+                x = 3,
+                y = 0,
+                z = 5,
+                degree = 90,
+            },
+
+            {
+                x = -3,
+                y = 0,
+                z = 5,
+                degree = 90,
+            },
+        },
+
+        ["corner"] = {
+
+            {
+                x = -5,
+                y = 0,
+                z = -5,
+                degree = 0,
+            },
+
+            {
+                x = 5,
+                y = 0,
+                z = -5,
+                degree = 270,
+            },
+
+            {
+                x = 5,
+                y = 0,
+                z = 5,
+                degree = 180,
+            },
+
+            {
+                x = -5,
+                y = 0,
+                z = 5,
+                degree = 90,
+            },
+        },
     }
 
     local vector = { x=0, y=1, z=0 }
@@ -110,21 +260,6 @@ function ghost_building_portal_construction:OnInit()
         self.vectorByDegree[180],
         self.vectorByDegree[270]
     }
-
-    self.configName = "ghost_building_portal_construction_config"
-
-    local selectorDB = EntityService:GetDatabase( self.selector )
-
-    self.selectedMode = selectorDB:GetStringOrDefault(self.configName, "none")
-    self.selectedMode = self:CheckModeValueExists(self.selectedMode)
-
-    selectorDB:SetString(self.configName, self.selectedMode)
-
-    self.currentModeValuesArray = self:FormModeValuesArray()
-
-    self.linesEntities = {}
-
-    self:UpdateGhostEntities()
 end
 
 function ghost_building_portal_construction:UpdateGhostEntities()
@@ -153,17 +288,8 @@ function ghost_building_portal_construction:UpdateGhostEntities()
     gateBlueprintNameGhost = gateBlueprintName .. "_ghost"
 
     for newPosition in Iter(self.gatePositions) do
-        
-        local lineEnt = EntityService:SpawnAndAttachEntity( gateBlueprintNameGhost, self.entity )
 
-        self:RemoveUselessComponents(lineEnt)
-
-        EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
-        EntityService:SetPosition( lineEnt, newPosition )
-
-        EntityService:Rotate( lineEnt, 0, 1, 0, newPosition.degree )
-
-        Insert(self.linesEntities, lineEnt)
+        self:SpawnAndAttachGhostEntity(gateBlueprintNameGhost, newPosition)
     end
 
 
@@ -173,9 +299,44 @@ function ghost_building_portal_construction:UpdateGhostEntities()
 
     local connectTypeCorner = 4
     local connectTypeT = 8
+    local connectTypeX = 16
 
     local blueprintNameCorner = self:GetBlueprintByConnectType( buildingDesc, connectTypeCorner )
     local blueprintNameT = self:GetBlueprintByConnectType( buildingDesc, connectTypeT )
+    local blueprintNameX = self:GetBlueprintByConnectType( buildingDesc, connectTypeX )
+
+    local blueprintNameCornerGhost = blueprintNameCorner .. "_ghost"
+    local blueprintNameTGhost = blueprintNameT .. "_ghost"
+    local blueprintNameXGhost = blueprintNameX .. "_ghost"
+
+    for newPosition in Iter(self.wallPositions["_x_"]) do
+        
+        self:SpawnAndAttachGhostEntity(blueprintNameXGhost, newPosition)
+    end
+
+    for newPosition in Iter(self.wallPositions["_t_"]) do
+        
+        self:SpawnAndAttachGhostEntity(blueprintNameTGhost, newPosition)
+    end
+    
+    for newPosition in Iter(self.wallPositions["corner"]) do
+        
+        self:SpawnAndAttachGhostEntity(blueprintNameCornerGhost, newPosition)
+    end
+end
+
+function ghost_building_portal_construction:SpawnAndAttachGhostEntity(blueprintName, newPosition)
+        
+    local lineEnt = EntityService:SpawnAndAttachEntity( blueprintName, self.entity )
+    
+    self:RemoveUselessComponents(lineEnt)
+    
+    EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+    EntityService:SetPosition( lineEnt, newPosition )
+    
+    EntityService:Rotate( lineEnt, 0, 1, 0, newPosition.degree )
+    
+    Insert(self.linesEntities, lineEnt)
 end
 
 function ghost_building_portal_construction:BuildWalls(transform)
@@ -214,6 +375,68 @@ function ghost_building_portal_construction:BuildWalls(transform)
         buildTransform.orientation = self.vectorByDegree[newPosition.degree]
 
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, gateBlueprintName, buildTransform, false )
+
+        self:BuildDesertFloor(buildTransform)
+    end
+
+
+
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
+
+    local connectTypeCorner = 4
+    local connectTypeT = 8
+    local connectTypeX = 16
+
+    local blueprintNameCorner = self:GetBlueprintByConnectType( buildingDesc, connectTypeCorner )
+    local blueprintNameT = self:GetBlueprintByConnectType( buildingDesc, connectTypeT )
+    local blueprintNameX = self:GetBlueprintByConnectType( buildingDesc, connectTypeX )
+
+    for newPosition in Iter(self.wallPositions["_x_"]) do
+        
+        local buildTransform = {}
+
+        buildTransform.position = {}
+        
+        buildTransform.position.x = newPosition.x + transform.position.x
+        buildTransform.position.y = transform.position.y
+        buildTransform.position.z = newPosition.z + transform.position.z
+        
+        buildTransform.scale = { x=1,y=1,z=1 }
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameX, buildTransform, false )
+    end
+
+    for newPosition in Iter(self.wallPositions["_t_"]) do
+        
+        local buildTransform = {}
+
+        buildTransform.position = {}
+        
+        buildTransform.position.x = newPosition.x + transform.position.x
+        buildTransform.position.y = transform.position.y
+        buildTransform.position.z = newPosition.z + transform.position.z
+        
+        buildTransform.scale = { x=1,y=1,z=1 }
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameT, buildTransform, false )
+    end
+
+    for newPosition in Iter(self.wallPositions["corner"]) do
+        
+        local buildTransform = {}
+
+        buildTransform.position = {}
+        
+        buildTransform.position.x = newPosition.x + transform.position.x
+        buildTransform.position.y = transform.position.y
+        buildTransform.position.z = newPosition.z + transform.position.z
+        
+        buildTransform.scale = { x=1,y=1,z=1 }
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameCorner, buildTransform, false )
     end
 end
 
@@ -305,7 +528,7 @@ function ghost_building_portal_construction:OnUpdate()
 
         local transform = EntityService:GetWorldTransform( lineEnt )
 
-        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, i+1 )
+        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, i+1, true, false )
 
         --if ( testBuildable ~= nil) then
         --    self:AddToEntitiesToSellList(testBuildable)
@@ -347,7 +570,7 @@ function ghost_building_portal_construction:OnRelease()
     self:ClearGhostEntities()
 end
 
-function ghost_building_portal_construction:FormModeValuesArray()
+function ghost_building_portal_construction:CreateModeValuesArray()
 
     local result = {}
 
@@ -355,14 +578,24 @@ function ghost_building_portal_construction:FormModeValuesArray()
 
     if ( IndexOf( result, self.selectedMode ) == nil ) then
 
-        Insert( result, self.selectedMode )
+        local wallBlueprintName = self.wallConfig[self.selectedMode]
+
+        if ( ResourceManager:ResourceExists( "EntityBlueprint", wallBlueprintName ) and self:IsBlueprintAvailable( wallBlueprintName ) ) then
+
+            Insert( result, self.selectedMode )
+        end
     end
 
     for mode in Iter( self.modeValuesArray ) do
         
         if ( IndexOf( result, mode ) == nil ) then
 
-            Insert( result, mode )
+            local wallBlueprintName = self.wallConfig[mode]
+
+            if ( ResourceManager:ResourceExists( "EntityBlueprint", wallBlueprintName ) and self:IsBlueprintAvailable( wallBlueprintName ) ) then
+
+                Insert( result, mode )
+            end
         end
     end 
 
