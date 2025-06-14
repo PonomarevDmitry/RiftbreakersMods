@@ -433,6 +433,27 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
         QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameCorner, buildTransform, false )
     end
+
+    local deltas = { -4, 4}
+
+    for deltaX in Iter(deltas) do
+
+        for deltaZ in Iter(deltas) do
+
+            local buildTransform = {}
+
+            buildTransform.position = {}
+        
+            buildTransform.position.x = transform.position.x + deltaX
+            buildTransform.position.y = transform.position.y
+            buildTransform.position.z = transform.position.z + deltaZ
+        
+            buildTransform.scale = { x=1,y=1,z=1 }
+            buildTransform.orientation = self.vectorByDegree[0]
+
+            self:BuildDesertFloor(buildTransform)
+        end
+    end
 end
 
 function ghost_building_portal_construction:RemoveUselessComponents(entity)
