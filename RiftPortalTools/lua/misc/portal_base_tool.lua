@@ -3,6 +3,8 @@ require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/building_utils.lua")
 
+local ghost_building_portal_construction = require("lua/misc/ghost_building_portal_construction.lua")
+
 class 'portal_base_tool' ( LuaEntityObject )
 
 function portal_base_tool:__init()
@@ -32,6 +34,7 @@ function portal_base_tool:InitializeValues()
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
+    self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
 
     local playerReferenceComponent = reflection_helper( EntityService:GetComponent( self.selector, "PlayerReferenceComponent" ) )
     self.playerId = playerReferenceComponent.player_id
@@ -61,6 +64,50 @@ function portal_base_tool:InitializeValues()
     self:FillPortalBuildingDesc( self.portalBlueprintName )
 
     self:FindMinDistance()
+
+    local configName = "ghost_building_portal_construction_config"
+
+    local selectorDB = EntityService:GetDatabase( self.selector )
+
+    self.portalConstructionConfig = selectorDB:GetStringOrDefault(configName, "none")
+    selectorDB:SetString(configName, self.portalConstructionConfig)
+
+    ghost_building_portal_construction.FillArrays(self)
+    
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
+end
+
+function portal_base_tool:OnBuildingStartEvent( evt)
+
+    local entity = evt:GetEntity()
+
+    local playerReferenceComponent = EntityService:GetComponent( entity, "PlayerReferenceComponent")
+
+    local owner = -1
+
+    if (playerReferenceComponent) then
+        local helper = reflection_helper(playerReferenceComponent)
+        owner = helper.player_id
+    end
+
+    if ( owner ~= self.playerId ) then
+        return
+    end
+    
+    ShowBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    ShowBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    if ( blueprintName == self.portalBlueprintName ) then
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        self:BuildDesertFloor(transform)
+
+        self:BuildWalls(transform)
+    end
 end
 
 function portal_base_tool:FindMinDistance()
@@ -209,6 +256,279 @@ function portal_base_tool:OnActivateSelectorRequest()
 end
 
 function portal_base_tool:OnDeactivateSelectorRequest()
+end
+
+function portal_base_tool:BuildWalls(transform)
+
+    if ( self.portalConstructionConfig == "none" ) then
+
+        return
+    end
+
+    local wallBlueprintName = self.wallConfig[self.portalConstructionConfig]
+    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
+
+    local randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( wallBlueprintName )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+    end
+
+    if ( self.portalConstructionConfig == "wall_vine" ) then
+
+        for newPosition in Iter(self.vineWallsPositions) do
+
+            self:BuildWallEntity(wallBlueprintName, transform, newPosition, false, randomRotation)
+        end
+
+        for newPosition in Iter(self.gatePositions) do
+
+            self:TryBuildDesertFloor(transform, newPosition)
+        end
+
+        self:TryBuildFloorCorners(transform)
+        
+        return
+    end
+
+
+    local gateBlueprintName = self.gateConfig[self.portalConstructionConfig]
+    gateBlueprintName = self:GetMaxAvailableLevel(gateBlueprintName)
+
+    for newPosition in Iter(self.gatePositions) do
+
+        self:BuildWallEntity(gateBlueprintName, transform, newPosition, true, randomRotation)
+    end
+
+
+
+    local buildingDesc = reflection_helper( BuildingService:GetBuildingDesc( wallBlueprintName ) )
+
+    local connectTypeCorner = 4
+    local connectTypeT = 8
+    local connectTypeX = 16
+
+    local blueprintNameCorner = self:GetBlueprintByConnectType( buildingDesc, connectTypeCorner )
+    local blueprintNameT = self:GetBlueprintByConnectType( buildingDesc, connectTypeT )
+    local blueprintNameX = self:GetBlueprintByConnectType( buildingDesc, connectTypeX )
+
+    for newPosition in Iter(self.wallPositions["_x_"]) do
+
+        self:BuildWallEntity(blueprintNameX, transform, newPosition, false, randomRotation)
+    end
+
+    for newPosition in Iter(self.wallPositions["_t_"]) do
+
+        self:BuildWallEntity(blueprintNameT, transform, newPosition, false, randomRotation)
+    end
+
+    for newPosition in Iter(self.wallPositions["corner"]) do
+
+        self:BuildWallEntity(blueprintNameCorner, transform, newPosition, false, randomRotation)
+    end
+
+    self:TryBuildFloorCorners(transform)
+end
+
+function portal_base_tool:TryBuildFloorCorners(transform)
+
+    local deltas = { -4, 4}
+
+    for deltaX in Iter(deltas) do
+
+        for deltaZ in Iter(deltas) do
+
+            local buildTransform = {}
+
+            buildTransform.position = {}
+        
+            buildTransform.position.x = transform.position.x + deltaX
+            buildTransform.position.y = transform.position.y
+            buildTransform.position.z = transform.position.z + deltaZ
+        
+            buildTransform.scale = { x=1,y=1,z=1 }
+            buildTransform.orientation = self.vectorByDegree[0]
+
+            self:BuildDesertFloor(buildTransform)
+        end
+    end
+end
+
+function portal_base_tool:BuildWallEntity(blueprintName, transform, newPosition, buildFloor, randomRotation)
+
+    local buildTransform = {}
+
+    buildTransform.position = {}
+        
+    buildTransform.position.x = newPosition.x + transform.position.x
+    buildTransform.position.y = transform.position.y
+    buildTransform.position.z = newPosition.z + transform.position.z
+        
+    buildTransform.scale = { x=1,y=1,z=1 }
+
+    if ( randomRotation == 1 ) then
+
+        buildTransform.orientation = self.randomOrientationArray[RandInt(1,4)]
+
+    elseif ( newPosition.degree ~= nil ) then
+
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+    else
+        buildTransform.orientation = self.vectorByDegree[0]
+    end
+
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+
+    if ( buildFloor ) then
+
+        buildTransform.orientation = self.vectorByDegree[0]
+
+        self:BuildDesertFloor(buildTransform)
+    end
+end
+
+function portal_base_tool:TryBuildDesertFloor(transform, newPosition)
+
+    local buildTransform = {}
+
+    buildTransform.position = {}
+        
+    buildTransform.position.x = newPosition.x + transform.position.x
+    buildTransform.position.y = transform.position.y
+    buildTransform.position.z = newPosition.z + transform.position.z
+        
+    buildTransform.scale = { x=1,y=1,z=1 }
+
+    buildTransform.orientation = self.vectorByDegree[0]
+
+    self:BuildDesertFloor(buildTransform)
+end
+
+function portal_base_tool:GetBlueprintByConnectType( buildingDesc, connectType )
+
+    for i=1,buildingDesc.connect.count do
+
+        local connectRecord = buildingDesc.connect[i]
+
+        if ( connectRecord.key == connectType and connectRecord.value.count > 0 ) then
+
+            local connectBlueprintName = connectRecord.value[1]
+
+            local buildingDescRef = reflection_helper( BuildingService:GetBuildingDesc( connectBlueprintName ) )
+
+            return buildingDescRef.bp
+        end
+    end
+
+    return buildingDesc.bp
+end
+
+function portal_base_tool:GetMaxAvailableLevel( blueprintName )
+
+    if ( blueprintName == "" or blueprintName == nil ) then
+        return ""
+    end
+
+    if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+        return ""
+    end
+
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc == nil ) then
+        return ""
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
+    if ( buildingDescRef == nil ) then
+        return ""
+    end
+
+    if ( buildingDescRef.upgrade ~= nil and buildingDescRef.upgrade ~= "" ) then
+
+        if ( self:IsBlueprintAvailable( buildingDescRef.upgrade ) ) then
+
+            local list = BuildingService:GetBuildCosts( buildingDescRef.upgrade, self.playerId )
+
+            local allResourcesUnlocked = true
+
+            for resourceCost in Iter(list) do
+                
+                if ( not PlayerService:IsResourceUnlocked(resourceCost.first) ) then
+
+                    allResourcesUnlocked = false
+
+                    break
+                end
+            end
+
+            if ( allResourcesUnlocked ) then
+
+                return self:GetMaxAvailableLevel( buildingDescRef.upgrade )
+            end
+        end
+    end
+
+    return blueprintName
+end
+
+function portal_base_tool:IsBlueprintAvailable( blueprintName )
+
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
+    end
+
+    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
+    if ( researchName ~= "" ) then
+
+        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function portal_base_tool:GetResearchForUpgrade( blueprintName )
+
+    self.cacheBlueprintsResearches = self.cacheBlueprintsResearches or {}
+
+    if ( self.cacheBlueprintsResearches[blueprintName] == nil ) then
+
+        self.cacheBlueprintsResearches[blueprintName] = self:CalculateResearchForUpgrade( blueprintName )
+    end
+
+    return self.cacheBlueprintsResearches[blueprintName]
+end
+
+function portal_base_tool:CalculateResearchForUpgrade( blueprintName )
+
+    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
+
+    local categories = researchComponent.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+        local category_nodes = category.nodes
+
+        for j=1,category_nodes.count do
+
+            local node = category_nodes[j]
+
+            local awards = node.research_awards
+            for k=1,awards.count do
+
+                if awards[k].blueprint == blueprintName then
+
+                    return node.research_name
+                end
+            end
+        end
+    end
+
+    return ""
 end
 
 function portal_base_tool:BuildDesertFloor(spot)
@@ -492,6 +812,12 @@ function portal_base_tool:ShouldBuildDesertFloorOnCell( position )
     end
 
     return false
+end
+
+function portal_base_tool:OnRelease()
+
+    HideBuildingDisplayRadiusAround( self.entity, self.portalBlueprintName )
+    HideBuildingDisplayRadiusAround( self.entity, self.ghostBlueprintName )
 end
 
 return portal_base_tool
