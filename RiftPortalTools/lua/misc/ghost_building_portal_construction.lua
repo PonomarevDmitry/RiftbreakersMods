@@ -240,6 +240,227 @@ function ghost_building_portal_construction:FillArrays()
         },
     }
 
+    self.vineWallsPositions = {
+    
+        {
+            x = -1,
+            y = 0,
+            z = -3,
+        },
+        
+        {
+            x = 1,
+            y = 0,
+            z = -3,
+        },
+        
+        
+        
+        {
+            x = 3,
+            y = 0,
+            z = -1,
+        },
+        
+        {
+            x = 3,
+            y = 0,
+            z = 1,
+        },
+        
+        
+        
+        {
+            x = 1,
+            y = 0,
+            z = 3,
+        },
+        
+        {
+            x = -1,
+            y = 0,
+            z = 3,
+        },
+        
+        
+        
+        {
+            x = -3,
+            y = 0,
+            z = 1,
+        },
+        
+        {
+            x = -3,
+            y = 0,
+            z = -1,
+        },
+    
+        -- corners
+
+        {
+            x = -3,
+            y = 0,
+            z = -3,
+        },
+        
+        {
+            x = 3,
+            y = 0,
+            z = -3,
+        },
+        
+        {
+            x = 3,
+            y = 0,
+            z = 3,
+        },
+        
+        {
+            x = -3,
+            y = 0,
+            z = 3,
+        },
+    
+        -- second line
+
+        {
+            x = -1,
+            y = 0,
+            z = -5,
+        },
+        
+        {
+            x = 1,
+            y = 0,
+            z = -5,
+        },
+        
+        
+        
+        {
+            x = 5,
+            y = 0,
+            z = -1,
+        },
+        
+        {
+            x = 5,
+            y = 0,
+            z = 1,
+        },
+        
+        
+        
+        {
+            x = -1,
+            y = 0,
+            z = 5,
+        },
+        
+        {
+            x = 1,
+            y = 0,
+            z = 5,
+        },
+        
+        
+        
+        {
+            x = -5,
+            y = 0,
+            z = -1,
+        },
+        
+        {
+            x = -5,
+            y = 0,
+            z = 1,
+        },
+    
+        -- second line 2
+
+        {
+            x = -3,
+            y = 0,
+            z = -5,
+        },
+        
+        {
+            x = 3,
+            y = 0,
+            z = -5,
+        },
+        
+        
+        
+        {
+            x = 5,
+            y = 0,
+            z = -3,
+        },
+        
+        {
+            x = 5,
+            y = 0,
+            z = 3,
+        },
+        
+        
+        
+        {
+            x = -3,
+            y = 0,
+            z = 5,
+        },
+        
+        {
+            x = 3,
+            y = 0,
+            z = 5,
+        },
+        
+        
+        
+        {
+            x = -5,
+            y = 0,
+            z = -3,
+        },
+        
+        {
+            x = -5,
+            y = 0,
+            z = 3,
+        },
+
+        -- corners 2
+
+        {
+            x = -5,
+            y = 0,
+            z = -5,
+        },
+        
+        {
+            x = 5,
+            y = 0,
+            z = -5,
+        },
+        
+        {
+            x = 5,
+            y = 0,
+            z = 5,
+        },
+        
+        {
+            x = -5,
+            y = 0,
+            z = 5,
+        },
+    }
+
     local vector = { x=0, y=1, z=0 }
 
     self.vectorByDegree = {}
@@ -268,16 +489,22 @@ function ghost_building_portal_construction:UpdateGhostEntities()
         return
     end
 
+    local wallBlueprintName = self.wallConfig[self.selectedMode]
+    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
+
+    local wallBlueprintNameGhost = wallBlueprintName .. "_ghost"
+
     if ( self.selectedMode == "wall_vine" ) then
+
+        for newPosition in Iter(self.vineWallsPositions) do
+
+            self:SpawnAndAttachGhostEntity(wallBlueprintNameGhost, newPosition)
+        end
         
         return
     end
 
-    local wallBlueprintName = self.wallConfig[self.selectedMode]
     local gateBlueprintName = self.gateConfig[self.selectedMode]
-
-
-    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
     gateBlueprintName = self:GetMaxAvailableLevel(gateBlueprintName)
 
     gateBlueprintNameGhost = gateBlueprintName .. "_ghost"
@@ -329,7 +556,10 @@ function ghost_building_portal_construction:SpawnAndAttachGhostEntity(blueprintN
     EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
     EntityService:SetPosition( lineEnt, newPosition )
     
-    EntityService:Rotate( lineEnt, 0, 1, 0, newPosition.degree )
+    if ( newPosition.degree ~= nil ) then
+
+        EntityService:Rotate( lineEnt, 0, 1, 0, newPosition.degree )
+    end
     
     Insert(self.linesEntities, lineEnt)
 end
@@ -343,35 +573,33 @@ function ghost_building_portal_construction:BuildWalls(transform)
         return
     end
 
+    local wallBlueprintName = self.wallConfig[self.selectedMode]
+    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
+
     if ( self.selectedMode == "wall_vine" ) then
+
+        for newPosition in Iter(self.vineWallsPositions) do
+
+            self:BuildEntity(wallBlueprintName, transform, newPosition, false)
+        end
+
+        for newPosition in Iter(self.gatePositions) do
+
+            self:TryBuildDesertFloor(transform, newPosition)
+        end
+
+        self:TryBuildFloorCorners(transform)
         
         return
     end
 
 
-    local wallBlueprintName = self.wallConfig[self.selectedMode]
     local gateBlueprintName = self.gateConfig[self.selectedMode]
-
-
-    wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
     gateBlueprintName = self:GetMaxAvailableLevel(gateBlueprintName)
 
     for newPosition in Iter(self.gatePositions) do
 
-        local buildTransform = {}
-
-        buildTransform.position = {}
-        
-        buildTransform.position.x = newPosition.x + transform.position.x
-        buildTransform.position.y = transform.position.y
-        buildTransform.position.z = newPosition.z + transform.position.z
-        
-        buildTransform.scale = { x=1,y=1,z=1 }
-        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, gateBlueprintName, buildTransform, false )
-
-        self:BuildDesertFloor(buildTransform)
+        self:BuildEntity(gateBlueprintName, transform, newPosition, true)
     end
 
 
@@ -387,52 +615,24 @@ function ghost_building_portal_construction:BuildWalls(transform)
     local blueprintNameX = self:GetBlueprintByConnectType( buildingDesc, connectTypeX )
 
     for newPosition in Iter(self.wallPositions["_x_"]) do
-        
-        local buildTransform = {}
 
-        buildTransform.position = {}
-        
-        buildTransform.position.x = newPosition.x + transform.position.x
-        buildTransform.position.y = transform.position.y
-        buildTransform.position.z = newPosition.z + transform.position.z
-        
-        buildTransform.scale = { x=1,y=1,z=1 }
-        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameX, buildTransform, false )
+        self:BuildEntity(blueprintNameX, transform, newPosition, false)
     end
 
     for newPosition in Iter(self.wallPositions["_t_"]) do
-        
-        local buildTransform = {}
 
-        buildTransform.position = {}
-        
-        buildTransform.position.x = newPosition.x + transform.position.x
-        buildTransform.position.y = transform.position.y
-        buildTransform.position.z = newPosition.z + transform.position.z
-        
-        buildTransform.scale = { x=1,y=1,z=1 }
-        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameT, buildTransform, false )
+        self:BuildEntity(blueprintNameT, transform, newPosition, false)
     end
 
     for newPosition in Iter(self.wallPositions["corner"]) do
-        
-        local buildTransform = {}
 
-        buildTransform.position = {}
-        
-        buildTransform.position.x = newPosition.x + transform.position.x
-        buildTransform.position.y = transform.position.y
-        buildTransform.position.z = newPosition.z + transform.position.z
-        
-        buildTransform.scale = { x=1,y=1,z=1 }
-        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
-
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintNameCorner, buildTransform, false )
+        self:BuildEntity(blueprintNameCorner, transform, newPosition, false)
     end
+
+    self:TryBuildFloorCorners(transform)
+end
+
+function ghost_building_portal_construction:TryBuildFloorCorners(transform)
 
     local deltas = { -4, 4}
 
@@ -454,6 +654,50 @@ function ghost_building_portal_construction:BuildWalls(transform)
             self:BuildDesertFloor(buildTransform)
         end
     end
+end
+
+function ghost_building_portal_construction:BuildEntity(blueprintName, transform, newPosition, buildFloor)
+
+    local buildTransform = {}
+
+    buildTransform.position = {}
+        
+    buildTransform.position.x = newPosition.x + transform.position.x
+    buildTransform.position.y = transform.position.y
+    buildTransform.position.z = newPosition.z + transform.position.z
+        
+    buildTransform.scale = { x=1,y=1,z=1 }
+
+    if ( newPosition.degree ~= nil ) then
+
+        buildTransform.orientation = self.vectorByDegree[newPosition.degree]
+    else
+        buildTransform.orientation = self.vectorByDegree[0]
+    end
+
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+
+    if ( buildFloor ) then
+
+        self:BuildDesertFloor(buildTransform)
+    end
+end
+
+function ghost_building_portal_construction:TryBuildDesertFloor(transform, newPosition)
+
+    local buildTransform = {}
+
+    buildTransform.position = {}
+        
+    buildTransform.position.x = newPosition.x + transform.position.x
+    buildTransform.position.y = transform.position.y
+    buildTransform.position.z = newPosition.z + transform.position.z
+        
+    buildTransform.scale = { x=1,y=1,z=1 }
+
+    buildTransform.orientation = self.vectorByDegree[0]
+
+    self:BuildDesertFloor(buildTransform)
 end
 
 function ghost_building_portal_construction:RemoveUselessComponents(entity)
@@ -527,7 +771,7 @@ end
 
 function ghost_building_portal_construction:OnUpdate()
     local transform = EntityService:GetWorldTransform( self.entity )
-    local testBuildable = self:CheckEntityBuildable( self.entity, transform, false, 1 )
+    local testBuildable = self:CheckEntityBuildable( self.entity, transform, 1 )
 
     if ( self.activated and self.buildPosition ~= nil ) then
         local currentPosition = EntityService:GetWorldTransform( self.entity )
@@ -547,7 +791,7 @@ function ghost_building_portal_construction:OnUpdate()
 
         local transform = EntityService:GetWorldTransform( lineEnt )
 
-        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, false, i+1, true, false )
+        local testBuildable = self:CheckEntityBuildable( lineEnt, transform, i+1, true, false )
 
         --if ( testBuildable ~= nil) then
         --    self:AddToEntitiesToSellList(testBuildable)
@@ -782,6 +1026,102 @@ function ghost_building_portal_construction:CalculateResearchForUpgrade( bluepri
     end
 
     return ""
+end
+
+function ghost_building_portal_construction:CheckEntityBuildable( entity, transform, id, checkActive, ignoreSelectorSettingCanBuild )
+    checkActive = checkActive or ( checkActive == nil and true )
+    ignoreSelectorSettingCanBuild = ignoreSelectorSettingCanBuild or false
+    id = id or 1
+    local test = nil
+
+    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
+
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, buildingComponent.bp, id )
+
+    if ( test == nil ) then
+        return
+    end
+
+    local testReflection = reflection_helper(test:ToTypeInstance(), test )
+
+    --LogService:Log("Flag: " .. tostring(testReflection.flag ))
+    --LogService:Log("Missing resources: " .. tostring(testReflection.missing_resources))
+    --LogService:Log("Entity to repair: " .. tostring(testReflection.entity_to_repair )  )
+    --LogService:Log("Entity to sell: " .. tostring(testReflection.entities_to_sell ))
+    --LogService:Log("Free grids: " .. tostring(testReflection.free_grids ))
+
+
+    local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
+    local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
+
+    if ( ignoreSelectorSettingCanBuild == false ) then
+        local buildingSelectorComponent = reflection_helper( EntityService:GetComponent(self.selector, "BuildingSelectorComponent") )
+        buildingSelectorComponent.can_build = canBuild
+    end
+
+    local skinned = EntityService:IsSkinned(entity)
+
+    if ( testReflection.flag == CBF_REPAIR  ) then
+        if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
+            end
+        else
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
+            end
+        end
+    else
+        if ( canBuildOverride and not floor ) then
+            if ( skinned ) then
+                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
+            else
+                EntityService:ChangeMaterial( entity, "selector/hologram_active")
+            end
+        elseif ( canBuild  ) then
+            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        else
+            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        end
+    end
+
+    if ( self.activated and checkActive ) then
+        if ( BuildingService:BlinkBuildingSelector(self.selector, entity ) ) then
+
+            if ( testReflection.flag == CBF_TO_CLOSE ) then
+
+                if ( self.toCloseAnnoucement ~= "" ) then
+                    QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, self.toCloseAnnoucement, entity, false)
+                end
+            elseif( testReflection.flag == CBF_LIMITS ) then
+
+                QueueEvent("PlayTimeoutSoundRequest", INVALID_ID, 5.0, "voice_over/announcement/building_limit", entity, false )
+            end
+
+            local missingResources = testReflection.missing_resources
+            if ( missingResources.count  > 0 ) then
+
+                local soundAnnouncement = "voice_over/announcement/not_enough_resources"
+
+                if ( missingResources.count  == 1 ) then
+
+                    local singleMissingResource = missingResources[1]
+
+                    if ( self.annoucements and self.annoucements[singleMissingResource] ~= nil and self.annoucements[singleMissingResource] ~= "" ) then
+
+                        soundAnnouncement = self.annoucements[singleMissingResource]
+                    end
+                end
+
+                QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 5.0, soundAnnouncement, entity, false )
+            end
+        end
+    end
+    return testReflection
 end
 
 function ghost_building_portal_construction:BuildDesertFloor(spot)
