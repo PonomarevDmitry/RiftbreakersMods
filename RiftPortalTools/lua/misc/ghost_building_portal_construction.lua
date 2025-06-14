@@ -13,11 +13,6 @@ function ghost_building_portal_construction:FindMinDistance()
     self.radius = BuildingService:FindEnergyRadius( self.blueprint )
 
     if ( self.radius == nil ) then
-        
-        self.radius = self.desc.min_radius
-    end
-
-    if ( self.radius == nil ) then
         local bounds = EntityService:GetBoundsSize( self.entity )
         self.radius = math.max(bounds.x, bounds.z ) / 2.0
     end
@@ -517,6 +512,9 @@ function ghost_building_portal_construction:OnUpdate()
         local currentPosition = EntityService:GetWorldTransform( self.entity )
         local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, self.radius, self.blueprint)
         for spot in Iter( spots ) do
+
+            LogService:Log("BuildBuildingRequest spot.position.x" .. tostring(spot.position.x) .. " spot.position.z" .. tostring(spot.position.z))
+
             QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
             self.buildPosition = spot
         end
