@@ -588,7 +588,7 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
         for newPosition in Iter(self.vineWallsPositions) do
 
-            self:BuildEntity(wallBlueprintName, transform, newPosition, false, randomRotation)
+            self:BuildWallEntity(wallBlueprintName, transform, newPosition, false, randomRotation)
         end
 
         for newPosition in Iter(self.gatePositions) do
@@ -607,7 +607,7 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
     for newPosition in Iter(self.gatePositions) do
 
-        self:BuildEntity(gateBlueprintName, transform, newPosition, true, randomRotation)
+        self:BuildWallEntity(gateBlueprintName, transform, newPosition, true, randomRotation)
     end
 
 
@@ -624,17 +624,17 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
     for newPosition in Iter(self.wallPositions["_x_"]) do
 
-        self:BuildEntity(blueprintNameX, transform, newPosition, false, randomRotation)
+        self:BuildWallEntity(blueprintNameX, transform, newPosition, false, randomRotation)
     end
 
     for newPosition in Iter(self.wallPositions["_t_"]) do
 
-        self:BuildEntity(blueprintNameT, transform, newPosition, false, randomRotation)
+        self:BuildWallEntity(blueprintNameT, transform, newPosition, false, randomRotation)
     end
 
     for newPosition in Iter(self.wallPositions["corner"]) do
 
-        self:BuildEntity(blueprintNameCorner, transform, newPosition, false, randomRotation)
+        self:BuildWallEntity(blueprintNameCorner, transform, newPosition, false, randomRotation)
     end
 
     self:TryBuildFloorCorners(transform)
@@ -664,7 +664,7 @@ function ghost_building_portal_construction:TryBuildFloorCorners(transform)
     end
 end
 
-function ghost_building_portal_construction:BuildEntity(blueprintName, transform, newPosition, buildFloor, randomRotation)
+function ghost_building_portal_construction:BuildWallEntity(blueprintName, transform, newPosition, buildFloor, randomRotation)
 
     local buildTransform = {}
 
