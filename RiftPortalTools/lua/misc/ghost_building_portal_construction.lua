@@ -576,11 +576,19 @@ function ghost_building_portal_construction:BuildWalls(transform)
     local wallBlueprintName = self.wallConfig[self.selectedMode]
     wallBlueprintName = self:GetMaxAvailableLevel(wallBlueprintName)
 
+    local randomRotation = 0
+
+    local database = EntityService:GetBlueprintDatabase( wallBlueprintName )
+    if ( database and database:HasInt("random_rotation") ) then
+
+        randomRotation = database:GetIntOrDefault( "random_rotation", 0 )
+    end
+
     if ( self.selectedMode == "wall_vine" ) then
 
         for newPosition in Iter(self.vineWallsPositions) do
 
-            self:BuildEntity(wallBlueprintName, transform, newPosition, false)
+            self:BuildEntity(wallBlueprintName, transform, newPosition, false, randomRotation)
         end
 
         for newPosition in Iter(self.gatePositions) do
@@ -599,7 +607,7 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
     for newPosition in Iter(self.gatePositions) do
 
-        self:BuildEntity(gateBlueprintName, transform, newPosition, true)
+        self:BuildEntity(gateBlueprintName, transform, newPosition, true, randomRotation)
     end
 
 
@@ -616,17 +624,17 @@ function ghost_building_portal_construction:BuildWalls(transform)
 
     for newPosition in Iter(self.wallPositions["_x_"]) do
 
-        self:BuildEntity(blueprintNameX, transform, newPosition, false)
+        self:BuildEntity(blueprintNameX, transform, newPosition, false, randomRotation)
     end
 
     for newPosition in Iter(self.wallPositions["_t_"]) do
 
-        self:BuildEntity(blueprintNameT, transform, newPosition, false)
+        self:BuildEntity(blueprintNameT, transform, newPosition, false, randomRotation)
     end
 
     for newPosition in Iter(self.wallPositions["corner"]) do
 
-        self:BuildEntity(blueprintNameCorner, transform, newPosition, false)
+        self:BuildEntity(blueprintNameCorner, transform, newPosition, false, randomRotation)
     end
 
     self:TryBuildFloorCorners(transform)
@@ -656,7 +664,7 @@ function ghost_building_portal_construction:TryBuildFloorCorners(transform)
     end
 end
 
-function ghost_building_portal_construction:BuildEntity(blueprintName, transform, newPosition, buildFloor)
+function ghost_building_portal_construction:BuildEntity(blueprintName, transform, newPosition, buildFloor, randomRotation)
 
     local buildTransform = {}
 
@@ -668,7 +676,11 @@ function ghost_building_portal_construction:BuildEntity(blueprintName, transform
         
     buildTransform.scale = { x=1,y=1,z=1 }
 
-    if ( newPosition.degree ~= nil ) then
+    if ( randomRotation == 1 ) then
+
+        buildTransform.orientation = self.randomOrientationArray[RandInt(1,4)]
+
+    elseif ( newPosition.degree ~= nil ) then
 
         buildTransform.orientation = self.vectorByDegree[newPosition.degree]
     else
@@ -678,6 +690,8 @@ function ghost_building_portal_construction:BuildEntity(blueprintName, transform
     QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
 
     if ( buildFloor ) then
+
+        buildTransform.orientation = self.vectorByDegree[0]
 
         self:BuildDesertFloor(buildTransform)
     end
