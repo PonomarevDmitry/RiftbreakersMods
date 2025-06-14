@@ -106,7 +106,9 @@ function portal_base_tool:CheckEntityBuildable( entity, transform, id )
     id = id or 1
     local test = nil
 
-    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, self.portalBlueprintName, id )
+    local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
+
+    test = BuildingService:CheckGhostBuildingStatus( self.playerId, entity, transform, buildingComponent.bp, id )
 
     if ( test == nil ) then
         return
@@ -154,7 +156,7 @@ function portal_base_tool:BuildEntity(entity, transform, createCube)
 
     createCube = createCube or false
 
-    local testBuildable = self:CheckEntityBuildable( entity , transform )
+    local testBuildable = self:CheckEntityBuildable( entity, transform )
 
     if ( testBuildable == nil ) then
 
