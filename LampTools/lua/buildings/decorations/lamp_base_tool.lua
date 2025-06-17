@@ -59,7 +59,7 @@ function lamp_base_tool:InitializeValues()
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.lampBlueprintName = self:GetLampBlueprintName( selectorDB )
 

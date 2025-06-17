@@ -313,7 +313,7 @@ function shield_generator_center_point_picker_tool:ShowDisplayRadiusComponent()
 
         for entity in Iter( self.pickedBuildings ) do
 
-            local entityDatabase = EntityService:GetDatabase( entity )
+            local entityDatabase = EntityService:GetOrCreateDatabase( entity )
 
             local entityMin, entityMax = self:GetBuildingDisplayRadius(entityDatabase)
 

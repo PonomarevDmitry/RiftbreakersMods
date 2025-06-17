@@ -161,7 +161,7 @@ end
 
 function templates_mass_limited_buildings_builder:CreateRuinsBeforeBuilding(entity, blueprintName, transform)
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return
     end
@@ -193,7 +193,7 @@ end
 
 function templates_mass_limited_buildings_builder:TransferDatabaseInfoFromTemplateToEntity(originalDatabase, entity, blueprintName)
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return
     end

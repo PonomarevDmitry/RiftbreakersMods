@@ -55,7 +55,7 @@ function ghost_building_trapsconstruction:InitializeValues()
 
     self.configNameCellGaps = "$trapsconstruction_cell_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
     self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
@@ -500,7 +500,7 @@ function ghost_building_trapsconstruction:OnRotateSelectorRequest(evt)
 
     self.cellGapsCount = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:OnUpdate()
@@ -541,7 +541,7 @@ function ghost_building_trapsconstruction:FinishLineBuild()
 
         local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
 
-        local database = EntityService:GetDatabase( builder )
+        local database = EntityService:GetOrCreateDatabase( builder )
 
         database:SetInt( "playerId", self.playerId )
 

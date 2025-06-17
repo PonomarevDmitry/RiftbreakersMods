@@ -29,7 +29,7 @@ function pipe_pencil_tool:OnInit()
 
     self.configNamePipesCount = "$pencil_pipe_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Pipe layers config
     self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
@@ -494,7 +494,7 @@ function pipe_pencil_tool:OnRotateSelectorRequest(evt)
     self.pipeLinesCount = newValue
 
     -- Pipe layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNamePipesCount, newValue)
 
     self:SpawnGhostEntities()

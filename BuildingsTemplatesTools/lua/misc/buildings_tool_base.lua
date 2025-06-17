@@ -24,7 +24,7 @@ end
 
 function buildings_tool_base:HideMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetString("message_text", "")
     markerDB:SetInt("menu_visible", 0)

@@ -38,7 +38,7 @@ function replace_wall_gate_picker_tool:OnInit()
     self.modeBuilding = 0
     self.modeBuildingLastSelected = 100
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -96,7 +96,7 @@ function replace_wall_gate_picker_tool:SetBuildingIcon()
         end
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("wall_gate_icon_visible", buildingIconVisible)
     markerDB:SetString("wall_gate_icon", buildingIcon)
@@ -203,7 +203,7 @@ function replace_wall_gate_picker_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName )
 
@@ -253,7 +253,7 @@ function replace_wall_gate_picker_tool:FillLastBuildingsList(defaultModesArray, 
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

@@ -28,7 +28,7 @@ function replace_trap_replacer_all_tool:OnInit()
 
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -117,7 +117,7 @@ end
 
 function replace_trap_replacer_all_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("trap_icon_visible", 1)
 

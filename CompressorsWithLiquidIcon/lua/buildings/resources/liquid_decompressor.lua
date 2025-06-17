@@ -64,7 +64,7 @@ function liquid_decompressor:CreateMenuEntity()
 
         self.compressorLiquidMenu = EntityService:SpawnAndAttachEntity("misc/compressor_liquid_menu", self.entity)
 
-        local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+        local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
 
         self.showLiquidIcon = self.showLiquidIcon or 1
 
@@ -84,7 +84,7 @@ function liquid_decompressor:PopulateSpecialActionInfo()
 
     self:CreateMenuEntity()
 
-    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
 
     if ( self:IsCompressedResourceFilled( menuDB ) ) then
 
@@ -179,7 +179,7 @@ function liquid_decompressor:SetCompressorLiquidMenuVisible()
         visible = self.showLiquidIcon
     end
 
-    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
     menuDB:SetInt("liquid_visible", visible)
 end
 

@@ -18,7 +18,7 @@ function turn_on_off_by_type_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 

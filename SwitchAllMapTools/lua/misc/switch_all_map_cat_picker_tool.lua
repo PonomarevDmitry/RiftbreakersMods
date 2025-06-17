@@ -34,7 +34,7 @@ function switch_all_map_cat_picker_tool:OnInit()
 
     self.category_name = self.data:GetString("category_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedCategory = selectorDB:GetStringOrDefault( self.category_name, "" ) or ""
 
@@ -62,7 +62,7 @@ end
 
 function switch_all_map_cat_picker_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -211,7 +211,7 @@ function switch_all_map_cat_picker_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.category_name, category )
 
@@ -255,7 +255,7 @@ function switch_all_map_cat_picker_tool:FillLastCategoriesList(defaultModesArray
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

@@ -315,7 +315,7 @@ function harvester_drone:GetDroneFindCenterPoint()
 
     local result = self:GetDroneOwnerTarget();
 
-    local database = EntityService:GetDatabase( result )
+    local database = EntityService:GetOrCreateDatabase( result )
 
     if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 
@@ -356,7 +356,7 @@ function harvester_drone:UnloadResource( resource, amount )
 
     local owner = self:GetDroneOwnerTarget();
     if ( owner ~= INVALID_ID and EntityService:HasComponent( owner, "BuildingComponent" ) ) then
-        local database = EntityService:GetDatabase( owner )
+        local database = EntityService:GetOrCreateDatabase( owner )
         if ( database ~= nil ) then
 
             local blueprintDatabase = EntityService:GetBlueprintDatabase(owner) or database

@@ -43,7 +43,7 @@ end
 
 function cultivator_sapling_replacer_all_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -100,7 +100,7 @@ function cultivator_sapling_replacer_all_tool:GetSaplingItem()
 
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if selectorDB:HasString(self.configName) then
 
@@ -266,7 +266,7 @@ function cultivator_sapling_replacer_all_tool:ChangeSelector(modItemBlueprintNam
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.configName, modItemBlueprintName )
 
@@ -293,7 +293,7 @@ end
 
 function cultivator_sapling_replacer_all_tool:FillLastSaplingsList(defaultModesArray, modeSelectLast, selector)
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedSaplingsArray = self:GetCurrentList(self.configNameList, selectorDB)
 

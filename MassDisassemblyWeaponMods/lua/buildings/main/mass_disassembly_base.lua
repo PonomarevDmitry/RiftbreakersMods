@@ -116,7 +116,7 @@ function mass_disassembly_base:SetMenuVisible(menuEntity)
         visible = self.showMenu
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", visible)
     end
@@ -178,7 +178,7 @@ function mass_disassembly_base:CreateMenuEntity()
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y, 0 )
 
-    local menuDB = EntityService:GetDatabase( self.menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( self.menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", 0)
     end

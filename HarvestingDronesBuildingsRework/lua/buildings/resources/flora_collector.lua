@@ -536,7 +536,7 @@ function flora_collector:GettingInfoFromBaseToUpgrade(eventEntity)
             goto continue
         end
 
-        local baseDatabase = EntityService:GetDatabase( entity )
+        local baseDatabase = EntityService:GetOrCreateDatabase( entity )
         if ( baseDatabase == nil ) then
             goto continue
         end
@@ -588,7 +588,7 @@ function flora_collector:GettingInfoFromRuin()
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -651,7 +651,7 @@ function flora_collector:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end

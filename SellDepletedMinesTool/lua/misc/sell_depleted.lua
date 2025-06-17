@@ -29,7 +29,7 @@ function sell_depleted:OnInit()
 
     self.configName = "$sell_depleted_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.replaceWithConnectors = (selectorDB:GetIntOrDefault(self.configName, 0) == 1)
 
@@ -239,7 +239,7 @@ function sell_depleted:OnActivateSelectorRequest()
 
             local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_depleted/script", position, team )
 
-            local database = EntityService:GetDatabase( buildAfterSellScript )
+            local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
             database:SetInt( "target_entity", entity )
             database:SetInt( "player_id", self.playerId )
@@ -292,7 +292,7 @@ function sell_depleted:OnRotateSelectorRequest(evt)
     if ( newValue ) then
         savedValue = 1;
     end
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configName, savedValue)
 
     self:UpdateMarker()

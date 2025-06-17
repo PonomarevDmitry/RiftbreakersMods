@@ -46,7 +46,7 @@ function floor_center_tool:InitializeValues()
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( self.data:HasString("blueprintName") ) then
 
@@ -293,7 +293,7 @@ function floor_center_tool:OnRotateSelectorRequest(evt)
 
     EntityService:SetPosition( self.infoChild, -self.currentSize, 0, self.currentSize)
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameSize, newValue)
 
     self:SetChildrenPosition()

@@ -23,7 +23,7 @@ function energy_connector_tool:OnInit()
 
     self.defaultRadius = math.ceil( (self.radius - 1) / 2 )
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, self.defaultRadius)
     self.currentSize = self:CheckSizeExists(self.currentSize)
@@ -919,7 +919,7 @@ function energy_connector_tool:OnRotateSelectorRequest(evt)
 
     self.currentSize = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameSize, newValue)
 
     self:SpawnGhostConnectorEntities()

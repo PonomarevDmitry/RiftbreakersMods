@@ -82,7 +82,7 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
                 goto continue
             end
 
-            local database = EntityService:GetDatabase( ruinEntity )
+            local database = EntityService:GetOrCreateDatabase( ruinEntity )
             if ( database == nil ) then
                 goto continue
             end
@@ -235,7 +235,7 @@ function lamp_tool_sell:OnActivateEntity( entity )
 
                         local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                        local database = EntityService:GetDatabase( placeRuinScript )
+                        local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                         database:SetInt( "player_id", self.playerId )
                         database:SetInt( "target_entity", entity )
@@ -303,7 +303,7 @@ function lamp_tool_sell:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end

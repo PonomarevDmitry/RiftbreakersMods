@@ -17,7 +17,7 @@ function replace_wall_replacer_all_tool:OnInit()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.toBlueprintName = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -130,7 +130,7 @@ end
 
 function replace_wall_replacer_all_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("wall_icon_visible", 1)
 

@@ -503,7 +503,7 @@ function shield_generator:GettingInfoFromBaseToUpgrade(eventEntity)
 			goto continue
 		end
 
-		local baseDatabase = EntityService:GetDatabase( entity )
+		local baseDatabase = EntityService:GetOrCreateDatabase( entity )
 		if ( baseDatabase == nil ) then
 			goto continue
 		end
@@ -555,7 +555,7 @@ function shield_generator:GettingInfoFromRuin()
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end
@@ -618,7 +618,7 @@ function shield_generator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end

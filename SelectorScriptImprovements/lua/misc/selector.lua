@@ -135,7 +135,7 @@ function selector:ChangeBlueprint( blueprintName, ghostBlueprint )
     local buildingSelectorComponent = reflection_helper(EntityService:GetComponent(self.entity, "BuildingSelectorComponent"))
     buildingSelectorComponent.blueprint_entity = self.selector
 
-    local database = EntityService:GetDatabase( self.selector )
+    local database = EntityService:GetOrCreateDatabase( self.selector )
 
     database:SetInt("activated", self.activated and 1 or 0 )
     database:SetFloat("position_x", self.transform.position.x)
@@ -682,7 +682,7 @@ function selector:OnRotateSelectorRequest( evt )
         ConsoleService:ExecuteCommand( "showed_change_info 1" )
     end
 
-    local data = EntityService:GetDatabase( self.selector)
+    local data = EntityService:GetOrCreateDatabase( self.selector)
     local action = ""
     if ( data ) then
         action = data:GetStringOrDefault( "action", "")

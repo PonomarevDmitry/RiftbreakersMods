@@ -70,7 +70,7 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ent )
+        local database = EntityService:GetOrCreateDatabase( ent )
         if ( database and database:HasInt("number_of_activations")) then
 
             local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -107,7 +107,7 @@ function repair_tool:OnUpdate()
         local ruins = false
         local ruinsBlueprint = ""
         local canRepair = true
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         local toRepair = true
 
         if ( buildingComponent ~= nil ) then
@@ -189,7 +189,7 @@ function repair_tool:OnActivateEntity( entity )
 
     if ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( database ) then
 
             local ruinsBlueprint = database:GetString("blueprint")

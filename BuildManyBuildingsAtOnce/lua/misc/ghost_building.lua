@@ -70,7 +70,7 @@ function ghost_building:OnInit()
 
         self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
         self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
@@ -380,7 +380,7 @@ function ghost_building:UpdateBuildingCount( totalBuildings, countBuildable )
         return
     end
 
-    local markerDB = EntityService:GetDatabase( self.currentMarkerBuildingCount )
+    local markerDB = EntityService:GetOrCreateDatabase( self.currentMarkerBuildingCount )
 
     if ( markerDB == nil ) then
         return
@@ -843,7 +843,7 @@ function ghost_building:FinishLineBuild()
 
             local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
 
-            local database = EntityService:GetDatabase( builder )
+            local database = EntityService:GetOrCreateDatabase( builder )
 
             database:SetInt( "playerId", self.playerId )
 
@@ -962,7 +962,7 @@ function ghost_building:OnRotateSelectorRequest(evt)
 
     self.cellGapsCount = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:OnUpdate()

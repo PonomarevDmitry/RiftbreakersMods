@@ -94,7 +94,7 @@ function drone_player_detector:OnWorkInProgress()
 				return false
 			end
 
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -217,7 +217,7 @@ function drone_player_detector:GetDiscoveryDistance( entity )
 
 	local discoverDistance = 10
 
-	local db = EntityService:GetDatabase( entity )
+	local db = EntityService:GetOrCreateDatabase( entity )
 
 	if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 		discoverDistance = db:GetFloat("discovery_distance")
@@ -282,7 +282,7 @@ function drone_player_detector:FindNearestTreasure(skipLockCheck)
 				return false
 			end
 
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -348,7 +348,7 @@ function drone_player_detector:OnDroneTargetAction( target )
 
 	local type = ""
 
-	local db = EntityService:GetDatabase( target )
+	local db = EntityService:GetOrCreateDatabase( target )
 	if ( db ~= nil ) then
 		type = db:GetStringOrDefault("type","")
 	end
@@ -404,7 +404,7 @@ function drone_player_detector:OnHarvestEnter(state)
 		return state:Exit()
 	end
 
-	local database = EntityService:GetDatabase( target )
+	local database = EntityService:GetOrCreateDatabase( target )
 
 	local duration = 2.0
 	if ( database ~= nil ) then
@@ -463,7 +463,7 @@ function drone_player_detector:OnHarvestExecute(state, dt)
 		return state:Exit()
 	end
 
-	local database = EntityService:GetDatabase( target )
+	local database = EntityService:GetOrCreateDatabase( target )
 	local type = ""
 
 	local duration = 2.0

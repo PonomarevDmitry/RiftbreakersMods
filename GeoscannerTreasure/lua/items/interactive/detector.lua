@@ -35,7 +35,7 @@ function detector:OnActivate()
 
 	self:OnExecuteDetecting()
 
-	local ownerData = EntityService:GetDatabase( self.owner );
+	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
@@ -128,7 +128,7 @@ function detector:OnExecuteDetecting()
 				return false
 			end
 
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -174,7 +174,7 @@ function detector:OnExecuteDetecting()
 			radius = self.enemyRadius
 		end
 
-		local db = EntityService:GetDatabase( ent )
+		local db = EntityService:GetOrCreateDatabase( ent )
 		local discoverDistance = defaultDiscoverDistance
 		if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 			discoverDistance = db:GetFloat("discovery_distance")
@@ -217,7 +217,7 @@ function detector:OnExecuteDetecting()
 		if ( type == "enemy") then
 			for eEnt in Iter(enemyEntities ) do
 				local eDistance = EntityService:GetDistanceBetween(eEnt, self.item)
-				local db = EntityService:GetDatabase( eEnt )
+				local db = EntityService:GetOrCreateDatabase( eEnt )
 				local discoverDistance = defaultDiscoverDistance
 				if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 					discoverDistance = db:GetFloat("discovery_distance")

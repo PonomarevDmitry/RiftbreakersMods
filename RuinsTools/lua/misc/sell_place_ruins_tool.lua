@@ -143,7 +143,7 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
                 local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                local database = EntityService:GetDatabase( placeRuinScript )
+                local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                 database:SetInt( "player_id", self.playerId )
                 database:SetInt( "target_entity", entity )

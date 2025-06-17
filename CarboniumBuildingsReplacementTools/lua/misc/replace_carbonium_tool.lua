@@ -105,7 +105,7 @@ end
 
 function replace_carbonium_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.carboniumBluprintsArray,1,-1 do
 
@@ -385,7 +385,7 @@ function replace_carbonium_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "misc/build_after_sell/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

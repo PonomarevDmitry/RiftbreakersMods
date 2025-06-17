@@ -35,7 +35,7 @@ function barbaric_jump:InitalizeValues()
 end
 
 function barbaric_jump:OnEquipped()
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data ~= nil )  then
 		data:SetInt("is_jumping", 0 )
 	end
@@ -64,7 +64,7 @@ function barbaric_jump:OnJumpEnter( state )
 
 	local foundPos = PlayerService:FindPositionForTeleport( self.owner, self.jumpPoint, self.jumpDistance )
 
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data == nil ) then
 		state:Exit()
 		self.enabled = 0
@@ -117,7 +117,7 @@ function barbaric_jump:OnJumpEnter( state )
 end
 
 function barbaric_jump:OnJumpExecute( state, dt )
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data and data:HasInt("is_jumping") and data:GetInt( "is_jumping" ) == 0 and self.enabled == 2 ) then
 		state:SetDurationLimit( 0.6 )
 	end
@@ -159,7 +159,7 @@ function barbaric_jump:OnJumpExit( state )
 		self.trigger = INVALID_ID
 	end
 
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data ) then
 		data:SetInt("is_jumping", 0 )
 

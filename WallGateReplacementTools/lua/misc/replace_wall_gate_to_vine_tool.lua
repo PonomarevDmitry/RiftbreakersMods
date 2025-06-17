@@ -100,7 +100,7 @@ end
 
 function replace_wall_gate_to_vine_tool:SetWallGateIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.wallBluprintsArray,1,-1 do
 
@@ -379,7 +379,7 @@ function replace_wall_gate_to_vine_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_wall_gate_to_vine/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

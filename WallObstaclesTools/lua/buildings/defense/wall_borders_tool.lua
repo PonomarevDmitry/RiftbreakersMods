@@ -27,7 +27,7 @@ function wall_borders_tool:OnInit()
 
     self.configNameWallsConfig = "$wall_borders_lines_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Wall layers config
     self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
@@ -598,7 +598,7 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
     self.wallLinesConfig = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
     self:OnUpdate()

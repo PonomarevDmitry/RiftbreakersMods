@@ -39,7 +39,7 @@ function auto_heavy_plasma_weapon:OnShieldExit( state )
 end
 
 function auto_heavy_plasma_weapon:CreateShield()
-    local db = EntityService:GetDatabase( self.owner )
+    local db = EntityService:GetOrCreateDatabase( self.owner )
     if db ~= nil then
         local counter = db:GetIntOrDefault( "heavy_plasma_shield_counter", 0 )
         if counter == 0 then
@@ -55,7 +55,7 @@ end
 
 function auto_heavy_plasma_weapon:RemoveShield()
     if self.shieldCreated then
-        local db = EntityService:GetDatabase( self.owner )
+        local db = EntityService:GetOrCreateDatabase( self.owner )
         if db ~= nil then
             if db:HasInt( "heavy_plasma_shield_counter" ) then
                 local counter = db:GetInt( "heavy_plasma_shield_counter" )

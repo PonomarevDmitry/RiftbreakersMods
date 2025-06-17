@@ -34,7 +34,7 @@ function wall_thorns_tool:OnInit()
 
     self.configNameWallsCount = "$thorns_walls_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Wall layers config
     self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 2)
@@ -1188,7 +1188,7 @@ function wall_thorns_tool:OnRotateSelectorRequest(evt)
     self.wallLinesCount = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:OnUpdate()

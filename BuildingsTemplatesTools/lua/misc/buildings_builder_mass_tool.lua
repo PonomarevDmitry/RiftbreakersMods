@@ -101,7 +101,7 @@ function buildings_builder_mass_tool:InitializeValues()
 
     self.configNameCellGaps = "$buildings_builder_mass_tool_cell_count_" .. self.marker
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
     self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
@@ -130,7 +130,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
     -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -878,7 +878,7 @@ function buildings_builder_mass_tool:FinishLineBuild()
 
                 local builder = EntityService:SpawnEntity( "misc/templates_mass_limited_buildings_builder", self.entity, "" )
 
-                local database = EntityService:GetDatabase( builder )
+                local database = EntityService:GetOrCreateDatabase( builder )
 
                 database:SetInt( "playerId", self.playerId )
 
@@ -1115,7 +1115,7 @@ function buildings_builder_mass_tool:TransferDatabaseInfoFromTemplateToEntity(da
         return
     end
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return
     end
@@ -1350,7 +1350,7 @@ function buildings_builder_mass_tool:ChangeCellsGapsCount(evt)
 
     self.cellGapsCount = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:OnUpdate()

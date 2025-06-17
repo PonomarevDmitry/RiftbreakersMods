@@ -99,7 +99,7 @@ end
 
 function replace_wall_gate_tool:SetWallGateIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.wallBluprintsArray,1,-1 do
 

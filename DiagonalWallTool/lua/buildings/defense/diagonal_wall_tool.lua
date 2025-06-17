@@ -23,7 +23,7 @@ function diagonal_wall_tool:InitializeValues()
 
     self.selector = EntityService:GetParent( self.entity )
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest",     "OnActivateSelectorRequest" )
     self:RegisterHandler( self.selector, "DeactivateSelectorRequest",   "OnDeactivateSelectorRequest" )
@@ -1050,7 +1050,7 @@ function diagonal_wall_tool:OnRotateSelectorRequest(evt)
     self.wallLinesCount = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:OnWorkExecute()

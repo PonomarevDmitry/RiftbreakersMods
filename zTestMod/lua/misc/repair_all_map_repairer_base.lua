@@ -109,7 +109,7 @@ function repair_all_map_repairer_base:OnWorkExecute()
 
         if ( isRuins ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
@@ -158,7 +158,7 @@ function repair_all_map_repairer_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -549,7 +549,7 @@ function repair_all_map_repairer_base:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 

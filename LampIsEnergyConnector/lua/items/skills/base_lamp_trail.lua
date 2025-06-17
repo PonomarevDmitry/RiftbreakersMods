@@ -53,7 +53,7 @@ function base_lamp_trail:GetLampBlueprint()
     local selector = PlayerService:GetPlayerSelector(self.playerId)
     if ( selector and selector ~= INVALID_ID ) then
 
-        local selectorDB = EntityService:GetDatabase( selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( selector )
         if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
             blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultBlueprint)
@@ -164,7 +164,7 @@ function base_lamp_trail:OnActivate()
 
         self.iconEntity = EntityService:SpawnAndAttachEntity( "items/skills/base_lamp_trail/icon", self.owner )
 
-        local database = EntityService:GetDatabase( self.iconEntity )
+        local database = EntityService:GetOrCreateDatabase( self.iconEntity )
         database:SetString("skill_icon", skillIcon)
 
         self:FillConnectorsList()

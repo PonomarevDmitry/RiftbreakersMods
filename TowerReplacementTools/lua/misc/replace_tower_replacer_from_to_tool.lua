@@ -20,7 +20,7 @@ function replace_tower_replacer_from_to_tool:OnInit()
 
     self.template_name_to = self.data:GetStringOrDefault("template_name_to", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.fromBlueprintName = selectorDB:GetStringOrDefault( self.template_name_from, "" ) or ""
 
@@ -142,7 +142,7 @@ end
 
 function replace_tower_replacer_from_to_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.fromBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.fromBlueprintName ) ) then
 

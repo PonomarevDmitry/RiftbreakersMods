@@ -218,7 +218,7 @@ function loot_collector_drone:GetDroneFindCenterPoint()
 
     local result = self:GetDroneOwnerTarget()
 
-    local database = EntityService:GetDatabase( result )
+    local database = EntityService:GetOrCreateDatabase( result )
 
     if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 

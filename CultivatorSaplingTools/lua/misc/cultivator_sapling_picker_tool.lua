@@ -28,7 +28,7 @@ function cultivator_sapling_picker_tool:OnInit()
 
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.SelectedItemBlueprint = selectorDB:GetStringOrDefault( self.configName, "" ) or ""
 
@@ -51,7 +51,7 @@ end
 
 function cultivator_sapling_picker_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -206,7 +206,7 @@ function cultivator_sapling_picker_tool:ChangeSelector(modItemBlueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.configName, modItemBlueprintName )
 
@@ -248,7 +248,7 @@ end
 
 function cultivator_sapling_picker_tool:FillLastSaplingsList(defaultModesArray, modeSelectLast, selector)
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedSaplingsArray = self:GetCurrentList(self.configNameList, selectorDB)
 

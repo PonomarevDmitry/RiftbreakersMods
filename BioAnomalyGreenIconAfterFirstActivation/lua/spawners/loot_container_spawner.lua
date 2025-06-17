@@ -116,7 +116,7 @@ function loot_container_spawner:SpawnWaveLogicFiles( waveLogic, waveLogicMul, sp
 				MissionService:ActivateMissionFlow( "", waveLogic, "default", self.data )
 
 				local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
-				local db = EntityService:GetDatabase( pathCleaner )			
+				local db = EntityService:GetOrCreateDatabase( pathCleaner )			
 				db:SetString( "to_entity", tostring( spawnPoint[i] ) )
 				db:SetString( "from_entity", tostring( self.entity ) )
 
@@ -175,7 +175,7 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 
 		if ( self.delay > 0) then
 			local entity = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.entity, "")
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			db:SetFloat( "delay", self.delay )
 			db:SetFloat( "aggressive_radius", self.aggressiveRadius )
 		else

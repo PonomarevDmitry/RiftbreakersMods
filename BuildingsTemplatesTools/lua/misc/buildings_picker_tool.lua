@@ -43,7 +43,7 @@ end
 
 function buildings_picker_tool:FillMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
@@ -278,7 +278,7 @@ function buildings_picker_tool:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end
@@ -362,7 +362,7 @@ function buildings_picker_tool:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -632,7 +632,7 @@ end
 
 function buildings_picker_tool:GetDatabaseInfo(entity)
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return ""
     end

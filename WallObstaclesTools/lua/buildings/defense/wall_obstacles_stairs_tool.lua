@@ -17,7 +17,7 @@ function wall_obstacles_stairs_tool:OnInit()
     self.nowBuildingLine = false
     self.gridEntities = {}
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.stairsBlueprintName = self:GetStairsBlueprintName( selectorDB )
 
@@ -495,7 +495,7 @@ function wall_obstacles_stairs_tool:OnRotateSelectorRequest(evt)
     self.wallLinesCount = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameWallsConfig, newValue)
 
     self:OnUpdate()

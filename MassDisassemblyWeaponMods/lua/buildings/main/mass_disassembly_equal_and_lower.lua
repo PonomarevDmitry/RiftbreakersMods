@@ -240,7 +240,7 @@ function mass_disassembly_equal_and_lower:PopulateSpecialActionInfo()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB == nil ) then
         return
     end

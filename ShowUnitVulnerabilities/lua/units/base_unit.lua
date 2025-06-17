@@ -146,7 +146,7 @@ end
 
 function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 
-	local menuDB = EntityService:GetDatabase( menuEntity )
+	local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
 	if ( menuDB == nil ) then
 		return
 	end

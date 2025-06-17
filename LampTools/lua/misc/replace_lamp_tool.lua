@@ -31,7 +31,7 @@ end
 
 function replace_lamp_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.icon_from ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.icon_from ) ) then
 
@@ -325,7 +325,7 @@ function replace_lamp_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_lamp_replacer_tool/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

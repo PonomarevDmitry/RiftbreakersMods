@@ -31,7 +31,7 @@ function repair_all_map_cat_picker_tool:OnInit()
 
     self.category_name = self.data:GetString("category_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedCategory = selectorDB:GetStringOrDefault( self.category_name, "" ) or ""
 
@@ -63,7 +63,7 @@ end
 
 function repair_all_map_cat_picker_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -192,7 +192,7 @@ function repair_all_map_cat_picker_tool:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -258,7 +258,7 @@ function repair_all_map_cat_picker_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.category_name, category )
 
@@ -302,7 +302,7 @@ function repair_all_map_cat_picker_tool:FillLastCategoriesList(defaultModesArray
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
@@ -426,7 +426,7 @@ function repair_all_map_cat_picker_tool:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end

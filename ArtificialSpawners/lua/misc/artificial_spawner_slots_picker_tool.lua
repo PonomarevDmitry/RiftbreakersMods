@@ -27,7 +27,7 @@ function artificial_spawner_slots_picker_tool:OnInit()
     self.item_type = self.data:GetString("item_type")
     self.next_tool = self.data:GetStringOrDefault("next_tool", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.SelectedSlotsBlueprints = nil
 
@@ -65,7 +65,7 @@ end
 
 function artificial_spawner_slots_picker_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB == nil ) then
         return
     end
@@ -326,7 +326,7 @@ end
 
 function artificial_spawner_slots_picker_tool:ChangeSelector(slotsValues)
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local value = table.concat(slotsValues, ",")
 
@@ -374,7 +374,7 @@ end
 
 function artificial_spawner_slots_picker_tool:FillLastSlotssList(defaultModesArray, modeSelectLast, selector)
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedSlotssArray = self:GetCurrentList(self.configNameList, selectorDB)
 

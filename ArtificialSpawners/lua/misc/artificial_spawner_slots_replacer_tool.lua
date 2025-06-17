@@ -18,7 +18,7 @@ function artificial_spawner_slots_replacer_tool:OnInit()
     self.missing_localization = self.data:GetString("missing_localization")
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.SelectedSlotsBlueprints = nil
 
@@ -51,7 +51,7 @@ end
 
 function artificial_spawner_slots_replacer_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB == nil ) then
         return
     end

@@ -67,7 +67,7 @@ function portal_base_tool:InitializeValues()
 
     local configName = "ghost_building_portal_construction_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.portalConstructionConfig = selectorDB:GetStringOrDefault(configName, "none")
     selectorDB:SetString(configName, self.portalConstructionConfig)

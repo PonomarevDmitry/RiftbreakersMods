@@ -44,7 +44,7 @@ function place_ruin_after_sell_script:init()
 
     self:RegisterHandler( self.targetEntity, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 
-    local database = EntityService:GetDatabase( self.targetEntity )
+    local database = EntityService:GetOrCreateDatabase( self.targetEntity )
     if ( database == nil ) then
         return
     end
@@ -113,7 +113,7 @@ function place_ruin_after_sell_script:OnBuildingSellEndEvent()
     EntityService:SetOrientation( newRuinsEntity, self.orientation )
     EntityService:RemoveComponent( newRuinsEntity, "LuaComponent" )
 
-    local database = EntityService:GetDatabase( newRuinsEntity )
+    local database = EntityService:GetOrCreateDatabase( newRuinsEntity )
     if ( database == nil ) then
         return
     end

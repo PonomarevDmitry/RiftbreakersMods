@@ -40,7 +40,7 @@ function damage_buildings_tool:OnActivateEntity( entity )
     QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
 
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database and database:HasInt("number_of_activations")) then
 
         local currentNumberOfActivations =  database:GetInt("number_of_activations")

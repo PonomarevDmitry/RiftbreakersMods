@@ -23,7 +23,7 @@ function wall_obstacles_tool:OnInit()
 
     self.configNameWallsConfig = "$wall_obstacles_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Wall layers config
     self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsConfig, 1)
@@ -400,7 +400,7 @@ function wall_obstacles_tool:OnRotateSelectorRequest(evt)
     self.wallLinesCount = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameWallsConfig, newValue)
 
     self:OnUpdate()

@@ -41,7 +41,7 @@ function floor_tool:InitializeValues()
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( self.data:HasString("blueprintName") ) then
 
@@ -155,7 +155,7 @@ function floor_tool:OnRotateSelectorRequest(evt)
 
     self.cellCount = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameCellCount, newValue)
 
     self:SpawnGhostFloorEntities()

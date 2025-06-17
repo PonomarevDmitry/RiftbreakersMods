@@ -14,14 +14,14 @@ function portal:OnInit()
 end
 
 function portal:OnTeleportAppearEnter()
-	local database = EntityService:GetDatabase( self.portalEnergy )
+	local database = EntityService:GetOrCreateDatabase( self.portalEnergy )
 	if ( database )  then
 		database:SetInt("leaving", 1)
 	end
 end
 
 function portal:OnTeleportAppearExit()
-	local database = EntityService:GetDatabase( self.portalEnergy )
+	local database = EntityService:GetOrCreateDatabase( self.portalEnergy )
 	if ( database )  then
 		database:SetInt("leaving", 0)
 	end

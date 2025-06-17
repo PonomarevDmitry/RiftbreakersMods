@@ -36,7 +36,7 @@ function ghost_building_line:OnInit()
 
     if ( self.isWall ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         -- Wall layers config
         self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
@@ -1085,7 +1085,7 @@ function ghost_building_line:IncreaseWallLinesCount( evt )
 
     self.wallLinesConfig = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
     if ( self.OnUpdate ) then

@@ -66,7 +66,7 @@ end
 
 function hq_move_tool:SpawnBuildinsTemplates()
 
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
     local findResult = FindService:FindEntityByName( "headquarters" )
 
@@ -220,7 +220,7 @@ function hq_move_tool:OnWorkExecute()
 
     if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
 
-        local markerDB = EntityService:GetDatabase( self.markerEntity )
+        local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
         markerDB:SetInt("message_visible", 1)
@@ -289,7 +289,7 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     if ( self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
 
-        local markerDB = EntityService:GetDatabase( self.markerEntity )
+        local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
         markerDB:SetInt("message_visible", 1)
@@ -364,7 +364,7 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     EntityService:SetOrientation( builder, transformToNewHQ.orientation )
 
-    local database = EntityService:GetDatabase( builder )
+    local database = EntityService:GetOrCreateDatabase( builder )
 
     database:SetInt("playerId", self.playerId )
 

@@ -75,7 +75,7 @@ function pipe_perimeter_tool:OnInit()
     self.configNameScale = "$perimeter_pipe_scale"
     self.configNamePipesCount = "$perimeter_pipe_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Pipe layers config
     self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
@@ -798,7 +798,7 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
         self.pipeLinesCount = newValue
 
         -- Pipe layers config
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNamePipesCount, newValue)
 
         self:UpdateMarker()
@@ -824,7 +824,7 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
 
         EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNameScale, self.currentScale)
 
         self:SetChildrenPosition()

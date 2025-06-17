@@ -154,7 +154,7 @@ function drone_spawner_building:SpawnDrones()
 			self:RegisterHandler( drone, "DroneLiftingEndedEvent", "_OnDroneLiftingEndedEvent" )
 			self:DroneSpawned( drone )
 
-			local database = EntityService:GetDatabase( drone )
+			local database = EntityService:GetOrCreateDatabase( drone )
 			database:SetInt("drone_id", droneIdx )
 			database:SetFloat("drone_search_radius", self.drone_search_radius )
 			droneIdx = droneIdx + 1
@@ -643,7 +643,7 @@ function drone_spawner_building:GettingInfoFromBaseToUpgrade(eventEntity)
 			goto continue
 		end
 
-		local baseDatabase = EntityService:GetDatabase( entity )
+		local baseDatabase = EntityService:GetOrCreateDatabase( entity )
 		if ( baseDatabase == nil ) then
 			goto continue
 		end
@@ -695,7 +695,7 @@ function drone_spawner_building:GettingInfoFromRuin()
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end
@@ -758,7 +758,7 @@ function drone_spawner_building:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end

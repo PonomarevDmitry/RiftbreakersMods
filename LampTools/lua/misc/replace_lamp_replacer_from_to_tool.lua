@@ -19,7 +19,7 @@ function replace_lamp_replacer_from_to_tool:OnInit()
     self.template_name_from = self.data:GetStringOrDefault("template_name_from", "") or ""
     self.template_name_to = self.data:GetStringOrDefault("template_name_to", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.fromBlueprintName = selectorDB:GetStringOrDefault( self.template_name_from, "" ) or ""
     self.toBlueprintName = selectorDB:GetStringOrDefault( self.template_name_to, "" ) or ""
@@ -121,7 +121,7 @@ end
 
 function replace_lamp_replacer_from_to_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.fromBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.fromBlueprintName ) ) then
 
@@ -427,7 +427,7 @@ function replace_lamp_replacer_from_to_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_lamp_replacer_tool/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

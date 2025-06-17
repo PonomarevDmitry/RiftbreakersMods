@@ -34,7 +34,7 @@ function ghost_building_portal_construction:OnInit()
 
     self.configName = "ghost_building_portal_construction_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedMode = selectorDB:GetStringOrDefault(self.configName, "none")
     self.selectedMode = self:CheckModeValueExists(self.selectedMode)
@@ -929,7 +929,7 @@ function ghost_building_portal_construction:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString(self.configName, newValue)
 

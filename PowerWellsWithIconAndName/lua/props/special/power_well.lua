@@ -146,7 +146,7 @@ function power_well:SpawnIconEntity()
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( iconEntity, 0, sizeSelf.y, 0 )
 
-    local menuDB = EntityService:GetDatabase( iconEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( iconEntity )
     if ( menuDB == nil ) then
         return
     end

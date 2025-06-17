@@ -24,7 +24,7 @@ function building_search_select_tool:OnInit()
 
     self.configName = "$building_search_tool_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedMode = selectorDB:GetIntOrDefault(self.configName, self.modeBuilding)
     self.selectedMode = self:CheckModeValueExists(self.selectedMode)
@@ -104,7 +104,7 @@ function building_search_select_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -285,7 +285,7 @@ function building_search_select_tool:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( newValue >= self.modeBuildingLastSelected ) then
         selectorDB:SetInt(self.configName, self.modeBuildingLastSelected)

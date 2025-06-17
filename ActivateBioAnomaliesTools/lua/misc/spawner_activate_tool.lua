@@ -67,7 +67,7 @@ function spawner_activate_tool:FindEntitiesToSelect( selectorComponent )
             goto labelContinue
         end
 
-        local databaseEntity = EntityService:GetDatabase( entity )
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
         if ( databaseEntity ~= nil ) then
             
             if ( not databaseEntity:HasString("wave_logic_file") and not databaseEntity:HasString("boss_logic_file") ) then
@@ -130,7 +130,7 @@ function spawner_activate_tool:OnActivateEntity( entity )
         minimapItemComponentRef.unknown_until_visible = false
     end
 
-    local databaseEntity = EntityService:GetDatabase( entity )
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
     if ( databaseEntity ~= nil ) then
         databaseEntity:SetFloat( "harvest_duration", 2.5 )
     end

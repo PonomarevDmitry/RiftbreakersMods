@@ -24,7 +24,7 @@ function sell_by_type_seller_tool:OnInit()
 
     self:InitLowUpgradeList()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -314,7 +314,7 @@ function sell_by_type_seller_tool:OnActivateEntity( entity )
 
                     local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                    local database = EntityService:GetDatabase( placeRuinScript )
+                    local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                     database:SetInt( "player_id", self.playerId )
                     database:SetInt( "target_entity", entity )

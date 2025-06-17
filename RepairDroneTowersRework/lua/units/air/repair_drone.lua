@@ -20,7 +20,7 @@ function FindMostDestroyedEntity( source, entities )
 
         if ( healthPct >= 1) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database and database:HasInt("number_of_activations")) then
 
                 local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -141,7 +141,7 @@ function repair_drone:FindActionTarget()
 
             local health = HealthService:GetHealthInPercentage( entity )
             if ( health >= 1.0 ) then
-                local database = EntityService:GetDatabase( entity )
+                local database = EntityService:GetOrCreateDatabase( entity )
                 if ( database and database:HasInt("number_of_activations")) then
 
                     local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -201,7 +201,7 @@ function repair_drone:GetDroneFindCenterPoint()
 
     local result = self:GetDroneOwnerTarget()
 
-    local database = EntityService:GetDatabase( result )
+    local database = EntityService:GetOrCreateDatabase( result )
 
     if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 
@@ -294,7 +294,7 @@ function repair_drone:OnRepairExecute( state )
     local currentNumberOfActivations = 0
     local maxNumberOfActivations = 0
 
-    local database = EntityService:GetDatabase( target )
+    local database = EntityService:GetOrCreateDatabase( target )
     if ( database and database:HasInt("number_of_activations")) then
 
         currentNumberOfActivations =  database:GetInt("number_of_activations")

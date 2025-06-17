@@ -91,7 +91,7 @@ function picker_tool:SetBuildingIcon()
         --messageText = self:GetLastBuildinsDescription()
     end
 
-    local markerDB = EntityService:GetDatabase( self.menuEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.menuEntity )
     
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -673,7 +673,7 @@ function picker_tool:AddBioAnomalies( selectedItems, min, max, sorter )
             goto labelContinue
         end
 
-        local databaseEntity = EntityService:GetDatabase( entity )
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
         if ( databaseEntity == nil ) then
             goto labelContinue
         end
@@ -1153,7 +1153,7 @@ picker_tool.isBioAnomaly = function( entity )
         return false
     end
 
-    local databaseEntity = EntityService:GetDatabase( entity )
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
     if ( databaseEntity == nil ) then
         return false
     end
@@ -2142,7 +2142,7 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -2514,7 +2514,7 @@ function picker_tool:FindBuildingRuins()
             goto labelContinue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto labelContinue
         end
@@ -2567,7 +2567,7 @@ function picker_tool:GetLastVeinExtractor(resourceId)
     local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local lowName = ""
     local timeValue = 0
@@ -2600,7 +2600,7 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
     local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
 
@@ -2626,7 +2626,7 @@ function picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSe
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
@@ -2787,7 +2787,7 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
     local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local lastValue = ""
     local lastTimeValue = 0
@@ -2839,7 +2839,7 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
     local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
 

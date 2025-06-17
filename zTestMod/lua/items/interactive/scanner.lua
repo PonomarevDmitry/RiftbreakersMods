@@ -32,7 +32,7 @@ function scanner:OnActivate()
 	self:OnExecuteScaning()
 
 	QueueEvent("ShowScannableRequest", event_sink, true )	
-	local ownerData = EntityService:GetDatabase( self.owner );
+	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
@@ -53,7 +53,7 @@ function scanner:OnDeactivate( forced )
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
-	local ownerData = EntityService:GetDatabase( self.owner );
+	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
 	if ownerData ~= nil then
 		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
 		if self.poseType ~= "" then

@@ -21,7 +21,7 @@ function EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotNamePrefix
 
     local entity = EntityService:SpawnEntity( "misc/equipment_quick_configurations_save_entity", 0, 0, 0, "" )
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         EntityService:RemoveEntity( entity )
         return
@@ -435,7 +435,7 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
             goto continue
         end
 
-        local database = EntityService:GetDatabase( itemEntity.id )
+        local database = EntityService:GetOrCreateDatabase( itemEntity.id )
         if ( database ~= nil ) then
 
             if ( database:HasString(itemKeyConfigName) ) then
@@ -497,7 +497,7 @@ end
 
 function EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( subSlotEntityId )
 
-    local database = EntityService:GetDatabase( subSlotEntityId )
+    local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
     if ( database == nil ) then
         return nil
     end

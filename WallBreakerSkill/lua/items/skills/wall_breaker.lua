@@ -59,7 +59,7 @@ function wall_breaker:OnActivate()
 
                 local cleaner = EntityService:SpawnEntity( "items/skills/wall_breaker_cleaner", self.owner, "" )
 
-                local databaseCleaner = EntityService:GetDatabase( cleaner )
+                local databaseCleaner = EntityService:GetOrCreateDatabase( cleaner )
 
                 databaseCleaner:SetInt( "step_start", database:GetInt("step_start") )
 

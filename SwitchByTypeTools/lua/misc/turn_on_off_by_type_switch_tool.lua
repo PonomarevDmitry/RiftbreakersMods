@@ -17,7 +17,7 @@ function turn_on_off_by_type_switch_tool:OnInit()
 
     self:InitLowUpgradeList()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 

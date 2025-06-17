@@ -112,7 +112,7 @@ function buildings_builder_tool:SpawnBuildinsTemplates()
     -- ent1OrientY, ent2OrientY, ent3OrientY, ent4OrientY - entities orientation.y
     -- ent1OrientW, ent2OrientW, ent3OrientW, ent4OrientW - entities orientation.w
 
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -502,7 +502,7 @@ function buildings_builder_tool:FinishLineBuild()
 
             local builder = EntityService:SpawnEntity( "misc/templates_mass_limited_buildings_builder", self.entity, "" )
 
-            local database = EntityService:GetDatabase( builder )
+            local database = EntityService:GetOrCreateDatabase( builder )
 
             database:SetInt( "playerId", self.playerId )
 
@@ -715,7 +715,7 @@ function buildings_builder_tool:TransferDatabaseInfoFromTemplateToEntity(databas
         return
     end
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return
     end

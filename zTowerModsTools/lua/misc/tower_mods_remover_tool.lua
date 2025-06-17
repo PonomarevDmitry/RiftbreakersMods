@@ -107,7 +107,7 @@ function tower_mods_remover_tool:OnActivateEntity( entity )
 
     BuildingService:BlinkBuilding(entity)
 
-    --local selectorDB = EntityService:GetDatabase( self.selector )
+    --local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     --selectorDB:SetString( "tower_mods_remover_tool.selecteditem", modItemBlueprint or "" )
 
     local buildingLevel = BuildingService:GetBuildingLevel( entity )

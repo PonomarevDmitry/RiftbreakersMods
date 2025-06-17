@@ -134,7 +134,7 @@ function repair_all_map_repairer_tool:SetBuildingIcon()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -219,7 +219,7 @@ function repair_all_map_repairer_tool:OnUpdate()
 
         if ( isRuins ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
@@ -306,7 +306,7 @@ function repair_all_map_repairer_tool:FindRepairableBuildings()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( database and database:HasInt("number_of_activations")) then
 
             local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -337,7 +337,7 @@ function repair_all_map_repairer_tool:FindRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( not database ) then
             goto continue
         end
@@ -506,7 +506,7 @@ function repair_all_map_repairer_tool:OnActivateSelectorRequest()
 
         if ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
@@ -541,7 +541,7 @@ function repair_all_map_repairer_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName )
 
@@ -570,7 +570,7 @@ function repair_all_map_repairer_tool:FillLastBuildingsList(defaultModesArray, m
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
