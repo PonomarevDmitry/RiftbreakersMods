@@ -27,11 +27,11 @@ function scanner:OnUnequipped()
 	item.OnUnequipped( self ) 
 end
 
-function scanner:OnActivate()
-	item.OnActivate( self )
+function scanner:OnActivate( activation_id )
+	item.OnActivate( self, activation_id )
 	self:OnExecuteScaning()
 
-	QueueEvent("ShowScannableRequest", event_sink, true )	
+	QueueEvent("ShowScannableRequest", self.owner, true )	
 	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
@@ -45,9 +45,10 @@ function scanner:OnActivate()
 end
 
 function scanner:OnDeactivate( forced )
-	PlayerService:StopPadHapticFeedback( 0 )
+    local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	PlayerService:StopPadHapticFeedback( playerId )
 
-	--QueueEvent("ShowScannableRequest", event_sink, false )
+	--QueueEvent("ShowScannableRequest", self.owner, false )
 	
 	if ( self.effect ~= INVALID_ID )  then
 		EntityService:RemoveEntity( self.effect )
@@ -95,9 +96,10 @@ function scanner:SpawnSpecifcEffect( currentTarget )
 end
 
 function scanner:OnExecuteScaning()
+    local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	self.ammoEnt = EntityService:GetChildByName( self.item, "##ammo##" )
 	if ( self.ammoEnt == nil or self.ammoEnt == INVALID_ID ) then
-		PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+		PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 		return	
 	end
 	
@@ -112,21 +114,21 @@ function scanner:OnExecuteScaning()
 			self.lastTarget = INVALID_ID
 			self.scanningTime = 0.0
 
-			PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+			PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 		end
 		
 		if ( currentTarget ~= INVALID_ID ) then		
 			local scannableComponent = EntityService:GetComponent( currentTarget, "ScannableComponent")
 			if ( scannableComponent == nil ) then
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 				return
 			end
 			local scannableComponentHelper = reflection_helper(scannableComponent)
 			if ( self.effect == INVALID_ID ) then
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_active")
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
 				self.scanningTime = 0.0
 				self:SpawnSpecifcEffect( currentTarget )
 				QueueEvent( "EntityScanningStartEvent", currentTarget )
