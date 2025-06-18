@@ -375,7 +375,7 @@ function replace_wall_gate_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true, {} )
 end
 
 return replace_wall_gate_tool

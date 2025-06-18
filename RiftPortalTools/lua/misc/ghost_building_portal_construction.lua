@@ -687,7 +687,7 @@ function ghost_building_portal_construction:BuildWallEntity(blueprintName, trans
         buildTransform.orientation = self.vectorByDegree[0]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false, {} )
 
     if ( buildFloor ) then
 
@@ -794,7 +794,7 @@ function ghost_building_portal_construction:OnUpdate()
 
             LogService:Log("BuildBuildingRequest spot.position.x" .. tostring(spot.position.x) .. " spot.position.z" .. tostring(spot.position.z))
 
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true, {} )
             self.buildPosition = spot
         end
     end
@@ -822,12 +822,12 @@ function ghost_building_portal_construction:OnActivate()
 
     if ( self.activated ) then
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
 
         elseif( testBuildable.flag == CBF_REPAIR ) then
             QueueEvent("RepairBuildingByPlayerRequest", testBuildable.entity_to_repair, self.playerId, -1 )

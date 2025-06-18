@@ -418,7 +418,7 @@ function replace_trap_replacer_from_to_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, trapBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, trapBlueprintName, transform, true, {} )
 end
 
 function replace_trap_replacer_from_to_tool:GetTrapBlueprintName( level )

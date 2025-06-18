@@ -234,7 +234,7 @@ function portal_base_tool:BuildEntity(entity, transform, createCube)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -242,7 +242,7 @@ function portal_base_tool:BuildEntity(entity, transform, createCube)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -379,7 +379,7 @@ function portal_base_tool:BuildWallEntity(blueprintName, transform, newPosition,
         buildTransform.orientation = self.vectorByDegree[0]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false, {} )
 
     if ( buildFloor ) then
 

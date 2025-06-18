@@ -39,7 +39,7 @@ function build_after_sell_script:OnBuildingSellEndEvent()
         return
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, self.transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, self.transform, true, {} )
 
     self:DestroySelf()
 end

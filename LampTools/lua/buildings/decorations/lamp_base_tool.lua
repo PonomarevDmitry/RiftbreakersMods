@@ -241,7 +241,7 @@ function lamp_base_tool:BuildEntity(entity, transform, createCube)
 
         self:BuildDesertFloor(transform)
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -251,7 +251,7 @@ function lamp_base_tool:BuildEntity(entity, transform, createCube)
 
         self:BuildDesertFloor(transform)
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 

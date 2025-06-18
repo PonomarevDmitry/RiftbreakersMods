@@ -451,7 +451,7 @@ function pipe_pencil_tool:BuildSingleNeighbors(entity, entityTransform)
         buildTransform.orientation = entityTransform.orientation
         buildTransform.scale = {x=1,y=1,z=1}
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false, {} )
     end
 end
 

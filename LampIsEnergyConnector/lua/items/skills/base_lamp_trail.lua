@@ -335,7 +335,7 @@ function base_lamp_trail:BuildOnSpot( blueprintName, spot )
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) and BuildingService:CanAffordBuilding( blueprintName, self.playerId) ) then
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, spot, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, spot, true, {} )
 
         Insert( self.buildPosition, spot )
     end

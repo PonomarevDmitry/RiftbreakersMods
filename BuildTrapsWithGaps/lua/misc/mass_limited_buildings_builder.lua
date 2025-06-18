@@ -137,7 +137,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -145,7 +145,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 

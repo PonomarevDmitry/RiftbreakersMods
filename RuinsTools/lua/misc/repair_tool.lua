@@ -200,7 +200,7 @@ function repair_tool:OnActivateEntity( entity )
 
             local transform = EntityService:GetWorldTransform( entity )
 
-            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
+            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true, database )
         end
     else
         local child = EntityService:GetChildByName(entity, "##repair##")

@@ -77,7 +77,7 @@ function ghost:GetBuildInfo( entity  )
 end
 
 function ghost:BuildBuilding( transform )
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
 end
 
 function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive, ignoreSelectorSettingCanBuild )

@@ -440,7 +440,7 @@ function replace_tower_replacer_from_to_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, towerBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, towerBlueprintName, transform, true, {} )
 end
 
 function replace_tower_replacer_from_to_tool:GetTowerBlueprintByLevel( level )

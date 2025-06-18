@@ -108,7 +108,7 @@ function sell_all_map_seller_tool_script:OnBuildingSellEndEvent()
 
         table.remove( self.transformArray, 1 )
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false, {} )
 
         if ( #self.transformArray > 0 ) then
 
@@ -141,7 +141,7 @@ function sell_all_map_seller_tool_script:OnBuildExecute( state )
 
     table.remove( self.transformArray, 1 )
 
-    QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+    QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false, {} )
 
     if ( #self.transformArray == 0 ) then
 

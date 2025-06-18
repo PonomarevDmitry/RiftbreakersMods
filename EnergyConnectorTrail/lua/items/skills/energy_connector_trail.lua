@@ -260,7 +260,7 @@ function energy_connector_trail:BuildOnSpot( spot )
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, self.blueprintName ) and BuildingService:CanAffordBuilding( self.blueprintName, self.playerId) ) then
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprintName, spot, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprintName, spot, true, {} )
 
         Insert( self.buildPosition, spot )
     end

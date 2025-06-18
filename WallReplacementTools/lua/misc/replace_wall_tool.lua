@@ -475,7 +475,7 @@ function replace_wall_tool:OnActivateEntity( entity )
         transform.orientation = self.randomOrientationArray[RandInt(1,4)]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true, {} )
 end
 
 return replace_wall_tool
