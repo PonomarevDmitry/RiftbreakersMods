@@ -33,6 +33,10 @@ end
 
 function tower_mods_remover_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function tower_mods_remover_tool:FilterSelectedEntities( selectedEntities )

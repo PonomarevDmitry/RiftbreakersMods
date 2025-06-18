@@ -29,6 +29,10 @@ function tool_highlight_ruins:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
@@ -93,6 +97,10 @@ function tool_highlight_ruins:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

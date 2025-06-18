@@ -126,6 +126,10 @@ end
 
 function artificial_spawner_slots_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function artificial_spawner_slots_replacer_tool:FilterSelectedEntities( selectedEntities )

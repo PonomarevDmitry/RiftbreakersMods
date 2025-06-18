@@ -85,6 +85,10 @@ end
 
 function buildings_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function buildings_picker_tool:OnUpdate()
@@ -239,6 +243,10 @@ function buildings_picker_tool:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
@@ -715,6 +723,10 @@ function buildings_picker_tool:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

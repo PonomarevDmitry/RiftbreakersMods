@@ -226,6 +226,11 @@ function hq_move_tool:OnWorkExecute()
         markerDB:SetInt("message_visible", 1)
 
         EntityService:RemoveMaterial( self.hq, "selected" )
+        local children = EntityService:GetChildren( self.hq, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
+
         self.hq = nil
 
         if ( self.ghostHQ ~= nil ) then
@@ -295,6 +300,11 @@ function hq_move_tool:OnActivateSelectorRequest()
         markerDB:SetInt("message_visible", 1)
 
         EntityService:RemoveMaterial( self.hq, "selected" )
+        local children = EntityService:GetChildren( self.hq, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
+
         self.hq = nil
 
         if ( self.ghostHQ ~= nil ) then
@@ -387,6 +397,11 @@ function hq_move_tool:OnActivateSelectorRequest()
     self.buildCost = {}
 
     EntityService:RemoveMaterial( self.hq, "selected" )
+    local children = EntityService:GetChildren( self.hq, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
+
     self.hq = nil
 
     --local SM_SELECT  = 2
@@ -446,6 +461,11 @@ function hq_move_tool:OnRelease()
 
     if ( self.hq ~= nil ) then
         EntityService:RemoveMaterial( self.hq, "selected" )
+        local children = EntityService:GetChildren( self.hq, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
+
         self.hq = nil
     end
 

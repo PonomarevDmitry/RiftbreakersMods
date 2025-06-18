@@ -369,6 +369,10 @@ function wall_base_tool:RemoveMaterialFromOldBuildingsToSell()
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
             EntityService:RemoveMaterial(entityToSell, "selected" )
+            local children = EntityService:GetChildren( entityToSell, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.oldBuildingsToSell = {}

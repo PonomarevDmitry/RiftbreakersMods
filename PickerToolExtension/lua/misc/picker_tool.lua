@@ -391,28 +391,52 @@ function picker_tool:RemovedFromSelection( entity )
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
     elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
         EntityService:RemoveMaterial( entity, "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -2481,6 +2505,10 @@ function picker_tool:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::labelContinue::
     end
@@ -2551,6 +2579,10 @@ function picker_tool:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

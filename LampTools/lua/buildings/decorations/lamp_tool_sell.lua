@@ -128,6 +128,10 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
     for entity in Iter( self.selectedEntities ) do
         if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
             EntityService:RemoveMaterial( entity, "selected" )
+            local children = EntityService:GetChildren( entity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
 
@@ -167,6 +171,10 @@ end
 
 function lamp_tool_sell:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function lamp_tool_sell:OnUpdate()
@@ -268,6 +276,10 @@ function lamp_tool_sell:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
@@ -337,6 +349,10 @@ function lamp_tool_sell:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

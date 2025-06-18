@@ -41,6 +41,10 @@ end
 
 function sell_energy_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_energy_tool:FilterSelectedEntities( selectedEntities )

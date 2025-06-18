@@ -792,6 +792,10 @@ end
 function floor_rebuilder_tool:RemovedFromSelection( entity )
     local meshEntity = BuildingService:GetMeshEntity(entity)
     EntityService:RemoveMaterial( meshEntity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function floor_rebuilder_tool:OnUpdate()

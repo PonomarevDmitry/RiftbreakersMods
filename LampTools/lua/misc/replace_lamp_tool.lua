@@ -86,6 +86,10 @@ end
 
 function replace_lamp_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_lamp_tool:FilterSelectedEntities( selectedEntities )

@@ -113,6 +113,10 @@ end
 
 function sell_by_type_seller_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )

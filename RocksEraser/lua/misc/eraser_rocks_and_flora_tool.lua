@@ -265,6 +265,10 @@ end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function eraser_rocks_and_flora_tool:AddedToSelectionFlora( entity )
@@ -279,6 +283,10 @@ end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelectionFlora( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function eraser_rocks_and_flora_tool:OnRotate()

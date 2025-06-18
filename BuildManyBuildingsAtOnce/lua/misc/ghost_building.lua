@@ -912,6 +912,10 @@ function ghost_building:RemoveMaterialFromOldBuildingsToSell()
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
             EntityService:RemoveMaterial(entityToSell, "selected" )
+            local children = EntityService:GetChildren( entityToSell, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
 end

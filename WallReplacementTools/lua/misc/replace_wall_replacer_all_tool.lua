@@ -168,6 +168,10 @@ end
 
 function replace_wall_replacer_all_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_wall_replacer_all_tool:FilterSelectedEntities( selectedEntities )

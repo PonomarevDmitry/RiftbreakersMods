@@ -109,6 +109,10 @@ end
 
 function repair_all_map_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function repair_all_map_picker_tool:FindEntitiesToSelect( selectorComponent )
@@ -360,6 +364,10 @@ function repair_all_map_picker_tool:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
@@ -424,6 +432,10 @@ function repair_all_map_picker_tool:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

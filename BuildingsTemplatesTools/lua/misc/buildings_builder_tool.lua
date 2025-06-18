@@ -413,6 +413,10 @@ function buildings_builder_tool:OnUpdate()
 
         if ( IndexOf( buildingsToSell, entity ) == nil ) then
             EntityService:RemoveMaterial( entity, "selected" )
+            local children = EntityService:GetChildren( entity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
 
@@ -791,6 +795,10 @@ function buildings_builder_tool:RemoveMaterialFromBuildingsToSell()
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
             EntityService:RemoveMaterial( entityToSell, "selected" )
+            local children = EntityService:GetChildren( entityToSell, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
 end
