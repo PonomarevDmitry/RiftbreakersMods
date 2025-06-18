@@ -292,9 +292,9 @@ function selector:FindEntitiesToSelect( selectorComponent)
     table.sort(possibleSelectedEnts, function(a,b) return sorter(possibleSelectedEnts, a, b) end)
 
     local selectedEntities = {}
-    for entity in Iter(possibleSelectedEnts ) do
-        local selectableComponent = EntityService:GetConstComponent( entity, "SelectableComponent")
-        if ( selectableComponent == nil ) then goto continue end
+    for testEntity in Iter(possibleSelectedEnts ) do
+        local entity = EntityService:GetAncestorWithSignature( testEntity, "SelectableComponent" )
+        if ( entity == INVALID_ID ) then goto continue end
 
         local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
 
