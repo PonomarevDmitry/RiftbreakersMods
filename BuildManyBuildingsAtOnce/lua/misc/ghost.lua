@@ -64,6 +64,15 @@ function ghost:InitializeValues()
     if ( self.desc.rotate_info == true and ConsoleService:GetConfig( "showed_rotate_info" ) == "0" ) then
         self.rotateInfoChild = EntityService:SpawnAndAttachEntity("misc/rotate_info", self.entity )
     end
+
+    local children = EntityService:GetChildren( self.selector, true )
+    self.childrenToUpdate = {}
+    for child in Iter( children ) do
+        local hasMesh = EntityService:HasComponent( child, "MeshComponent")
+        if ( hasMesh ) then
+            Insert( self.childrenToUpdate, child )
+        end
+    end
 end
 
 function ghost:GetBuildInfo( entity  )
@@ -111,34 +120,42 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive,
         buildingSelectorComponent.can_build = canBuild
     end
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/pass"
 
     if ( testReflection.flag == CBF_REPAIR  ) then
         if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride and not floor ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+             materialToSet = "hologram/active"
         elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+            materialToSet = "hologram/red"
         end
+    end
+
+    EntityService:ChangeMaterial( entity, materialToSet)
+
+    if ( self.childrenToUpdate == nil ) then
+        self.childrenToUpdate = {}
+        local children = EntityService:GetChildren( self.selector, true )
+        for child in Iter( children ) do
+            local hasMesh = EntityService:HasComponent( child, "MeshComponent")
+            if ( hasMesh ) then
+                Insert( self.childrenToUpdate, child )
+            end
+        end
+    end
+    for child in Iter( self.childrenToUpdate ) do
+        EntityService:ChangeMaterial( child, materialToSet)
     end
 
     if ( self.activated and checkActive ) then
