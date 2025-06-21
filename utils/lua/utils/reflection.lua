@@ -160,6 +160,7 @@ TypeValueHelper.mt = {
 
         local field = ptr:GetField(key)
         if field == nil then
+            Assert( false, "ERROR: there is no field '" .. key .. "'" )
             return nil
         end
 
