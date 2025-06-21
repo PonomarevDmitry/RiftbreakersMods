@@ -77,26 +77,24 @@ end
 
 function loot_container_spawner:OnInteractWithEntityRequest( evt )
 
+	local owner = evt:GetOwner()
+	local playerId = PlayerService:GetPlayerByMech( owner )
+
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
 	if string.find(blueprintName, "metallic" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "caverns" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "poogret_poo" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1, playerId )
 	end
 
-	local owner = evt:GetOwner()
 	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
 	if ( playerReferenceComponent ) then
 		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" )
 		if ( forcedGroup ~= "" ) then
 			QueueEvent("ForceLootContainerTypeRequest", self.entity,	forcedGroup )
-			EntityService:RemoveComponent(self.entity, "LootComponent")
 		end
-
-		local helper = reflection_helper(playerReferenceComponent)
-		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
 	end
 	QueueEvent("DestroyRequest", self.entity, "default", 100 )
 	
@@ -178,8 +176,6 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 			local db = EntityService:GetOrCreateDatabase( entity )
 			db:SetFloat( "delay", self.delay )
 			db:SetFloat( "aggressive_radius", self.aggressiveRadius )
-		else
-			EntityService:MarkEntityAsLootContainer( self.entity, self.rarity )
 		end
 	else
 		--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - already activated." )
