@@ -392,7 +392,7 @@ function buildings_builder_mass_tool:CheckEntityBuildable( entity, transform, bl
 
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 ) ) then
 
-            materialToSet = "hologram/pass" )
+            materialToSet = "hologram/pass"
 
         else
 
