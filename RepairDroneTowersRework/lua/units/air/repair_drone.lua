@@ -169,7 +169,7 @@ function repair_drone:FindActionTarget()
     end
 
     if self.heal_amount_player > 0 and HealthService:GetHealthInPercentage( owner ) < 1.0 then
-        local component = EntityService:GetComponent(owner, "MechComponent")
+        local component = EntityService:GetComponent(owner, "MechMovementComponent")
         if component ~= nil then
 
             if Length( reflection_helper( component ).velocity ) <= 0.1 then
