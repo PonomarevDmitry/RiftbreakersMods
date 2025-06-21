@@ -118,11 +118,13 @@ function turrets_cluster:CanActivate()
     end
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
     if ( pos.first == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
@@ -161,6 +163,7 @@ function turrets_cluster:CanActivate()
 
                 if ( inventoryItemRuntimeDataComponentRef.use_count > 0 ) then
 
+                    self:SetCanActivate( true )
                     return true
                 end
             end
@@ -169,6 +172,7 @@ function turrets_cluster:CanActivate()
         ::continue::
     end
 
+    self:SetCanActivate( false )
     return false
 end
 

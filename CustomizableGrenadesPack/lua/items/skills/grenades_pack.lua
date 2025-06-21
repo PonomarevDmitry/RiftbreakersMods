@@ -136,6 +136,7 @@ function grenades_pack:CanActivate()
     end
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
@@ -174,6 +175,7 @@ function grenades_pack:CanActivate()
 
                 if ( inventoryItemRuntimeDataComponentRef.use_count > 0 ) then
 
+                    self:SetCanActivate( true )
                     return true
                 end
             end
@@ -182,6 +184,7 @@ function grenades_pack:CanActivate()
         ::continue::
     end
 
+    self:SetCanActivate( false )
     return false
 end
 
