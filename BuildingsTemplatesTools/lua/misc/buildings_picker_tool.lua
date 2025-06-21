@@ -107,12 +107,8 @@ function buildings_picker_tool:OnUpdate()
 
         firstEntity = self.templateEntities[1]
 
-        local skinned = EntityService:IsSkinned(firstEntity)
-        if ( skinned ) then
-            EntityService:SetMaterial( firstEntity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( firstEntity, "selector/hologram_current", "selected")
-        end
+
+        self:SetEntitySelectedMaterial( firstEntity, "hologram/current" )
 
         if ( #self.templateEntities > 1 ) then
 
@@ -120,19 +116,12 @@ function buildings_picker_tool:OnUpdate()
 
                 local entity = self.templateEntities[i]
 
-                local skinned = EntityService:IsSkinned(entity)
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-                end
+                self:SetEntitySelectedMaterial( firstEntity, "hologram/active" )
             end
         end
     end
 
     for entity in Iter( self.selectedEntities ) do
-
-        local skinned = EntityService:IsSkinned(entity)
 
         local isInList = ( IndexOf( self.templateEntities, entity ) ~= nil )
 
@@ -143,20 +132,12 @@ function buildings_picker_tool:OnUpdate()
                 if ( self.activated == false ) then
 
                     -- Mark candidate to remove from template
-                    if ( skinned ) then
-                        EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                    else
-                        EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-                    end
+                    self:SetEntitySelectedMaterial( firstEntity, "hologram/deny" )
                 end
             end
         else
             -- Mark candidate to add to template
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
+            self:SetEntitySelectedMaterial( firstEntity, "hologram/pass" )
         end
     end
 end
@@ -253,12 +234,7 @@ function buildings_picker_tool:HighlightRuins()
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList

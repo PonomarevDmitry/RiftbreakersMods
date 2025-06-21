@@ -34,7 +34,7 @@ function thorns_walls_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
     EntityService:SetVisible( self.entity, false )
 
     local buildingComponent = reflection_helper(EntityService:GetComponent( self.entity, "BuildingComponent" ))
@@ -168,7 +168,7 @@ function thorns_walls_tool:SpawnWallTemplates()
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     self.ghostBlueprint = buildingDesc.ghost_bp
 
@@ -275,7 +275,7 @@ function thorns_walls_tool:OnWorkExecute()
 
                 local lineEnt = EntityService:SpawnEntity( self.floorBlueprint, pathFromStartPositionToEndPosition[i], team )
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
 
                 Insert( self.floorEntities, lineEnt )
             end
@@ -290,7 +290,7 @@ function thorns_walls_tool:OnWorkExecute()
 
             local entity = self.floorEntities[i]
 
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( entity, "hologram/blue" )
             EntityService:SetPosition( entity, pathFromStartPositionToEndPosition[i] )
             EntityService:SetOrientation( entity, transform.orientation )
         end
@@ -1192,37 +1192,47 @@ function thorns_walls_tool:CheckEntityBuildable( entity, transform, id )
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testBuildable.flag == CBF_REPAIR ) then
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
 
+    self:ChangeEntityMaterial( entity, materialToSet )
+
     return testBuildable
+end
+
+function thorns_walls_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function thorns_walls_tool:OnActivateSelectorRequest()

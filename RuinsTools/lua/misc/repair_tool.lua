@@ -103,7 +103,6 @@ function repair_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
         local child = EntityService:GetChildByName( entity, "##repair##" )
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
 
@@ -143,17 +142,12 @@ function repair_tool:OnUpdate()
 
         if ( toRepair ) then
             if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+
             else
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/deny" )
             end
 
             if ( canRepair and not EntityService:IsAlive(child) ) then
@@ -183,6 +177,18 @@ function repair_tool:OnUpdate()
     else
         BuildingService:OperateRepairCosts( self.infoChild , self.playerId, {} )
         BuildingService:OperateRepairCosts( self.corners, self.playerId, self.repairCosts )
+    end
+end
+
+function repair_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 

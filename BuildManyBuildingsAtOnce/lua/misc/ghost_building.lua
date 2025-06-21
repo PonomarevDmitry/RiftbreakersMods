@@ -17,10 +17,7 @@ function ghost_building:OnInit()
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "hologram/blue")
-    for child in Iter( self.childrenToUpdate ) do
-        EntityService:ChangeMaterial( child, "hologram/blue")
-    end
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
 
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, transform )
@@ -623,9 +620,21 @@ function ghost_building:CreateNewEntity(newPosition, orientation, team)
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     return result
+end
+
+function ghost_building:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, cellGapsCount)
@@ -707,16 +716,22 @@ function ghost_building:AddToEntitiesToSellList(testBuildable)
 
             if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
 
-                local skinned = EntityService:IsSkinned(entityToSell)
-
-                if ( skinned ) then
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
-                end
+                self:SetEntitySelectedMaterial( entityToSell, "hologram/active" )
 
                 Insert(self.oldBuildingsToSell, entityToSell)
             end
+        end
+    end
+end
+
+function ghost_building:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end

@@ -39,12 +39,7 @@ function tool_highlight_ruins:HighlightRuins()
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -107,6 +102,18 @@ function tool_highlight_ruins:OnRelease()
 
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
+    end
+end
+
+function tool_highlight_ruins:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 

@@ -375,7 +375,7 @@ function buildings_database_eraser_tool:CreateSingleBuildingTemplate( blueprintN
     EntityService:SetPosition( buildingEntity, newPosition )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     buildingTemplate.entity = buildingEntity
 

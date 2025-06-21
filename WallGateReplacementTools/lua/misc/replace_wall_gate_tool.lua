@@ -131,6 +131,18 @@ end
 function replace_wall_gate_tool:AddedToSelection( entity )
 end
 
+function replace_wall_gate_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function replace_wall_gate_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
@@ -198,11 +210,7 @@ function replace_wall_gate_tool:OnUpdate()
             costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         ::continue::
     end

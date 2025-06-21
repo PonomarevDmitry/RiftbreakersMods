@@ -15,11 +15,14 @@ function switch_tool:OnInit()
 end
 
 function switch_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
@@ -59,15 +62,7 @@ function switch_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
-
-        ::continue::
+        self:AddedToSelection( entity )
     end
 end
 

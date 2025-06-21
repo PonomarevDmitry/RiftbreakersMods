@@ -204,7 +204,7 @@ function wall_area_tool:CreateNewEntity(newPosition, orientation, team)
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     return result
 end

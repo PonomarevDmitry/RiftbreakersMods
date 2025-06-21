@@ -336,6 +336,18 @@ end
 function sell_all_map_cat_seller_tool:AddedToSelection( entity )
 end
 
+function sell_all_map_cat_seller_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function sell_all_map_cat_seller_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
@@ -370,13 +382,7 @@ function sell_all_map_cat_seller_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
-
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )

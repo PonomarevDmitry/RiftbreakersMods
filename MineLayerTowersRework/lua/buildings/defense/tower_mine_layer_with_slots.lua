@@ -457,20 +457,13 @@ function tower_mine_layer_with_slots:SetPointEntitySelectedSkin()
 
     self.dronePointSelected = self.dronePointSelected or false
 
-    local isSkinned = EntityService:IsSkinned(self.pointEntity)
-
     if ( self.dronePointSelected ) then
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/pass", "selected" )
+        
     else
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/blue", "selected" )
     end
 end
 

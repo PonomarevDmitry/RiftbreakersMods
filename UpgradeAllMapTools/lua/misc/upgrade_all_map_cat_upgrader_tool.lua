@@ -228,6 +228,18 @@ function upgrade_all_map_cat_upgrader_tool:AddedToSelection( entity )
     self:CreateMarkEntity(entity)
 end
 
+function upgrade_all_map_cat_upgrader_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function upgrade_all_map_cat_upgrader_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
@@ -258,7 +270,6 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
 
 
 
@@ -270,20 +281,12 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
 
         if ( buildingDescRef.limit_name == "hq" ) then
 
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
             goto continue
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do

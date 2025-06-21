@@ -109,12 +109,7 @@ end
 
 function upgrade_all_map_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function upgrade_all_map_picker_tool:RemovedFromSelection( entity )
@@ -395,12 +390,7 @@ function upgrade_all_map_picker_tool:HighlightBuildingsToUpgrade()
         if ( IndexOf( self.selectedEntities, entity ) == nil ) then
 
             -- Highlight building if it can be upgraded
-            local skinned = EntityService:IsSkinned(entity)
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
     end
 

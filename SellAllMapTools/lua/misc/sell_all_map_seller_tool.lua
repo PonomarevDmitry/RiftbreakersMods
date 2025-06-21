@@ -399,13 +399,7 @@ function sell_all_map_seller_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
-
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )

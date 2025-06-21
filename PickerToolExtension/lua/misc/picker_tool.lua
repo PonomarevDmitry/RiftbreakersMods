@@ -296,54 +296,51 @@ function picker_tool:AddedToSelection( entity )
         end
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
+
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_grey_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_grey", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/grey" )
+
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_deny", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/deny" )
+        
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
+
     elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
+    end
+end
+
+function picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
+    end
+end
+
+function picker_tool:RemoveEntitySelectedMaterial( entity )
+
+    EntityService:RemoveMaterial( entity, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
     end
 end
 
@@ -390,53 +387,29 @@ function picker_tool:RemovedFromSelection( entity )
         end
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
-        EntityService:RemoveMaterial( entity, "selected" )
-        local children = EntityService:GetChildren( entity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( entity )
     end
 end
 
@@ -2504,23 +2477,14 @@ function picker_tool:HighlightRuins()
             goto labelContinue
         end
 
-        EntityService:RemoveMaterial( ruinEntity, "selected" )
-        local children = EntityService:GetChildren( ruinEntity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( ruinEntity )
 
         ::labelContinue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -2578,11 +2542,8 @@ function picker_tool:OnRelease()
     if ( self.previousMarkedRuins ~= nil) then
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
-            local children = EntityService:GetChildren( ruinEntity, true )
-            for child in Iter( children ) do
-                EntityService:RemoveMaterial( child, "selected" )
-            end
+
+            self:RemoveEntitySelectedMaterial( ruinEntity )
         end
     end
     self.previousMarkedRuins = {}

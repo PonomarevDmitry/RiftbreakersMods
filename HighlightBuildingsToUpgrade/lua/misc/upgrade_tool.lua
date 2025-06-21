@@ -72,20 +72,13 @@ function upgrade_tool:OnUpdate()
 
             upgradeCostsEntities[entity] = true
 
-            local skinned = EntityService:IsSkinned(entity)
-
             if ( BuildingService:CanUpgrade( entity, self.playerId ) ) then
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+
             else
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected" )
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected" )
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/deny" )
             end
 
             local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
@@ -107,6 +100,18 @@ function upgrade_tool:OnUpdate()
     else
         BuildingService:OperateUpgradeCosts( self.infoChild, self.playerId, {} )
         BuildingService:OperateUpgradeCosts( self.corners, self.playerId, self.upgradeCosts )
+    end
+end
+
+function upgrade_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
@@ -154,12 +159,7 @@ function upgrade_tool:HighlightBuildingsToUpgrade()
         if ( IndexOf( self.selectedEntities, entity ) == nil ) then
 
             -- Highlight building if it can be upgraded
-            local skinned = EntityService:IsSkinned(entity)
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
     end
 

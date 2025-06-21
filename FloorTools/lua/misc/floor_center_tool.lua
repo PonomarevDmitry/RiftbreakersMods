@@ -32,7 +32,7 @@ function floor_center_tool:InitializeValues()
 
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
 
     self.announcements = {
         ["ai"] = "voice_over/announcement/not_enough_ai_cores",
@@ -453,13 +453,25 @@ function floor_center_tool:SpawnGhostFloorEntity(position, orientation, currentS
     EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
 
     EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-    EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
 
     EntityService:SetPosition( lineEnt, position )
     EntityService:SetOrientation( lineEnt, orientation )
     EntityService:SetScale( lineEnt, currentSize, 1.0, currentSize )
 
     return lineEnt
+end
+
+function floor_center_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function floor_center_tool:FindPositionsToBuildLine( buildCenterPoint, buildSelectedPoint, currentSize )

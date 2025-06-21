@@ -111,12 +111,7 @@ end
 
 function replace_trap_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function replace_trap_picker_tool:RemovedFromSelection( entity )

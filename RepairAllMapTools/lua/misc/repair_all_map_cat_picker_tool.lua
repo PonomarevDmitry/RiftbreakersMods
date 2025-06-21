@@ -102,11 +102,18 @@ end
 
 function repair_all_map_cat_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
+end
+
+function repair_all_map_cat_picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
@@ -394,23 +401,14 @@ function repair_all_map_cat_picker_tool:HighlightRuins()
             goto continue
         end
 
-        EntityService:RemoveMaterial( ruinEntity, "selected" )
-        local children = EntityService:GetChildren( ruinEntity, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemovedFromSelection( ruinEntity )
 
         ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -462,11 +460,8 @@ function repair_all_map_cat_picker_tool:OnRelease()
     if ( self.previousMarkedRuins ~= nil) then
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
-            local children = EntityService:GetChildren( ruinEntity, true )
-            for child in Iter( children ) do
-                EntityService:RemoveMaterial( child, "selected" )
-            end
+
+            self:RemovedFromSelection( ruinEntity )
         end
     end
     self.previousMarkedRuins = {}

@@ -69,7 +69,7 @@ function buildings_builder_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
     EntityService:SetVisible( self.entity, false )
 
     local markerBlueprint = "misc/marker_selector_buildings_builder_tool"
@@ -312,7 +312,7 @@ function buildings_builder_tool:CreateSingleBuildingTemplate( blueprintName, bui
     EntityService:SetPosition( buildingEntity, newPosition )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     buildingTemplate.entity = buildingEntity
 
@@ -355,37 +355,35 @@ function buildings_builder_tool:CheckEntityBuildable( entity, transform, bluepri
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_OVERRIDES or testBuildable.flag == CBF_REPAIR)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testBuildable.flag == CBF_REPAIR ) then
 
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 ) ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass" )
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass" )
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny" )
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny" )
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
 
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned" )
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active" )
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
+
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red" )
+
+            materialToSet = "hologram/red"
         end
     end
+
+    self:ChangeEntityMaterial( entity, materialToSet )
 
     return testBuildable
 end
@@ -422,13 +420,7 @@ function buildings_builder_tool:OnUpdate()
 
     for entity in Iter( buildingsToSell ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
     end
 
     self.oldBuildingsToSell = buildingsToSell
@@ -446,6 +438,30 @@ function buildings_builder_tool:OnUpdate()
     if ( self.activated ) then
 
         self:FinishLineBuild()
+    end
+end
+
+function buildings_builder_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
+end
+
+function buildings_builder_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
@@ -567,7 +583,7 @@ function buildings_builder_tool:FilterLimitedAndUnimited()
                 EntityService:RemoveComponent( doubleEntity, "LuaComponent" )
                 EntityService:SetPosition( doubleEntity, newPosition )
                 EntityService:SetOrientation( doubleEntity, newOrientation )
-                EntityService:ChangeMaterial( doubleEntity, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( doubleEntity, "hologram/blue" )
 
                 if ( buildingTemplate.databaseInfo ~= nil and buildingTemplate.databaseInfo ~= "" ) then
 

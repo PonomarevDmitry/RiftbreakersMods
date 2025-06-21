@@ -264,16 +264,8 @@ function switch_all_map_switcher_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
-
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/current" )
         end
-
-        ::continue::
     end
 end
 

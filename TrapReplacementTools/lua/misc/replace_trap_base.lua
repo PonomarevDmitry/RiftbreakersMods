@@ -211,4 +211,16 @@ function replace_trap_base:GetBuildingMenuIcon( blueprintName )
     return ""
 end
 
+function replace_trap_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 return replace_trap_base

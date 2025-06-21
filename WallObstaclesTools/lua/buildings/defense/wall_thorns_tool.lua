@@ -148,7 +148,7 @@ function wall_thorns_tool:OnUpdate()
                 self:RemoveUselessComponents(lineEnt)
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
 
                 Insert( self.floorEntities, lineEnt )
             end
@@ -165,7 +165,7 @@ function wall_thorns_tool:OnUpdate()
 
             self:RemoveUselessComponents(entity)
 
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( entity, "hologram/blue" )
             EntityService:SetPosition( entity, pathFromStartPositionToEndPosition[i] )
             EntityService:SetOrientation( entity, transform.orientation )
         end

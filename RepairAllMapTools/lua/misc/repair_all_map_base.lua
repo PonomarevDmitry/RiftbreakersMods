@@ -416,5 +416,17 @@ function repair_all_map_base:GetBlueprintName( entity )
     return blueprintName
 end
 
+function repair_all_map_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 return repair_all_map_base
  

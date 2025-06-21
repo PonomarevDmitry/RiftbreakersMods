@@ -49,6 +49,18 @@ end
 function sell_depleted:AddedToSelection( entity )
 end
 
+function sell_depleted:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function sell_depleted:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
@@ -65,11 +77,7 @@ function sell_depleted:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( EntityService:IsSkinned( entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
         local list = BuildingService:GetSellResourceAmount( entity )
 

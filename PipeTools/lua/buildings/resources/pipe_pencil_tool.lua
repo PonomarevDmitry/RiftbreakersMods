@@ -224,7 +224,7 @@ function pipe_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             EntityService:Rotate( lineEnt, 0.0, 1.0, 0.0, degree )
@@ -264,7 +264,7 @@ function pipe_pencil_tool:AdjustList(list, newPositions)
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             Insert( list, lineEnt )

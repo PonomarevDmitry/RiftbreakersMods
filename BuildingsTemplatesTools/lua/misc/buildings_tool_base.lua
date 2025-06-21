@@ -814,4 +814,28 @@ function buildings_tool_base:GetUnlockedOrMaxAvailableLevel( blueprintName, unlo
     return self:GetMaxAvailableLevel(firstLevelBlueprintName)
 end
 
+function buildings_tool_base:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
+end
+
+function buildings_tool_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 return buildings_tool_base

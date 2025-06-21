@@ -28,24 +28,19 @@ function light_on_ff_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:AddedToSelection( entity )
     end
 end
 
 function light_on_ff_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
 
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 

@@ -42,7 +42,7 @@ function lamp_base_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
     EntityService:SetVisible( self.entity , false )
 
     self:CreateInfoChild()
@@ -143,7 +143,7 @@ function lamp_base_tool:SpawnGhostLampEntity(position, orientation)
 
     EntityService:SetPosition( buildingEntity, position )
     EntityService:SetOrientation( buildingEntity, orientation )
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     return buildingEntity
 end
@@ -171,37 +171,47 @@ function lamp_base_tool:CheckEntityBuildable( entity, transform, id )
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testBuildable.flag == CBF_REPAIR ) then
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
 
+    self:ChangeEntityMaterial( entity, materialToSet )
+
     return testBuildable
+end
+
+function lamp_base_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function lamp_base_tool:BuildEntity(entity, transform, createCube)

@@ -30,22 +30,13 @@ function sell_place_ruins_tool:AddedToSelection( entity )
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
 
-    local isSkinned = EntityService:IsSkinned( entity )
-
     if ( buildingComponentHelper.m_isSellable == true ) then
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
-    else
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected" )
-        end
+    else
+        
+        self:SetEntitySelectedMaterial( entity, "hologram/red" )
     end
 end
 

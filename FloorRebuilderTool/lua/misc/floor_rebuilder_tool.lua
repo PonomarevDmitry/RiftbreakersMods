@@ -766,8 +766,8 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
         local list = FindService:FindFloorsByBox( min, max )
 
         for entity in Iter(list) do
-            local meshEntity = BuildingService:GetMeshEntity(entity)
-            EntityService:SetMaterial( meshEntity, "selector/hologram_pass", "selected" )
+
+            self:SetEntitySelectedMaterial( entity, "hologram/pass" )
         end
 
         for entity in Iter(self.hoverEntities) do
@@ -785,8 +785,21 @@ function floor_rebuilder_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function floor_rebuilder_tool:AddedToSelection( entity )
+
+    self:SetEntitySelectedMaterial( entity, "hologram/violet" )
+end
+
+function floor_rebuilder_tool:SetEntitySelectedMaterial( entity, material )
+
     local meshEntity = BuildingService:GetMeshEntity(entity)
-    EntityService:SetMaterial( meshEntity, "selector/hologram_violet", "selected" )
+    EntityService:SetMaterial( meshEntity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
 end
 
 function floor_rebuilder_tool:RemovedFromSelection( entity )
@@ -884,8 +897,7 @@ function floor_rebuilder_tool:OnUpdate()
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
 
-                    local meshLineEnt = BuildingService:GetMeshEntity(lineEnt)
-                    EntityService:SetMaterial( meshLineEnt, "selector/hologram_violet", "selected" )
+                    self:SetEntitySelectedMaterial( lineEnt, "hologram/violet" )
 
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)
@@ -922,8 +934,7 @@ function floor_rebuilder_tool:OnUpdate()
 
                     local lineEnt = EntityService:SpawnEntity("buildings/tools/floor_rebuilder_ghost", newPosition, team )
 
-                    local meshLineEnt = BuildingService:GetMeshEntity(lineEnt)
-                    EntityService:SetMaterial( meshLineEnt, "selector/hologram_violet", "selected" )
+                    self:SetEntitySelectedMaterial( lineEnt, "hologram/violet" )
 
                     EntityService:RemoveComponent(lineEnt, "LuaComponent")
                     EntityService:SetScale( lineEnt, currentScale, 1.0, currentScale)

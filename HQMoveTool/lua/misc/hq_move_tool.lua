@@ -35,7 +35,7 @@ function hq_move_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
     EntityService:SetVisible( self.entity , false )
 
     self.markerEntity = EntityService:SpawnAndAttachEntity( "misc/marker_selector_hq_move_tool", self.selector )
@@ -124,12 +124,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     self.hq = findResult
 
-    local skinned = EntityService:IsSkinned( self.hq )
-    if ( skinned ) then
-        EntityService:SetMaterial( self.hq, "selector/hologram_active_skinned", "selected")
-    else
-        EntityService:SetMaterial( self.hq, "selector/hologram_active", "selected")
-    end
+    self:SetEntitySelectedMaterial( self.hq, "hologram/active" )
 
     local transform = EntityService:GetWorldTransform( self.hq )
 
@@ -152,7 +147,7 @@ function hq_move_tool:SpawnBuildinsTemplates()
     EntityService:RemoveComponent( buildingEntity, "LuaComponent" )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     self.buildingDesc = buildingDesc
     self.ghostHQ = buildingEntity
@@ -168,6 +163,40 @@ function hq_move_tool:SpawnBuildinsTemplates()
 
     markerDB:SetString("message_text", "")
     markerDB:SetInt("message_visible", 0)
+end
+
+function hq_move_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
+end
+
+function hq_move_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
+function hq_move_tool:RemoveEntitySelectedMaterial( entity )
+
+    EntityService:RemoveMaterial( entity, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function hq_move_tool:GetResearchForUpgrade( nextUpgrade )
@@ -225,11 +254,7 @@ function hq_move_tool:OnWorkExecute()
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
         markerDB:SetInt("message_visible", 1)
 
-        EntityService:RemoveMaterial( self.hq, "selected" )
-        local children = EntityService:GetChildren( self.hq, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( self.hq )
 
         self.hq = nil
 
@@ -278,9 +303,9 @@ function hq_move_tool:CheckEntityBuildable( entity, transform, blueprint, id )
     local testBuildable = reflection_helper(checkStatus:ToTypeInstance(), checkStatus )
 
     if ( testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_LIMITS  ) then
-        EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+        self:ChangeEntityMaterial( entity, "hologram/blue")
     else
-        EntityService:ChangeMaterial( entity, "selector/hologram_red")
+        self:ChangeEntityMaterial( entity, "hologram/red")
     end
 
     return testBuildable
@@ -299,11 +324,7 @@ function hq_move_tool:OnActivateSelectorRequest()
         markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
         markerDB:SetInt("message_visible", 1)
 
-        EntityService:RemoveMaterial( self.hq, "selected" )
-        local children = EntityService:GetChildren( self.hq, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+        self:RemoveEntitySelectedMaterial( self.hq )
 
         self.hq = nil
 
@@ -396,11 +417,7 @@ function hq_move_tool:OnActivateSelectorRequest()
     self.ghostHQ = nil
     self.buildCost = {}
 
-    EntityService:RemoveMaterial( self.hq, "selected" )
-    local children = EntityService:GetChildren( self.hq, true )
-    for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
-    end
+    self:RemoveEntitySelectedMaterial( self.hq )
 
     self.hq = nil
 
@@ -460,11 +477,8 @@ end
 function hq_move_tool:OnRelease()
 
     if ( self.hq ~= nil ) then
-        EntityService:RemoveMaterial( self.hq, "selected" )
-        local children = EntityService:GetChildren( self.hq, true )
-        for child in Iter( children ) do
-            EntityService:RemoveMaterial( child, "selected" )
-        end
+
+        self:RemoveEntitySelectedMaterial( self.hq )
 
         self.hq = nil
     end

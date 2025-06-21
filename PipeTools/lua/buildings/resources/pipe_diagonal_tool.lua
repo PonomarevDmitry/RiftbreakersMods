@@ -92,7 +92,7 @@ function pipe_diagonal_tool:OnUpdate()
             if ( lineEnt == nil ) then
 
                 lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
                 EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
 

@@ -211,13 +211,7 @@ function repair_all_map_repairer_tool:OnUpdate()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
-
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = {}
 

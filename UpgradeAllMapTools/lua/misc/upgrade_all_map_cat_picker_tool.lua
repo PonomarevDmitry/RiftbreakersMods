@@ -108,11 +108,18 @@ end
 
 function upgrade_all_map_cat_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
+end
+
+function upgrade_all_map_cat_picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
@@ -382,12 +389,7 @@ function upgrade_all_map_cat_picker_tool:HighlightBuildingsToUpgrade()
         if ( IndexOf( self.selectedEntities, entity ) == nil ) then
 
             -- Highlight building if it can be upgraded
-            local skinned = EntityService:IsSkinned(entity)
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
     end
 

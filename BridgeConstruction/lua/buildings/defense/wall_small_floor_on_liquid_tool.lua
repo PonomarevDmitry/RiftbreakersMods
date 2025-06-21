@@ -265,7 +265,7 @@ function wall_small_floor_on_liquid_tool:CreateNewEntity(newPosition, orientatio
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     return result
 end

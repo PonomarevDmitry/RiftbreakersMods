@@ -179,7 +179,7 @@ function pipe_perimeter_tool:OnUpdate()
         if ( lineEnt == nil ) then
 
             lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:RemoveComponent(lineEnt, "LuaComponent")
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
 
@@ -711,12 +711,8 @@ function pipe_perimeter_tool:IsConverterArray( converterArray )
 end
 
 function pipe_perimeter_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
+
+    self:SetEntitySelectedMaterial( entityToSell, "hologram/current" )
 end
 
 function pipe_perimeter_tool:RemovedFromSelection( entity )

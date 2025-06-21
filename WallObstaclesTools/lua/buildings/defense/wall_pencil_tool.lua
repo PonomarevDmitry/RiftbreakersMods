@@ -216,7 +216,7 @@ function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
             self:RemoveUselessComponents(lineEnt)
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             EntityService:Rotate( lineEnt, 0.0, 1.0, 0.0, degree )
@@ -284,7 +284,7 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
                 self:RemoveUselessComponents(lineEnt)
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:SetPosition( lineEnt, newPosition)
 
                 Insert(gridEntitiesZ, lineEnt)
@@ -322,7 +322,7 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
                 self:RemoveUselessComponents(lineEnt)
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:SetPosition( lineEnt, newPosition)
 
                 Insert(gridEntitiesZ, lineEnt)

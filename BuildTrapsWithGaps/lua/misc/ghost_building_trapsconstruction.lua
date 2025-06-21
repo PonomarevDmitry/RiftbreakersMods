@@ -39,7 +39,7 @@ function ghost_building_trapsconstruction:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
 
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, transform )
@@ -85,35 +85,33 @@ function  ghost_building_trapsconstruction:CheckEntityBuildable( entity, transfo
     local canBuildOverride = (testReflection.flag == CBF_OVERRIDES)
     local canBuild = (testReflection.flag == CBF_CAN_BUILD or testReflection.flag == CBF_ONE_GRID_FLOOR or testReflection.flag == CBF_OVERRIDES)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testReflection.flag == CBF_REPAIR  ) then
         if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
+
+    self:ChangeEntityMaterial( entity, materialToSet )
 
     return testReflection
 end
@@ -344,7 +342,7 @@ function ghost_building_trapsconstruction:CreateNewEntity(newPosition, orientati
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     return result
 end
@@ -426,16 +424,34 @@ function ghost_building_trapsconstruction:AddToEntitiesToSellList(testBuildable)
 
             if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
 
-                local skinned = EntityService:IsSkinned(entityToSell)
-
-                if ( skinned ) then
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
-                end
+                self:SetEntitySelectedMaterial( entityToSell, "hologram/active" )
 
                 Insert(self.oldBuildingsToSell, entityToSell)
             end
+        end
+    end
+end
+
+function ghost_building_trapsconstruction:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
+end
+
+function ghost_building_trapsconstruction:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end

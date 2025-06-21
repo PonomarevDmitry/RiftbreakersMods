@@ -349,7 +349,7 @@ function wall_obstacles_stairs_tool:CreateNewEntity(newPosition, orientation, te
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     self:RemoveUselessComponents(result)
 

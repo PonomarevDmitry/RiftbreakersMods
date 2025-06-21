@@ -404,5 +404,17 @@ function switch_all_map_base:CalculateBuildingMenuIcon( blueprintName, buildingD
     return ""
 end
 
+function switch_all_map_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 return switch_all_map_base
  

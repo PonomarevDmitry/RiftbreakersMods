@@ -80,12 +80,7 @@ end
 
 function turn_on_off_by_type_switch_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function turn_on_off_by_type_switch_tool:RemovedFromSelection( entity )
@@ -199,24 +194,14 @@ function turn_on_off_by_type_switch_tool:OnUpdate()
 
     for entity in Iter( availableBuildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
     end
 
     self.previousMarkedBuildings = availableBuildinsList
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
     end
 end
 

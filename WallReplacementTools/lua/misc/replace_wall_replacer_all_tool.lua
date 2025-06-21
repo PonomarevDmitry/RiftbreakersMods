@@ -158,12 +158,7 @@ end
 
 function replace_wall_replacer_all_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_wall_replacer_all_tool:RemovedFromSelection( entity )

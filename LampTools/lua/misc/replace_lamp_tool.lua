@@ -76,12 +76,7 @@ end
 
 function replace_lamp_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_lamp_tool:RemovedFromSelection( entity )
@@ -170,12 +165,7 @@ function replace_lamp_tool:OnUpdate()
 
     for entity in Iter( buildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
     end
 
     self.previousMarkedBuildings = buildinsList

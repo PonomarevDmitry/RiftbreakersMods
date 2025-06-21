@@ -294,7 +294,11 @@ end
 
 function floor_eraser:AddedToSelection( entity )
     local meshEntity = BuildingService:GetMeshEntity(entity);
-    EntityService:SetMaterial( meshEntity, "selector/hologram_blue", "selected")
+    EntityService:SetMaterial( meshEntity, "hologram/blue", "selected")
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:SetMaterial( child, "hologram/blue", "selected")
+    end
 end
 
 function floor_eraser:RemovedFromSelection( entity )
