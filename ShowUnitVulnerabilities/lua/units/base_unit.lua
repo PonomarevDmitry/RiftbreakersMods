@@ -37,10 +37,6 @@ end
 function base_unit:OnInit()
 end
 
-function base_unit:CreateNormalExplode()
-	EntityService:RequestDestroyPattern( self.entity, "wreck" )
-end
-
 function base_unit:_OnDamageEvent( evt )
 	-- `damage_generic` spawning moved to FxSystem so it is done only on client side!
 	if not evt:GetDamageOverTime() then 
@@ -49,6 +45,16 @@ function base_unit:_OnDamageEvent( evt )
 
 	if self.OnDamageEvent then
 		self:OnDamageEvent(evt)
+	end
+end
+
+function base_unit:CreateNormalExplode()
+	EntityService:RequestDestroyPattern( self.entity, "wreck" )	
+end
+
+function base_unit:_OnDestroyRequest( evt )
+	if self.OnDestroyRequest then
+		self:OnDestroyRequest(evt)
 	end
 
 	local damageType = evt:GetDamageType()
