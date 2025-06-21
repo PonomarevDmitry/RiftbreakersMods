@@ -8,7 +8,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -21,6 +21,11 @@ EntityBlueprint
 	WeaponMovementDataComponent
 	{
 		attack_movement_factor	"1.0"
+	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
 	}
 
 	BurstWeaponComponent
@@ -163,7 +168,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_advanced"
 	}		
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}
@@ -182,6 +187,8 @@ EntityBlueprint
 		item_bp			"items/weapons/floating_mines_advanced"
 		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_advanced"
 		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_advanced"
+		drop_weight		"0.1"
+		predict 		1
 	}
 
 	LuaDesc
@@ -250,7 +257,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_extreme"
 	}		
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}
@@ -269,6 +276,8 @@ EntityBlueprint
 		item_bp			"items/weapons/floating_mines_extreme"
 		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_extreme"
 		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_extreme"
+		drop_weight		"0.1"
+		predict 		1
 	}
 
 	LuaDesc
@@ -301,6 +310,8 @@ EntityBlueprint
 		item_bp			"items/weapons/floating_mines"
 		icon			"gui/hud/items_icons/weapons/floating_mines_launcher"
 		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher"
+		drop_weight		"0.1"
+		predict 		1
 	}
 
 	LuaDesc
@@ -379,6 +390,8 @@ EntityBlueprint
 		item_bp			"items/weapons/floating_mines_superior"
 		icon			"gui/hud/items_icons/weapons/floating_mines_launcher_superior"
 		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_launcher_superior"
+		drop_weight		"0.1"
+		predict 		1
 	}
 
 	LuaDesc
@@ -467,7 +480,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapons_explosive/explosion_medium"		
 		hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
+		friendly_fire			"pass"
 		
 		DamagePattern
 		{

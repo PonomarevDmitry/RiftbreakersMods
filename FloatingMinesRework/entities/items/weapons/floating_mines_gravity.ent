@@ -8,7 +8,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_gravity"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -21,6 +21,11 @@ EntityBlueprint
 	WeaponMovementDataComponent
 	{
 		attack_movement_factor	"1.0"
+	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
 	}
 
 	BurstWeaponComponent
@@ -163,7 +168,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_gravity_advanced"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -175,13 +180,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
-		item_bp			"items/weapons/floating_mines_gravity_advanced"
-		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_advanced"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_advanced"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp					"items/weapons/floating_mines_gravity_advanced"
+		icon					"gui/hud/items_icons/weapons/floating_mines_gravity_advanced"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_gravity_advanced"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -250,7 +258,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_gravity_extreme"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -262,13 +270,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
-		item_bp			"items/weapons/floating_mines_gravity_extreme"
-		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_extreme"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_extreme"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp					"items/weapons/floating_mines_gravity_extreme"
+		icon					"gui/hud/items_icons/weapons/floating_mines_gravity_extreme"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_gravity_extreme"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -294,13 +305,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
-		item_bp			"items/weapons/floating_mines_gravity"
-		icon			"gui/hud/items_icons/weapons/floating_mines_gravity"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp					"items/weapons/floating_mines_gravity"
+		icon					"gui/hud/items_icons/weapons/floating_mines_gravity"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_gravity"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -365,7 +379,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_gravity_superior"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -377,13 +391,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_gravity"
-		item_bp			"items/weapons/floating_mines_gravity_superior"
-		icon			"gui/hud/items_icons/weapons/floating_mines_gravity_superior"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_gravity_superior"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_gravity"
+		item_bp					"items/weapons/floating_mines_gravity_superior"
+		icon					"gui/hud/items_icons/weapons/floating_mines_gravity_superior"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_gravity_superior"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -472,7 +489,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"items/consumables/gravity_hole_standard"		
 		hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
+		friendly_fire			"pass"
 		
 		DamagePattern
 		{

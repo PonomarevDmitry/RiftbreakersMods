@@ -8,7 +8,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_acid"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -21,6 +21,11 @@ EntityBlueprint
 	WeaponMovementDataComponent
 	{
 		attack_movement_factor	"1.0"
+	}
+
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
 	}
 
 	BurstWeaponComponent
@@ -164,7 +169,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_acid_advanced"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}
@@ -176,13 +181,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_acid"
-		item_bp			"items/weapons/floating_mines_acid_advanced"
-		icon			"gui/hud/items_icons/weapons/floating_mines_acid_advanced"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_acid_advanced"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_acid"
+		item_bp					"items/weapons/floating_mines_acid_advanced"
+		icon					"gui/hud/items_icons/weapons/floating_mines_acid_advanced"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_acid_advanced"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -251,7 +259,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_acid_extreme"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -263,13 +271,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_acid"
-		item_bp			"items/weapons/floating_mines_acid_extreme"
-		icon			"gui/hud/items_icons/weapons/floating_mines_acid_extreme"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_acid_extreme"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_acid"
+		item_bp					"items/weapons/floating_mines_acid_extreme"
+		icon					"gui/hud/items_icons/weapons/floating_mines_acid_extreme"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_acid_extreme"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -295,13 +306,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_acid"
-		item_bp			"items/weapons/floating_mines_acid"
-		icon			"gui/hud/items_icons/weapons/floating_mines_acid"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_acid"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_acid"
+		item_bp					"items/weapons/floating_mines_acid"
+		icon					"gui/hud/items_icons/weapons/floating_mines_acid"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_acid"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -366,7 +380,7 @@ EntityBlueprint
 		material 	"items/weapons/floating_mines_acid_superior"
 	}
 	
- 	ShadowExcludeComponent
+	ShadowExcludeComponent
 	{
 
 	}		
@@ -378,13 +392,16 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/floating_mines_acid"
-		item_bp			"items/weapons/floating_mines_acid_superior"
-		icon			"gui/hud/items_icons/weapons/floating_mines_acid_superior"
-		bigger_icon 	"gui/menu/items_icons/weapons/floating_mines_acid_superior"
+		type 					"range_weapon"
+		subtype					"explosive"
+		holding_pose 			"range"
+		name 					"gui/menu/inventory/weapon_name/floating_mines_acid"
+		item_bp					"items/weapons/floating_mines_acid_superior"
+		icon					"gui/hud/items_icons/weapons/floating_mines_acid_superior"
+		bigger_icon 			"gui/menu/items_icons/weapons/floating_mines_acid_superior"
+		add_after_obtaining 	"1"
+		drop_weight				"0.1"
+		predict 				1
 	}
 
 	LuaDesc
@@ -477,7 +494,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapon_hit/acid_mine_explosion"		
 		hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
+		friendly_fire			"pass"
 		
 		DamagePattern
 		{
