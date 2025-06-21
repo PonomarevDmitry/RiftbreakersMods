@@ -60,6 +60,9 @@ function hq_move_tool:InitializeValues()
 
     self.infoChild = EntityService:SpawnAndAttachEntity("misc/marker_selector/building_info", self.selector )
     EntityService:SetPosition( self.infoChild, -currentScale, 0, currentScale)
+    
+    ShowBuildingDisplayRadiusAround( self.entity, "buildings/defense/portal" )
+    ShowBuildingDisplayRadiusAround( self.entity, "buildings/defense/portal_ghost" )
 
     self:SpawnBuildinsTemplates()
 end
@@ -443,6 +446,9 @@ function hq_move_tool:OnRotateSelectorRequest(evt)
 end
 
 function hq_move_tool:OnRelease()
+    
+    HideBuildingDisplayRadiusAround( self.entity, "buildings/defense/portal" )
+    HideBuildingDisplayRadiusAround( self.entity, "buildings/defense/portal_ghost" )
 
     if ( self.hq ~= nil ) then
         EntityService:RemoveMaterial( self.hq, "selected" )
