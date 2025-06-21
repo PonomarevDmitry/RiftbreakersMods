@@ -91,6 +91,9 @@ function flora_cultivator:OnLoad()
                 ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
                 self:PopulateSpecialActionInfo()
             end
+
+            local sapling_item = EntityService:GetBlueprintName( self.item )
+            self.data:SetString("sapling_item", sapling_item)
         end
     end
 
@@ -485,6 +488,9 @@ function flora_cultivator:OnItemEquippedEvent( evt )
     if( db == nil ) then
         return
     end
+
+    local sapling_item = EntityService:GetBlueprintName( self.item )
+    self.data:SetString("sapling_item", sapling_item)
 
     if db:HasString("plant_blueprint") then
         self.spawn_blueprint = db:GetStringOrDefault( "plant_blueprint", "" )
