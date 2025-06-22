@@ -147,8 +147,8 @@ function power_well:SpawnIconEntity()
         minimapItemComponentRef.icon_material = skillLinkUnitComponentRef.icon
 
         if ( minimapItemComponentRef.size ) then
-            minimapItemComponentRef.size.x = 0.5
-            minimapItemComponentRef.size.y = 0.5
+            minimapItemComponentRef.size.x = 0.75
+            minimapItemComponentRef.size.y = 0.75
         end
 
         EntityService:RemoveComponent( self.entity, "MinimapGuiComponent" )
