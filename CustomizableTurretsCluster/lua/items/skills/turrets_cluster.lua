@@ -9,6 +9,49 @@ function turrets_cluster:__init()
     item.__init(self,self)
 end
 
+function turrets_cluster:GetModsConfiguration()
+
+    local result = {}
+
+    local hasItems = false
+
+    for i=1,6 do
+
+        local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
+
+        if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
+            goto continueLabel
+        end
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+            goto continueLabel
+        end
+
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
+
+        if ( blueprintDatabase == nil ) then
+            goto continueLabel
+        end
+
+        if ( not blueprintDatabase:HasString("blueprint_list") ) then
+            goto continueLabel
+        end
+
+        hasItems = true
+
+        result[i] = modItemBlueprint
+
+        ::continueLabel::
+    end
+
+    if ( hasItems == false )  then
+
+        result[1] = "items/turrets_cluster_mods/mobile_turret_standard_item"
+    end
+
+    return result
+end
+
 function turrets_cluster:OnActivate()
 
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
@@ -29,9 +72,11 @@ function turrets_cluster:OnActivate()
     local position = nil
     local positionNumber = 1
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = modsConfiguration[i]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continueSlot
@@ -126,9 +171,11 @@ function turrets_cluster:CanActivate()
         return false
     end
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("turrets_cluster_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = modsConfiguration[i]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
