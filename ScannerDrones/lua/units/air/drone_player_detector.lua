@@ -151,17 +151,20 @@ function drone_player_detector:OnWorkInProgress()
 
 			local noSound = (mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1)
 
+			local owner = self:GetDroneOwnerTarget()
+			local playerId = PlayerService:GetPlayerForEntity( owner )
+
 			if type == "enemy" then
 
 				if ( not noSound ) then
-					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+					PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
 				end
 				
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 1 )
 			else
 
 				if ( not noSound ) then
-					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+					PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
 				end
 
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 0 )
