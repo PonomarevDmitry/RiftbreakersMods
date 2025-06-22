@@ -712,7 +712,7 @@ end
 
 function pipe_perimeter_tool:AddedToSelection( entity )
 
-    self:SetEntitySelectedMaterial( entityToSell, "hologram/current" )
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function pipe_perimeter_tool:RemovedFromSelection( entity )
