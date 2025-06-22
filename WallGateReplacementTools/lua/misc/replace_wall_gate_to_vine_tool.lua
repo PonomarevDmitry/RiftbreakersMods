@@ -211,7 +211,7 @@ function replace_wall_gate_to_vine_tool:OnUpdate()
             costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
-        self:SetEntitySelectedMaterial( entityToSell, "hologram/pass" )
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         ::continue::
     end
