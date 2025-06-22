@@ -12,9 +12,9 @@ function compressor:OnInit()
     self.resource = ""
     self.postfix = self.data:GetStringOrDefault( "postfix", "_pipe")
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( PlayerService:IsInFighterMode( owner ) ) then
+    if ( PlayerService:IsInFighterMode( playerId ) ) then
         self.showLiquidIcon = 0
     else
         self.showLiquidIcon = 1
@@ -60,9 +60,9 @@ function compressor:SetCompressorLiquidMenuVisible()
 
     local visible = 0
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
+    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
         visible = self.showLiquidIcon
     end
 
@@ -84,9 +84,9 @@ function compressor:CreateMenuEntity()
 
         local visible = 0
 
-        local owner = self.data:GetIntOrDefault( "owner", 0 )
+        local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
+        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
             visible = self.showLiquidIcon
         end
 

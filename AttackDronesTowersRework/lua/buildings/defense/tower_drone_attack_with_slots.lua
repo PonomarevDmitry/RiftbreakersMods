@@ -23,9 +23,9 @@ function tower_drone_attack_with_slots:OnInit()
 
     self:CreateMenuEntity()
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( PlayerService:IsInFighterMode( owner ) ) then
+    if ( PlayerService:IsInFighterMode( playerId ) ) then
         self.showMenu = 0
     else
         self.showMenu = 1
