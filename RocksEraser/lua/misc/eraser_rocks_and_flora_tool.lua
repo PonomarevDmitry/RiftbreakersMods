@@ -255,7 +255,7 @@ end
 
 function eraser_rocks_and_flora_tool:AddedToSelection( entity )
 
-    self:SetEntitySelectedMaterial( entityToSell, "hologram/current" )
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelection( entity )
