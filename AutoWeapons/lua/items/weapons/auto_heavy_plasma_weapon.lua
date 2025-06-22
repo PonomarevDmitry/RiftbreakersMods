@@ -8,12 +8,18 @@ end
 
 function auto_heavy_plasma_weapon:OnInit()
     autofire_weapon.OnInit(self)
-    self:CreateShieldStateMachine()
+
+    if is_server then
+        self:CreateShieldStateMachine()
+    end
 end
 
 function auto_heavy_plasma_weapon:OnLoad()
     autofire_weapon.OnLoad( self )
-    self:CreateShieldStateMachine()
+
+    if is_server then
+        self:CreateShieldStateMachine()
+    end
 end
 
 function auto_heavy_plasma_weapon:CreateShieldStateMachine()
@@ -75,14 +81,21 @@ function auto_heavy_plasma_weapon:RemoveShield()
     end
 end
 
-function auto_heavy_plasma_weapon:OnActivate()
-    autofire_weapon.OnActivate(self)
-    self.fsm:ChangeState( "shield" )
+function auto_heavy_plasma_weapon:OnActivate( activation_id )
+    autofire_weapon.OnActivate(self, activation_id)
+
+    if ( self.fsm ~= nil ) then
+        self.fsm:ChangeState( "shield" )
+    end
 end
 
 function auto_heavy_plasma_weapon:OnDeactivate()
     autofire_weapon.OnDeactivate(self)
-    self.fsm:ChangeState( "dummy" )
+
+    if ( self.fsm ~= nil ) then
+        self.fsm:ChangeState( "dummy" )
+    end
+
     return true
 end
 
