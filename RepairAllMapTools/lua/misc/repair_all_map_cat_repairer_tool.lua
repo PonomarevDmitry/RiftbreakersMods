@@ -187,7 +187,7 @@ function repair_all_map_cat_repairer_tool:OnUpdate()
             goto continue
         end
 
-        self:SetEntitySelectedMaterial( entityToSell, "hologram/pass" )
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = {}
 
