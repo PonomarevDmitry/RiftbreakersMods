@@ -31,6 +31,49 @@ function grenades_pack:InitThrowStateMachine()
     self.machine:AddState( "throw", { execute="OnThrowExecute", interval=0.1 } )
 end
 
+function grenades_pack:GetModsConfiguration()
+
+    local result = {}
+
+    local hasItems = false
+
+    for i=1,6 do
+
+        local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
+
+        if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
+            goto continueLabel
+        end
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprint ) ) then
+            goto continueLabel
+        end
+
+        local blueprintDatabase = EntityService:GetBlueprintDatabase( modItemBlueprint )
+
+        if ( blueprintDatabase == nil ) then
+            goto continueLabel
+        end
+
+        if ( not blueprintDatabase:HasString("blueprint_list") ) then
+            goto continueLabel
+        end
+
+        hasItems = true
+
+        result[i] = modItemBlueprint
+
+        ::continueLabel::
+    end
+
+    if ( hasItems == false )  then
+
+        result[1] = "items/grenades_pack_mods/grenade_standard_item"
+    end
+
+    return result
+end
+
 function grenades_pack:OnActivate()
 
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
@@ -42,9 +85,11 @@ function grenades_pack:OnActivate()
 
     self.grenadesToThrow = {}
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = modsConfiguration[i]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continueModList
@@ -139,9 +184,11 @@ function grenades_pack:CanActivate()
         return false
     end
 
+    local modsConfiguration = self:GetModsConfiguration()
+
     for i=1,6 do
 
-        local modItemBlueprint = self.data:GetStringOrDefault("grenades_pack_MOD_" .. tostring(i), "") or ""
+        local modItemBlueprint = modsConfiguration[i]
 
         if ( modItemBlueprint == nil or modItemBlueprint == "" ) then
             goto continue
