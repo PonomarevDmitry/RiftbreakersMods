@@ -57,7 +57,9 @@ function turrets_cluster:OnActivate()
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
-    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
+    local playerId = PlayerService:GetPlayerForEntity(self.owner)
+
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "", playerId )
     if ( pos.first == false ) then
         return
     end
@@ -167,7 +169,9 @@ function turrets_cluster:CanActivate()
         return false
     end
 
-    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
+    local playerId = PlayerService:GetPlayerForEntity(self.owner)
+
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "", playerId )
     if ( pos.first == false ) then
         self:SetCanActivate( false )
         return false
