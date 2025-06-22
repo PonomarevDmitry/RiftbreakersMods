@@ -138,7 +138,7 @@ function turrets_cluster:OnActivate()
                 goto continueSlot
             end
 
-            local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
+            local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position, playerId )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
             EntityService:PropagateEntityOwner( tower, self.owner )
             EntityService:DissolveEntity( tower, 1.0, timeout )
