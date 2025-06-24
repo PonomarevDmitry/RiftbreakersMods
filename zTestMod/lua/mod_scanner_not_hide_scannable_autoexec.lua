@@ -1,0 +1,1 @@
+mod_scanner_not_hide_scannable = 1
