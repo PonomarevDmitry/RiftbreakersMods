@@ -136,7 +136,7 @@ function scanner:OnExecuteScaning()
 
 					local scansCount = 1
 					if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
-						scansCount = self:GetScansCount(currentTarget)
+						scansCount = SizeMattersGetScansCount(currentTarget)
 					end
 
 					for i=1,scansCount do
@@ -157,25 +157,6 @@ function scanner:OnExecuteScaning()
 		
 		self.lastTarget = currentTarget;
 	end
-end
-
-function scanner:GetScansCount( entity )
-
-	local scansCount = 1
-
-	local size = EntityService:GetBoundsSize( entity )
-
-	if ( size.x <= 2.5 ) then
-		scansCount = 2
-	elseif ( size.x <= 4.5 ) then
-		scansCount = 4
-	elseif ( size.x <= 9.5 ) then
-		scansCount = 8
-	else
-		scansCount = 20
-	end
-
-	return scansCount
 end
 
 function scanner:DissolveShow()

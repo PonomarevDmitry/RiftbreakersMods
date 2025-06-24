@@ -569,7 +569,7 @@ function harvester_drone:OnHarvestExit()
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
 
-                    scansCount = self:GetScansCount(target)
+                    scansCount = SizeMattersGetScansCount(target)
                 end
 
                 for i=1,scansCount do
@@ -599,25 +599,6 @@ function harvester_drone:GetPlayerForEntity( entity )
     end
 
     return 0
-end
-
-function harvester_drone:GetScansCount( entity )
-
-    local scansCount = 1
-
-    local size = EntityService:GetBoundsSize( entity )
-
-    if ( size.x <= 2.5 ) then
-        scansCount = 2
-    elseif ( size.x <= 4.5 ) then
-        scansCount = 4
-    elseif ( size.x <= 9.5 ) then
-        scansCount = 8
-    else
-        scansCount = 20
-    end
-
-    return scansCount
 end
 
 function harvester_drone:TryFindNewTarget()
