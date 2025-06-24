@@ -47,7 +47,9 @@ end
 function scanner:OnDeactivate( forced )
 	PlayerService:StopPadHapticFeedback( 0 )
 
-	--QueueEvent("ShowScannableRequest", event_sink, false )
+	if not ( mod_scanner_not_hide_scannable and mod_scanner_not_hide_scannable == 1 ) then
+		QueueEvent("ShowScannableRequest", event_sink, false )
+	end
 	
 	if ( self.effect ~= INVALID_ID )  then
 		EntityService:RemoveEntity( self.effect )
@@ -131,12 +133,19 @@ function scanner:OnExecuteScaning()
 				self:SpawnSpecifcEffect( currentTarget )
 				QueueEvent( "EntityScanningStartEvent", currentTarget )
 			elseif ( currentTarget == self.lastTarget ) then
-				scannableComponentHelper.scanning_progress = scannableComponentHelper.scanning_progress + ( 1.0 / 0.3 ) 
+				scannableComponentHelper.scanning_progress = scannableComponentHelper.scanning_progress + ( 1.0 / 30 ) 
 				self.scanningTime = scannableComponentHelper.scanning_progress
 				local factor =  self.scanningTime / self.maxScanTime
 				factor = math.min(factor, 1.0 )
 				EffectService:SetParticleEmmissionUniform( self.effect, factor )
-				if ( self.scanningTime >= self.maxScanTime ) then
+
+				local maxScanTime = self.maxScanTime
+
+				if ( mod_scanner_instant_scan and mod_scanner_instant_scan == 1 ) then
+					maxScanTime = 0
+				end
+
+				if ( self.scanningTime >= maxScanTime ) then
 
 					local scansCount = 1
 					if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
