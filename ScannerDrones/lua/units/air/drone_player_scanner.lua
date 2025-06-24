@@ -183,7 +183,7 @@ function drone_player_scanner:ExecuteScanning()
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
 
-                    scansCount = self:GetScansCount(self.selectedEntity)
+                    scansCount = SizeMattersGetScansCount(self.selectedEntity)
                 end
 
                 local owner = self:GetDroneOwnerTarget()
@@ -225,25 +225,6 @@ function drone_player_scanner:GetPlayerForEntity( entity )
     end
 
     return 0
-end
-
-function drone_player_scanner:GetScansCount( entity )
-
-    local scansCount = 1
-
-    local size = EntityService:GetBoundsSize( entity )
-
-    if ( size.x <= 2.5 ) then
-        scansCount = 2
-    elseif ( size.x <= 4.5 ) then
-        scansCount = 4
-    elseif ( size.x <= 9.5 ) then
-        scansCount = 8
-    else
-        scansCount = 20
-    end
-
-    return scansCount
 end
 
 function drone_player_scanner:SelectEntity( target )
@@ -322,7 +303,7 @@ function drone_player_scanner:FindBestEntity( owner, entities )
 
         for entity in Iter( entities ) do
 
-            local scansCount = drone_player_scanner:GetScansCount( entity )
+            local scansCount = SizeMattersGetScansCount( entity )
 
             local distance = EntityService:GetDistanceBetween( self.entity, entity )
 
