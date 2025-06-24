@@ -155,7 +155,7 @@ function detector:OnExecuteDetecting()
 				return false
 			end
 
-			local db = EntityService:GetOrCreateDatabase( entity )
+			local db = EntityService:GetDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -201,7 +201,7 @@ function detector:OnExecuteDetecting()
 			radius = self.enemyRadius
 		end
 
-		local db = EntityService:GetOrCreateDatabase( ent )
+		local db = EntityService:GetDatabase( ent )
 		local discoverDistance = defaultDiscoverDistance
 		if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 			discoverDistance = db:GetFloat("discovery_distance")
@@ -245,7 +245,7 @@ function detector:OnExecuteDetecting()
 		if ( type == "enemy") then
 			for eEnt in Iter(enemyEntities ) do
 				local eDistance = EntityService:GetDistanceBetween(eEnt, self.item)
-				local db = EntityService:GetOrCreateDatabase( eEnt )
+				local db = EntityService:GetDatabase( eEnt )
 				local discoverDistance = defaultDiscoverDistance
 				if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 					discoverDistance = db:GetFloat("discovery_distance")
