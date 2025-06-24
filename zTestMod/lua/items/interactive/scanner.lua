@@ -14,8 +14,6 @@ function scanner:OnInit()
 	self.effect 	= INVALID_ID
 	self.scanningTime = 0.0
 	self.lastItemEnt = nil
-	self.poseType = ""
-	self.lastItemType = ""
 end
 
 function scanner:OnEquipped()
@@ -31,21 +29,22 @@ function scanner:OnActivate( activation_id )
 	item.OnActivate( self, activation_id )
 	self:OnExecuteScaning()
 
-	QueueEvent("ShowScannableRequest", self.owner, true )	
-	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
+	QueueEvent("ShowScannableRequest", self.owner, true )
+
+	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
 		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
-		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
-		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
 	end
 	
-	ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+	if ( ownerData ~= nil ) then
+		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+	end
 end
 
 function scanner:OnDeactivate( forced )
-    local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	PlayerService:StopPadHapticFeedback( playerId )
 
 	--QueueEvent("ShowScannableRequest", self.owner, false )
@@ -54,18 +53,13 @@ function scanner:OnDeactivate( forced )
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
-	local ownerData = EntityService:GetOrCreateDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		if self.poseType ~= "" then
-			ownerData:SetString( "RIGHT_HAND_pose_type", self.poseType )
-		end
-		ownerData:SetFloat( "RIGHT_HAND_use_saspeed", 0 );
-	end
+
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	if ( forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )
 	end
+
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.5 )
 
 	if ( self.lastTarget ~= INVALID_ID ) then 
@@ -96,7 +90,7 @@ function scanner:SpawnSpecifcEffect( currentTarget )
 end
 
 function scanner:OnExecuteScaning()
-    local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	self.ammoEnt = EntityService:GetChildByName( self.item, "##ammo##" )
 	if ( self.ammoEnt == nil or self.ammoEnt == INVALID_ID ) then
 		PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
@@ -167,21 +161,21 @@ end
 
 function scanner:GetScansCount( entity )
 
-    local scansCount = 1
+	local scansCount = 1
 
-    local size = EntityService:GetBoundsSize( entity )
+	local size = EntityService:GetBoundsSize( entity )
 
-    if ( size.x <= 2.5 ) then
-        scansCount = 2
-    elseif ( size.x <= 4.5 ) then
-        scansCount = 4
-    elseif ( size.x <= 9.5 ) then
-        scansCount = 8
-    else
-        scansCount = 20
-    end
+	if ( size.x <= 2.5 ) then
+		scansCount = 2
+	elseif ( size.x <= 4.5 ) then
+		scansCount = 4
+	elseif ( size.x <= 9.5 ) then
+		scansCount = 8
+	else
+		scansCount = 20
+	end
 
-    return scansCount
+	return scansCount
 end
 
 function scanner:DissolveShow()
