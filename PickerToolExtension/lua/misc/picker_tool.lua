@@ -1705,6 +1705,8 @@ function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
+        --LogService:Log("blueprintName " .. blueprintName)
+
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
             goto labelContinue
@@ -1715,16 +1717,7 @@ function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
             goto labelContinue
         end
 
-        local targetGridSize = BuildingService:GetBuildingGridSize(entity)
-        local entityPosition = EntityService:GetPosition( entity )
-
-        local entityPerimeter = {}
-        entityPerimeter.minX = entityPosition.x - targetGridSize.x - 1
-        entityPerimeter.maxX = entityPosition.x + targetGridSize.x + 1
-
-        entityPerimeter.minZ = entityPosition.z - targetGridSize.z - 1
-        entityPerimeter.maxZ = entityPosition.z + targetGridSize.z + 1
-        entityPerimeter.y = entityPosition.y
+        local entityPerimeter = self:GetEntityArea( entity )
 
         local entityPerimeterPositions = self:GetPerimeterPositions( entityPerimeter )
 
@@ -1744,6 +1737,8 @@ function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
             local resourceConverterRef = reflection_helper(resourceConverterDesc)
             if ( resourceConverterRef ~= nil ) then
 
+                --LogService:Log("blueprintName " .. blueprintName .. " resourceConverterRef " .. tostring(resourceConverterRef))
+
                 if ( self:CheckEntityResourceConvererDesc( entity, currentEntityPosition, resourceConverterRef, entityPerimeter, entityPerimeterPositions ) ) then
 
                     return true
@@ -1755,6 +1750,62 @@ function picker_tool:CheckPositionForInOutAttachment( currentEntityPosition )
     end
 
     return false
+end
+
+function picker_tool:GetEntityArea( entity )
+
+    local entityPosition = EntityService:GetPosition( entity )
+
+    local entityPerimeter = {}
+
+    entityPerimeter.y = entityPosition.y
+
+    entityPerimeter.minX = nil
+    entityPerimeter.maxX = nil
+
+    entityPerimeter.minZ = nil
+    entityPerimeter.maxZ = nil
+
+    local gridCullerComponent = EntityService:GetComponent( entity, "GridCullerComponent" )
+
+    local gridCullerComponentRef = reflection_helper(gridCullerComponent)
+
+    local indexes = gridCullerComponentRef.terrain_cell_entities
+    for i=1,indexes.count do
+
+        local idx = indexes[i].id
+
+        local position = FindService:GetCellOrigin(idx)
+
+        if ( entityPerimeter.minX == nil or entityPerimeter.minX > position.x ) then
+
+            entityPerimeter.minX = position.x
+        end
+
+        if ( entityPerimeter.maxX == nil or entityPerimeter.maxX < position.x ) then
+
+            entityPerimeter.maxX = position.x
+        end
+
+        if ( entityPerimeter.minZ == nil or entityPerimeter.minZ > position.z ) then
+
+            entityPerimeter.minZ = position.z
+        end
+
+        if ( entityPerimeter.maxZ == nil or entityPerimeter.maxZ < position.z ) then
+
+            entityPerimeter.maxZ = position.z
+        end
+    end
+
+
+    entityPerimeter.minX = entityPerimeter.minX - 2
+    entityPerimeter.maxX = entityPerimeter.maxX + 2
+
+    entityPerimeter.minZ = entityPerimeter.minZ - 2
+    entityPerimeter.maxZ = entityPerimeter.maxZ + 2
+
+    return entityPerimeter
 end
 
 function picker_tool:GetPerimeterPositions( entityPerimeter )
@@ -1773,6 +1824,8 @@ function picker_tool:GetPerimeterPositions( entityPerimeter )
 
         Insert(result, newPosition)
 
+        --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", newPosition, EntityService:GetTeam( self.entity ))
+
         value = value + 2
     end
     
@@ -1789,6 +1842,8 @@ function picker_tool:GetPerimeterPositions( entityPerimeter )
         newPosition.z = entityPerimeter.maxZ
 
         Insert(result, newPosition)
+
+        --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", newPosition, EntityService:GetTeam( self.entity ))
 
         value = value - 2
     end
@@ -1807,6 +1862,8 @@ function picker_tool:GetPerimeterPositions( entityPerimeter )
 
         Insert(result, newPosition)
 
+        --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", newPosition, EntityService:GetTeam( self.entity ))
+
         value = value - 2
     end
     
@@ -1823,6 +1880,8 @@ function picker_tool:GetPerimeterPositions( entityPerimeter )
         newPosition.z = entityPerimeter.minZ
 
         Insert(result, newPosition)
+
+        --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", newPosition, EntityService:GetTeam( self.entity ))
 
         value = value + 2
     end
@@ -2046,6 +2105,11 @@ function picker_tool:GetAttachmentBox(nearPerimeterPosition, entityPerimeter )
         min.z = nearPerimeterPosition.z - 1
         max.z = nearPerimeterPosition.z + 3
     end
+
+    --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", {x=min.x, y=0, z=min.z}, EntityService:GetTeam( self.entity ))
+    --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", {x=min.x, y=0, z=max.z}, EntityService:GetTeam( self.entity ))
+    --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", {x=max.x, y=0, z=min.z}, EntityService:GetTeam( self.entity ))
+    --EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", {x=max.x, y=0, z=max.z}, EntityService:GetTeam( self.entity ))
 
     return min,max
 end
