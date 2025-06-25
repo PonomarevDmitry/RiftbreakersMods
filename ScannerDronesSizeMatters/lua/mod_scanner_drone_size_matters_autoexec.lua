@@ -1,6 +1,6 @@
 mod_scanner_drone_size_matters = 1
 
-function SizeMattersGetScansCount( entity )
+function DroneSizeMattersGetScansCount( entity )
 
     local scansCount = 1
 
