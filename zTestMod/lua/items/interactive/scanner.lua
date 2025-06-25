@@ -148,8 +148,8 @@ function scanner:OnExecuteScaning()
 				if ( self.scanningTime >= maxScanTime ) then
 
 					local scansCount = 1
-					if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
-						scansCount = SizeMattersGetScansCount(currentTarget)
+					if ( mod_scanner_size_matters and mod_scanner_size_matters == 1 ) then
+						scansCount = ScannerSizeMattersGetScansCount(currentTarget)
 					end
 
 					for i=1,scansCount do
