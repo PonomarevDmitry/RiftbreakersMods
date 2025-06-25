@@ -569,7 +569,7 @@ function harvester_drone:OnHarvestExit()
 
                 if ( mod_scanner_drone_size_matters and mod_scanner_drone_size_matters == 1 ) then
 
-                    scansCount = SizeMattersGetScansCount(target)
+                    scansCount = DroneSizeMattersGetScansCount(target)
                 end
 
                 for i=1,scansCount do
