@@ -7,8 +7,7 @@ function flurian_wreck:__init()
 end
 
 function flurian_wreck:initParams()
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 8
+
 end
 
 return flurian_wreck

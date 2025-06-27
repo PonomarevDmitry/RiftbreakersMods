@@ -32,9 +32,9 @@ function item_creator_continuous:OnActivate()
 
     if ( self.lastCanActivate ~= self.canActivate ) then
         if ( self.canActivate ) then
-            EntityService:ChangeMaterial( self.spawned, "selector/hologram_blue") 
+            EntityService:ChangeMaterial( self.spawned, "hologram/blue") 
         else
-            EntityService:ChangeMaterial( self.spawned, "selector/hologram_red") 
+            EntityService:ChangeMaterial( self.spawned, "hologram/red") 
         end
         self.lastCanActivate = self.canActivate;
     end
@@ -113,7 +113,7 @@ end
 function item_creator_continuous:FindAndCheckAimPosition( )
     local pos = {}
 	if ( self.createAtAim ) then
-		local mechComponent = EntityService:GetComponent(self.owner, "MechComponent" )
+		local mechComponent = EntityService:GetComponent(self.owner, "MechMovementComponent" )
 		if ( mechComponent == nil ) then
 			pos = FindService:FindEmptySpotInRadius( self.owner, 2.0, "", "").second
         else
@@ -148,13 +148,17 @@ function item_creator_continuous:CanActivate()
     self.canActivate = true
 	item.CanActivate( self )
 	if ( self.checkEmptySpot == false ) then
+        
+	    self:SetCanActivate( self.canActivate )
 		return true
 	end
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
         self.canActivate = false
+	    self:SetCanActivate( self.canActivate )
         return false
     end
 
+    self:SetCanActivate( self.canActivate )
     self.canActivate = self:HasSpot()
     return self.canActivate or self:IsActivated() 
 end

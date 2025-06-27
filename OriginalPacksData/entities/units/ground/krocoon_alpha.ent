@@ -3,6 +3,26 @@ EntityBlueprint
 	name "units/ground/krocoon_alpha"
 
 	base_blueprint "units/ground/krocoon_base"
+	
+	StateMachineDesc
+	{
+		template_name "krocoon"
+		params
+		{
+			aggressive_speed					float:"5"
+			aggressive_acceleration				float:"10"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"2"
+			rotate_speed						float:"150"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
@@ -16,7 +36,7 @@ EntityBlueprint
 
 	DatabaseComponent
 	{
-		version int:"1"	
+		version int:"2"	
 	}
 
 	HealthDesc

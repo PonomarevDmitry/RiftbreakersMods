@@ -44,8 +44,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"7000"
-		health 						"7000"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"		
 
@@ -172,7 +172,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"	
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc
@@ -442,7 +443,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_cryo"
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
 					bone "att_death"
 					scale "1 1 1"
 				}
@@ -553,7 +554,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 4 0"
+					offset "0 5 0"
+					scale "0.5 0.5 0.5"
 				}
 			}
 		}	
@@ -668,7 +670,21 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}		
+		}	
+		EffectGroup
+		{
+			group 	"armor"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "units/ground/arachnoid_boss_armour"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}			
 	}
 
 	FxComponent
@@ -782,9 +798,9 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
-						attack_start_time			"0.43"
-						attack_end_time				"0.63"
-						attack_duration 			"1.30"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
 						damage_multiple  			"1"
 					}
 				}
@@ -863,9 +879,9 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
-						attack_start_time			"0.43"
-						attack_end_time				"0.63"
-						attack_duration 			"1.30"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
 						damage_multiple  			"1"
 					}
 				}
@@ -926,6 +942,11 @@ EntityBlueprint
 {
 	name  "units/ground/arachnoid_boss_armour"
 
+	IdDesc
+	{
+		name "armor"
+	}
+	
 	NetReplicationDisabledComponent
 	{
 	}

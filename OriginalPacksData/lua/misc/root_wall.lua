@@ -9,6 +9,7 @@ function root_wall:init()
 	self.originToStopAboveGroundHeight = self.data:GetFloatOrDefault( "origin_to_stop_above_ground_height", 0.0 )
 	self.lifeTime = self.data:GetFloatOrDefault( "life_time", 10.0 )
 	self.acceleration = self.data:GetFloatOrDefault( "speed_acceleration", 15.0 )
+	self.dynamicSpace = self.data:GetIntOrDefault( "dynamic_space", 0 )
 
 	self.sm = self:CreateStateMachine()
 	self.sm:AddState( "wait", { enter="OnWaitEnter", exit="OnWaitExit" } )
@@ -21,6 +22,10 @@ function root_wall:init()
 	self.onTrigger = false
 
 	EntityService:SetOrientation( self.entity, 0.0, 1.0, 0.0, self.angle );
+end
+
+function root_wall:OnLoad()
+	self.freeSpace = self.data:GetFloatOrDefault( "free_space", 0 )
 end
 
 function root_wall:OnWaitEnter( state )
@@ -54,14 +59,15 @@ function root_wall:OnMoveExecute( state, dt )
 	-- remove this later
 	if ( self.onTrigger == false ) and ( self.position.y > ( self.originToStopAboveGroundHeight - 3.0 ) ) then 
 		
-		local rocksCount = RandInt( 5, 10)
-		for i =1,rocksCount do
-			local ent = ItemService:SpawnLoot( self.entity, "units/ground/drexolian/wall_debris", 30.0, 6000, 12000, "normal" )
-			EffectService:AttachEffect( ent, "effects/enemies_drexolian/wall_part_trail" )
-			EntityService:DissolveEntity( ent, 1.0, 3.0 )
-		end
-		
+		EntityService:RequestDestroyPattern( self.entity, "waller", false )
+
 		self.onTrigger = true
+
+		if ( self.dynamicSpace == 1 ) then
+
+			EntityService:SpawnEntity( "units/ground/drexolian/wall_explosion", self.entity, "enemy" )			
+			EntityService:RemoveEntity( self.entity )
+		end
 	end
 
 end

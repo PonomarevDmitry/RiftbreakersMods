@@ -14,7 +14,7 @@ function bradron:OnInit()
 	self:RegisterHandler( self.entity, "ChargeAttackEndEvent",  "OnChargeAttackEndEvent" )	
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end

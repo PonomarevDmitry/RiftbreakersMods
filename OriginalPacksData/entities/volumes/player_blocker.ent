@@ -40,3 +40,58 @@ EntityBlueprint
 
 }
 
+EntityBlueprint
+{
+	name             "volumes/player_blocker_sphere"
+
+	SceneEditorDesc
+    {
+        mesh        "meshes/sphere.mesh"
+        material    "volumes/player_blocker"
+
+        initial_scale
+        {
+            x "5.0"
+            y "1.0"
+            z "5.0"
+        }
+    }
+
+	PhysicsDesc
+    {
+        objects
+        {
+            PhysicsObjectDesc
+            {
+                group_id    "player_blocker"
+                type        "static"
+
+                Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "0.5"
+						half_height "1"
+
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}
+            }
+        }
+    }
+
+
+}

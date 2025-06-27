@@ -22,6 +22,11 @@ EntityBlueprint
 	{
 		attack_movement_factor	"0.65"
 	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
+	}
 
 	BurstWeaponComponent
 	{
@@ -69,7 +74,7 @@ EntityBlueprint
 				charge_muzzle_flash_effect  "effects/weapons_fluid/lava_gun_charged_fire"
 
 				charge_time_start           "0.3"
-				charge_time_end             "1.5"
+				charge_time_end             "2.0"
 				charge_muzzle_idx           "0"
 
 				burst_column_spacing 		"0.5"
@@ -188,6 +193,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/lava_gun_advanced"
 		bigger_icon "gui/menu/items_icons/weapons/lava_gun_advanced"
 		description "gui/menu/inventory/weapon_charge_description/lava_gun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -242,6 +248,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/lava_gun_superior"
 		bigger_icon "gui/menu/items_icons/weapons/lava_gun_superior"
 		description "gui/menu/inventory/weapon_charge_description/lava_gun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -297,6 +304,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/lava_gun_extreme"
 		bigger_icon "gui/menu/items_icons/weapons/lava_gun_extreme"
 		description "gui/menu/inventory/weapon_charge_description/lava_gun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -333,6 +341,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/lava_gun"
 		bigger_icon "gui/menu/items_icons/weapons/lava_gun"
 		description "gui/menu/inventory/weapon_charge_description/lava_gun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -382,6 +391,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ProjectileAmmoComponent
@@ -391,8 +401,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_hit"
 		hit_effect_direction 	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
-		
+		//collision_2d 			"ground_unit|destructible"
+		diameter				"1"
 		DamagePattern
 		{
 			area_damage_effect_scale	"splash"
@@ -463,6 +473,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ProjectileAmmoComponent
@@ -472,8 +483,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapons_fluid/lava_gun_charged_hit"
 		hit_effect_direction 	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
-		
+		//collision_2d 			"ground_unit|destructible"
+		diameter				"1"
 		DamagePattern
 		{
 			area_damage_effect_scale	"splash"

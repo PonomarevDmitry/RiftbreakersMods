@@ -11,7 +11,7 @@ function nerilian:OnInit()
 	self.data:SetInt( "skip_dig_up", 1 )
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
 
 	self.firstTimeDig = true
 end

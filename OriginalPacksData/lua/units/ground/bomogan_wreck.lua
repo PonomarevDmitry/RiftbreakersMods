@@ -7,9 +7,7 @@ function bomogan_wreck:__init()
 end
 
 function bomogan_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return bomogan_wreck

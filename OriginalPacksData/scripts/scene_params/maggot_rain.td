@@ -37,6 +37,7 @@ TimeOfDayPreset
 
 		time_of_day "0"
 		weather_effect "effects/weather/rain_toxic"
+		weather_biome_mod "effects/biome_mod/rain_toxic"
 		weather_wind "effects/wind/rain"
 		weather_type "1"
 	}
@@ -78,6 +79,7 @@ TimeOfDayPreset
 
 		time_of_day "2"
 		weather_effect "effects/weather/rain_toxic"
+		weather_biome_mod "effects/biome_mod/rain_toxic"
 		weather_wind "effects/wind/rain"
 		weather_type "1"
 	}

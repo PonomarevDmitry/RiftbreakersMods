@@ -9,6 +9,8 @@ function mission_magma_find_rare_resource:__init()
 end
 
 function mission_magma_find_rare_resource:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/magma_find_rare_resource.logic", "default" )

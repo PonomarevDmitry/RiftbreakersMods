@@ -177,7 +177,8 @@ EntityBlueprint
 			y "1"
 		}
 		additional_z_order	"2"			
-		visibility			"discovered" 
+		visibility			"discovered"
+		layer_group			"enemies"
 	}
 
 	LootDesc
@@ -308,9 +309,8 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/messages_and_markers/explosion_radius"
-					scale "1 1 1"
-				}
+					blueprint "props/special/undergound_mushroom/danger_marker"
+				}				
 			}
 		}		
 		EffectGroup
@@ -348,6 +348,7 @@ EntityBlueprint
 		item_count 			"3"
 		radius 				"8"
 		remove_entity 		"1"
+		priority			"12"
 	}
 
 	GridMarkerComponent
@@ -658,9 +659,8 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/messages_and_markers/explosion_radius"
-					scale "1 1 1"
-				}
+					blueprint "props/special/undergound_mushroom/danger_marker"
+				}					
 			}
 		}		
 		EffectGroup
@@ -679,3 +679,19 @@ EntityBlueprint
 	}	
 }
 
+EntityBlueprint
+{ 
+	name "props/special/undergound_mushroom/danger_marker"
+	base_blueprint effects/messages_and_markers/danger_marker_red
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+
+		database
+		{
+			override_radius		float:"15"
+			override_time   	float:"1.3"
+		}
+	}
+}

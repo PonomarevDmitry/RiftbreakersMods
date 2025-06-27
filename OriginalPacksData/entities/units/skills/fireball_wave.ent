@@ -1,0 +1,318 @@
+EntityBlueprint
+{
+	name "units/skills/fireball_wave"
+	
+	NetReplicateOnceComponent
+	
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"45"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/fireball_wave"
+		description 	"gui/hud/enemy_skill_description/fireball_wave"
+		icon 			"gui/menu/inventory/stat_icons/flame_wave_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/fireball_wave_effect"
+			wave_spawn_effect	string:	"units/skills/fireball_wave_spawn_effect"
+			//spawn_attachment	string:	"att_additional_damage_wave"
+			spawn_min_time		float:	"2.00"
+			spawn_max_time		float:	"2.50"
+			speed				float:	"20"
+			radius				int:	"70"
+			angle				int:	"35"
+			spread				int:	"12"
+			elements_count		int:	"3"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/fireball_wave_lvl_2"
+	base_blueprint	"units/skills/fireball_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/fireball_wave_lvl_2"
+		description 	"gui/hud/enemy_skill_description/fireball_wave"
+		icon 			"gui/menu/inventory/stat_icons/flame_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/fireball_wave_effect_lvl_2"
+			wave_spawn_effect	string:	"units/skills/fireball_wave_spawn_effect"
+			//spawn_attachment	string:	"att_additional_damage_wave"
+			spawn_min_time		float:	"1.75"
+			spawn_max_time		float:	"2.25"
+			speed				float:	"20"
+			radius				int:	"70"
+			angle				int:	"55"
+			spread				int:	"11"
+			elements_count		int:	"4"
+		}			
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/fireball_wave_lvl_3"
+	base_blueprint	"units/skills/fireball_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/fireball_wave_lvl_3"
+		description 	"gui/hud/enemy_skill_description/fireball_wave"
+		icon 			"gui/menu/inventory/stat_icons/flame_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/fireball_wave_effect_lvl_3"
+			wave_spawn_effect	string:	"units/skills/fireball_wave_spawn_effect"
+			//spawn_attachment	string:	"att_additional_damage_wave"
+			spawn_min_time		float:	"1.75"
+			spawn_max_time		float:	"2.25"
+			speed				float:	"20"
+			radius				int:	"70"
+			angle				int:	"70"
+			spread				int:	"9"
+			elements_count		int:	"5"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/fireball_wave_lvl_4"
+	base_blueprint	"units/skills/fireball_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/fireball_wave_lvl_4"
+		description 	"gui/hud/enemy_skill_description/fireball_wave"
+		icon 			"gui/menu/inventory/stat_icons/flame_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/fireball_wave_effect_lvl_4"
+			wave_spawn_effect	string:	"units/skills/fireball_wave_spawn_effect"
+			//spawn_attachment	string:	"att_additional_damage_wave"
+			spawn_min_time		float:	"1.75"
+			spawn_max_time		float:	"2.25"
+			speed				float:	"20"
+			radius				int:	"70"
+			angle				int:	"85"
+			spread				int:	"8"
+			elements_count		int:	"6"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/fireball_wave_effect"
+	
+	base_blueprint "lights/point/fire_orange_very_small"
+	
+	MeshDesc
+	{
+		mesh "meshes/projectiles/fireball.mesh"
+		material "projectiles/fireball"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		destroy_pattern			"default"		
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
+
+		friendly_fire			"pass"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"50"
+					type 	"fire"
+				}
+			}
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/fireball"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/anoryxian/lightning"
+	}	
+	LifeTimeDesc
+	{
+		time "10.0"
+	}	
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/fireball_wave_effect_lvl_2"
+	base_blueprint 	"units/skills/fireball_wave_effect"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		destroy_pattern			"default"		
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
+		friendly_fire			"pass"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4.5"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"60"
+					type 	"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/fireball_wave_effect_lvl_3"
+	base_blueprint 	"units/skills/fireball_wave_effect"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		destroy_pattern			"default"		
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
+		friendly_fire			"pass"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"70"
+					type 	"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/fireball_wave_effect_lvl_4"
+	base_blueprint 	"units/skills/fireball_wave_effect"
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		on_world_hit_effect 	"effects/weapons_explosive/explosion_medium"
+		destroy_pattern			"default"		
+		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small"
+		friendly_fire			"pass"
+
+		DamagePattern
+		{
+			area_damage_radius 	"5.5"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"80"
+					type 	"fire"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/fireball_wave_spawn_effect"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_medium
+		 effects/default
+	}	
+	name "effects/enemy_skills/fireball_spawn"	
+
+	ParticleDesc
+	{
+		name    "rift/fireball_spawn"
+	}
+	
+	SoundDesc
+	{
+		name "enemies/generic/enemy_skills/fireball_spawn"
+	}
+
+}
+
+
+EntityBlueprint
+{
+	name "units/skills/fireball_wave_warning"
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"markers/danger_marker_progress_angle_red"
+	}
+}

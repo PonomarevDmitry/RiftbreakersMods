@@ -1,8 +1,8 @@
-//editor "scroll(1546.63,2037.59)|zoom(0.53)"
+//editor "scroll(2390.66,4208.01)|zoom(0.27)"
 FlowGraphTemplate
 {
-	version "16"
-	editor "6085"
+	version "18"
+	editor "6315"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -49,7 +49,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(10594,8481)"
+			//editor "layout(event_end.xml)|pos(10947,8481)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -257,7 +257,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3521,4349)"
+			//editor "layout(logic_wait.xml)|pos(3661,4355)"
 			database
 			{
 				Floats
@@ -658,7 +658,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(1575,1617)"
+			//editor "layout(logic_wait.xml)|pos(1701,1649)"
 			database
 			{
 				Floats
@@ -2597,22 +2597,11 @@ FlowGraphTemplate
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/flurian_ultra"
-					count "2"
+					count "3"
 					delay "5"
 					delay_group "5.00"
 					spawn_type "blueprint"
 					units_in_one_spawn "3"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/flurian_boss_energy"
-					count "1"
-					delay "1"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
 				}
 
 			}
@@ -2777,7 +2766,7 @@ FlowGraphTemplate
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/flurian_ultra"
-					count "2"
+					count "3"
 					delay "5"
 					delay_group "5.00"
 					spawn_type "blueprint"
@@ -2795,19 +2784,242 @@ FlowGraphTemplate
 					units_in_one_spawn "50"
 				}
 
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(2239,245)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Direction"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_16"
+			spawn_group
+			spawn_point "spawn_direction_1"
+			Enemies
+			{
+				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/flurian_boss_energy"
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_metallic_random"
 					count "1"
 					delay "1"
 					delay_group "0"
-					spawn_type "blueprint"
+					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
 
 			}
 
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(4092,2874)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Direction"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_19"
+			spawn_group
+			spawn_point "spawn_direction_2"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_metallic_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(4612,662)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_13"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(6960,3189)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_14"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9501,7253)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_15"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(10713,8480)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_16"
 		}
 
 	}
@@ -2819,15 +3031,19 @@ FlowGraphTemplate
 		logic_and_10 "logic_or_0"
 		logic_and_11 "logic_and_12"
 		logic_and_12 "logic_wait_13"
+		logic_and_13 "logic_and_14"
+		logic_and_14 "logic_and_15"
+		logic_and_15 "logic_and_16"
+		logic_and_16 "event_end_0"
 		logic_and_2 "logic_and_7"
 		logic_and_3 "logic_and_7"
 		logic_and_4 "logic_and_8"
 		logic_and_5 "logic_and_8"
 		logic_and_6 "logic_and_8"
 		logic_and_7 "logic_and_9"
-		logic_and_8 "logic_and_10|logic_and_9"
+		logic_and_8 "logic_and_10"
 		logic_and_9 "logic_and_10"
-		logic_or_0 "event_end_0"
+		logic_or_0 "logic_and_16"
 		logic_or_1 "wave_ground_6"
 		logic_or_2 "wave_ground_1"
 		logic_or_3 "wave_ground_18"
@@ -2842,10 +3058,10 @@ FlowGraphTemplate
 		logic_wait_16 "logic_or_3|logic_wait_0"
 		logic_wait_17 "logic_or_4|logic_wait_10"
 		logic_wait_2 "logic_wait_16|wave_ground_14"
-		logic_wait_4 "wave_ground_4"
+		logic_wait_4 "wave_ground_19|wave_ground_4"
 		logic_wait_5 "wave_ground_12"
 		logic_wait_6 "logic_wait_15|logic_wait_5|wave_ground_13"
-		logic_wait_7 "logic_wait_2|logic_wait_6|wave_ground_5"
+		logic_wait_7 "logic_wait_2|logic_wait_6|wave_ground_16|wave_ground_5"
 		logic_wait_9 "logic_wait_17|wave_ground_15"
 		wave_ground_1 "logic_and_3"
 		wave_ground_11 "logic_or_1"
@@ -2853,8 +3069,10 @@ FlowGraphTemplate
 		wave_ground_13 "logic_or_2"
 		wave_ground_14 "logic_or_3"
 		wave_ground_15 "logic_or_4"
+		wave_ground_16 "logic_and_13"
 		wave_ground_17 "logic_and_4"
 		wave_ground_18 "logic_and_4"
+		wave_ground_19 "logic_and_14"
 		wave_ground_2 "logic_and_5"
 		wave_ground_3 "logic_and_5"
 		wave_ground_4 "logic_and_3"
@@ -2870,7 +3088,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 1 - MIXED WAVES"
 			position "480.00,208.00"
-			size "4216.00,2556.00"
+			size "4256.00,2616.00"
 			color "0.59,0.64,1.00,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2880,7 +3098,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 2 - BASIC SWARM WAVES"
 			position "1840.00,2656.00"
-			size "3176.00,3180.00"
+			size "3216.00,3240.00"
 			color "0.20,0.53,0.15,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2890,7 +3108,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 3 - MIXED RANGE ATTACKERS"
 			position "2112.00,6192.00"
-			size "2856.00,2508.00"
+			size "2896.00,2568.00"
 			color "0.48,0.41,0.93,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2900,7 +3118,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 4 - RANGED + HEDRONER FOCUS"
 			position "3328.00,8528.00"
-			size "2968.00,2636.00"
+			size "3008.00,2696.00"
 			color "0.34,0.41,0.53,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2910,7 +3128,7 @@ FlowGraphTemplate
 		{
 			comment "FOLLOW-UP ATTACK FOR DIRECTIONS 1& 2"
 			position "5616.00,11120.00"
-			size "2912.00,3344.00"
+			size "2952.00,3404.00"
 			color "0.00,0.50,0.00,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"

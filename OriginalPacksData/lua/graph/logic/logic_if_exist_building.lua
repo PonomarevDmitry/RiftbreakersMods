@@ -6,8 +6,9 @@ end
 
 function logic_if_exist_building:init()
     self.count = self.data:GetInt("count")    	
-    self.targetName = self.data:GetString("target_name")
-    self.targetBp = self.data:GetString("target_bp")
+    self.targetName = self.data:GetStringOrDefault("target_name", "")
+    self.targetBp = self.data:GetStringOrDefault("target_bp", "")
+    self.targetGlobalName = self.data:GetStringOrDefault("target_global_name", "")
     self.comparisonType = self.data:GetString("comparison_type")
 	self.waitUntilTrue = self.data:GetString("wait_until_true")
 
@@ -67,7 +68,10 @@ function logic_if_exist_building:Find()
        return BuildingService:GetBuildingByNameCount( self.targetName )         
    elseif self.targetBp ~= "" then        
        --LogService:Log("TARGET GROUP = " .. self.targetGroup)
-       return BuildingService:GetBuildingByBpCount( self.targetBp )           
+       return BuildingService:GetBuildingByBpCount( self.targetBp )     
+   elseif self.targetGlobalName ~= "" then
+       return BuildingService:GetGlobalBuildingByNameCount( self.targetGlobalName )     
+          
    else
         Assert(false, "ERROR: No target name or target blueprint specified in " .. self.self_id )
     

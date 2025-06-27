@@ -22,7 +22,7 @@ end
 function FindFarthestEntity( source, entities )
     local closest = {
         entity = INVALID_ID,
-        distance = nil
+        distance = 0
     };
 
     for entity in Iter( entities ) do

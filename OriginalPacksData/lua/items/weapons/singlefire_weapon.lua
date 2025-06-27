@@ -36,8 +36,8 @@ function singlefire_weapon:OnEquipped()
     end
 end
 
-function singlefire_weapon:OnActivate()
-    WeaponService:ShootOnce( self.item );
+function singlefire_weapon:OnActivate( activation_id )
+    WeaponService:ShootOnce( self.item, activation_id );
 end
 
 function singlefire_weapon:OnDeactivate()
@@ -55,7 +55,7 @@ end
 function singlefire_weapon:OnAimingMarkerExecute( state )
     if ( self.aimEnt == INVALID_ID or EntityService:IsAlive( self.aimEnt ) == false ) then 
         self.aimEnt = self:SpawnReferenceEntity( self.aimBp, { x=0, y=0, z=0 })
-        EntityService:CreateComponent(self.aimEnt, "NetReplicateToOwnerComponent")
+        EntityService:CreateComponent(self.aimEnt, "NetReplicationDisabledComponent")
     end
 
     WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.aimMaxDistance )

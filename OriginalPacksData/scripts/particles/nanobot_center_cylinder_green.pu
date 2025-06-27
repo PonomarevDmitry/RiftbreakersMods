@@ -1,0 +1,177 @@
+system rift/nanobot_center_cylinder_green
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 30
+    technique sparks_gravity_sphere_1
+    {
+        keep_local                              true
+        visual_particle_quota                   400
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface DebrisEmitter
+        {
+            emission_rate                       1000
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            keep_local                          true
+            start_colour_range                  1 1 1 1
+            radius                              25
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.054902 0.054902 0.054902 0.494118
+            time_colour                         0.330435  1 1 1 1
+            time_colour                         0.663043  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Vortex 
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      3
+        }
+        affector                                Gravity 
+        {
+            mass_affector                       50
+            gravity                             50
+        }
+    }
+    technique sparks_gravity_sphere_2
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       400
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            position                            0 -9 0
+            keep_local                          true
+            direction                           0 -1 0
+            start_colour_range                  1 1 1 1
+            radius                              24
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.054902 0.054902 0.054902 0.494118
+            time_colour                         0.330435  1 1 1 1
+            time_colour                         0.663043  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Vortex Affector387
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+    technique sparks_gravity_sphere_3
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/green_spark_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       400
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            position                            0 30 0
+            keep_local                          true
+            direction                           0 -1 0
+            start_colour_range                  1 1 1 1
+            radius                              10
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.054902 0.054902 0.054902 0.494118
+            time_colour                         0.330435  1 1 1 1
+            time_colour                         0.663043  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Vortex Affector387
+        {
+            rotation_axis                       0 1 0
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+}

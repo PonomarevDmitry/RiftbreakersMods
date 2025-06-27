@@ -418,40 +418,13 @@ CreatureSpecies
 {
     species_name "spawner_swamp"
 
-    volume_non_aggressive_distance      "60"
-	volume_respawn_time                 "1800"                           // respawn volume in seconds
-	volume_aggressive_distance      	"42"
-
-    creatures
-    {
-        Creature
-        {
-            blueprint               "units/ground/spawner_swamp_stickrid"
-            min_difficulty_factor   "0.0"
-            volume_spawn_proximity_factor    "1"
-        }
-
-        Creature
-        {
-            blueprint               "units/ground/spawner_swamp_fungor"
-            min_difficulty_factor   "0.0"
-            volume_spawn_proximity_factor    "1"
-        }
-
-        Creature
-        {
-            blueprint               "units/ground/spawner_swamp_plutrodon"
-            min_difficulty_factor   "0.0"
-            volume_spawn_proximity_factor    "1"
-        }
-		
-        Creature
-        {
-            blueprint               "units/ground/spawner_swamp_canceroth"
-            min_difficulty_factor   "0.0"
-            volume_spawn_proximity_factor    "1"
-        }		
-    }
+    creatures_group											// weighted random
+	{
+		spawner_fungor_elite 1.0
+		spawner_stickrid_elite 1.0
+		spawner_plutrodon_elite 1.0
+		spawner_canceroth_elite 1.0
+	}
 }
 
 CreatureSpecies

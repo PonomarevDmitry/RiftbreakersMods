@@ -7,7 +7,7 @@ end
 function logic_if_research_finished:Activated()		
    
 	local researchId = self.data:GetString("research_id")    
-	local finished = PlayerService:IsResearchUnlocked( researchId )
+	local finished = PlayerService:IsResearchUnlocked(PlayerService:GetLeadingPlayer(), researchId )
 	
 	if ( finished ) then
 		return self:SetFinished("true")

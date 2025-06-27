@@ -6,6 +6,7 @@ TimeOfDayPreset
 		weather_haptic "sound/samples/haptic/ambient_hail.wav"
 
 		weather_effect "effects/weather/blue_hail"
+		weather_biome_mod "effects/biome_mod/blue_hail"
 		weather_wind "effects/wind/strong"
 		weather_type "1"
 		time_of_day "2"
@@ -131,6 +132,7 @@ TimeOfDayPreset
 		weather_haptic "sound/samples/haptic/ambient_hail.wav"
 
 		weather_effect "effects/weather/blue_hail"
+		weather_biome_mod "effects/biome_mod/blue_hail"
 		weather_wind "effects/wind/strong"
 		weather_type "1"
 		time_of_day "0"

@@ -33,12 +33,18 @@ return function()
 		{ action = "spawn_solar_eclipse", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 5, logicFile="logic/weather/solar_eclipse.logic", minTime = 60, maxTime = 120, weight = 0.5 },
 		{ action = "spawn_super_moon", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/super_moon.logic", minTime = 60, maxTime = 120, weight = 0.5 },
 		{ action = "spawn_super_moon", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/super_moon.logic", minTime = 60, maxTime = 120, weight = 0.5 },
-		--{ action = "spawn_fog", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/fog.logic", minTime = 60, maxTime = 120, weight = 0.5  },
-		--{ action = "spawn_fog", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/fog.logic", minTime = 60, maxTime = 120, weight = 0.5  },
-		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3 },
-		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3 },
-		--{ action = "spawn_rain", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/rain.logic", minTime = 120, maxTime = 120, weight = 0.5 },
-		--{ action = "spawn_rain", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/rain.logic", minTime = 120, maxTime = 120, weight = 0.5 },
+		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 2, maxEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "normal" } },
+		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "normal" } },
+		{ action = "shegret_attack_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 5, maxEventLevel = 7, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "hard" } },
+		{ action = "shegret_attack_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 5, maxEventLevel = 7, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "hard" } },
+		{ action = "shegret_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "shegret_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "kermon_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "normal" } },
+		{ action = "kermon_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "normal" } },
+		{ action = "kermon_attack_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 6, maxEventLevel = 7, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "hard" } },
+		{ action = "kermon_attack_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 6, maxEventLevel = 7, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "hard" } },
+		{ action = "kermon_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "kermon_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "very_hard" } },
 		{ action = "spawn_wind_weak", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_weak.logic", minTime = 120, maxTime = 180, weight = 3 },
 		{ action = "spawn_wind_weak", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/wind_weak.logic", minTime = 120, maxTime = 180, weight = 3 },
 		{ action = "spawn_wind_strong", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/wind_strong.logic", minTime = 60, maxTime = 120 },
@@ -46,11 +52,7 @@ return function()
 		{ action = "spawn_wind_none", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/wind_none.logic", minTime = 90, maxTime = 150, weight = 3 },
 		{ action = "spawn_wind_none", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/wind_none.logic", minTime = 90, maxTime = 150, weight = 3 },
 		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60, weight = 1 },
-		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60, weight = 1 },
-		--{ action = "spawn_tornado_near_player", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/tornado_near_player.logic", weight = 0.5 },
-		--{ action = "spawn_tornado_near_player", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, maxEventLevel = 2, logicFile="logic/weather/tornado_near_player.logic", weight = 0.5 },
-		--{ action = "spawn_tornado_near_base", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/tornado_near_base.logic", weight = 0.5 },
-		--{ action = "spawn_tornado_near_base", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/tornado_near_base.logic", weight = 0.5 },		
+		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60, weight = 1 },		
 		{ action = "spawn_resource_comet", type = "POSITIVE", gameStates = "IDLE|STREAMING", minEventLevel = 4, logicFile="logic/weather/resource_comet.logic"  },
 		{ action = "spawn_resource_comet", type = "POSITIVE", gameStates = "IDLE|NO_STREAMING", minEventLevel = 4, logicFile="logic/weather/resource_comet.logic"  },
 		{ action = "spawn_resource_earthquake", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 5, logicFile="logic/weather/resource_earthquake.logic" },
@@ -93,17 +95,17 @@ return function()
 
 	rules.buildingsUpgradeStartsLogic = 
 	{			
-		{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
-		{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
-		{ name = "headquarters_lvl_4", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
+		--{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
+		--{ name = "headquarters_lvl_4", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
 	}
 
 	rules.objectivesLogic = 
 	{
-		{ name = "logic/objectives/kill_elite_krocoon.logic", minDifficultyLevel = 3 },
+		{ name = "logic/objectives/kill_elite_dynamic.logic", minDifficultyLevel = 3 },
 		{ name = "logic/objectives/destroy_nest_wingmite_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 5 }, 
 		{ name = "logic/objectives/destroy_nest_wingmite_multiple.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_nest_bradron_single.logic", minDifficultyLevel = 4, maxDifficultyLevel = 6 }, 
@@ -112,6 +114,141 @@ return function()
 		{ name = "logic/objectives/destroy_nest_octabit_multiple.logic", minDifficultyLevel = 7 },
 		{ name = "logic/objectives/destroy_nest_flurian_single.logic", minDifficultyLevel = 6, maxDifficultyLevel = 8 }, 
 		{ name = "logic/objectives/destroy_nest_flurian_multiple.logic", minDifficultyLevel = 8 }
+	}
+	
+	rules.creatureDifficultyIncrementPerDOMDifficulty =
+	{
+		[1] =
+		{	
+			0,	 -- initial difficulty
+			0, -- difficulty level 2
+			0, -- difficulty level 3	
+			0, -- difficulty level 4
+			0, -- difficulty level 5
+			0.5, -- difficulty level 6
+			0.5, -- difficulty level 7
+			0.5, -- difficulty level 8
+			1.5, -- difficulty level 9
+		},
+		[2] =
+		{	
+			0, -- initial difficulty
+			2, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			0, -- difficulty level 9
+		},
+		[3] =
+		{	
+			2,	 -- initial difficulty
+			0, -- difficulty level 2
+			1, -- difficulty level 3	
+			0, -- difficulty level 4
+			1, -- difficulty level 5
+			0, -- difficulty level 6
+			1, -- difficulty level 7
+			0, -- difficulty level 8
+			1, -- difficulty level 9
+		},
+		[4] =
+		{	
+			2,	 -- initial difficulty
+			1, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			1, -- difficulty level 9
+		},
+	}
+	
+	rules.multiplayerWaves = 
+	{
+		 -- difficulty level 1		
+		{ 
+			additionalWaves = -1, -- Additional Waves count = 1 + additionalWaves - regardless of player number. Multiplayer Additional waves are disabled in single player mode. Check dom_mananger:GetMultiplayerAttackCount for actual code
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
+			}
+		},
+	
+		 -- difficulty level 2
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
+			}
+		},
+		 -- difficulty level 3
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+			}
+		},
+
+		 -- difficulty level 4
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+			}
+		},
+
+		 -- difficulty level 5
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},
+			}
+		},
+
+		 -- difficulty level 6
+		{ 
+			additionalWaves = 1,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},
+			}
+		},
+
+		 -- difficulty level 7
+		{ 
+			additionalWaves = 1,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 8
+		{ 
+			additionalWaves = 1,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 9
+		{ 
+			additionalWaves = 1,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
 	}
 
 	rules.cooldownAfterAttacks = 
@@ -181,45 +318,45 @@ return function()
 		{
 			-- difficulty level 1		
 			{ 
-				"logic/missions/survival/metallic/attack_level_1_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_1_id_2_metallic.logic",
+				{ name="logic/missions/survival/metallic/attack_level_1_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
+				{ name="logic/missions/survival/metallic/attack_level_1_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
 			},
 	
 			 -- difficulty level 2
 			{ 			
-				"logic/missions/survival/metallic/attack_level_2_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_2_id_2_metallic.logic",
+				{ name="logic/missions/survival/metallic/attack_level_2_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
+				{ name="logic/missions/survival/metallic/attack_level_2_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
 			},
 
 			 -- difficulty level 3
 			{ 
-				"logic/missions/survival/metallic/attack_level_3_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_3_id_2_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", -- double wave to increase octabit probability
-				"logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", -- double wave to increase octabit probability
+				{ name="logic/missions/survival/metallic/attack_level_3_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+				{ name="logic/missions/survival/metallic/attack_level_3_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+				{ name="logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+				{ name="logic/missions/survival/metallic/attack_level_3_id_3_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
 			},
 
 			 -- difficulty level 4
 			{ 			
-				"logic/missions/survival/metallic/attack_level_4_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_4_id_2_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_4_id_3_metallic.logic",
+				{ name="logic/missions/survival/metallic/attack_level_4_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+				{ name="logic/missions/survival/metallic/attack_level_4_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+				{ name="logic/missions/survival/metallic/attack_level_4_id_3_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
 				--"logic/missions/survival/metallic/attack_level_4_id_4_metallic.logic",
 			},
 
 			 -- difficulty level 5
 			{ 
-				"logic/missions/survival/metallic/attack_level_5_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_5_id_2_metallic.logic",			
-				"logic/missions/survival/metallic/attack_level_5_id_3_metallic.logic",			
+				{ name="logic/missions/survival/metallic/attack_level_5_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},
+				{ name="logic/missions/survival/metallic/attack_level_5_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},			
+				{ name="logic/missions/survival/metallic/attack_level_5_id_3_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},			
 				--"logic/missions/survival/metallic/attack_level_5_id_4_metallic.logic",			
 			},
 
 			 -- difficulty level 6
 			{ 
-				"logic/missions/survival/metallic/attack_level_6_id_1_metallic.logic",
-				"logic/missions/survival/metallic/attack_level_6_id_2_metallic.logic",			
-				"logic/missions/survival/metallic/attack_level_6_id_3_metallic.logic",			
+				{ name="logic/missions/survival/metallic/attack_level_6_id_1_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},
+				{ name="logic/missions/survival/metallic/attack_level_6_id_2_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},		
+				{ name="logic/missions/survival/metallic/attack_level_6_id_3_metallic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},		
 				--"logic/missions/survival/metallic/attack_level_6_id_4_metallic.logic",			
 				--"logic/missions/survival/metallic/attack_level_6_id_5_metallic.logic",			
 			},
@@ -331,47 +468,47 @@ return function()
 	{
 		 -- difficulty level 1		
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 	
 		 -- difficulty level 2
 		{ 			
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 3
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 4
 		{ 			
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 5
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 6
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",				
+			"logic/missions/survival/attack_boss_dynamic.logic",				
 		},
 
 		 -- difficulty level 7
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 8
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 9
 		{ 
-			"logic/missions/survival/attack_boss_krocoon.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 	}
 

@@ -66,7 +66,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -80,7 +79,6 @@ GuiRootGroupDef
 													cmd "GuiScriptCommandPlayMovieDef"
 													{
 														path "..@movie"
-														type "play_movie"
 													}
 
 												}
@@ -91,7 +89,6 @@ GuiRootGroupDef
 													{
 														path "..@movie"
 														visible "1"
-														type "set_visible"
 													}
 
 												}
@@ -115,7 +112,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -123,10 +119,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -176,16 +168,40 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "reference"
+			value "GuiReferenceDef"
+			{
+				path "skip"
+				ref_gui_id "gui/template/skip_group"
+				alignment "bottom_right"
+				anchor "bottom_right"
+				id "reference"
+				margin
+				{
+					w "50.000"
+					y "50.000"
+					z "50.000"
+				}
+
+				scale
+				{
+					x "0.750"
+					y "0.750"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				z_order "25.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "subtitle"
 			value "GuiTextBoxDef"
 			{
-				max_size
-				{
-					x "1550.000"
-					y "300.000"
-				}
-
-				content "COMMON_Text_Line"
+				content "DIALOG/story/dlc_1/ashley_outro_destroyed_03"
 				style
 				{
 					char_height "45.000"
@@ -217,10 +233,16 @@ GuiRootGroupDef
 				translate "1"
 				alignment "center"
 				id "subtitle"
+				max_size
+				{
+					x "1400.000"
+					y "300.000"
+				}
+
 				offset
 				{
 					x "960.000"
-					y "928.000"
+					y "950.000"
 				}
 
 				z_order "2.000"
@@ -233,12 +255,6 @@ GuiRootGroupDef
 			key "subtitle_left"
 			value "GuiTextBoxDef"
 			{
-				max_size
-				{
-					x "872.000"
-					y "200.000"
-				}
-
 				content "COMMON_Text_Line"
 				style
 				{
@@ -270,6 +286,12 @@ GuiRootGroupDef
 				style_name "popups_content"
 				translate "1"
 				id "subtitle_left"
+				max_size
+				{
+					x "872.000"
+					y "200.000"
+				}
+
 				offset
 				{
 					x "60.000"
@@ -288,6 +310,22 @@ GuiRootGroupDef
 	{
 		x "1920.000"
 		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[E07B419B-5411-4976-9749-0A39B244AE0D]"
 	}
 
 }

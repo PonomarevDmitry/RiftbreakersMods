@@ -59,6 +59,113 @@ material pbr/default
 	}
 }
 
+material pbr/transparent : pbr/default
+{ 	
+	render_group 220
+	feature "forward_lit"
+
+	technique
+	{
+		pass
+		{
+			depth_write off
+			depth_check on
+			scene_blend alpha_blend
+
+			vertex_program_ref forward_object_texture_world_tangent_vp 
+			{
+			}
+
+			fragment_program_ref forward_lit_fp
+			{
+
+			}
+
+			texture_unit albedo 
+			{
+				texture materials/textures/glass_albedo.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/glass_normal.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/glass_packed.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+            texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+			buffer_unit transparent_light_list
+			{
+				content_type shared transparent_light_list
+			}
+			buffer_unit light_data_list
+			{
+				content_type shared light_data_list
+			}
+			buffer_unit light_shadow_matrix_list
+			{
+				content_type shared light_shadow_matrix_list
+			}
+		}
+	}
+}
+
+material pbr/glass : pbr/transparent
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref forward_glass_fp
+			{
+
+			}
+		}
+	}
+}
+
+material pbr/glass_skinned : pbr/glass
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref forward_object_texture_world_tangent_skinned_vp 
+			{
+			}
+		}
+	}
+}
+
 material pbr/alpha_test : pbr/default
 { 	
 	technique
@@ -789,6 +896,19 @@ material pbr/height_dissolve
 	}
 }
 
+material pbr/height_dissolve_alpha_test : pbr/height_dissolve
+{ 
+	technique
+	{
+		pass
+		{
+			fragment_program_ref deferred_height_dissolve_alpha_test_fp
+			{
+        		param_named      cDissolveSize       float          0.02
+			}
+		}
+	}
+}
 
 /////////////////////////////////////////////////////////////////
 

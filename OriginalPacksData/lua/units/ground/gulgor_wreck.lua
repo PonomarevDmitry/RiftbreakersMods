@@ -7,9 +7,6 @@ function gulgor_wreck:__init()
 end
 
 function gulgor_wreck:initParams()
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
-
 	self.spawner = self:CreateStateMachine()
 	self.spawner:AddState( "wait", { enter="OnEnterWait", exit= "OnExitWait" } )
 	self.spawner:AddState( "start_grow_crystal", { execute="OnExecuteStartGrowCrystal" } )

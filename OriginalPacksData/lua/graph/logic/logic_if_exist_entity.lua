@@ -59,7 +59,7 @@ function logic_if_exist_entity:OnExecuteWait( state )
     
     -- CUSTOM PATCH for acid_scout.logic, we have removed `player_trigger` child entity from mech
     if self.searchTargetName == "player_trigger" then
-        self.searchTarget = PlayerService:GetPlayerControlledEnt(0)
+        self.searchTarget = PlayerService:GetPlayerControlledEnt(0) --#TODO: fix player id
     elseif self.searchTargetName ~= "" then
         self.searchTarget = FindService:FindEntityByName( self.searchTargetName )
     end

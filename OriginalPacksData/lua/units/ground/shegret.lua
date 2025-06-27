@@ -12,7 +12,7 @@ function shegret:OnInit()
 	self:RegisterHandler( self.entity, "EndLeechEvent",  "OnEndLeechEvent" )
 
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
 
 	self.currentLeechTarget = INVALID_ID
 	self.leechDmg = 0

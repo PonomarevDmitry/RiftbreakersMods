@@ -1,0 +1,114 @@
+system rift/mega_rift_rotor_slow
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.1
+    scale                                       0.1 0.1 0.1
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 30
+    technique sparks_gravity_sphere_1
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       400
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            position                            -5 0 0
+            keep_local                          true
+            direction                           1 0 0
+            start_colour_range                  1 1 1 1
+            radius                              22
+            normal                              1 0 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.054902 0.054902 0.054902 0.494118
+            time_colour                         0.330435  1 1 1 1
+            time_colour                         0.663043  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Vortex 
+        {
+            rotation_axis                       1 0 0
+        }
+    }
+    technique sparks_gravity_sphere_3
+    {
+        keep_local                              true
+        visual_particle_quota                   200
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_orange_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       400
+            angle                               5
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            position                            5 0 0
+            keep_local                          true
+            direction                           -1 0 0
+            start_colour_range                  1 1 1 1
+            radius                              22
+            normal                              1 0 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.054902 0.054902 0.054902 0.494118
+            time_colour                         0.330435  1 1 1 1
+            time_colour                         0.663043  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Vortex 
+        {
+            rotation_axis                       1 0 0
+        }
+    }
+}

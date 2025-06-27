@@ -1,5 +1,6 @@
 GuiRootGroupDef
 {
+	bg_blur "0.250"
 	full_screen "0"
 	navigation
 	{
@@ -109,7 +110,6 @@ GuiRootGroupDef
 
 				}
 
-				default_sound "0"
 				navigable "0"
 				path "scroll"
 			}
@@ -139,58 +139,8 @@ GuiRootGroupDef
 	{
 		Pair_GuiInputCode_String
 		{
-			key "1"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "2"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "3"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "4"
-		}
-
-		Pair_GuiInputCode_String
-		{
 			key "5"
-			value "cancel"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "6"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "7"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "8"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "9"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "10"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "11"
+			value "menu_overlay.bottom_bar.content.buttons_left.button_back"
 		}
 
 	}
@@ -250,14 +200,14 @@ GuiRootGroupDef
 									{
 										StringData
 										{
-											key "label"
-											value "BUTTON_load_game"
+											key "action"
+											value "load"
 										}
 
 										StringData
 										{
-											key "action"
-											value "load"
+											key "label"
+											value "BUTTON_load_game"
 										}
 
 									}
@@ -609,6 +559,20 @@ GuiRootGroupDef
 				}
 
 				container_type "1"
+				bindings
+				{
+					visible
+					{
+						model_field "lobby_mode"
+						converter "GuiModelCompareConverter"
+						{
+							ref_value "0"
+						}
+
+					}
+
+				}
+
 				hitbox_visible "0"
 				id "down_menu"
 				offset
@@ -1396,7 +1360,7 @@ GuiRootGroupDef
 				size
 				{
 					x "1161.000"
-					y "491.000"
+					y "740.000"
 				}
 
 				z_order "220.000"
@@ -1415,6 +1379,46 @@ GuiRootGroupDef
 				{
 					bindings_proxy
 					{
+						back_button_visible
+						{
+							model_field "lobby_mode"
+						}
+
+						button_left_1_is_enabled
+						{
+							model_field "disable_delete_button"
+							converter "GuiModelCompareConverter"
+							{
+								ref_value "0"
+							}
+
+						}
+
+						button_left_1_visible
+						{
+							model_field "lobby_mode"
+						}
+
+						button_right_1_is_enabled
+						{
+							model_field "load_available"
+						}
+
+						button_right_1_visible
+						{
+							model_field "lobby_mode"
+						}
+
+						button_settings_visible
+						{
+							model_field "lobby_mode"
+							converter "GuiModelCompareConverter"
+							{
+								ref_value "0"
+							}
+
+						}
+
 						title
 						{
 							model_field "save_mode"
@@ -1440,6 +1444,36 @@ GuiRootGroupDef
 							{
 								key "footer_visible"
 								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_content"
+								value "gui/menu/multiplayer_lobby/lobby"
+							}
+
+							StringData
+							{
+								key "button_right_1_action"
+								value "load"
+							}
+
+							StringData
+							{
+								key "button_left_1_content"
+								value "gui/menu/load_menu.remove_save"
+							}
+
+							StringData
+							{
+								key "button_left_1_action"
+								value "remove_save"
+							}
+
+							StringData
+							{
+								key "button_left_1_visible"
+								value "0"
 							}
 
 						}
@@ -1889,34 +1923,6 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "652.000"
-																				y "14.000"
-																			}
-
-																			z_order "39.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
 																		key "frame"
 																		value "GuiImageDef"
 																		{
@@ -1958,8 +1964,29 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			z_order "38.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "7.000"
+																				x "5.000"
+																				y "7.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2005,6 +2032,7 @@ GuiRootGroupDef
 																			}
 
 																			style_name "active_25_black"
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2019,6 +2047,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "active"
 																size
 																{
@@ -2041,34 +2070,6 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "652.000"
-																				y "14.000"
-																			}
-
-																			z_order "48.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
 																		key "frame"
 																		value "GuiImageDef"
 																		{
@@ -2110,8 +2111,29 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			z_order "47.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "7.000"
+																				x "5.000"
+																				y "7.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2157,6 +2179,7 @@ GuiRootGroupDef
 																			}
 
 																			style_name "active_25_black"
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2176,6 +2199,7 @@ GuiRootGroupDef
 																		{
 																			error_material "gui/default"
 																			material "gui/menu/buttons/menu_research_button_neutral_selected"
+																			hitbox_visible "0"
 																			id "select"
 																			z_order "49.000"
 																		}
@@ -2184,6 +2208,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "active_selected"
 																size
 																{
@@ -2199,9 +2224,70 @@ GuiRootGroupDef
 
 														Pair_String_GuiDef2
 														{
+															key "autosave_icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/load_save_lock"
+																alignment "right"
+																anchor "right"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "autosave"
+																	}
+
+																}
+
+																id "autosave_icon"
+																margin
+																{
+																	w "6.000"
+																	y "6.000"
+																	z "15.000"
+																}
+
+																offset
+																{
+																	y "5.000"
+																}
+
+																z_order "48.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
 															key "disabled"
 															value "GuiGroupDef"
 															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "7.000"
+																				x "5.000"
+																				y "7.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																}
+
+																hitbox_visible "0"
 																id "disabled"
 																size
 																{
@@ -2244,34 +2330,6 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "652.000"
-																				y "14.000"
-																			}
-
-																			z_order "35.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
 																		key "frame"
 																		value "GuiImageDef"
 																		{
@@ -2313,8 +2371,29 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			z_order "34.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "7.000"
+																				x "5.000"
+																				y "7.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2352,6 +2431,7 @@ GuiRootGroupDef
 																			}
 
 																			style_name "neutral_25"
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2366,6 +2446,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "neutral"
 																size
 																{
@@ -2386,34 +2467,6 @@ GuiRootGroupDef
 															{
 																children
 																{
-																	Pair_String_GuiDef2
-																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "652.000"
-																				y "14.000"
-																			}
-
-																			z_order "43.000"
-																		}
-
-																	}
-
 																	Pair_String_GuiDef2
 																	{
 																		key "frame"
@@ -2457,8 +2510,29 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			z_order "42.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "7.000"
+																				x "5.000"
+																				y "7.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2496,6 +2570,7 @@ GuiRootGroupDef
 																			}
 
 																			style_name "neutral_25"
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2515,6 +2590,7 @@ GuiRootGroupDef
 																		{
 																			error_material "gui/default"
 																			material "gui/menu/buttons/menu_research_button_neutral_selected"
+																			hitbox_visible "0"
 																			id "select"
 																			z_order "44.000"
 																		}
@@ -2523,6 +2599,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "neutral_selected"
 																size
 																{
@@ -2616,34 +2693,6 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "648.000"
-																				y "7.000"
-																			}
-
-																			z_order "61.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
 																		key "frame"
 																		value "GuiImageDef"
 																		{
@@ -2685,6 +2734,7 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			offset
 																			{
@@ -2692,6 +2742,26 @@ GuiRootGroupDef
 																			}
 
 																			z_order "60.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "3.000"
+																				x "5.000"
+																				y "4.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2736,6 +2806,7 @@ GuiRootGroupDef
 																				stroke_size "2.000"
 																			}
 
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2750,6 +2821,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "active"
 																offset
 																{
@@ -2779,34 +2851,6 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "648.000"
-																				y "7.000"
-																			}
-
-																			z_order "70.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
 																		key "frame"
 																		value "GuiImageDef"
 																		{
@@ -2848,6 +2892,7 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			offset
 																			{
@@ -2855,6 +2900,26 @@ GuiRootGroupDef
 																			}
 
 																			z_order "69.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "3.000"
+																				x "5.000"
+																				y "4.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -2899,6 +2964,7 @@ GuiRootGroupDef
 																				stroke_size "2.000"
 																			}
 
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -2918,6 +2984,7 @@ GuiRootGroupDef
 																		{
 																			error_material "gui/default"
 																			material "gui/menu/buttons/load_subfolder_selected"
+																			hitbox_visible "0"
 																			id "select"
 																			offset
 																			{
@@ -2931,6 +2998,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "active_selected"
 																offset
 																{
@@ -2953,9 +3021,79 @@ GuiRootGroupDef
 
 														Pair_String_GuiDef2
 														{
+															key "autosave_icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/load_save_lock"
+																alignment "right"
+																anchor "right"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "autosave"
+																	}
+
+																}
+
+																hitbox_visible "0"
+																id "autosave_icon"
+																margin
+																{
+																	w "1.000"
+																	y "1.000"
+																	z "15.000"
+																}
+
+																offset
+																{
+																	y "4.000"
+																}
+
+																size
+																{
+																	x "36.000"
+																	y "36.000"
+																}
+
+																size_mode_x "0"
+																size_mode_y "0"
+																z_order "74.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
 															key "disabled"
 															value "GuiGroupDef"
 															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "3.000"
+																				x "5.000"
+																				y "4.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																}
+
+																hitbox_visible "0"
 																id "disabled"
 																offset
 																{
@@ -2981,34 +3119,6 @@ GuiRootGroupDef
 															{
 																children
 																{
-																	Pair_String_GuiDef2
-																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "648.000"
-																				y "7.000"
-																			}
-
-																			z_order "57.000"
-																		}
-
-																	}
-
 																	Pair_String_GuiDef2
 																	{
 																		key "frame"
@@ -3052,6 +3162,7 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			offset
 																			{
@@ -3059,6 +3170,26 @@ GuiRootGroupDef
 																			}
 
 																			z_order "56.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "3.000"
+																				x "5.000"
+																				y "4.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -3095,6 +3226,7 @@ GuiRootGroupDef
 																				space_size "7.000"
 																			}
 
+																			hitbox_visible "0"
 																			id "label"
 																			offset
 																			{
@@ -3109,6 +3241,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "neutral"
 																offset
 																{
@@ -3136,34 +3269,6 @@ GuiRootGroupDef
 															{
 																children
 																{
-																	Pair_String_GuiDef2
-																	{
-																		key "autosave_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/load_save_lock"
-																			bindings
-																			{
-																				visible
-																				{
-																					model_field "autosave"
-																				}
-
-																			}
-
-																			id "autosave_icon"
-																			offset
-																			{
-																				x "648.000"
-																				y "7.000"
-																			}
-
-																			z_order "65.000"
-																		}
-
-																	}
-
 																	Pair_String_GuiDef2
 																	{
 																		key "frame"
@@ -3207,6 +3312,7 @@ GuiRootGroupDef
 
 																			}
 
+																			hitbox_visible "0"
 																			id "frame"
 																			offset
 																			{
@@ -3214,6 +3320,26 @@ GuiRootGroupDef
 																			}
 
 																			z_order "64.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "hitbox"
+																		value "GuiGroupDef"
+																		{
+																			id "hitbox"
+																			margin
+																			{
+																				w "3.000"
+																				x "5.000"
+																				y "4.000"
+																				z "10.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																		}
 
 																	}
@@ -3269,6 +3395,7 @@ GuiRootGroupDef
 																		{
 																			error_material "gui/default"
 																			material "gui/menu/buttons/load_subfolder_selected"
+																			hitbox_visible "0"
 																			id "select"
 																			offset
 																			{
@@ -3282,6 +3409,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "neutral_selected"
 																offset
 																{
@@ -3334,6 +3462,7 @@ GuiRootGroupDef
 
 																}
 
+																hitbox_visible "0"
 																id "warning"
 																offset
 																{
@@ -3558,6 +3687,37 @@ GuiRootGroupDef
 							}
 
 							z_order "23.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "text"
+						value "GuiTextDef"
+						{
+							content "gui/menu/load_menu/no_save_games"
+							style_name "active_white"
+							translate "1"
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								visible
+								{
+									model_field "empty"
+								}
+
+							}
+
+							id "text"
+							max_size
+							{
+								x "726.000"
+								y "726.000"
+							}
+
+							z_order "100.000"
 						}
 
 					}
@@ -4628,8 +4788,61 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "disable_delete_button"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "load_available"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "lobby_mode"
+			}
+
 			Pair_String_GuiDataTypeField
 			{
 				value

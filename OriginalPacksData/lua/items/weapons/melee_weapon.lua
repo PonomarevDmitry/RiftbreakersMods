@@ -4,19 +4,77 @@ class 'melee_weapon' ( weapon )
 
 function melee_weapon:__init()
 	weapon.__init(self,self)
+	self.activation_id = 0
 end
 
 function melee_weapon:OnInit()
+	-- if ( self.data:HasFloat( "predicted" ) ) then
+	-- 	LogService:Log( "predicted " .. tostring( self.data:GetFloat( "predicted" ) ) ) 
+	-- end
+
+	-- if ( self.data:HasFloat( "client" ) ) then
+	-- 	LogService:Log( "client " .. tostring( self.data:GetFloat( "client" ) ) )
+	-- end
+
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "update", { execute="OnUpdate"} )
+
 end
+
+function melee_weapon:GetWeaponEntity()
+	local doubleWeapon = WeaponService:GetSameWeaponEquipped( self.owner, self.entity )
+	if doubleWeapon ~= INVALID_ID then
+		local fireRate1 = WeaponService:GetWeaponFireRate( self.item )
+		local fireRate2 = WeaponService:GetWeaponFireRate( doubleWeapon )
+		if fireRate1 < fireRate2 then
+			return self.item
+		else
+			return doubleWeapon
+		end
+	end
+	return self.item
+end
+
+function melee_weapon:IsAttacking()
+	local weapon_entity = self:GetWeaponEntity()
+	
+	if WeaponService:IsMeleeAttackButtonPressed( weapon_entity, "" ) then
+		return 1
+	else
+		return 0
+	end
+end
+
+function melee_weapon:IsAnyAttacking()
+	local doubleWeapon = WeaponService:GetSameWeaponEquipped( self.owner, self.entity )
+	if doubleWeapon ~= INVALID_ID then
+		if WeaponService:IsMeleeAttackButtonPressed( self.item, "" ) or WeaponService:IsMeleeAttackButtonPressed( doubleWeapon, "" ) then
+			return 1
+		else
+			return 0
+		end
+	end
+	if WeaponService:IsMeleeAttackButtonPressed( self.item, "" )  then
+		return 1
+	else
+		return 0
+	end
+end
+
+
+function melee_weapon:IsDeactivating()
+	local activationStatus = ItemService:GetActivationStatus( self.entity );
+	local deactivating = not self:IsAnyAttacking( ) and activationStatus;
+	return deactivating;
+end
+
 
 function melee_weapon:OnEquipped()
 	weapon.OnEquipped( self )
 	self.dash_attacking = 0
-	self.is_attacking = 0
 	self.is_deactivating = 0
 	self.combo_count = 0
+	self.activation_id = 0
 	self.fsm:ChangeState( "update" )
 
 	self.leftAttack = "melee_left_attack_1"
@@ -27,7 +85,17 @@ function melee_weapon:OnEquipped()
 end
 
 function melee_weapon:OnUpdate()
-	if self.is_attacking == 1 then
+	local activationStatus = ItemService:GetActivationStatus( self.entity );
+	local is_attacking = self:IsAnyAttacking();
+
+	if activationStatus == false then
+		return
+	end
+
+	--LogService:Log( "melee_weapon:OnUpdate() ent " .. tostring( self.entity ) .. " item " .. tostring( self.entity ) .. " is attacking " .. tostring( is_attacking ) )
+
+	local weapon_entity = self:GetWeaponEntity()
+	if is_attacking == 1 then
 		local database = EntityService:GetDatabase( self.owner )
 		if database == nil then 
 			return
@@ -45,18 +113,21 @@ function melee_weapon:OnUpdate()
 				if doubleWeapon ~= INVALID_ID then
 					WeaponService:ForceStopMeleeAttack( doubleWeapon )
 				end
+				--LogService:Log( "set dash = 1 activation of " .. tostring( self.entity ) )
 				ItemService:SetActivationStatus( self.entity, true )
 				self:RequestDashAttack()
 				self.dash_attacking = 1
 			end
 		else
 			if self.dash_attacking == 0 then
+				--LogService:Log( "set dash = 0 activation of " .. tostring( self.entity ) )
 				ItemService:SetActivationStatus( self.entity, true )
-				self:RequestAttack()
+				self:RequestAttack( self.activation_id )
 			end
 		end
 
-		local combo_count = WeaponService:GetMeleeComboCount(self.item)
+		
+		local combo_count = WeaponService:GetMeleeComboCount(weapon_entity)
 		if self.combo_count < combo_count then
 			self.combo_count = combo_count
 			self:SetPadTriggerParams("melee_start", 0.1)
@@ -70,7 +141,9 @@ function melee_weapon:OnUpdate()
 	end
 
 	if self.is_deactivating == 1 then
+		--LogService:Log( "deactivating == 1  ent " .. tostring( self.entity ) )
 		if WeaponService:IsMeleeReady( self.item ) == true then
+			--LogService:Log( "SetActivationStatus( false )" .. tostring( self.entity ) )
 			ItemService:SetActivationStatus( self.entity, false )
 			self:OnAttackEnd()
 			self.is_deactivating = 0
@@ -79,7 +152,12 @@ function melee_weapon:OnUpdate()
 	end
 end
 
-function melee_weapon:OnActivate()
+function melee_weapon:OnActivate( activation_id )
+	-- if ( self.data:HasFloat( "client" ) ) then
+	-- 	LogService:Log( "OnActivate, client " .. tostring( self.entity ) .. "activation_id " .. tostring( activation_id ) )
+	-- else
+	-- 	LogService:Log( "OnActivate, server " .. tostring( self.entity ) .. "activation_id " .. tostring( activation_id ) )
+	-- end
 	local database = EntityService:GetDatabase(self.owner)
 	if database == nil then 
 		return
@@ -91,28 +169,35 @@ function melee_weapon:OnActivate()
 		end
 	end
 
-	if self.is_attacking == 0 then
-		self:OnMeleeAttackButtonPressed()
+	local is_attacking = self:IsAnyAttacking()
+	if is_attacking == 0 then
+		self:OnMeleeAttackButtonPressed( activation_id)
 		self:OnAttackStart()
-		self.is_attacking = 1
 		self.combo_count = 0
+		self.activation_id = activation_id
 	end
 	self.is_deactivating = 0
 end
 
 function melee_weapon:OnDeactivate( forced )
-	if self.is_attacking == 1 then
+	local is_attacking = self:IsAnyAttacking();
+	if ( self.data:HasFloat( "client" ) ) then
+		--LogService:Log( "OnDeactivate, client" .. tostring( self.data:GetFloat( "client" ) ) )
+	end
+	if is_attacking == 1 then
 		self:OnMeleeAttackButtonReleased()
-
-		self.is_attacking = 0
+		--LogService:Log( "OnDeactivate, set is_attacking == 0 " )
 	end
 
 	if forced == false then
+		--LogService:Log( "deactivating = 1" .. tostring( self.entity ) )
 		self.is_deactivating = 1
 		return false
 	else
+		--LogService:Log( "set ondeactivation of " .. tostring( self.entity ) )
 		ItemService:SetActivationStatus( self.entity, false )
 		WeaponService:ForceStopMeleeAttack( self.item )
+		--LogService:Log( "ForceStopMeleeAttack" )
 		local doubleWeapon = WeaponService:GetSameWeaponEquipped( self.owner, self.entity )
 		if doubleWeapon ~= INVALID_ID then
 			WeaponService:ForceStopMeleeAttack( doubleWeapon )
@@ -136,7 +221,11 @@ function melee_weapon:CanInterruptOnBlockRequest()
 end
 
 function melee_weapon:CanPassInterrupt()
-	if WeaponService:IsInterruptBlocked( self.item ) then
+	if self.owner == nil then
+		return true
+	end
+	local weapon_entity = self:GetWeaponEntity()
+	if WeaponService:IsInterruptBlocked( weapon_entity ) then
 		return false
 	end
 	return true
@@ -171,39 +260,47 @@ function melee_weapon:RequestDashAttack()
 	end
 end
 
-function melee_weapon:RequestAttack()
+function melee_weapon:RequestAttack( activationId )
 	local doubleWeapon = WeaponService:GetSameWeaponEquipped( self.owner, self.entity )
 	if doubleWeapon ~= INVALID_ID then
 		local fireRate1 = WeaponService:GetWeaponFireRate( self.item )
 		local fireRate2 = WeaponService:GetWeaponFireRate( doubleWeapon )
 		if fireRate1 < fireRate2 then
-			if WeaponService:TryMeleeAttack( self.item, self.doubleAttack ) then
-				WeaponService:TryMeleeMirrorAttack( doubleWeapon, self.doubleAttack )
+			if WeaponService:TryMeleeAttack( self.item, self.doubleAttack, activationId ) then
+				WeaponService:TryMeleeMirrorAttack( doubleWeapon, self.doubleAttack, activationId )
 			end
 		else
-			if WeaponService:TryMeleeAttack( self.item, self.doubleAttack ) then
-				WeaponService:TryMeleeMirrorAttack( doubleWeapon, self.doubleAttack )
+			if WeaponService:TryMeleeAttack( doubleWeapon, self.doubleAttack, activationId ) then
+				WeaponService:TryMeleeMirrorAttack( self.item, self.doubleAttack, activationId )
 			end
 		end
 	else
 		if self.slot == "LEFT_HAND" then
-			WeaponService:TryMeleeAttack( self.item, self.leftAttack )
+			WeaponService:TryMeleeAttack( self.item, self.leftAttack, activationId )
 		elseif self.slot == "RIGHT_HAND" then
-			WeaponService:TryMeleeAttack( self.item, self.rightAttack )
+			WeaponService:TryMeleeAttack( self.item, self.rightAttack, activationId )
 		end
 	end
 end
 
-function melee_weapon:OnMeleeAttackButtonPressed()
+function melee_weapon:OnMeleeAttackButtonPressed( activation_id )
 	local doubleWeapon = WeaponService:GetSameWeaponEquipped( self.owner, self.entity )
 	if doubleWeapon ~= INVALID_ID then
-		WeaponService:OnMeleeAttackButtonPressed( self.item, self.doubleAttack )
-		WeaponService:OnMeleeAttackButtonPressed( doubleWeapon, self.doubleAttack )
+		WeaponService:OnMeleeAttackButtonPressed( self.item, self.doubleAttack, activation_id )
+		WeaponService:OnMeleeAttackButtonPressed( doubleWeapon, self.doubleAttack, activation_id )
+		local fireRate1 = WeaponService:GetWeaponFireRate( self.item )
+		local fireRate2 = WeaponService:GetWeaponFireRate( doubleWeapon )
+		if fireRate1 < fireRate2 then
+			WeaponService:OnMeleeAttackButtonReleased(doubleWeapon, self.doubleAttack  )
+		else
+			WeaponService:OnMeleeAttackButtonReleased(self.item, self.doubleAttack  )
+		end
+
 	else
 		if self.slot == "LEFT_HAND" then
-			WeaponService:OnMeleeAttackButtonPressed( self.item, self.leftAttack )
+			WeaponService:OnMeleeAttackButtonPressed( self.item, self.leftAttack, activation_id )
 		elseif self.slot == "RIGHT_HAND" then
-			WeaponService:OnMeleeAttackButtonPressed( self.item, self.rightAttack )
+			WeaponService:OnMeleeAttackButtonPressed( self.item, self.rightAttack, activation_id )
 		end
 	end
 end

@@ -3,7 +3,7 @@ require("lua/utils/find_utils.lua")
 class 'entity_highlight' ( LuaGraphNode )
 
 function entity_highlight:__init()
-    LuaGraphNodeSelector.__init(self, self)
+    LuaGraphNode.__init(self, self)
 end
 
 function entity_highlight:init()

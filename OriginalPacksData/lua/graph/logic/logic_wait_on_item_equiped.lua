@@ -38,7 +38,7 @@ end
 --end
 
 function logic_wait_on_item_equiped:OnEquipItemEvent( event )
-    local mech = PlayerService:GetPlayerControlledEnt(0)
+    local mech = PlayerService:GetPlayerControlledEnt(0) --#TODO: fix player id
 	local equippedId = event:GetEntity()
 	
 	LogService:Log( tostring(mech) .. ":" .. tostring(equippedId) )

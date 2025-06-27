@@ -7,9 +7,7 @@ function phirian_wreck:__init()
 end
 
 function phirian_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 7
+
 end
 
 return phirian_wreck

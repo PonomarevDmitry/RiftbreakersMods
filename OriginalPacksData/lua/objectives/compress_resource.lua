@@ -94,7 +94,7 @@ function compress_resource:FindMaxResource()
 
 	if ( self.data:GetIntOrDefault("is_additional", 0) == 1 ) then
 		local resourceName = self.data:GetString( "resource_name" )
-		self.data:SetInt("progress_max", self.data:GetInt( "progress_max" ) + PlayerService:GetResourceAmount( resourceName ))
+		self.data:SetInt("progress_max", self.data:GetInt( "progress_max" ) + PlayerService:GetResourceAmount(leadingPlayer, resourceName ))
 	end
 	self.maxProgress = self.data:GetInt( "progress_max" )
 

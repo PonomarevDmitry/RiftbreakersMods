@@ -14,10 +14,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/tornado"
-		visibility		"visible|radar"		
-		additional_z_order "55"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/tornado"
+		visibility			"visible|radar"		
+		additional_z_order 	"55"
+		layer_group			"weather_events"
 	}
 
 	TimeOfDayEmitterComponentDesc
@@ -38,41 +39,14 @@ EntityBlueprint
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		damage_per_sec	          "40" 
-		type                      "target_player"		
+		type                      "target_player"
+		effect_bp				  "effects/tornado/tornado_acid"
+		marker_bp				  "effects/tornado/tornado_marker_acid"
 	}
 
 	LifeTimeDesc
 	{
 		time 		60
-	}
-
-	EffectDesc
-	{	
-		EffectGroup
-		{						
-			group "tornado"
-			enabled "1"
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/world/tornado_big_acid"
-					bone "att_tornado"
-				}
-				Effect
-				{
-					blueprint "effects/world/tornado_big_stones"
-					bone "att_tornado"
-				}
-				Effect
-				{
-					blueprint "lights/point/tornado_shadow_caster_green"
-					offset "0 10 0"
-				}				
-			}
-		}	
 	}
 
 	children
@@ -93,10 +67,5 @@ EntityBlueprint
 				attachment "att_wind"
 			}
 		}
-
 	}
-
-	
-
 }
-

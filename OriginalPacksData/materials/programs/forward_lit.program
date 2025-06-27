@@ -1,0 +1,406 @@
+fragment_program forward_lit_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=0,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=0
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_s_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_s16_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_s32_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_s64_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+//fragment_program forward_lit_r_s_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCF=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_s16_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//16=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_s32_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//32=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_s64_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=0,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//64=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+
+fragment_program forward_lit_lm_s_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCF=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_lm_s16_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_16=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_lm_s32_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_32=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+fragment_program forward_lit_lm_s64_fp hlsl
+{
+    source materials/programs/forward_lit_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5NM=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=1,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_64=1
+
+    default_params
+    {
+        param_named_auto    cDissolveColor      surface_dissolve_colour
+        param_named         cDissolveAmount     float          0.0
+        param_named         cDissolveSize       float          0.2
+        param_named_auto    cGlowAmount         surface_glow
+        param_named         cGlowFactor         float          1.0
+        //param_named_auto  cJitterOffset       jitter_offset
+        param_named_auto    cMIPBias            mip_bias
+        param_named_auto    cFogMaxDistance     fog_max_distance
+        param_named_auto    cSkyboxParams               skybox_shared_params
+        param_named_auto    cCameraWorldPos             camera_position 0
+        param_named_auto    cViewportSize               viewport_size_int 0
+        param_named_auto    cNumLights                  light_count
+    }
+}
+
+//fragment_program forward_lit_r_lm_s_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCF=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_lm_s16_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//16=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_lm_s32_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//32=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}
+//
+//fragment_program forward_lit_r_lm_s64_fp hlsl
+//{
+//    source materials/programs/forward_lit_fp.hlsl
+//    entry_point mainFP
+//    target ps_5_0
+//    preprocessor_defines USE_GLASS=0,USE_DISSOLVE_MAP=1,USE_FOG=1,USE_VELOCITY=0,LIGHTING=1,USE_DXT5N//M=1,SKYBOX_DIFFUSE=1,SKYBOX_SPECULAR=0,LIGHT_MASK=1,SHADOW_MAP=1,SHADOW_PCSS=1,POISSON_//64=1
+//
+//    default_params
+//    {
+//        param_named_auto    cDissolveColor      surface_dissolve_colour
+//        param_named         cDissolveAmount     float          0.0
+//        param_named         cDissolveSize       float          0.2
+//        param_named_auto    cGlowAmount         surface_glow
+//        param_named         cGlowFactor         float          1.0
+//        //param_named_auto  cJitterOffset       jitter_offset
+//        param_named_auto    cMIPBias            mip_bias
+//        param_named_auto    cFogMaxDistance     fog_max_distance
+//        param_named_auto    cSkyboxParams               skybox_shared_params
+//        param_named_auto    cCameraWorldPos             camera_position 0
+//        param_named_auto    cViewportSize               viewport_size_int 0
+//        param_named_auto    cNumLights                  light_count
+//    }
+//}

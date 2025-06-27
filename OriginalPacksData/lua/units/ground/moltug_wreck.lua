@@ -7,8 +7,7 @@ function moltug_wreck:__init()
 end
 
 function moltug_wreck:initParams()
-    self.normalExplodeProbability = 5
-	self.leaveBodyProbability = 1
+
 end
 
 return moltug_wreck

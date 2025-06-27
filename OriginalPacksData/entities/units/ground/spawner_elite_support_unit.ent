@@ -1,0 +1,72 @@
+EntityBlueprint
+{
+	name "units/ground/spawner_elite_support_unit"
+
+	LuaDesc
+	{
+		script "lua/units/ground/spawner.lua"
+	}
+
+	UnitsSpawnerDesc
+	{
+		blueprint				"units/ground/stickrid"
+		amount_on_single_spawn	"5"
+		max_spawn				"50"
+		time_to_spawn			"20"
+		unit_state_spawn		"1"  // do not touch
+		max_spawn_distance		"20"
+		spawn_type				"normal"
+		spawn_marker_bp			"effects/messages_and_markers/wave_marker_nest"
+		spawn_marker_life_time	"30"
+		can_spawn_when_visible	"0"
+		defend_radius			"40"
+	}
+	
+	DatabaseComponent
+	{
+		biome_override.jungle 		string:"units/ground/canoptrix"
+		biome_override.desert 		string:"units/ground/mushbit"
+		biome_override.acid 		string:"units/ground/granan"
+		biome_override.magma 		string:"units/ground/morirot"
+		biome_override.metallic 	string:"units/ground/wingmite"
+		biome_override.caverns	 	string:"units/ground/crawlog"
+		biome_override.swamp 		string:"units/ground/stickrid"
+	}
+
+	HealthDesc
+	{
+		max_health 					"5"
+		health 						"5"
+		is_manual 1
+    }
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_large|spawner"
+	}
+
+	TeamDesc
+	{
+		team "canoptrix"
+	}
+
+    LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-5"
+				y "-5"
+				z "-5"
+			}
+			max
+			{
+				x "5"
+				y "5"
+				z "5"
+			}	
+		}
+	}
+
+}

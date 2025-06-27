@@ -127,7 +127,7 @@ EntityBlueprint
 
 	TypeDesc
 	{
-		type "ground_unit"
+		type "ground_unit|boss"
 	}
 
 	WeaponItemDesc
@@ -152,7 +152,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"	
+		layer_group		"enemies"
 	}
 	
 	HealthBarDesc
@@ -709,7 +710,11 @@ EntityBlueprint
 				key "default"
 			}
 		}
-	}	
+	}
+	LifeTimeDesc
+	{
+		time "5.0"
+	}		
 }
 
 
@@ -752,6 +757,7 @@ EntityBlueprint
 		slot 			"ACTIVATOR"
 		radius 			"6"
 		remove_entity 	"1"
+		priority			"15"
 	}
 
 	PhysicsDesc

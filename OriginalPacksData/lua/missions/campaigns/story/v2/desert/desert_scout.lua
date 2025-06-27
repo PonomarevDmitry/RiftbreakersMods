@@ -9,6 +9,8 @@ function mission_desert_scout:__init()
 end
 
 function mission_desert_scout:init()	
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/desert_scout.logic", "default" )

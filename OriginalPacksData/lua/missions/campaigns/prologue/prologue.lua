@@ -23,6 +23,8 @@ function mission_prologue:PrepareSpawnPoints()
 end
 
 function mission_prologue:init()
+    mission_survival.init(self)
+    
     self:PrepareSpawnPoints();
 	local prologueStartPoint = ConsoleService:GetConfig( "start_point" )
 	LogService:Log("CONSOLE VAR LOG: " .. prologueStartPoint )

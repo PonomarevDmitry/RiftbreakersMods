@@ -7,9 +7,7 @@ function alien_tower_plasma_wreck:__init()
 end
 
 function alien_tower_plasma_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 10
-	self.leaveBodyProbability = 0
+
 end
 
 return alien_tower_plasma_wreck

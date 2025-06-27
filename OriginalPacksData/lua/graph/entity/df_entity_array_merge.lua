@@ -6,7 +6,7 @@ end
 
 function df_entity_array_merge:Activated()
     local entities_1 = self.data:GetString("in_entities_1")
-    local entities_2 = self.data:GetString("in_entities_2")
+    local entities_2 = self.data:GetStringOrDefault("in_entities_2", "")
 
     local merged_entities = entities_1;
     if entities_1 ~= "" and entities_2 ~= "" then

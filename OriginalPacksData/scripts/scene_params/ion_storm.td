@@ -4,6 +4,7 @@ TimeOfDayPreset
 	{
 		weather_sound "ambient/ion_storm"
 		weather_effect "effects/weather/ion_storm"
+		weather_biome_mod "effects/biome_mod/ion_storm"
 		weather_wind "effects/wind/rain"
 		weather_type "0"
 		time_of_day "0"
@@ -127,6 +128,7 @@ TimeOfDayPreset
 	{
 		weather_sound "ambient/ion_storm"
 		weather_effect "effects/weather/ion_storm"
+		weather_biome_mod "effects/biome_mod/ion_storm"
 		weather_wind "effects/wind/rain"
 		weather_type "0"
 		time_of_day "0"

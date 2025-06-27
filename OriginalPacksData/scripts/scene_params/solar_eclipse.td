@@ -4,6 +4,7 @@ TimeOfDayPreset
 	{
 		weather_sound
 		weather_effect "effects/weather/solar_eclipse"
+		weather_biome_mod "effects/biome_mod/solar_eclipse"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 		time_of_day "2"
@@ -127,6 +128,7 @@ TimeOfDayPreset
 	{
 		weather_sound
 		weather_effect "effects/weather/solar_eclipse"
+		weather_biome_mod "effects/biome_mod/solar_eclipse"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 		time_of_day "0"

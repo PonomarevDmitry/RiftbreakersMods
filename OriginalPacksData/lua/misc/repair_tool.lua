@@ -42,6 +42,10 @@ end
 
 function repair_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial(child, "selected" )
+    end
 end
 
 function repair_tool:FilterSelectedEntities( selectedEntities ) 
@@ -59,7 +63,7 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
         end
 
         local database = EntityService:GetDatabase( ent )
-        if ( database:HasInt("number_of_activations")) then
+        if (database and database:HasInt("number_of_activations")) then
             
             local currentNumberOfActivations =  database:GetInt("number_of_activations")
             local blueprintDatabase = EntityService:GetBlueprintDatabase( ent )
@@ -80,7 +84,6 @@ end
 function repair_tool:OnUpdate()
     self.repairCosts = {}
     for entity in Iter(self.selectedEntities ) do
-        local skinned = EntityService:IsSkinned(entity)
         local child = EntityService:GetChildByName(entity, "##repair##") 
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
         
@@ -118,16 +121,19 @@ function repair_tool:OnUpdate()
 
         if ( toRepair ) then
             if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-                end
+                EntityService:SetMaterial( entity, "hologram/pass", "selected")
             else
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+                EntityService:SetMaterial( entity, "hologram/deny", "selected")
+            end
+
+            local children = EntityService:GetChildren( entity, true )
+            for child in Iter( children ) do
+                if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") ) then
+                    if ( sellable ) then
+                        EntityService:SetMaterial( child, "hologram/pass", "selected")
+                    else
+                        EntityService:SetMaterial( child, "hologram/deny", "selected")
+                    end
                 end
             end
 
@@ -166,9 +172,9 @@ function repair_tool:OnActivateEntity( entity )
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
         local database = EntityService:GetDatabase( entity )
         if ( database ) then
-            ruinsBlueprint = database:GetString("blueprint")
+            local ruinsBlueprint = database:GetString("blueprint")
             local transform = EntityService:GetWorldTransform( entity )
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true, database )
         end
     else
         local child = EntityService:GetChildByName(entity, "##repair##") 

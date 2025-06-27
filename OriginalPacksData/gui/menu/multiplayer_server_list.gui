@@ -1,41 +1,12 @@
 GuiRootGroupDef
 {
 	full_screen "0"
-	navigation
-	{
-		default_node "frame_tabs.subtabs.content.tab_content.server_list"
-		nodes
-		{
-			GuiNavNodeDef "GuiScrollListDef"
-			{
-				auto_scroll "0"
-				alignment "buttons"
-				navigation
-				{
-					nodes
-					{
-						GuiNavNodeDef "GuiDummyNodeDef"
-						{
-							path "navigation"
-						}
-
-					}
-
-				}
-
-				path "frame_tabs.subtabs.content.tab_content.server_list"
-			}
-
-		}
-
-	}
-
 	shortcuts
 	{
 		Pair_GuiInputCode_String
 		{
 			key "5"
-			value "footer.button_back"
+			value "menu_overlay.bottom_bar.content.buttons_left.button_back"
 		}
 
 	}
@@ -58,182 +29,6 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
-			key "footer"
-			value "GuiGroupDef"
-			{
-				children
-				{
-					Pair_String_GuiDef2
-					{
-						key "button_back"
-						value "GuiReferenceDef"
-						{
-							path "main_button"
-							ref_gui_id "gui/template/buttons"
-							ref_model
-							{
-								database
-								{
-									Strings
-									{
-										StringData
-										{
-											key "content"
-											value "BUTTON_back"
-										}
-
-									}
-
-									Floats
-									Vectors
-									Integers
-								}
-
-							}
-
-							alignment "left"
-							anchor "left"
-							id "button_back"
-							offset
-							{
-								x "40.000"
-							}
-
-							size
-							{
-								x "600.000"
-								y "100.000"
-							}
-
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "button_connect"
-						value "GuiReferenceDef"
-						{
-							path "main_button"
-							ref_gui_id "gui/template/buttons"
-							ref_model
-							{
-								database
-								{
-									Strings
-									{
-										StringData
-										{
-											key "content"
-											value "gui/menu/streaming/connect"
-										}
-
-									}
-
-									Floats
-									Vectors
-									Integers
-								}
-
-							}
-
-							alignment "right"
-							anchor "right"
-							bindings
-							{
-								visible
-								{
-									model_field "connect_allowed"
-									converter "GuiButtonNodeEnablingConverter"
-								}
-
-							}
-
-							id "button_connect"
-							offset
-							{
-								x "-40.000"
-							}
-
-							size
-							{
-								x "600.000"
-								y "100.000"
-							}
-
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "button_refresh"
-						value "GuiReferenceDef"
-						{
-							path "main_button"
-							ref_gui_id "gui/template/buttons"
-							ref_model
-							{
-								database
-								{
-									Strings
-									{
-										StringData
-										{
-											key "content"
-											value "BUTTON_refresh"
-										}
-
-									}
-
-									Floats
-									Vectors
-									Integers
-								}
-
-							}
-
-							alignment "center"
-							anchor "center"
-							bindings
-							{
-								visible
-								{
-									model_field "refresh_allowed"
-									converter "GuiButtonNodeEnablingConverter"
-								}
-
-							}
-
-							id "button_refresh"
-							size
-							{
-								x "600.000"
-								y "100.000"
-							}
-
-						}
-
-					}
-
-				}
-
-				alignment "bottom"
-				anchor "bottom"
-				hitbox_visible "0"
-				id "footer"
-				size
-				{
-					x "1920.000"
-					y "120.000"
-				}
-
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
 			key "frame_tabs"
 			value "GuiGroupDef"
 			{
@@ -248,25 +43,157 @@ GuiRootGroupDef
 							{
 								Pair_String_GuiDef2
 								{
-									key "available"
+									key "friends"
 									value "GuiReferenceDef"
 									{
-										path "header"
+										path "templates.tab_header"
 										ref_children
 										{
 											Pair_String_Vector_GuiDef2
 											{
 												key "neutral_selected"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/research/category_friends_btn_neutral"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														offset
+														{
+															y "3.000"
+														}
+
+														scale
+														{
+															x "1.100"
+															y "1.100"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_Vector_GuiDef2
+											{
+												key "disabled"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														hsv_value "0.500"
+														material "gui/menu/buttons/research/category_friends_btn_neutral"
+														saturate "0.000"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														offset
+														{
+															y "3.000"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
 											}
 
 											Pair_String_Vector_GuiDef2
 											{
 												key "active"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/research/category_friends_btn_active"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														offset
+														{
+															y "3.000"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
 											}
 
 											Pair_String_Vector_GuiDef2
 											{
 												key "active_selected"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/research/category_friends_btn_active"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														offset
+														{
+															y "3.000"
+														}
+
+														scale
+														{
+															x "1.100"
+															y "1.100"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_Vector_GuiDef2
+											{
+												key "disabled_selected"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														hsv_value "0.500"
+														material "gui/menu/buttons/research/category_friends_btn_neutral"
+														saturate "0.000"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														offset
+														{
+															y "3.000"
+														}
+
+														scale
+														{
+															x "1.100"
+															y "1.100"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
 											}
 
 											Pair_String_Vector_GuiDef2
@@ -277,26 +204,17 @@ GuiRootGroupDef
 													GuiDef "GuiImageDef"
 													{
 														error_material "gui/default"
-														material "gui/menu/buttons/mods_install_neutral"
+														material "gui/menu/buttons/research/category_friends_btn_neutral"
 														alignment "center"
 														anchor "center"
 														hitbox_visible "0"
 														id "icon"
-														z_order "3.000"
-													}
-
-													GuiDef "GuiTextDef"
-													{
-														capitals "1"
-														content "gui/menu/multiplayer/button/server_list"
-														style_name "build_info_subheader_yellow"
-														translate "1"
-														id "text_1"
 														offset
 														{
-															y "-27.000"
+															y "3.000"
 														}
 
+														z_order "3.000"
 													}
 
 												}
@@ -305,9 +223,202 @@ GuiRootGroupDef
 
 										}
 
-										ref_gui_id "gui/template/framed_tab_header"
+										ref_gui_id "gui/menu/multiplayer_server_list"
+										ref_model
+										{
+											bindings_proxy
+											{
+												is_activated
+												{
+													model_field "server_provider"
+													converter "GuiModelCompareConverter"
+													{
+														ref_value "friends"
+													}
+
+												}
+
+											}
+
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "on_click_action"
+														value "server_list.set_provider_type:friends"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
 										hitbox_visible "0"
-										id "available"
+										id "friends"
+										size
+										{
+											x "130.000"
+											y "74.000"
+										}
+
+										z_order "100.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "public"
+									value "GuiReferenceDef"
+									{
+										path "templates.tab_header"
+										ref_children
+										{
+											Pair_String_Vector_GuiDef2
+											{
+												key "neutral_selected"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/menu_planetary_scanner_neutral"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														scale
+														{
+															x "1.100"
+															y "1.100"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_Vector_GuiDef2
+											{
+												key "active"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/menu_planetary_scanner_selected"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_Vector_GuiDef2
+											{
+												key "active_selected"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/menu_planetary_scanner_selected"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														scale
+														{
+															x "1.100"
+															y "1.100"
+														}
+
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_Vector_GuiDef2
+											{
+												key "neutral"
+												value
+												{
+													GuiDef "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/buttons/menu_planetary_scanner_neutral"
+														alignment "center"
+														anchor "center"
+														hitbox_visible "0"
+														id "icon"
+														z_order "3.000"
+													}
+
+												}
+
+											}
+
+										}
+
+										ref_gui_id "gui/menu/multiplayer_server_list"
+										ref_model
+										{
+											bindings_proxy
+											{
+												is_activated
+												{
+													model_field "server_provider"
+													converter "GuiModelCompareConverter"
+													{
+														compare_operator "neq"
+														ref_value "friends"
+													}
+
+												}
+
+											}
+
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "is_enabled"
+														value "1"
+													}
+
+													StringData
+													{
+														key "on_click_action"
+														value "server_list.set_provider_type:public"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "public"
 										size
 										{
 											x "130.000"
@@ -321,9 +432,10 @@ GuiRootGroupDef
 
 							}
 
+							container_type "1"
 							hitbox_visible "0"
 							id "buttons"
-							offset
+							margin
 							{
 								x "15.000"
 							}
@@ -334,7 +446,51 @@ GuiRootGroupDef
 								y "74.000"
 							}
 
+							size_mode_x "2"
 							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "selected_list"
+						value "GuiTextDef"
+						{
+							capitals "1"
+							content "gui/menu/multiplayer/button/server_list"
+							style_name "build_info_subheader_yellow"
+							translate "1"
+							bindings
+							{
+								content
+								{
+									model_field "server_provider"
+									converter "GuiModelMapConverter"
+									{
+										fallback_value "gui/menu/multiplayer/button/server_list"
+										map
+										{
+											friends "gui/menu/multiplayer/options/friends_only"
+										}
+
+									}
+
+								}
+
+							}
+
+							id "selected_list"
+							margin
+							{
+								x "20.000"
+							}
+
+							offset
+							{
+								y "-27.000"
+							}
+
 						}
 
 					}
@@ -361,6 +517,72 @@ GuiRootGroupDef
 										{
 											children
 											{
+												Pair_String_GuiDef2
+												{
+													key "gradient"
+													value "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/gradient_opacity"
+														texture_coords
+														{
+															height "0.500"
+															y "0.500"
+														}
+
+														id "gradient"
+														margin
+														{
+															x "1.000"
+															y "88.000"
+															z "1.000"
+														}
+
+														size
+														{
+															y "5.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "0"
+														z_order "1.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "gradient2"
+													value "GuiImageDef"
+													{
+														error_material "gui/default"
+														material "gui/menu/gradient_opacity"
+														texture_coords
+														{
+															height "0.500"
+															y "0.500"
+														}
+
+														id "gradient2"
+														margin
+														{
+															x "1.000"
+															y "88.000"
+															z "1.000"
+														}
+
+														size
+														{
+															y "5.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "0"
+														z_order "1.000"
+													}
+
+												}
+
 												Pair_String_GuiDef2
 												{
 													key "query_error"
@@ -474,17 +696,6 @@ GuiRootGroupDef
 														}
 
 														id "query_error"
-														margin
-														{
-															x "-14.000"
-															z "-14.000"
-														}
-
-														offset
-														{
-															y "15.773"
-														}
-
 														size
 														{
 															x "1227.548"
@@ -493,6 +704,104 @@ GuiRootGroupDef
 
 														size_mode_x "2"
 														z_order "666.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "query_filter"
+													value "GuiGroupDef"
+													{
+														children
+														{
+															Pair_String_GuiDef2
+															{
+																key "icon"
+																value "GuiImageDef"
+																{
+																	error_material "gui/default"
+																	material "gui/menu/mods/mods_search_icon"
+																	id "icon"
+																	margin
+																	{
+																		x "6.000"
+																	}
+
+																}
+
+															}
+
+															Pair_String_GuiDef2
+															{
+																key "text_filter_server_name"
+																value "GuiReferenceDef"
+																{
+																	path "simple"
+																	ref_gui_id "gui/template/text_input"
+																	ref_model
+																	{
+																		bindings_proxy
+																		{
+																			content
+																			{
+																				model_field "server_filter"
+																			}
+
+																		}
+
+																		database
+																		{
+																			Strings
+																			{
+																				StringData
+																				{
+																					key "is_enabled"
+																					value "1"
+																				}
+
+																			}
+
+																			Floats
+																			Vectors
+																			Integers
+																		}
+
+																	}
+
+																	id "text_filter_server_name"
+																	margin
+																	{
+																		x "40.000"
+																	}
+
+																	size
+																	{
+																		y "32.000"
+																	}
+
+																	size_mode_x "2"
+																	z_order "1.000"
+																}
+
+															}
+
+														}
+
+														id "query_filter"
+														margin
+														{
+															y "3.000"
+															z "3.000"
+														}
+
+														size
+														{
+															y "50.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "1"
 													}
 
 												}
@@ -632,641 +941,1210 @@ GuiRootGroupDef
 
 												Pair_String_GuiDef2
 												{
-													key "server_list"
-													value "GuiGroupDef"
+													key "scrollviewer"
+													value "GuiScrollViewerDef"
 													{
-														children
+														content
 														{
-															Pair_String_GuiDef2
+															children
 															{
-																key "mask"
-																value "GuiGroupDef"
+																Pair_String_GuiDef2
 																{
-																	allow_overflow "0"
-																	children
+																	key "server_list"
+																	value "GuiStackPanelDef"
 																	{
-																		Pair_String_GuiDef2
+																		stack_type "1"
+																		template_reference
 																		{
-																			key "content_group"
-																			value "GuiGroupDef"
+																			path "templates.table_row"
+																			ref_children
 																			{
-																				children
+																				Pair_String_Vector_GuiDef2
 																				{
-																					Pair_String_GuiDef2
+																					key "columns.game_version"
+																					value
 																					{
-																						key "navigation"
-																						value "GuiGroupDef"
+																						GuiDef "GuiTextDef"
 																						{
-																							children
+																							line_breaking "0"
+																							content "(BIND) build"
+																							style_name "mod_row_title"
+																							alignment "left"
+																							anchor "left"
+																							bindings
 																							{
-																								Pair_String_GuiDef2
+																								content
 																								{
-																									key "neutral"
-																									value "GuiGroupDef"
-																									{
-																										id "neutral"
-																										size_mode_x "2"
-																										size_mode_y "2"
-																									}
-
-																								}
-
-																								Pair_String_GuiDef2
-																								{
-																									key "neutral_selected"
-																									value "GuiGroupDef"
-																									{
-																										id "neutral_selected"
-																										size_mode_x "2"
-																										size_mode_y "2"
-																									}
-
-																								}
-
-																								Pair_String_GuiDef2
-																								{
-																									key "server_list"
-																									value "GuiStackPanelDef"
-																									{
-																										stack_type "1"
-																										template_reference
-																										{
-																											path "templates.table_row"
-																											ref_gui_id "gui/menu/multiplayer_server_list"
-																											hitbox_visible "0"
-																											offset
-																											{
-																												y "2.000"
-																											}
-
-																											size
-																											{
-																												x "1236.000"
-																												y "32.000"
-																											}
-
-																											size_mode_x "2"
-																											z_order "100.000"
-																										}
-
-																										hitbox_visible "0"
-																										id "server_list"
-																										model_source "servers"
-																										size_mode_x "2"
-																										size_mode_y "1"
-																										z_order "333.000"
-																									}
-
+																									model_field "build"
 																								}
 
 																							}
 
-																							hitbox_visible "0"
-																							id "navigation"
+																							id "text"
+																							margin
+																							{
+																								x "10.000"
+																								z "10.000"
+																							}
+
+																							max_size
+																							{
+																								y "32.000"
+																							}
+
+																							model_source_solver
+																							{
+																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																								{
+																									field_name "info"
+																								}
+
+																							}
+
 																							size_mode_x "2"
-																							size_mode_y "1"
 																						}
 
 																					}
 
 																				}
 
-																				hitbox_visible "0"
-																				id "content_group"
-																				size
+																				Pair_String_Vector_GuiDef2
 																				{
-																					x "1240.000"
-																				}
-
-																				size_mode_x "2"
-																				size_mode_y "1"
-																			}
-
-																		}
-
-																	}
-
-																	id "mask"
-																	margin
-																	{
-																		y "40.000"
-																	}
-
-																	size
-																	{
-																		x "1239.111"
-																		y "656.774"
-																	}
-
-																	size_mode_x "2"
-																	size_mode_y "2"
-																}
-
-															}
-
-															Pair_String_GuiDef2
-															{
-																key "neutral"
-																value "GuiGroupDef"
-																{
-																	id "neutral"
-																	size
-																	{
-																		x "1236.000"
-																	}
-
-																	size_mode_x "2"
-																	size_mode_y "2"
-																}
-
-															}
-
-															Pair_String_GuiDef2
-															{
-																key "neutral_selected"
-																value "GuiGroupDef"
-																{
-																	id "neutral_selected"
-																	size
-																	{
-																		x "1236.000"
-																	}
-
-																	size_mode_x "2"
-																	size_mode_y "2"
-																}
-
-															}
-
-															Pair_String_GuiDef2
-															{
-																key "table_header"
-																value "GuiGroupDef"
-																{
-																	children
-																	{
-																		Pair_String_GuiDef2
-																		{
-																			key "background"
-																			value "GuiQuadDef"
-																			{
-																				alignment "left"
-																				anchor "left"
-																				color
-																				{
-																					w "0.472"
-																					x "0.000"
-																					y "0.000"
-																					z "0.000"
-																				}
-
-																				hitbox_visible "0"
-																				id "background"
-																				size
-																				{
-																					x "1832.000"
-																					y "30.000"
-																				}
-
-																				size_mode_x "2"
-																			}
-
-																		}
-
-																		Pair_String_GuiDef2
-																		{
-																			key "columns_data"
-																			value "GuiGroupDef"
-																			{
-																				children
-																				{
-																					Pair_String_GuiDef2
+																					key "columns.difficulty"
+																					value
 																					{
-																						key "icon"
-																						value "GuiGroupDef"
+																						GuiDef "GuiStackPanelDef"
 																						{
+																							children
+																							{
+																								Pair_String_GuiDef2
+																								{
+																									key "image"
+																									value "GuiImageDef"
+																									{
+																										error_material "gui/default"
+																										material "gui/menu/difficulty_hardcore"
+																										alignment "left"
+																										anchor "left"
+																										bindings
+																										{
+																											visible
+																											{
+																												model_field "hardcore_mode"
+																											}
+
+																										}
+
+																										id "image"
+																										margin
+																										{
+																											x "-5.000"
+																										}
+
+																										model_source_solver
+																										{
+																											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																											{
+																												field_name "info"
+																											}
+
+																										}
+
+																										size
+																										{
+																											x "32.000"
+																											y "32.000"
+																										}
+
+																										size_mode_x "0"
+																										size_mode_y "0"
+																										tooltip_def
+																										{
+																											path "text_label"
+																											ref_gui_id "gui/template/text_label"
+																											ref_model
+																											{
+																												database
+																												{
+																													Strings
+																													{
+																														StringData
+																														{
+																															key "tooltip_content"
+																															value "gui/menu/difficulty/hardcore_mode"
+																														}
+
+																													}
+
+																													Floats
+																													Vectors
+																													Integers
+																												}
+
+																											}
+
+																										}
+
+																										visible "0"
+																										z_order "1.000"
+																									}
+
+																								}
+
+																								Pair_String_GuiDef2
+																								{
+																									key "text"
+																									value "GuiTextDef"
+																									{
+																										content "(BIND) difficulty_name"
+																										style_name "mod_row_title"
+																										alignment "left"
+																										anchor "left"
+																										bindings
+																										{
+																											content
+																											{
+																												model_field "difficulty_name"
+																											}
+
+																										}
+
+																										id "text"
+																										margin
+																										{
+																											x "10.000"
+																											z "10.000"
+																										}
+
+																										model_source_solver
+																										{
+																											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																											{
+																												field_name "info"
+																											}
+
+																										}
+
+																									}
+
+																								}
+
+																							}
+
+																							id "stackpanel"
+																							size_mode_x "1"
+																							size_mode_y "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.time_elapsed"
+																					value
+																					{
+																						GuiDef "GuiTextDef"
+																						{
+																							line_breaking "0"
+																							text_alignment "1"
+																							content "(BIND) time_elapsed"
+																							style_name "mod_row_title_disabled"
 																							alignment "left"
 																							anchor "left"
-																							id "icon"
+																							bindings
+																							{
+																								content
+																								{
+																									model_field "time_elapsed"
+																									converter "GuiSecondsToTimeStringConverter"
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								x "10.000"
+																								z "10.000"
+																							}
+
+																							max_size
+																							{
+																								y "32.000"
+																							}
+
+																							model_source_solver
+																							{
+																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																								{
+																									field_name "info"
+																								}
+
+																							}
+
+																							size_mode_x "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.game_name"
+																					value
+																					{
+																						GuiDef "GuiTextDef"
+																						{
+																							line_breaking "0"
+																							content "(BIND) campaign_name + mission_name"
+																							style_name "mod_row_label"
+																							translate "1"
+																							alignment "left"
+																							anchor "left"
+																							bindings
+																							{
+																								content
+																								{
+																									model_field "mission_name"
+																									converter "GuiModelMapConverter"
+																									{
+																										fallback_value "${campaign_name} - ${mission_name}"
+																										map
+																										{
+																											${campaign_name}
+																										}
+
+																									}
+
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								x "10.000"
+																								z "10.000"
+																							}
+
+																							max_size
+																							{
+																								y "32.000"
+																							}
+
+																							model_source_solver
+																							{
+																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																								{
+																									field_name "info"
+																								}
+
+																							}
+
+																							size_mode_x "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.ping"
+																					value
+																					{
+																						GuiDef "GuiTextDef"
+																						{
+																							text_alignment "2"
+																							content "(BIND) ping"
+																							style_name "mod_row_title"
+																							alignment "left"
+																							anchor "left"
+																							bindings
+																							{
+																								content
+																								{
+																									model_field "ping"
+																									converter "GuiModelMapConverter"
+																									{
+																										fallback_value "${ping}"
+																										map
+																										{
+																											-1 "${VARIABLE_infinity}"
+																										}
+
+																									}
+
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								z "10.000"
+																							}
+
+																							size_mode_x "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.players"
+																					value
+																					{
+																						GuiDef "GuiStackPanelDef"
+																						{
+																							children
+																							{
+																								Pair_String_GuiDef2
+																								{
+																									key "max_players"
+																									value "GuiTextDef"
+																									{
+																										content "(BIND) max_players"
+																										style_name "mod_row_title"
+																										alignment "left"
+																										anchor "left"
+																										bindings
+																										{
+																											content
+																											{
+																												model_field "max_players"
+																											}
+
+																										}
+
+																										id "max_players"
+																										size_mode_x "2"
+																										z_order "2.000"
+																									}
+
+																								}
+
+																								Pair_String_GuiDef2
+																								{
+																									key "players"
+																									value "GuiTextDef"
+																									{
+																										text_alignment "2"
+																										content "(BIND) players"
+																										style_name "mod_row_title"
+																										alignment "left"
+																										anchor "left"
+																										bindings
+																										{
+																											content
+																											{
+																												model_field "players"
+																											}
+
+																										}
+
+																										id "players"
+																										size_mode_x "2"
+																									}
+
+																								}
+
+																								Pair_String_GuiDef2
+																								{
+																									key "separator"
+																									value "GuiTextDef"
+																									{
+																										text_alignment "1"
+																										trimming_mode "0"
+																										content "/"
+																										style_name "mod_row_title"
+																										alignment "left"
+																										anchor "left"
+																										id "separator"
+																										margin
+																										{
+																											x "5.000"
+																											z "5.000"
+																										}
+
+																										z_order "1.000"
+																									}
+
+																								}
+
+																							}
+
+																							alignment "left"
+																							anchor "left"
+																							id "stackpanel"
 																							margin
 																							{
 																								x "5.000"
 																								z "5.000"
 																							}
 
+																							size_mode_x "2"
+																							size_mode_y "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.server_name"
+																					value
+																					{
+																						GuiDef "GuiTextDef"
+																						{
+																							line_breaking "0"
+																							content "(BIND) name"
+																							style_name "mod_row_title"
+																							alignment "left"
+																							anchor "left"
+																							bindings
+																							{
+																								content
+																								{
+																									model_field "name"
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								x "10.000"
+																								z "10.000"
+																							}
+
+																							max_size
+																							{
+																								y "32.000"
+																							}
+
+																							model_source_solver
+																							{
+																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																								{
+																									field_name "info"
+																								}
+
+																							}
+
+																							size_mode_x "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.icon"
+																					value
+																					{
+																						GuiDef "GuiImageDef"
+																						{
+																							error_material "gui/default"
+																							material "gui/menu/server_lock"
+																							stretch_proportional "1"
+																							alignment "center"
+																							anchor "center"
+																							bindings
+																							{
+																								visible
+																								{
+																									model_field "password"
+																									converter "GuiModelObjectNullOrEmptyConverter"
+																									{
+																										invert "1"
+																									}
+
+																								}
+
+																							}
+
+																							id "password"
 																							size
 																							{
 																								x "32.000"
 																								y "32.000"
 																							}
 
-																							z_order "100.000"
-																						}
-
-																					}
-
-																					Pair_String_GuiDef2
-																					{
-																						key "ping"
-																						value "GuiGroupDef"
-																						{
-																							children
+																							size_mode_x "2"
+																							size_mode_y "2"
+																							tooltip_def
 																							{
-																								Pair_String_GuiDef2
+																								path "text_label"
+																								ref_gui_id "gui/template/text_label"
+																								ref_model
 																								{
-																									key "label_1"
-																									value "GuiTextDef"
+																									database
 																									{
-																										line_breaking "0"
-																										content "gui/menu/multiplayer/ping"
-																										plain_text "1"
-																										style_name "mod_table_header"
-																										translate "1"
-																										alignment "right"
-																										anchor "right"
-																										bindings
+																										Strings
 																										{
-																											content
+																											StringData
 																											{
-																												model_field "max_players"
+																												key "tooltip_content"
+																												value "gui/menu/multiplayer/options/server_password"
 																											}
 
 																										}
 
-																										hitbox_visible "0"
-																										id "label_1"
-																										margin
-																										{
-																											z "20.000"
-																										}
-
-																										max_size
-																										{
-																											x "500.000"
-																											y "32.000"
-																										}
-
-																										size_mode_y "2"
-																										z_order "1.000"
+																										Floats
+																										Vectors
+																										Integers
 																									}
 
 																								}
 
 																							}
 
-																							id "ping"
-																							size
-																							{
-																								x "120.000"
-																							}
-
-																							size_mode_y "2"
-																						}
-
-																					}
-
-																					Pair_String_GuiDef2
-																					{
-																						key "server_mission"
-																						value "GuiGroupDef"
-																						{
-																							allow_overflow "0"
-																							children
-																							{
-																								Pair_String_GuiDef2
-																								{
-																									key "label"
-																									value "GuiTextDef"
-																									{
-																										line_breaking "0"
-																										content "gui/menu/difficulty/campaign_name_header"
-																										plain_text "1"
-																										style_name "mod_table_header"
-																										translate "1"
-																										alignment "left"
-																										anchor "left"
-																										hitbox_visible "0"
-																										id "label"
-																										margin
-																										{
-																											z "10.000"
-																										}
-
-																										max_size
-																										{
-																											x "380.000"
-																											y "32.000"
-																										}
-
-																										offset
-																										{
-																											x "15.000"
-																										}
-
-																										size_mode_x "2"
-																										size_mode_y "2"
-																									}
-
-																								}
-
-																							}
-
-																							alignment "left"
-																							anchor "left"
-																							hitbox_visible "0"
-																							id "server_mission"
-																							size
-																							{
-																								x "400.000"
-																								y "32.000"
-																							}
-
-																							size_mode_x "2"
-																							size_mode_y "2"
-																							z_order "98.000"
-																						}
-
-																					}
-
-																					Pair_String_GuiDef2
-																					{
-																						key "server_name"
-																						value "GuiGroupDef"
-																						{
-																							allow_overflow "0"
-																							children
-																							{
-																								Pair_String_GuiDef2
-																								{
-																									key "label"
-																									value "GuiTextDef"
-																									{
-																										line_breaking "0"
-																										content "gui/menu/multiplayer/options/game_name"
-																										plain_text "1"
-																										style_name "mod_table_header"
-																										translate "1"
-																										alignment "left"
-																										anchor "left"
-																										hitbox_visible "0"
-																										id "label"
-																										max_size
-																										{
-																											x "475.000"
-																											y "32.000"
-																										}
-
-																										size_mode_x "2"
-																										size_mode_y "2"
-																									}
-
-																								}
-
-																							}
-
-																							hitbox_visible "0"
-																							id "server_name"
-																							size
-																							{
-																								x "475.000"
-																							}
-
-																							size_mode_x "2"
-																							size_mode_y "2"
-																							z_order "99.000"
-																						}
-
-																					}
-
-																					Pair_String_GuiDef2
-																					{
-																						key "server_players"
-																						value "GuiGroupDef"
-																						{
-																							children
-																							{
-																								Pair_String_GuiDef2
-																								{
-																									key "label_1"
-																									value "GuiTextDef"
-																									{
-																										line_breaking "0"
-																										content "gui/menu/multiplayer/players"
-																										plain_text "1"
-																										style_name "mod_table_header"
-																										translate "1"
-																										alignment "center"
-																										anchor "center"
-																										bindings
-																										{
-																											content
-																											{
-																												model_field "max_players"
-																											}
-
-																										}
-
-																										hitbox_visible "0"
-																										id "label_1"
-																										max_size
-																										{
-																											x "500.000"
-																											y "32.000"
-																										}
-
-																										size_mode_x "2"
-																										size_mode_y "2"
-																										z_order "1.000"
-																									}
-
-																								}
-
-																							}
-
-																							alignment "left"
-																							anchor "left"
-																							hitbox_visible "0"
-																							id "server_players"
-																							size
-																							{
-																								x "100.000"
-																							}
-
-																							size_mode_y "2"
-																							z_order "97.000"
+																							visible "0"
 																						}
 
 																					}
 
 																				}
 
-																				container_type "1"
-																				id "columns_data"
-																				size
-																				{
-																					x "1832.000"
-																				}
-
-																				size_mode_x "2"
-																				size_mode_y "1"
-																				z_order "10.000"
 																			}
 
+																			ref_gui_id "gui/menu/multiplayer_server_list"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					is_activated
+																					{
+																						model_field "is_selected"
+																					}
+
+																					on_double_click_action
+																					{
+																						model_field "identity"
+																						converter "GuiModelPostfixConverter"
+																						{
+																							prefix "connect:"
+																						}
+
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "is_matching_filter"
+																				}
+
+																			}
+
+																			hitbox_visible "0"
+																			offset
+																			{
+																				y "2.000"
+																			}
+
+																			size
+																			{
+																				x "1236.000"
+																				y "32.000"
+																			}
+
+																			size_mode_x "2"
+																			z_order "100.000"
 																		}
 
+																		hitbox_visible "0"
+																		id "server_list"
+																		model_source "servers"
+																		size_mode_x "2"
+																		size_mode_y "1"
+																		z_order "333.000"
 																	}
 
-																	hitbox_visible "0"
-																	id "table_header"
-																	offset
-																	{
-																		y "2.000"
-																	}
-
-																	size
-																	{
-																		x "1832.000"
-																		y "32.000"
-																	}
-
-																	size_mode_x "2"
-																	z_order "100.000"
 																}
 
 															}
 
-															Pair_String_GuiDef2
-															{
-																key "vertical_scroll_bar"
-																value "GuiGroupDef"
-																{
-																	children
-																	{
-																		Pair_String_GuiDef2
-																		{
-																			key "bar"
-																			value "GuiQuadDef"
-																			{
-																				color
-																				{
-																					x "0.627"
-																				}
-
-																				id "bar"
-																				margin
-																				{
-																					x "1.000"
-																					z "1.000"
-																				}
-
-																				size
-																				{
-																					x "3.000"
-																					y "1.000"
-																				}
-
-																				size_mode_x "2"
-																				z_order "153.000"
-																			}
-
-																		}
-
-																		Pair_String_GuiDef2
-																		{
-																			key "bg"
-																			value "GuiQuadDef"
-																			{
-																				color
-																				{
-																					x "0.118"
-																					y "0.365"
-																					z "0.698"
-																				}
-
-																				id "bg"
-																				size
-																				{
-																					x "5.000"
-																					y "787.000"
-																				}
-
-																				size_mode_x "2"
-																				size_mode_y "2"
-																				z_order "151.000"
-																			}
-
-																		}
-
-																		Pair_String_GuiDef2
-																		{
-																			key "slider"
-																			value "GuiQuadDef"
-																			{
-																				color
-																				{
-																					x "0.000"
-																					y "0.000"
-																					z "0.000"
-																				}
-
-																				id "slider"
-																				offset
-																				{
-																					x "1.000"
-																					y "1.000"
-																				}
-
-																				size
-																				{
-																					x "3.000"
-																					y "600.000"
-																				}
-
-																				size_mode_x "2"
-																				z_order "152.000"
-																			}
-
-																		}
-
-																	}
-
-																	alignment "top_right"
-																	anchor "top_right"
-																	id "vertical_scroll_bar"
-																	margin
-																	{
-																		w "10.000"
-																		y "-18.000"
-																	}
-
-																	size
-																	{
-																		x "5.000"
-																		y "783.000"
-																	}
-
-																	z_order "150.000"
-																}
-
-															}
-
+															size_mode_x "2"
 														}
 
-														id "server_list"
+														horizontal_scroll_bar
+														{
+															anchor "top_right"
+														}
+
+														horizontal_scroll_bar_visibility "2"
+														zoom_enabled "0"
+														vertical_scroll_bar
+														{
+															path "simple_vertical"
+															ref_gui_id "gui/template/scroll_bars"
+															anchor "top_right"
+															margin
+															{
+																w "-5.000"
+																x "8.000"
+																y "-55.000"
+															}
+
+															size
+															{
+																x "12.000"
+															}
+
+															size_mode_y "2"
+														}
+
+														id "scrollviewer"
 														margin
 														{
-															x "-18.000"
-															z "-18.000"
-														}
-
-														size
-														{
-															x "1236.000"
+															x "1.000"
+															y "89.000"
+															z "1.000"
 														}
 
 														size_mode_x "2"
 														size_mode_y "2"
-														z_order "5.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "table_header"
+													value "GuiReferenceDef"
+													{
+														path "templates.table_row"
+														ref_children
+														{
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.difficulty"
+																value
+																{
+																	GuiDef "GuiTextDef"
+																	{
+																		content "gui/menu/multiplayer_lobby/difficulty"
+																		style_name "active_20_blue"
+																		translate "1"
+																		alignment "left"
+																		anchor "left"
+																		id "text"
+																		margin
+																		{
+																			x "10.000"
+																			z "10.000"
+																		}
+
+																		max_size
+																		{
+																			y "50.000"
+																		}
+
+																		size_mode_x "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.game_version"
+																value
+																{
+																	GuiDef "GuiTextDef"
+																	{
+																		content "${gui/menu/mod_management/mod_details/game_version}:"
+																		style_name "active_20_blue"
+																		translate "1"
+																		alignment "left"
+																		anchor "left"
+																		id "text"
+																		margin
+																		{
+																			x "10.000"
+																			z "10.000"
+																		}
+
+																		max_size
+																		{
+																			y "50.000"
+																		}
+
+																		size_mode_x "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.game_name"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "mission_type"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "${gui/menu/mission_generator/mission_type}:"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "0"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:mission_type"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_mission_type"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.time_elapsed"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "time_elapsed"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "gui/menu/statistics/stat_name.PlaytimeElapsed"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "1"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:time_elapsed"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_time_elapsed"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.content_compatibility"
+																value
+																{
+																	GuiDef "GuiTextDef"
+																	{
+																		text_alignment "1"
+																		content "${gui/menu/mod_management/status/compatible}:"
+																		style_name "active_20_blue"
+																		translate "1"
+																		alignment "left"
+																		anchor "left"
+																		id "text"
+																		margin
+																		{
+																			x "5.000"
+																			z "5.000"
+																		}
+
+																		max_size
+																		{
+																			y "50.000"
+																		}
+
+																		size_mode_x "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "disabled"
+																value
+																{
+																	GuiDef "GuiQuadDef"
+																	{
+																		inner_alpha "0.763"
+																		alignment "bottom_left"
+																		anchor "bottom_left"
+																		color
+																		{
+																			x "0.155"
+																			y "0.354"
+																			z "0.448"
+																		}
+
+																		id "bottom"
+																		size
+																		{
+																			y "1.000"
+																		}
+
+																		size_mode_x "2"
+																		z_order "1.000"
+																	}
+
+																	GuiDef "GuiQuadDef"
+																	{
+																		inner_alpha "0.763"
+																		color
+																		{
+																			x "0.155"
+																			y "0.354"
+																			z "0.448"
+																		}
+
+																		id "quad"
+																		size
+																		{
+																			y "1.000"
+																		}
+
+																		size_mode_x "2"
+																		z_order "1.000"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.players"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "players"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "${gui/menu/multiplayer/players}:"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "1"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:players"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_players"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.ping"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "ping"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "${gui/menu/multiplayer/ping}:"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "2"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:ping"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_ping"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.server_name"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "server_name"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "gui/menu/multiplayer/options/server_name"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "0"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:server_name"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_server_name"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+														}
+
+														ref_gui_id "gui/menu/multiplayer_server_list"
+														ref_model
+														{
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "is_enabled"
+																		value "0"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														id "table_header"
+														margin
+														{
+															x "1.000"
+															y "38.000"
+															z "1.000"
+														}
+
+														size
+														{
+															y "50.000"
+														}
+
+														size_mode_x "2"
 													}
 
 												}
@@ -1275,6 +2153,14 @@ GuiRootGroupDef
 
 											hitbox_visible "0"
 											id "tab_content"
+											margin
+											{
+												w "-15.000"
+												x "-15.000"
+												y "-15.000"
+												z "-15.000"
+											}
+
 											size
 											{
 												x "1194.989"
@@ -1282,6 +2168,7 @@ GuiRootGroupDef
 											}
 
 											size_mode_x "2"
+											size_mode_y "2"
 										}
 
 									}
@@ -1300,6 +2187,11 @@ GuiRootGroupDef
 
 							hitbox_visible "0"
 							id "subtabs"
+							margin
+							{
+								w "60.000"
+							}
+
 							offset
 							{
 								y "60.000"
@@ -1312,6 +2204,7 @@ GuiRootGroupDef
 							}
 
 							size_mode_x "2"
+							size_mode_y "2"
 							z_order "4.000"
 						}
 
@@ -1330,13 +2223,10 @@ GuiRootGroupDef
 				id "frame_tabs"
 				margin
 				{
+					w "78.000"
 					x "24.000"
-					z "24.000"
-				}
-
-				offset
-				{
 					y "114.000"
+					z "24.000"
 				}
 
 				size
@@ -1346,6 +2236,7 @@ GuiRootGroupDef
 				}
 
 				size_mode_x "2"
+				size_mode_y "2"
 				z_order "1.000"
 			}
 
@@ -1360,6 +2251,20 @@ GuiRootGroupDef
 				ref_gui_id "gui/template/menu_overlay"
 				ref_model
 				{
+					bindings_proxy
+					{
+						button_center_1_is_enabled
+						{
+							model_field "refresh_allowed"
+						}
+
+						button_right_1_is_enabled
+						{
+							model_field "connect_allowed"
+						}
+
+					}
+
 					database
 					{
 						Strings
@@ -1367,13 +2272,55 @@ GuiRootGroupDef
 							StringData
 							{
 								key "footer_visible"
-								value "0"
+								value "1"
 							}
 
 							StringData
 							{
 								key "title"
 								value "BUTTON_multiplayer_game"
+							}
+
+							StringData
+							{
+								key "button_right_1_content"
+								value "gui/menu/streaming/connect"
+							}
+
+							StringData
+							{
+								key "button_center_1_content"
+								value "BUTTON_refresh"
+							}
+
+							StringData
+							{
+								key "back_button_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_center_1_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_action"
+								value "connect"
+							}
+
+							StringData
+							{
+								key "button_center_1_action"
+								value "server_list.refresh"
 							}
 
 						}
@@ -1404,8 +2351,657 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
+						key "button_sorting"
+						value "GuiRadioButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "chevron"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/mods/mods_drop_down_arrow"
+													alignment "left"
+													anchor "left"
+													color
+													{
+														x "0.455"
+														y "0.910"
+													}
+
+													hitbox_visible "0"
+													id "chevron"
+													margin
+													{
+														x "10.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													style_name "active_20_blue"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+														text_alignment
+														{
+															model_field "text_alignment"
+														}
+
+													}
+
+													id "text"
+													margin
+													{
+														z "10.000"
+													}
+
+													max_size
+													{
+														y "50.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										id "active"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "chevron"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/mods/mods_drop_down_arrow"
+													alignment "left"
+													anchor "left"
+													color
+													{
+														y "0.702"
+														z "0.000"
+													}
+
+													hitbox_visible "0"
+													id "chevron"
+													margin
+													{
+														x "10.000"
+													}
+
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													style_name "selected_yellow_20"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+														text_alignment
+														{
+															model_field "text_alignment"
+														}
+
+													}
+
+													id "text"
+													margin
+													{
+														z "10.000"
+													}
+
+													max_size
+													{
+														y "50.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										id "active_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													style_name "active_20_blue"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+														text_alignment
+														{
+															model_field "text_alignment"
+														}
+
+													}
+
+													id "text"
+													margin
+													{
+														x "10.000"
+														z "10.000"
+													}
+
+													max_size
+													{
+														y "50.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "text"
+												value "GuiTextDef"
+												{
+													style_name "selected_yellow_20"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "content"
+														}
+
+														text_alignment
+														{
+															model_field "text_alignment"
+														}
+
+													}
+
+													id "text"
+													margin
+													{
+														x "10.000"
+														z "10.000"
+													}
+
+													max_size
+													{
+														y "50.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								is_activated
+								{
+									model_field "is_activated"
+								}
+
+								on_click_action
+								{
+									model_field "on_click_action"
+								}
+
+							}
+
+							id "button_sorting"
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "image"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/loading/background_earth_hires"
+							id "image"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "tab_header"
+						value "GuiRadioButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "active"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "99.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "95.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													hsv_value "0.500"
+													material "gui/menu/buttons/research/tab_neutral"
+													saturate "0.000"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "disabled"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										z_order "106.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													hsv_value "0.500"
+													material "gui/menu/buttons/research/tab_neutral"
+													saturate "0.000"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										id "disabled_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "102.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										z_order "106.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "102.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								is_activated
+								{
+									model_field "is_activated"
+								}
+
+								is_enabled
+								{
+									model_field "is_enabled"
+								}
+
+								on_click_action
+								{
+									model_field "on_click_action"
+								}
+
+							}
+
+							id "tab_header"
+							size
+							{
+								x "132.000"
+								y "70.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "94.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "table_row"
-						value "GuiToggleButtonItemDef"
+						value "GuiRadioButtonItemDef"
 						{
 							children
 							{
@@ -1423,10 +3019,10 @@ GuiRootGroupDef
 												{
 													color
 													{
-														w "0.471"
-														x "0.965"
-														y "0.933"
-														z "0.275"
+														w "0.800"
+														x "0.925"
+														y "0.725"
+														z "0.259"
 													}
 
 													hitbox_visible "0"
@@ -1446,12 +3042,6 @@ GuiRootGroupDef
 										}
 
 										id "active"
-										size
-										{
-											x "1236.000"
-											y "32.000"
-										}
-
 										size_mode_x "2"
 										size_mode_y "2"
 										z_order "1.000"
@@ -1471,6 +3061,7 @@ GuiRootGroupDef
 												key "background"
 												value "GuiQuadDef"
 												{
+													border_alpha "0.750"
 													border_color
 													{
 														x "1.000"
@@ -1481,10 +3072,10 @@ GuiRootGroupDef
 													border_width "1.000"
 													color
 													{
-														w "0.471"
-														x "0.965"
-														y "0.933"
-														z "0.275"
+														w "0.800"
+														x "0.925"
+														y "0.725"
+														z "0.259"
 													}
 
 													hitbox_visible "0"
@@ -1503,18 +3094,7 @@ GuiRootGroupDef
 
 										}
 
-										color
-										{
-											w "0.491"
-										}
-
 										id "active_selected"
-										size
-										{
-											x "1236.000"
-											y "32.000"
-										}
-
 										size_mode_x "2"
 										size_mode_y "2"
 										z_order "1.000"
@@ -1524,39 +3104,278 @@ GuiRootGroupDef
 
 								Pair_String_GuiDef2
 								{
-									key "background"
-									value "GuiQuadDef"
-									{
-										alignment "left"
-										anchor "left"
-										color
-										{
-											w "0.472"
-											x "0.000"
-											y "0.000"
-											z "0.000"
-										}
-
-										hitbox_visible "0"
-										id "background"
-										size
-										{
-											x "1832.000"
-											y "30.000"
-										}
-
-										size_mode_x "2"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "columns_data"
+									key "columns"
 									value "GuiGroupDef"
 									{
 										children
 										{
+											Pair_String_GuiDef2
+											{
+												key "content_compatibility"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.472"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1236.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "content_compatibility"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "150.000"
+													}
+
+													size_mode_y "2"
+													tooltip_def
+													visible "0"
+													z_order "95.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "difficulty"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.650"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1832.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "difficulty"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "165.000"
+														y "32.000"
+													}
+
+													size_mode_y "2"
+													tooltip_def
+													z_order "97.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "game_name"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.472"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1236.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "game_name"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "420.000"
+														y "32.000"
+													}
+
+													size_mode_y "2"
+													tooltip_def
+													z_order "98.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "game_version"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.650"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1832.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "game_version"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "300.000"
+													}
+
+													size_mode_y "2"
+													tooltip_def
+													z_order "96.000"
+												}
+
+											}
+
 											Pair_String_GuiDef2
 											{
 												key "icon"
@@ -1566,15 +3385,30 @@ GuiRootGroupDef
 													{
 														Pair_String_GuiDef2
 														{
-															key "image"
-															value "GuiImageDef"
+															key "background"
+															value "GuiQuadDef"
 															{
-																error_material "gui/default"
-																material "gui/menu/buttons/mods_install_neutral"
-																stretch_proportional "1"
-																id "image"
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.472"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																size
+																{
+																	x "1236.000"
+																	y "30.000"
+																}
+
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
 															}
 
 														}
@@ -1587,7 +3421,7 @@ GuiRootGroupDef
 													margin
 													{
 														x "5.000"
-														z "5.000"
+														z "1.000"
 													}
 
 													size
@@ -1596,6 +3430,8 @@ GuiRootGroupDef
 														y "32.000"
 													}
 
+													size_mode_y "2"
+													tooltip_def
 													z_order "100.000"
 												}
 
@@ -1625,6 +3461,11 @@ GuiRootGroupDef
 
 																hitbox_visible "0"
 																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
 																size
 																{
 																	x "1236.000"
@@ -1632,55 +3473,8 @@ GuiRootGroupDef
 																}
 
 																size_mode_x "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label_1"
-															value "GuiTextDef"
-															{
-																line_breaking "0"
-																content "0"
-																plain_text "1"
-																style_name "mod_row_title"
-																translate "1"
-																alignment "right"
-																anchor "right"
-																bindings
-																{
-																	content
-																	{
-																		model_field "ping"
-																		converter "GuiModelMapConverter"
-																		{
-																			fallback_value "${ping}"
-																			map
-																			{
-																				-1 "${VARIABLE_infinity}"
-																			}
-
-																		}
-
-																	}
-
-																}
-
-																hitbox_visible "0"
-																id "label_1"
-																margin
-																{
-																	z "20.000"
-																}
-
-																max_size
-																{
-																	x "120.000"
-																	y "32.000"
-																}
-
-																z_order "1.000"
+																size_mode_y "2"
+																tooltip_def
 															}
 
 														}
@@ -1688,19 +3482,156 @@ GuiRootGroupDef
 													}
 
 													id "ping"
+													margin
+													{
+														z "1.000"
+													}
+
 													size
 													{
-														x "120.000"
+														x "100.000"
 													}
 
 													size_mode_y "2"
+													tooltip_def
 												}
 
 											}
 
 											Pair_String_GuiDef2
 											{
-												key "server_mission"
+												key "players"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.650"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1832.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													alignment "left"
+													anchor "left"
+													hitbox_visible "0"
+													id "players"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "120.000"
+													}
+
+													size_mode_y "2"
+													tooltip_def
+													z_order "94.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "server_name"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "background"
+															value "GuiQuadDef"
+															{
+																alignment "left"
+																anchor "left"
+																color
+																{
+																	w "0.650"
+																	x "0.000"
+																	y "0.000"
+																	z "0.000"
+																}
+
+																hitbox_visible "0"
+																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
+																size
+																{
+																	x "1832.000"
+																	y "30.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "server_name"
+													margin
+													{
+														z "1.000"
+													}
+
+													size
+													{
+														x "500.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "99.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "time_elapsed"
 												value "GuiGroupDef"
 												{
 													allow_overflow "0"
@@ -1723,6 +3654,11 @@ GuiRootGroupDef
 
 																hitbox_visible "0"
 																id "background"
+																margin
+																{
+																	x "1.000"
+																}
+
 																size
 																{
 																	x "1236.000"
@@ -1730,46 +3666,8 @@ GuiRootGroupDef
 																}
 
 																size_mode_x "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextDef"
-															{
-																line_breaking "0"
-																content "Mission name xyzsafsafsafsa"
-																plain_text "1"
-																style_name "mod_row_label"
-																translate "1"
-																alignment "left"
-																anchor "left"
-																bindings
-																{
-																	content
-																	{
-																		model_field "server_data"
-																	}
-
-																}
-
-																hitbox_visible "0"
-																id "label"
-																margin
-																{
-																	x "10.000"
-																	z "10.000"
-																}
-
-																max_size
-																{
-																	x "-1.000"
-																	y "32.000"
-																}
-
-																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
 															}
 
 														}
@@ -1779,273 +3677,21 @@ GuiRootGroupDef
 													alignment "left"
 													anchor "left"
 													hitbox_visible "0"
-													id "server_mission"
+													id "time_elapsed"
+													margin
+													{
+														z "1.000"
+													}
+
 													size
 													{
-														x "400.000"
+														x "170.000"
 														y "32.000"
 													}
 
-													size_mode_x "2"
 													size_mode_y "2"
-													z_order "98.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "server_name"
-												value "GuiGroupDef"
-												{
-													allow_overflow "0"
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextDef"
-															{
-																line_breaking "0"
-																content "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-																plain_text "1"
-																style_name "mod_row_title"
-																translate "1"
-																alignment "left"
-																anchor "left"
-																bindings
-																{
-																	content
-																	{
-																		model_field "name"
-																	}
-
-																	style_name
-																	{
-																		model_field "mod_state"
-																		converter "GuiModelMapConverter"
-																		{
-																			fallback_value "mod_row_title"
-																			map
-																			{
-																				6 "mod_row_label_red"
-																			}
-
-																		}
-
-																	}
-
-																}
-
-																hitbox_visible "0"
-																id "label"
-																max_size
-																{
-																	x "-1.000"
-																	y "32.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-													}
-
-													hitbox_visible "0"
-													id "server_name"
-													size
-													{
-														x "475.000"
-													}
-
-													size_mode_x "2"
-													size_mode_y "2"
-													z_order "99.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "server_players"
-												value "GuiGroupDef"
-												{
-													allow_overflow "0"
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "center"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "label_3"
-																		value "GuiTextDef"
-																		{
-																			line_breaking "0"
-																			content "/"
-																			plain_text "1"
-																			style_name "mod_row_title"
-																			translate "1"
-																			alignment "center"
-																			anchor "center"
-																			hitbox_visible "0"
-																			id "label_3"
-																			margin
-																			{
-																				x "10.000"
-																			}
-
-																			max_size
-																			{
-																				x "50.000"
-																				y "32.000"
-																			}
-
-																			z_order "1.000"
-																		}
-
-																	}
-
-																}
-
-																id "center"
-																size_mode_x "2"
-																size_mode_y "2"
-																z_order "2.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "left"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "label_2"
-																		value "GuiTextDef"
-																		{
-																			line_breaking "0"
-																			content "00"
-																			plain_text "1"
-																			style_name "mod_row_title"
-																			translate "1"
-																			alignment "right"
-																			anchor "right"
-																			bindings
-																			{
-																				content
-																				{
-																					model_field "players"
-																				}
-
-																			}
-
-																			hitbox_visible "0"
-																			id "label_2"
-																			margin
-																			{
-																				x "10.000"
-																			}
-
-																			max_size
-																			{
-																				x "50.000"
-																				y "32.000"
-																			}
-
-																			z_order "3.000"
-																		}
-
-																	}
-
-																}
-
-																id "left"
-																size_mode_x "2"
-																size_mode_y "2"
-																z_order "3.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "right"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "label_1"
-																		value "GuiTextDef"
-																		{
-																			line_breaking "0"
-																			content "10"
-																			plain_text "1"
-																			style_name "mod_row_title"
-																			translate "1"
-																			alignment "left"
-																			anchor "left"
-																			bindings
-																			{
-																				content
-																				{
-																					model_field "max_players"
-																				}
-
-																			}
-
-																			hitbox_visible "0"
-																			id "label_1"
-																			max_size
-																			{
-																				x "50.000"
-																				y "32.000"
-																			}
-
-																			z_order "1.000"
-																		}
-
-																	}
-
-																}
-
-																id "right"
-																margin
-																{
-																	z "-18.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-													}
-
-													container_type "1"
-													alignment "left"
-													anchor "left"
-													hitbox_visible "0"
-													id "server_players"
-													size
-													{
-														x "100.000"
-													}
-
-													size_mode_y "2"
-													z_order "97.000"
+													tooltip_def
+													z_order "96.000"
 												}
 
 											}
@@ -2053,15 +3699,35 @@ GuiRootGroupDef
 										}
 
 										container_type "1"
-										id "columns_data"
+										id "columns"
+										margin
+										{
+											w "1.000"
+											y "1.000"
+										}
+
 										size
 										{
 											x "1832.000"
 										}
 
 										size_mode_x "2"
-										size_mode_y "1"
+										size_mode_y "2"
+										tooltip_def
 										z_order "10.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
 									}
 
 								}
@@ -2072,12 +3738,6 @@ GuiRootGroupDef
 									value "GuiGroupDef"
 									{
 										id "neutral"
-										size
-										{
-											x "1240.000"
-											y "32.000"
-										}
-
 										size_mode_x "2"
 										size_mode_y "2"
 										z_order "1.000"
@@ -2097,6 +3757,7 @@ GuiRootGroupDef
 												key "background"
 												value "GuiQuadDef"
 												{
+													border_alpha "0.750"
 													border_color
 													{
 														x "1.000"
@@ -2105,9 +3766,10 @@ GuiRootGroupDef
 													}
 
 													border_width "1.000"
+													inner_alpha "0.750"
 													color
 													{
-														w "0.495"
+														w "0.546"
 														x "0.000"
 														y "0.000"
 														z "0.000"
@@ -2118,7 +3780,7 @@ GuiRootGroupDef
 													size
 													{
 														x "1236.000"
-														y "59.999"
+														y "40.000"
 													}
 
 													size_mode_x "2"
@@ -2130,12 +3792,6 @@ GuiRootGroupDef
 										}
 
 										id "neutral_selected"
-										size
-										{
-											x "1236.000"
-											y "30.000"
-										}
-
 										size_mode_x "2"
 										size_mode_y "2"
 										z_order "1.000"
@@ -2145,11 +3801,30 @@ GuiRootGroupDef
 
 							}
 
+							bindings
+							{
+								is_activated
+								{
+									model_field "is_activated"
+								}
+
+								is_enabled
+								{
+									model_field "is_enabled"
+								}
+
+								on_double_click_action
+								{
+									model_field "on_double_click_action"
+								}
+
+							}
+
 							hitbox_visible "0"
 							id "table_row"
 							offset
 							{
-								y "2.000"
+								y "100.000"
 							}
 
 							size
@@ -2159,127 +3834,15 @@ GuiRootGroupDef
 							}
 
 							size_mode_x "2"
+							tooltip_def
 							z_order "103.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "vertical_scroll_bar"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "bar"
-									value "GuiQuadDef"
-									{
-										color
-										{
-											x "0.627"
-										}
-
-										id "bar"
-										margin
-										{
-											x "1.000"
-											z "1.000"
-										}
-
-										size
-										{
-											x "3.000"
-											y "1.000"
-										}
-
-										size_mode_x "2"
-										z_order "153.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "bg"
-									value "GuiQuadDef"
-									{
-										color
-										{
-											x "0.118"
-											y "0.365"
-											z "0.698"
-										}
-
-										id "bg"
-										size
-										{
-											x "5.000"
-											y "787.000"
-										}
-
-										size_mode_x "2"
-										size_mode_y "2"
-										z_order "151.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "slider"
-									value "GuiQuadDef"
-									{
-										color
-										{
-											x "0.000"
-											y "0.000"
-											z "0.000"
-										}
-
-										id "slider"
-										offset
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										size
-										{
-											x "3.000"
-											y "785.000"
-										}
-
-										size_mode_x "2"
-										z_order "152.000"
-									}
-
-								}
-
-							}
-
-							id "vertical_scroll_bar"
-							offset
-							{
-								x "-10.477"
-								y "1.220"
-							}
-
-							size
-							{
-								x "5.000"
-								y "778.401"
-							}
-
-							size_mode_y "2"
-							z_order "150.000"
 						}
 
 					}
 
 				}
 
+				anchor "bottom_left"
 				id "templates"
 				size
 				{
@@ -2287,6 +3850,8 @@ GuiRootGroupDef
 					y "1080.000"
 				}
 
+				size_mode_x "2"
+				size_mode_y "2"
 				visible "0"
 				z_order "30000000532480.000"
 			}
@@ -2309,6 +3874,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -2331,6 +3901,22 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "refresh_allowed"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer"
 					default_value
 					{
@@ -2338,10 +3924,21 @@ GuiDataDefinitions
 						[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
 						{
 							players "0"
+							info
+							{
+								campaign_name
+								hardcore_mode "0"
+								time_elapsed "0.000"
+								mission_name "Brutal"
+								difficulty_name
+							}
+
 							name "Dummy server name"
 							build
-							id "localhost"
+							password
+							identity
 							max_players "0"
+							is_selected "0"
 							ping "0"
 						}
 
@@ -2356,6 +3953,22 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "public"
+					}
+
+				}
+
+				key "server_provider"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "Vector_[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer4"
 					default_value
 					{
@@ -2364,42 +3977,86 @@ GuiDataDefinitions
 						{
 							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
 							{
-								players "12"
-								name "Dummy server name1"
-								build
-								id "localhost"
-								max_players "44"
-								ping "-1"
-							}
+								players "2"
+								info
+								{
+									campaign_name "Campaign"
+									hardcore_mode "1"
+									time_elapsed "0.000"
+									mission_name
+									difficulty_name "Brutal"
+								}
 
-							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
-							{
-								players "0"
-								name "Dummy server name2"
-								build
-								id "localhost"
-								max_players "0"
-								ping "100"
-							}
-
-							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
-							{
-								players "0"
-								name "Dummy server name3"
-								build
-								id "localhost"
-								max_players "0"
+								name "Dummy server name"
+								build "DATA: 10000 EXE: 10000"
+								password "s"
+								identity "localhost"
+								max_players "4"
+								is_selected "0"
 								ping "200"
 							}
 
 							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
 							{
-								players "0"
-								name "Dummy server name4"
-								build
-								id "localhost"
-								max_players "0"
-								ping "24"
+								players "2"
+								info
+								{
+									campaign_name "localhost"
+									hardcore_mode "0"
+									time_elapsed "0.000"
+									mission_name "Brutal"
+									difficulty_name "Brutal"
+								}
+
+								name "Dummy server name"
+								build "DATA: 100 EXE: 100"
+								password
+								identity "localhost"
+								max_players "4"
+								is_selected "1"
+								ping "200"
+							}
+
+							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
+							{
+								players "2"
+								info
+								{
+									campaign_name "localhost"
+									hardcore_mode "0"
+									time_elapsed "0.000"
+									mission_name "Brutal"
+									difficulty_name "Brutal"
+								}
+
+								name "Dummy server name"
+								build "DATA: 10000 EXE: 10000"
+								password
+								identity "localhost"
+								max_players "4"
+								is_selected "0"
+								ping "200"
+							}
+
+							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
+							{
+								players "2"
+								info
+								{
+									campaign_name "localhost"
+									hardcore_mode "0"
+									time_elapsed "0.000"
+									mission_name "Brutal"
+									difficulty_name "Brutal"
+								}
+
+								name "Dummy server name"
+								build "DATA: 10000 EXE: 10000"
+								password
+								identity "localhost"
+								max_players "4"
+								is_selected "0"
+								ping "200"
 							}
 
 						}
@@ -2411,6 +4068,22 @@ GuiDataDefinitions
 				key "servers"
 			}
 
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "players"
+					}
+
+				}
+
+				key "sorting_mode"
+			}
+
 		}
 
 		handle "[88F0E995-34D4-4B39-8434-C32B4F4EE02A]"
@@ -2419,6 +4092,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "GameServer"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -2429,7 +4107,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "1615808600"
-						String "1234"
+						String "DATA: 10000 EXE: 10000"
 					}
 
 				}
@@ -2450,7 +4128,47 @@ GuiDataDefinitions
 
 				}
 
-				key "id"
+				key "identity"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[2F89CCC5-C51A-40B2-A80E-A396414F3193]/ServerGameState"
+					default_value
+					{
+						typehash "2096787529"
+						[2F89CCC5-C51A-40B2-A80E-A396414F3193]/ServerGameState
+						{
+							campaign_name "C"
+							hardcore_mode "0"
+							time_elapsed "0.000"
+							mission_name "Brutal"
+							difficulty_name "Brutal"
+						}
+
+					}
+
+				}
+
+				key "info"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_selected"
 			}
 
 			Pair_String_GuiDataTypeField
@@ -2461,7 +4179,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "2515107422"
-						int "20"
+						int "4"
 					}
 
 				}
@@ -2489,6 +4207,22 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "password"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "int"
 					default_value
 					{
@@ -2509,7 +4243,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "2515107422"
-						int "5"
+						int "2"
 					}
 
 				}
@@ -2520,6 +4254,101 @@ GuiDataDefinitions
 		}
 
 		handle "[7040A579-6235-4C12-861F-B68A758ECC07]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "ServerGameState"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "test2"
+					}
+
+				}
+
+				key "campaign_name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Brutal"
+					}
+
+				}
+
+				key "difficulty_name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "hardcore_mode"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "supertest"
+					}
+
+				}
+
+				key "mission_name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "float"
+					default_value
+					{
+						typehash "2797886853"
+						float "666.000"
+					}
+
+				}
+
+				key "time_elapsed"
+			}
+
+		}
+
+		handle "[2F89CCC5-C51A-40B2-A80E-A396414F3193]"
 	}
 
 }

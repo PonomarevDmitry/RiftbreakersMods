@@ -21,7 +21,7 @@ function item_creator:OnActivate()
 
 	if ( self.ownerAimDir ) then
 		local dir = nil
-		local mechComponent = EntityService:GetComponent( self.owner, "MechComponent" )
+		local mechComponent = EntityService:GetComponent( self.owner, "MechMovementComponent" )
 		if ( mechComponent ~= nil ) then
 			local startPos = EntityService:GetPosition( self.owner, self.att )
 		    local helper = reflection_helper( mechComponent )
@@ -32,7 +32,7 @@ function item_creator:OnActivate()
         end
 
 		if Length( dir ) > 0.0 then
-			EntityService:SetForward( spawned, dir.x, dir.y, dir.z )
+			EntityService:SetForward( spawned, dir.x, 0, dir.z )
 		end
 	end
 
@@ -66,7 +66,7 @@ end
 function item_creator:FindAndCheckAimPosition( )
     local pos = {}
 	if ( self.createAtAim ) then
-		local mechComponent = EntityService:GetComponent(self.owner, "MechComponent" )
+		local mechComponent = EntityService:GetComponent(self.owner, "MechMovementComponent" )
 		if ( mechComponent == nil ) then
 			pos = FindService:FindEmptySpotInRadius( self.owner, 2.0, "", "").second
         else
@@ -104,13 +104,16 @@ end
 function item_creator:CanActivate()
 	item.CanActivate( self )
 	if ( self.checkEmptySpot == false ) then
+		self:SetCanActivate( true )
 		return true
 	end
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+		self:SetCanActivate( false )
         return false
     end
-
-    return self:HasSpot()
+	local hasSpot = self:HasSpot()
+	self:SetCanActivate( hasSpot )
+	return hasSpot
 end
 
 return item_creator

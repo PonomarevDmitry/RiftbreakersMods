@@ -28,7 +28,7 @@ function anoryxian_firewall:OnEnteredTriggerEvent( evt )
 		EntityService:RemoveEntity( self.entity )
 	end
 
-	if ( self.owner ~= entity  ) then
+	if ( self.owner ~= entity  ) and EntityService:IsInTeamRelation( self.owner, entity, "hostility" ) then
 		table.insert( self.damageDealTo, entity )
 	end
 end

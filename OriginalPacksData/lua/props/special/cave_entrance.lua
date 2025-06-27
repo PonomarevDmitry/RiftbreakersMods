@@ -16,13 +16,51 @@ function cave_entrance:OnLuaGlobalEvent( event )
         component.radius = 6 
         component.remove_entity = 0
         component.remove_component = 0
+		component.priority = 15
     end
 end
 
 
 function cave_entrance:OnInteractWithEntityRequest( evt )
+	local owner = evt:GetOwner()
+	local player = PlayerService:GetPlayerForEntity( owner )
+	
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
-	QueueEvent( "LuaGlobalEvent", event_sink, "CavernsEntranceActivated", params )	
+	if ( #PlayerService:GetConnectedPlayers() > 1) then
+
+		local voteParams =
+		{
+			localization = "gui/planetary_scanner/go_to_next_map_vote",
+			timeout = 60.0,
+			gui_id = "gui/popup/popup_vote_planetaryscanner",
+			default_action = "button_no",
+			vote_type = "GoToNextMapRequest",
+			map = "caverns",
+			win_label = "gui/planetary_scanner/rift_jump_commencing",
+			start_action = "button_yes",
+			player = PlayerService:GetPlayerName( player ),
+			actions = 
+
+			{
+				button_yes = 
+				{ 
+					localization = "gui/hud/vote_accepted" ,
+					event_name	 = "LuaGlobalEvent",
+					event_params = { argName1 = event_sink, argName2 = "CavernsEntranceActivated", argName3 = params }
+				},
+
+				button_no =
+				{
+					localization = "gui/hud/vote_negative" ,
+					event_name = "",
+					event_params = {}
+				}
+			}
+		}
+		GameStreamingService:StartPlayerVote(player, voteParams, false )
+	else
+		QueueEvent( "LuaGlobalEvent", event_sink, "CavernsEntranceActivated", params )	
+	end
 end
 
 

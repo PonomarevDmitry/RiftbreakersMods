@@ -7,7 +7,7 @@ function sulphorit_wreck:__init()
 end
 
 function sulphorit_wreck:initParams()
-	--self.wreckLifetime = 600
+
 end
 
 return sulphorit_wreck

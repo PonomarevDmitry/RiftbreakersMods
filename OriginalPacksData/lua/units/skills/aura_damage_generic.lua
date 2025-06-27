@@ -19,63 +19,26 @@ function skill_aura_damage_generic:OnInit()
 	displayRadiusComponent.max_radius = radius
 	displayRadiusComponent.min_radius = radius / 1.8 -- min_radius scale hack
 
-    self.dmg = self:CreateStateMachine()
-    self.dmg:AddState( "dmg", { execute="OnExecuteDmg" } )
-
-	self.dmg:ChangeState( "dmg" )
+	local worldEffectComponent =EntityService:CreateComponent( self.entity, "WorldEffectComponent" )
+    local worldEffectComponentHelper = reflection_helper( worldEffectComponent )
+	worldEffectComponentHelper.type = WORLD_EFFECT_TYPE_LOCAL
+	worldEffectComponentHelper.size = WORLD_EFFECT_SIZE_RADIUS;
+	worldEffectComponentHelper.damage_per_sec = self.dmgPerSec
+	worldEffectComponentHelper.damage_type = self.dmgType
+	worldEffectComponentHelper.radius = radius
+	worldEffectComponentHelper.dmg_effect = self.dmgEffect
+	worldEffectComponentHelper.damage_tag = "dmg_aura_boss"
+	worldEffectComponentHelper.max_health_percentage_damage_threshold = 30
+	worldEffectComponentHelper.damage_threshold_entity_type_mask = EntityService:BuildType( "energy_connector" )
 
 	EnvironmentService:SetResistance( EntityService:GetParent( self.entity ), self.dmgType, 0.1, "aura_resistance_dmg" )
 	EffectService:AttachEffects( EntityService:GetParent( self.entity ), self.auraEffect )
 end
 
-function skill_aura_damage_generic:RemoveEffect( entity )
-	if ( EffectService:HasEffectByGroup( entity, self.dmgEffect ) == true ) then
-		EffectService:DestroyEffectsByGroup( entity, self.dmgEffect )
-	end	
-end
-
-function skill_aura_damage_generic:OnExecuteDmg( state, dt )
-	for i = 1, #self.inTrigger do  
-		local entity = self.inTrigger[i]
-
-		QueueEvent( "DamageWithOwnerRequest", entity, self.dmgPerSec  * dt, self.dmgType, 1, 0, self.entity, self.entity )
-		
-		if ( EffectService:HasEffectByGroup( self.inTrigger[i], self.dmgEffect ) == false ) then
-			EffectService:AttachEffects( self.inTrigger[i], self.dmgEffect )
-		end	
-	end
-end
-
-function skill_aura_damage_generic:Clean( state )
-	for i = 1, #self.inTrigger do  		
-		if ( EffectService:HasEffectByGroup( self.inTrigger[i], self.dmgEffect ) == true ) then
-			EffectService:DestroyEffectsByGroup( self.inTrigger[i], self.dmgEffect )
-		end	
-	end
-
-	EffectService:DestroyEffectsByGroup( EntityService:GetParent( self.entity ), self.auraEffect )
-end
-
 function skill_aura_damage_generic:OnUnitDeadStateEvent( evt )
-	self:Clean()
-
+	EffectService:DestroyEffectsByGroup( EntityService:GetParent( self.entity ), self.auraEffect )
 	EntityService:RemoveEntity( self.entity )
 end
 
-function skill_aura_damage_generic:OnEnteredTriggerEvent( evt, entity )
-	if ( EffectService:HasEffectByGroup( entity, self.dmgEffect ) == false ) then
-		EffectService:AttachEffects( entity, self.dmgEffect )
-	end	
-end
-
-function skill_aura_damage_generic:OnLeftTriggerEvent( evt, entity )
-	if ( EffectService:HasEffectByGroup( entity, self.dmgEffect ) == true ) then
-		EffectService:DestroyEffectsByGroup( entity, self.dmgEffect )
-	end		
-end
-
-function skill_aura_damage_generic:OnLeftTriggerEvent( evt, entity )
-	self:RemoveEffect( entity )
-end
 
 return skill_aura_damage_generic

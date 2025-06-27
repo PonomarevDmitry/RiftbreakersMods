@@ -1,0 +1,1175 @@
+//editor "scroll(-703.29,-379.45)|zoom(0.13)"
+FlowGraphTemplate
+{
+	version "5"
+	editor "6578"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(230,693)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1794,679)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_quantum_cortex_laboratory"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "campaign_objective_finish_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(2375,661)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(7382,1561)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.arcology_workshop_build"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.arcology_workshop_build"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(6423,1611)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3418,701)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3773,965)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_3"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(6663,1481)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_26"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_prep_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_prep_01"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(8207,1523)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "arcology_workshop"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_42"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(8207,1752)"
+			key "true"
+			self_id "logic_if_exist_building_42###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(8207,2307)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "arcology_workshop"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_43"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(8207,2536)"
+			key "true"
+			self_id "logic_if_exist_building_43###true"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(8840,1335)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_27"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_start_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_start_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_start_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_start_03"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_start_04"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_start_04"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(8836,2351)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_28"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_arcology_end_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_arcology_end_01"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(649,473)"
+			graph "logic/campaigns/story/campaign_endgame_qcl.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_wait_on_status.xml)|pos(5811,1535)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.endgame.build_gravitational_hyper_lens"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.endgame.build_nanobot_center"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.endgame.build_hydroponic_lab"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_wait_on_status.lua"
+			self_id "campaign_objective_wait_on_status_3"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3180,381)"
+			graph "logic/campaigns/story/campaign_endgame_ghl.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3753,663)"
+			graph "logic/campaigns/story/campaign_endgame_nanobot.logic"
+			self_id "event_graph_3"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(4023,931)"
+			graph "logic/campaigns/story/campaign_endgame_hydroponic.logic"
+			self_id "event_graph_4"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_wait_on_status.xml)|pos(1260,665)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.endgame.build_quantum_cortex_laboratory"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_wait_on_status.lua"
+			self_id "campaign_objective_wait_on_status_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(8835,2748)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.arcology_workshop_build"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(9692,2590)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_gravitational_hyper_lens"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(9692,2704)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(9692,2811)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_hydroponic_lab"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(9689,2918)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.arcology_workshop_build"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(9452,2773)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_6"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(10273,2793)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(8837,2922)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.25"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(3775,1384)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_gravitational_hyper_lens"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3775,1489)"
+			key "true"
+			self_id "objective_exist_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3775,1517)"
+			key "false"
+			self_id "objective_exist_1###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(4363,1447)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4363,1552)"
+			key "true"
+			self_id "objective_exist_2###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(4363,1580)"
+			key "false"
+			self_id "objective_exist_2###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(objective_exist.xml)|pos(4907,1514)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_hydroponic_lab"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_exist.lua"
+			self_id "objective_exist_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4907,1619)"
+			key "true"
+			self_id "objective_exist_3###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(4907,1647)"
+			key "false"
+			self_id "objective_exist_3###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(3456,1415)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(5923,2283)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(5303,2010)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_reactivate_or.xml)|pos(5506,1997)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "name"
+						value "logic_or_1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_reactivate_or.lua"
+			self_id "logic_reactivate_or_1"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_interface_dialogue_show_group_26 "campaign_objective_generic_2"
+		campaign_interface_dialogue_show_group_28 "logic_and_6"
+		campaign_objective_finish_3 "campaign_objective_generic_1"
+		campaign_objective_generic_1 "event_graph_2|logic_and_2|logic_wait_2"
+		campaign_objective_generic_2 "logic_if_exist_building_42|logic_if_exist_building_43"
+		campaign_objective_wait_on_status_3 "logic_and_1"
+		campaign_objective_wait_on_status_5 "campaign_objective_finish_3"
+		default "campaign_objective_wait_on_status_5|event_graph_1"
+		logic_and_1 "campaign_interface_dialogue_show_group_26"
+		logic_and_2 "objective_exist_1"
+		logic_and_6 "objective_remove_1|objective_remove_2|objective_remove_3|objective_remove_4"
+		logic_if_exist_building_42 "logic_if_exist_building_42###true"
+		logic_if_exist_building_42###true "campaign_interface_dialogue_show_group_27"
+		logic_if_exist_building_43 "logic_if_exist_building_43###true"
+		logic_if_exist_building_43###true "campaign_interface_dialogue_show_group_28|mission_change_creature_difficulty_1|objective_status_change_10"
+		logic_or_1 "logic_reactivate_or_1"
+		logic_reactivate_or_1 "logic_wait_1"
+		//editor "logic_and_2(6121,2579:3393,2576)"
+		logic_wait_1 "logic_and_2"
+		logic_wait_2 "event_graph_3|logic_wait_3"
+		logic_wait_3 "event_graph_4"
+		objective_exist_1 "objective_exist_1###false|objective_exist_1###true"
+		objective_exist_1###false "logic_or_1"
+		objective_exist_1###true "objective_exist_2"
+		objective_exist_2 "objective_exist_2###false|objective_exist_2###true"
+		objective_exist_2###false "logic_or_1"
+		objective_exist_2###true "objective_exist_3"
+		objective_exist_3 "objective_exist_3###false|objective_exist_3###true"
+		objective_exist_3###false "logic_or_1"
+		objective_exist_3###true "campaign_objective_wait_on_status_3"
+		objective_remove_1 "event_end_1"
+		objective_remove_2 "event_end_1"
+		objective_remove_3 "event_end_1"
+		objective_remove_4 "event_end_1"
+		objective_status_change_10 "logic_and_6"
+	}
+
+	GraphComments
+}
+

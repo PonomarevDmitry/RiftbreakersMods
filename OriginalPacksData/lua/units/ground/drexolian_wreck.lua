@@ -7,9 +7,7 @@ function drexolian_wreck:__init()
 end
 
 function drexolian_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return drexolian_wreck

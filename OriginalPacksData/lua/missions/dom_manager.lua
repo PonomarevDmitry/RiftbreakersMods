@@ -510,85 +510,9 @@ function dom_mananger:OnRespawnFailedEvent()
 	end
 end
 
-function dom_mananger:DestroyPlayerItems( owner, playerId )
-	local count = DifficultyService:GetNumberOfItemsRemovedOnDeath();
-
-	if ( count == 0 ) then
-		return
-	end
-
-	local status = CampaignService:GetMissionStatus( CampaignService:GetCurrentMissionId() )
-	if ( status ~= MISSION_STATUS_IN_PROGRESS and status ~= MISSION_STATUS_NONE ) then
-		return
-	end
-
-	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND", playerId )
-	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND", playerId ) )   
-	count = math.min( count, #items )
-
-	local name = ""
-	local lvl = ""
-	for i=1,count,1 do
-		local number = RandInt(1, #items)
-		local entity = items[number];
-		Remove( items, entity)
-		name = ItemService:GetItemName( entity )
-		lvl = ItemService:GetItemLevel( entity )
-		EntityService:RemoveEntity( entity)
-	end
-
-end
-
-function dom_mananger:DropPlayerItems( owner, playerId )
-	local dropItemsCount = DifficultyService:GetNumberOfItemsDroppedOnDeath();
-	if ( dropItemsCount == 0 ) then
-		return
-	end
-
-	local mech = PlayerService:GetPlayerControlledEnt( playerId)
-	LogService:Log("Mech:" .. tostring( mech ))
-	if ( mech ~= INVALID_ID ) then
-		local mechDatabase = EntityService:GetDatabase( mech )
-		LogService:Log("MechDatabase:" .. tostring(mechDatabase ))
-
-		if ( mechDatabase:GetIntOrDefault("disable_drop",0  ) == 1 ) then
-			LogService:Log("Disable mech drop!")
-			return
-		end
-	end
-	--local status = CampaignService:GetMissionStatus( CampaignService:GetCurrentMissionId() )
-	--if ( status ~= MISSION_STATUS_IN_PROGRESS and status ~= MISSION_STATUS_NONE ) then
-	--	return
-	--end
-
-	local items = PlayerService:GetAllEquippedItemsInSlot( "LEFT_HAND", playerId )
-	ConcatUnique( items, PlayerService:GetAllEquippedItemsInSlot( "RIGHT_HAND", playerId ) )   
-	dropItemsCount = math.min( dropItemsCount, #items )
-
-	local dropped = {}
-	local name = ""
-	local lvl = ""
-	for i=1,dropItemsCount,1 do
-		local number = RandInt(1, #items)
-		local entity = items[number];
-		Insert(dropped, entity )
-		Remove( items, entity)
-		name = ItemService:GetItemName( entity )
-		lvl = ItemService:GetItemLevel( entity )
-		PlayerService:DropItem( entity, owner, owner )
-	end
-
-	if dropItemsCount >= (#items + #dropped) then
-		CampaignService:UnlockAchievement(ACHIEVEMENT_LEAVING_EMPTY_HANDED);
-	end
-end
-
 function dom_mananger:OnPlayerDiedEvent( evt )
 	--LogService:Log("OnPlayerDiedEvent")
-	self:DestroyPlayerItems(evt:GetEntity(), evt:GetPlayerId())
-	self:DropPlayerItems(evt:GetEntity(), evt:GetPlayerId())
 end
-
 
 function dom_mananger:OnLoad()
 	if ( self.version == nil ) then

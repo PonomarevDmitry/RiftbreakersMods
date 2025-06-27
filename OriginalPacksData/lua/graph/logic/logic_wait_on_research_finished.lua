@@ -18,7 +18,7 @@ end
 
 function logic_wait_on_research_finished:OnUpdate()
 	local researchId = self.data:GetString("research_id")    
-	local finished = PlayerService:IsResearchUnlocked( researchId )
+	local finished = PlayerService:IsResearchUnlocked(PlayerService:GetLeadingPlayer(), researchId )
 
 	if ( finished ) then
 		self:SetFinished()

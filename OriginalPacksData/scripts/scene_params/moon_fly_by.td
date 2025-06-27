@@ -38,6 +38,7 @@ TimeOfDayPreset
 		time_of_day "0"
 		weather_haptic
 		weather_effect "effects/weather/gravitational_anomaly"
+		weather_biome_mod "effects/biome_mod/gravitational_anomaly"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 	}
@@ -80,6 +81,7 @@ TimeOfDayPreset
 		time_of_day "2"
 		weather_haptic
 		weather_effect "effects/weather/gravitational_anomaly"
+		weather_biome_mod "effects/biome_mod/gravitational_anomaly"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 	}

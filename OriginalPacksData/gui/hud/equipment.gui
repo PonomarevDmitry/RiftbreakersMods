@@ -31,10 +31,10 @@ GuiRootGroupDef
 												value "GuiImageDef"
 												{
 													error_material "gui/default"
-													material "gui/menu/inventory/missing_icon"
+													material "gui/hud/power_well_health"
 													stretch_proportional "1"
-													alignment "center"
-													anchor "center"
+													alignment "left"
+													anchor "left"
 													bindings
 													{
 														material
@@ -47,14 +47,13 @@ GuiRootGroupDef
 													id "icon"
 													offset
 													{
-														x "-11.000"
-														y "-1.000"
+														x "-5.000"
 													}
 
 													size
 													{
-														x "42.000"
-														y "42.000"
+														x "60.000"
+														y "32.000"
 													}
 
 													z_order "1.000"
@@ -65,17 +64,12 @@ GuiRootGroupDef
 										}
 
 										id "group"
-										margin
-										{
-											x "1.000"
-										}
-
 										size
 										{
-											y "38.000"
+											x "320.000"
+											y "32.000"
 										}
 
-										size_mode_x "1"
 										z_order "1.000"
 									}
 
@@ -91,11 +85,6 @@ GuiRootGroupDef
 										alignment "left"
 										anchor "left"
 										id "image"
-										offset
-										{
-											x "12.000"
-										}
-
 										size
 										{
 											x "32.000"
@@ -134,7 +123,7 @@ GuiRootGroupDef
 										id "text"
 										margin
 										{
-											x "92.000"
+											x "82.000"
 										}
 
 										z_order "3.000"
@@ -165,7 +154,7 @@ GuiRootGroupDef
 										id "timer"
 										margin
 										{
-											x "40.000"
+											x "30.000"
 										}
 
 										z_order "2.000"
@@ -184,8 +173,575 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
+						key "skill"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/items_icon_bg"
+										bindings
+										{
+											material
+											{
+												model_field "rarity"
+												converter "GuiModelMapConverter"
+												{
+													map
+													{
+														1 "gui/hud/items_icon_bg_advanced"
+														0 "gui/hud/items_icon_bg_standard"
+														3 "gui/hud/items_icon_bg_extreme"
+														2 "gui/hud/items_icon_bg_superior"
+													}
+
+												}
+
+											}
+
+											saturate
+											{
+												model_field "disabled"
+												converter "GuiModelMapConverter"
+												{
+													map
+													{
+														1 "0"
+														0 "1"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "bg"
+										offset
+										{
+											x "1.000"
+											y "7.000"
+										}
+
+										z_order "99.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "c"
+									value "GuiGroupDef"
+									{
+										allow_overflow "0"
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "#MASK#"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "quad_0"
+															value "GuiQuadDef"
+															{
+																id "quad_0"
+																offset
+																{
+																	x "8.000"
+																	y "2.000"
+																}
+
+																size
+																{
+																	x "34.000"
+																	y "6.000"
+																}
+
+																z_order "106.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "quad_1"
+															value "GuiQuadDef"
+															{
+																id "quad_1"
+																offset
+																{
+																	x "2.000"
+																	y "8.000"
+																}
+
+																size
+																{
+																	x "40.000"
+																	y "34.000"
+																}
+
+																z_order "105.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "quad_2"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "quad_2"
+																offset
+																{
+																	x "8.000"
+																	y "2.000"
+																}
+
+																rotation "45.000"
+																size
+																{
+																	x "8.000"
+																	y "9.000"
+																}
+
+																z_order "107.000"
+															}
+
+														}
+
+													}
+
+													id "#MASK#"
+													offset
+													{
+														x "3.000"
+														y "3.000"
+													}
+
+													size
+													{
+														x "44.000"
+														y "44.000"
+													}
+
+													z_order "104.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "cooldown"
+												value "GuiCircleBarDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/bars/cooldown_1x2"
+													alignment "center"
+													color
+													{
+														w "0.850"
+													}
+
+													id "cooldown"
+													offset
+													{
+														x "25.000"
+														y "25.000"
+													}
+
+													scale
+													{
+														x "-20.000"
+														y "20.000"
+													}
+
+													
+													z_order "110.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "ctimer"
+												value "GuiTextLineDef"
+												{
+													content "gui/hud/equipment/skills.uh_1.c.ctimer"
+													style
+													{
+														char_height "21.000"
+														df "1"
+														font "Exo2_Bold_sdf"
+														glow_color
+														{
+															w "0.000"
+														}
+
+														glow_size "0.000"
+														glow_spread "0.000"
+														shadow_angle "135.000"
+														shadow_color
+														{
+															w "0.850"
+														}
+
+														shadow_distance "2.000"
+														shadow_enabled "1"
+														shadow_spread "0.000"
+														space_size "7.000"
+														stroke_position "0"
+														stroke_size "0.000"
+													}
+
+													style_name "research_white"
+													alignment "center"
+													id "ctimer"
+													offset
+													{
+														x "26.000"
+														y "26.000"
+													}
+
+													
+													visible "0"
+													z_order "111.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "darken"
+												value "GuiQuadDef"
+												{
+													alignment "center"
+													anchor "center"
+													color
+													{
+														w "0.900"
+														x "0.000"
+														y "0.000"
+														z "0.000"
+													}
+
+													id "darken"
+													size
+													{
+														x "90.000"
+														y "90.000"
+													}
+
+													z_order "109.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icons/consumables/mobile_lamp"
+													id "icon"
+													tooltip_def
+													{
+														ref_gui_id "gui/template/info_frame"
+														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
+													}
+
+													z_order "108.000"
+												}
+
+											}
+
+										}
+
+										id "c"
+										offset
+										{
+											y "6.000"
+										}
+
+										size
+										{
+											x "64.000"
+											y "64.000"
+										}
+
+										z_order "103.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "empty"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/items_icon_bg_empty"
+										id "empty"
+										offset
+										{
+											x "1.000"
+											y "7.000"
+										}
+
+										z_order "100.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "highlight"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/items_icon_bg_highlight"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "0.010"
+															}
+
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "1.000"
+															}
+
+															frame_number "15"
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															frame_number "30"
+															mask "32"
+														}
+
+													}
+
+													name "Show"
+												}
+
+											}
+
+										}
+
+										color
+										{
+											w "0.000"
+										}
+
+										id "highlight"
+										offset
+										{
+											x "1.000"
+											y "7.000"
+										}
+
+										z_order "112.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextLineDef"
+									{
+										content "COMMON_Text_Line"
+										style
+										{
+											char_height "21.000"
+											df "1"
+											font "Exo2_Bold_sdf"
+											glow_color
+											{
+												w "0.000"
+											}
+
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
+											{
+												w "0.913"
+											}
+
+											shadow_distance "2.000"
+											shadow_enabled "1"
+											shadow_size "0.000"
+											shadow_spread "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
+										}
+
+										style_name "resource_white"
+										translate "1"
+										alignment "bottom"
+										id "label"
+										offset
+										{
+											x "46.000"
+											y "22.000"
+										}
+
+										visible "0"
+										z_order "114.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "102.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "highlight"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icon_bg_highlight"
+													id "highlight"
+													offset
+													{
+														x "1.000"
+														y "7.000"
+													}
+
+													z_order "112.000"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "102.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "outline"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/items_icon_bg_outline"
+										id "outline"
+										offset
+										{
+											x "1.000"
+											y "7.000"
+										}
+
+										z_order "101.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "quantity"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/skill_quantity_bg"
+										id "quantity"
+										offset
+										{
+											x "33.000"
+											y "4.000"
+										}
+
+										z_order "113.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								on_click_action
+								{
+									model_field "activate"
+								}
+
+							}
+
+							id "skill"
+							size
+							{
+								x "50.000"
+								y "70.000"
+							}
+
+							z_order "99.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "subslot"
-						value "GuiGroupDef"
+						value "GuiButtonItemDef"
 						{
 							allow_overflow "0"
 							children
@@ -209,7 +765,7 @@ GuiRootGroupDef
 										}
 
 										id "bg"
-										z_order "15.000"
+										z_order "14.000"
 									}
 
 								}
@@ -269,7 +825,7 @@ GuiRootGroupDef
 										style
 										{
 											char_height "22.000"
-											font "arial"
+											font "DejaVuLegacy"
 											glow_color
 											{
 												w "0.000"
@@ -325,6 +881,7 @@ GuiRootGroupDef
 											y "0.750"
 										}
 
+										
 										z_order "53.000"
 									}
 
@@ -363,9 +920,9 @@ GuiRootGroupDef
 										margin
 										{
 											w "3.000"
-											x "3.000"
+											x "2.000"
 											y "2.000"
-											z "1.000"
+											z "2.000"
 										}
 
 										size
@@ -374,7 +931,217 @@ GuiRootGroupDef
 										}
 
 										size_mode_x "2"
+										
 										z_order "16.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "15.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "border_bottom"
+												value "GuiQuadDef"
+												{
+													alignment "bottom_left"
+													anchor "bottom_left"
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													id "border_bottom"
+													size
+													{
+														y "2.000"
+													}
+
+													size_mode_x "2"
+													
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_left"
+												value "GuiQuadDef"
+												{
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													id "border_left"
+													size
+													{
+														x "2.000"
+														y "2.000"
+													}
+
+													size_mode_y "2"
+													
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_right"
+												value "GuiQuadDef"
+												{
+													alignment "top_right"
+													anchor "top_right"
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													id "border_right"
+													size
+													{
+														x "2.000"
+														y "2.000"
+													}
+
+													size_mode_y "2"
+													
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "border_top"
+												value "GuiQuadDef"
+												{
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													color
+													{
+														x "0.800"
+														y "0.737"
+														z "0.031"
+													}
+
+													id "border_top"
+													size
+													{
+														y "2.000"
+													}
+
+													size_mode_x "2"
+													
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "15.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "unique"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/inventory/stat_icons/stat_boosted"
+										alignment "bottom_left"
+										anchor "bottom_left"
+										bindings
+										{
+											visible
+											{
+												model_field "crafted"
+												converter "GuiModelCompareConverter"
+												{
+													ref_value "0"
+												}
+
+											}
+
+										}
+
+										id "unique"
+										offset
+										{
+											x "3.000"
+											y "-4.000"
+										}
+
+										scale
+										{
+											x "0.250"
+											y "0.250"
+										}
+
+										z_order "325.000"
 									}
 
 								}
@@ -388,6 +1155,11 @@ GuiRootGroupDef
 									model_field "color"
 								}
 
+								on_click_action
+								{
+									model_field "activate"
+								}
+
 							}
 
 							id "subslot"
@@ -397,6 +1169,7 @@ GuiRootGroupDef
 								y "27.000"
 							}
 
+							
 						}
 
 					}
@@ -417,10 +1190,286 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
+						key "additional_health"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/hp_overcharge"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-0.200"
+															}
+
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "0.200"
+															}
+
+															frame_number "15"
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-0.200"
+															}
+
+															frame_number "30"
+															mask "32"
+														}
+
+													}
+
+													name "Idle"
+												}
+
+											}
+
+										}
+
+										id "image"
+										z_order "238.000"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								visible
+								{
+									model_field "has_additional_health"
+								}
+
+							}
+
+							id "additional_health"
+							item_scripts
+							{
+								scripts
+								{
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnShow"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															animations
+															{
+																Idle
+																{
+																	String "image"
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+							offset
+							{
+								x "60.000"
+								y "20.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "238.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "additional_shield"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/shield_overcharge"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-0.200"
+															}
+
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "0.200"
+															}
+
+															frame_number "15"
+															mask "32"
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-0.200"
+															}
+
+															frame_number "30"
+															mask "32"
+														}
+
+													}
+
+													name "Idle"
+												}
+
+											}
+
+										}
+
+										id "image"
+										z_order "238.000"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								visible
+								{
+									model_field "has_additional_shield"
+								}
+
+							}
+
+							id "additional_shield"
+							item_scripts
+							{
+								scripts
+								{
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnShow"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															animations
+															{
+																Idle
+																{
+																	String "image"
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+							offset
+							{
+								x "60.000"
+								y "-18.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "238.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "armour"
 						value "GuiBarDef"
 						{
-							rawData "0.0 0.0 1.0 0.0 "
+							rawData "0.0 0.0 1.0 "
 							error_material "default_bar_1x2"
 							material "gui/hud/bars/mech_shield_1x3"
 							id "armour"
@@ -607,41 +1656,9 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "hp_value"
-						value "GuiTextLineDef"
+						value "GuiTextDef"
 						{
 							content "MISSING_DATA"
-							style
-							{
-								char_height "23.000"
-								color
-								{
-									x "0.000"
-									z "0.224"
-								}
-
-								df "1"
-								font "Exo2_Bold_sdf"
-								glow_color
-								{
-									w "0.000"
-								}
-
-								glow_size "0.000"
-								glow_spread "0.000"
-								shadow_angle "135.000"
-								shadow_color
-								{
-									w "0.850"
-								}
-
-								shadow_distance "2.000"
-								shadow_enabled "1"
-								shadow_spread "0.000"
-								space_size "7.000"
-								stroke_position "0"
-								stroke_size "0.000"
-							}
-
 							style_name "hp_green"
 							alignment "top_right"
 							id "hp_value"
@@ -915,6 +1932,8 @@ GuiRootGroupDef
 							{
 								ref_gui_id "gui/template/text_label"
 								alignment "bottom"
+								size_mode_x "1"
+								size_mode_y "1"
 							}
 
 							z_order "51.000"
@@ -1120,6 +2139,8 @@ GuiRootGroupDef
 							{
 								ref_gui_id "gui/template/info_frame"
 								alignment "bottom_left"
+								size_mode_x "1"
+								size_mode_y "1"
 							}
 
 							z_order "51.000"
@@ -1155,7 +2176,7 @@ GuiRootGroupDef
 							style
 							{
 								char_height "22.000"
-								font "arial"
+								font "DejaVuLegacy"
 								glow_color
 								{
 									w "0.000"
@@ -1224,9 +2245,9 @@ GuiRootGroupDef
 							margin
 							{
 								w "3.000"
-								x "3.000"
+								x "2.000"
 								y "2.000"
-								z "1.000"
+								z "2.000"
 							}
 
 							size
@@ -1329,6 +2350,47 @@ GuiRootGroupDef
 
 							size_mode_x "1"
 							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "unique"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/stat_icons/stat_boosted"
+							alignment "bottom_left"
+							anchor "bottom_left"
+							bindings
+							{
+								visible
+								{
+									model_field "crafted"
+									converter "GuiModelCompareConverter"
+									{
+										ref_value "0"
+									}
+
+								}
+
+							}
+
+							id "unique"
+							offset
+							{
+								x "3.000"
+								y "-30.000"
+							}
+
+							scale
+							{
+								x "0.500"
+								y "0.500"
+							}
+
+							z_order "325.000"
 						}
 
 					}
@@ -1544,6 +2606,8 @@ GuiRootGroupDef
 							{
 								ref_gui_id "gui/template/text_label"
 								alignment "bottom"
+								size_mode_x "1"
+								size_mode_y "1"
 							}
 
 							z_order "17.000"
@@ -1759,6 +2823,8 @@ GuiRootGroupDef
 							{
 								ref_gui_id "gui/template/info_frame"
 								alignment "bottom_left"
+								size_mode_x "1"
+								size_mode_y "1"
 							}
 
 							z_order "17.000"
@@ -1788,9 +2854,9 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "label"
-						value "GuiTextLineDef"
+						value "GuiTextDef"
 						{
-							content "COMMON_Text_Line"
+							content "MISSING_DATA"
 							style_name "resource_white"
 							translate "1"
 							alignment "top_right"
@@ -1805,6 +2871,8 @@ GuiRootGroupDef
 							{
 								ref_gui_id "gui/template/text_label"
 								alignment "bottom"
+								size_mode_x "1"
+								size_mode_y "1"
 							}
 
 							z_order "19.000"
@@ -1845,9 +2913,9 @@ GuiRootGroupDef
 							margin
 							{
 								w "3.000"
-								x "3.000"
+								x "2.000"
 								y "2.000"
-								z "1.000"
+								z "2.000"
 							}
 
 							size
@@ -1950,6 +3018,47 @@ GuiRootGroupDef
 
 							size_mode_x "1"
 							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "unique"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/stat_icons/stat_boosted"
+							alignment "bottom_left"
+							anchor "bottom_left"
+							bindings
+							{
+								visible
+								{
+									model_field "crafted"
+									converter "GuiModelCompareConverter"
+									{
+										ref_value "0"
+									}
+
+								}
+
+							}
+
+							id "unique"
+							offset
+							{
+								x "3.000"
+								y "-30.000"
+							}
+
+							scale
+							{
+								x "0.500"
+								y "0.500"
+							}
+
+							z_order "325.000"
 						}
 
 					}
@@ -2574,8 +3683,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "dh_1"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -2830,6 +3941,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "173.000"
 												}
 
@@ -2847,6 +3959,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "172.000"
@@ -2868,6 +3982,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "167.000"
 									}
 
@@ -2887,6 +4002,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "165.000"
 									}
 
@@ -2955,6 +4071,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "176.000"
 									}
 
@@ -3007,6 +4124,8 @@ GuiRootGroupDef
 										{
 											ref_gui_id "gui/template/text_label"
 											alignment "bottom"
+											size_mode_x "1"
+											size_mode_y "1"
 										}
 
 										visible "0"
@@ -3029,6 +4148,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "166.000"
 									}
 
@@ -3048,6 +4168,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "177.000"
 									}
 
@@ -3067,6 +4188,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "163.000"
 						}
 
@@ -3075,8 +4197,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "dh_2"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -3114,6 +4238,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "180.000"
 									}
 
@@ -3152,6 +4277,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "186.000"
 															}
 
@@ -3175,6 +4301,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "185.000"
 															}
 
@@ -3206,6 +4333,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "187.000"
 															}
 
@@ -3226,6 +4354,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "184.000"
 												}
 
@@ -3257,6 +4386,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "190.000"
 												}
 
@@ -3303,6 +4433,7 @@ GuiRootGroupDef
 														y "26.000"
 													}
 
+													
 													visible "0"
 													z_order "191.000"
 												}
@@ -3331,6 +4462,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "189.000"
 												}
 
@@ -3348,6 +4480,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "188.000"
@@ -3369,6 +4503,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "183.000"
 									}
 
@@ -3388,6 +4523,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "181.000"
 									}
 
@@ -3456,6 +4592,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "193.000"
 									}
 
@@ -3504,6 +4641,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "194.000"
 									}
@@ -3524,6 +4662,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "182.000"
 									}
 
@@ -3543,6 +4682,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "192.000"
 									}
 
@@ -3562,6 +4702,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "179.000"
 						}
 
@@ -3570,8 +4711,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "dh_3"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -3609,6 +4752,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "196.000"
 									}
 
@@ -3647,6 +4791,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "202.000"
 															}
 
@@ -3670,6 +4815,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "201.000"
 															}
 
@@ -3701,6 +4847,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "203.000"
 															}
 
@@ -3721,6 +4868,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "200.000"
 												}
 
@@ -3752,6 +4900,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "206.000"
 												}
 
@@ -3798,6 +4947,7 @@ GuiRootGroupDef
 														y "26.000"
 													}
 
+													
 													visible "0"
 													z_order "207.000"
 												}
@@ -3826,6 +4976,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "205.000"
 												}
 
@@ -3843,6 +4994,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "204.000"
@@ -3864,6 +5017,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "199.000"
 									}
 
@@ -3883,6 +5037,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "197.000"
 									}
 
@@ -3951,6 +5106,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "209.000"
 									}
 
@@ -3999,6 +5155,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "210.000"
 									}
@@ -4019,6 +5176,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "198.000"
 									}
 
@@ -4038,6 +5196,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "208.000"
 									}
 
@@ -4057,6 +5216,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "195.000"
 						}
 
@@ -4065,8 +5225,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "dh_4"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -4104,6 +5266,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "212.000"
 									}
 
@@ -4142,6 +5305,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "218.000"
 															}
 
@@ -4165,6 +5329,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "217.000"
 															}
 
@@ -4196,6 +5361,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "219.000"
 															}
 
@@ -4216,6 +5382,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "216.000"
 												}
 
@@ -4247,6 +5414,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "222.000"
 												}
 
@@ -4293,6 +5461,7 @@ GuiRootGroupDef
 														y "26.000"
 													}
 
+													
 													visible "0"
 													z_order "223.000"
 												}
@@ -4321,6 +5490,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "221.000"
 												}
 
@@ -4338,6 +5508,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "220.000"
@@ -4359,6 +5531,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "215.000"
 									}
 
@@ -4378,6 +5551,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "213.000"
 									}
 
@@ -4446,6 +5620,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "225.000"
 									}
 
@@ -4494,6 +5669,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "226.000"
 									}
@@ -4514,6 +5690,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "214.000"
 									}
 
@@ -4533,6 +5710,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "224.000"
 									}
 
@@ -4552,6 +5730,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "211.000"
 						}
 
@@ -4560,8 +5739,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "mh"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -4599,6 +5780,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "84.000"
 									}
 
@@ -4637,6 +5819,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "90.000"
 															}
 
@@ -4660,6 +5843,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "89.000"
 															}
 
@@ -4691,6 +5875,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "91.000"
 															}
 
@@ -4711,6 +5896,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "88.000"
 												}
 
@@ -4742,6 +5928,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "94.000"
 												}
 
@@ -4833,6 +6020,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "92.000"
@@ -5055,8 +6244,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "uh_1"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -5328,6 +6519,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "108.000"
@@ -5349,6 +6542,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "103.000"
 									}
 
@@ -5368,6 +6562,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "101.000"
 									}
 
@@ -5545,8 +6740,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "uh_2"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -5584,6 +6781,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "116.000"
 									}
 
@@ -5801,6 +6999,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "125.000"
 												}
 
@@ -5818,6 +7017,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "124.000"
@@ -5839,6 +7040,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "119.000"
 									}
 
@@ -5858,6 +7060,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "117.000"
 									}
 
@@ -5926,6 +7129,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "129.000"
 									}
 
@@ -5974,6 +7178,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "130.000"
 									}
@@ -5994,6 +7199,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "118.000"
 									}
 
@@ -6013,6 +7219,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "128.000"
 									}
 
@@ -6032,6 +7239,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "115.000"
 						}
 
@@ -6040,8 +7248,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "uh_3"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -6079,6 +7289,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "132.000"
 									}
 
@@ -6117,6 +7328,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "138.000"
 															}
 
@@ -6140,6 +7352,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "137.000"
 															}
 
@@ -6171,6 +7384,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "139.000"
 															}
 
@@ -6191,6 +7405,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "136.000"
 												}
 
@@ -6222,6 +7437,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "142.000"
 												}
 
@@ -6268,6 +7484,7 @@ GuiRootGroupDef
 														y "26.000"
 													}
 
+													
 													visible "0"
 													z_order "143.000"
 												}
@@ -6296,6 +7513,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "141.000"
 												}
 
@@ -6313,6 +7531,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "140.000"
@@ -6334,6 +7554,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "135.000"
 									}
 
@@ -6353,6 +7574,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "133.000"
 									}
 
@@ -6421,6 +7643,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "144.000"
 									}
 
@@ -6469,6 +7692,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "146.000"
 									}
@@ -6489,6 +7713,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "134.000"
 									}
 
@@ -6508,6 +7733,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "145.000"
 									}
 
@@ -6527,6 +7753,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "131.000"
 						}
 
@@ -6535,8 +7762,10 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "uh_4"
-						value "GuiGroupDef"
+						value "GuiReferenceDef"
 						{
+							path "#templates.skill"
+							ref_gui_id "gui/hud/equipment"
 							children
 							{
 								Pair_String_GuiDef2
@@ -6574,6 +7803,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "148.000"
 									}
 
@@ -6612,6 +7842,7 @@ GuiRootGroupDef
 																	y "6.000"
 																}
 
+																
 																z_order "154.000"
 															}
 
@@ -6635,6 +7866,7 @@ GuiRootGroupDef
 																	y "34.000"
 																}
 
+																
 																z_order "153.000"
 															}
 
@@ -6666,6 +7898,7 @@ GuiRootGroupDef
 																	y "9.000"
 																}
 
+																
 																z_order "155.000"
 															}
 
@@ -6686,6 +7919,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													
 													z_order "152.000"
 												}
 
@@ -6717,6 +7951,7 @@ GuiRootGroupDef
 														y "20.000"
 													}
 
+													
 													z_order "158.000"
 												}
 
@@ -6763,6 +7998,7 @@ GuiRootGroupDef
 														y "26.000"
 													}
 
+													
 													visible "0"
 													z_order "159.000"
 												}
@@ -6791,6 +8027,7 @@ GuiRootGroupDef
 														y "90.000"
 													}
 
+													
 													z_order "157.000"
 												}
 
@@ -6808,6 +8045,8 @@ GuiRootGroupDef
 													{
 														ref_gui_id "gui/template/info_frame"
 														alignment "bottom_left"
+														size_mode_x "1"
+														size_mode_y "1"
 													}
 
 													z_order "156.000"
@@ -6829,6 +8068,7 @@ GuiRootGroupDef
 											y "64.000"
 										}
 
+										
 										z_order "151.000"
 									}
 
@@ -6848,6 +8088,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "149.000"
 									}
 
@@ -6916,6 +8157,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "161.000"
 									}
 
@@ -6964,6 +8206,7 @@ GuiRootGroupDef
 											y "22.000"
 										}
 
+										
 										visible "0"
 										z_order "162.000"
 									}
@@ -6984,6 +8227,7 @@ GuiRootGroupDef
 											y "7.000"
 										}
 
+										
 										z_order "150.000"
 									}
 
@@ -7003,6 +8247,7 @@ GuiRootGroupDef
 											y "4.000"
 										}
 
+										
 										z_order "160.000"
 									}
 
@@ -7022,6 +8267,7 @@ GuiRootGroupDef
 								y "70.000"
 							}
 
+							
 							z_order "147.000"
 						}
 
@@ -7189,6 +8435,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -7264,6 +8515,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "HudEquipmentPlayerBuff"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField

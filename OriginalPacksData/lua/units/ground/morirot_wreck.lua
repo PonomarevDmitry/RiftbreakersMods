@@ -7,8 +7,7 @@ function morirot_wreck:__init()
 end
 
 function morirot_wreck:initParams()
-    self.normalExplodeProbability = 4
-	self.leaveBodyProbability = 10
+
 end
 
 return morirot_wreck

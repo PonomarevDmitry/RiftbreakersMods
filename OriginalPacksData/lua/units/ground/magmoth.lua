@@ -14,7 +14,9 @@ function magmoth:OnInit()
 	self.fuseBp = self.data:GetStringOrDefault("fuse_bp", "effects/enemies_generic/teleport_trail_fire")
 	
 	self.wreck_type =  "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 0
 
 	self.isTeleporting = false
 
@@ -30,10 +32,10 @@ function magmoth:OnAnimationMarkerReached( evt )
 	local markerName = evt:GetMarkerName() 
 	if ( markerName == "attack_range_1"  ) then
 		local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_1" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_1" )
 	elseif( markerName == "attack_range_2" ) then
 		local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_2" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_2" )
 	elseif( markerName == "fuse_start" ) then
 		UnitService:SpawnFuse( self.entity, self.fuseBp, 0.65, "teleport" )
 	end

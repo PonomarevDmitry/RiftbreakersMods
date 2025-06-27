@@ -11,12 +11,14 @@ function communications_hub:OnInit()
     self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 end
 function communications_hub:OnBuildingEnd()
-    CampaignService:UnlockAchievement(ACHIEVEMENT_ASHLEY_PHONE_HOME)
+    local playerId = PlayerService:GetPlayerForEntity( self.entity  )
+    CampaignService:UnlockAchievement( ACHIEVEMENT_ASHLEY_PHONE_HOME, playerId )
+    PlayerService:UnlockLoot( playerId,"weapon_mod")
 end
 
 function communications_hub:OnInteractWithEntityRequest( event )
     local player = PlayerService:GetPlayerByMech( event:GetOwner() )
-    QueueEvent("OpenResearchRequest", player )
+    QueueEvent("OpenResearchRequest",event:GetOwner(), player )
 end
 
 function communications_hub:OnLoad()
@@ -24,6 +26,8 @@ function communications_hub:OnLoad()
     if ( self.communicationsVersion == nil or self.communicationsVersion < 1 ) then
 		self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 		self.communicationsVersion = 1
+        local playerId = PlayerService:GetPlayerForEntity( self.entity  )
+        PlayerService:UnlockLoot( playerId,"weapon_mod")
 	end
 end
 

@@ -1,4 +1,5 @@
 require("lua/utils/string_utils.lua")
+require("lua/utils/data_flow.lua")
 
 class 'logic_wait_on_trigger' ( LuaGraphNode )
 
@@ -17,20 +18,24 @@ function logic_wait_on_trigger:OnLoad()
 end
 
 function logic_wait_on_trigger:Activated()
-    local triggerName = self.data:GetString("trigger_name")
-
-    local entities = FindService:FindEntitiesByName(triggerName)
-    if Assert( #entities > 0, "ERROR: entity with name: `" .. triggerName .. "` not found!" ) then
-        self.filterTeam = self.data:GetStringOrDefault( "filter_team", ""  )
-        self.filterType = self.data:GetStringOrDefault( "filter_type", "" )
-        self.filterBlueprint = self.data:GetStringOrDefault( "filter_blueprint", "" )
-
-        for entity in Iter(entities) do
-            self:RegisterHandler( entity, "EnteredTriggerEvent", "OnEnteredTriggerEvent" );
-        end
-
-        self.triggers = entities;
-    end
+	local triggerName = self.data:GetStringOrDefault("trigger_name", "")	
+	if self.data:HasString("in_entities") then
+        self.entities = GetEntitiesFromString( self.data:GetString("in_entities") )
+    else
+		self.entities = FindService:FindEntitiesByName(triggerName)
+	end
+	
+	if Assert( #self.entities > 0, "ERROR: entity with name: `" .. triggerName .. "` not found!" ) then
+		self.filterTeam = self.data:GetStringOrDefault( "filter_team", ""  )
+		self.filterType = self.data:GetStringOrDefault( "filter_type", "" )
+		self.filterBlueprint = self.data:GetStringOrDefault( "filter_blueprint", "" )
+	
+		for entity in Iter(self.entities) do
+			self:RegisterHandler( entity, "EnteredTriggerEvent", "OnEnteredTriggerEvent" );
+		end
+	
+		self.triggers = self.entities;
+	end	
 end
 
 function logic_wait_on_trigger:Deactivated()

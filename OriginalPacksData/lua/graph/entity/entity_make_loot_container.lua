@@ -36,7 +36,7 @@ function entity_make_loot_container:Activated()
 		return
 	end
 	for entity in Iter(self.entities) do
-		EntityService:MarkEntityAsLootContainer( entity, self.rarity  )
+		EntityService:MarkEntityAsLootContainer( entity, "bioanomaly_" .. tostring( self.rarity )  )
 	end	
 	
 	self:SetFinished()

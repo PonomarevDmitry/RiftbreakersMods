@@ -1,0 +1,507 @@
+EntityBlueprint
+{
+    name "player/actions/warning_marker"
+
+	MeshDesc
+	{	
+		mesh "meshes/misc/warning_marker.mesh" 
+	    material "misc/assist_warning_marker"
+	}
+
+	  SkeletonDesc
+    {
+        name "meshes/misc/warning_marker"
+    }
+
+    AnimationDesc
+    {
+        animations
+        {
+            Anim
+            {
+                animName "is_working"
+                animTime "0.0"
+            }
+        }
+    }
+
+    
+	MinimapItemDesc
+	{
+		type			    "image"
+		icon_material 	    "gui/hud/ping_menu/warning_icon"
+		clamp_mode		    "1"
+		visibility		    "always"	
+		additional_z_order 	"101"
+		layer_group			"warning"
+        size
+        {
+            x "0.75"
+            y "0.75"
+        }
+	}	
+	
+    SoundDesc
+    {
+        name "ping_menu/warning_marker"
+    }	
+
+    NetAlwaysRevelantComponent
+
+    LifeTimeDesc
+    {
+        time "10"
+    }
+	
+	EffectDesc
+	{		
+		EffectGroup
+		{
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_orange"								
+					offset "0 0 0"
+					orientation "0 90 0"
+				}
+				Effect
+				{
+					blueprint "lights/point/orange_small"								
+					offset "0 1 0"
+				}				
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+    name "player/actions/warning"
+
+    base_blueprints
+    {
+	    effects/default
+    }
+
+    LifeTimeDesc
+    {
+        time "3"
+    }
+
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            send_chat_message string:"gui/hud/chat/ping_menu_warning"
+            spawn_blueprint   string:"player/actions/warning_marker"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_warning"
+	//}	
+
+    SoundDesc
+    {
+        name "ping_menu/warning"
+    }
+
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/warning_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/assist_marker"
+
+	MeshDesc
+	{	
+		mesh "meshes/misc/assist_marker.mesh" 
+	    material "misc/assist_warning_marker"
+	}
+
+	 SkeletonDesc
+    {
+        name "meshes/misc/assist_marker"
+    }
+
+    AnimationDesc
+    {
+        animations
+        {
+            Anim
+            {
+                animName "is_working"
+                animTime "0.0"
+            }
+        }
+    }
+    
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/ping_menu/assist_icon"
+		clamp_mode			"1"
+		visibility			"always"	
+		additional_z_order 	"101"
+		layer_group			"warning"
+        size
+        {
+            x "0.75"
+            y "0.75"
+        }
+	}	
+	
+    SoundDesc
+    {
+        name "ping_menu/assist_marker"
+    }	
+
+    NetAlwaysRevelantComponent
+
+    LifeTimeDesc
+    {
+        time "10"
+    }
+	EffectDesc
+	{			
+		EffectGroup
+		{
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_blue"								
+					offset "0 0 0"
+					orientation "0 90 0"
+				}
+				Effect
+				{
+					blueprint "lights/point/blue_small"								
+					offset "0 1 0"
+				}				
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+    name "player/actions/assist"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+    
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            send_chat_message string:"gui/hud/chat/ping_menu_assist"
+            spawn_blueprint   string:"player/actions/assist_marker"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_assist"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/assist"
+    }	
+
+    LifeTimeDesc
+    {
+        time "3"
+    }
+   
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/assist_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/hello"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            play_animation string:"gesture_hello"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_hello"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/hello"
+    }	
+
+    LifeTimeDesc
+    {
+        time "2.55"
+    }
+    
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/hello_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/dance"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            play_animation string:"gesture_dance"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_dance"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/dance"
+    }	
+
+    LifeTimeDesc
+    {
+        time "7"
+    }
+	
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/dance_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}	
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/positive_gesture"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            play_animation string:"gesture_cheer"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_positive_gesture"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/positive_gesture"
+    }	
+
+    LifeTimeDesc
+    {
+        time "2.97"
+    }
+
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/cheers_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/negative_gesture"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+
+    LuaDesc
+    {
+        script "lua/player/mech_action.lua"
+        database
+        {
+            play_animation string:"gesture_taunt"
+        }
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_negative_gesture"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/negative_gesture"
+    }	
+
+    LifeTimeDesc
+    {
+        time "2.85"
+    }
+
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/taunt_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/yes"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_yes"
+	//}		
+	
+    SoundDesc
+    {
+        name "ping_menu/yes"
+    }	
+
+    LifeTimeDesc
+    {
+        time "3"
+    }
+
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/yes_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+    name "player/actions/no"
+
+    base_blueprints
+    {
+		 effects/default
+    }
+	
+	//ParticleDesc
+	//{
+	//	name    "rift/ping_menu_no"
+	//}		
+    
+    LifeTimeDesc
+    {
+        time "3"
+    }
+
+    SoundDesc
+    {
+        name "ping_menu/no"
+    }
+
+    GuiDesc
+	{
+		type 			        "image"
+		material		        "gui/hud/ping_menu/no_icon"
+
+        alignment 				"bottom"
+		anchor					"top"
+		anchor_target			"parent_all"
+	}
+
+    NetAlwaysRevelantComponent
+}

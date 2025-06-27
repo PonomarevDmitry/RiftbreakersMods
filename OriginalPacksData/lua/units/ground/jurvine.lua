@@ -9,7 +9,7 @@ end
 
 function jurvine:OnInit()
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 8
+	self.wreckMinSpeed = 4
 end
 
 return jurvine

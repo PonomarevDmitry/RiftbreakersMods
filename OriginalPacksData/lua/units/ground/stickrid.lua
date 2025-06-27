@@ -12,7 +12,9 @@ function stickrid:OnInit()
 	self:RegisterHandler( self.entity, "ShootArtilleryEvent",  "OnShootArtilleryEvent" )
 
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 100
+	self.wreckMinSpeed = 0
+	self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 10
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
@@ -20,7 +22,7 @@ end
 function stickrid:OnShootArtilleryEvent( evt )
 	local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), evt:GetTargetTag() )
 
-	WeaponService:ShootArtilleryOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 1.0, targetOrigin.z, "", "att_shoot" )
+	WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 1.0, targetOrigin.z, "att_shoot" )
 
 end
 

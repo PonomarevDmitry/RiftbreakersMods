@@ -42,7 +42,7 @@ end
 function repair_facility_drone:OnDroneLandingStarted(drone)
 	self:UpdateWorkingDrones(false)
 
-    --QueueEvent( "FadeEntityOutRequest", drone, 2.0 )
+    --QueueEvent( "FadeEntityOutRequest", drone, 2.0 , true)
 end
 
 return repair_facility_drone

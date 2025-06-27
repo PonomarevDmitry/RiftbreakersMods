@@ -16,6 +16,7 @@ function building_activator_zone:OnLuaGlobalEvent( event )
         component.radius = 10 
         component.remove_entity = 1
         component.remove_component = 0
+		component.priority = 15
     end
 end
 

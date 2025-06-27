@@ -14,7 +14,11 @@ function ghost_building:OnInit()
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
+    EntityService:ChangeMaterial( self.entity, "hologram/blue")
+    for child in Iter( self.childrenToUpdate ) do
+        EntityService:ChangeMaterial( child, "hologram/blue")
+    end
+
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity , transform )
 	self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )

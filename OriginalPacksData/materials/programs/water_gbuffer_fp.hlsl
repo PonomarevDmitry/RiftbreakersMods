@@ -25,6 +25,7 @@ cbuffer FPConstantBuffer : register(b0)
     float                   cWaterDepth;
     float3                  cWaterColor;
     float3                  cWaterBottomColor;
+    float3                  cWaterShoreColor;
     float                   cWaterRoughness;
     float                   cWaterMetalness;
 
@@ -173,7 +174,6 @@ inline void GetFoamData( in float2 coords, in float3 waveNormal, in float waveFo
     float2 delta = float2( x, z ) / 10.0f;  
 
     float2 coordsWithOffset = ( coords * cFoamTillingFactor ) + ( delta * cFoamRefractFactor );
-    float flowNoise = tNoiseTex.SampleLevel( sNoiseTex, coords * cFlowNoiseTillingFactor, 0.0f ).x;
     float2 flowDir = ( tFlowmapTex.SampleLevel( sFlowmapTex, coords, 0.0f ).xy * 2.0f - 1.0f ) * cFoamFlowPower;
     flowDir += waveNormal.xy * cFoamWaveFlowPower;
 
@@ -186,15 +186,13 @@ inline void GetFoamData( in float2 coords, in float3 waveNormal, in float waveFo
     float flowLerp = abs( ( 2.0f * phase.x ) - 1.0f );
     foamAlbedo = GetDataWithFlowmap( tFoamAlbedoTex, sFoamAlbedoTex, coords0, coords1, flowLerp );
     foamNormal = GetNormalMapDataWithFlowmap( tFoamNormalTex, sFoamNormalTex, coords0, coords1, flowLerp );
-    foamPacked = GetDataWithFlowmap( tFoamPackedTex, sFoamPackedTex, coords0, coords1, flowLerp ); 
+    foamPacked = GetDataWithFlowmap( tFoamPackedTex, sFoamPackedTex, coords0, coords1, flowLerp ).xyz; 
     
     foamAlbedo.w = saturate( foamAlbedo.w * cFoamFactor * waveFoamFactor );
 }
 
 inline void GetFoamEdgeData( in float2 coords, in float waterAlpha, in float waveEdgeFoamPower, out float4 foamEdgeAlbedo, out float3 foamEdgeNormal, out float3 foamEdgePacked )
 {    
-    float MipBiasNormal = cMIPBias * 0.5;      
-    
     float noise = tNoiseTex.SampleLevel( sNoiseTex, coords * cFlowNoiseTillingFactor, 0.0f ).x;  
     float x = ( cos( cTime * 1.0f ) * noise * cos( 20 * coords.x + cTime * 0.1f ) + 1.0f ) / 2.0f;       
     float z = ( cos( cTime * 1.0f ) * noise * cos( 20 * coords.y + cTime * 0.1f ) + 1.0f ) / 2.0f;  
@@ -335,15 +333,15 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
         foamEdgeAlbedo.w *= lerp( 0.50f, 1.0f, noise );
 
         // Blend Foam and Water
-        float3 albedo = lerp( waterAlbedo, foamAlbedo, foamAlbedo.w );  
+        float3 albedo = lerp( waterAlbedo.xyz, foamAlbedo.xyz, foamAlbedo.w );  
         float3 occlusionRoughnessMetalness = lerp( waterPacked, foamPacked, foamAlbedo.w ); 
         float3 normal = lerp( waterNormal, foamNormal, saturate( foamAlbedo.w ) );
         float refract = lerp( waterDepth, 1.0, foamAlbedo.w );       
         
         // Blend Foam Edge
         refract = lerp( refract, 1.0, foamEdgeAlbedo.w ); 
-        albedo = lerp( albedo, foamEdgeAlbedo, foamEdgeAlbedo.w ); 
-        normal = lerp( normal, foamEdgeNormal, foamEdgeAlbedo.w );     
+        albedo = lerp( albedo.xyz, foamEdgeAlbedo.xyz, foamEdgeAlbedo.w ); 
+        normal = lerp( normal.xyz, foamEdgeNormal.xyz, foamEdgeAlbedo.w );     
         occlusionRoughnessMetalness = lerp( occlusionRoughnessMetalness, foamEdgePacked, foamEdgeAlbedo.w ); 
         occlusionRoughnessMetalness.x *= GetReflectionPower( In.WorldPos );
 
@@ -355,7 +353,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     }
     else
     {                
-        Out.GBuffer0 = float4( waterAlbedo.xyz * 1.3f, waterWet );
+        Out.GBuffer0 = float4( cWaterShoreColor.xyz, waterWet );
         Out.GBuffer1 = float4( float3( 0, 0, 0 ), 0.0f );
         Out.GBuffer2 = float4( float3( 0.0, 0.4, 0 ), waterWet );
         Out.GBuffer3 = float4( waterRefract, waterWet );    

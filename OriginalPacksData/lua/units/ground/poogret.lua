@@ -17,7 +17,11 @@ function poogret:OnInit()
     self.fearFSM:AddState( "fear", { enter="OnEnterFear", execute="OnExecuteFear" } )
 
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 8
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 1
+	self.disallowDeathAnim = "death_3"
+
 	self.currentFood = INVALID_ID
 	self.fearTime = self.data:GetFloat( "fear_time" )
 	self.fearTimer = self.fearTime

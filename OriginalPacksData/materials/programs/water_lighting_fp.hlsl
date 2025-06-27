@@ -61,7 +61,10 @@ SamplerState                sBilinearClamp;
 
 StructuredBuffer<uint>      LightIndexList;
 StructuredBuffer<Light>     Lights;
+
+#if SHADOW_MAP || LIGHT_MASK
 StructuredBuffer<Shadow>    Shadows;
+#endif
 
 #include "materials/programs/tiled_deferred_light_internal.hlsl"
 
@@ -69,12 +72,12 @@ inline float3 ComputeWaterOutputColor( in Surface surface, inout Lighting lighti
 {   
 #if SKYBOX_DIFFUSE || SKYBOX_SPECULAR   
     const float3 N = surface.Normal;
+    #if SKYBOX_DIFFUSE   
+    lighting.Diffuse += GetSkyboxDiffuse( N, surface.Diffuse, cSkyboxParams.y );
+    #endif
+    #if SKYBOX_SPECULAR
     const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
     const float NdotV = abs( dot( N, V ) ) + 0.001;
-    #if SKYBOX_DIFFUSE   
-    lighting.Diffuse += GetSkyboxDiffuse( NdotV, N, V, surface.Roughness, surface.Diffuse, cSkyboxParams.y );
-    #endif
-    #if SKYBOX_SPECULAR   
     lighting.Specular += GetSkyboxSpecular( NdotV, N, V, surface.Roughness, surface.Specular, cSkyboxParams.x ) * specularPower;
     #endif
 #endif
@@ -132,12 +135,12 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
             {
                 case POINT_LIGHT:
                 {
-                    ComputePointLight( surface, light, screenCoords, lighting );
+                    ComputePointLight( surface, light, lighting );
                 }
                 break;
                 case SPOT_LIGHT:
                 {
-                    ComputeSpotLight( surface, light, screenCoords, lighting );
+                    ComputeSpotLight( surface, light, lighting );
                 }
                 break;
                 case DIRECTIONAL_LIGHT:

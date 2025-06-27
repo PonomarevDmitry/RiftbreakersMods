@@ -15,7 +15,7 @@ GameplayResourceDef
 GameplayResourceDef
 {
 	id				"geothermal"
-	localization_id "resource_name/geothermal"
+	localization_id "resource_name/geothermal_vent"
 	bp  			"items/loot/resources/shard_carbonium_item"
 	
 	icon			"gui/hud/resource_icons/geothermal"

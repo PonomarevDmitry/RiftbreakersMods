@@ -7,8 +7,7 @@ function canceroth_wreck:__init()
 end
 
 function canceroth_wreck:initParams()
-    self.normalExplodeProbability = 10
-	self.leaveBodyProbability = 0
+
 end
 
 return canceroth_wreck

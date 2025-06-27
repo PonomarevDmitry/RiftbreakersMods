@@ -11,6 +11,8 @@ function alien_tower_plasma:OnInit()
 	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
 	self.wreck_type = "wreck_big";
 	self.wreckMinSpeed = 4
+    self.normalExplodeProbability = 10
+	self.leaveBodyProbability = 0
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end

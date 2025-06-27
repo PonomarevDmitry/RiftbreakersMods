@@ -46,7 +46,7 @@ function teleport_machine:OnLoad()
 end
 
 function teleport_machine:OnDisappearEnter( state)
-    QueueEvent("FadeEntityOutRequest", self.parent, self.disappearTime )
+    EntityService:FadeEntity( self.parent, DD_FADE_OUT, self.disappearTime, false )
     QueueEvent("RiftTeleportStartEvent", self.parent )
     QueueEvent("AttachEffectGroupRequest", self.parent, "portal_enter", 0 )
 
@@ -54,7 +54,7 @@ function teleport_machine:OnDisappearEnter( state)
     local children = EntityService:GetChildren( self.parent, true )
 	for child in Iter(children) do
 		if ( EntityService:IsVisible( child ) ) then		
-            QueueEvent("FadeEntityOutRequest", child, 0.5 )
+            EntityService:FadeEntity( child, DD_FADE_OUT, self.disappearTime, false )
             Insert(self.hiddenChildren, child )
         end
     end
@@ -86,12 +86,12 @@ function teleport_machine:OnWaitExit( state)
 end
 
 function teleport_machine:OnAppearEnter( state)
-    EntityService:FadeEntity( self.parent, DD_FADE_IN, self.appearTime )
+    EntityService:FadeEntity( self.parent, DD_FADE_IN, self.appearTime, false )
     QueueEvent("AttachEffectGroupRequest", self.parent, "portal_exit", 0 )
     QueueEvent("TeleportAppearEnter", self.portalEntity )
 
 	for child in Iter(self.hiddenChildren) do
-        EntityService:FadeEntity( child, DD_FADE_IN, 0.5 )
+        EntityService:FadeEntity( child, DD_FADE_IN, 0.5 , false)
     end
     self.hiddenChildren = {}
     state:SetDurationLimit( self.appearTime )
@@ -111,11 +111,13 @@ function teleport_machine:OnAppearExit( state)
 
     HealthService:SetImmortality( self.parent, false )
 
-    if ( PlayerService:GetPlayerByMech( self.parent ) ~= INVALID_ID ) then
-        CampaignService:UpdateAchievementProgress(ACHIEVEMENT_BEAM_ME_UP, 1)
+    local playerId = PlayerService:GetPlayerByMech( self.parent )
+
+    if ( playerId ~= INVALID_ID ) then 
+        CampaignService:UpdateAchievementProgress( ACHIEVEMENT_BEAM_ME_UP, 1, playerId )
     end
     
-    EntityService:RemoveEntity(self.entity )
+    EntityService:RemoveEntity( self.entity )
 end
 
 return teleport_machine

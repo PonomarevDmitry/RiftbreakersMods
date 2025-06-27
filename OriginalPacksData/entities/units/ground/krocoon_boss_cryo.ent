@@ -3,14 +3,34 @@ EntityBlueprint
 	name "units/ground/krocoon_boss_cryo"
 
 	base_blueprint "units/ground/krocoon_base"
+	
+	StateMachineDesc
+	{
+		template_name "krocoon"
+		params
+		{
+			aggressive_speed					float:"8"
+			aggressive_acceleration				float:"16"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"2"
+			rotate_speed						float:"250"
+			priority_target						string:"headquarters|player|tower|energy"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
 		script "lua/units/ground/krocoon.lua"
 		database
 		{
-			min_scale	float:"1.30"
-			max_scale	float:"1.30"
+			min_scale	float:"1.40"
+			max_scale	float:"1.40"
 		}			
 	}
 
@@ -21,10 +41,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -49,9 +67,9 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"8.0"
+		fire			"4.0"
 		acid			"1.0"
-		energy			"0.5"
+		energy			"1.0"
 		cryo			"0.1"
 		area			"0.1"	
 		reflect_damage_max_percent 		"0.1"
@@ -81,7 +99,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/krocoon.mesh"
+		mesh 		"meshes/units/ground/krocoon_boss.mesh"
 		material 	"units/ground/krocoon_boss_cryo"
 	}
 	
@@ -94,7 +112,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"
+		layer_group		"enemies"
 	}	
 
 	SelectableDesc
@@ -318,6 +337,20 @@ EntityBlueprint
 					scale "2 2 2"
 				}
 			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
 		}		
 	}
 
@@ -348,12 +381,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.50"
-						//attack_end_time			"0.60"
-						//attack_duration 			"1.50"
-						attack_start_time			"0.75"
-						attack_end_time				"0.90"
-						attack_duration 			"2.25"
+						attack_start_time			"0.50"
+						attack_end_time				"0.60"
+						attack_duration 			"1.50"
+						//attack_start_time			"0.75"
+						//attack_end_time			"0.90"
+						//attack_duration 			"2.25"
 						damage_multiple  			"1"
 					}
 
@@ -364,12 +397,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.50"
-						//attack_end_time			"0.65"
-						//attack_duration 			"1.43"
-						attack_start_time			"0.75"
-						attack_end_time				"0.98"
-						attack_duration 			"2.15"
+						attack_start_time			"0.50"
+						attack_end_time				"0.65"
+						attack_duration 			"1.43"
+						//attack_start_time			"0.75"
+						//attack_end_time			"0.98"
+						//attack_duration 			"2.15"
 						damage_multiple  			"1"
 					}
 					
@@ -380,12 +413,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.65"
-						//attack_end_time			"0.85"
-						//attack_duration 			"1.40"
-						attack_start_time			"0.98"
-						attack_end_time				"1.28"
-						attack_duration 			"2.10"
+						attack_start_time			"0.65"
+						attack_end_time				"0.85"
+						attack_duration 			"1.40"
+						//attack_start_time			"0.98"
+						//attack_end_time			"1.28"
+						//attack_duration 			"2.10"
 						damage_multiple  			"1"
 					}
 				}
@@ -412,7 +445,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"119"
+										value 	"40"
 										type 	"cryo"
 									}
 								}

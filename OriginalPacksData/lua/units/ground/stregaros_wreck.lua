@@ -7,9 +7,7 @@ function stregaros_wreck:__init()
 end
 
 function stregaros_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 5
+
 end
 
 return stregaros_wreck

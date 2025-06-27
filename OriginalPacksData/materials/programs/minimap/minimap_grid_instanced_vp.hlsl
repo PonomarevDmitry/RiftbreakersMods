@@ -1,7 +1,7 @@
 cbuffer VPConstantBuffer
 {
-    float3 cGridOrigin;
-    int    cGridSize;
+    int cGridWidth;
+    int cGridHeight;
 }
 
 struct VS_INPUT
@@ -19,10 +19,11 @@ StructuredBuffer<int> bInstanceData;
 
 VS_OUTPUT mainVP( VS_INPUT In )
 {
-    int x = In.InstanceId % cGridSize;
-    int z = In.InstanceId / cGridSize;
+    int x = In.InstanceId % cGridWidth;
+    int z = In.InstanceId / cGridWidth;
 
-    float3 position = cGridOrigin + float3( x * 2.0 + 1.0, 0.0, z * 2.0 + 1.0 );
+    float3 origin = float3( -cGridWidth, 0.0, -cGridHeight );
+    float3 position = origin + float3( x * 2.0 + 1.0, 0.0, z * 2.0 + 1.0 );
 
     VS_OUTPUT Out;
     Out.Flags = bInstanceData[ In.InstanceId ];

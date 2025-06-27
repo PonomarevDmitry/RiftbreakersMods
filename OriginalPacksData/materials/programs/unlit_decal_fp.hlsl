@@ -1,5 +1,3 @@
-#include "materials/programs/utils.hlsl"
-
 cbuffer FPConstantBuffer : register(b0)
 {
 #if USE_PROJECTED_POS
@@ -15,6 +13,10 @@ cbuffer FPConstantBuffer : register(b0)
 #endif
 #if USE_ALPHA
     float       cDissolveAmount;
+    float       cAlpha;
+#endif
+#if USE_FOG
+    float       cFogMaxDistance;
 #endif
 };
 
@@ -48,6 +50,11 @@ Texture2D       tGradientTex;
 SamplerState    sGradientTex;
 #endif
 
+#if USE_FOG
+Texture3D     tLightScattering;
+SamplerState  sLightScattering;
+#endif
+
 #if USE_PROJECTED_POS
 float4 getViewPosFromDepth( float2 screenPos )
 {
@@ -61,6 +68,9 @@ float4 getViewPosFromDepth( float2 screenPos )
     return viewPos;
 }
 #endif
+
+#include "materials/programs/utils.hlsl"
+#include "materials/programs/utils_fog.hlsl"
 
 PS_OUTPUT mainFP( VS_OUTPUT In ) 
 {
@@ -95,12 +105,17 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
 #if USE_ALPHA
     color.a *= ( 1.0f - cDissolveAmount );
+    color.a *= cAlpha;
 #endif
 
 #if USE_PROJECTED_POS && USE_SOFT_BLEND
     color.a *= saturate( pow( abs( 1.0f - ( 2.0 * localPos.y ) ), 3 ) );
 #endif
     Out.Color = color;
+
+#if USE_FOG
+    Out.Color.xyz = GetFog( Out.Color.xyz, In.ProjPos );
+#endif
 
     return Out;
 }

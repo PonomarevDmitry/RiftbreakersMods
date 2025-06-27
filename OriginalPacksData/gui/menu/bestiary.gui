@@ -322,7 +322,11 @@ GuiRootGroupDef
 												key "button_0"
 												value "GuiRadioButtonItemDef"
 												{
-													navigable "0"
+													node "GuiButtonDef"
+													{
+														navigable "0"
+													}
+
 													children
 													{
 														Pair_String_GuiDef2
@@ -1291,26 +1295,111 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "bar_lvl"
-						value "GuiBarDef"
+						key "bar_bg"
+						value "GuiGroupDef"
 						{
-							rawData "0.5 0.5 "
-							error_material "default_bar_1x2"
-							material "gui/menu/bars/interactive_bar"
-							id "bar_lvl"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bar_lvl"
+									value "GuiBarDef"
+									{
+										rawData "0.5 0.5 "
+										error_material "default_bar_1x2"
+										material "gui/menu/bars/interactive_bar"
+										bindings
+										{
+											data
+											{
+												model_field "amount"
+											}
+
+										}
+
+										id "bar_lvl"
+										scale
+										{
+											x "0.900"
+											y "0.800"
+										}
+
+										z_order "68.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "current_amount"
+									value "GuiTextDef"
+									{
+										capitals "1"
+										content "VARIABLE_number_test"
+										style
+										{
+											char_height "25.000"
+											color
+											{
+												y "0.765"
+												z "0.306"
+											}
+
+											df "1"
+											font "orbitron-medium_sdf"
+											glow_color
+											{
+												w "0.000"
+											}
+
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
+											{
+												w "0.850"
+											}
+
+											shadow_distance "2.000"
+											shadow_enabled "1"
+											shadow_spread "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
+										}
+
+										style_name "resource_white"
+										translate "1"
+										alignment "center"
+										anchor "center"
+										bindings
+										{
+											content
+											{
+												model_field "current_amount"
+											}
+
+										}
+
+										id "current_amount"
+										tooltip_def
+										z_order "69.000"
+									}
+
+								}
+
+							}
+
+							id "bar_bg"
 							offset
 							{
 								x "53.000"
 								y "580.000"
 							}
 
-							scale
-							{
-								x "0.900"
-								y "0.800"
-							}
-
-							z_order "68.000"
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "70.000"
 						}
 
 					}
@@ -1853,6 +1942,34 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
+						key "specimen_icon"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/hud/resource_icons/specimen"
+							alignment "center"
+							id "specimen_icon"
+							margin
+							{
+								x "70.000"
+								y "1180.000"
+							}
+
+							size
+							{
+								x "20.000"
+								y "20.000"
+							}
+
+							size_mode_x "0"
+							size_mode_y "0"
+							z_order "100.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "stats"
 						value "GuiGroupDef"
 						{
@@ -1912,6 +2029,11 @@ GuiRootGroupDef
 													}
 
 													id "damage"
+													margin
+													{
+														z "5.000"
+													}
+
 													offset
 													{
 														x "606.000"
@@ -2132,7 +2254,6 @@ GuiRootGroupDef
 													}
 
 													horizontal_scroll_bar_visibility "2"
-													cursor_on_drag "materials/scripts/pointer_drag.cursor"
 													zoom_enabled "0"
 													vertical_scroll_bar
 													{
@@ -2151,7 +2272,6 @@ GuiRootGroupDef
 														size_mode_y "2"
 													}
 
-													cursor_on_select "materials/scripts/pointer_hand.cursor"
 													allow_overflow "1"
 													id "desc_viewer"
 													margin
@@ -2517,6 +2637,11 @@ GuiRootGroupDef
 													}
 
 													id "health"
+													margin
+													{
+														z "5.000"
+													}
+
 													offset
 													{
 														x "606.000"
@@ -2692,6 +2817,11 @@ GuiRootGroupDef
 													}
 
 													id "additional_drop"
+													margin
+													{
+														z "5.000"
+													}
+
 													offset
 													{
 														x "606.000"
@@ -5543,6 +5673,63 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "menu_overlay"
+			value "GuiReferenceDef"
+			{
+				path "overlay"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "bottom_bar.content"
+					}
+
+				}
+
+				ref_gui_id "gui/template/menu_overlay"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "title"
+								value "gui/menu/bestiary/header"
+							}
+
+							StringData
+							{
+								key "back_button_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "footer_visible"
+								value "1"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				id "menu_overlay"
+				size_mode_x "2"
+				size_mode_y "2"
+				z_order "200.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "types"
 			value "GuiGroupDef"
 			{
@@ -6746,6 +6933,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField

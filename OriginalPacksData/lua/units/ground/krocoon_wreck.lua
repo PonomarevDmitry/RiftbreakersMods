@@ -7,10 +7,6 @@ function krocoon_wreck:__init()
 end
 
 function krocoon_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 7
-
 	self.deathAnimationStates[1] = "death_2"
 end
 

@@ -6,7 +6,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar|discovered"		
+		visibility 		"radar|discovered"
+		layer_group		"enemies"		
 	}
 
 	HealthBarDesc
@@ -20,6 +21,137 @@ EntityBlueprint
 	{
 		//explosion_type 			"centered"	
 		explosion_max_power 	"12000"
-		explosion_min_power 	"7000"	
+		explosion_min_power 	"7000"
+		loot_award				"enemy_elite"
+		inherit_loot_from_prefab	"1"
+	}
+
+	NetAlwaysRevelantComponent	
+}
+
+EntityBlueprint
+{
+    name "units/ground/elite_tower_base"
+
+	LootDesc
+	{	
+		explosion_max_power 	"12000"
+		explosion_min_power 	"7000"
+		loot_award				"enemy_elite"
+		inherit_loot_from_prefab	"1"
+	}
+}
+
+// Override elite base blueprint: units/ground/elite_{species_name}_base
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_alien_tower_plasma_elite_base"
+	base_blueprint 	"units/ground/elite_tower_base"
+}
+
+EntityBlueprint
+{
+    name "units/ground/elite_alien_tower_artillery_elite_base"
+	base_blueprint 	"units/ground/elite_tower_base"
+}
+
+EntityBlueprint
+{
+    name "units/ground/elite_spawner_base"
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
+		visibility 		"discovered|radar"
+		layer_group		"enemies"
 	}	
+
+	HealthBarDesc
+	{
+		type "0" //VT_ALWAYS
+		mode "0" //MT_ALWAYS
+		material "gui/hud/bars/elite_health_1x3"
+	}	
+	
+	LootDesc
+	{	
+		explosion_max_power 	"12000"
+		explosion_min_power 	"7000"
+		loot_award				"enemy_elite"		
+		inherit_loot_from_prefab	"1"
+	}	
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_bradron_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_canoptrix_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_flurian_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_granan_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_morirot_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_mushbit_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_octabit_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_canceroth_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_fungor_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_plutrodon_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_stickrid_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
+}
+
+EntityBlueprint
+{
+    name 			"units/ground/elite_spawner_wingmite_elite_base"
+	base_blueprint 	"units/ground/elite_spawner_base"
 }

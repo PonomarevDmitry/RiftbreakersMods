@@ -29,7 +29,7 @@ end
 function logic_if_resource:OnExecuteWait( state )    
     
     --local entitiesFound = self:Find()
-	local resourceCount = PlayerService:GetResourceAmount( self.resourceName )
+	local resourceCount = PlayerService:GetResourceAmount(PlayerService:GetLeadingPlayer(), self.resourceName )
     
     if self.comparisonType == "equal" and ( resourceCount == self.count ) then
         --LogService:Log("IF STATEMENT POSITIVE")

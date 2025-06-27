@@ -1,0 +1,279 @@
+EntityBlueprint
+{ 
+	name "items/special/multiplayer_boost"
+
+	InventoryItemDesc
+	{
+		type 			"special"
+		name 			"multiplayer_boost"
+		icon			"gui/hud/items_icons/special/multiplayer_boost"
+		bigger_icon 	"gui/menu/items_icons/special/multiplayer_boost"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/special/multiplayer_boost.lua"
+
+		database
+		{
+			heal						float:"50"
+			radius						float:"10"
+			discharge_radius			float:"25"
+			boost_activation_trigger 	float:"5"
+			cooldown					float:"5"
+			boost_activation_bp 				string:"effects/mech/multiplayer_boost_activation"
+			interact_boost_activation_effect 	string:"repair"
+			//boost_cooldown_bp 					string:"items/special/multiplayer_boost_effect_cooldown"	
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+	name  "items/special/multiplayer_boost_beam"
+
+	//MeshDesc
+	//{
+	//	mesh 		"meshes/projectiles/laser_beam_small.mesh"
+	//	material 	"items/weapons/lightning_gun_beam"
+	//}
+
+	NetReplicateToOwnerComponent
+	{
+	}
+
+	LaserBeamComponent
+	{
+		range 						"20"
+		
+		//ring_bp 					"items/equipment/scanner_ring"
+		
+		on_enemy_hit_effect 		"effects/buildings_and_machines/drone_defensive_lightning_hit"
+		on_world_hit_effect 		"effects/buildings_and_machines/drone_defensive_lightning_hit"
+		
+		diameter					"0.1"
+		damage_factor_max       	"2.0"
+		damage_factor_increase  	"0.1"
+		damage_factor_decrease  	"1.0"
+		damage_max_beam_scale 		"2.0"
+		damage_max_beam_glow 		"1.0"
+	}
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"3.0"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.02"
+		beam_count 				"5"
+	}
+	
+	SoundDesc
+	{
+		name "mech/team_boost_beam"
+	}	
+}
+
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_interactive_overchage"
+
+	LifeTimeDesc
+	{
+		time "30"
+	}
+
+	IdDesc
+	{
+		group ""
+	}
+
+	DatabaseComponent
+	{
+		forcefield					string:"10"			
+		health						string:"10"
+	}
+
+	SkillLinkUnitComponent
+	{
+	}
+
+	LuaDesc
+	{
+		script 		"lua/misc/player_modificator.lua"
+
+		database
+		{
+			allow_multiple           int:"1"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_effect_cooldown"
+
+	// Those need to be here to make it display on hud :)
+	IdDesc
+	{
+		group "multiplayer_boost"
+	}
+	DatabaseComponent
+	//
+	
+	SkillLinkUnitComponent
+	{
+		name	"gui/hud/multiplayer_boost_cooldown_name"
+		icon	"gui/hud/multiplayer_boost"
+	}
+}
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_effect_base"
+	base_blueprint 	"props/special/power_wells/power_well_base"
+
+	LifeTimeDesc
+	{
+		time "10"
+	}
+
+	IdDesc
+	{
+		group "multiplayer_boost"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/multiplayer_boost_forcefield"
+				}
+			}
+		}
+	}
+
+	DatabaseComponent
+	{
+		forcefield					string:"500"			
+		movement_speed				string:"10%"
+	}
+
+	SkillLinkUnitComponent
+	{
+		name	"gui/hud/multiplayer_boost_name"
+		icon	"gui/hud/multiplayer_boost"
+	}
+	
+	SoundDesc
+	{
+		name "mech/team_boost_activated"
+	}		
+}
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_effect_2"
+	base_blueprint 	"items/special/multiplayer_boost_effect_base"
+
+	DatabaseComponent
+	{
+		forcefield					string:"100"
+		movement_speed				string:"10%"
+	}
+
+	LifeTimeDesc
+	{
+		time "30"
+	}
+
+}
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_effect_3"
+	base_blueprint 	"items/special/multiplayer_boost_effect_base"
+
+	DatabaseComponent
+	{
+		forcefield					string:"200"
+		movement_speed				string:"10%"
+	}
+
+	LifeTimeDesc
+	{
+		time "40"
+	}
+}
+
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_boost_effect_4"
+	base_blueprint 	"items/special/multiplayer_boost_effect_base"
+
+	DatabaseComponent
+	{
+		forcefield					string:"300"
+		movement_speed				string:"10%"
+	}
+
+	LifeTimeDesc
+	{
+		time "50"
+	}
+
+}
+
+
+EntityBlueprint
+{
+	name            "items/special/multiplayer_revive_boost"
+	base_blueprint 	"props/special/power_wells/power_well_base"
+
+	LifeTimeDesc
+	{
+		time "5"
+	}
+
+	IdDesc
+	{
+		group "multiplayer_revive_boost"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/multiplayer_boost_revive"
+				}
+			}
+		}
+	}
+
+	DatabaseComponent
+	{
+		weapon_damage				string:"200%"
+		item_cooldowns				string:"-50%"
+		health_regen 				string:"50"
+		immortal					int:"1"
+	}
+
+	SkillLinkUnitComponent
+	{
+		name	"gui/hud/multiplayer_revive_boost_name"
+		icon	"gui/hud/multiplayer_revive_boost"
+	}
+}

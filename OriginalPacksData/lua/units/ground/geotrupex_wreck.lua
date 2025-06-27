@@ -7,7 +7,7 @@ function geotrupex_wreck:__init()
 end
 
 function geotrupex_wreck:initParams()
-	--self.wreckLifetime = 600
+
 end
 
 return geotrupex_wreck

@@ -60,6 +60,50 @@ fragment_program deferred_damage_buildings_reflection_fp hlsl
     }
 }
 
+fragment_program deferred_damage_mech_fp hlsl
+{
+    source materials/programs/deferred_damage_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_BUILDINGS=1,USE_VELOCITY=1,USE_HEALTH_OFFSET=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cHealthAmount       float          1.0
+        param_named      cHealthAmountOffset float          0.5
+        param_named_auto cMIPBias            mip_bias
+        param_named_auto cJitterOffset       jitter_offset
+    }
+}
+
+fragment_program deferred_damage_mech_reflection_fp hlsl
+{
+    source materials/programs/deferred_damage_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_BUILDINGS=1,USE_REFLECTION_MAP=1,USE_VELOCITY=1,USE_HEALTH_OFFSET=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cHealthAmount       float          1.0
+        param_named      cHealthAmountOffset float          0.5
+        param_named_auto cReflectionParams   surface_reflection
+        param_named_auto cWorldCameraPos     camera_position
+        param_named_auto cMIPBias            mip_bias
+        param_named_auto cJitterOffset       jitter_offset
+    }
+}
+
 fragment_program deferred_damage_units_fp hlsl
 {
     source materials/programs/deferred_damage_fp.hlsl
@@ -168,3 +212,22 @@ fragment_program deferred_damage_units_alpha_test_fp hlsl
     }
 }
 
+fragment_program deferred_damage_units_emissive_alpha_test_fp hlsl
+{
+    source materials/programs/deferred_damage_fp.hlsl
+    entry_point mainFP
+    target ps_5_0
+    preprocessor_defines USE_DISSOLVE_MAP=1,USE_DXT5NM=1,USE_UNITS=1,USE_ALPHA_TEST=1,USE_EMISSIVE_MAP=1,USE_VELOCITY=1
+
+    default_params
+    {
+        param_named_auto cGlowAmount         surface_glow
+        param_named      cGlowFactor         float          1.0
+        param_named      cDissolveAmount     float          0.0
+        param_named      cDissolveSize       float          0.2
+        param_named_auto cDissolveColor      surface_dissolve_colour
+        param_named      cHealthAmount       float          1.0
+        param_named_auto cMIPBias            mip_bias
+        param_named_auto cJitterOffset       jitter_offset
+    }
+}

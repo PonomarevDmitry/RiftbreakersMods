@@ -13,12 +13,16 @@ function invisible:OnInit()
 	self.invisibilityFsm = self:CreateStateMachine()
 	self.invisibilityFsm:AddState( "invisibility_enter", {enter="OnInvisibilityEnterEnter", execute="OnInvisibilityEnterExecute"} )
 	self.invisibilityFsm:AddState( "invisibility_exit", {enter="OnInvisibilityExitEnter", execute="OnInvisibilityExitExecute", exit="OnInvisibilityExitExit" } )
+
+	if self.data:GetIntOrDefault( "force_equip", 0 ) == 1 then
+        QueueEvent("EquipItemEvent", self.entity, self.entity, EntityService:GetParent( self.entity ), "" )        
+        QueueEvent("ActivateItemRequest", self.entity, false )        
+	end
 end
 
 function invisible:OnEquipped()
 	self:RegisterHandler( self.owner, "ItemEquippedEvent",  "OnItemEquippedEvent" )
 	self:RegisterHandler( self.owner, "RiftTeleportStartEvent",  "OnRiftTeleportStartEvent" )
-
 end
 
 function invisible:OperateInvisibile()

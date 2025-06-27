@@ -881,3 +881,47 @@ material selector/hologram_skinned_deny : selector/hologram_build_skinned
 	}
 }
 
+material selector/hologram_treasure_finder_x_spot : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.4
+				param_named cFresnelScale float 0.5
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 0 2 4 0.05
+				param_named cBlendColor2 float4 0 2 4 0.5
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 0
+			}
+		}
+	}
+}
+
+material selector/hologram_active_skinned_treasure_red : selector/hologram_build_skinned
+{
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_fresnel_flare_fp
+			{
+				param_named cFresnelBias  float -0.4
+				param_named cFresnelScale float 0.5
+				param_named cFresnelPower float 1
+				
+				param_named cBlendColor1 float4 4 0 0 0.05
+				param_named cBlendColor2 float4 4 0 0 0.5
+
+				param_named cFlarePower   float 0.1
+        		param_named cFlareSpeed   float 0
+			}
+		}
+	}
+}
+

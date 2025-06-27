@@ -23,10 +23,10 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"0.1"
-		acid			"0.1"
+		acid			"1.0"
 		energy			"1.0"
 		cryo			"3.0"
-		area			"1.5"	
+		area			"2.0"	
 		reflect_damage_max_percent 		"0.1"
 	}
 	
@@ -48,8 +48,6 @@ EntityBlueprint
 	{
 		max_health 					"3000"
 		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -73,7 +71,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/baxmoth.mesh"
+		mesh 		"meshes/units/ground/baxmoth_boss.mesh"
 		material 	"units/ground/baxmoth_boss_fire"
 	}
 	
@@ -91,7 +89,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"
+		layer_group		"enemies"
 	}		
 
 	SelectableDesc
@@ -365,6 +364,20 @@ EntityBlueprint
 					scale "2 2 2"
 				}
 			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
 		}		
 	}		
 
@@ -423,7 +436,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"99.0"
+										value 	"150"
 										type 	"fire"
 									}
 								}

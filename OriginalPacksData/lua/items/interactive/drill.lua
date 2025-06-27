@@ -22,7 +22,9 @@ end
 
 function drill:OnDrillStartEnter( state )
 	state:SetDurationLimit( 0.75 )
-	
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
 end
@@ -35,7 +37,9 @@ end
 
 function drill:OnDrillStopEnter( state )
 	state:SetDurationLimit( 0.75 )
-	
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
 end
@@ -47,11 +51,17 @@ function drill:OnDrillStopExit( state )
 end
 
 function drill:OnEquipped()
-	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.duration = 0.0
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function drill:OnActivate()
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	if ( self.drilling == true ) then
 		self:OnExecuteDrilling()
 	end
@@ -65,12 +75,16 @@ function drill:OnActivate()
 
 	ownerData:SetString( "RIGHT_HAND_item_type", "drill" )
 	ownerData:SetFloat( "RIGHT_HAND_use_speed", 1 )
-
-	PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_drill.wav", true, 5 )
+    local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_drill.wav", true, 5 )
 end
 
 function drill:OnDeactivate()
-	PlayerService:StopPadHapticFeedback( 0 )
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return true
+	end
+    local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	PlayerService:StopPadHapticFeedback( playerId )
 
 	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
@@ -83,11 +97,19 @@ function drill:OnDeactivate()
 end
 
 local function GetInteractiveEntity( owner )
-	local component = reflection_helper( EntityService:GetComponent(owner, "MechComponent") )
-	return component.interactive_ent.id;
+	local component = EntityService:GetComponent(owner, "MechComponent")
+	if component == nil then
+		return INVALID_ID
+	end
+
+	return reflection_helper( component ).interactive_ent.id;
 end
 
 function drill:OnExecuteDrilling()
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
+
 	local interactive = GetInteractiveEntity( self.owner )
 	local database = EntityService:GetDatabase( interactive )
 	local cooldown =  ItemService:GetCooldown( self.entity)

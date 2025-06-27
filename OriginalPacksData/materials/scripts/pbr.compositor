@@ -18,6 +18,7 @@
 //  211-212     - LIGHT_MASK
 //  213-214     - CAMERA_CULLER
 //  215-216     - WATER COLLISION
+//  220-230     - FORWARD LIT
 
 CompositorNodeSelector pbr_gbuffer
 {
@@ -1044,6 +1045,26 @@ CompositorNodeSelector pbr_forward
                 rg_end 109
             }
 
+            pass render_scene // FORWARD DECALS
+            {
+                camera camera_0
+                rg_start 190
+                rg_end 199
+                input 1 gbuffer 6
+                custom_visitor decal_visitor
+                depth_mode read_only
+            }
+
+            pass render_scene // FORWARD LIT
+            {
+                camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 220
+                rg_end 230
+                custom_visitor forward_lit_visitor
+            }
+
             pass render_scene // FORWARD GENERAL
             {
                 camera camera_0
@@ -1060,16 +1081,6 @@ CompositorNodeSelector pbr_forward
                 rg_end 59
                 include_renderable_flag highlight_damage|highlight_discoverable|highlight_scannable
                 custom_visitor QueueHighlightRenderableVisitor
-            }
-
-            pass render_scene // FORWARD DECALS
-            {
-                camera camera_0
-                rg_start 190
-                rg_end 199
-                input 1 gbuffer 6
-                custom_visitor decal_visitor
-                depth_mode read_only
             }
         }
     }
@@ -1087,25 +1098,6 @@ CompositorNodeSelector pbr_forward
                 rg_end 109
             }
 
-            pass render_scene // FORWARD GENERAL
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                custom_visitor upscale_mask_visitor
-                rg_start 60
-                rg_end 106
-            }
-
-            pass render_scene // FORWARD HIGHLIGHTS
-            {
-                camera camera_0
-                sort_mode rg_then_ascending
-                rg_start 4
-                rg_end 59
-                include_renderable_flag highlight_damage|highlight_discoverable|highlight_scannable
-                custom_visitor QueueHighlightRenderableVisitor
-            }
-            
             pass render_scene // FORWARD DECALS
             {
                 bind_rt_index 0
@@ -1115,6 +1107,35 @@ CompositorNodeSelector pbr_forward
                 input 1 gbuffer 6
                 custom_visitor decal_visitor
                 depth_mode read_only
+            }
+
+            pass render_scene // FORWARD GENERAL
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                custom_visitor upscale_mask_visitor
+                rg_start 60
+                rg_end 106
+            }
+
+            pass render_scene // FORWARD LIT
+            {
+                camera camera_0
+                texture_camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 220
+                rg_end 230
+                custom_visitor forward_lit_visitor
+            }
+            
+            pass render_scene // FORWARD HIGHLIGHTS
+            {
+                camera camera_0
+                sort_mode rg_then_ascending
+                rg_start 4
+                rg_end 59
+                include_renderable_flag highlight_damage|highlight_discoverable|highlight_scannable
+                custom_visitor QueueHighlightRenderableVisitor
             }
         }
     }
@@ -1658,6 +1679,14 @@ CompositorNodeSelector pbr_minimap
                 material minimap/darken
             }
 
+            pass render_scene
+            {
+                camera camera_minimap
+                rg_start 207
+                rg_end 210
+                sort_mode rg_then_ascending
+            }
+
             pass quad
             {
                 material minimap/noise
@@ -1666,14 +1695,6 @@ CompositorNodeSelector pbr_minimap
             pass quad
             {
                 material minimap/radar_outline
-            }
-
-            pass render_scene
-            {
-                camera camera_minimap
-                rg_start 207
-                rg_end 210
-                sort_mode rg_then_ascending
             }
         }
     }
@@ -1730,7 +1751,7 @@ CompositorNodeSelector pbr_final
             pass quad
             {
                 input 0 main
-                material blit_texture
+                material postprocess
             }
 
             pass render_gui
@@ -1788,7 +1809,7 @@ CompositorNodeSelector pbr_final
             pass quad
             {
                 input 0 main
-                material upsample
+                material postprocess_upsample
             }
 
             pass render_gui
@@ -1886,7 +1907,7 @@ CompositorNodeSelector pbr_final
             pass quad
             {
                 input 0 fsr_1
-                material blit_texture
+                material postprocess
             }
 
             pass render_gui

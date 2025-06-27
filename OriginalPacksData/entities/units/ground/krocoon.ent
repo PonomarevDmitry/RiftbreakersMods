@@ -3,6 +3,26 @@ EntityBlueprint
 	name "units/ground/krocoon"
 
 	base_blueprint "units/ground/krocoon_base"
+	
+	StateMachineDesc
+	{
+		template_name "krocoon"
+		params
+		{
+			aggressive_speed					float:"5"
+			aggressive_acceleration				float:"10"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"2"
+			rotate_speed						float:"150"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
@@ -16,7 +36,7 @@ EntityBlueprint
 
 	DatabaseComponent
 	{
-		version int:"1"	
+		version int:"2"	
 	}
 
 	HealthDesc
@@ -263,25 +283,26 @@ EntityBlueprint
 {
 	name "units/ground/krocoon_base"
 
-	StateMachineDesc
-	{
-		template_name "krocoon"
-		params
-		{
-			aggressive_speed					float:"5"
-			aggressive_acceleration				float:"10"
-			not_aggressive_speed				float:"3"
-			not_aggressive_acceleration			float:"2"
-			rotate_speed						float:"150"
-			priority_target						string:"headquarters|player|energy|tower"
-			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
-			melee_attack_name					string:"attack_1|attack_2|attack_3"
-			min_idle_time						float:"4.0"
-			max_idle_time						float:"8.0"
-			eat_time							float:"3.0"
-		}		
-	}
+	// --------- MOVED FROM BASE TO EACH UNIT SO WE CAN MAKE BOSSES FASTER
+	//StateMachineDesc
+	//{
+	//	template_name "krocoon"
+	//	params
+	//	{
+	//		aggressive_speed					float:"5"
+	//		aggressive_acceleration				float:"10"
+	//		not_aggressive_speed				float:"3"
+	//		not_aggressive_acceleration			float:"2"
+	//		rotate_speed						float:"150"
+	//		priority_target						string:"headquarters|player|energy|tower"
+	//		priority_target_distance			float:"40"
+	//		ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+	//		melee_attack_name					string:"attack_1|attack_2|attack_3"
+	//		min_idle_time						float:"4.0"
+	//		max_idle_time						float:"8.0"
+	//		eat_time							float:"3.0"
+	//	}		
+	//}
 
 	ResistanceComponent
 	{
@@ -303,6 +324,8 @@ EntityBlueprint
 		stagger_cooldown				"1.5"
 		stagger_long_cooldown			"4.0"
 		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.1"
 	}
 
 	TypeDesc
@@ -362,7 +385,8 @@ EntityBlueprint
 			y "4"
 		}
 		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -372,7 +396,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -574,6 +599,19 @@ EntityBlueprint
 		}
 		EffectGroup
 		{
+			group "eat"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_krocoon/eat"
+					bone "att_eat"
+				}
+			}
+		}		
+		EffectGroup
+		{
 			group 	"time_damage_fire"
 			enabled "0"
 			Effects
@@ -653,7 +691,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 7 0"
+					offset "0 9 0"
 					scale "1 1 1"
 				}
 			}

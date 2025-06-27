@@ -32,6 +32,43 @@ function CreateQuaternion( axis, angle )
 	return quaternion
 end
 
+function Sign( x )
+    if x > 0 then
+        return 1
+    elseif x < 0 then
+        return -1
+    else
+        return 0
+    end
+end
+
+function QuatToEuler( q )
+    local sinp_cosp = 2 * ( q.w * q.x + q.y * q.z )
+    local cosp_cosp = 1 - 2 * ( q.x * q.x + q.y * q.y )
+    local pitch = math.atan2( sinp_cosp, cosp_cosp )
+
+
+    local siny = 2 * ( q.w * q.y - q.z * q.x )
+    local yaw = 0
+    if math.abs( siny ) >= 1 then
+        yaw = math.pi / 2 * Sign( siny )
+    else
+        yaw = math.asin( siny )
+    end
+
+    local sinr_cosp = 2 * ( q.w * q.z + q.x * q.y )
+    local cosr_cosp = 1 - 2 * ( q.y * q.y + q.z * q.z )
+    local roll = math.atan2(sinr_cosp, cosr_cosp)
+
+    if math.abs( yaw ) == math.pi / 2 then
+        pitch = 0
+        roll = 0
+    end
+
+    return pitch, yaw, roll
+end
+
+
 function Lerp( minValue, maxValue, t )
 	return (minValue * (1 - t) + maxValue * t);
 end

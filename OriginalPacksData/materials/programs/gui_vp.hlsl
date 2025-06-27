@@ -10,6 +10,7 @@ struct VS_INPUT
     float4  Color       : COLOR;
 #if USE_TEXTURE || USE_BLEND_2_TEXTURE
     float2  TexCoord    : TEXCOORD0;
+    float4  ChannelMask  : BINORMAL;
 #endif
 };
 
@@ -19,6 +20,7 @@ struct VS_OUTPUT
     float4  Color       : COLOR;
 #if USE_TEXTURE || USE_BLEND_2_TEXTURE
     float2  TexCoord    : TEXCOORD0;
+    float4  ChannelMask : BINORMAL;
 #endif
 };
 
@@ -35,6 +37,7 @@ VS_OUTPUT mainVP( VS_INPUT In )
 
 #if USE_TEXTURE || USE_BLEND_2_TEXTURE
     Out.TexCoord = In.TexCoord;
+    Out.ChannelMask = In.ChannelMask;
 #endif
     return Out;
 }

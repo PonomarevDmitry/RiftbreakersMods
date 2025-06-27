@@ -14,7 +14,15 @@ function add_item:IsReadyForResearch()
 end
 
 function add_item:CheckPlayer( player )
-    local aquired = self.data:GetIntOrDefault("player_aquired_" .. player, 0 )
+    local key = "player_aquired_" .. player
+    local aquired = 0
+    if ( self.data:HasInt(key)) then
+         aquired = self.data:GetIntOrDefault(key, 0 )
+    else
+        if ( PlayerService:HasSimilarEquipped( player,self.item )) then
+            aquired = 1
+        end
+    end
     return aquired == 1
 end
 
@@ -24,8 +32,8 @@ function add_item:AddItemToPlayer( player )
     self.data:SetInt("player_aquired_" .. player, 1 )
 end
 
-function add_item:OnResearchAcquired( teamId )
-    local players = PlayerService:GetPlayersFromTeam( teamId )
+function add_item:OnResearchAcquired( )
+    local players = PlayerService:GetPlayersFromTeam( self.team_id )
     for player in Iter(players ) do
         if ( self:CheckPlayer( player ) == false ) then
             self:AddItemToPlayer( player )
@@ -33,6 +41,12 @@ function add_item:OnResearchAcquired( teamId )
     end
 
 	self:RegisterHandler( event_sink, "PlayerInitializedEvent",  "OnPlayerInitializedEvent" )
+end
+
+function add_item:Activated()
+	if ( self.data:GetIntOrDefault("is_acquired", 0 ) == 1 ) then
+		self:OnResearchAcquired( )
+	end
 end
 
 function add_item:OnPlayerInitializedEvent( evt)

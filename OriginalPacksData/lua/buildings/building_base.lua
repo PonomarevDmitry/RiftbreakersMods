@@ -21,7 +21,7 @@ end
 
 function building_base:init()
 	self.version = 2
-	SetupBuildingScale( self.entity, self.data )
+SetupBuildingScale( self.entity, self.data )
 
 	if ( not EntityService:HasTeam( self.entity ) ) then
 		EntityService:SetTeam( self.entity, "player" )
@@ -47,8 +47,9 @@ function building_base:init()
 	self.power = self.data:GetIntOrDefault("power", -1 )
 	self.resource = self.data:GetIntOrDefault("resource", -1 )
 
+	local playerId = PlayerService:GetPlayerForEntity( self.entity )
 	if ( self.data:HasInt("owner") == false ) then
-		self.data:SetInt( "owner", 0 )
+		self.data:SetInt( "owner", playerId )
 	end
 	
 	self.buildingTime = math.max( 0.1, CalculateBuildingBuildTime( self.entity ) )
@@ -161,38 +162,7 @@ function building_base:OnStartBuildingEvent()
 end
 
 function building_base:_OnBuild(evt)
-	self.meshEnt = BuildingService:GetMeshEntity(self.entity);
-
-	self.buildingFinished = 2;
-	self.upgrading = evt:GetUpgrading()
-	if ( HealthService:GetHealth( self.entity ) ~= -1 and self.upgrading == false ) then
-		self.hasHealth = true
-		HealthService:SetHealth( self.entity, 1 )
-	end
-	self.data:SetInt( "owner", evt:GetPlayerId() )
-	self.cubeEnt = evt:GetCubeEnt()
-	self.endCubeEnt = evt:GetEndCubeEnt()
-	self.cubeEffects = evt:GetEffects()
-	if ( EntityService:IsAlive(self.cubeEnt) == false ) then
-		self:CreateBaseCubes()
-	end
-	if ( self.upgrading ) then
-		EffectService:AttachEffect(self.entity,  "effects/buildings_and_machines/building_upgrade")
-	end
-	
-	local timer = self.buildingTime + 1.3;
-	if ( EntityService:IsAlive( self.endCubeEnt ) == true ) then
-		timer = timer + 3.85
-	end
-	self.timerEnt = nil
-	if ( timer > 10 ) then
-		if ( self.upgrading ) then
-			self.timerEnt = BuildingService:AttachGuiTimerWithMaterial( self.entity, timer, true,  "gui/hud/bars/upgrade_timer" )
-		else
-			self.timerEnt = BuildingService:AttachGuiTimer( self.entity, timer, true )
-		end
-	end	
-	self.buildingSM:ChangeState("cube_fly")
+	return
 end
 
 function building_base:_OnSell(evt)
@@ -207,22 +177,28 @@ function building_base:_OnSell(evt)
 
 	self:CreateBuildingStateMachine()
 	self.cubeEnt = evt:GetCubeEnt()
-	local playerId = evt:GetPlayerId()
+	self.playerIdOnSell = evt:GetPlayerId()
+
 	if(  not EntityService:IsAlive( self.cubeEnt ) ) then
 		local cubes	= nil
 		if ( self.isFloor )then
-			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, false, false )		
+			cubes =  BuildingService:FlyCubesToBuilding(self.entity, self.playerIdOnSell, false, false )		
 		else
 			local createCubes = self.data:GetIntOrDefault( "create_cubes", 1 ) == 1
-			cubes =  BuildingService:FlyCubesToBuilding(self.entity, playerId, createCubes , false )		
+			cubes =  BuildingService:FlyCubesToBuilding(self.entity, self.playerIdOnSell, createCubes , false )		
 		end
 		self.cubeEnt = cubes.first
 	end
+
+	local children = EntityService:GetChildren( self.entity, true )
+	self.childrenToUpdate = {}
 	if (self.isFloor == false ) then
-		if ( EntityService:IsSkinned(self.meshEnt ) ) then
-			EntityService:SetMaterial( self.meshEnt, "selector/hologram_current_skinned", "sell" )
-		else
-			EntityService:SetMaterial( self.meshEnt, "selector/hologram_current", "sell" )
+		EntityService:SetMaterial( self.meshEnt, "hologram/current", "sell" )
+		for child in Iter( children ) do
+			if ( EntityService:HasComponent( child, "MeshComponent" ) ) then
+				EntityService:SetMaterial( child, "hologram/current", "sell" )
+				Insert( self.childrenToUpdate, child )
+			end
 		end
 	end
 	if (evt:GetForced() == false )then
@@ -258,7 +234,7 @@ function building_base:_OnCubeFlyEnter( state )
 		AnimationService:StartAnim( self.cubeEnt, "fly_and_scale", false, 4 )
 	end
 	EffectService:AttachEffects(self.cubeEnt, "fly")
-	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth", "default"  )
+	EntityService:SetMaterial( self.meshEnt, "hologram/blue_depth", "default"  )
 
 	self:OnCubeFlyStart()
 	Insert(self.cubes, self.cubeEnt )
@@ -336,6 +312,9 @@ function building_base:_OnCubeFlySellExit( state )
 	self.height = EntityService:GetPositionY( self.cubeEnt )
 	self.buildingSM:ChangeState("selling")
 	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
+	for child in Iter( self.childrenToUpdate ) do
+		EntityService:SetGraphicsUniform( child, "cMaxHeight", self.height - 1.0 )
+	end
 end
 
 function building_base:_OnWaitForSpace( state )
@@ -388,7 +367,7 @@ function building_base:_OnBuildingEnter( state )
 	for i, material in ipairs(self:GetMaterials()) do
 		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
 	end
-	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth" , "dissolve" )
+	EntityService:SetMaterial( self.meshEnt, "hologram/blue_depth" , "dissolve" )
 
     if ( self.printingCube ~= nil ) then
 		self.printingData1 = { EntityService:GetPositionX( self.printingCube ), EntityService:GetPositionY( self.printingCube ), EntityService:GetPositionZ( self.printingCube ) }
@@ -454,9 +433,10 @@ function building_base:_OnBuildingExit( state )
 	if (buildingComponent ~= nil ) then
 		local name = buildingComponent:GetField( "name" ):GetValue()		
 		local type = buildingComponent:GetField( "type" ):GetValue()
-		QueueEvent("BuildingBuildEvent", self.entity, self.upgrading, name, type )
+		local owner = buildingComponent:GetField( "owner" ):GetValue()
+		QueueEvent("BuildingBuildEvent", self.entity, self.upgrading, name, type, tonumber( owner ) )
 	else
-		QueueEvent("BuildingBuildEvent", self.entity, self.upgrading, "", "" )
+		QueueEvent("BuildingBuildEvent", self.entity, self.upgrading, "", "", INVALID_PLAYER_ID )
 	end
 
     if ( self.printingCube ~= nil ) then
@@ -491,9 +471,18 @@ function building_base:_OnSellEnter( state )
 		for i, material in ipairs(self:GetMaterials()) do
 			EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default"  )
 		end
+		
 	end
 	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
 	EntityService:FadeEntity( self.meshEnt, DD_FADE_OUT, self.sellTime )
+
+	for child in Iter( self.childrenToUpdate ) do
+		for i, material in ipairs(self:GetMaterials()) do
+			EntityService:SetSubMeshMaterial( child, material .. "_dissolve", i - 1, "default"  )
+		end
+		EntityService:SetGraphicsUniform( child, "cMaxHeight", self.height - 1.0 )
+		EntityService:FadeEntity( child, DD_FADE_OUT, self.sellTime )
+	end
 
 	self:OnSell()
 end
@@ -502,7 +491,7 @@ function building_base:_OnSellExecute( state )
 end
 
 function building_base:_OnSellExit( state )
-	EntityService:SendBuildingSellEndEvent( self.entity )
+	EntityService:SendBuildingSellEndEvent( self.entity, self.playerIdOnSell )
 	if ( self.data:HasString("cone_effect_sell") == true  ) then
 		EffectService:DestroyEffectsByGroup(self.cubeEnt, self.data:GetString( "cone_effect_sell" ) )
 	else
@@ -1029,6 +1018,7 @@ end
 
 function building_base:OnLoad()
 	day_cycle_machine.OnLoad( self )
+	self.childrenToUpdate = self.childrenToUpdate or {} 
 	self.isFloor = self.isFloor or self.buildingType == "floor"
 	self.meshEnt = self.meshEnt or BuildingService:GetMeshEntity(self.entity)
 	self.hasTurret = self.hasTurret or EntityService:GetComponent(self.entity, "TurretComponent" ) ~= nil
@@ -1057,7 +1047,8 @@ function building_base:OnLoad()
 	if ( self.version < 2 ) then
 		self.data:RemoveKey("activated")
 	end
-	if ( self.buildingSell == false and self.buildingFinished == 0 and self.data:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
+	local blueprintDatabase = EntityService:GetBlueprintDatabase( self.entity )
+	if ( self.buildingSell == false and self.buildingFinished == 0 and blueprintDatabase:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
 		QueueEvent("RemoveBuildingLuaComponent", self.entity )
 	end
 

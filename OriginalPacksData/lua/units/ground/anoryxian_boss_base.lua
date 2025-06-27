@@ -260,6 +260,13 @@ function anoryxian_base:OnEnterDead( state )
 	self.bossOutroFile = MissionService:ActivateMissionFlow( "",  self.config.outroLogicFile , "default" )
 	self.isDead = true
 
+	local towersToDestroy = FindService:FindEntitiesByType( "tower" )
+    for tower in Iter( towersToDestroy ) do
+		if ( UnitService:IsOnArena( tower ) ) then
+			EntityService:DissolveEntity( tower, 0.5 )
+		end
+    end
+
 	self:ClearAfterDeath()
 end
 
@@ -662,19 +669,19 @@ function anoryxian_base:OnShootEvent( evt )
 	local mod = projectile.count % 2
 
 	if ( count == projectile.count ) then
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 	elseif ( mod == 0 ) then
 		for i = -count, count do 		
 			if ( i ~= 0  ) then
-				WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-				WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+				WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+				WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 			end
 		end	
 	else
 		for i = -count, count do 
-			WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-			WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+			WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+			WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 		end
 	end
 end

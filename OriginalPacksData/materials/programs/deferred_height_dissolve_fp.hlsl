@@ -59,6 +59,11 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     PS_OUTPUT Out;
 
     float4 albedo = tAlbedoTex.Sample( sAlbedoTex, In.UV0 ).xyzw;
+
+#if USE_ALPHA_TEST
+    clip ( albedo.a > 0.5f ? 1:-1 );
+#endif
+
     float3 texNormal = texNormal2D( tNormalTex, sNormalTex, In.UV0 );
     float3 emissive = tEmissiveTex.Sample( sEmissiveTex, In.UV0 ).xyz * tGradientTex.Sample( sGradientTex, In.UV0 ).x;
 

@@ -211,7 +211,7 @@ EntityBlueprint
 		acid			"0.0"
 		energy			"0.0"
 		cryo			"0.0"
-		area			"0.0"	
+		area			"0.11"	
 	}
 
 	StunDataComponent
@@ -348,6 +348,12 @@ EntityBlueprint
 		stagger_health_threshold		"0.04"
 		stagger_long_time				"0.8"
 		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+		
+		force_stagger_chance 			"0.1"
 	}
 
 	TypeDesc
@@ -406,7 +412,8 @@ EntityBlueprint
 			y "3"
 		}
 		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -417,6 +424,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"10000"
 		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -639,7 +647,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 6.5 0"
+					offset "0 7 0"
 					scale "0.9 0.9 0.9"
 				}
 			}

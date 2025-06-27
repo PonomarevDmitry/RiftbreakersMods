@@ -2,10 +2,9 @@ system rift/tornado_big
 {
     keep_local                                  true
     nonvisible_update_timeout                   1
-    scale_velocity                              0.1
-    scale                                       0.1 0.1 0.1
+    scale_velocity                              0.12
+    scale                                       0.12 0.12 0.12
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 1
     technique s2
@@ -23,21 +22,17 @@ system rift/tornado_big
         }
         emitter                                 Box s2
         {
-            emission_rate                       500
-            angle                               dyn_random
-            {
-                min                             2
-                max                             6
-            }
+            emission_rate                       400
+            angle                               10
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             3
+                min                             0.7
+                max                             1
             }
             velocity                            dyn_random
             {
-                min                             50
-                max                             100
+                min                             100
+                max                             150
             }
             repeat_delay                        20
             all_particle_dimensions             dyn_random
@@ -51,20 +46,28 @@ system rift/tornado_big
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
             box_width                           70
-            box_height                          200
+            box_height                          250
             box_depth                           70
         }
         affector                                Colour 
         {
-            time_colour                         0    0.74902 0.74902 0.74902 0
-            time_colour                         0.3  0.74902 0.74902 0.74902 0.15
-            time_colour                         0.86087  0.74902 0.74902 0.74902 0.15
-            time_colour                         1    0.74902 0.74902 0.74902 0
+            time_colour                         0    0.313167 0.260587 0.195033 0
+            time_colour                         0.3  0.313167 0.260587 0.195033 0.0747331
+            time_colour                         0.731387  0.313167 0.260587 0.195033 0.0747331
+            time_colour                         1    0.313168 0.260587 0.195033 0
         }
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
             rotation_speed                      4
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
         }
     }
     technique smoke_ground_wide
@@ -82,7 +85,7 @@ system rift/tornado_big
         }
         emitter                                 Circle s2
         {
-            emission_rate                       500
+            emission_rate                       400
             angle                               dyn_random
             {
                 min                             2
@@ -90,13 +93,13 @@ system rift/tornado_big
             }
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             2
+                min                             0.7
+                max                             1
             }
             velocity                            dyn_random
             {
-                min                             25
-                max                             50
+                min                             50
+                max                             100
             }
             repeat_delay                        20
             all_particle_dimensions             dyn_random
@@ -104,27 +107,35 @@ system rift/tornado_big
                 min                             40
                 max                             80
             }
-            position                            0 50 0
+            position                            0 20 0
             direction                           1 0 0
             end_texture_coords_range            3
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
             auto_direction                      true
-            radius                              5
+            radius                              20
             emit_random                         false
         }
         affector                                Colour 
         {
-            time_colour                         0    0.74902 0.74902 0.74902 0
-            time_colour                         0.3  0.74902 0.74902 0.74902 0.15
-            time_colour                         0.86087  0.74902 0.74902 0.74902 0.15
-            time_colour                         1    0.74902 0.74902 0.74902 0
+            time_colour                         0    0.313168 0.260587 0.195033 0
+            time_colour                         0.3  0.313168 0.260587 0.195033 0.0711744
+            time_colour                         0.86087  0.313167 0.260587 0.195033 0.0711744
+            time_colour                         1    0.313167 0.260587 0.195033 0
         }
         affector                                Vortex Affector16
         {
             rotation_axis                       0 1 0
             rotation_speed                      2
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
         }
     }
     technique debris_ground
@@ -144,25 +155,25 @@ system rift/tornado_big
         }
         emitter                                 Circle s2
         {
-            emission_rate                       2000
+            emission_rate                       500
             angle                               90
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             2
+                min                             0.7
+                max                             1
             }
             velocity                            dyn_random
             {
-                min                             25
-                max                             50
+                min                             100
+                max                             200
             }
             repeat_delay                        20
             all_particle_dimensions             dyn_random
             {
                 min                             1
-                max                             3
+                max                             5
             }
-            position                            0 50 0
+            position                            0 20 0
             end_texture_coords_range            15
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
@@ -173,9 +184,9 @@ system rift/tornado_big
         }
         affector                                Colour 
         {
-            time_colour                         0    0.752941 0.752941 0.752941 1
-            time_colour                         0.86087  0.752941 0.752941 0.752941 1
-            time_colour                         1    0.752941 0.752941 0.752941 0
+            time_colour                         0    0.313168 0.260587 0.195033 1
+            time_colour                         0.86087  0.313168 0.260587 0.195033 1
+            time_colour                         1    0.313167 0.260587 0.195033 0
         }
         affector                                Vortex Affector16
         {
@@ -200,27 +211,23 @@ system rift/tornado_big
         }
         emitter                                 Box s2
         {
-            emission_rate                       2000
-            angle                               dyn_random
-            {
-                min                             2
-                max                             6
-            }
+            emission_rate                       500
+            angle                               90
             time_to_live                        dyn_random
             {
-                min                             1
-                max                             3
+                min                             0.7
+                max                             1
             }
             velocity                            dyn_random
             {
-                min                             50
-                max                             100
+                min                             100
+                max                             200
             }
             repeat_delay                        20
             all_particle_dimensions             dyn_random
             {
                 min                             1
-                max                             3
+                max                             5
             }
             position                            0 100 0
             end_texture_coords_range            15
@@ -233,7 +240,7 @@ system rift/tornado_big
         }
         affector                                Colour 
         {
-            time_colour                         0    0.752941 0.752941 0.752941 1
+            time_colour                         0    0.313168 0.260587 0.195033 1
             time_colour                         0.86087  0.752941 0.752941 0.752941 1
             time_colour                         1    0.752941 0.752941 0.752941 0
         }
@@ -241,6 +248,50 @@ system rift/tornado_big
         {
             rotation_axis                       0 1 0
             rotation_speed                      2
+        }
+    }
+    technique rings_alpha_3
+    {
+        enabled                                 false
+        keep_local                              true
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_04
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point Emitter7
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             1
+            }
+            velocity                            1
+            all_particle_dimensions             250
+            position                            0 5 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0.245552
+            time_colour                         0.476156  1 1 1 0.11032
+            time_colour                         1    0 0 0 0.298932
+        }
+        affector                                TextureRotator Affector10
+        {
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation_speed                      3
         }
     }
 }

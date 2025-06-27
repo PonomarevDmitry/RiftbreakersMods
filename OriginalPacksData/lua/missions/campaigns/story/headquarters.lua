@@ -9,6 +9,8 @@ function mission_headquarters:__init()
 end
 
 function mission_headquarters:init()
+    mission_survival.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/headquarters.logic", "default" )

@@ -8,11 +8,30 @@ function arachnoid_boss:__init()
 end
 
 function arachnoid_boss:OnInit()
-	self:RegisterHandler( self.entity, "SpawnerInfoRequest",  "OnSpawnerInfoRequest" )
+	--self:RegisterHandler( self.entity, "SpawnerInfoRequest",  "OnSpawnerInfoRequest" )
 
-	arachnoid_sentinel_base.OnInit(self)
+	self.wreck_type = "wreck_big"
+	self.wreckMinSpeed = 4
+	self.disallowDeathAnim = "death_3"
 
-	self.armour = EntityService:SpawnAndAttachEntity( "units/ground/arachnoid_boss_armour", self.entity, "att_armor", "" )
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 100
+
+	EffectService:AttachEffects( self.entity, "armor" )
+	self.armour = true
+
+	local itemsString = self.data:GetStringOrDefault( "items" , "" )
+	if ( itemsString ~= "" ) then
+		local items = Split( itemsString, "," )
+		local v = RandInt( 1, #items)
+		self.item = items[v];	
+		
+		if ( self.item ~= nil ) then
+			self.stingItem = ItemService:AddItemToInventory( self.entity, self.item )
+			ItemService:EquipItemInSlot( self.entity, self.stingItem, "STING" )
+		end
+	end
+
 end
 
 function arachnoid_boss:OnAnimationMarkerReached(evt)
@@ -40,15 +59,20 @@ function arachnoid_boss:OnDamageEvent(evt)
 	
 	if self.armour ~= nil then
 		if HealthService:GetHealthInPercentage( self.entity ) < 0.5 then
-			EntityService:RequestDestroyPattern( self.armour, "default" )
-			--EntityService:SetSubMeshMaterial( self.entity, "unlit/null", 1, "" )
+			EffectService:DestroyDelayedEffectsByGroup( self.entity, "armor", 2.0 )
+			
+			local armor_entity = EntityService:GetChildByName( self.entity, "armor")
+			if armor_entity ~= INVALID_ID then
+				EntityService:RequestDestroyPattern( armor_entity, "default" )
+			end
+
 			self.armour = nil
 		end
 	end
 end
 
 function arachnoid_boss:OnSpawnerInfoRequest( evt )
-	SoundService:PlayAnnouncement( "voice_over/announcement/warning_nest_wave_spawn", 20 ) 
+	--SoundService:PlayAnnouncement( "voice_over/announcement/warning_nest_wave_spawn", 20 ) 
 end
 
 return arachnoid_boss

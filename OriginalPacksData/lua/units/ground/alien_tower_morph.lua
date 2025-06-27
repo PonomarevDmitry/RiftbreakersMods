@@ -27,7 +27,11 @@ end
 
 function alien_tower_plasma_morph:OnCreateExit()
     local database = EntityService:GetDatabase( self.entity )
-    EntityService:SpawnEntity( database:GetString( "blueprint" ) , self.entity, EntityService:GetTeam( self.entity ) )
+    if database:HasString("species") then
+		UnitService:SpawnUnitFromSpecies( self.entity, database:GetString( "species" ) )
+	else
+		EntityService:SpawnEntity( database:GetString( "blueprint" ) , self.entity, EntityService:GetTeam( self.entity ) )
+	end
     EntityService:RemoveEntity( self.entity )
 end
 

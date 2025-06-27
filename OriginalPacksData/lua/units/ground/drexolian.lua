@@ -25,7 +25,7 @@ function drexolian:OnInit()
 	self.uniformScaleValue = 0.6
 	
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
 end
 
 function drexolian:OnUniformExecute( state, dt )
@@ -73,7 +73,7 @@ function drexolian:OnShootEvent( evt )
 		extraHeight = size.y / 2
 	end
 
-	WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + extraHeight, targetOrigin.z, "att_shoot" )
+	WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + extraHeight, targetOrigin.z, "att_shoot" )
 end
 
 return drexolian

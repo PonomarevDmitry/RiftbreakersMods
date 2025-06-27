@@ -2,10 +2,9 @@ system rift/tornado_acid
 {
     keep_local                                  true
     nonvisible_update_timeout                   1
-    scale_velocity                              0.1
-    scale                                       0.1 0.1 0.1
+    scale_velocity                              0.12
+    scale                                       0.12 0.12 0.12
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 1
     technique s2
@@ -24,7 +23,7 @@ system rift/tornado_acid
         }
         emitter                                 Box s2
         {
-            emission_rate                       500
+            emission_rate                       400
             angle                               dyn_random
             {
                 min                             2
@@ -33,7 +32,7 @@ system rift/tornado_acid
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             3
+                max                             1.2
             }
             velocity                            dyn_random
             {
@@ -57,8 +56,8 @@ system rift/tornado_acid
         affector                                Colour 
         {
             time_colour                         0    0.2 0.2 0.2 0
-            time_colour                         0.3  0.2 0.2 0.2 0.14902
-            time_colour                         0.86087  0.2 0.2 0.2 0.14902
+            time_colour                         0.3  1 1 1 0.14902
+            time_colour                         0.86087  1 1 1 0.14902
             time_colour                         1    0.2 0.2 0.2 0
         }
         affector                                Vortex Affector16
@@ -74,6 +73,11 @@ system rift/tornado_acid
         affector                                TextureRotator 
         {
             use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
             rotation_speed                      dyn_random
             {
                 min                             1
@@ -97,7 +101,7 @@ system rift/tornado_acid
         }
         emitter                                 Circle s2
         {
-            emission_rate                       500
+            emission_rate                       400
             angle                               dyn_random
             {
                 min                             2
@@ -106,12 +110,12 @@ system rift/tornado_acid
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             2
+                max                             1.2
             }
             velocity                            dyn_random
             {
-                min                             25
-                max                             50
+                min                             75
+                max                             150
             }
             repeat_delay                        20
             all_particle_dimensions             dyn_random
@@ -119,20 +123,20 @@ system rift/tornado_acid
                 min                             40
                 max                             80
             }
-            position                            0 50 0
+            position                            0 20 0
             direction                           1 0 0
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
             auto_direction                      true
-            radius                              5
+            radius                              30
             emit_random                         false
         }
         affector                                Colour 
         {
             time_colour                         0    0.2 0.2 0.2 0
-            time_colour                         0.3  0.2 0.2 0.2 0.14902
-            time_colour                         0.86087  0.2 0.2 0.2 0.14902
+            time_colour                         0.3  1 1 1 0.14902
+            time_colour                         0.86087  1 1 1 0.14902
             time_colour                         1    0.2 0.2 0.2 0
         }
         affector                                Vortex Affector16
@@ -148,6 +152,11 @@ system rift/tornado_acid
         affector                                TextureRotator 
         {
             use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
             rotation_speed                      dyn_random
             {
                 min                             1
@@ -171,30 +180,25 @@ system rift/tornado_acid
         }
         emitter                                 Circle s2
         {
-            emission_rate                       2000
+            emission_rate                       800
             angle                               90
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             2
+                max                             1.2
             }
             velocity                            dyn_random
             {
-                min                             25
-                max                             50
+                min                             60
+                max                             120
             }
             repeat_delay                        20
-            particle_width                      dyn_random
+            all_particle_dimensions             dyn_random
             {
-                min                             3
-                max                             6
+                min                             2
+                max                             3
             }
-            particle_height                     dyn_random
-            {
-                min                             1
-                max                             2
-            }
-            position                            0 50 0
+            position                            0 20 0
             start_colour_range                  0.333333 0.333333 0.333333 1
             end_colour_range                    0.207843 0.207843 0.207843 1
             colour                              0 0 0 1
@@ -204,7 +208,8 @@ system rift/tornado_acid
         }
         affector                                Colour 
         {
-            time_colour                         0    0.2 0.2 0.2 1
+            time_colour                         0    0.149466 0.149466 0.149466 0
+            time_colour                         0.155331  0.2 0.2 0.2 1
             time_colour                         0.86087  0.2 0.2 0.2 1
             time_colour                         1    0.2 0.2 0.2 0
         }
@@ -229,7 +234,7 @@ system rift/tornado_acid
         }
         emitter                                 Box s2
         {
-            emission_rate                       2000
+            emission_rate                       800
             angle                               dyn_random
             {
                 min                             2
@@ -238,7 +243,7 @@ system rift/tornado_acid
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             3
+                max                             1.2
             }
             velocity                            dyn_random
             {
@@ -273,6 +278,7 @@ system rift/tornado_acid
     }
     technique swirl4
     {
+        enabled                                 false
         visual_particle_quota                   3
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
@@ -295,7 +301,7 @@ system rift/tornado_acid
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             1.5
+                max                             1.2
             }
             velocity                            dyn_random
             {
@@ -303,7 +309,7 @@ system rift/tornado_acid
                 max                             2
             }
             all_particle_dimensions             200
-            position                            0 10 0
+            position                            0 1 0
             keep_local                          true
             colour                              0.262745 0.937255 0.870588 1
         }

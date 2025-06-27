@@ -11,7 +11,7 @@ function stregaros:OnInit()
 	self:RegisterHandler( self.entity, "ResetShieldEvent", "OnResetShieldEvent" )
 
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 3
 	
 	self.shieldFSM = self:CreateStateMachine()
 	self.shieldFSM:AddState( "wait", {} )

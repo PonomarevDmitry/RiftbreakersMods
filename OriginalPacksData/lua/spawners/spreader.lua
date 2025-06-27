@@ -20,13 +20,17 @@ function spreader:init()
 	self.version = 1
 	self.blueprint = self.data:GetString( "blueprint");
 	self.root_blueprint = self.data:GetStringOrDefault( "root_blueprint",  EntityService:GetBlueprintName( self.entity ));
-	
+	self.min_spread = self.data:GetFloatOrDefault( "min_spread_interval", 0.1 );
 	
 	self.ancestor = self.data:GetIntOrDefault("ancestor", self.entity )
 	self.max_radius = self.data:GetFloatOrDefault( "spread_radius", 50);
 	self.grow_size = 2;
 	self.type = self.data:GetStringOrDefault("collision_detection", "vegetation" );
-	self.spread_interval = self.data:GetFloatOrDefault( "spread_interval", 1) + RandFloat(-0.25,0.25);
+	self.spread_interval = self.data:GetFloatOrDefault( "spread_interval", 1);
+	if ( self.ancestor == self.entity ) then
+		self.spread_interval = self.spread_interval * RandFloat(0.75,1.25)
+	end
+	self.spread_interval = math.max( self.spread_interval,self.min_spread)
 	self.spread_root_interval = self.data:GetFloatOrDefault( "spread_root_interval", 30);
 	self.spread_child_interval_multiplier = self.data:GetFloatOrDefault( "spread_child_interval_multiplier", 1 );
 	self.initial_spread = self.data:GetFloatOrDefault( "initial_spread", 0);
@@ -36,7 +40,6 @@ function spreader:init()
 	self.stop_on_remove = self.data:GetStringOrDefault("stop_component", "BurningComponent" );
 	self.terrainExclude = self.data:GetStringOrDefault("terrain_exclude", "acid_floor");
 	self.currentIdx = 1
-	
 
 	self.branches = {};
 	self.root_chance = 0.5;
@@ -103,8 +106,9 @@ function spreader:SpawnBlueprint( bp, position, resetDatabase )
 	if (resetDatabase == true ) then
 		local database = EntityService:GetDatabase( spawned );
 		if ( database ~= nil ) then
-			database:SetFloat( "spread_interval", math.min( self.spread_interval * self.spread_child_interval_multiplier, self.max_branch_interval )  );
+			database:SetFloat( "spread_interval", math.max( math.min( self.spread_interval * self.spread_child_interval_multiplier, self.max_branch_interval )  , self.min_spread ) );
 			database:SetFloat( "initial_spread", 0  );
+			database:SetFloat( "max_branch_interval", self.max_branch_interval  );
 			database:SetInt( "ancestor", self.ancestor  );
 		end
 	else
@@ -157,7 +161,7 @@ function spreader:Spread( state )
 	local ancestorAlive = (EntityService:IsAlive(self.ancestor) and (EntityService:GetDatabase(self.ancestor):GetIntOrDefault( "alive", 1) == 1 )) or self.ancestor == -1   
 	if ( blocked == false and ancestorAlive == true ) then
 		self:SpawnBlueprint( self.blueprint, self.spots[self.currentIdx], false );		
-		state:SetUpdateInterval( self.spread_interval + RandFloat(-0.25, 0.25) );
+		state:SetUpdateInterval( self.spread_interval * RandFloat(0.75,1.25) );
 	else
 		if (self.ancestorAlive == true ) then
 			self.ancestorAlive = ancestorAlive
@@ -187,7 +191,7 @@ function spreader:Spread( state )
 
 					local exists = #spots ~= 0;
 					if ( state ~= nil ) then
-						state:SetUpdateInterval( self.spread_root_interval + RandFloat(-0.25,0.25) );
+						state:SetUpdateInterval( self.spread_root_interval * RandFloat(0.75,1.25) );
 					end
 					if ( exists == true ) then
 						
@@ -311,6 +315,7 @@ function spreader:OnLoad()
 		self.version = 1
 	end
 	self.predicate = nil
+	self.min_spread = self.min_spread or self.data:GetFloatOrDefault( "min_spread_interval", 0.05 );
 	
 end
 

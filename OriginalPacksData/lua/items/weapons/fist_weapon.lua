@@ -24,12 +24,12 @@ function fist_weapon:OnAttackStart()
 		self:CleanupMirrorFist()
 		if self.slot == "LEFT_HAND" then
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
-			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 )
+			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 , true)
 			self:CreateMirrorFist( "att_r_hand_item")
 			EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.2 )
 		else
 			local itemEnt = ItemService:GetEquippedPresentationItem( self.owner, "LEFT_HAND" )
-			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 )
+			QueueEvent( "FadeEntityOutRequest", itemEnt, 0.2 , true)
 			self:CreateMirrorFist( "att_l_hand_item" )
 			EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.2 )
 		end

@@ -29,17 +29,22 @@ function sell_tool:AddedToSelection( entity )
     end
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
+    local sellable = true
     if ( buildingComponentHelper.m_isSellable == true ) then
-		if ( EntityService:IsSkinned(entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-        end
+        EntityService:SetMaterial( entity, "hologram/active", "selected")
     else
-		if ( EntityService:IsSkinned(entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected")
+        sellable = false
+        EntityService:SetMaterial( entity, "hologram/red", "selected")
+    end
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") ) then
+            if ( sellable ) then
+                EntityService:SetMaterial( child, "hologram/active", "selected")
+            else
+                EntityService:SetMaterial( child, "hologram/red", "selected")
+            end
         end
     end
 end
@@ -59,12 +64,7 @@ function sell_tool:FindEntitiesToSelect( selectorComponent )
     end
     for ent in Iter( ruins ) do 
         if ( IndexOf( self.selectedEntities, ent ) == nil ) then
-		if ( EntityService:IsSkinned(ent ) ) then
-            EntityService:SetMaterial( ent, "selector/hologram_active_skinned", "selected")
-        else
-            EntityService:SetMaterial( ent, "selector/hologram_active", "selected")
-        end
-
+            EntityService:SetMaterial( ent, "hologram/active", "selected")
             if ( self.activated )  then
                 self:OnActivateEntity( ent )
             end
@@ -78,6 +78,10 @@ end
 
 function sell_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial(child, "selected" )
+    end
 end
 
 function sell_tool:OnUpdate()

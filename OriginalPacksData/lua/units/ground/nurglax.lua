@@ -12,7 +12,7 @@ function nurglax:OnInit()
 	self:RegisterHandler( self.entity, "PrepareArtilleryEvent",  "OnPrepareArtilleryEvent" )
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
 
 	self.fakeProjectile = INVALID_ID
 	self.fakeProjectileBp = ""

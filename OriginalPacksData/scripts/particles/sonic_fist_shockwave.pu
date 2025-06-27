@@ -4,7 +4,6 @@ system rift/sonic_fist_shockwave
     scale_velocity                              0.02
     scale                                       0.02 0.02 0.02
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 20
     technique smoke_dirt
@@ -23,19 +22,22 @@ system rift/sonic_fist_shockwave
         }
         emitter                                 Box Emitter1
         {
-            emission_rate                       30
+            emission_rate                       60
             angle                               1
-            time_to_live                        0.5
+            time_to_live                        0.25
             velocity                            dyn_random
             {
                 min                             300
                 max                             400
             }
-            all_particle_dimensions             250
+            particle_width                      125
+            particle_height                     250
+            particle_depth                      250
             direction                           1 1 0
             colour                              1 0.501961 0 1
-            box_width                           50
-            box_height                          50
+            box_width                           25
+            box_height                          25
+            box_depth                           25
         }
         affector                                Colour Affector35
         {
@@ -50,17 +52,18 @@ system rift/sonic_fist_shockwave
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/bloodmist_no_color_01
+        material                                particles/debris_atlas_01
         renderer                                Billboard
         {
-            render_queue_group                  60
+            texture_coords_rows                 2
+            texture_coords_columns              2
             billboard_rotation_type             vertex
         }
         emitter                                 Box Emitter1
         {
             emission_rate                       50
             angle                               45
-            time_to_live                        0.5
+            time_to_live                        0.25
             velocity                            dyn_random
             {
                 min                             300
@@ -73,8 +76,9 @@ system rift/sonic_fist_shockwave
             }
             direction                           1 1 0
             colour                              1 0.501961 0 1
-            box_width                           50
-            box_height                          50
+            box_width                           25
+            box_height                          25
+            box_depth                           25
         }
         affector                                Colour Affector35
         {

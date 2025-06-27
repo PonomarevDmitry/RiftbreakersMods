@@ -6,7 +6,7 @@ GuiRootGroupDef
 	{
 		Pair_String_GuiDef2
 		{
-			key "text"
+			key "pickup"
 			value "GuiGroupDef"
 			{
 				children
@@ -197,64 +197,187 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
-						key "items"
-						value "GuiGroupDef"
+						key "header_left"
+						value "GuiImageDef"
 						{
-							children
+							error_material "gui/default"
+							material "gui/menu/inventory/center_header"
+							texture_coords
 							{
-								Pair_String_GuiDef2
+								width "-1.000"
+								x "1.000"
+							}
+
+							anchor "top"
+							animations
+							{
+								items
 								{
-									key "icon"
-									value "GuiImageDef"
+									GuiAnimationDef
 									{
-										error_material "gui/default"
-										material "gui/hud/items_icons/weapons/minigun"
-										bindings
+										frames
 										{
-											material
+											GuiAnimationFrame
 											{
-												model_field "tooltip_icon"
+												mask "12"
+												scale
+												{
+													x "1.100"
+													y "1.100"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "30"
+												mask "12"
+												scale
+												{
+													x "0.900"
+													y "0.900"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "60"
+												mask "12"
+												scale
+												{
+													x "1.100"
+													y "1.100"
+												}
+
 											}
 
 										}
 
-										id "icon"
-										scale
-										{
-											x "0.850"
-											y "0.850"
-										}
-
-										tooltip_def
-										{
-											ref_gui_id "gui/template/info_frame"
-											alignment "bottom_left"
-										}
-
-										z_order "14.000"
+										name "Idle"
 									}
 
 								}
 
 							}
 
-							container_type "1"
-							alignment "center"
-							anchor "top"
-							id "items"
-							offset
+							id "header_left"
+							margin
 							{
-								y "100.000"
+								x "28.000"
 							}
 
-							size
+							z_order "12.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "header_right"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/center_header"
+							alignment "top_right"
+							anchor "top"
+							animations
 							{
-								x "128.000"
-								y "47.000"
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												mask "12"
+												scale
+												{
+													x "1.100"
+													y "1.100"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "30"
+												mask "12"
+												scale
+												{
+													x "0.900"
+													y "0.900"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "60"
+												mask "12"
+												scale
+												{
+													x "1.100"
+													y "1.100"
+												}
+
+											}
+
+										}
+
+										name "Idle"
+									}
+
+								}
+
+							}
+
+							id "header_right"
+							margin
+							{
+								z "28.000"
+							}
+
+							z_order "12.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "items"
+						value "GuiStackPanelDef"
+						{
+							template_reference
+							{
+								path "templates"
+								ref_gui_id "gui/hud/hud_pickup"
+								margin
+								{
+									x "20.000"
+									z "20.000"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+							}
+
+							alignment "center"
+							anchor "center"
+							id "items"
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "items"
+								}
+
 							}
 
 							size_mode_x "1"
-							z_order "13.000"
+							size_mode_y "1"
+							z_order "20.000"
 						}
 
 					}
@@ -264,12 +387,7 @@ GuiRootGroupDef
 						key "label"
 						value "GuiTextBoxDef"
 						{
-							max_size
-							{
-								x "802.000"
-								y "100.000"
-							}
-
+							capitals "1"
 							content "gui/hud/hud_drop/dropped_items"
 							style
 							{
@@ -297,7 +415,7 @@ GuiRootGroupDef
 								space_size "7.000"
 							}
 
-							style_name "neutral_25"
+							style_name "header_24"
 							translate "1"
 							alignment "center"
 							anchor "top"
@@ -305,64 +423,24 @@ GuiRootGroupDef
 							{
 								content
 								{
-									model_field "positive"
-									converter "GuiModelMapConverter"
-									{
-										map
-										{
-											1 "gui/hud/unique_reward_popup"
-											0 "gui/hud/hud_drop/dropped_items"
-										}
-
-									}
-
+									model_field "label"
 								}
 
 							}
 
 							id "label"
+							max_size
+							{
+								x "802.000"
+								y "100.000"
+							}
+
 							offset
 							{
 								y "40.000"
 							}
 
 							z_order "10.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "list"
-						value "GuiTextBoxDef"
-						{
-							max_size
-							{
-								x "800.000"
-								y "100.000"
-							}
-
-							content "gui/hud/hud_drop/dropped_items"
-							style_name "active_20"
-							translate "1"
-							alignment "center"
-							anchor "top"
-							bindings
-							{
-								content
-								{
-									model_field "weapon_list"
-								}
-
-							}
-
-							id "list"
-							offset
-							{
-								y "155.000"
-							}
-
-							z_order "11.000"
 						}
 
 					}
@@ -428,25 +506,6 @@ GuiRootGroupDef
 
 							}
 
-							bindings
-							{
-								material
-								{
-									model_field "positive"
-									converter "GuiModelMapConverter"
-									{
-										map
-										{
-											1 "gui/hud/unique_item_icon"
-											0 "gui/menu/warning_icon"
-										}
-
-									}
-
-								}
-
-							}
-
 							id "warning"
 							z_order "12.000"
 						}
@@ -495,7 +554,21 @@ GuiRootGroupDef
 
 				}
 
-				id "text"
+				bindings
+				{
+					visible
+					{
+						model_field "items"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
+				id "pickup"
 				item_scripts
 				{
 					scripts
@@ -505,7 +578,6 @@ GuiRootGroupDef
 							key "OnHide"
 							value
 							{
-								event_name "OnHide"
 								script
 								{
 									children
@@ -530,7 +602,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -538,10 +609,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -553,7 +620,6 @@ GuiRootGroupDef
 							key "OnShow"
 							value
 							{
-								event_name "OnShow"
 								script
 								{
 									children
@@ -577,7 +643,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -600,7 +665,6 @@ GuiRootGroupDef
 
 												}
 
-												type "gui_play_anim"
 											}
 
 										}
@@ -608,10 +672,6 @@ GuiRootGroupDef
 									}
 
 									cmd
-									{
-										type "unsupported"
-									}
-
 								}
 
 							}
@@ -649,6 +709,22 @@ GuiRootGroupDef
 	{
 		x "1920.000"
 		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[577402B5-66A5-41F5-A89F-4D57D2A7A25F]"
 	}
 
 }

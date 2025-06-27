@@ -11,6 +11,7 @@ end
 function fusion_field_accelerator:OnInit()
 
 	self:RegisterHandler( event_sink , "PortalOpeningFinishedEvent", "OnPortalOpeningFinishedEvent" )
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "idle",		{ execute="OnIdle" } )
@@ -25,6 +26,8 @@ function fusion_field_accelerator:OnInit()
 	self.data:SetFloat("charging_speed", 0 )
 	self.workingEffect = false
 	self.portalEffect = false
+	self.finished = false
+	self.addonVersion = 1
 end
 
 function fusion_field_accelerator:OnBuildingStart()
@@ -41,8 +44,8 @@ function fusion_field_accelerator:OnBuildingEnd()
 end
 
 function fusion_field_accelerator:OnIdle( state, dt )
-	local portalPowered = BuildingService:IsBuildingPowered( self.riftPortal )
-	local isWorking = BuildingService:IsWorking( self.riftPortal )
+	local portalPowered = BuildingService:IsBuildingPowered( self.riftPortal ) and not self.finished
+	local isWorking = BuildingService:IsWorking( self.riftPortal ) and not self.finished
 	local working 		= 0
 	if ( portalPowered == true ) then
 		working = 1
@@ -88,6 +91,22 @@ end
 
 function fusion_field_accelerator:OnPortalOpeningFinishedEvent( event )
 		self.portalActivated = true
+end
+
+function fusion_field_accelerator:OnLuaGlobalEvent( event )
+		if event:GetEvent() == "PortalClosedLogicEvent" then
+			EntityService:RemoveComponent( self.entity, "AnimationGraphComponent" )
+			BuildingService:DisableBuilding( self.entity )
+			self.finished = true
+		end
+end
+
+function fusion_field_accelerator:OnLoad(  )
+	if ( self.addonVersion == nil or self.addonVersion < 1 ) then
+		self.finished = false
+		self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+		self.addonVersion = 1
+	end
 end
 
 return fusion_field_accelerator

@@ -23,6 +23,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}	
 	
 	ParticleDesc
@@ -117,6 +118,32 @@ EntityBlueprint
 	{
 		on_enemy_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_energy"
 		on_world_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_energy"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire				"pass"
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/weapons_enemy/drone_projectile_physical"
+
+	base_blueprints 
+	{
+		items/weapons_enemy/drone_projectile
+	}
+	
+	ParticleDesc
+	{
+		name    "rift/baxmoth_drone_projectile_physical"
+	}	
+	
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_physical"
+		on_world_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_physical"
 		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"

@@ -114,6 +114,7 @@ function harvester_drone:FindBestVegetationEntity(owner, source)
 end
 
 function harvester_drone:FindResourceVeinEntity(owner, source)
+    self.player = PlayerService:GetPlayerForEntity( owner )
     self.predicate = self.predicate or {
         type=self.search_type,
         signature="ResourceComponent,GridMarkerComponent",
@@ -132,7 +133,7 @@ function harvester_drone:FindResourceVeinEntity(owner, source)
             end
 
             local result = EntityService:GetResourceAmount(entity)
-            if not PlayerService:IsResourceUnlocked(result.first) then
+            if not PlayerService:IsResourceUnlocked(self.player, result.first) then
                 return false
             end
 
@@ -183,9 +184,10 @@ end
 function harvester_drone:OnInit()
     self:FillInitialParams();
 
+    local tick_interval = math.max(0.5, self.harvest_duration / 3.0 - RandFloat(-0.2, 0.2))
     self.fsm = self:CreateStateMachine();
-    self.fsm:AddState("harvest", { enter="OnHarvestEnter", execute="OnHarvestExecute", exit="OnHarvestExit", interval=0.5 } );
-    self.fsm:AddState("unload", { enter="OnUnloadEnter", execute="OnUnloadExecute", exit="OnUnloadExit", interval=0.5 } );
+    self.fsm:AddState("harvest", { enter="OnHarvestEnter", execute="OnHarvestExecute", exit="OnHarvestExit", interval=tick_interval} );
+    self.fsm:AddState("unload", { enter="OnUnloadEnter", execute="OnUnloadExecute", exit="OnUnloadExit", interval=tick_interval } );
 
     self:ClearStorage();
 end
@@ -298,9 +300,11 @@ end
 
 function harvester_drone:OnUnloadEnter(state)
     state:SetDurationLimit(self.unload_duration)
+    local owner = self:GetDroneOwnerTarget();
+    local player = PlayerService:GetPlayerForEntity( owner )
 
     for resource, amount in pairs( self.storage ) do
-        if not PlayerService:IsResourceUnlocked( resource ) then
+        if not PlayerService:IsResourceUnlocked( player, resource ) then
             self:UpdateResourceStorage(resource, -amount);
         end
     end
@@ -316,7 +320,8 @@ function harvester_drone:UnloadResource( resource, amount )
         end
     end
 
-    PlayerService:AddResourceAmount(resource, amount);
+    local player = PlayerService:GetPlayerForEntity( owner )
+    PlayerService:AddResourceAmount(player, resource, amount, true);
 
     self:UpdateResourceStorage(resource, -amount);
 end
@@ -330,7 +335,7 @@ function harvester_drone:OnUnloadExecute(state, dt)
         end
 
         -- local max_player_storage = PlayerService:GetResourceLimit( resource );
-        -- local curr_player_storage = PlayerService:GetResourceAmount( resource );
+        -- local curr_player_storage = PlayerService:GetResourceAmount(PlayerService:GetLeadingPlayer(), resource );
 
         -- local player_storage = max_player_storage - curr_player_storage;
         -- if change_amount > player_storage then
@@ -405,7 +410,7 @@ function harvester_drone:UpdateResourceStorage( resource, change_amount )
     local current_amount = self.storage[ resource ];
     self.storage[ resource ] = current_amount + change_amount;
 
-    EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", math.max( 0.5, (current_storage + change_amount) / self.harvest_storage ) );
+    --EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", math.max( 0.5, (current_storage + change_amount) / self.harvest_storage ) );
 
     return change_amount;
 end
@@ -426,10 +431,11 @@ function harvester_drone:OnHarvestExecute(state, dt)
 
     for resource, _ in pairs( self.storage ) do
         local resourceAmount = GetGatherableResourceAmount(target, resource, self.harvest_vegetation);
+        resourceAmount = resourceAmount - (self.storage[ resource ] or 0.0)
 
         local harvestAmount = self:UpdateResourceStorage( resource, math.min( resourceAmount, max_change_amount ) );
         if harvestAmount > 0.0 then
-            ChangeGatherableResourceAmount( target, resource, resourceAmount - harvestAmount, self.harvest_vegetation )
+            --ChangeGatherableResourceAmount( target, resource, resourceAmount - harvestAmount, self.harvest_vegetation )
         else
            state:Exit()
         end
@@ -440,6 +446,12 @@ end
 function harvester_drone:OnHarvestExit()
     local target = self:GetDroneActionTarget();
     if EntityService:IsAlive( target ) then
+
+        for resource, harvestAmount in pairs( self.storage ) do
+            local resourceAmount = GetGatherableResourceAmount(target, resource, self.harvest_vegetation);
+            ChangeGatherableResourceAmount( target, resource, resourceAmount - harvestAmount, self.harvest_vegetation )
+        end
+
         local resources = GetGatherableResources(target, self.harvest_vegetation);
         if #resources == 0 then
             EntityService:RemoveComponent(target, "GatherResourceComponent")

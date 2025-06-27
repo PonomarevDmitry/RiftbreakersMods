@@ -52,6 +52,9 @@ function flora_cultivator:OnLoad()
 			if not IsEquippedItemBlueprintValid( self.item, default_blueprint ) then
 				ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
 			end
+			
+			local sapling_item = EntityService:GetBlueprintName( self.item )
+			self.data:SetString("sapling_item", sapling_item )
 		end
 	end
 end
@@ -145,6 +148,7 @@ function flora_cultivator:OnLuaGlobalEvent( evt )
 		self.cultivate_target = nil;
 		self:RefreshDrones()
 	elseif evt:GetEvent() == "CultivateSapling" then
+		Assert(false, "test")
 		local sapling_item = evt:GetDatabase():GetString("sapling_item");
 
 		self.data:SetString("sapling_item", sapling_item )
@@ -188,6 +192,8 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 	if( db == nil ) then
 		return
 	end
+	local sapling_item = EntityService:GetBlueprintName( self.item )
+	self.data:SetString("sapling_item", sapling_item )
 	
 	if db:HasString("plant_blueprint") then
 		self.spawn_blueprint = db:GetStringOrDefault( "plant_blueprint", "" )

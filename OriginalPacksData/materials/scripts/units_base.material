@@ -263,7 +263,7 @@ material units/ground/base_flowfield
 				filtering bilinear
 			}
 			texture_unit flowmap
-			{	
+			{
 				texture materials/textures/flowmap/default_flowmap.dds
 				filtering bilinear
 			}
@@ -281,6 +281,23 @@ material units/ground/base_alpha_test : units/ground/base
 			cull_hardware none
 
 			fragment_program_ref deferred_damage_units_alpha_test_fp
+			{
+
+			}
+		}
+	}
+}
+
+material units/ground/base_emissive_alpha_test : units/ground/base_emissive
+{
+	technique
+	{
+		pass
+		{
+			alpha_rejection greater_equal 128
+			cull_hardware none
+
+			fragment_program_ref deferred_damage_units_emissive_alpha_test_fp
 			{
 
 			}
@@ -309,9 +326,9 @@ material units/ground/reflections : pbr/reflections
 }
 
 material units/ground/base_reflections : units/ground/base
-{	
+{
 	reflection 0 0
-	
+
 	technique
 	{
 		pass
@@ -321,14 +338,14 @@ material units/ground/base_reflections : units/ground/base
 
 			}
 
-			texture_unit brdf 
-			{	
+			texture_unit brdf
+			{
 				texture materials/textures/skybox/skybox_brdf.dds
 				filtering bilinear
 			}
 
-			texture_unit reflection 
-			{	
+			texture_unit reflection
+			{
 				texture materials/textures/skybox/skybox_reflection.dds
 				filtering bilinear
 			}
@@ -592,6 +609,38 @@ material units/ground/cracks_ultra : units/ground/base_emissive
 }
 
 material units/ground/cracks_caverns : units/ground/base_emissive
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/gnerot_caverns_cracks_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/gnerot_caverns_cracks_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/gnerot_caverns_cracks_packed.dds
+	set_texture_alias emissive_2		materials/textures/units/ground/gnerot_caverns_cracks_emissive.dds
+}
+
+material units/ground/cracks_alpha_test : units/ground/base_emissive_alpha_test
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/gnerot_cracks_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/gnerot_cracks_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/gnerot_cracks_packed.dds
+	set_texture_alias emissive_2		materials/textures/units/ground/gnerot_cracks_emissive.dds
+}
+
+material units/ground/cracks_alpha_alpha_test : units/ground/base_emissive_alpha_test
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/gnerot_cracks_alpha_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/gnerot_cracks_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/gnerot_cracks_packed.dds
+	set_texture_alias emissive_2		materials/textures/units/ground/gnerot_cracks_alpha_emissive.dds
+}
+
+material units/ground/cracks_ultra_alpha_test : units/ground/base_emissive_alpha_test
+{
+	set_texture_alias albedo_2			materials/textures/units/ground/gnerot_cracks_ultra_albedo.dds
+	set_texture_alias normal_2			materials/textures/units/ground/gnerot_cracks_normal.dds
+	set_texture_alias packed_2			materials/textures/units/ground/gnerot_cracks_packed.dds
+	set_texture_alias emissive_2		materials/textures/units/ground/gnerot_cracks_ultra_emissive.dds
+}
+
+material units/ground/cracks_caverns_alpha_test : units/ground/base_emissive_alpha_test
 {
 	set_texture_alias albedo_2			materials/textures/units/ground/gnerot_caverns_cracks_albedo.dds
 	set_texture_alias normal_2			materials/textures/units/ground/gnerot_caverns_cracks_normal.dds

@@ -68,8 +68,6 @@ function headquarters:OnBuildingEnd()
 	PlayerService:SetEnergyLvl( 0, BuildingService:GetBuildingLevel( self.entity ) )
 	local range = self.data:GetFloat("range")
 	BuildingService:CreateRadarComponent( self.entity, range );	
-
-	self:SetSpawnPoint()
 end
 
 function headquarters:OnEnteredTriggerEvent(evt)
@@ -137,52 +135,6 @@ function headquarters:OnDeactivate()
 	if ( state ~= nil ) then
 		state:Exit()
 	end	 
-end
-
-function headquarters:SetSpawnPoint()
-	local children =  EntityService:GetChildren( self.entity, false )
-
-	self.spawnPoint = nil
-	for child in Iter(children) do
-		if ( EntityService:GetComponent( child, "SpawnPointComponent") ) then
-			self.spawnPoint = child
-		end
-	end
-
-	if ( self.spawnPoint ~= nil ) then
-		local team = EntityService:GetTeam( self.entity )
-		local players = PlayerService:GetPlayersFromTeam( team)
-
-		local spawn_players = {}
-		local has_alive_player = false
-		for player in Iter(players ) do
-			PlayerService:SetPlayerSpawnPoint( player, self.spawnPoint )
-
-			local player_pawn = PlayerService:GetPlayerControlledEnt( player )
-			if not HealthService:IsAlive( player_pawn ) then
-				table.insert(spawn_players, player)
-			else
-				has_alive_player = true
-			end
-		end
-
-		if has_alive_player then
-			for player in Iter(spawn_players ) do
-				local camera = CameraService:GetPlayerCamera( player )
-				if camera ~= INVALID_ID then
-					MissionService:SpawnSelectedPlayer( player )
-				end
-			end
-		end
-	end
-end
-
-function headquarters:OnLoad()
-	building.OnLoad( self )
-	if not self.headquartersVersion  then
-		self:SetSpawnPoint()
-		self.headquartersVersion = 1
-	end
 end
 
 return headquarters

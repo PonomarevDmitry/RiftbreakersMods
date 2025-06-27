@@ -10,6 +10,8 @@ end
 function canoptrix_crystal:OnInit()
 	self.wreck_type = "wreck_small"
 	self.wreckMinSpeed = 8
+	self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 0
 end
 
 return canoptrix_crystal

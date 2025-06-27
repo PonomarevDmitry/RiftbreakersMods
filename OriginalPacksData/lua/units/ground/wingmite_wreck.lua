@@ -7,8 +7,7 @@ function wingmite_wreck:__init()
 end
 
 function wingmite_wreck:initParams()
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return wingmite_wreck

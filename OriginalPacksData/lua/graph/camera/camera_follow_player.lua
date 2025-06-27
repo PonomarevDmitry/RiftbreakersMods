@@ -9,35 +9,67 @@ end
 
 function camera_follow_player:Activated()		
 	
-	self.instant = self.data:GetInt("instant") == 1
+	local instant = self.data:GetInt("instant") == 1
+	local speed = self.data:GetFloat( "speed" )
+	local acceleration = self.data:GetFloatOrDefault( "acceleration", 0.0 )
 
-	self.camera = CameraService:GetLeadingPlayerCamera()
-	self.player = PlayerService:GetPlayerControlledEnt( 0 )
+	self.playerDataVec = {}
 
-	if ( self.instant ) then
-		CameraService:SetFollowTarget( self.camera, self.player )
+	local players = {}
+    if self.data:HasString("in_players") then
+        players = GetEntitiesFromString( self.data:GetString("in_players") )
+    else
+        players = PlayerService:GetConnectedPlayers()
+    end
 
+	for player in Iter( players ) do
+
+		local camera = CameraService:GetPlayerCamera( player )
+		local playerEnt = PlayerService:GetPlayerControlledEnt( player )
+
+		if ( instant ) then
+			CameraService:SetFollowTarget( camera, playerEnt )
+		else
+			local oldTargetPos = CameraService:GetLookAtPosition( camera )
+			local currentTarget = EntityService:SpawnEntity( oldTargetPos )
+
+			CameraService:SetFollowTarget( camera, currentTarget )
+			MoveService:MoveToTarget( currentTarget, playerEnt, speed, acceleration )
+
+			self:RegisterHandler( currentTarget , "MoveEndEvent", "OnMoveEnd")
+			table.insert( self.playerDataVec, { player, currentTarget } )
+		end
+	end
+
+	if ( instant ) then
 		self:SetFinished()
-	else
-		self.speed = self.data:GetFloat( "speed" )
-		self.acceleration = self.data:GetFloatOrDefault( "acceleration", 0.0 )
-		self.oldTargetPos = CameraService:GetLookAtPosition( self.camera )
-		self.currentTarget = EntityService:SpawnEntity( self.oldTargetPos )
-
-		CameraService:SetFollowTarget( self.camera, self.currentTarget )
-		MoveService:MoveToTarget( self.currentTarget, self.player, self.speed, self.acceleration )
-
-		self:RegisterHandler( self.currentTarget , "MoveEndEvent", "OnMoveEnd")
 	end
 end
 
 function camera_follow_player:OnMoveEnd( event )
-	self:UnregisterHandler( self.currentTarget, "MoveEndEvent", "OnMoveEnd" )
+	local playerDataIdx = nil
+	for i = 1, #self.playerDataVec do			
+		if self.playerDataVec[i][2] == event:GetEntity() then
+			playerDataIdx = i
+			break
+		end			
+	end
 
-	EntityService:RemoveEntity( self.currentTarget )
-	CameraService:SetFollowTarget( self.camera, self.player )
-	
-	self:SetFinished()
+	if playerDataIdx ~= nil then
+		local playerData = self.playerDataVec[playerDataIdx]
+		self:UnregisterHandler( playerData[2], "MoveEndEvent", "OnMoveEnd" )
+		EntityService:RemoveEntity( playerData[2] )
+
+		local camera = CameraService:GetPlayerCamera( playerData[1] )
+		local playerEnt = PlayerService:GetPlayerControlledEnt( playerData[1] )
+		CameraService:SetFollowTarget( camera, playerEnt )
+
+		table.remove( self.playerDataVec, playerDataIdx )
+	end
+
+	if #self.playerDataVec == 0 then
+		self:SetFinished()
+	end
 end
 
 return camera_follow_player

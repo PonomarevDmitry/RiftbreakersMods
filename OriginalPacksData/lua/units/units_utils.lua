@@ -9,6 +9,10 @@ function SetupUnitScale( entity, database )
 	for child in Iter(children) do
 		EntityService:SetPhysicsScale( child, x, x, x )
 	end
+
+    if EntityService:HasComponent( entity, "NetAlwaysRevelantComponent") then
+        QueueEvent("NetClearEntityComponentStateRequest", entity, "TransformComponent")
+    end
 end
 
 function SetupComponentFieldOverrides(entity, database)

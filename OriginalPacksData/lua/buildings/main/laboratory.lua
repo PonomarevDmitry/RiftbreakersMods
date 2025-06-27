@@ -12,7 +12,8 @@ function laboratory:OnInit()
 end
 
 function laboratory:OnBuildingStart()
-    local enabled= PlayerService:IsResearchEnabled()
+    local player = PlayerService:GetPlayerForEntity( self.entity )
+    local enabled= PlayerService:IsResearchEnabled(player)
     if ( enabled == false ) then
         QueueEvent("ForceLootContainerTypeRequest", event_sink, "research")
     end
@@ -20,7 +21,7 @@ end
 
 function laboratory:OnInteractWithEntityRequest( event )
     local player = PlayerService:GetPlayerByMech( event:GetOwner() )
-    QueueEvent("OpenResearchRequest", player )
+    QueueEvent("OpenResearchRequest",event:GetOwner(), player )
 end
 
 function laboratory:OnLoad()

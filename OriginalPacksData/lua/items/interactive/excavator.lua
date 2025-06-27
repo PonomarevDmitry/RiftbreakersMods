@@ -5,20 +5,31 @@ class 'excavator' ( item )
 
 function excavator:__init()
 	item.__init(self)
+	self.is_active = false
 end
 
 function excavator:OnEquipped()
+	if ( self.data:HasFloat( "predicted" ) ) then
+		return
+    end
 	BuildingService:DisablePhysics(self.item)
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function excavator:OnActivate()
-	if self.is_active then
+	if ( self.data:HasFloat( "predicted" ) ) then
 		return
-	end
-
+    end
 	local database = EntityService:GetDatabase( self.owner )
 	if database == nil then
+		return
+	end
+	database:SetString("attack_name", "chainsaw_right_attack_1")
+    database:SetFloat("right_attack_speed", self.data:GetFloatOrDefault("excavate_activate_speed", 1.0))
+    database:SetFloat("RIGHT_HAND_use_speed", 1.0)
+	database:SetString("RIGHT_HAND_item_type", "melee_weapon")
+
+	if self.is_active then
 		return
 	end
 
@@ -30,10 +41,9 @@ function excavator:OnActivate()
 		attack_speed  = database:GetFloatOrDefault( "right_attack_speed", 1.0 ),
 	}
 
-    database:SetString("attack_name", "chainsaw_right_attack_1")
-    database:SetFloat("right_attack_speed", self.data:GetFloatOrDefault("excavate_activate_speed", 1.0))
-    database:SetFloat("RIGHT_HAND_use_speed", 1.0)
-	database:SetString("RIGHT_HAND_item_type", "melee_weapon")
+	
+
+
 
 	EntityService:FadeEntityIn( self.item, 0.1 )
 
@@ -50,6 +60,10 @@ function excavator:OnActivate()
 end
 
 function excavator:OnDeactivate()
+	if ( self.data:HasFloat( "predicted" ) ) then
+		return true
+    end
+
 	self.is_active = false
 	self.is_looping = false
 	
@@ -61,15 +75,16 @@ function excavator:OnDeactivate()
 	self:UnregisterHandler(self.owner, "AnimationMarkerReached", "OnExcavatorAnimationMarkerReached")
 	self:UnregisterHandler(self.item, "PhysicsCollisionEvent", "OnExcavatorCollisionEvent")
 
-	if self.backup.item and self.backup.item ~= INVALID_ID then
-		local database = EntityService:GetDatabase( self.owner )
-		if database ~= nil then
-			database:SetString("attack_name", "")
-			database:SetString("RIGHT_HAND_item_type", self.backup.item_type or "" )
-			database:SetFloat("RIGHT_HAND_use_speed", 0.0 )
-			database:SetFloat("right_attack_speed", self.backup.attack_speed or 1.0 )
-		end
+	local database = EntityService:GetDatabase( self.owner )
+	if database ~= nil then
+		database:SetString("attack_name", "")
+		--database:SetString("last_attack_name", "")
+		database:SetString("RIGHT_HAND_item_type", self.backup.item_type or "" )
+		database:SetFloat("RIGHT_HAND_use_speed", 0.0 )
+		database:SetFloat("right_attack_speed", self.backup.attack_speed or 1.0 )
+	end
 
+	if self.backup.item and self.backup.item ~= INVALID_ID then
 		EntityService:FadeEntityIn( self.backup.item, 0.1 )
 	end
 

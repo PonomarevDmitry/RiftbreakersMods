@@ -7,9 +7,7 @@ function arachnoid_boss_wreck:__init()
 end
 
 function arachnoid_boss_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 0
-	self.leaveBodyProbability = 100
+
 end
 
 return arachnoid_boss_wreck

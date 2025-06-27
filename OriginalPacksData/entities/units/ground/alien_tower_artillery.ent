@@ -47,7 +47,7 @@ EntityBlueprint
 		{
 			PhysicsObjectDesc
 			{
-				type 				"kinematic"
+				type 				"static"
 				group_id 			"ground_unit"
 				physics_material 	"default"
 
@@ -66,7 +66,7 @@ EntityBlueprint
 			}
 			PhysicsObjectDesc
 			{
-				type 				"kinematic"
+				type 				"static"
 				group_id 			"building"
 				physics_material 	"default"
 
@@ -103,7 +103,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/enemy_big"
-		visibility "discovered|radar"
+		visibility 		"discovered|radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -754,7 +755,7 @@ EntityBlueprint
 		database
 		{
 			radius	       	float:"30"
-			blueprint	    string:"units/ground/alien_tower_artillery_morph"
+			blueprint	    string:"units/ground/alien_tower_artillery_morph"			
 		}
 	}
 
@@ -806,7 +807,7 @@ EntityBlueprint
 		script 		"lua/units/ground/alien_tower_morph.lua"
 		database
 		{
-			blueprint	    string:"units/ground/alien_tower_artillery"
+			species			string:"alien_tower_artillery_elite"
 		}
 	}
 

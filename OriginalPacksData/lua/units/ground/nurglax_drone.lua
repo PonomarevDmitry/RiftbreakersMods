@@ -39,7 +39,7 @@ function nurglax_drone:OnTargetNotFoundEvent( evt )
 end
 
 function nurglax_drone:OnDestroyRequest( evt )
-	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(), "wreck_small", 8 )
+	EntityService:RequestDestroyPattern( self.entity, "default" )
 end
 
 

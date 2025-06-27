@@ -14,3 +14,48 @@ fragment_program resistance_fp hlsl
 		param_named cResistanceOuterColor     float4 0 0 0 0
     }
 }
+
+fragment_program resistance_flare_fp hlsl
+{
+    source 					materials/programs/resistance_fp.hlsl
+    entry_point 			mainFP
+	target 					ps_5_0
+	preprocessor_defines 	USE_FLARE=1
+	
+	default_params
+    {
+		param_named cResistanceFresnelBias    float 0
+		param_named cResistanceFresnelScale   float 0
+		param_named cResistanceFresnelPower   float 0
+
+		param_named cResistanceInnerColor     float4 0 0 0 0
+		param_named cResistanceOuterColor     float4 0 0 0 0
+
+        param_named_auto cTime    time
+        param_named cFlarePower   float 0.1
+        param_named cFlareSpeed   float 1
+    }
+}
+
+fragment_program resistance_flare_progress_fp hlsl
+{
+    source 					materials/programs/resistance_fp.hlsl
+    entry_point 			mainFP
+	target 					ps_5_0
+	preprocessor_defines 	USE_FLARE=1,USE_PROGRESS=1
+	
+	default_params
+    {
+		param_named cResistanceFresnelBias    float 0
+		param_named cResistanceFresnelScale   float 0
+		param_named cResistanceFresnelPower   float 0
+
+		param_named cResistanceInnerColor     float4 0 0 0 0
+		param_named cResistanceOuterColor     float4 0 0 0 0
+
+        param_named_auto cTime    time
+        param_named cFlarePower   float 0.1
+        param_named cFlareSpeed   float 1
+        param_named cProgress     float 1
+    }
+}

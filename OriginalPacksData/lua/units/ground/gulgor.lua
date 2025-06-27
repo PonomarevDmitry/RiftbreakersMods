@@ -13,7 +13,6 @@ function gulgor:OnInit()
 	self.wreckMinSpeed = 8
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
-	EntityService:SetVisible( self.entity, false );
 end
 
 function gulgor:OnShootEvent( evt )

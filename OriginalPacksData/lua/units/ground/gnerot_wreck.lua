@@ -8,8 +8,6 @@ end
 
 function gnerot_wreck:initParams()
 	self.wreckLifetime = 30
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 5
 	self.deathAnimationStates[1] = "death_2"
 	--self.deathAnimationStates[2] = "death_3"
 	

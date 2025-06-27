@@ -65,6 +65,7 @@ TimeOfDayPreset
 		weather_haptic "sound/samples/haptic/ambient_strong_wind.wav"
 		time_of_day "0"
 		weather_effect "effects/weather/rain"
+		weather_biome_mod "effects/biome_mod/rain"
 		weather_wind "effects/wind/tornado"
 		weather_type "1"
 	}
@@ -134,6 +135,7 @@ TimeOfDayPreset
 		weather_haptic "sound/samples/haptic/ambient_strong_wind.wav"
 		time_of_day "2"
 		weather_effect "effects/weather/rain"
+		weather_biome_mod "effects/biome_mod/rain"
 		weather_wind "effects/wind/tornado"
 		weather_type "1"
 	}

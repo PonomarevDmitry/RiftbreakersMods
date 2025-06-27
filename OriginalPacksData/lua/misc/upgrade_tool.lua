@@ -38,23 +38,30 @@ end
 
 function upgrade_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial(child, "selected" )
+    end
 end
 
 function upgrade_tool:OnUpdate()
     self.repairCosts = {}
     for entity in Iter(self.selectedEntities ) do
-        local skinned = EntityService:IsSkinned(entity)
-        if ( BuildingService:CanUpgrade( entity, self.playerId )) then
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
+        local canUpgrade = BuildingService:CanUpgrade( entity, self.playerId )
+        if ( canUpgrade ) then
+            EntityService:SetMaterial( entity, "hologram/pass", "selected")
         else
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
+            EntityService:SetMaterial( entity, "hologram/deny", "selected")
+        end
+
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") ) then
+                if ( canUpgrade ) then
+                    EntityService:SetMaterial( child, "hologram/pass", "selected")
+                else
+                    EntityService:SetMaterial( child, "hologram/deny", "selected")
+                end
             end
         end
         

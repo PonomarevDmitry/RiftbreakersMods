@@ -13,7 +13,7 @@ end
 
 function planet_scanner:OnInteractWithEntityRequest( event )
     local player = PlayerService:GetPlayerByMech( event:GetOwner() )
-    QueueEvent("OpenPlanetaryScannerRequest", player )
+    QueueEvent("OpenPlanetaryScannerRequest",event:GetOwner(), player )
 end
 
 function planet_scanner:OnLoad()

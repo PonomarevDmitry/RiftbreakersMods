@@ -1,0 +1,268 @@
+EntityBlueprint
+{
+	name "units/skills/bomb_cascade"
+	
+	NetReplicateOnceComponent
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|tower|energy"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"40"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/bomb_cascade"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/bomb_cascade_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/bomb_cascade_ammo"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"2.75"
+			spawn_min_time			float:"2.25"
+			spawn_max_time			float:"3.00"
+			cascade_step_delay		float:"0.25"
+			spawn_entity_delay		float:"1.5"
+			wander_strength			float:"0.75"
+			radius					float:"50"
+			step_size				float:"4.5"
+			cascade_count			int:"1"
+			angle					int:"0"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/bomb_cascade_lvl_2"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/bomb_cascade_lvl_2"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/bomb_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/bomb_cascade_ammo_lvl_2"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"2.75"
+			spawn_min_time			float:"2.25"
+			spawn_max_time			float:"3.00"
+			cascade_step_delay		float:"0.275"
+			spawn_entity_delay		float:"1.5"
+			wander_strength			float:"0.75"
+			radius					float:"50"
+			step_size				float:"4.75"
+			cascade_count			int:"2"
+			angle					int:"35"
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/bomb_cascade_lvl_3"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/bomb_cascade_lvl_3"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/bomb_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/bomb_cascade_ammo_lvl_3"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.00"
+			spawn_min_time			float:"2.25"
+			spawn_max_time			float:"3.00"
+			cascade_step_delay		float:"0.275"
+			spawn_entity_delay		float:"1.5"
+			wander_strength			float:"0.75"
+			radius					float:"50"
+			step_size				float:"5"
+			cascade_count			int:"3"
+			angle					int:"75"
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name "units/skills/bomb_cascade_lvl_4"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/bomb_cascade_lvl_4"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/bomb_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/bomb_cascade_ammo_lvl_4"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.0"
+			spawn_min_time			float:"2.25"
+			spawn_max_time			float:"3.00"
+			cascade_step_delay		float:"0.3"
+			spawn_entity_delay		float:"1.5"
+			wander_strength			float:"0.75"
+			radius					float:"50"
+			step_size				float:"5.25"
+			cascade_count			int:"4"
+			angle					int:"115"
+		}			
+	}		
+}
+
+
+EntityBlueprint
+{ 
+	name "units/skills/bomb_cascade_ammo"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/acid_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"3.25"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"40"
+					type 		"acid"
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"10000"
+					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/bomb_cascade_ammo_lvl_2"
+	base_blueprint	"units/skills/bomb_cascade_ammo"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/acid_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"3.5"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"60"
+					type 		"acid"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name 			"units/skills/bomb_cascade_ammo_lvl_3"
+	base_blueprint	"units/skills/bomb_cascade_ammo"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/acid_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"3.75"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"80"
+					type 		"acid"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name 			"units/skills/bomb_cascade_ammo_lvl_4"
+	base_blueprint	"units/skills/bomb_cascade_ammo"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/acid_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4.0"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"100"
+					type 		"acid"
+				}
+			}
+		}
+	}
+}

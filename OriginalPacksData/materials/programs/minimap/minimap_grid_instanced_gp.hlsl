@@ -1,9 +1,13 @@
-#include "materials/programs/minimap/minimap_grid_instanced_vp.hlsl"
+struct VS_OUTPUT
+{
+    float4  Position    : SV_POSITION;
+    int    Flags        : TEXCOORD0;
+};
 
 cbuffer GPConstantBuffer
 {
-    int     cExpandFlag;
     matrix  cViewProj;
+    int     cExpandFlag;
 }
 
 struct GS_OUTPUT

@@ -5,11 +5,11 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"2.0"
+		fire			"3.0"
 		acid			"0.1"
 		energy			"1.0"
 		cryo			"1.0"
-		area			"1.0"
+		area			"2.0"
 	}
 	
 	HealthBarDesc
@@ -23,8 +23,6 @@ EntityBlueprint
 	{
 		max_health 					"10000"
 		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -205,7 +203,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		visibility 		"discovered|radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -802,6 +801,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	PhysicsDesc
@@ -850,4 +850,8 @@ EntityBlueprint
 			time_damage_interval	"0.1"
 		}
 	}
+	LifeTimeDesc
+	{
+		time "5.0"
+	}	
 }

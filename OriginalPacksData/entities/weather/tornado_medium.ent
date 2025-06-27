@@ -2,15 +2,7 @@ EntityBlueprint
 {
 	name  "weather/tornado_medium"
 
-
-    
-    //MeshDesc
-	//{
-	//	mesh 		"meshes/cube.mesh"
-	//	material 	"selector/hologram_blue"
-	//}
-	
-    	SceneEditorDesc
+    SceneEditorDesc
     {
         mesh "meshes/effect.mesh"
     }
@@ -22,10 +14,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/tornado"
-		visibility		"visible|radar"	
-		additional_z_order "55"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/tornado"
+		visibility			"visible|radar"	
+		additional_z_order 	"55"
+		layer_group			"weather_events"
 	}
 
 	TornadoDesc
@@ -36,32 +29,15 @@ EntityBlueprint
 		wander_jitter_multiplier  "0.1"
 		oscillation_radius        "20"
 		damage_per_sec	          "5"
-		//type                      "no_target"
+		//type                    "no_target"
 		type                      "target_chase"
+		effect_bp				  "effects/tornado/tornado_physical"
+		marker_bp				  "effects/tornado/tornado_marker_physical"	
 	}
 
 	LifeTimeDesc
 	{
 		time 		60
-	}
-
-	EffectDesc
-	{	
-		EffectGroup
-		{						
-			group "tornado"
-			enabled "1"				
-			delay "0"
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/world/tornado_medium"								
-					bone "att_tornado"
-				}
-			}
-		}	
 	}
 
 	PointWindDesc
@@ -70,7 +46,5 @@ EntityBlueprint
         power_min   "-7000"
         radius      "15"
     }
-
-	
 }
 

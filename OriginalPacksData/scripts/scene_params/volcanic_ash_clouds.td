@@ -64,6 +64,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "0"
 		weather_effect "effects/weather/volcanic_ash_clouds"
+		weather_biome_mod "effects/biome_mod/volcanic_ash_clouds"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 	}
@@ -132,6 +133,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "2"
 		weather_effect "effects/weather/volcanic_ash_clouds"
+		weather_biome_mod "effects/biome_mod/volcanic_ash_clouds"
 		weather_wind "effects/wind/medium"
 		weather_type "0"
 	}

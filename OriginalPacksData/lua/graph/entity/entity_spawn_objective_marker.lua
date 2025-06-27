@@ -37,6 +37,8 @@ function entity_spawn_single:init()
 
 	self.attach = self.data:GetIntOrDefault("attach_entity", 0)
 	self.displayMarkerArrow = self.data:GetIntOrDefault("display_marker_arrow", 1)
+	self.displayMarkerCircle = self.data:GetIntOrDefault("display_marker_circle", 1)
+	self.displayMarkerCore = self.data:GetIntOrDefault("display_marker_core", 1)
 
 	if self.searchTargetType == "LocalName" then
 		self.searchTargetType = "Name"
@@ -85,6 +87,20 @@ function entity_spawn_single:Activated()
 			local database = EntityService:GetDatabase( self.entityId )
 			if database then
 				database:SetInt( "display_marker_arrow", 0 )
+			end
+		end
+
+		if self.displayMarkerCircle ~= 1 then
+			local database = EntityService:GetDatabase( self.entityId )
+			if database then
+				database:SetInt( "display_marker_circle", 0 )
+			end
+		end
+
+		if self.displayMarkerCore ~= 1 then
+			local database = EntityService:GetDatabase( self.entityId )
+			if database then
+				database:SetInt( "display_marker_core", 0 )
 			end
 		end
 		

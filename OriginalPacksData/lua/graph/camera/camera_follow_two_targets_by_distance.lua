@@ -7,72 +7,97 @@ function camera_follow_two_targets_by_distance:__init()
 end
 
 function camera_follow_two_targets_by_distance:init()
-
-end
-
-function camera_follow_two_targets_by_distance:Activated()
-		   	
-	self.camera = CameraService:GetLeadingPlayerCamera()
-	self.player = PlayerService:GetPlayerControlledEnt( 0 ) 
 	self.speed = self.data:GetFloat("speed")
 	self.acceleration = self.data:GetFloatOrDefault( "acceleration", 0.0 )
 	self.maxRadiusDistance = self.data:GetFloatOrDefault( "max_radius_distance", 0.0 )
+	self.playerDataVec = {}
+
+	self:RegisterHandler( event_sink, "PlayerControlledEntityChangeEvent",  "OnPlayerControlledEntityChangeEvent" )
+end
+
+function camera_follow_two_targets_by_distance:InitPlayer( player )
+	local camera = CameraService:GetPlayerCamera( player )
 
     local minDistanceTargetName = self.data:GetString("min_distance_target")
     local maxDistanceTargetName = self.data:GetString("max_distance_target")
     local minDistanceTargetEnt = FindService:FindEntityByName( minDistanceTargetName )
     local maxDistanceTargetEnt = FindService:FindEntityByName( maxDistanceTargetName )
-    self.minDistanceTargetPos = EntityService:GetPosition( minDistanceTargetEnt )
-    self.maxDistanceTargetPos = EntityService:GetPosition( maxDistanceTargetEnt )
+    local minDistanceTargetPos = EntityService:GetPosition( minDistanceTargetEnt )
+    local maxDistanceTargetPos = EntityService:GetPosition( maxDistanceTargetEnt )
 
     local minCameraTargetName = self.data:GetString("min_camera_target")
     local maxCameraTargetName = self.data:GetString("max_camera_target")
     local minCameraTargetEnt = FindService:FindEntityByName( minCameraTargetName )
     local maxCameraTargetEnt = FindService:FindEntityByName( maxCameraTargetName )
-    self.minCameraTargetPos = EntityService:GetPosition( minCameraTargetEnt )
-    self.maxCameraTargetPos = EntityService:GetPosition( maxCameraTargetEnt )
+    local minCameraTargetPos = EntityService:GetPosition( minCameraTargetEnt )
+    local maxCameraTargetPos = EntityService:GetPosition( maxCameraTargetEnt )
 
-	self.oldTargetPos = CameraService:GetLookAtPosition( self.camera )
-	self.currentTarget = EntityService:SpawnEntity( self.oldTargetPos )
-	self.destinationTarget = EntityService:SpawnEntity( self.oldTargetPos )
+	local oldTargetPos = CameraService:GetLookAtPosition( camera )
+	local currentTarget = EntityService:SpawnEntity( oldTargetPos )
+	local destinationTarget = EntityService:SpawnEntity( oldTargetPos )
 
-	CameraService:SetFollowTarget( self.camera, self.currentTarget )
-	MoveService:FollowTarget( self.currentTarget, self.destinationTarget, self.speed, self.acceleration )
+	CameraService:SetFollowTarget( camera, currentTarget )
+	MoveService:FollowTarget( currentTarget, destinationTarget, self.speed, self.acceleration )
+
+	table.insert( self.playerDataVec, { player, currentTarget, destinationTarget, minDistanceTargetPos, maxDistanceTargetPos, minCameraTargetPos, maxCameraTargetPos } )
+end
+
+function camera_follow_two_targets_by_distance:Activated()
+ 	local players = PlayerService:GetConnectedPlayers()
+	for player in Iter( players ) do
+		self:InitPlayer( player )
+	end
+end
+
+function camera_follow_two_targets_by_distance:OnPlayerControlledEntityChangeEvent( event )
+    self:InitPlayer( event:GetPlayerId() )
 end
 
 function camera_follow_two_targets_by_distance:Update()
-	if EntityService:IsAlive( self.player ) then
-	    local playerPos = EntityService:GetPosition( self.player )
+	for i = 1, #self.playerDataVec do
+		local playerData = self.playerDataVec[i]
+		local playerEnt = PlayerService:GetPlayerControlledEnt( playerData[1] )
+		if EntityService:IsAlive( playerEnt ) then
+		    local playerPos = EntityService:GetPosition( playerEnt )
 
-	    local h = VectorSub( self.minDistanceTargetPos, self.maxDistanceTargetPos )
-		local u1 = DotProduct( VectorSub( playerPos, self.minDistanceTargetPos ), VectorSub( self.maxDistanceTargetPos, self.minDistanceTargetPos ) )
-		local u2 = DotProduct( h, h )
-	    local u = math.max( u1 / u2, 0.0 )
+			local destinationTarget = playerData[3]
+		    local minDistanceTargetPos = playerData[4]
+		    local maxDistanceTargetPos = playerData[5]
+			local minCameraTargetPos = playerData[6]
+			local maxCameraTargetPos = playerData[7]
 
-	    local pointOnLine = VectorAdd( self.minDistanceTargetPos, VectorMulByNumber( h, u ) )
+		    local h = VectorSub( minDistanceTargetPos, maxDistanceTargetPos )
+			local u1 = DotProduct( VectorSub( playerPos, minDistanceTargetPos ), VectorSub( maxDistanceTargetPos, minDistanceTargetPos ) )
+			local u2 = DotProduct( h, h )
+		    local u = math.max( u1 / u2, 0.0 )
 
-	    local distanceToPoint = Distance( self.minDistanceTargetPos, pointOnLine )
-	    local maxDistanceToPoint = Length( h )
-	    distanceToPoint = Clamp( distanceToPoint, 0.0, maxDistanceToPoint )
-	    local t1 = distanceToPoint / maxDistanceToPoint
+		    local pointOnLine = VectorAdd( minDistanceTargetPos, VectorMulByNumber( h, u ) )
 
-		local t2 = 0.0
-	    if self.maxRadiusDistance > 0.0 then 
-	   		local distanceToMinPoint = Distance( self.minDistanceTargetPos, playerPos )
-	   		t2 = Clamp( ( distanceToMinPoint / self.maxRadiusDistance ) - 1.0, 0.0, 1.0 )
-	    end
+		    local distanceToPoint = Distance( minDistanceTargetPos, pointOnLine )
+		    local maxDistanceToPoint = Length( h )
+		    distanceToPoint = Clamp( distanceToPoint, 0.0, maxDistanceToPoint )
+		    local t1 = distanceToPoint / maxDistanceToPoint
 
-	    local t = Clamp( math.max( t1, t2 ), 0.0, 1.0 )
-		local targetPos = VectorLerp( self.minCameraTargetPos, self.maxCameraTargetPos, t )
-		EntityService:SetPosition( self.destinationTarget, targetPos )
+			local t2 = 0.0
+		    if self.maxRadiusDistance > 0.0 then 
+		   		local distanceToMinPoint = Distance( minDistanceTargetPos, playerPos )
+		   		t2 = Clamp( ( distanceToMinPoint / self.maxRadiusDistance ) - 1.0, 0.0, 1.0 )
+		    end
+
+		    local t = Clamp( math.max( t1, t2 ), 0.0, 1.0 )
+			local targetPos = VectorLerp( minCameraTargetPos, maxCameraTargetPos, t )
+			EntityService:SetPosition( destinationTarget, targetPos )
+		end
 	end
 end
 
 function camera_follow_two_targets_by_distance:Interrupted()
-	self:SetFinished()
+	for i = 1, #self.playerDataVec do	
+		EntityService:RemoveEntity( self.playerDataVec[i][2] )
+		EntityService:RemoveEntity( self.playerDataVec[i][3] )
+	end
 
-	EntityService:RemoveEntity( self.currentTarget )
-	EntityService:RemoveEntity( self.destinationTarget )
+	self:SetFinished()
 end
 
 return camera_follow_two_targets_by_distance

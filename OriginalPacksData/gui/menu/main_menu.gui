@@ -1,49 +1,13 @@
 GuiRootGroupDef
 {
 	full_screen "0"
-	navigation
-	{
-		default_node "items_group"
-		nodes
-		{
-			GuiNavNodeDef "GuiScrollListDef"
-			{
-				auto_scroll "0"
-				horizontal "1"
-				alignment "buttons"
-				navigable "0"
-				path "items_group"
-			}
-
-			GuiNavNodeDef "GuiScrollListDef"
-			{
-				horizontal "1"
-				alignment "buttons"
-				loop "1"
-				path "toast_frame.whats_new.scroll_list"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "toast_frame.whats_new.scroll_list.scroll_button_1"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "toast_frame.whats_new.scroll_list.scroll_button_2"
-			}
-
-		}
-
-	}
-
 	priority "100.000"
 	shortcuts
 	{
 		Pair_GuiInputCode_String
 		{
 			key "5"
-			value "menu_overlay.bottom_bar.content.button_back"
+			value "menu_overlay.bottom_bar.content.buttons_left.button_back"
 		}
 
 	}
@@ -124,12 +88,38 @@ GuiRootGroupDef
 																{
 																	path "templates.main_menu_button"
 																	ref_gui_id "gui/menu/main_menu"
+																	ref_model
+																	{
+																		bindings_proxy
+																		{
+																			is_enabled
+																			{
+																				model_field "enabled"
+																			}
+
+																		}
+
+																		database
+																		{
+																			Strings
+																			Floats
+																			Vectors
+																			Integers
+																		}
+
+																	}
+
 																	margin
 																	{
 																		z "20.000"
 																	}
 
-																	size_mode_x "1"
+																	size
+																	{
+																		x "280.000"
+																		y "360.000"
+																	}
+
 																	size_mode_y "1"
 																	z_order "8.000"
 																}
@@ -385,6 +375,8 @@ GuiRootGroupDef
 
 				id "movie_background"
 				model_source "current_state"
+				size_mode_x "2"
+				size_mode_y "2"
 			}
 
 		}
@@ -408,7 +400,6 @@ GuiRootGroupDef
 									key "active"
 									value "GuiGroupDef"
 									{
-										allow_overflow "0"
 										children
 										{
 											Pair_String_GuiDef2
@@ -517,31 +508,65 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "image_clip"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													allow_overflow "0"
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
-															converter "GuiModelPostfixConverter"
+															key "image"
+															value "GuiImageDef"
 															{
-																postfix "_disabled"
+																error_material "gui/default"
+																hsv_value "0.600"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																saturate "0.000"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "noise"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/build_menu_minimap_interference"
+																alignment "center"
+																anchor "center"
+																id "noise"
+																z_order "1.000"
 															}
 
 														}
 
 													}
 
-													id "image"
+													id "image_clip"
 													margin
 													{
+														w "2.000"
+														x "2.000"
 														y "40.000"
+														z "2.000"
 													}
 
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -586,26 +611,6 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "noise"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/hud/build_menu_minimap_interference"
-													id "noise"
-													margin
-													{
-														y "40.000"
-													}
-
-													size_mode_x "2"
-													size_mode_y "2"
-													z_order "1.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
 												key "shadow"
 												value "GuiImageDef"
 												{
@@ -634,10 +639,10 @@ GuiRootGroupDef
 										id "active"
 										size
 										{
-											y "250.000"
+											y "360.000"
 										}
 
-										size_mode_x "1"
+										size_mode_x "2"
 										z_order "1.000"
 									}
 
@@ -776,26 +781,48 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "image_clip"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													allow_overflow "0"
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
 														}
 
 													}
 
-													id "image"
+													id "image_clip"
 													margin
 													{
+														w "2.000"
+														x "2.000"
 														y "40.000"
+														z "2.000"
 													}
 
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -859,9 +886,13 @@ GuiRootGroupDef
 										}
 
 										id "active_selected"
-										size_mode_x "1"
-										size_mode_y "1"
-										z_order "1.000"
+										size
+										{
+											y "360.000"
+										}
+
+										size_mode_x "2"
+										z_order "2.000"
 									}
 
 								}
@@ -876,31 +907,171 @@ GuiRootGroupDef
 										{
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "background"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
-															converter "GuiModelPostfixConverter"
+															key "bottom"
+															value "GuiQuadDef"
 															{
-																postfix "_disabled"
+																alignment "bottom_left"
+																anchor "bottom_left"
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "bottom"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_x "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "left"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiQuadDef"
+															{
+																alignment "top_right"
+																anchor "top_right"
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "right"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
 															}
 
 														}
 
 													}
 
-													id "image"
+													id "background"
 													margin
 													{
-														y "40.000"
+														y "38.000"
 													}
 
+													size
+													{
+														x "612.000"
+														y "761.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "image_clip"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																hsv_value "0.750"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																saturate "0.000"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "noise"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																hsv_value "0.750"
+																material "gui/hud/build_menu_minimap_interference"
+																saturate "0.000"
+																alignment "center"
+																anchor "center"
+																id "noise"
+																z_order "1.000"
+															}
+
+														}
+
+													}
+
+													id "image_clip"
+													margin
+													{
+														w "2.000"
+														x "2.000"
+														y "40.000"
+														z "2.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -910,7 +1081,7 @@ GuiRootGroupDef
 												key "label"
 												value "GuiTextDef"
 												{
-													style_name "disabled_25"
+													style_name "neutral_25"
 													translate "1"
 													bindings
 													{
@@ -938,10 +1109,36 @@ GuiRootGroupDef
 														x "-0.662"
 													}
 
+													z_order "2.000"
 												}
 
 											}
 
+											Pair_String_GuiDef2
+											{
+												key "shadow"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/mods/mods_frame_shadow_up"
+													anchor "bottom_left"
+													id "shadow"
+													scale
+													{
+														y "-10.000"
+													}
+
+													size_mode_x "2"
+													z_order "1.500"
+												}
+
+											}
+
+										}
+
+										color
+										{
+											w "0.500"
 										}
 
 										id "disabled"
@@ -950,7 +1147,8 @@ GuiRootGroupDef
 											y "250.000"
 										}
 
-										size_mode_x "1"
+										size_mode_x "2"
+										size_mode_y "2"
 										z_order "1.000"
 									}
 
@@ -961,36 +1159,380 @@ GuiRootGroupDef
 									key "disabled_selected"
 									value "GuiGroupDef"
 									{
-										allow_overflow "0"
 										children
 										{
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "background"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
-															converter "GuiModelPostfixConverter"
+															key "bottom"
+															value "GuiQuadDef"
 															{
-																postfix "_disabled"
+																alignment "bottom_left"
+																anchor "bottom_left"
+																color
+																{
+																	y "0.702"
+																	z "0.000"
+																}
+
+																id "bottom"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode_x "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	y "0.702"
+																	z "0.000"
+																}
+
+																id "left"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiQuadDef"
+															{
+																alignment "top_right"
+																anchor "top_right"
+																color
+																{
+																	y "0.702"
+																	z "0.000"
+																}
+
+																id "right"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "top"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	y "0.702"
+																	z "0.000"
+																}
+
+																id "top"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "1"
 															}
 
 														}
 
 													}
 
-													id "image"
-													margin
+													animations
 													{
-														y "40.000"
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "15"
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		frame_number "30"
+																		mask "32"
+																	}
+
+																}
+
+																name "Idle"
+															}
+
+														}
+
 													}
 
+													id "background"
+													margin
+													{
+														y "38.000"
+													}
+
+													size
+													{
+														x "612.000"
+														y "761.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "central"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/mod_select_btn_center_selection"
+																hitbox_visible "0"
+																id "central"
+																margin
+																{
+																	x "88.000"
+																	z "88.000"
+																}
+
+																size_mode "1"
+																z_order "1.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/mod_select_btn_left_selection"
+																hitbox_visible "0"
+																id "left"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/mod_select_btn_right_selection"
+																alignment "top_right"
+																anchor "top_right"
+																hitbox_visible "0"
+																id "right"
+																z_order "2.000"
+															}
+
+														}
+
+													}
+
+													animations
+													{
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "15"
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		frame_number "30"
+																		mask "32"
+																	}
+
+																}
+
+																name "Idle"
+															}
+
+														}
+
+													}
+
+													id "header"
+													margin
+													{
+														x "-6.000"
+														z "-6.000"
+													}
+
+													size
+													{
+														x "200.000"
+														y "48.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "image_clip"
+												value "GuiGroupDef"
+												{
+													allow_overflow "0"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																hsv_value "0.750"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																saturate "0.000"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "noise"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																hsv_value "0.750"
+																material "gui/hud/build_menu_minimap_interference"
+																saturate "0.000"
+																alignment "center"
+																anchor "center"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "is_enabled"
+																		converter "GuiModelCompareConverter"
+																		{
+																			ref_value "0"
+																		}
+
+																	}
+
+																}
+
+																color
+																{
+																	w "0.330"
+																}
+
+																id "noise"
+																z_order "1.000"
+															}
+
+														}
+
+													}
+
+													id "image_clip"
+													margin
+													{
+														w "2.000"
+														x "2.000"
+														y "40.000"
+														z "2.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -1032,16 +1574,95 @@ GuiRootGroupDef
 
 											}
 
+											Pair_String_GuiDef2
+											{
+												key "pointer"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/frame_corner_highlight"
+													alignment "top_right"
+													anchor "top_right"
+													animations
+													{
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.200"
+																		}
+
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "15"
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.200"
+																		}
+
+																		frame_number "30"
+																		mask "32"
+																	}
+
+																}
+
+																name "Idle"
+															}
+
+														}
+
+													}
+
+													id "pointer"
+													margin
+													{
+														y "5.000"
+													}
+
+												}
+
+											}
+
 										}
 
 										id "disabled_selected"
 										size
 										{
+											y "360.000"
+										}
+
+										size_mode_x "2"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "dummy"
+									value "GuiGroupDef"
+									{
+										id "dummy"
+										size
+										{
 											y "250.000"
 										}
 
-										size_mode_x "1"
-										z_order "1.000"
+										size_mode_x "2"
 									}
 
 								}
@@ -1060,6 +1681,15 @@ GuiRootGroupDef
 												{
 													error_material "gui/default"
 													material "gui/menu/buttons/mod_select_btn_center_neutral"
+													bindings
+													{
+														saturate
+														{
+															model_field "is_enabled"
+														}
+
+													}
+
 													hitbox_visible "0"
 													id "central"
 													margin
@@ -1081,6 +1711,15 @@ GuiRootGroupDef
 												{
 													error_material "gui/default"
 													material "gui/menu/buttons/mod_select_btn_left_neutral"
+													bindings
+													{
+														saturate
+														{
+															model_field "is_enabled"
+														}
+
+													}
+
 													hitbox_visible "0"
 													id "left"
 												}
@@ -1096,6 +1735,15 @@ GuiRootGroupDef
 													material "gui/menu/buttons/mod_select_btn_right_neutral"
 													alignment "top_right"
 													anchor "top_right"
+													bindings
+													{
+														saturate
+														{
+															model_field "is_enabled"
+														}
+
+													}
+
 													hitbox_visible "0"
 													id "right"
 													z_order "2.000"
@@ -1105,11 +1753,25 @@ GuiRootGroupDef
 
 										}
 
+										color
+										{
+											w "0.900"
+										}
+
 										id "header"
 										margin
 										{
 											x "-6.000"
 											z "-6.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindAncestorItem "GuiModelSourceFindAncestorItem"
+											{
+												ancestor_type "GuiButtonItem"
+											}
+
 										}
 
 										size
@@ -1238,31 +1900,65 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "image_clip"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													allow_overflow "0"
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
-															converter "GuiModelPostfixConverter"
+															key "image"
+															value "GuiImageDef"
 															{
-																postfix "_disabled"
+																error_material "gui/default"
+																hsv_value "0.600"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																saturate "0.000"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "noise"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/build_menu_minimap_interference"
+																alignment "center"
+																anchor "center"
+																id "noise"
+																z_order "1.000"
 															}
 
 														}
 
 													}
 
-													id "image"
+													id "image_clip"
 													margin
 													{
+														w "2.000"
+														x "2.000"
 														y "40.000"
+														z "2.000"
 													}
 
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -1307,26 +2003,6 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "noise"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/hud/build_menu_minimap_interference"
-													id "noise"
-													margin
-													{
-														y "40.000"
-													}
-
-													size_mode_x "2"
-													size_mode_y "2"
-													z_order "1.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
 												key "shadow"
 												value "GuiImageDef"
 												{
@@ -1358,7 +2034,8 @@ GuiRootGroupDef
 											y "250.000"
 										}
 
-										size_mode_x "1"
+										size_mode_x "2"
+										size_mode_y "2"
 										z_order "1.000"
 									}
 
@@ -1663,26 +2340,48 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "image_clip"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													allow_overflow "0"
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "image"
+															}
+
 														}
 
 													}
 
-													id "image"
+													id "image_clip"
 													margin
 													{
+														w "2.000"
+														x "2.000"
 														y "40.000"
+														z "2.000"
 													}
 
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -1790,8 +2489,12 @@ GuiRootGroupDef
 										}
 
 										id "neutral_selected"
-										size_mode_x "1"
-										size_mode_y "1"
+										size
+										{
+											y "360.000"
+										}
+
+										size_mode_x "2"
 										z_order "2.000"
 									}
 
@@ -1887,26 +2590,159 @@ GuiRootGroupDef
 
 														}
 
-														Pair_String_GuiDef2
+													}
+
+													animations
+													{
+														items
 														{
-															key "top"
-															value "GuiQuadDef"
+															GuiAnimationDef
 															{
-																color
+																frames
 																{
-																	x "0.118"
-																	y "0.365"
-																	z "0.698"
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "15"
+																		mask "32"
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-0.500"
+																		}
+
+																		frame_number "30"
+																		mask "32"
+																	}
+
 																}
 
-																id "top"
+																name "Idle"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														visible
+														{
+															model_field "is_enabled"
+														}
+
+													}
+
+													id "background"
+													margin
+													{
+														y "38.000"
+													}
+
+													size
+													{
+														x "612.000"
+														y "761.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "background_disabled"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "bottom"
+															value "GuiQuadDef"
+															{
+																alignment "bottom_left"
+																anchor "bottom_left"
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "bottom"
 																size
 																{
 																	x "2.000"
 																	y "2.000"
 																}
 
-																size_mode "1"
+																size_mode_x "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "left"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiQuadDef"
+															{
+																alignment "top_right"
+																anchor "top_right"
+																color
+																{
+																	x "0.750"
+																	y "0.750"
+																	z "0.750"
+																}
+
+																id "right"
+																size
+																{
+																	x "2.000"
+																	y "2.000"
+																}
+
+																size_mode "2"
 															}
 
 														}
@@ -1957,7 +2793,21 @@ GuiRootGroupDef
 
 													}
 
-													id "background"
+													bindings
+													{
+														visible
+														{
+															model_field "is_enabled"
+															converter "GuiModelCompareConverter"
+															{
+																ref_value "0"
+															}
+
+														}
+
+													}
+
+													id "background_disabled"
 													margin
 													{
 														y "38.000"
@@ -1971,6 +2821,7 @@ GuiRootGroupDef
 
 													size_mode_x "2"
 													size_mode_y "2"
+													visible "0"
 													z_order "2.000"
 												}
 
@@ -1978,26 +2829,104 @@ GuiRootGroupDef
 
 											Pair_String_GuiDef2
 											{
-												key "image"
-												value "GuiImageDef"
+												key "image_clip"
+												value "GuiGroupDef"
 												{
-													error_material "gui/default"
-													material "gui/menu/buttons/main_menu/continue_selected"
-													bindings
+													allow_overflow "0"
+													children
 													{
-														material
+														Pair_String_GuiDef2
 														{
-															model_field "icon"
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/main_menu/continue_selected"
+																alignment "top"
+																anchor "top"
+																bindings
+																{
+																	hsv_value
+																	{
+																		model_field "is_enabled"
+																		converter "GuiModelMapConverter"
+																		{
+																			fallback_value "1"
+																			map
+																			{
+																				0 "0.75"
+																			}
+
+																		}
+
+																	}
+
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																	saturate
+																	{
+																		model_field "is_enabled"
+																	}
+
+																}
+
+																id "image"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "noise"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																hsv_value "0.750"
+																material "gui/hud/build_menu_minimap_interference"
+																saturate "0.000"
+																alignment "center"
+																anchor "center"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "is_enabled"
+																		converter "GuiModelCompareConverter"
+																		{
+																			ref_value "0"
+																		}
+
+																	}
+
+																}
+
+																color
+																{
+																	w "0.330"
+																}
+
+																id "noise"
+																z_order "1.000"
+															}
+
 														}
 
 													}
 
-													id "image"
+													id "image_clip"
 													margin
 													{
+														w "2.000"
+														x "2.000"
 														y "40.000"
+														z "2.000"
 													}
 
+													size_mode_x "2"
+													size_mode_y "2"
 												}
 
 											}
@@ -2051,9 +2980,13 @@ GuiRootGroupDef
 										}
 
 										id "selected"
-										size_mode_x "1"
-										size_mode_y "1"
-										z_order "1.000"
+										size
+										{
+											y "360.000"
+										}
+
+										size_mode_x "2"
+										z_order "1.100"
 									}
 
 								}
@@ -2062,6 +2995,11 @@ GuiRootGroupDef
 
 							bindings
 							{
+								is_enabled
+								{
+									model_field "is_enabled"
+								}
+
 								on_click_action
 								{
 									model_field "action"
@@ -2125,8 +3063,12 @@ GuiRootGroupDef
 								y "200.000"
 							}
 
-							size_mode_x "1"
-							size_mode_y "1"
+							size
+							{
+								x "350.000"
+								y "360.000"
+							}
+
 						}
 
 					}
@@ -2222,10 +3164,147 @@ GuiRootGroupDef
 
 					}
 
+					Pair_String_GuiDef2
+					{
+						key "toast_event_item"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/event_info_bg"
+										texture_border
+										{
+											w "0.432"
+											x "0.414"
+											y "0.474"
+											z "0.459"
+										}
+
+										alignment "center"
+										anchor "center"
+										id "bg"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/menu/inventory/missing_icon"
+										material "gui/hud/items_icons/consumables/missing_icon"
+										bindings
+										{
+											material
+											{
+												model_field "event_icon"
+											}
+
+										}
+
+										id "icon"
+										margin
+										{
+											w "5.000"
+											x "10.000"
+											y "5.000"
+										}
+
+										max_size
+										{
+											x "76.000"
+											y "76.000"
+										}
+
+										size
+										{
+											x "76.000"
+											y "76.000"
+										}
+
+										z_order "3.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "name"
+									value "GuiTextDef"
+									{
+										style_name "active_25"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "event_name"
+											}
+
+										}
+
+										id "name"
+										margin
+										{
+											w "5.000"
+											x "90.000"
+											y "5.000"
+											z "50.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+											{
+												field_name "database"
+											}
+
+										}
+
+										size_mode_x "2"
+										z_order "3.000"
+									}
+
+								}
+
+							}
+
+							id "toast_event_item"
+							margin
+							{
+								w "2.000"
+							}
+
+							size
+							{
+								x "525.000"
+								y "100.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
 				}
 
+				anchor "bottom_left"
 				hitbox_visible "0"
 				id "templates"
+				size_mode_x "2"
+				size_mode_y "2"
 				visible "0"
 			}
 
@@ -2240,111 +3319,180 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "whats_new"
+						key "toast_event_items"
+						value "GuiStackPanelDef"
+						{
+							stack_type "1"
+							template_reference
+							{
+								path "templates.toast_event_item"
+								ref_gui_id "gui/menu/main_menu"
+								margin
+								{
+									y "5.000"
+								}
+
+								size_mode_x "2"
+								size_mode_y "1"
+							}
+
+							id "toast_event_items"
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "toast_event_items"
+								}
+
+							}
+
+							size
+							{
+								x "525.000"
+							}
+
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "toast_follow_item"
 						value "GuiGroupDef"
 						{
 							children
 							{
 								Pair_String_GuiDef2
 								{
-									key "image"
+									key "background"
 									value "GuiImageDef"
 									{
 										error_material "gui/default"
-										material "gui/menu/buttons/main_menu/dlc_shop_link_neutral"
-										id "image"
+										material "gui/menu/event_info_bg"
+										texture_border
+										{
+											w "0.432"
+											x "0.414"
+											y "0.474"
+											z "0.459"
+										}
+
+										alignment "center"
+										anchor "center"
+										id "background"
+										size_mode_y "2"
+										z_order "1.000"
 									}
 
 								}
 
 								Pair_String_GuiDef2
 								{
-									key "scroll_list"
-									value "GuiGroupDef"
+									key "buttons"
+									value "GuiStackPanelDef"
 									{
 										children
 										{
 											Pair_String_GuiDef2
 											{
-												key "mask"
-												value "GuiGroupDef"
+												key "button_email_subscribe"
+												value "GuiButtonItemDef"
 												{
-													allow_overflow "0"
+													node "GuiButtonDef"
+													{
+														on_click_action "newsletter.subscribe"
+													}
+
 													children
 													{
 														Pair_String_GuiDef2
 														{
-															key "content_group"
+															key "image"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/loading/loading_icon_loop"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "email_follow_in_progress"
+																	}
+
+																}
+
+																id "image"
+																margin
+																{
+																	w "5.000"
+																	x "5.000"
+																	y "5.000"
+																	z "5.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																z_order "1.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral"
 															value "GuiGroupDef"
 															{
 																children
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "navigation"
-																		value "GuiGroupDef"
+																		key "icon"
+																		value "GuiImageDef"
 																		{
-																			children
-																			{
-																				Pair_String_GuiDef2
-																				{
-																					key "neutral"
-																					value "GuiGroupDef"
-																					{
-																						id "neutral"
-																						size_mode "3"
-																						size_mode_x "2"
-																						size_mode_y "2"
-																					}
-
-																				}
-
-																				Pair_String_GuiDef2
-																				{
-																					key "neutral_selected"
-																					value "GuiGroupDef"
-																					{
-																						id "neutral_selected"
-																						size_mode "3"
-																						size_mode_x "2"
-																						size_mode_y "2"
-																					}
-
-																				}
-
-																				Pair_String_GuiDef2
-																				{
-																					key "news"
-																					value "GuiStackPanelDef"
-																					{
-																						template_reference
-																						{
-																							path "templates.news"
-																							ref_gui_id "gui/menu/main_menu"
-																						}
-
-																						id "news"
-																						model_source "news"
-																						size_mode_x "1"
-																						size_mode_y "2"
-																						z_order "5.000"
-																					}
-
-																				}
-
-																			}
-
-																			id "navigation"
-																			size_mode_x "1"
-																			size_mode_y "2"
+																			error_material "gui/default"
+																			material "gui/menu/buttons/main_menu/newsletter_neutral"
+																			alignment "center"
+																			anchor "center"
+																			id "icon"
 																		}
 
 																	}
 
 																}
 
-																id "content_group"
-																size_mode_x "1"
+																id "neutral"
+																size_mode_x "2"
+																size_mode_y "2"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/main_menu/newsletter_selected"
+																			alignment "center"
+																			anchor "center"
+																			id "icon"
+																		}
+
+																	}
+
+																}
+
+																id "neutral_selected"
+																size_mode_x "2"
 																size_mode_y "2"
 															}
 
@@ -2352,57 +3500,67 @@ GuiRootGroupDef
 
 													}
 
-													id "mask"
-													size_mode_x "2"
-													size_mode_y "2"
+													bindings
+													{
+														visible
+														{
+															model_field "email_follow_available"
+														}
+
+													}
+
+													id "button_email_subscribe"
+													size
+													{
+														x "64.000"
+														y "64.000"
+													}
+
+													z_order "1.000"
 												}
 
 											}
 
 											Pair_String_GuiDef2
 											{
-												key "neutral"
-												value "GuiGroupDef"
+												key "button_follow_steam"
+												value "GuiButtonItemDef"
 												{
-													id "neutral"
-													size_mode_x "2"
-													size_mode_y "2"
-												}
+													node "GuiButtonDef"
+													{
+														on_click_action "steam.follow"
+													}
 
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "neutral_selected"
-												value "GuiGroupDef"
-												{
-													id "neutral_selected"
-													size_mode_x "2"
-													size_mode_y "2"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "scroll_button_1"
-												value "GuiGroupDef"
-												{
 													children
 													{
 														Pair_String_GuiDef2
 														{
-															key "disabled"
-															value "GuiGroupDef"
+															key "image"
+															value "GuiImageDef"
 															{
-																id "disabled"
-																size
+																error_material "gui/default"
+																material "gui/loading/loading_icon_loop"
+																bindings
 																{
-																	x "32.000"
-																	y "32.000"
+																	visible
+																	{
+																		model_field "steam_follow_in_progress"
+																	}
+
 																}
 
-																z_order "274.000"
+																id "image"
+																margin
+																{
+																	w "5.000"
+																	x "5.000"
+																	y "5.000"
+																	z "5.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																z_order "1.000"
 															}
 
 														}
@@ -2416,13 +3574,14 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "temp"
+																		key "icon"
 																		value "GuiImageDef"
 																		{
 																			error_material "gui/default"
-																			material "gui/menu/buttons/btn_arrow_neutral"
-																			id "temp"
-																			z_order "273.000"
+																			material "gui/menu/buttons/main_menu/steam_neutral"
+																			alignment "center"
+																			anchor "center"
+																			id "icon"
 																		}
 
 																	}
@@ -2430,13 +3589,8 @@ GuiRootGroupDef
 																}
 
 																id "neutral"
-																size
-																{
-																	x "32.000"
-																	y "32.000"
-																}
-
-																z_order "272.000"
+																size_mode_x "2"
+																size_mode_y "2"
 															}
 
 														}
@@ -2450,13 +3604,14 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
-																		key "img"
+																		key "icon"
 																		value "GuiImageDef"
 																		{
 																			error_material "gui/default"
-																			material "gui/menu/buttons/btn_arrow_selected"
-																			id "img"
-																			z_order "271.000"
+																			material "gui/menu/buttons/main_menu/steam_selected"
+																			alignment "center"
+																			anchor "center"
+																			id "icon"
 																		}
 
 																	}
@@ -2464,159 +3619,601 @@ GuiRootGroupDef
 																}
 
 																id "neutral_selected"
-																size
-																{
-																	x "32.000"
-																	y "32.000"
-																}
-
-																z_order "270.000"
+																size_mode_x "2"
+																size_mode_y "2"
 															}
 
 														}
 
 													}
 
-													alignment "top_right"
-													anchor "top_right"
-													id "scroll_button_1"
-													margin
+													bindings
 													{
-														y "4.000"
-														z "80.000"
+														visible
+														{
+															model_field "steam_follow_available"
+														}
+
 													}
 
+													color
+													{
+														x "0.000"
+														y "0.000"
+														z "0.000"
+													}
+
+													id "button_follow_steam"
 													size
 													{
-														x "32.000"
-														y "32.000"
+														x "64.000"
+														y "64.000"
 													}
 
-													z_order "269.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "scroll_button_2"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "disabled"
-															value "GuiGroupDef"
-															{
-																id "disabled"
-																size
-																{
-																	x "32.000"
-																	y "32.000"
-																}
-
-																z_order "268.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "temp"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/btn_arrow_neutral"
-																			id "temp"
-																			z_order "267.000"
-																		}
-
-																	}
-
-																}
-
-																id "neutral"
-																size
-																{
-																	x "32.000"
-																	y "32.000"
-																}
-
-																z_order "266.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral_selected"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "img"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/btn_arrow_selected"
-																			id "img"
-																			z_order "265.000"
-																		}
-
-																	}
-
-																}
-
-																id "neutral_selected"
-																size
-																{
-																	x "32.000"
-																	y "32.000"
-																}
-
-																z_order "264.000"
-															}
-
-														}
-
-													}
-
-													alignment "top_right"
-													anchor "top_right"
-													id "scroll_button_2"
-													margin
-													{
-														y "35.000"
-														z "40.000"
-													}
-
-													rotation "180.000"
-													size
-													{
-														x "32.000"
-														y "32.000"
-													}
-
-													z_order "263.000"
 												}
 
 											}
 
 										}
 
-										id "scroll_list"
+										alignment "left"
+										anchor "left"
+										id "buttons"
+										margin
+										{
+											x "365.000"
+											z "25.000"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/menu/inventory/missing_icon"
+										material "gui/menu/social_info_icon"
+										bindings
+										{
+											material
+											{
+												model_field "event_icon"
+											}
+
+										}
+
+										id "icon"
+										margin
+										{
+											w "5.000"
+											x "15.000"
+											y "5.000"
+										}
+
+										max_size
+										{
+											x "76.000"
+											y "76.000"
+										}
+
+										size
+										{
+											x "76.000"
+											y "76.000"
+										}
+
+										z_order "3.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextDef"
+									{
+										content "gui/menu/main_menu/follow_us"
+										style_name "active_25"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										id "label"
+										margin
+										{
+											w "5.000"
+											x "90.000"
+											y "5.000"
+											z "150.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+											{
+												field_name "database"
+											}
+
+										}
+
+										size_mode_x "2"
+										z_order "3.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "toast_follow_item_visible"
+								}
+
+							}
+
+							id "toast_follow_item"
+							margin
+							{
+								w "2.000"
+							}
+
+							size
+							{
+								x "525.000"
+								y "100.000"
+							}
+
+							size_mode_y "1"
+							visible "0"
+							z_order "1.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "toast_news_item"
+						value "GuiButtonItemDef"
+						{
+							on_click_action "news.goto"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_menu/dlc_shop_link_active"
+													texture_border
+													{
+														w "0.740"
+														y "0.224"
+													}
+
+													id "background"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "active"
 										size_mode_x "2"
 										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_menu/dlc_shop_link_active"
+													texture_border
+													{
+														w "0.740"
+														y "0.224"
+													}
+
+													id "background"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "selected"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_menu/dlc_shop_link_selected"
+													texture_border
+													{
+														w "0.740"
+														y "0.224"
+													}
+
+													id "selected"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/buttons/main_menu/dlc_shop_link_neutral"
+										texture_border
+										{
+											w "0.740"
+											y "0.224"
+										}
+
+										id "background"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiStackPanelDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/inventory/new_item_icon"
+													alignment "center"
+													anchor "left"
+													animations
+													{
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	GuiAnimationFrame
+																	{
+																		frame_number "15"
+																		mask "12"
+																		scale
+																		{
+																			x "0.900"
+																			y "0.900"
+																		}
+
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "30"
+																	}
+
+																}
+
+																name "blink"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														visible
+														{
+															model_field "was_seen"
+															converter "GuiModelCompareConverter"
+															{
+																ref_value "0"
+															}
+
+														}
+
+													}
+
+													id "icon"
+													item_scripts
+													{
+														scripts
+														{
+															Pair_IdString_GuiScriptDef2
+															{
+																key "OnShow"
+																value
+																{
+																	script
+																	{
+																		children
+																		{
+																			GuiScriptNodeDef
+																			{
+																				cmd "GuiScriptCommandAnimStartDef"
+																				{
+																					anim_info
+																					{
+																						multiplier "2.000"
+																					}
+
+																					animations
+																					{
+																						blink
+																						{
+																							String
+																						}
+
+																					}
+
+																				}
+
+																			}
+
+																		}
+
+																	}
+
+																}
+
+															}
+
+														}
+
+													}
+
+													margin
+													{
+														w "36.000"
+														x "-70.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "title"
+												value "GuiTextDef"
+												{
+													capitals "1"
+													content "gui/menu/main_menu/whats_new"
+													style_name "active_25"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													id "title"
+													margin
+													{
+														x "25.000"
+													}
+
+													max_size
+													{
+														y "50.000"
+													}
+
+													model_source_solver
+													{
+														GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+														{
+															field_name "database"
+														}
+
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "header"
+										margin
+										{
+											w "8.000"
+											x "15.000"
+											y "8.000"
+											z "8.000"
+										}
+
+										size
+										{
+											y "25.000"
+										}
+
+										size_mode_x "2"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/main_menu/dlc_shop_link_selected"
+													texture_border
+													{
+														w "0.740"
+														y "0.224"
+													}
+
+													id "background"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "news_image"
+									value "GuiImageDef"
+									{
+										error_material "gui/menu/mods/mod_preview_error"
+										material "gui/menu/mods/mod_preview_error"
+										alignment "bottom_left"
+										anchor "bottom_left"
+										bindings
+										{
+											material
+											{
+												model_field "material"
+											}
+
+										}
+
+										id "news_image"
+										margin
+										{
+											w "10.000"
+											x "8.000"
+											y "82.000"
+											z "8.000"
+										}
+
+										size
+										{
+											x "432.000"
+											y "160.000"
+										}
+
+										size_mode_x "0"
+										size_mode_y "0"
+										tooltip_def
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "title"
+									value "GuiTextDef"
+									{
+										content "(BIND) title"
+										style_name "active_25"
+										translate "1"
+										bindings
+										{
+											content
+											{
+												model_field "title"
+											}
+
+										}
+
+										id "title"
+										margin
+										{
+											w "178.000"
+											x "15.000"
+											y "48.000"
+											z "15.000"
+										}
+
+										max_size
+										{
+											y "50.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+											{
+												field_name "database"
+											}
+
+										}
+
+										size_mode_x "2"
+										tooltip_def
+										z_order "3.000"
 									}
 
 								}
@@ -2629,19 +4226,36 @@ GuiRootGroupDef
 							{
 								visible
 								{
-									model_field "news"
+									model_field "toast_news_info"
+									converter "GuiModelObjectNullOrEmptyConverter"
+									{
+										invert "1"
+									}
+
 								}
 
 							}
 
-							id "whats_new"
+							id "toast_news_item"
 							margin
 							{
+								w "5.000"
 								z "50.000"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "toast_news_info"
+								}
+
 							}
 
 							size_mode_x "1"
 							size_mode_y "1"
+							visible "0"
+							z_order "2.000"
 						}
 
 					}
@@ -2663,7 +4277,7 @@ GuiRootGroupDef
 				id "toast_frame"
 				margin
 				{
-					w "110.000"
+					w "70.000"
 				}
 
 				size_mode_x "1"
@@ -2728,6 +4342,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -2766,6 +4385,38 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "email_follow_available"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "test"
+					}
+
+				}
+
+				key "event_localization"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "Vector_[A1FDD627-74F8-41A8-9D7B-1B3896DFBFE3]/button4"
 					default_value
 					{
@@ -2774,14 +4425,30 @@ GuiDataDefinitions
 						{
 							[A1FDD627-74F8-41A8-9D7B-1B3896DFBFE3]/button
 							{
+								enabled "0"
 								label "test_label"
 								icon "gui/menu/buttons/main_menu/load_selected"
 							}
 
 							[A1FDD627-74F8-41A8-9D7B-1B3896DFBFE3]/button
 							{
+								enabled "1"
 								label "test_label2"
 								icon "gui/menu/buttons/main_menu/load_selected"
+							}
+
+							[A1FDD627-74F8-41A8-9D7B-1B3896DFBFE3]/button
+							{
+								enabled "1"
+								label "test_label"
+								icon "gui/menu/buttons/main_menu/continue_selected"
+							}
+
+							[A1FDD627-74F8-41A8-9D7B-1B3896DFBFE3]/button
+							{
+								enabled "1"
+								label "test_label"
+								icon "gui/menu/buttons/main_menu/continue_selected"
 							}
 
 						}
@@ -2797,20 +4464,60 @@ GuiDataDefinitions
 			{
 				value
 				{
-					type_name "Vector_[2E9A0841-50C1-48A9-9FC3-58544BEF5E10]/one_news4"
+					type_name "String"
 					default_value
 					{
-						typehash "905997366"
-						Vector_[2E9A0841-50C1-48A9-9FC3-58544BEF5E10]/one_news4
+						typehash "1615808600"
+						String "win"
+					}
+
+				}
+
+				key "platform"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "steam_follow_available"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]/UpsellItem4"
+					default_value
+					{
+						typehash "844103689"
+						Vector_[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]/UpsellItem4
 						{
-							[2E9A0841-50C1-48A9-9FC3-58544BEF5E10]/one_news
+							[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]/UpsellItem
 							{
-								label "test"
+								event_icon "gui/hud/building_icons/snowman"
+								event_name "gui/menu/main_menu/seasonal_events"
 							}
 
-							[2E9A0841-50C1-48A9-9FC3-58544BEF5E10]/one_news
+							[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]/UpsellItem
 							{
-								label "test12"
+								event_icon "gui/hud/building_icons/snowman"
+								event_name "gui/menu/main_menu/seasonal_events"
+							}
+
+							[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]/UpsellItem
+							{
+								event_icon "gui/hud/building_icons/snowman"
+								event_name "gui/menu/main_menu/seasonal_events"
 							}
 
 						}
@@ -2819,7 +4526,23 @@ GuiDataDefinitions
 
 				}
 
-				key "news"
+				key "toast_event_items"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "toast_follow_item_visible"
 			}
 
 			Pair_String_GuiDataTypeField
@@ -2838,6 +4561,32 @@ GuiDataDefinitions
 				key "toast_frame_visible"
 			}
 
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Optional_[6CE71023-701E-4F8F-A6FE-CF939EA38AF6]/NewsInfo4"
+					default_value
+					{
+						typehash "3706070400"
+						Optional_[6CE71023-701E-4F8F-A6FE-CF939EA38AF6]/NewsInfo4
+						{
+							[6CE71023-701E-4F8F-A6FE-CF939EA38AF6]/NewsInfo
+							{
+								material "error"
+								title "Test"
+								was_seen "0"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "toast_news_info"
+			}
+
 		}
 
 		handle "[16AA83B6-BA39-4E28-A171-EF331E75F5FA]"
@@ -2846,8 +4595,29 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "button"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "enabled"
+			}
+
 			Pair_String_GuiDataTypeField
 			{
 				value
@@ -2856,7 +4626,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "1615808600"
-						String "gui/menu/buttons/main_menu/load_selected"
+						String "gui/menu/buttons/main_menu/continue_selected"
 					}
 
 				}
@@ -2888,6 +4658,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "one_news"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -2909,6 +4684,116 @@ GuiDataDefinitions
 		}
 
 		handle "[2E9A0841-50C1-48A9-9FC3-58544BEF5E10]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "UpsellItem"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/building_icons/snowman"
+					}
+
+				}
+
+				key "event_icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/main_menu/seasonal_events"
+					}
+
+				}
+
+				key "event_name"
+			}
+
+		}
+
+		handle "[6E22E810-0FAE-48B8-9C20-49F0AE3995B5]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "NewsInfo"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "error"
+					}
+
+				}
+
+				key "material"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Test"
+					}
+
+				}
+
+				key "title"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "was_seen"
+			}
+
+		}
+
+		handle "[6CE71023-701E-4F8F-A6FE-CF939EA38AF6]"
 	}
 
 }

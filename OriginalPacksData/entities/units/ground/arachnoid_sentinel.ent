@@ -349,16 +349,12 @@ EntityBlueprint
 		{
 			min_scale	float:"0.95"
 			max_scale	float:"1.05"
-			
-			STING_item_type string:"enemy_range_weapon"
-			STING_pose_type string:"range"
-			items 		string:"items/weapons_enemy/alien_acid_item" 
 		}			
 	}
 
 	DatabaseComponent
 	{
-		version int:"2"	
+		version int:"4"	
 	}
 
 	HealthDesc
@@ -464,8 +460,8 @@ EntityBlueprint
 			y "2"
 		}
 
-		visibility "radar"
-		
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -477,6 +473,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"8000"
 		explosion_min_power 	"4000"	
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -521,24 +518,27 @@ EntityBlueprint
 		can_activate 0
 	}
 
-	EquipmentComponent
+	BurstWeaponComponent
 	{
-		equipment
+		WeaponMuzzles
 		{
-			Equipment Equipment
+			WeaponMuzzle
 			{
-				slots
-				{		
-					EquipmentSlot
-					{
-						name			"STING"
-						allow_types		"enemy_range_weapon"
-						bone			"att_shoot"
-						subslots_count	"1"
-					}							
-				}
+				attachment "att_shoot"
 			}
 		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_acid_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/acid_spit"
+
+		burst_column_spacing 		"0"
+		burst_rows_rate 			"0.2"
+		burst_column_angle 			"0"
+	}
+
+	WeaponItemDesc
+	{
 	}
 
 	TurretDesc
@@ -758,8 +758,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 4 0"
-					scale "0.8 0.8 0.8"
+					offset "0 5 0"
+					scale "0.7 0.7 0.7"
 				}
 			}
 		}
@@ -883,11 +883,6 @@ EntityBlueprint
 		{
 			float 						"3"
 		}
-	}
-
-	InventoryDesc
-	{
-		
 	}
 }
 

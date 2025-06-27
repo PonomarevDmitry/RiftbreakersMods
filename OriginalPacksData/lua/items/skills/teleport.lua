@@ -34,6 +34,8 @@ end
 function teleport:OnActivate()
 	if ( self.foundPos.first ) then
 		PlayerService:TeleportPlayer( self.owner, self.foundPos.second , 0.2, 0.1, 0.2 )
+	else
+		ItemService:ResetCooldown( self.entity, 0.0 )
 	end
 end
 

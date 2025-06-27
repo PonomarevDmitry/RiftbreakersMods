@@ -1,14 +1,13 @@
-//editor "offset(-6556.522,-5852.894)|zoom(0.754)"
+//editor "scroll(-711.56,-62.20)|zoom(0.07)"
 FlowGraphTemplate
 {
-	version "2"
-	editor "3151"
+	version "4"
+	editor "6315"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(965,1250)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,6 +22,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
@@ -31,6 +31,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(3092,5988)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -49,6 +65,12 @@ FlowGraphTemplate
 					{
 						key "spawn_indicator_duration"
 						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
 					}
 
 				}
@@ -64,86 +86,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_0"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -154,7 +198,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(2645,6425)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -169,12 +212,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_0"
 		}
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(7567,5853)"
+			//editor "layout(event_end.xml)|pos(7820,5855)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -182,7 +226,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(2214,5636)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -197,6 +240,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_2"
 		}
 
@@ -205,6 +249,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(2927,2870)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -225,6 +285,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -238,86 +304,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_1"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -328,7 +416,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(5012,4996)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -343,6 +430,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_3"
 		}
 
@@ -351,6 +439,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(2634,5207)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -371,6 +475,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -384,86 +494,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_2"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_2"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -476,6 +608,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(3514,3925)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -494,6 +642,12 @@ FlowGraphTemplate
 					{
 						key "spawn_indicator_duration"
 						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
 					}
 
 				}
@@ -509,86 +663,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_3"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_3"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bomogan"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/gnerot"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "2"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -599,7 +775,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(2951,4376)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -614,6 +789,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_4"
 		}
 
@@ -622,6 +798,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(3480,1954)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -642,6 +834,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -655,86 +853,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_4"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_4"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -747,6 +967,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(2371,1925)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -767,6 +1003,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -780,86 +1022,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_5"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_5"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bomogan"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/gnerot"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "2"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -869,8 +1133,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3146,2390)"
-			script "lua/graph/logic/logic_wait.lua"
+			//editor "layout(logic_wait.xml)|pos(3091,2506)"
 			database
 			{
 				Floats
@@ -885,13 +1148,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_5"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(2326,3178)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -906,6 +1169,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_6"
 		}
 
@@ -914,6 +1178,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(1704,1191)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -934,6 +1214,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -947,86 +1233,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_6"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_6"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bomogan"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -1036,8 +1344,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(1707,2322)"
-			script "lua/graph/logic/logic_wait.lua"
+			//editor "layout(logic_wait.xml)|pos(1705,2457)"
 			database
 			{
 				Floats
@@ -1052,13 +1359,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_7"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(4643,1787)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -1073,13 +1380,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_8"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(2789,7954)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -1094,13 +1401,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_9"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3220,8742)"
-			script "lua/graph/logic/logic_wait.lua"
+			//editor "layout(logic_wait.xml)|pos(3229,9197)"
 			database
 			{
 				Floats
@@ -1115,14 +1422,31 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_10"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(3667,8306)"
+			//editor "layout(wave_ground.xml)|pos(3871,8681)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -1143,6 +1467,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1156,86 +1486,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_7"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_7"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bomogan"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -1248,6 +1600,22 @@ FlowGraphTemplate
 			//editor "layout(wave_ground.xml)|pos(3210,7524)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -1266,6 +1634,12 @@ FlowGraphTemplate
 					{
 						key "spawn_indicator_duration"
 						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
 					}
 
 				}
@@ -1281,86 +1655,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_8"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_8"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -1370,8 +1766,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3693,9368)"
-			script "lua/graph/logic/logic_wait.lua"
+			//editor "layout(logic_wait.xml)|pos(3924,10571)"
 			database
 			{
 				Floats
@@ -1386,14 +1781,31 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_11"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(4141,8931)"
+			//editor "layout(wave_ground.xml)|pos(4394,10017)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -1412,6 +1824,12 @@ FlowGraphTemplate
 					{
 						key "spawn_indicator_duration"
 						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
 					}
 
 				}
@@ -1427,86 +1845,108 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_9"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_9"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/bomogan"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/gnerot"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "2"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
@@ -1516,9 +1956,25 @@ FlowGraphTemplate
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(4688,10064)"
+			//editor "layout(wave_ground.xml)|pos(4941,11151)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -1539,6 +1995,12 @@ FlowGraphTemplate
 						value "45"
 					}
 
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -1552,97 +2014,109 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
 					}
 
 				}
 
 			}
 
-			self_id "wave_ground_10"
-			group_name "universal"
 			delay "0"
+			group_name "universal"
 			percentage_units_to_end_wave "90"
+			self_id "wave_ground_10"
+			spawn_group
+			spawn_point
 			Enemies
 			{
 				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
-					delay "1"
 					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "10"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
+					count "1"
 					delay "1"
-					count "1"
-					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_sentinel"
 					delay_group "0"
-					delay "5.00"
-					count "1"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/arachnoid_sentinel"
-					delay_group "0"
-					delay "5.00"
 					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "5"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/arachnoid_sentinel"
+					count "1"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/canoptrix"
-					delay_group "0"
-					delay "10.00"
 					count "1"
+					delay "10.00"
+					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "50"
 				}
 
 				Enemy
 				{
-					//editor "layout(enemy_ground.xml)"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/kafferroceros"
-					delay_group "0"
+					count "1"
 					delay "10.00"
-					count "1"
-					units_in_one_spawn "10"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)"
-					blueprint "units/ground/arachnoid_boss"
 					delay_group "0"
-					delay "1"
-					count "1"
-					units_in_one_spawn "1"
+					spawn_type "blueprint"
+					units_in_one_spawn "10"
 				}
 
 			}
@@ -1651,8 +2125,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(4240,10501)"
-			script "lua/graph/logic/logic_wait.lua"
+			//editor "layout(logic_wait.xml)|pos(4493,11587)"
 			database
 			{
 				Floats
@@ -1667,13 +2140,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_12"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(logic_wait.xml)|pos(6872,6493)"
-			script "lua/graph/logic/logic_wait.lua"
 			database
 			{
 				Floats
@@ -1688,6 +2161,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
 			self_id "logic_wait_13"
 		}
 
@@ -1697,37 +2171,158 @@ FlowGraphTemplate
 			self_id "logic_or_0"
 		}
 
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(3889,8002)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Direction"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_11"
+			spawn_group
+			spawn_point "spawn_direction_4"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_jungle_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(6637,8303)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(7582,5857)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
 	}
 
 	GraphConnections
 	{
-		logic_or_0 "event_end_0"
+		default "logic_wait_7|wave_ground_6"
+		logic_and_1 "logic_and_2"
+		logic_and_2 "event_end_0"
+		logic_or_0 "logic_and_2"
+		logic_wait_0 "logic_wait_9|wave_ground_0"
+		logic_wait_10 "logic_wait_11|wave_ground_11|wave_ground_7"
+		logic_wait_11 "logic_wait_12|wave_ground_9"
 		logic_wait_12 "logic_wait_13|wave_ground_10"
-		wave_ground_10 "logic_wait_3"
-		logic_wait_10 "logic_wait_11|wave_ground_7"
-		wave_ground_9 "logic_wait_3"
-		logic_wait_9 "logic_wait_10|wave_ground_8"
 		logic_wait_13 "logic_or_0"
-		logic_wait_8 "logic_or_0"
-		logic_wait_6 "logic_wait_4|logic_wait_5|wave_ground_1"
-		wave_ground_4 "logic_wait_8"
-		logic_wait_4 "wave_ground_3"
-		wave_ground_3 "logic_wait_8"
-		logic_wait_5 "wave_ground_4"
-		wave_ground_7 "logic_wait_3"
-		wave_ground_1 "logic_wait_8"
-		wave_ground_5 "logic_wait_8"
 		logic_wait_2 "logic_wait_0|wave_ground_2"
 		logic_wait_3 "logic_wait_8"
-		wave_ground_8 "logic_wait_3"
-		logic_wait_0 "logic_wait_9|wave_ground_0"
-		wave_ground_2 "logic_wait_3"
-		wave_ground_6 "logic_wait_8"
+		logic_wait_4 "wave_ground_3"
+		logic_wait_5 "wave_ground_4"
+		logic_wait_6 "logic_wait_4|logic_wait_5|wave_ground_1"
 		logic_wait_7 "logic_wait_2|logic_wait_6|wave_ground_5"
-		logic_wait_11 "logic_wait_12|wave_ground_9"
+		logic_wait_8 "logic_or_0"
+		logic_wait_9 "logic_wait_10|wave_ground_8"
 		wave_ground_0 "logic_wait_3"
-		default "logic_wait_7|wave_ground_6"
+		wave_ground_1 "logic_wait_8"
+		wave_ground_10 "logic_wait_3"
+		wave_ground_11 "logic_and_1"
+		wave_ground_2 "logic_wait_3"
+		wave_ground_3 "logic_wait_8"
+		wave_ground_4 "logic_wait_8"
+		wave_ground_5 "logic_wait_8"
+		wave_ground_6 "logic_wait_8"
+		wave_ground_7 "logic_wait_3"
+		wave_ground_8 "logic_wait_3"
+		wave_ground_9 "logic_wait_3"
 	}
 
+	GraphComments
 }
 

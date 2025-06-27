@@ -13,7 +13,7 @@ function player_modificator:EnsureUniqueModificator()
 
     local children = EntityService:GetChildren( self.parent, true )
     for child in Iter( children ) do
-        local child_group = EntityService:GetGroup(self.entity)
+        local child_group = EntityService:GetGroup(child)
         if child_group == mod_group and child ~= self.entity then
             EntityService:RemoveEntity( child )
         end
@@ -43,6 +43,15 @@ function player_modificator:init()
             EntityService:AddEntityMod(self.parent, tostring(self.entity), mod_type, self.data:GetString(mod_type))
         end
     end
+
+    self.isImmortal = self.data:GetIntOrDefault( "immortal", 0 )
+    if self.isImmortal == 1 then
+        HealthService:SetImmortality( self.parent, true );
+    end
+
+    self.data:SetFloat("skill_end_timestamp", EntityService:GetLifeTime(self.entity) + GetLogicTime() )
+
+    self:EnsureUniqueModificator()
 end
 
 function player_modificator:OnLoad()
@@ -58,6 +67,10 @@ function player_modificator:OnRelease()
                 EntityService:RemovEntityMod(self.parent, tostring(self.entity), mod_type)
             end
         end
+    end
+
+    if self.isImmortal == 1 then
+        HealthService:SetImmortality( self.parent, false );
     end
 
     drone_spawner.OnRelease(self)

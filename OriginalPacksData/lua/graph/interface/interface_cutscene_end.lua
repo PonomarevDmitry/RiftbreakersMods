@@ -34,9 +34,12 @@ function interface_cutscene_end:OnFadeInExit( state )
 end
 
 function interface_cutscene_end:CameraFollowPlayer()
-	self.camera = CameraService:GetLeadingPlayerCamera()
-	self.player = PlayerService:GetPlayerControlledEnt( 0 )
-	CameraService:SetFollowTarget( self.camera , self.player )
+ 	local players = PlayerService:GetConnectedPlayers()
+	for player in Iter( players ) do
+		local camera = CameraService:GetPlayerCamera( player )
+		local playerEnt = PlayerService:GetPlayerControlledEnt( player )
+		CameraService:SetFollowTarget( camera, playerEnt )
+	end
 end
 
 function interface_cutscene_end:OnFade( state )

@@ -14,7 +14,7 @@ float3 GetSkyboxSpecular( float NdotV, float3 N, float roughness, float3 specula
 #endif
 
 #if SKYBOX_DIFFUSE
-float3 GetSkyboxDiffuse( float NdotV, float3 N, float3 V, float roughness, float3 diffuseColor, float diffuseIntensity )
+float3 GetSkyboxDiffuse( float3 N, float3 diffuseColor, float diffuseIntensity )
 {
     float3 diffuseDominantDirection = N;
     float3 diffuseLight = GetEnvDiffuse( tEnvDiffuse, sEnvDiffuse, diffuseDominantDirection );
@@ -204,7 +204,7 @@ inline float GetPointLightShadow( in float3 toLightVec, in Shadow shadow )
 #if SHADOW_PCSS
     return GetSpotLightShadowPCSS( uv.xy, uv.z, shadow.GetShadowNearFar(), shadow.GetShadowLightSize() * POINT_SHADOW_PENUMBRA, POINT_SHADOW_BIAS, shadow.GetShadowViewportClamp( viewportIdx ), shadow.GetShadowViewportSize() );
 #elif SHADOW_PCF
-    return GetShadowPCF( uv.xy, uv.z, POINT_SHADOW_BIAS, shadow.GetShadowViewportClamp( viewportIdx ), shadow.GetShadowViewportTexel( viewportIdx ) );
+    return GetShadowPCF( uv.xy, uv.z, POINT_SHADOW_BIAS, shadow.GetShadowViewportClamp( viewportIdx ), shadow.GetShadowViewportTexel() );
 #else
     return GetShadowSimple( uv.xy, uv.z );
 #endif
@@ -227,7 +227,7 @@ inline void ComputePBRTerms( in Surface surface, in float3 N, in float3 L, in fl
     lighting.Diffuse = NdotL * DisneyDiffuse( surface.Diffuse, surface.Roughness, NdotV, NdotL, LdotH );
 }
 
-inline void ComputeSpotLight( in Surface surface, in Light light, in float2 uv, inout Lighting lighting )
+inline void ComputeSpotLight( in Surface surface, in Light light, inout Lighting lighting )
 {   
     const float3 toLightVec = surface.WorldPos.xyz - light.WorldPos.xyz;
     const float dotVector = dot( toLightVec,toLightVec );
@@ -272,7 +272,7 @@ inline void ComputeSpotLight( in Surface surface, in Light light, in float2 uv, 
     }
 }
 
-inline void ComputePointLight( in Surface surface, in Light light, in float2 uv, inout Lighting lighting )
+inline void ComputePointLight( in Surface surface, in Light light, inout Lighting lighting )
 {
     const float3 toLightVec = surface.WorldPos.xyz - light.WorldPos.xyz;
     const float dotVector = dot( toLightVec,toLightVec );
@@ -378,12 +378,12 @@ inline float3 ComputeOutputColor( in Surface surface, inout Lighting lighting )
 {   
 #if SKYBOX_DIFFUSE || SKYBOX_SPECULAR   
     const float3 N = surface.Normal;
+    #if SKYBOX_DIFFUSE   
+    lighting.Diffuse += GetSkyboxDiffuse( N, surface.Diffuse, cSkyboxParams.y );
+    #endif
+    #if SKYBOX_SPECULAR
     const float3 V = normalize( cCameraWorldPos.xyz - surface.WorldPos.xyz );
     const float NdotV = abs( dot( N, V ) ) + 0.001;
-    #if SKYBOX_DIFFUSE   
-    lighting.Diffuse += GetSkyboxDiffuse( NdotV, N, V, surface.Roughness, surface.Diffuse, cSkyboxParams.y );
-    #endif
-    #if SKYBOX_SPECULAR   
     lighting.Specular += GetSkyboxSpecular( NdotV, N, V, surface.Roughness, surface.Specular, cSkyboxParams.x );
     #endif
 #endif

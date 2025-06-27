@@ -8,8 +8,7 @@ end
 
 function canceroth_child_wreck:initParams()
 	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 10
-	self.leaveBodyProbability = 0
+
 end
 
 return canceroth_child_wreck

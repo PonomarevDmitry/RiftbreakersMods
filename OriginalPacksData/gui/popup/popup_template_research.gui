@@ -64,6 +64,27 @@ GuiRootGroupDef
 	{
 		Pair_String_GuiDef2
 		{
+			key "pointer_blocker"
+			value "GuiPointerEventBlockerDef"
+			{
+				navigable "0"
+				id "pointer_blocker"
+				size
+				{
+					x "600.000"
+					y "600.000"
+				}
+				
+				z_order "0.500"
+
+				size_mode_x "2"
+				size_mode_y "2"
+			}
+
+		}
+					
+		Pair_String_GuiDef2
+		{
 			key "background"
 			value "GuiGroupDef"
 			{
@@ -213,6 +234,11 @@ GuiRootGroupDef
 								value "gui/menu/research/close_all"
 							}
 
+							StringData
+							{
+								key "action"
+								value "close_all"
+							}
 						}
 
 						Floats
@@ -1199,6 +1225,12 @@ GuiRootGroupDef
 								value "BUTTON_ok"
 							}
 
+							StringData
+							{
+								key "action"
+								value "button_ok"
+							}
+
 						}
 
 						Floats
@@ -2118,12 +2150,6 @@ GuiRootGroupDef
 									key "includes"
 									value "GuiTextBoxDef"
 									{
-										max_size
-										{
-											x "500.000"
-											y "30.000"
-										}
-
 										content "gui/menu/research/includes"
 										style
 										{
@@ -2160,6 +2186,12 @@ GuiRootGroupDef
 										style_name "research_description_blue"
 										translate "1"
 										id "includes"
+										max_size
+										{
+											x "500.000"
+											y "30.000"
+										}
+
 										z_order "27.000"
 									}
 
@@ -2527,12 +2559,6 @@ GuiRootGroupDef
 									key "unlocks"
 									value "GuiTextBoxDef"
 									{
-										max_size
-										{
-											x "480.000"
-											y "57.000"
-										}
-
 										content "COMMON_Text_Line"
 										style
 										{
@@ -2578,6 +2604,12 @@ GuiRootGroupDef
 										}
 
 										id "unlocks"
+										max_size
+										{
+											x "480.000"
+											y "57.000"
+										}
+
 										offset
 										{
 											y "122.000"
@@ -2638,105 +2670,194 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "content"
-						value "GuiTextBoxDef"
+						key "desc_viewer"
+						value "GuiScrollViewerDef"
 						{
-							max_size
+							content
 							{
-								x "480.000"
-								y "125.000"
-							}
-
-							content "COMMON_Text_Line"
-							style
-							{
-								char_height "21.000"
-								color
+								children
 								{
-									x "0.576"
-									y "0.804"
-								}
-
-								df "1"
-								font "Exo2_Bold_sdf"
-								glow_color
-								{
-									w "0.000"
-								}
-
-								glow_size "0.000"
-								glow_spread "0.000"
-								shadow_angle "135.000"
-								shadow_color
-								{
-									w "0.850"
-								}
-
-								shadow_distance "2.000"
-								shadow_enabled "1"
-								shadow_spread "0.000"
-								space_size "7.000"
-								stroke_position "0"
-								stroke_size "0.000"
-							}
-
-							style_name "research_description"
-							translate "1"
-							animations
-							{
-								items
-								{
-									GuiAnimationDef
+									Pair_String_GuiDef2
 									{
-										frames
+										key "content"
+										value "GuiTextBoxDef"
 										{
-											GuiAnimationFrame
+											content "COMMON_Text_Line"
+											style
 											{
+												char_height "21.000"
 												color
 												{
-													x "1.000"
-													y "1.000"
-													z "1.000"
+													x "0.576"
+													y "0.804"
+												}
+
+												df "1"
+												font "Exo2_Bold_sdf"
+												glow_color
+												{
+													w "0.000"
+												}
+
+												glow_size "0.000"
+												glow_spread "0.000"
+												shadow_angle "135.000"
+												shadow_color
+												{
+													w "0.850"
+												}
+
+												shadow_distance "2.000"
+												shadow_enabled "1"
+												shadow_spread "0.000"
+												space_size "7.000"
+												stroke_position "0"
+												stroke_size "0.000"
+											}
+
+											style_name "research_description"
+											translate "1"
+											animations
+											{
+												items
+												{
+													GuiAnimationDef
+													{
+														frames
+														{
+															GuiAnimationFrame
+															{
+																color
+																{
+																	x "1.000"
+																	y "1.000"
+																	z "1.000"
+																}
+
+															}
+
+															GuiAnimationFrame
+															{
+																color
+																{
+																	w "1.000"
+																	x "1.000"
+																	y "1.000"
+																	z "1.000"
+																}
+
+																frame_number "10"
+															}
+
+														}
+
+														name "transformation"
+													}
+
 												}
 
 											}
 
-											GuiAnimationFrame
+											bindings
 											{
-												color
+												content
 												{
-													w "1.000"
-													x "1.000"
-													y "1.000"
-													z "1.000"
+													model_field "description"
 												}
 
-												frame_number "10"
 											}
 
+											id "content"
+											margin
+											{
+												w "5.000"
+											}
+
+											max_size
+											{
+												x "470.000"
+												y "666.000"
+											}
+
+											size
+											{
+												x "470.000"
+											}
+
+											size_mode_x "0"
+											z_order "8.000"
 										}
 
-										name "transformation"
 									}
 
 								}
 
-							}
-
-							bindings
-							{
-								content
+								size
 								{
-									model_field "description"
+									x "470.000"
 								}
 
+								size_mode_y "1"
 							}
 
-							id "content"
-							offset
+							horizontal_scroll_bar
+							{
+								path "simple_horizontal"
+								ref_gui_id "gui/template/scroll_bars"
+								margin
+								{
+									x "2.000"
+									z "2.000"
+								}
+
+								offset
+								{
+									y "237.000"
+								}
+
+								size
+								{
+									y "12.000"
+								}
+
+								size_mode_x "2"
+							}
+
+							horizontal_scroll_bar_visibility "2"
+							cursor_on_drag "materials/scripts/pointer_drag.cursor"
+							zoom_enabled "0"
+							vertical_scroll_bar
+							{
+								path "simple_vertical"
+								ref_gui_id "gui/template/scroll_bars"
+								alignment "top_right"
+								anchor "top_right"
+								margin
+								{
+									w "4.000"
+									z "1.000"
+								}
+
+								size
+								{
+									x "12.000"
+								}
+
+								size_mode_y "2"
+							}
+
+							cursor_on_select "materials/scripts/pointer_hand.cursor"
+							id "desc_viewer"
+							margin
 							{
 								x "118.000"
 								y "51.000"
+							}
+
+							size
+							{
+								x "490.000"
+								y "138.000"
 							}
 
 							z_order "8.000"
@@ -2778,12 +2899,6 @@ GuiRootGroupDef
 						key "research_name"
 						value "GuiTextBoxDef"
 						{
-							max_size
-							{
-								x "400.000"
-								y "82.000"
-							}
-
 							content "COMMON_Text_Line"
 							style
 							{
@@ -2830,6 +2945,12 @@ GuiRootGroupDef
 							}
 
 							id "research_name"
+							max_size
+							{
+								x "400.000"
+								y "82.000"
+							}
+
 							offset
 							{
 								x "201.000"
@@ -3009,4 +3130,3 @@ GuiDataDefinitions
 	}
 
 }
-

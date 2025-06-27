@@ -29,6 +29,7 @@ GameplayResourceDef
 	volume_repeat_effect	"effects/world/magma_resource_ambient"
 	volume_ambient_effect  	"effects/world/magma_resource_ambient_sound"
 	volume_splash_effect	"effects/magma_splash_small"	
+
 	volume_minimap_color
 	{
 		r "1"

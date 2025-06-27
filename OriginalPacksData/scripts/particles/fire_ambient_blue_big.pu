@@ -4,12 +4,11 @@ system rift/fire_ambient_blue_big
     scale_velocity                              0.03
     scale                                       0.03 0.03 0.03
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 20
     technique fire_alpha
     {
-        visual_particle_quota                   30
+        visual_particle_quota                   60
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -24,7 +23,8 @@ system rift/fire_ambient_blue_big
         }
         emitter                                 Box fire_alpha
         {
-            angle                               5
+            emission_rate                       20
+            angle                               15
             time_to_live                        dyn_random
             {
                 min                             2.4
@@ -37,8 +37,8 @@ system rift/fire_ambient_blue_big
             }
             all_particle_dimensions             dyn_random
             {
-                min                             100
-                max                             150
+                min                             80
+                max                             120
             }
             start_colour_range                  1 0.501961 0 1
             end_colour_range                    1 1 0 1
@@ -61,8 +61,8 @@ system rift/fire_ambient_blue_big
             }
             rotation_speed                      dyn_random
             {
-                min                             -1
-                max                             1
+                min                             0.1
+                max                             2
             }
         }
         affector                                TextureAnimator Affector12
@@ -73,7 +73,7 @@ system rift/fire_ambient_blue_big
     }
     technique sparks
     {
-        visual_particle_quota                   25
+        visual_particle_quota                   100
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -86,6 +86,7 @@ system rift/fire_ambient_blue_big
         }
         emitter                                 Box sparks
         {
+            emission_rate                       33
             time_to_live                        dyn_random
             {
                 min                             2.5

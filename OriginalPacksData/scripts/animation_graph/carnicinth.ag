@@ -67,6 +67,16 @@ AnimationGraph
 					{
 						AnimationStateTransitionDef
 						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
 							src_idx "1"
 							condition "AnimationStateTransitionCondition"
 							{
@@ -80,16 +90,6 @@ AnimationGraph
 							duration "0.000"
 						}
 
-						AnimationStateTransitionDef
-						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "1"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
 					}
 
 					metadata
@@ -97,8 +97,8 @@ AnimationGraph
 						name "idle"
 						position
 						{
-							x "72.000"
-							y "402.000"
+							x "-264.000"
+							y "342.000"
 						}
 
 					}
@@ -120,7 +120,7 @@ AnimationGraph
 								position
 								{
 									x "98.000"
-									y "336.667"
+									y "336.000"
 								}
 
 							}
@@ -148,7 +148,7 @@ AnimationGraph
 								position
 								{
 									x "654.000"
-									y "352.667"
+									y "352.000"
 								}
 
 							}
@@ -175,7 +175,7 @@ AnimationGraph
 								name "death_2"
 								position
 								{
-									x "652.667"
+									x "652.000"
 									y "494.000"
 								}
 
@@ -203,8 +203,8 @@ AnimationGraph
 								name "death_3"
 								position
 								{
-									x "658.667"
-									y "628.667"
+									x "658.000"
+									y "628.000"
 								}
 
 							}
@@ -222,7 +222,7 @@ AnimationGraph
 								position
 								{
 									x "1262.000"
-									y "458.667"
+									y "458.000"
 								}
 
 							}
@@ -236,15 +236,48 @@ AnimationGraph
 					{
 						AnimationStateTransitionDef
 						{
-							src_idx "2"
-							condition "AnimationStateTransitionCondition"
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
 							{
-								max_time "999.000"
-								condition "1"
+								compare_value "death_1"
+								param "death_anim_name"
+								cmp "4"
 							}
 
 							authoritative "0"
-							dst_idx "4"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "death_3"
+								param "death_anim_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "3"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "death_2"
+								param "death_anim_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "2"
 							blend_function_type "0"
 							duration "0.000"
 						}
@@ -266,30 +299,15 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "1"
-							blend_function_type "0"
-							duration "0.000"
-						}
+							src_idx "2"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
 
-						AnimationStateTransitionDef
-						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
 							authoritative "0"
-							dst_idx "3"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
-						AnimationStateTransitionDef
-						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "2"
+							dst_idx "4"
 							blend_function_type "0"
 							duration "0.000"
 						}
@@ -316,7 +334,7 @@ AnimationGraph
 						name "dead"
 						position
 						{
-							x "832.667"
+							x "832.000"
 							y "398.000"
 						}
 
@@ -831,6 +849,22 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
+							src_idx "0"
+							condition "AnimationFloatParamTransitionCondition"
+							{
+								compare_value "0.000"
+								param "stunned_speed"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
+						AnimationStateTransitionDef
+						{
 							src_idx "1"
 							condition "AnimationFloatParamTransitionCondition"
 							{
@@ -910,22 +944,6 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "0"
-							condition "AnimationFloatParamTransitionCondition"
-							{
-								compare_value "0.000"
-								param "stunned_speed"
-								cmp "4"
-							}
-
-							authoritative "0"
-							dst_idx "2"
-							blend_function_type "0"
-							duration "0.100"
-						}
-
-						AnimationStateTransitionDef
-						{
 							src_idx "3"
 							condition "AnimationFloatParamTransitionCondition"
 							{
@@ -947,8 +965,8 @@ AnimationGraph
 						name "stun"
 						position
 						{
-							x "160.000"
-							y "-172.667"
+							x "312.000"
+							y "-137.000"
 						}
 
 					}
@@ -1217,7 +1235,7 @@ AnimationGraph
 						name "dig_down"
 						position
 						{
-							x "556.667"
+							x "556.000"
 							y "148.000"
 						}
 
@@ -1297,8 +1315,8 @@ AnimationGraph
 						name "dig_up"
 						position
 						{
-							x "-268.000"
-							y "98.667"
+							x "-274.000"
+							y "-44.000"
 						}
 
 					}
@@ -1378,7 +1396,7 @@ AnimationGraph
 						position
 						{
 							x "-824.000"
-							y "92.667"
+							y "92.000"
 						}
 
 					}
@@ -1391,22 +1409,6 @@ AnimationGraph
 			start_node_idx "6"
 			transition_vec
 			{
-				AnimationStateTransitionDef
-				{
-					src_idx "1"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_dead"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.000"
-				}
-
 				AnimationStateTransitionDef
 				{
 					src_idx "0"
@@ -1452,7 +1454,7 @@ AnimationGraph
 					authoritative "1"
 					dst_idx "3"
 					blend_function_type "0"
-					duration "0.300"
+					duration "0.100"
 				}
 
 				AnimationStateTransitionDef
@@ -1473,80 +1475,16 @@ AnimationGraph
 
 				AnimationStateTransitionDef
 				{
-					src_idx "2"
+					src_idx "0"
 					condition "AnimationBoolParamTransitionCondition"
 					{
 						compare_value "1"
-						param "is_dead"
+						param "stay_underground"
 						cmp "4"
 					}
 
 					authoritative "1"
-					dst_idx "1"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "2"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_stunned"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "6"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_digging_up"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "5"
-					blend_function_type "0"
-					duration "0.300"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "5"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_digging_up"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "5"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_dead"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "1"
+					dst_idx "6"
 					blend_function_type "0"
 					duration "0.100"
 				}
@@ -1564,7 +1502,7 @@ AnimationGraph
 					authoritative "1"
 					dst_idx "0"
 					blend_function_type "0"
-					duration "0.300"
+					duration "0.100"
 				}
 
 				AnimationStateTransitionDef
@@ -1629,6 +1567,132 @@ AnimationGraph
 					dst_idx "5"
 					blend_function_type "0"
 					duration "0.200"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "0"
+								param "stay_underground"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+						}
+
+					}
+
+					authoritative "1"
+					dst_idx "6"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "6"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_digging_up"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "5"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_dead"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "2"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_stunned"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_dead"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "5"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_digging_up"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "5"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_dead"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "1"
+					blend_function_type "0"
+					duration "0.100"
 				}
 
 			}
@@ -1705,6 +1769,25 @@ AnimationGraph
 			is_const "0"
 		}
 
+		ParamDecl "StringParamDecl"
+		{
+			items
+			{
+				String "no_anim"
+				String "death_1"
+				String "death_2"
+				String "death_3"
+				String "death_running_1"
+				String "death_running_2"
+				String "death_running_3"
+			}
+
+			default "no_anim"
+			param_name "death_anim_name"
+			data_type "3"
+			is_const "0"
+		}
+
 		ParamDecl "FloatParamDecl"
 		{
 			max "10.000"
@@ -1753,6 +1836,14 @@ AnimationGraph
 		{
 			default "0"
 			param_name "is_digging_up"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "stay_underground"
 			data_type "0"
 			is_const "0"
 		}

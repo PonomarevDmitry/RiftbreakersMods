@@ -278,7 +278,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_big"
+		name "items/weapons/explosive/tower_shockwave_blast"
 	}
 
 	DecalDesc
@@ -333,12 +333,12 @@ EntityBlueprint
 	
 	FogOfWarRevealerComponentDesc
 	{
-		radius "50"
+		radius "125"
 	}
 
 	LifeTimeDesc
 	{
-		time 5
+		time 10
 	}	
 
 	DecalDesc
@@ -1081,7 +1081,7 @@ EntityBlueprint
 	base_blueprints 
 	{
 		effects/weapons_elemental/projectile
-		lights/point/red_super_small
+		//lights/point/red_super_small
 		effects/no_lifetime
 	}
 
@@ -1101,6 +1101,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 }
 
@@ -1146,6 +1147,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1181,6 +1183,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1216,6 +1219,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1251,6 +1255,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1337,7 +1342,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/point/explosion_blue_medium
+		lights/point/explosion_blue_small
 		effects/default
 	}
 
@@ -1350,7 +1355,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cryo_explosion_big"
+		name    "rift/mortar_cryo_explosion"
 	}
 
 	CameraShakeDesc
@@ -1536,6 +1541,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1547,8 +1553,6 @@ EntityBlueprint
 	{
 		name "items/weapons/explosive/rocket_projectile_big"
 	}
-
-		
 }
 
 EntityBlueprint
@@ -1578,6 +1582,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1589,8 +1594,6 @@ EntityBlueprint
 	{
 		name "items/weapons/explosive/rocket_projectile_medium"
 	}
-
-		
 }
 
 EntityBlueprint
@@ -1600,7 +1603,7 @@ EntityBlueprint
 	base_blueprints 
 	{
 		effects/weapons_elemental/projectile
-		lights/point/orange_very_small
+		//lights/point/orange_very_small
 		effects/no_lifetime
 	}
 
@@ -1620,6 +1623,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -1758,7 +1762,7 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/weapons_elemental/hit
-		lights/point/explosion_blue_big
+		lights/point/explosion_blue_medium
 		effects/default
 	}
 
@@ -1966,6 +1970,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -2006,6 +2011,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -2165,6 +2171,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -2205,6 +2212,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ParticleDesc
@@ -2603,4 +2611,84 @@ EntityBlueprint
 	}		
 }
 
+EntityBlueprint
+{
+	name effects/weapons_explosive/swarm_missile_explosion
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"10"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/rocket_explosion_small"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.05"
+		power   		"0.1"
+		falloff_radius 	"20"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_small"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		1
+			y		1
+			z		1
+		}
+	}
+	BurningComponent
+	{
+		spread_radius 			"1.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "4 4 4"
+				}
+			}
+		}			
+	}		
+}
 

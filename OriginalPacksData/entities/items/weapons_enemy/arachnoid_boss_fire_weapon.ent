@@ -1,0 +1,144 @@
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/arachnoid_boss_fire_weapon"
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/alien_acid_elite"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_5"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/arachnoid_boss_fire_weapon_projectile"
+		muzzles_per_fire 			"5"		
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/crystal_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.1"
+		burst_column_angle 			"0"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons_enemy/arachnoid_boss_fire_weapon_item"
+
+	InventoryItemDesc
+	{
+		type 			"enemy_range_weapon"
+		subtype			"alien"
+		name 			"arachnoid_boss_fire_weapon"
+		holding_pose 	"range"
+		item_bp			"items/weapons_enemy/arachnoid_boss_fire_weapon"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/singlefire_weapon.lua"
+	}
+
+	WeaponItemDesc
+	{
+		
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons_enemy/arachnoid_boss_fire_weapon_projectile"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "units/ground/boss_generic_fire"
+	}	
+	
+	ProjectileAmmoComponent
+	{
+		diameter				"0.2"		
+		on_enemy_hit_effect 	"effects/enemies_magmoth/projectile_hit"
+		on_world_hit_effect 	"effects/enemies_magmoth/projectile_hit"	
+		on_shield_hit_effect	"effects/enemies_magmoth/projectile_hit"
+		hit_effect_direction	"up"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire			"pass"
+	}
+	
+	LifeTimeDesc
+	{
+		time 		4
+	}	
+	
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"radar"
+		layer_group		"enemies"
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_magmoth/projectile"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 4 1"
+				}
+			}
+		}		
+	}		
+}

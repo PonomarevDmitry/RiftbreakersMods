@@ -7,9 +7,7 @@ function shegret_wreck:__init()
 end
 
 function shegret_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return shegret_wreck

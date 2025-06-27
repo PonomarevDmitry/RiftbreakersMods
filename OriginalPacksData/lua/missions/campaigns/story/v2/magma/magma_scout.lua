@@ -9,6 +9,8 @@ function mission_magma_scout:__init()
 end
 
 function mission_magma_scout:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/magma_scout.logic", "default" )
@@ -18,6 +20,8 @@ function mission_magma_scout:init()
 end
 
 function mission_magma_scout:OnLoad()
+    mission_base.OnLoad(self)
+
     local cryo_blueprints = {
         "props/special/cryo_plant/cryo_plant_big_01",
         "props/special/cryo_plant/cryo_plant_big_02",

@@ -6,6 +6,7 @@ cbuffer FPConstantBuffer : register(b0)
 #if USE_PROJECTED_POS
     matrix      cInvProjMatrix;
     matrix      cInvWorldViewMatrix;
+    matrix      cInvViewProjMatrix; 
 #endif
 #if USE_TEXTURE_ATLAS
     float4      cTextureAtlas;
@@ -29,7 +30,7 @@ struct VS_OUTPUT
     float2      TexCoord      : TEXCOORD4;
 #if USE_VELOCITY
     float4      PrevPos       : TEXCOORD5;
-#endif
+#endif   
 };
 
 struct PS_OUTPUT
@@ -68,6 +69,15 @@ float4 getViewPosFromDepth( float2 screenPos )
     viewPos = viewPos.xyzw / viewPos.w;
     return viewPos;
 }
+
+inline float3 getWorldPos( float2 coords )
+{
+    float depth = tDepthTex.SampleLevel( sDepthTex, coords, 0.0f ).r;
+    float4 projPos = float4( coords * float2( 2.0, -2.0 ) + float2( -1.0, 1.0 ), depth, 1.0 );
+    float4 worldPos = mul( cInvViewProjMatrix, projPos );
+    return worldPos.xyz / worldPos.w;
+}
+
 #endif
 
 PS_OUTPUT mainFP( VS_OUTPUT In )
@@ -82,7 +92,8 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
 	float4 viewPos = getViewPosFromDepth( screenCoord.xy );
 	float4 localPos = mul( cInvWorldViewMatrix, viewPos );
-
+    float3 worldPos = getWorldPos( screenCoord ); 
+         
 	clip( 0.5f - abs( localPos.xyz ) );
 	float2 texCoord = localPos.xz + 0.5f;
 #else
@@ -102,6 +113,10 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #endif
 
     albedo.w *= ( 1.0f - cDissolveAmount );
+    
+#if USE_PROJECTED_POS && USE_SOFT_BLEND
+    albedo.w *= saturate( pow( abs( 1.0f - ( saturate( ( worldPos.y ) / 3.0f ) ) ), 4 ) );
+#endif    
     
     Out.GBuffer0.xyzw = albedo.xyzw;
 

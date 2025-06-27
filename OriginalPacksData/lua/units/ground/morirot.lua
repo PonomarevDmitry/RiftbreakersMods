@@ -9,7 +9,9 @@ end
 
 function morirot:OnInit()
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 8
+	self.wreckMinSpeed = 6
+    self.normalExplodeProbability = 4
+	self.leaveBodyProbability = 10
 end
 
 return morirot

@@ -9,7 +9,9 @@ end
 
 function canceroth:_OnInit()
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 10
+	self.leaveBodyProbability = 0
 
     if self.__OnInit then
         self:__OnInit( evt )
@@ -47,6 +49,10 @@ function canceroth:_OnExecuteLogic( state, dt )
 
 	for i = 1, ( #self.children ) do	
 		
+		 if ( self._CheckChild ) then
+			self:_CheckChild( self.children[i].entity )
+		 end
+
 		if ( target ~= INVALID_ID) then
 			UnitService:SetNavMeshMoveToOrigin( self.children[i].entity, originForward )
 		else

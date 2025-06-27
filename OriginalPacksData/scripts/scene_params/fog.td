@@ -69,6 +69,7 @@ TimeOfDayPreset
 		time_of_day "0"
 		weather_haptic
 		weather_effect "effects/weather/fog"
+		weather_biome_mod "effects/biome_mod/fog"
 		weather_wind "effects/wind/weak"
 		weather_type "0"
 	}
@@ -142,6 +143,7 @@ TimeOfDayPreset
 		time_of_day "2"
 		weather_haptic
 		weather_effect "effects/weather/fog"
+		weather_biome_mod "effects/biome_mod/fog"
 		weather_wind "effects/wind/weak"
 		weather_type "0"
 	}

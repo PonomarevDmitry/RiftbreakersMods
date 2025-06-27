@@ -1,0 +1,510 @@
+EntityBlueprint
+{
+	name "units/ground/drexolian_boss_acid"
+
+	base_blueprint "units/ground/drexolian_base"
+
+	StateMachineDesc
+	{
+		template_name "drexolian"
+		params
+		{
+			aggressive_speed					float:"8"
+			aggressive_acceleration				float:"24"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"30"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			range_attack_cooldown				float:"8"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/drexolian.lua"
+		database
+		{
+			min_scale	float:"1.50"
+			max_scale	float:"1.50"
+			waller		string:"misc/waller"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "drexolian_boss"
+	}
+	
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"6.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"2.0"
+		reflect_damage_max_percent 		"0.1"
+	}
+
+	StunDataComponent
+	{
+		stagger_time 					"0.25"
+		stagger_health_threshold		"0.10"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.20"
+
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.05"
+	}
+
+	HealthDesc
+	{
+		max_health 					"5000"
+		health 						"5000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/drexolian_boss.mesh"
+		material 	"units/ground/drexolian_boss_acid"
+	}
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"
+		layer_group		"enemies"
+	}	
+
+	SelectableDesc
+	{
+		content "monster_name/drexolian_ultra"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		ammo_blueprint 				"units/ground/drexolian/attack_range_acid"
+
+		muzzle_flash_effect 		"effects/enemies_drexolian/muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}	
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_drexolian/death_acid"
+					part_prefix 			"meshes/units/ground/drexolian_boss"
+					part_material 			"units/ground/drexolian_boss_acid"
+					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_heavy"
+				}
+
+				key "default"
+			}
+		}
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/drexolian_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_drexolian/death_acid"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"boss_trail"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_acid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_acid"
+					bone "Head"
+					scale "1 1 1"
+				}				
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_acid"
+					bone "foot.R"
+					scale "1 1 1"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_generic/boss_trail_acid"
+					bone "foot.L"
+					scale "1 1 1"
+				}				
+			}
+		}				
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_green"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
+	}		
+
+	children
+	{
+		EntityBlueprint
+		{
+			NetReplicationDisabledComponent
+			{
+			}
+
+			AttachmentDesc
+			{
+				attachment "LowerArm.R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.50"
+						attack_end_time				"0.75"
+						attack_duration 			"1.43"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"70"
+										type 	"acid"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "3.5"
+						z "1.5"
+						
+						position 
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+		
+		EntityBlueprint
+		{
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "Shin.R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_drexolian/attack_start"
+						attack_start_time			"0.40"
+						attack_end_time				"0.65"
+						attack_duration 			"1.22"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"70"
+										type 	"acid"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.5"
+						y "3.0"
+						z "1.5"
+						
+						position 
+						{
+							x "0.0"
+							y "1.0"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+	FxComponent
+	{
+		threshold_vec
+		{
+			float 						"5"
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name "units/ground/drexolian/attack_range_acid"
+	base_blueprint "units/ground/drexolian/attack_range"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/drexolian_projectile.mesh"
+		material 	"units/ground/boss_generic_acid"
+	}
+
+	ProjectileAmmoComponent
+	{
+		diameter						"0.5"
+
+		on_enemy_hit_effect 	"effects/enemies_magmoth/projectile_hit_acid"
+		on_world_hit_effect 	"effects/enemies_magmoth/projectile_hit_acid"	
+		on_shield_hit_effect	"effects/enemies_magmoth/projectile_hit_acid"
+
+		collision_3d 					"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		destroy_pattern					"default"
+		friendly_fire					"pass"
+
+		DamagePattern
+		{
+			damage_additional_debuff	"units/ground/drexolian/player_slowdown"
+		}
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					//explosion_effect 		"effects/enemies_bomogan/artillery_explosion"	
+					part_prefix 			"meshes/units/ground/canoptrix"
+					part_material 			"units/ground/boss_generic_acid"
+					//part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}
+		}
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_magmoth/projectile_acid"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "1 4 1"
+				}
+			}
+		}			
+	}		
+}

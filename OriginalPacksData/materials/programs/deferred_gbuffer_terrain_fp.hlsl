@@ -69,10 +69,6 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 {
     PS_OUTPUT Out;
 
-    float w0 = In.BlendWeight.x;
-    float w1 = In.BlendWeight.y;
-    float w2 = In.BlendWeight.z;
-
     float3 normal = float3( 0,0,0 );
     float3 albedo = float3( 0,0,0 );
     float3 material = float3( 0,0,0 );
@@ -80,6 +76,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
     float MipBiasNormal = cMIPBias * 0.5;
 
+    float w0 = In.BlendWeight.x;
     if ( w0 > 0 )
     {
         albedo += tAlbedoTex1.SampleBias( sAlbedoTex1, In.UV0, cMIPBias).xyz * w0;
@@ -89,6 +86,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     }
 
 #if TEXTURES_COUNT >= 2
+    float w1 = In.BlendWeight.y;
     if ( w1 > 0 )
     {
         albedo += tAlbedoTex2.SampleBias( sAlbedoTex2, In.UV0, cMIPBias).xyz * w1;
@@ -98,6 +96,7 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     }
 #endif
 #if TEXTURES_COUNT >= 3
+    float w2 = In.BlendWeight.z;
     if ( w2 > 0 )
     {
         albedo += tAlbedoTex3.SampleBias( sAlbedoTex3, In.UV0, cMIPBias).xyz * w2;

@@ -42,6 +42,10 @@ function repellent_drone:FindActionTarget()
         return INVALID_ID
     end
 
+    if not EntityService:HasComponent( self.entity, "IsVisibleComponent") then
+        return INVALID_ID 
+    end
+
     if IsRequestThrottled(LOCK_TYPE_REPELLENT) then
         return INVALID_ID
     end

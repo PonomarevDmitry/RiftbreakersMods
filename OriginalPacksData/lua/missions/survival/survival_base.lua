@@ -51,6 +51,8 @@ function survival_base:Update()
 end
 
 function survival_base:OnLoad()
+    mission_base.OnLoad(self)
+    
     self.time_initialized = true
 end
 

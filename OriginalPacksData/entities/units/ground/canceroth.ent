@@ -81,6 +81,13 @@ EntityBlueprint
 
 		}		
 	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
 
 	NavMeshMovementComponent
 	{
@@ -159,10 +166,11 @@ EntityBlueprint
 	
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/canceroth"
-		visibility 		"radar"	
-		additional_z_order "1"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/canceroth"
+		visibility 			"radar"	
+		additional_z_order 	"1"	
+		layer_group			"enemies"		
 	}
 
 	HighlightComponent
@@ -172,7 +180,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent

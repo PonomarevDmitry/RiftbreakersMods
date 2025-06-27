@@ -1,7 +1,7 @@
 class 'logic_set_console_var' ( LuaGraphNode )
 
 function logic_set_console_var:__init()
-    LuaGraphNodeSelector.__init(self, self)
+    LuaGraphNode.__init(self, self)
 end
 
 function logic_set_console_var:init()	

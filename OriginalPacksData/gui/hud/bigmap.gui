@@ -1,0 +1,3220 @@
+GuiRootGroupDef
+{
+	full_screen "5"
+	priority "60.000"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "background"
+			value "GuiQuadDef"
+			{
+				alignment "center"
+				anchor "center"
+				color
+				{
+					w "0.750"
+					x "0.000"
+					y "0.000"
+					z "0.000"
+				}
+
+				id "background"
+				size
+				{
+					x "10000.000"
+					y "10000.000"
+				}
+
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "container"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "left_frame"
+						value "GuiGroupDef"
+						{
+							allow_overflow "0"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "filters"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/frames/simple_cut_left_corner"
+													texture_border
+													{
+														w "0.020"
+														x "0.075"
+														y "0.150"
+														z "0.020"
+													}
+
+													color
+													{
+														w "0.624"
+													}
+
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "filters"
+												value "GuiStackPanelDef"
+												{
+													stack_type "1"
+													template_reference
+													{
+														path "templates.visibility_filter_row"
+														ref_gui_id "gui/hud/bigmap"
+														size
+														{
+															y "22.000"
+														}
+
+														size_mode_x "2"
+													}
+
+													id "filters"
+													margin
+													{
+														w "10.000"
+														x "3.000"
+														y "65.000"
+													}
+
+													model_source "status_filter_groups"
+													size_mode_x "2"
+													size_mode_y "1"
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiReferenceDef"
+												{
+													path "group_header"
+													ref_gui_id "gui/template/headers"
+													ref_model
+													{
+														database
+														{
+															Strings
+															{
+																StringData
+																{
+																	key "header_content"
+																	value "gui/hud/minimap/header/filters"
+																}
+
+															}
+
+															Floats
+															Vectors
+															Integers
+														}
+
+													}
+
+													id "header"
+													margin
+													{
+														w "5.000"
+														x "5.000"
+														y "24.000"
+														z "-20.000"
+													}
+
+													size
+													{
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "filters"
+										margin
+										{
+											z "-2.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "players"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/frames/simple_cut_left_corner"
+													texture_border
+													{
+														w "0.020"
+														x "0.075"
+														y "0.150"
+														z "0.020"
+													}
+
+													color
+													{
+														w "0.624"
+													}
+
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiReferenceDef"
+												{
+													path "group_header"
+													ref_gui_id "gui/template/headers"
+													ref_model
+													{
+														database
+														{
+															Strings
+															{
+																StringData
+																{
+																	key "header_content"
+																	value "gui/menu/multiplayer/players"
+																}
+
+															}
+
+															Floats
+															Vectors
+															Integers
+														}
+
+													}
+
+													id "header"
+													margin
+													{
+														w "5.000"
+														x "7.000"
+														y "24.000"
+														z "-20.000"
+													}
+
+													size
+													{
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "players"
+												value "GuiStackPanelDef"
+												{
+													stack_type "1"
+													template_reference
+													{
+														path "templates.player_row"
+														ref_gui_id "gui/hud/bigmap"
+														size
+														{
+															y "22.000"
+														}
+
+														size_mode_x "2"
+													}
+
+													id "players"
+													margin
+													{
+														w "10.000"
+														x "3.000"
+														y "65.000"
+													}
+
+													model_source "players"
+													size_mode_x "2"
+													size_mode_y "1"
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										bindings
+										{
+											visible
+											{
+												model_field "players"
+												converter "GuiModelObjectNullOrEmptyConverter"
+												{
+													invert "1"
+												}
+
+											}
+
+										}
+
+										id "players"
+										margin
+										{
+											w "8.000"
+											z "-2.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "3.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "visibility"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/frames/simple_cut_left_corner"
+													texture_border
+													{
+														w "0.020"
+														x "0.075"
+														y "0.150"
+														z "0.020"
+													}
+
+													color
+													{
+														w "0.624"
+													}
+
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "groups"
+												value "GuiStackPanelDef"
+												{
+													stack_type "1"
+													template_reference
+													{
+														path "templates.visibility_filter_row"
+														ref_gui_id "gui/hud/bigmap"
+														size
+														{
+															y "22.000"
+														}
+
+														size_mode_x "2"
+													}
+
+													id "groups"
+													margin
+													{
+														w "10.000"
+														x "3.000"
+														y "65.000"
+													}
+
+													model_source "visibility_groups"
+													size_mode_x "2"
+													size_mode_y "1"
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiReferenceDef"
+												{
+													path "group_header"
+													ref_gui_id "gui/template/headers"
+													ref_model
+													{
+														database
+														{
+															Strings
+															{
+																StringData
+																{
+																	key "header_content"
+																	value "gui/hud/minimap/header/visibility"
+																}
+
+															}
+
+															Floats
+															Vectors
+															Integers
+														}
+
+													}
+
+													id "header"
+													margin
+													{
+														w "5.000"
+														x "5.000"
+														y "24.000"
+														z "-20.000"
+													}
+
+													size
+													{
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header_icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/spectator_icon"
+													alignment "top_right"
+													anchor "top_right"
+													id "header_icon"
+													margin
+													{
+														y "22.000"
+														z "15.000"
+													}
+
+													scale
+													{
+														x "0.750"
+														y "0.750"
+													}
+
+													z_order "2.000"
+												}
+
+											}
+
+										}
+
+										id "visibility"
+										margin
+										{
+											w "8.000"
+											z "-2.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "2.000"
+									}
+
+								}
+
+							}
+
+							container_type "2"
+							alignment "top_right"
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1.000"
+												}
+
+												mask "36"
+												scale
+												{
+													x "0.010"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "20"
+												mask "36"
+											}
+
+										}
+
+										name "slide_out"
+									}
+
+								}
+
+							}
+
+							id "left_frame"
+							margin
+							{
+								y "38.000"
+								z "-18.000"
+							}
+
+							size
+							{
+								x "292.000"
+								y "300.000"
+							}
+
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "minimap"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/build_menu_map"
+										alignment "center"
+										anchor "center"
+										hitbox_visible "0"
+										id "background"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "highlight"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/frame_corner_highlight"
+										hitbox_visible "0"
+										id "highlight"
+										offset
+										{
+											x "27.000"
+											y "55.000"
+										}
+
+										rotation "270.000"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icons"
+									value "GuiGroupDef"
+									{
+										allow_overflow "0"
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "#MASK#"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "bottom_fill"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																alignment "bottom_left"
+																anchor "bottom_left"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "bottom_fill"
+																margin
+																{
+																	z "20.000"
+																}
+
+																size
+																{
+																	y "20.000"
+																}
+
+																size_mode_x "2"
+																z_order "5.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "corner_bottom_right"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																alignment "bottom_right"
+																anchor "bottom_right"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "corner_bottom_right"
+																offset
+																{
+																	x "-21.000"
+																}
+
+																rotation "45.000"
+																size
+																{
+																	x "16.000"
+																	y "30.000"
+																}
+
+																z_order "7.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "corner_top_left"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "corner_top_left"
+																offset
+																{
+																	x "18.000"
+																}
+
+																rotation "45.000"
+																size
+																{
+																	x "12.000"
+																	y "40.000"
+																}
+
+																z_order "6.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "fill"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "fill"
+																margin
+																{
+																	w "20.000"
+																	y "20.000"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																z_order "8.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "top_fill"
+															value "GuiQuadDef"
+															{
+																material_mode "stencil"
+																color
+																{
+																	y "0.000"
+																	z "0.000"
+																}
+
+																id "top_fill"
+																margin
+																{
+																	x "20.000"
+																}
+
+																offset
+																{
+																	x "-3.000"
+																}
+
+																size
+																{
+																	x "930.000"
+																	y "20.000"
+																}
+
+																z_order "4.000"
+															}
+
+														}
+
+													}
+
+													id "#MASK#"
+													size
+													{
+														x "945.000"
+														y "945.000"
+													}
+
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/map_grid"
+													id "background"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "0.200"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "background_fallback"
+												value "GuiQuadDef"
+												{
+													color
+													{
+														x "0.000"
+														y "0.000"
+														z "0.000"
+													}
+
+													id "background_fallback"
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "0.100"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "interference"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/build_menu_minimap_interference"
+													bindings
+													{
+														visible
+														{
+															model_field "state"
+															converter "GuiModelCompareConverter"
+															{
+																ref_value "1"
+															}
+
+														}
+
+													}
+
+													id "interference"
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "10000.000"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "icons"
+										margin
+										{
+											w "31.500"
+											x "27.000"
+											y "24.000"
+											z "28.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "minimap"
+							size
+							{
+								x "1000.000"
+								y "1000.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "1.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "right_frame"
+						value "GuiGroupDef"
+						{
+							allow_overflow "0"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "0.075"
+											y "0.173"
+											z "0.302"
+										}
+
+										border_width "1.000"
+										inner_alpha "0.650"
+										color
+										{
+											x "0.000"
+											y "0.000"
+											z "0.000"
+										}
+
+										id "background"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "groups"
+									value "GuiStackPanelDef"
+									{
+										stack_type "1"
+										template_reference
+										{
+											path "templates.legend_group"
+											ref_gui_id "gui/hud/bigmap"
+											margin
+											{
+												w "2.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+										id "groups"
+										margin
+										{
+											w "5.000"
+											y "45.000"
+										}
+
+										model_source "legend_items"
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiReferenceDef"
+									{
+										path "group_header"
+										ref_gui_id "gui/template/headers"
+										ref_model
+										{
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "header_content"
+														value "gui/hud/minimap/header/legend"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										id "header"
+										margin
+										{
+											w "5.000"
+											x "5.000"
+											y "5.000"
+											z "5.000"
+										}
+
+										size
+										{
+											y "32.000"
+										}
+
+										size_mode_x "2"
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							anchor "top_right"
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1.000"
+												}
+
+												mask "36"
+												scale
+												{
+													x "0.010"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "20"
+												mask "36"
+											}
+
+										}
+
+										name "slide_out"
+									}
+
+								}
+
+							}
+
+							id "right_frame"
+							margin
+							{
+								x "1.000"
+								y "14.000"
+							}
+
+							size
+							{
+								x "286.000"
+								y "300.000"
+							}
+
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "teleport_hint"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/full_version_header_bg"
+										color
+										{
+											w "0.665"
+										}
+
+										id "background"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextLineDef"
+									{
+										capitals "1"
+										content "gui/hud/big_map/click_to_teleport"
+										style
+										{
+											char_height "30.000"
+											color
+											{
+												x "0.000"
+												y "0.953"
+											}
+
+											df "1"
+											font "Exo2_Bold_sdf"
+											glow_color
+											{
+												w "0.000"
+											}
+
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
+											{
+												w "0.850"
+											}
+
+											shadow_distance "2.000"
+											shadow_enabled "1"
+											shadow_spread "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
+										}
+
+										style_name "resource_blue_smaller"
+										translate "1"
+										alignment "center"
+										anchor "center"
+										id "label"
+										margin
+										{
+											x "100.000"
+											z "100.000"
+										}
+
+										z_order "15.000"
+									}
+
+								}
+
+							}
+
+							alignment "bottom"
+							anchor "top"
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1.000"
+												}
+
+												mask "34"
+												offset
+												{
+													y "58.000"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "15"
+												mask "34"
+											}
+
+										}
+
+										name "slide_out"
+									}
+
+								}
+
+							}
+
+							id "teleport_hint"
+							offset
+							{
+								y "-8.000"
+							}
+
+							size
+							{
+								x "509.089"
+								y "35.000"
+							}
+
+							size_mode_x "1"
+							z_order "13.000"
+						}
+
+					}
+
+				}
+
+				alignment "center"
+				anchor "center"
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-0.800"
+									}
+
+									mask "44"
+									scale
+									{
+										x "0.700"
+										y "0.700"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "15"
+									mask "44"
+								}
+
+							}
+
+							name "fade_in"
+						}
+
+					}
+
+				}
+
+				id "container"
+				offset
+				{
+					x "1.000"
+					y "28.000"
+				}
+
+				size
+				{
+					x "1000.000"
+					y "1000.000"
+				}
+
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "templates"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "legend_group"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bottom_rect"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1.000"
+											y "1.000"
+											z "1.000"
+										}
+
+										inner_alpha "0.350"
+										alignment "bottom_left"
+										anchor "bottom_left"
+										color
+										{
+											x "0.094"
+											y "0.310"
+											z "0.451"
+										}
+
+										id "bottom_rect"
+										margin
+										{
+											x "8.000"
+										}
+
+										size
+										{
+											x "45.000"
+											y "5.000"
+										}
+
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "items"
+									value "GuiStackPanelDef"
+									{
+										stack_type "1"
+										template_reference
+										{
+											path "templates.legend_item"
+											ref_gui_id "gui/hud/bigmap"
+											ref_model
+											{
+												bindings_proxy
+												{
+													localization
+													{
+														model_field "localization"
+													}
+
+												}
+
+												database
+												{
+													Strings
+													Floats
+													Vectors
+													Integers
+												}
+
+											}
+
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+										id "items"
+										margin
+										{
+											w "5.000"
+											y "5.000"
+										}
+
+										model_source "items"
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "top_rect"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1.000"
+											y "1.000"
+											z "1.000"
+										}
+
+										inner_alpha "0.350"
+										color
+										{
+											x "0.094"
+											y "0.310"
+											z "0.451"
+										}
+
+										id "top_rect"
+										margin
+										{
+											x "8.000"
+										}
+
+										size
+										{
+											x "45.000"
+											y "5.000"
+										}
+
+									}
+
+								}
+
+							}
+
+							id "legend_group"
+							size_mode_x "2"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "legend_item"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.350"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "background"
+													size
+													{
+														x "45.000"
+														y "32.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "image"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/minimap_icons/gui_map_icon_headquarter"
+													stretch_proportional "1"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+													}
+
+													id "image"
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "icon"
+										margin
+										{
+											x "8.000"
+										}
+
+										size
+										{
+											x "45.000"
+											y "27.000"
+										}
+
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextDef"
+									{
+										capitals "1"
+										content "gui/hud/building_name/headquarters"
+										style_name "inventory_smaller"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "localization"
+											}
+
+										}
+
+										id "label"
+										margin
+										{
+											x "62.000"
+										}
+
+										size
+										{
+											y "2.000"
+										}
+
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							id "legend_item"
+							offset
+							{
+								x "4.000"
+								y "40.000"
+							}
+
+							size
+							{
+								x "280.000"
+								y "27.000"
+							}
+
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "player_row"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										id "active"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "portal_icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/minimap_icons/gui_map_icon_rift_active"
+													stretch_proportional "1"
+													alignment "right"
+													anchor "right"
+													id "portal_icon"
+													margin
+													{
+														z "20.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.099"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "quad"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "avatar"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "death"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/minimap_icons/player_down_icon"
+													stretch_proportional "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														visible
+														{
+															model_field "is_dead"
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "death"
+													size
+													{
+														x "32.000"
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "93.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "image"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/items_icons/appearance/skins/base"
+													stretch_proportional "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+													}
+
+													id "image"
+													size
+													{
+														x "32.000"
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										alignment "left"
+										anchor "left"
+										id "avatar"
+										margin
+										{
+											x "10.000"
+										}
+
+										size
+										{
+											x "22.000"
+											y "22.000"
+										}
+
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "quad"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.099"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "quad"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "disabled_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "portal_icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/minimap_icons/gui_map_icon_rift"
+													stretch_proportional "1"
+													alignment "right"
+													anchor "right"
+													id "portal_icon"
+													margin
+													{
+														z "20.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "portal_icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/minimap_icons/gui_map_icon_rift_active"
+													stretch_proportional "1"
+													alignment "right"
+													anchor "right"
+													id "portal_icon"
+													margin
+													{
+														z "20.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.099"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "quad"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "player_id"
+									value "GuiTextDef"
+									{
+										style_name "tooltip_small_white"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "player_id"
+												converter "GuiModelPostfixConverter"
+												{
+													prefix "P"
+												}
+
+											}
+
+										}
+
+										id "player_id"
+										margin
+										{
+											x "22.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "quad"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1.000"
+											y "1.000"
+											z "1.000"
+										}
+
+										inner_alpha "0.099"
+										color
+										{
+											x "0.094"
+											y "0.310"
+											z "0.451"
+										}
+
+										id "quad"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "user_name"
+									value "GuiTextDef"
+									{
+										line_breaking "0"
+										capitals "1"
+										content "test test test test test"
+										plain_text "1"
+										style_name "tooltip_small_white"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "user_name"
+											}
+
+										}
+
+										id "user_name"
+										margin
+										{
+											x "45.000"
+											z "50.000"
+										}
+
+										max_size
+										{
+											x "-1.000"
+											y "32.000"
+										}
+
+										size_mode_x "2"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								on_click_action
+								{
+									model_field "player_id"
+									converter "GuiModelPostfixConverter"
+									{
+										prefix "teleport_to_player:"
+									}
+
+								}
+
+								z_order
+								{
+									model_field "is_teleport_allowed"
+									converter "GuiButtonNodeEnablingConverter"
+								}
+
+							}
+
+							id "player_row"
+							offset
+							{
+								x "4.000"
+								y "80.000"
+							}
+
+							size
+							{
+								x "280.000"
+								y "32.000"
+							}
+
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "visibility_filter_row"
+						value "GuiToggleButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/map_visibility"
+																alignment "center"
+																anchor "center"
+																hitbox_visible "0"
+																id "icon"
+																scale
+																{
+																	x "0.800"
+																	y "0.800"
+																}
+
+															}
+
+														}
+
+													}
+
+													alignment "right"
+													anchor "right"
+													id "group"
+													margin
+													{
+														z "16.000"
+													}
+
+													size
+													{
+														x "32.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													capitals "1"
+													plain_text "1"
+													style_name "tooltip_small_white"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "label"
+													margin
+													{
+														x "23.000"
+														z "50.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "active"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/map_visibility"
+																alignment "center"
+																anchor "center"
+																hitbox_visible "0"
+																id "icon"
+															}
+
+														}
+
+													}
+
+													alignment "right"
+													anchor "right"
+													id "group"
+													margin
+													{
+														z "16.000"
+													}
+
+													size
+													{
+														x "32.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													capitals "1"
+													plain_text "1"
+													style_name "tooltip_small_white"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "label"
+													margin
+													{
+														x "23.000"
+														z "50.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.099"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "quad"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/minimap_icons/gui_map_icon_headquarter"
+										stretch_proportional "1"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											material
+											{
+												model_field "icon"
+											}
+
+											visible
+											{
+												model_field "icon"
+												converter "GuiModelObjectNullOrEmptyConverter"
+												{
+													invert "1"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "image"
+										margin
+										{
+											x "5.000"
+										}
+
+										size
+										{
+											x "16.000"
+											y "16.000"
+										}
+
+										size_mode_x "0"
+										size_mode_y "0"
+										tooltip_def
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/map_visibility_disabled"
+																alignment "center"
+																anchor "center"
+																hitbox_visible "0"
+																id "icon"
+																scale
+																{
+																	x "0.800"
+																	y "0.800"
+																}
+
+															}
+
+														}
+
+													}
+
+													alignment "right"
+													anchor "right"
+													color
+													{
+														w "0.500"
+													}
+
+													id "group"
+													margin
+													{
+														z "16.000"
+													}
+
+													size
+													{
+														x "32.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													capitals "1"
+													plain_text "1"
+													style_name "tooltip_small_white"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													color
+													{
+														w "0.700"
+													}
+
+													hitbox_visible "0"
+													id "label"
+													margin
+													{
+														x "23.000"
+														z "50.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/map_visibility_disabled"
+																alignment "center"
+																anchor "center"
+																hitbox_visible "0"
+																id "icon"
+															}
+
+														}
+
+													}
+
+													alignment "right"
+													anchor "right"
+													color
+													{
+														w "0.500"
+													}
+
+													id "group"
+													margin
+													{
+														z "16.000"
+													}
+
+													size
+													{
+														x "32.000"
+													}
+
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													capitals "1"
+													plain_text "1"
+													style_name "tooltip_small_white"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "localization"
+														}
+
+													}
+
+													color
+													{
+														w "0.800"
+													}
+
+													hitbox_visible "0"
+													id "label"
+													margin
+													{
+														x "23.000"
+														z "50.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "1.000"
+														y "1.000"
+														z "1.000"
+													}
+
+													inner_alpha "0.099"
+													color
+													{
+														x "0.094"
+														y "0.310"
+														z "0.451"
+													}
+
+													id "quad"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "quad"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1.000"
+											y "1.000"
+											z "1.000"
+										}
+
+										inner_alpha "0.100"
+										color
+										{
+											x "0.094"
+											y "0.310"
+											z "0.451"
+										}
+
+										hitbox_visible "0"
+										id "quad"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								on_click_action
+								{
+									model_field "value"
+									converter "GuiModelPostfixConverter"
+									{
+										prefix "toggle_layer_visibility:"
+									}
+
+								}
+
+								z_order
+								{
+									model_field "enabled"
+									converter "GuiButtonNodeActivatingConverter"
+								}
+
+							}
+
+							id "visibility_filter_row"
+							offset
+							{
+								y "200.000"
+							}
+
+							size
+							{
+								x "280.000"
+								y "32.000"
+							}
+
+							tooltip_def
+						}
+
+					}
+
+				}
+
+				id "templates"
+				offset
+				{
+					x "1920.000"
+				}
+
+				size_mode_x "2"
+				size_mode_y "2"
+			}
+
+		}
+
+	}
+
+	alignment "top"
+	anchor "top"
+	id "gui/hud/bigmap"
+	item_scripts
+	{
+		scripts
+		{
+			Pair_IdString_GuiScriptDef2
+			{
+				key "OnShow"
+				value
+				{
+					script
+					{
+						children
+						{
+							GuiScriptNodeDef
+							{
+								cmd "GuiScriptCommandAnimStartDef"
+								{
+									anim_info
+									{
+										loop "1"
+										multiplier "0.250"
+									}
+
+									animations
+									{
+										fade_in
+										{
+											String "container"
+										}
+
+										slide_out
+										{
+											String "container.teleport_hint"
+											String "container.left_frame"
+											String "container.right_frame"
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	size
+	{
+		x "1920.000"
+		y "1080.000"
+	}
+
+	z_order "1.000"
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[28F4221A-E8F9-48AA-A0A5-E67852034514]/MinimapLegendGroup4"
+					default_value
+					{
+						typehash "2344829172"
+						Vector_[28F4221A-E8F9-48AA-A0A5-E67852034514]/MinimapLegendGroup4
+						{
+							[28F4221A-E8F9-48AA-A0A5-E67852034514]/MinimapLegendGroup
+							{
+								items
+								{
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/portal"
+										icon "gui/hud/minimap_icons/portal"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "gui/hud/building_name/headquarters"
+										icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+									}
+
+								}
+
+							}
+
+							[28F4221A-E8F9-48AA-A0A5-E67852034514]/MinimapLegendGroup
+							{
+								items
+								{
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "resource_name/carbon_vein"
+										icon "gui/hud/minimap_icons/carbonium"
+									}
+
+									[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+									{
+										localization "resource_name/iron_vein"
+										icon "gui/hud/minimap_icons/ironium"
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+				key "legend_items"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData4"
+					default_value
+					{
+						typehash "871871193"
+						Vector_[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData4
+						{
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "0"
+								is_dead "1"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "1"
+								user_name "QMA666"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "2"
+								user_name "Pacanutron"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+							[5090000E-2676-46D3-958F-098D3A5C2EB2]/HudPlayerData
+							{
+								player_id "0"
+								user_name "Starbugzz"
+								is_teleport_allowed "1"
+								is_dead "0"
+								icon "gui/menu/items_icons/appearance/skins/base"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "players"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "0"
+					}
+
+				}
+
+				key "state"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4"
+					default_value
+					{
+						typehash "2466551687"
+						Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4
+						{
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Upgradables ( NYT )"
+								icon "gui/hud/minimap_icons/upgradables"
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Damaged ( NYT )"
+								icon "gui/hud/minimap_icons/damaged"
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Ruins ( NYT )"
+								icon "gui/hud/minimap_icons/ruins"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "status_filter_groups"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4"
+					default_value
+					{
+						typehash "2466551687"
+						Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4
+						{
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "ssssssssssssssssssssssssssssssssssssss"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Common buildings ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Defense buildings ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Building gadgets ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Resources ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Resource warnings ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Exploration ( NYT )"
+								icon
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "Enemies ( NYT )"
+								icon
+							}
+
+						}
+
+					}
+
+				}
+
+				key "visibility_groups"
+			}
+
+		}
+
+		handle "[D035041E-E656-46DE-B87F-1D46D577198C]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "HudPlayerData"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/items_icons/appearance/skins/base"
+					}
+
+				}
+
+				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_dead"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_teleport_allowed"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "0"
+					}
+
+				}
+
+				key "player_id"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Starbugzz"
+					}
+
+				}
+
+				key "user_name"
+			}
+
+		}
+
+		handle "[5090000E-2676-46D3-958F-098D3A5C2EB2]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "MinimapLegendItem"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/minimap_icons/gui_map_icon_headquarter"
+					}
+
+				}
+
+				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/building_name/headquarters"
+					}
+
+				}
+
+				key "localization"
+			}
+
+		}
+
+		handle "[B703FEB1-2718-41E3-AAD7-671B5737477B]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "MinimapLegendGroup"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4"
+					default_value
+					{
+						typehash "2466551687"
+						Vector_[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem4
+						{
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "gui/hud/building_name/headquarters"
+								icon "gui/hud/minimap_icons/gui_map_icon_headquarter"
+							}
+
+							[B703FEB1-2718-41E3-AAD7-671B5737477B]/MinimapLegendItem
+							{
+								localization "gui/hud/building_name/portal"
+								icon "gui/hud/minimap_icons/portal"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "items"
+			}
+
+		}
+
+		handle "[28F4221A-E8F9-48AA-A0A5-E67852034514]"
+	}
+
+}
+

@@ -29,6 +29,7 @@ GameplayResourceDef
 	volume_ambient_effect  	"effects/world/mud_resource_ambient_sound"
 	volume_repeat_effect	""
 	volume_splash_effect	"effects/mud_splash_small"	
+	
 	volume_minimap_color
 	{
 		r "0.7"

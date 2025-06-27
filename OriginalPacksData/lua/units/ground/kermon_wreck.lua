@@ -7,9 +7,6 @@ function kermon_wreck:__init()
 end
 
 function kermon_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
 
 	self.uniformFSM = self:CreateStateMachine()
 	self.uniformFSM:AddState( "uniform", { execute="OnUniformExecute"} )

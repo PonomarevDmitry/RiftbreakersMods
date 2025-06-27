@@ -12,15 +12,16 @@ function armory:OnInit()
 end
 
 function armory:OnBuildingStart()
-    local enabled = PlayerService:IsCraftingEnabled()
-    if ( enabled == false ) then
-        QueueEvent("ForceLootContainerTypeRequest", event_sink, "crafting")
-    end
+    local player = PlayerService:GetPlayerForEntity( self.entity )
+    --local enabled = PlayerService:IsCraftingEnabled(player)
+    --if ( enabled == false ) then
+    --    QueueEvent("ForceLootContainerTypeRequest", event_sink, "crafting")
+    --end
 end
 
 function armory:OnInteractWithEntityRequest( event )
     local player = PlayerService:GetPlayerByMech( event:GetOwner() )
-    QueueEvent("OpenCraftingRequest", player )
+    QueueEvent("OpenCraftingRequest", event:GetOwner(), player )
 end
 
 function armory:OnLoad()

@@ -7,9 +7,7 @@ function magmoth_wreck:__init()
 end
 
 function magmoth_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 0
+
 end
 
 return magmoth_wreck
