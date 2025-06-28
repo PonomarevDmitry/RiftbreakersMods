@@ -116,7 +116,7 @@ function buildings_picker_tool:OnUpdate()
 
                 local entity = self.templateEntities[i]
 
-                self:SetEntitySelectedMaterial( firstEntity, "hologram/active" )
+                self:SetEntitySelectedMaterial( entity, "hologram/active" )
             end
         end
     end
