@@ -132,12 +132,12 @@ function buildings_picker_tool:OnUpdate()
                 if ( self.activated == false ) then
 
                     -- Mark candidate to remove from template
-                    self:SetEntitySelectedMaterial( firstEntity, "hologram/deny" )
+                    self:SetEntitySelectedMaterial( entity, "hologram/deny" )
                 end
             end
         else
             -- Mark candidate to add to template
-            self:SetEntitySelectedMaterial( firstEntity, "hologram/pass" )
+            self:SetEntitySelectedMaterial( entity, "hologram/pass" )
         end
     end
 end
