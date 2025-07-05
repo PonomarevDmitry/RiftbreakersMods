@@ -90,7 +90,7 @@ end
 
 function gravity_hole:OnOpenedExecute( state )
 	local currentProgress = ( state:GetDuration() / self.openedTime )
-	if TornadoService then
+	if is_server then
 		TornadoService:UpdateGravityHole( self.entity, 10.0, 0.5, 650 )
 	end
 	if currentProgress > 0.95 and self.refractEnt ~= nil then 

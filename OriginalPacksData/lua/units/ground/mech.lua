@@ -332,16 +332,13 @@ function mech:OnInteractWithEntity( event )
 	if event:GetEvent() == "InteractWithEntityStarted" then
 		LogService:Log( "Intaraction started" )
 		self.reactivationActive = true
-		self.reactivationSoundHandle = SoundService:Play("mech/reviving")
+		EffectService:AttachEffects( self.entity, "reviving")
 	end
 	if event:GetEvent() == "InteractWithEntityEnded" then
 		LogService:Log( "Intaraction ended" )
 		if self.reactivationActive == true then
 			self.reactivationActive = false
-			if self.reactivationSoundHandle ~= nil then
-				SoundService:Stop( self.reactivationSoundHandle )
-				self.reactivationSoundHandle = nil
-			end
+			EffectService:DestroyEffectsByGroup( self.entity, "reviving" )
 			self:CleanupReactivationSkulls()
 			self:InitReactivationSkulls()
 		end
@@ -573,10 +570,7 @@ function mech:DestroyMech()
 
 	self:AddDeathSkull( true )
 
-	if self.reactivationSoundHandle ~= nil then
-		SoundService:Stop( self.reactivationSoundHandle )
-		self.reactivationSoundHandle = nil
-	end
+	EffectService:DestroyEffectsByGroup( self.entity, "reviving" )
 
 	QueueEvent( "PlayerPawnDestroyedEvent", self.entity, self.player_id )
 	QueueEvent( "PlayerDiedEvent", self.entity, self.player_id, self.killer_id or INVALID_ID, self.killer_damage or "physical" )
@@ -677,10 +671,7 @@ function mech:OnDeactivateExit(state)
 
 	self:AddDeathSkull( false )
 
-	if self.reactivationSoundHandle ~= nil then
-		SoundService:Stop( self.reactivationSoundHandle )
-		self.reactivationSoundHandle = nil
-	end
+	EffectService:DestroyEffectsByGroup( self.entity, "reviving" )
 
 	self.mech_reactivator = INVALID_ID
 	self.mech_reactivator_flow_field = INVALID_ID

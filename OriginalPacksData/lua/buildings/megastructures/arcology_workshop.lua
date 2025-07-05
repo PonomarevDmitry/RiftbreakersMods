@@ -123,8 +123,8 @@ function arcology_workshop:OnExecute()
     local objectiveId = ObjectiveService:GetObjectiveIdFromObjectiveUniqueName( "global.arcology_megastructures.arcology_progress" )
     local objectiveStatus = ObjectiveService:GetObjectiveStatus( objectiveId )
     allWorking = allWorking and objectiveStatus ~= OBJECTIVE_SUCCESS
+    allWorking = allWorking and BuildingService:IsBuildingPowered( self.entity ) and BuildingService:IsResourceSupplied( self.entity ) and BuildingService:IsPlayerWorking( self.entity )
 
-   
     if ( allWorking == true ) then
 	    data:SetFloat( self.name, 1)
         self.active = true

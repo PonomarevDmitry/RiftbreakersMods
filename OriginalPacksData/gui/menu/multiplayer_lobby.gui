@@ -863,6 +863,20 @@ GuiRootGroupDef
 							model_field "host_mode"
 						}
 
+						button_back_popup_gui_id
+						{
+							model_field "lobby_initialized"
+							converter "GuiModelMapConverter"
+							{
+								map
+								{
+									1 "gui/popup/popup_template_2buttons"
+								}
+
+							}
+
+						}
+
 						button_left_1_visible
 						{
 							model_field "host_mode"
@@ -876,20 +890,6 @@ GuiRootGroupDef
 						button_right_1_is_enabled
 						{
 							model_field "can_start_game"
-						}
-
-						popup_gui_id
-						{
-							model_field "lobby_initialized"
-							converter "GuiModelMapConverter"
-							{
-								map
-								{
-									1 "gui/popup/popup_template_2buttons"
-								}
-
-							}
-
 						}
 
 					}
@@ -960,14 +960,32 @@ GuiRootGroupDef
 
 							StringData
 							{
-								key "popup_confirmation_node"
+								key "button_back_popup_confirm_node"
 								value "button_yes"
 							}
 
 							StringData
 							{
-								key "popup_dialog_msg"
+								key "button_back_popup_dialog_msg"
 								value "gui/popup/are_you_sure"
+							}
+
+							StringData
+							{
+								key "button_center_1_content"
+								value "gui/menu/multiplayer_lobby/manage_mods"
+							}
+
+							StringData
+							{
+								key "button_center_1_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_center_1_action"
+								value "mod_management"
 							}
 
 						}
@@ -2855,15 +2873,6 @@ GuiRootGroupDef
 							}
 
 							id "game_settings"
-							model_source_solver
-							{
-								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
-								{
-									field_name "selected_game_mode"
-								}
-
-							}
-
 							size
 							{
 								y "435.000"
@@ -2914,6 +2923,980 @@ GuiRootGroupDef
 
 								Pair_String_GuiDef2
 								{
+									key "content"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "extra_content"
+												value "GuiStackPanelDef"
+												{
+													stack_type "1"
+													template_reference
+													{
+														path "templates.toggle_button_medium"
+														ref_gui_id "gui/menu/multiplayer_lobby"
+														ref_model
+														{
+															bindings_proxy
+															{
+																is_activated
+																{
+																	model_field "content_active"
+																}
+
+																is_enabled
+																{
+																	model_field "content_available"
+																}
+
+																label
+																{
+																	model_field "content_name"
+																}
+
+															}
+
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "on_click_action"
+																		value "update_lobby_state"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														size
+														{
+															y "42.000"
+														}
+
+														size_mode_x "2"
+													}
+
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "text_container"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "warning"
+																		value "GuiTextDef"
+																		{
+																			text_alignment "1"
+																			content "gui/menu/multiplayer_lobby/campaign_dlc_toggle_warning"
+																			style_name "disabled_20"
+																			translate "1"
+																			alignment "center"
+																			anchor "center"
+																			id "warning"
+																			margin
+																			{
+																				x "20.000"
+																				z "20.000"
+																			}
+
+																			size_mode_x "2"
+																			z_order "1.000"
+																		}
+
+																	}
+
+																}
+
+																id "text_container"
+																size_mode_x "2"
+																size_mode_y "2"
+																z_order "1.000"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														visible
+														{
+															model_field "extra_content"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "extra_content"
+													model_source_solver
+													{
+														GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+														{
+															field_name "extra_content"
+														}
+
+													}
+
+													size
+													{
+														x "320.000"
+													}
+
+													size_mode_y "2"
+													visible "0"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "server_settings"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "dedicated"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "dedicated_server"
+																		value "GuiReferenceDef"
+																		{
+																			path "templates.toggle_button_medium"
+																			ref_gui_id "gui/menu/multiplayer_lobby"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					is_activated
+																					{
+																						model_field "dedicated_server"
+																					}
+
+																					is_active
+																					{
+																						model_field "dedicated_server"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "label"
+																							value "gui/menu/multiplayer/options/dedicated_server"
+																						}
+
+																						StringData
+																						{
+																							key "on_click_action"
+																							value "update_lobby_state"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "dedicated_server"
+																			margin
+																			{
+																				x "2.000"
+																			}
+
+																			size
+																			{
+																				y "48.000"
+																			}
+
+																			size_mode_x "1"
+																			size_mode_y "1"
+																			z_order "7.000"
+																		}
+
+																	}
+
+																}
+
+																id "dedicated"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "7.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "friends_only"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "friends_only"
+																		value "GuiReferenceDef"
+																		{
+																			path "templates.toggle_button_medium"
+																			ref_gui_id "gui/menu/multiplayer_lobby"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					is_activated
+																					{
+																						model_field "friends_only"
+																					}
+
+																					is_active
+																					{
+																						model_field "friends_only"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "label"
+																							value "gui/menu/multiplayer/options/friends_only"
+																						}
+
+																						StringData
+																						{
+																							key "on_click_action"
+																							value "update_lobby_state"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "friends_only"
+																			margin
+																			{
+																				x "2.000"
+																			}
+
+																			size
+																			{
+																				y "48.000"
+																			}
+
+																			size_mode_x "1"
+																			size_mode_y "1"
+																			z_order "8.000"
+																		}
+
+																	}
+
+																}
+
+																id "friends_only"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "8.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "max_player_count"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "label"
+																		value "GuiTextDef"
+																		{
+																			content "${gui/menu/multiplayer/options/max_player_count}:"
+																			style_name "active_20_blue"
+																			translate "1"
+																			alignment "left"
+																			anchor "left"
+																			id "label"
+																			margin
+																			{
+																				x "10.000"
+																			}
+
+																			size_mode_x "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "selector"
+																		value "GuiReferenceDef"
+																		{
+																			path "templates.selector"
+																			ref_gui_id "gui/menu/multiplayer_lobby"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					content
+																					{
+																						model_field "max_allowed_players"
+																						converter "GuiModelPostfixConverter"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "selector_next"
+																							value "selector_next:max_allowed_players"
+																						}
+
+																						StringData
+																						{
+																							key "selector_prev"
+																							value "selector_prev:max_allowed_players"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "selector"
+																			margin
+																			{
+																				x "320.000"
+																				z "5.000"
+																			}
+
+																			size
+																			{
+																				x "200.000"
+																				y "32.000"
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "max_player_count"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "5.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "server_name"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "input"
+																		value "GuiReferenceDef"
+																		{
+																			path "simple"
+																			ref_gui_id "gui/template/text_input"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					content
+																					{
+																						model_field "server_name"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "on_content_submit_action"
+																							value "update_lobby_state"
+																						}
+
+																						StringData
+																						{
+																							key "text_style_name"
+																							value "neutral_20"
+																						}
+
+																						StringData
+																						{
+																							key "on_content_changed_action"
+																							value "update_lobby_state"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "input"
+																			margin
+																			{
+																				x "320.000"
+																				z "5.000"
+																			}
+
+																			size
+																			{
+																				y "32.000"
+																			}
+
+																			size_mode_x "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "label"
+																		value "GuiTextDef"
+																		{
+																			content "gui/menu/multiplayer/options/server_name"
+																			style_name "active_20_blue"
+																			translate "1"
+																			alignment "left"
+																			anchor "left"
+																			id "label"
+																			margin
+																			{
+																				x "10.000"
+																			}
+
+																			size_mode_x "2"
+																		}
+
+																	}
+
+																}
+
+																id "server_name"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "10.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "server_password"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "input"
+																		value "GuiReferenceDef"
+																		{
+																			path "password"
+																			ref_gui_id "gui/template/text_input"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					content
+																					{
+																						model_field "server_password"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "text_style_name"
+																							value "neutral_20"
+																						}
+
+																						StringData
+																						{
+																							key "on_content_submit_action"
+																							value "update_lobby_state"
+																						}
+
+																						StringData
+																						{
+																							key "on_content_changed_action"
+																							value "update_lobby_state"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "input"
+																			margin
+																			{
+																				x "320.000"
+																				z "5.000"
+																			}
+
+																			model_source_solver
+																			{
+																				GuiModelSourceFindItem "GuiModelSourceFindItem"
+																				{
+																					item_path "settings_container.server_settings.settings.server_password.button_reveal_password"
+																				}
+
+																			}
+
+																			size
+																			{
+																				y "32.000"
+																			}
+
+																			size_mode_x "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "label"
+																		value "GuiTextDef"
+																		{
+																			content "gui/menu/multiplayer/options/server_password"
+																			style_name "active_20_blue"
+																			translate "1"
+																			alignment "left"
+																			anchor "left"
+																			id "label"
+																			margin
+																			{
+																				x "10.000"
+																			}
+
+																			size_mode_x "2"
+																		}
+
+																	}
+
+																}
+
+																id "server_password"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "9.000"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "streaming"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiQuadDef"
+																		{
+																			color
+																			{
+																				w "0.500"
+																				x "0.000"
+																				y "0.000"
+																				z "0.000"
+																			}
+
+																			id "background"
+																			margin
+																			{
+																				w "3.000"
+																				y "3.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "streaming_integration"
+																		value "GuiReferenceDef"
+																		{
+																			path "templates.toggle_button_medium"
+																			ref_gui_id "gui/menu/multiplayer_lobby"
+																			ref_model
+																			{
+																				bindings_proxy
+																				{
+																					is_activated
+																					{
+																						model_field "streaming_integration_allowed"
+																					}
+
+																					is_active
+																					{
+																						model_field "streaming_allowed"
+																					}
+
+																					is_enabled
+																					{
+																						model_field "host_mode"
+																					}
+
+																				}
+
+																				database
+																				{
+																					Strings
+																					{
+																						StringData
+																						{
+																							key "label"
+																							value "gui/menu/multiplayer/options/streaming_events_allowed"
+																						}
+
+																						StringData
+																						{
+																							key "on_click_action"
+																							value "update_lobby_state"
+																						}
+
+																					}
+
+																					Floats
+																					Vectors
+																					Integers
+																				}
+
+																			}
+
+																			alignment "left"
+																			anchor "left"
+																			id "streaming_integration"
+																			margin
+																			{
+																				x "2.000"
+																			}
+
+																			size
+																			{
+																				y "48.000"
+																			}
+
+																			size_mode_x "1"
+																			size_mode_y "1"
+																			z_order "6.000"
+																		}
+
+																	}
+
+																}
+
+																id "streaming"
+																size
+																{
+																	y "42.000"
+																}
+
+																size_mode_x "2"
+																z_order "6.000"
+															}
+
+														}
+
+													}
+
+													container_type "2"
+													id "server_settings"
+													model_source "server_options"
+													size_mode_x "2"
+													size_mode_y "1"
+													z_order "1.000"
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										id "content"
+										margin
+										{
+											w "5.000"
+											x "22.000"
+											y "72.000"
+											z "10.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
 									key "header"
 									value "GuiReferenceDef"
 									{
@@ -2957,804 +3940,6 @@ GuiRootGroupDef
 
 								}
 
-								Pair_String_GuiDef2
-								{
-									key "settings"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "dedicated"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "dedicated_server"
-															value "GuiReferenceDef"
-															{
-																path "templates.toggle_button_medium"
-																ref_gui_id "gui/menu/multiplayer_lobby"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		is_activated
-																		{
-																			model_field "dedicated_server"
-																		}
-
-																		is_active
-																		{
-																			model_field "dedicated_server"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "label"
-																				value "gui/menu/multiplayer/options/dedicated_server"
-																			}
-
-																			StringData
-																			{
-																				key "on_click_action"
-																				value "update_lobby_state"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																alignment "left"
-																anchor "left"
-																id "dedicated_server"
-																margin
-																{
-																	x "2.000"
-																}
-
-																size
-																{
-																	y "48.000"
-																}
-
-																size_mode_x "1"
-																size_mode_y "1"
-																z_order "7.000"
-															}
-
-														}
-
-													}
-
-													id "dedicated"
-													size_mode_x "2"
-													size_mode_y "1"
-													z_order "7.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "friends_only"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "friends_only"
-															value "GuiReferenceDef"
-															{
-																path "templates.toggle_button_medium"
-																ref_gui_id "gui/menu/multiplayer_lobby"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		is_activated
-																		{
-																			model_field "friends_only"
-																		}
-
-																		is_active
-																		{
-																			model_field "friends_only"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "label"
-																				value "gui/menu/multiplayer/options/friends_only"
-																			}
-
-																			StringData
-																			{
-																				key "on_click_action"
-																				value "update_lobby_state"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																alignment "left"
-																anchor "left"
-																id "friends_only"
-																margin
-																{
-																	x "2.000"
-																	y "10.000"
-																}
-
-																size
-																{
-																	y "48.000"
-																}
-
-																size_mode_x "1"
-																size_mode_y "1"
-																z_order "8.000"
-															}
-
-														}
-
-													}
-
-													id "friends_only"
-													size_mode_x "2"
-													size_mode_y "1"
-													z_order "8.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "max_player_count"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextDef"
-															{
-																content "${gui/menu/multiplayer/options/max_player_count}:"
-																style_name "active_20_blue"
-																translate "1"
-																alignment "left"
-																anchor "left"
-																id "label"
-																margin
-																{
-																	x "10.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "selector"
-															value "GuiReferenceDef"
-															{
-																path "templates.selector"
-																ref_gui_id "gui/menu/multiplayer_lobby"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		content
-																		{
-																			model_field "max_allowed_players"
-																			converter "GuiModelPostfixConverter"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "selector_next"
-																				value "selector_next:max_allowed_players"
-																			}
-
-																			StringData
-																			{
-																				key "selector_prev"
-																				value "selector_prev:max_allowed_players"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																alignment "left"
-																anchor "left"
-																id "selector"
-																margin
-																{
-																	x "320.000"
-																	z "5.000"
-																}
-
-																size
-																{
-																	x "200.000"
-																	y "32.000"
-																}
-
-															}
-
-														}
-
-													}
-
-													id "max_player_count"
-													size
-													{
-														y "42.000"
-													}
-
-													size_mode_x "2"
-													z_order "5.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "server_name"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "input"
-															value "GuiReferenceDef"
-															{
-																path "simple"
-																ref_gui_id "gui/template/text_input"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		content
-																		{
-																			model_field "server_name"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "on_content_submit_action"
-																				value "update_lobby_state"
-																			}
-
-																			StringData
-																			{
-																				key "text_style_name"
-																				value "neutral_20"
-																			}
-
-																			StringData
-																			{
-																				key "on_content_changed_action"
-																				value "update_lobby_state"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																alignment "left"
-																anchor "left"
-																id "input"
-																margin
-																{
-																	x "320.000"
-																}
-
-																size
-																{
-																	y "32.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextDef"
-															{
-																content "gui/menu/multiplayer/options/server_name"
-																style_name "active_20_blue"
-																translate "1"
-																alignment "left"
-																anchor "left"
-																id "label"
-																margin
-																{
-																	x "10.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-													}
-
-													id "server_name"
-													size
-													{
-														y "42.000"
-													}
-
-													size_mode_x "2"
-													z_order "10.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "server_password"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "input"
-															value "GuiReferenceDef"
-															{
-																path "password"
-																ref_gui_id "gui/template/text_input"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		content
-																		{
-																			model_field "server_password"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "text_style_name"
-																				value "neutral_20"
-																			}
-
-																			StringData
-																			{
-																				key "on_content_submit_action"
-																				value "update_lobby_state"
-																			}
-
-																			StringData
-																			{
-																				key "on_content_changed_action"
-																				value "update_lobby_state"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																alignment "left"
-																anchor "left"
-																id "input"
-																margin
-																{
-																	x "320.000"
-																}
-
-																model_source_solver
-																{
-																	GuiModelSourceFindItem "GuiModelSourceFindItem"
-																	{
-																		item_path "settings_container.server_settings.settings.server_password.button_reveal_password"
-																	}
-
-																}
-
-																size
-																{
-																	y "32.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextDef"
-															{
-																content "gui/menu/multiplayer/options/server_password"
-																style_name "active_20_blue"
-																translate "1"
-																alignment "left"
-																anchor "left"
-																id "label"
-																margin
-																{
-																	x "10.000"
-																}
-
-																size_mode_x "2"
-															}
-
-														}
-
-													}
-
-													id "server_password"
-													size
-													{
-														y "42.000"
-													}
-
-													size_mode_x "2"
-													z_order "9.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "streaming"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "background"
-															value "GuiQuadDef"
-															{
-																color
-																{
-																	w "0.500"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "background"
-																margin
-																{
-																	w "3.000"
-																	y "3.000"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "streaming_integration"
-															value "GuiReferenceDef"
-															{
-																path "templates.toggle_button_medium"
-																ref_gui_id "gui/menu/multiplayer_lobby"
-																ref_model
-																{
-																	bindings_proxy
-																	{
-																		is_activated
-																		{
-																			model_field "streaming_integration_allowed"
-																		}
-
-																		is_active
-																		{
-																			model_field "streaming_allowed"
-																		}
-
-																		is_enabled
-																		{
-																			model_field "host_mode"
-																		}
-
-																	}
-
-																	database
-																	{
-																		Strings
-																		{
-																			StringData
-																			{
-																				key "label"
-																				value "gui/menu/multiplayer/options/streaming_events_allowed"
-																			}
-
-																			StringData
-																			{
-																				key "on_click_action"
-																				value "update_lobby_state"
-																			}
-
-																		}
-
-																		Floats
-																		Vectors
-																		Integers
-																	}
-
-																}
-
-																id "streaming_integration"
-																margin
-																{
-																	x "2.000"
-																}
-
-																size
-																{
-																	y "48.000"
-																}
-
-																size_mode_x "1"
-																size_mode_y "1"
-																z_order "6.000"
-															}
-
-														}
-
-													}
-
-													id "streaming"
-													size_mode_x "2"
-													size_mode_y "1"
-													z_order "6.000"
-												}
-
-											}
-
-										}
-
-										container_type "2"
-										id "settings"
-										margin
-										{
-											w "5.000"
-											x "22.000"
-											y "72.000"
-											z "25.000"
-										}
-
-										model_source "server_options"
-										size_mode_x "2"
-										size_mode_y "2"
-									}
-
-								}
-
 							}
 
 							id "server_settings"
@@ -3773,6 +3958,15 @@ GuiRootGroupDef
 				}
 
 				id "settings_container"
+				model_source_solver
+				{
+					GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+					{
+						field_name "selected_game_mode"
+					}
+
+				}
+
 				offset
 				{
 					x "40.000"
@@ -8835,6 +9029,36 @@ GuiRootGroupDef
 													material "gui/menu/buttons/inventory/checkbox_selected"
 													bindings
 													{
+														hsv_value
+														{
+															model_field "is_enabled"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "1"
+																map
+																{
+																	0 "0.65"
+																}
+
+															}
+
+														}
+
+														saturate
+														{
+															model_field "is_enabled"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "1"
+																map
+																{
+																	0 "0"
+																}
+
+															}
+
+														}
+
 														visible
 														{
 															model_field "is_activated"
@@ -10694,6 +10918,38 @@ GuiDataDefinitions
 				}
 
 				key "host_mode"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_activated"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_enabled"
 			}
 
 			Pair_String_GuiDataTypeField

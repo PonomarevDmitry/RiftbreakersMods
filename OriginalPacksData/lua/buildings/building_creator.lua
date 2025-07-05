@@ -355,7 +355,7 @@ function building_creator:_OnBuildingExit( state )
 		return
 	end
 	
-	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent" )
+	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent,SkeletonComponent" )
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
 		EntityService:RemoveEntity( self.endCubeEnt )

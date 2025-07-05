@@ -130,6 +130,7 @@ function mega_rift_station:OnExecute()
             allWorking = false
         end
     end
+    allWorking = allWorking and BuildingService:IsBuildingPowered( self.entity ) and BuildingService:IsResourceSupplied( self.entity ) and BuildingService:IsPlayerWorking( self.entity )
 	
 	if stringValue == "true" and allWorking == true then
 		data:SetFloat( self.name, 1 )

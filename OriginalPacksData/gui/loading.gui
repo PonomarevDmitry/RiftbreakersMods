@@ -71,7 +71,7 @@ GuiRootGroupDef
 					y "10000.000"
 				}
 
-				z_order "7.000"
+				z_order "8.000"
 			}
 
 		}
@@ -182,11 +182,30 @@ GuiRootGroupDef
 			{
 				material "gui/logos/riftbreaker_logo_loop"
 				start_paused "1"
+				bindings
+				{
+					material
+					{
+						model_field "movie"
+					}
+
+					visible
+					{
+						model_field "movie"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
 				id "movie"
 				size_mode_x "1"
 				size_mode_y "1"
 				visible "0"
-				z_order "6.000"
+				z_order "7.000"
 			}
 
 		}
@@ -196,12 +215,6 @@ GuiRootGroupDef
 			key "prealpha"
 			value "GuiTextBoxDef"
 			{
-				max_size
-				{
-					x "1700.000"
-					y "400.000"
-				}
-
 				content "COMMON_loading/pre_alpha_info_2"
 				style
 				{
@@ -255,6 +268,12 @@ GuiRootGroupDef
 
 				hitbox_visible "0"
 				id "prealpha"
+				max_size
+				{
+					x "1700.000"
+					y "400.000"
+				}
+
 				offset
 				{
 					y "350.000"
@@ -267,15 +286,333 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "progress"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bar"
+						value "GuiBarDef"
+						{
+							rawData "0.2 0.5 0.5"
+							error_material "default_bar_1x2"
+							material "gui/loading/bars/loading_1x3"
+							alignment "top"
+							anchor "top"
+							bindings
+							{
+								data
+								{
+									model_field "progress_data"
+								}
+
+							}
+
+							id "bar"
+							size
+							{
+								y "10.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "0"
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "button_disconnect"
+						value "GuiReferenceDef"
+						{
+							path "simple_button"
+							ref_gui_id "gui/template/buttons"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "toggle"
+											value "0"
+										}
+
+										StringData
+										{
+											key "label"
+											value "gui/menu/streaming/disconnect"
+										}
+
+										StringData
+										{
+											key "action"
+											value "game.menu"
+										}
+
+										StringData
+										{
+											key "popup_gui_id"
+											value "gui/popup/popup_template_2buttons"
+										}
+
+										StringData
+										{
+											key "popup_confirmation_node"
+											value "button_yes"
+										}
+
+										StringData
+										{
+											key "popup_dialog_msg"
+											value "gui/popup/are_you_sure"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							alignment "bottom_right"
+							anchor "bottom_right"
+							bindings
+							{
+								visible
+								{
+									model_field "can_disconnect"
+								}
+
+							}
+
+							id "button_disconnect"
+							size_mode_x "1"
+							size_mode_y "1"
+							visible "0"
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "text"
+						value "GuiTextDef"
+						{
+							content "test"
+							style_name "active_25"
+							translate "1"
+							alignment "top"
+							anchor "center"
+							bindings
+							{
+								content
+								{
+									model_field "progress_message"
+								}
+
+							}
+
+							id "text"
+							margin
+							{
+								x "10.000"
+							}
+
+							z_order "1.000"
+						}
+
+					}
+
+				}
+
+				alignment "bottom"
+				anchor "bottom"
+				bindings
+				{
+					visible
+					{
+						model_field "progress_message"
+						converter "GuiModelCompareConverter"
+						{
+							compare_operator "neq"
+						}
+
+					}
+
+				}
+
+				id "progress"
+				margin
+				{
+					w "20.000"
+					x "100.000"
+					z "100.000"
+				}
+
+				size
+				{
+					y "64.000"
+				}
+
+				size_mode_x "2"
+				z_order "6.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "reference"
+			value "GuiReferenceDef"
+			{
+				path "skip"
+				ref_gui_id "gui/template/skip_group"
+				alignment "bottom_right"
+				anchor "bottom_right"
+				id "reference"
+				margin
+				{
+					w "50.000"
+					y "50.000"
+					z "50.000"
+				}
+
+				scale
+				{
+					x "0.750"
+					y "0.750"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				visible "0"
+				z_order "25.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "subtitle"
+			value "GuiTextBoxDef"
+			{
+				content "DIALOG/story/dlc_1/ashley_outro_destroyed_03"
+				style
+				{
+					char_height "45.000"
+					df "1"
+					font "orbitron-medium_sdf"
+					glow_color
+					{
+						x "1.000"
+						y "1.000"
+					}
+
+					glow_size "10.000"
+					glow_spread "10.000"
+					shadow_angle "135.000"
+					shadow_distance "2.000"
+					shadow_enabled "1"
+					stroke_color
+					{
+						w "0.197"
+						x "1.000"
+						y "1.000"
+					}
+
+					stroke_position "1"
+					stroke_size "2.000"
+				}
+
+				style_name "popups_content"
+				translate "1"
+				alignment "top"
+				id "subtitle"
+				max_size
+				{
+					x "1400.000"
+					y "200.000"
+				}
+
+				offset
+				{
+					x "960.000"
+					y "900.000"
+				}
+
+				visible "0"
+				z_order "10.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "subtitle_left"
+			value "GuiTextBoxDef"
+			{
+				content "COMMON_Text_Line"
+				style
+				{
+					char_height "45.000"
+					df "1"
+					font "orbitron-medium_sdf"
+					glow_color
+					{
+						x "1.000"
+						y "1.000"
+					}
+
+					glow_size "10.000"
+					glow_spread "10.000"
+					shadow_angle "135.000"
+					shadow_distance "2.000"
+					shadow_enabled "1"
+					stroke_color
+					{
+						w "0.197"
+						x "1.000"
+						y "1.000"
+					}
+
+					stroke_position "1"
+					stroke_size "2.000"
+				}
+
+				style_name "popups_content"
+				translate "1"
+				id "subtitle_left"
+				max_size
+				{
+					x "872.000"
+					y "200.000"
+				}
+
+				offset
+				{
+					x "60.000"
+					y "830.000"
+				}
+
+				visible "0"
+				z_order "10.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "text_box_0"
 			value "GuiTextBoxDef"
 			{
-				max_size
-				{
-					x "1793.000"
-					y "136.000"
-				}
-
 				content "COMMON_loading/pre_alpha_info_1"
 				style
 				{
@@ -318,6 +655,12 @@ GuiRootGroupDef
 				}
 
 				id "text_box_0"
+				max_size
+				{
+					x "1793.000"
+					y "136.000"
+				}
+
 				z_order "3.000"
 			}
 
@@ -335,7 +678,6 @@ GuiRootGroupDef
 				key "OnShow"
 				value
 				{
-					event_name "OnShow"
 					script
 					{
 						children
@@ -359,7 +701,6 @@ GuiRootGroupDef
 
 									}
 
-									type "gui_play_anim"
 								}
 
 							}
@@ -367,10 +708,6 @@ GuiRootGroupDef
 						}
 
 						cmd
-						{
-							type "unsupported"
-						}
-
 					}
 
 				}
@@ -394,7 +731,149 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "can_disconnect"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "fade_in"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/loading/background_earth_hires"
+					}
+
+				}
+
+				key "material"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_float"
+					default_value
+					{
+						typehash "3744762499"
+						Vector_float
+						{
+							float "0.333"
+							float "0.333"
+							float "0.333"
+						}
+
+					}
+
+				}
+
+				key "progress_data"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/loading/mission_terrain_grid"
+					}
+
+				}
+
+				key "progress_message"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "float"
+					default_value
+					{
+						typehash "2797886853"
+						float "0.100"
+					}
+
+				}
+
+				key "skip_progress"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/loading/tooltip_26"
+					}
+
+				}
+
+				key "tips"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "top_visible"
+			}
+
+		}
+
 		handle "[36997DCE-C327-4F1D-9D0C-4FCC47718804]"
 	}
 

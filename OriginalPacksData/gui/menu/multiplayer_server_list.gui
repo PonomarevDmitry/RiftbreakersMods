@@ -82,15 +82,13 @@ GuiRootGroupDef
 
 											Pair_String_Vector_GuiDef2
 											{
-												key "disabled"
+												key "active"
 												value
 												{
 													GuiDef "GuiImageDef"
 													{
 														error_material "gui/default"
-														hsv_value "0.500"
-														material "gui/menu/buttons/research/category_friends_btn_neutral"
-														saturate "0.000"
+														material "gui/menu/buttons/research/category_friends_btn_active"
 														alignment "center"
 														anchor "center"
 														hitbox_visible "0"
@@ -109,13 +107,15 @@ GuiRootGroupDef
 
 											Pair_String_Vector_GuiDef2
 											{
-												key "active"
+												key "disabled"
 												value
 												{
 													GuiDef "GuiImageDef"
 													{
 														error_material "gui/default"
-														material "gui/menu/buttons/research/category_friends_btn_active"
+														hsv_value "0.500"
+														material "gui/menu/buttons/research/category_friends_btn_neutral"
+														saturate "0.000"
 														alignment "center"
 														anchor "center"
 														hitbox_visible "0"
@@ -961,55 +961,6 @@ GuiRootGroupDef
 																			{
 																				Pair_String_Vector_GuiDef2
 																				{
-																					key "columns.game_version"
-																					value
-																					{
-																						GuiDef "GuiTextDef"
-																						{
-																							line_breaking "0"
-																							content "(BIND) build"
-																							style_name "mod_row_title"
-																							alignment "left"
-																							anchor "left"
-																							bindings
-																							{
-																								content
-																								{
-																									model_field "build"
-																								}
-
-																							}
-
-																							id "text"
-																							margin
-																							{
-																								x "10.000"
-																								z "10.000"
-																							}
-
-																							max_size
-																							{
-																								y "32.000"
-																							}
-
-																							model_source_solver
-																							{
-																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
-																								{
-																									field_name "info"
-																								}
-
-																							}
-
-																							size_mode_x "2"
-																						}
-
-																					}
-
-																				}
-
-																				Pair_String_Vector_GuiDef2
-																				{
 																					key "columns.difficulty"
 																					value
 																					{
@@ -1142,23 +1093,21 @@ GuiRootGroupDef
 
 																				Pair_String_Vector_GuiDef2
 																				{
-																					key "columns.time_elapsed"
+																					key "columns.game_version"
 																					value
 																					{
 																						GuiDef "GuiTextDef"
 																						{
 																							line_breaking "0"
-																							text_alignment "1"
-																							content "(BIND) time_elapsed"
-																							style_name "mod_row_title_disabled"
+																							content "(BIND) build"
+																							style_name "mod_row_title"
 																							alignment "left"
 																							anchor "left"
 																							bindings
 																							{
 																								content
 																								{
-																									model_field "time_elapsed"
-																									converter "GuiSecondsToTimeStringConverter"
+																									model_field "build"
 																								}
 
 																							}
@@ -1253,27 +1202,77 @@ GuiRootGroupDef
 
 																				Pair_String_Vector_GuiDef2
 																				{
-																					key "columns.ping"
+																					key "columns.time_elapsed"
 																					value
 																					{
 																						GuiDef "GuiTextDef"
 																						{
-																							text_alignment "2"
-																							content "(BIND) ping"
-																							style_name "mod_row_title"
+																							line_breaking "0"
+																							text_alignment "1"
+																							content "(BIND) time_elapsed"
+																							style_name "mod_row_title_disabled"
 																							alignment "left"
 																							anchor "left"
 																							bindings
 																							{
 																								content
 																								{
-																									model_field "ping"
+																									model_field "time_elapsed"
+																									converter "GuiSecondsToTimeStringConverter"
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								x "10.000"
+																								z "10.000"
+																							}
+
+																							max_size
+																							{
+																								y "32.000"
+																							}
+
+																							model_source_solver
+																							{
+																								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																								{
+																									field_name "info"
+																								}
+
+																							}
+
+																							size_mode_x "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.content_compatibility"
+																					value
+																					{
+																						GuiDef "GuiImageDef"
+																						{
+																							error_material "gui/default"
+																							material "gui/hud/global_quest_completed"
+																							alignment "center"
+																							anchor "center"
+																							bindings
+																							{
+																								material
+																								{
+																									model_field "is_compatible"
 																									converter "GuiModelMapConverter"
 																									{
-																										fallback_value "${ping}"
+																										fallback_value "gui/hud/global_quest_completed"
 																										map
 																										{
-																											-1 "${VARIABLE_infinity}"
+																											0 "gui/hud/global_quest_not_completed"
 																										}
 
 																									}
@@ -1282,13 +1281,66 @@ GuiRootGroupDef
 
 																							}
 
-																							id "text"
-																							margin
+																							id "compatible"
+																							size
 																							{
-																								z "10.000"
+																								x "32.000"
+																								y "32.000"
 																							}
 
-																							size_mode_x "2"
+																							tooltip_def
+																							{
+																								path "text_label"
+																								ref_gui_id "gui/template/text_label"
+																								ref_model
+																								{
+																									bindings_proxy
+																									{
+																										tooltip_content
+																										{
+																											model_field "error_message"
+																										}
+
+																									}
+
+																									database
+																									{
+																										Strings
+																										Floats
+																										Vectors
+																										Integers
+																									}
+
+																								}
+
+																								anchor "top_right"
+																								bindings
+																								{
+																									visible
+																									{
+																										model_field "error_message"
+																										converter "GuiModelObjectNullOrEmptyConverter"
+																										{
+																											invert "1"
+																										}
+
+																									}
+
+																								}
+
+																								model_source_solver
+																								{
+																									GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+																									{
+																										field_name "error_content"
+																									}
+
+																								}
+
+																								size_mode_x "1"
+																								size_mode_y "1"
+																							}
+
 																						}
 
 																					}
@@ -1390,6 +1442,50 @@ GuiRootGroupDef
 
 																							size_mode_x "2"
 																							size_mode_y "2"
+																						}
+
+																					}
+
+																				}
+
+																				Pair_String_Vector_GuiDef2
+																				{
+																					key "columns.ping"
+																					value
+																					{
+																						GuiDef "GuiTextDef"
+																						{
+																							text_alignment "2"
+																							content "(BIND) ping"
+																							style_name "mod_row_title"
+																							alignment "left"
+																							anchor "left"
+																							bindings
+																							{
+																								content
+																								{
+																									model_field "ping"
+																									converter "GuiModelMapConverter"
+																									{
+																										fallback_value "${ping}"
+																										map
+																										{
+																											-1 "${VARIABLE_infinity}"
+																										}
+
+																									}
+
+																								}
+
+																							}
+
+																							id "text"
+																							margin
+																							{
+																								z "10.000"
+																							}
+
+																							size_mode_x "2"
 																						}
 
 																					}
@@ -1639,37 +1735,6 @@ GuiRootGroupDef
 														{
 															Pair_String_Vector_GuiDef2
 															{
-																key "columns.difficulty"
-																value
-																{
-																	GuiDef "GuiTextDef"
-																	{
-																		content "gui/menu/multiplayer_lobby/difficulty"
-																		style_name "active_20_blue"
-																		translate "1"
-																		alignment "left"
-																		anchor "left"
-																		id "text"
-																		margin
-																		{
-																			x "10.000"
-																			z "10.000"
-																		}
-
-																		max_size
-																		{
-																			y "50.000"
-																		}
-
-																		size_mode_x "2"
-																	}
-
-																}
-
-															}
-
-															Pair_String_Vector_GuiDef2
-															{
 																key "columns.game_version"
 																value
 																{
@@ -1701,63 +1766,29 @@ GuiRootGroupDef
 
 															Pair_String_Vector_GuiDef2
 															{
-																key "columns.game_name"
+																key "columns.difficulty"
 																value
 																{
-																	GuiDef "GuiReferenceDef"
+																	GuiDef "GuiTextDef"
 																	{
-																		path "templates.button_sorting"
-																		ref_gui_id "gui/menu/multiplayer_server_list"
-																		ref_model
+																		content "gui/menu/multiplayer_lobby/difficulty"
+																		style_name "active_20_blue"
+																		translate "1"
+																		alignment "left"
+																		anchor "left"
+																		id "text"
+																		margin
 																		{
-																			bindings_proxy
-																			{
-																				is_activated
-																				{
-																					model_field "sorting_mode"
-																					converter "GuiModelCompareConverter"
-																					{
-																						ref_value "mission_type"
-																					}
-
-																				}
-
-																			}
-
-																			database
-																			{
-																				Strings
-																				{
-																					StringData
-																					{
-																						key "content"
-																						value "${gui/menu/mission_generator/mission_type}:"
-																					}
-
-																					StringData
-																					{
-																						key "text_alignment"
-																						value "0"
-																					}
-
-																					StringData
-																					{
-																						key "on_click_action"
-																						value "server_list.set_sorting_mode:mission_type"
-																					}
-
-																				}
-
-																				Floats
-																				Vectors
-																				Integers
-																			}
-
+																			x "10.000"
+																			z "10.000"
 																		}
 
-																		id "button_sorting_mission_type"
+																		max_size
+																		{
+																			y "50.000"
+																		}
+
 																		size_mode_x "2"
-																		size_mode_y "2"
 																	}
 
 																}
@@ -1831,30 +1862,63 @@ GuiRootGroupDef
 
 															Pair_String_Vector_GuiDef2
 															{
-																key "columns.content_compatibility"
+																key "columns.game_name"
 																value
 																{
-																	GuiDef "GuiTextDef"
+																	GuiDef "GuiReferenceDef"
 																	{
-																		text_alignment "1"
-																		content "${gui/menu/mod_management/status/compatible}:"
-																		style_name "active_20_blue"
-																		translate "1"
-																		alignment "left"
-																		anchor "left"
-																		id "text"
-																		margin
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
 																		{
-																			x "5.000"
-																			z "5.000"
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "mission_type"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "${gui/menu/mission_generator/mission_type}:"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "0"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:mission_type"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
 																		}
 
-																		max_size
-																		{
-																			y "50.000"
-																		}
-
+																		id "button_sorting_mission_type"
 																		size_mode_x "2"
+																		size_mode_y "2"
 																	}
 
 																}
@@ -1914,7 +1978,7 @@ GuiRootGroupDef
 
 															Pair_String_Vector_GuiDef2
 															{
-																key "columns.players"
+																key "columns.content_compatibility"
 																value
 																{
 																	GuiDef "GuiReferenceDef"
@@ -1930,7 +1994,7 @@ GuiRootGroupDef
 																					model_field "sorting_mode"
 																					converter "GuiModelCompareConverter"
 																					{
-																						ref_value "players"
+																						ref_value "compatible"
 																					}
 
 																				}
@@ -1944,7 +2008,7 @@ GuiRootGroupDef
 																					StringData
 																					{
 																						key "content"
-																						value "${gui/menu/multiplayer/players}:"
+																						value "${gui/menu/multiplayer_server_list/content_compatibility}:"
 																					}
 
 																					StringData
@@ -1956,7 +2020,7 @@ GuiRootGroupDef
 																					StringData
 																					{
 																						key "on_click_action"
-																						value "server_list.set_sorting_mode:players"
+																						value "server_list.set_sorting_mode:compatible"
 																					}
 
 																				}
@@ -1968,7 +2032,7 @@ GuiRootGroupDef
 
 																		}
 
-																		id "button_sorting_players"
+																		id "button_sorting_compatible"
 																		size_mode_x "2"
 																		size_mode_y "2"
 																	}
@@ -2034,6 +2098,71 @@ GuiRootGroupDef
 																		}
 
 																		id "button_sorting_ping"
+																		size_mode_x "2"
+																		size_mode_y "2"
+																	}
+
+																}
+
+															}
+
+															Pair_String_Vector_GuiDef2
+															{
+																key "columns.players"
+																value
+																{
+																	GuiDef "GuiReferenceDef"
+																	{
+																		path "templates.button_sorting"
+																		ref_gui_id "gui/menu/multiplayer_server_list"
+																		ref_model
+																		{
+																			bindings_proxy
+																			{
+																				is_activated
+																				{
+																					model_field "sorting_mode"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "players"
+																					}
+
+																				}
+
+																			}
+
+																			database
+																			{
+																				Strings
+																				{
+																					StringData
+																					{
+																						key "content"
+																						value "${gui/menu/multiplayer/players}:"
+																					}
+
+																					StringData
+																					{
+																						key "text_alignment"
+																						value "1"
+																					}
+
+																					StringData
+																					{
+																						key "on_click_action"
+																						value "server_list.set_sorting_mode:players"
+																					}
+
+																				}
+
+																				Floats
+																				Vectors
+																				Integers
+																			}
+
+																		}
+
+																		id "button_sorting_players"
 																		size_mode_x "2"
 																		size_mode_y "2"
 																	}
@@ -3170,7 +3299,6 @@ GuiRootGroupDef
 
 													size_mode_y "2"
 													tooltip_def
-													visible "0"
 													z_order "95.000"
 												}
 
@@ -3933,6 +4061,7 @@ GuiDataDefinitions
 								difficulty_name
 							}
 
+							is_compatible "0"
 							name "Dummy server name"
 							build
 							password
@@ -3987,30 +4116,10 @@ GuiDataDefinitions
 									difficulty_name "Brutal"
 								}
 
+								is_compatible "1"
 								name "Dummy server name"
 								build "DATA: 10000 EXE: 10000"
 								password "s"
-								identity "localhost"
-								max_players "4"
-								is_selected "0"
-								ping "200"
-							}
-
-							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
-							{
-								players "2"
-								info
-								{
-									campaign_name "localhost"
-									hardcore_mode "0"
-									time_elapsed "0.000"
-									mission_name "Brutal"
-									difficulty_name "Brutal"
-								}
-
-								name "Dummy server name"
-								build "DATA: 100 EXE: 100"
-								password
 								identity "localhost"
 								max_players "4"
 								is_selected "1"
@@ -4029,6 +4138,29 @@ GuiDataDefinitions
 									difficulty_name "Brutal"
 								}
 
+								is_compatible "1"
+								name "Dummy server name"
+								build "DATA: 100 EXE: 100"
+								password
+								identity "localhost"
+								max_players "4"
+								is_selected "0"
+								ping "200"
+							}
+
+							[7040A579-6235-4C12-861F-B68A758ECC07]/GameServer
+							{
+								players "2"
+								info
+								{
+									campaign_name "localhost"
+									hardcore_mode "0"
+									time_elapsed "0.000"
+									mission_name "Brutal"
+									difficulty_name "Brutal"
+								}
+
+								is_compatible "0"
 								name "Dummy server name"
 								build "DATA: 10000 EXE: 10000"
 								password
@@ -4050,6 +4182,7 @@ GuiDataDefinitions
 									difficulty_name "Brutal"
 								}
 
+								is_compatible "0"
 								name "Dummy server name"
 								build "DATA: 10000 EXE: 10000"
 								password
@@ -4153,6 +4286,22 @@ GuiDataDefinitions
 				}
 
 				key "info"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_compatible"
 			}
 
 			Pair_String_GuiDataTypeField

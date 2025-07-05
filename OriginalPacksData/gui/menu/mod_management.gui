@@ -1,6 +1,8 @@
 GuiRootGroupDef
 {
+	bg_blur "0.250"
 	full_screen "0"
+	priority "50"
 	navigation
 	{
 		default_node "frame_tabs"
@@ -130,6 +132,20 @@ GuiRootGroupDef
 			{
 				error_material "gui/default"
 				material "gui/menu/inventory_placeholder_background"
+				bindings
+				{
+					visible
+					{
+						model_field "is_popup"
+						converter "GuiModelCompareConverter"
+						{
+							ref_value "0"
+						}
+
+					}
+
+				}
+
 				id "background"
 				size_mode_x "2"
 				size_mode_y "2"
@@ -914,6 +930,16 @@ GuiRootGroupDef
 						button_right_1_is_enabled
 						{
 							model_field "restart_required"
+						}
+
+						button_settings_visible
+						{
+							model_field "is_popup"
+							converter "GuiModelCompareConverter"
+							{
+								ref_value "0"
+							}
+
 						}
 
 					}

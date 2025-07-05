@@ -669,19 +669,19 @@ function anoryxian_base:OnShootEvent( evt )
 	local mod = projectile.count % 2
 
 	if ( count == projectile.count ) then
-		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 	elseif ( mod == 0 ) then
 		for i = -count, count do 		
 			if ( i ~= 0  ) then
-				WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-				WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+				WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+				WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 			end
 		end	
 	else
 		for i = -count, count do 
-			WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
-			WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
+			WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_left" )
+			WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x + ( rightVector.x * i * projectile.spread ), targetOrigin.y + 0.5, targetOrigin.z + ( rightVector.z * i * projectile.spread  ), "att_gun_right" )
 		end
 	end
 end
