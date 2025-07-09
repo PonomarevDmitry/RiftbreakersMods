@@ -339,7 +339,9 @@ function building_creator:_OnBuildingExecute( state )
     	EntityService:SetPosition( self.printingLine1, self.width * offset1 + self.printingData2[1], self.printingData2[2], self.printingData2[3] );
     	EntityService:SetPosition( self.printingLine2, self.width * offset1 + self.printingData3[1], self.printingData3[2], self.printingData3[3] );
     end
-	if ( progress >= 1 ) then
+	local buildingComponent = EntityService:GetComponent(self.parent, "BuildingComponent")
+
+	if ( progress >= 1 or buildingComponent == nil or reflection_helper(buildingComponent).mode == 2 ) then
 		state:Exit()
 	end
 end

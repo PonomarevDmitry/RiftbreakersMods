@@ -66,7 +66,7 @@ end
 
 function tower:OnResourceMissingEvent( evt )
 	local resource = evt:GetResource()
-	if ( resource ~= "energy" and resource ~= "ai" and ConsoleService:GetConfig("g_tower_ammo_missing_annoucements") == "1" ) then
+	if ( resource ~= "energy" and resource ~= "ai" ) then
 		EntityService:ShowTimeoutSoundEvent( INVALID_ID, 30.0, "voice_over/announcement/not_enough_ammo_tower", false )
 	end
 end

@@ -24,6 +24,15 @@ function excavator:OnActivate()
 	if database == nil then
 		return
 	end
+
+	if not self.is_active then
+		self.backup = {
+			item =  ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" ),
+			item_type = database:GetStringOrDefault( "RIGHT_HAND_item_type", "" ),
+			attack_speed  = database:GetFloatOrDefault( "right_attack_speed", 1.0 ),
+		}
+	end
+
 	database:SetString("attack_name", "chainsaw_right_attack_1")
     database:SetFloat("right_attack_speed", self.data:GetFloatOrDefault("excavate_activate_speed", 1.0))
     database:SetFloat("RIGHT_HAND_use_speed", 1.0)
@@ -35,13 +44,8 @@ function excavator:OnActivate()
 
 	self.is_active = true
 	self.is_looping = false
-	self.backup = {
-		item =  ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" ),
-		item_type = database:GetStringOrDefault( "RIGHT_HAND_item_type", "" ),
-		attack_speed  = database:GetFloatOrDefault( "right_attack_speed", 1.0 ),
-	}
 
-	
+	--LogService:Log( "OnActivate " .. tostring( self.backup.item_type ) )
 
 
 
@@ -83,6 +87,7 @@ function excavator:OnDeactivate()
 		database:SetFloat("RIGHT_HAND_use_speed", 0.0 )
 		database:SetFloat("right_attack_speed", self.backup.attack_speed or 1.0 )
 	end
+	--LogService:Log( "OnDeactivate " .. tostring( self.backup.item_type ) )
 
 	if self.backup.item and self.backup.item ~= INVALID_ID then
 		EntityService:FadeEntityIn( self.backup.item, 0.1 )

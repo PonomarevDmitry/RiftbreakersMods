@@ -15,7 +15,7 @@ function ghost_building:OnInit()
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     EntityService:ChangeMaterial( self.entity, "hologram/blue")
-    for child in Iter( self.childrenToUpdate ) do
+    for child in Iter( self:GetChildren() ) do
         EntityService:ChangeMaterial( child, "hologram/blue")
     end
 

@@ -21,7 +21,7 @@ end
 
 function building_base:init()
 	self.version = 2
-SetupBuildingScale( self.entity, self.data )
+	SetupBuildingScale( self.entity, self.data )
 
 	if ( not EntityService:HasTeam( self.entity ) ) then
 		EntityService:SetTeam( self.entity, "player" )
@@ -57,7 +57,6 @@ SetupBuildingScale( self.entity, self.data )
 	self.materials = self:GetMaterials()
 
 	self:OnInit()
-	
 	local buildingComponent = EntityService:GetComponent(self.entity, "BuildingComponent")
 	self.buildingType = buildingComponent:GetField("type"):GetValue()
 	self.buildingName = buildingComponent:GetField("name"):GetValue()
@@ -84,6 +83,8 @@ SetupBuildingScale( self.entity, self.data )
 	self.isFloor = self.buildingType == "floor"
 	self.checkCollision = self.isFloor == false and  self.data:GetIntOrDefault("check_collison", 1 )
 	self.nextState = ""
+	self.disabledTreasures = {}
+
 	if ( self.data:HasInt("time_machine") == true ) then
 		self.timeMachine = self.data:GetInt("time_machine")
 	end	
@@ -139,6 +140,7 @@ function building_base:OnRelease()
 end
 
 function building_base:OnDestroyRequest(evt)
+	self:EnableTreasuresUnder()
 	self.meshEnt = BuildingService:GetMeshEntity(self.entity);
 	self:OnDestroy(evt)
 end
@@ -154,6 +156,14 @@ function building_base:CreateBaseCubes()
 end
 
 function building_base:_OnBuildNew(evt)
+	local buildingComponent  = EntityService:GetConstComponent(self.entity, "BuildingDesc")
+	if (buildingComponent ~= nil ) then
+		local hide_treasures = buildingComponent:GetField( "hide_treasures" ):GetValue()		
+		if ( hide_treasures == "1" ) then
+			self:DisableTreasuresUnder()
+		end
+	end
+
 	self:OnCubeFlyStart()
 end
 
@@ -166,6 +176,7 @@ function building_base:_OnBuild(evt)
 end
 
 function building_base:_OnSell(evt)
+	self:EnableTreasuresUnder()
 	self.meshEnt = BuildingService:GetMeshEntity(self.entity);
 	if ( self.buildingSell == true ) then
 		return
@@ -1066,7 +1077,42 @@ function building_base:OnLoad()
 		self:InitializeDisplayRadiusHandlers();
 	end
 
+	if ( not self.disabledTreasures  ) then
+		self.disabledTreasures = {}
+		local buildingComponent  = EntityService:GetConstComponent(self.entity, "BuildingDesc")
+		if (buildingComponent ~= nil ) then
+			local hide_treasures = buildingComponent:GetField( "hide_treasures" ):GetValue()		
+			if ( hide_treasures == "1" ) then
+				self:DisableTreasuresUnder()
+			end
+		end
+	end
+end
+
+function building_base:DisableTreasuresUnder()
+    local predicate = {
+        signature="TreasureComponent",
+    };
+	local size = BuildingService:GetBuildingGridSize( self.entity )
+	local position = EntityService:GetPosition( self.entity )
+
+	self.disabledTreasures = FindService:FindEntitiesByPredicateInBox( VectorSub(position,size), VectorAdd(position, size), predicate );
 	
+	for ent in Iter( self.disabledTreasures ) do
+		EntityService:DisableComponent( ent, "TreasureComponent" )
+		EntityService:DisableComponent( ent, "InteractiveComponent" )
+		EntityService:DisableComponent( ent, "MinimapItemComponent" )
+	end
+end
+
+function building_base:EnableTreasuresUnder()
+	for ent in Iter( self.disabledTreasures ) do
+		EntityService:EnableComponent( ent, "TreasureComponent" )
+		EntityService:EnableComponent( ent, "InteractiveComponent" )
+		EntityService:EnableComponent( ent, "MinimapItemComponent" )
+	end
+	self.disabledTreasures = {}
+
 end
 
 function building_base:SetTurretMode( mode )

@@ -403,6 +403,47 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
+						key "players"
+						value "GuiStackPanelDef"
+						{
+							template_reference
+							{
+								path "templates.player_button"
+								ref_gui_id "gui/hud/hud_players"
+								size
+								{
+									x "32.000"
+									y "32.000"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+							}
+
+							alignment "bottom_right"
+							anchor "top_right"
+							id "players"
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "players"
+								}
+
+							}
+
+							size
+							{
+								y "64.000"
+							}
+
+							size_mode_x "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "text"
 						value "GuiTextDef"
 						{
@@ -746,7 +787,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "3365180733"
-						bool "0"
+						bool "1"
 					}
 
 				}
@@ -784,6 +825,57 @@ GuiDataDefinitions
 				}
 
 				key "material"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[EC94B303-FE3F-4246-8E98-D0BD73AC2D69]/PlayerData4"
+					default_value
+					{
+						typehash "1868200057"
+						Vector_[EC94B303-FE3F-4246-8E98-D0BD73AC2D69]/PlayerData4
+						{
+							[EC94B303-FE3F-4246-8E98-D0BD73AC2D69]/PlayerData
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon
+							}
+
+							[EC94B303-FE3F-4246-8E98-D0BD73AC2D69]/PlayerData
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon
+							}
+
+						}
+
+					}
+
+				}
+
+				key "players"
 			}
 
 			Pair_String_GuiDataTypeField
@@ -875,6 +967,52 @@ GuiDataDefinitions
 		}
 
 		handle "[36997DCE-C327-4F1D-9D0C-4FCC47718804]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "PlayerData"
+		base_type
+		{
+			typehash "787221047"
+			HudPlayerData
+			{
+				player_id "0"
+				barrier
+				is_under_interference "0"
+				user_name
+				is_teleport_allowed "0"
+				is_being_spectated "0"
+				is_dead "0"
+				health
+				tooltip_content
+				ping "0"
+				icon
+			}
+
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_connecting"
+			}
+
+		}
+
+		handle "[EC94B303-FE3F-4246-8E98-D0BD73AC2D69]"
 	}
 
 }

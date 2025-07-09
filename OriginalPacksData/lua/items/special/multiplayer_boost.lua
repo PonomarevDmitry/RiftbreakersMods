@@ -61,6 +61,11 @@ function multiplayer_boost:OnChargingInProgress( state )
     local mechsUsed = {}
     local resetTimer = false
     local currentTime = GetLogicTime()
+    if ( self.owner == nil or not EntityService:IsAlive( self.owner ) ) then
+        self.fsm:Deactivate()
+        self:Cleanup()
+        return
+    end
 
     local factor = 0.0
     if ( self.timer ~= -1 ) then

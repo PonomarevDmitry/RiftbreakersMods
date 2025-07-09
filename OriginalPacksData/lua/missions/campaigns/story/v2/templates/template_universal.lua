@@ -1732,7 +1732,7 @@ function template_universal:PrepareMissionTilesPool()
 		--end
 	end
 
-    self:CreateTileSpawnRules( random_encounter_tile_spawn_rules )
+    --self:CreateTileSpawnRules( random_encounter_tile_spawn_rules )
 	if self.mission_params.terrain_type == "open" then
 		self:CreateTileSpawnRules( missionGeneratorTilePool[self.mission_params.biome_name]["openTilePool"] )
 	elseif self.mission_params.terrain_type == "dense" then

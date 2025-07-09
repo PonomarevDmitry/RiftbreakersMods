@@ -49,10 +49,18 @@ function mining_elevator:OnLuaGlobalEvent( event )
 end
 
 function mining_elevator:Interact( player )
-	
+	local component = EntityService:GetSingletonComponent( "VoteStatusComponent" )
+	if ( component ) then
+    	local container = component:GetField("vote_type_count"):ToContainer()
+		if ( container:GetCount() > 0 ) then
+			return
+		end
+	end
+
 	if ( self:CanEnableSpecialAction() ) then                 
 
 		if ( #PlayerService:GetConnectedPlayers() > 1) then
+
 
 			local voteParams =
 			{

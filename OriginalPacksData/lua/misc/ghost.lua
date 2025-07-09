@@ -56,15 +56,21 @@ function ghost:InitializeValues()
     if ( self.desc.rotate_info == true and ConsoleService:GetConfig( "showed_rotate_info" ) == "0" ) then
         self.rotateInfoChild = EntityService:SpawnAndAttachEntity("misc/rotate_info", self.entity )
     end
+end
 
-    local children = EntityService:GetChildren( self.selector, true )
-	self.childrenToUpdate = {}
-	for child in Iter( children ) do
-        local hasMesh = EntityService:HasComponent( child, "MeshComponent")
-        if ( hasMesh ) then
-			Insert( self.childrenToUpdate, child )
-		end
-	end
+function ghost:GetChildren()
+    if ( self.childrenToUpdate == nil ) then
+        self.childrenToUpdate = {}
+        local children = EntityService:GetChildren( self.selector, true )
+        for child in Iter( children ) do
+            local hasMesh = EntityService:HasComponent( child, "MeshComponent")
+            if ( hasMesh ) then
+                Insert( self.childrenToUpdate, child )
+            end
+        end
+    end
+    return self.childrenToUpdate
+    
 end
 
 function ghost:GetBuildInfo( entity  )
@@ -123,7 +129,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive 
     end
 
     EntityService:ChangeMaterial( entity, materialToSet)
-    for child in Iter( self.childrenToUpdate ) do
+    for child in Iter( self:GetChildren() ) do
         EntityService:ChangeMaterial( child, materialToSet)
     end
 

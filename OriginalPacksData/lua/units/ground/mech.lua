@@ -79,7 +79,7 @@ function mech:UpdateChildrenDissolveAmount( entity, type, time )
 	for child in Iter(children) do
 		local itemType = ItemService:GetItemType(child);
 		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" and itemType ~= "lift" ) then			
-			EntityService:FadeEntity( child, type, time)
+			EntityService:FadeEntity( child, type, time, false )
 			self:UpdateChildrenDissolveAmount( child, type, time )
 		end
 	end
@@ -267,7 +267,7 @@ function mech:OnDissolveStart( state)
 	self:EnableMechFunctionality( false )
 	
 	EntityService:RemovePropsInEntityBounds( self.entity )
-	EntityService:FadeEntity( self.entity, DD_FADE_IN, 1.0 )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 1.0, false )
 
 	state:SetDurationLimit( 1.0 )
 end
@@ -392,23 +392,26 @@ function mech:TakeAwayResources( deathSkullCount )
 end
 
 function mech:AddDeathSkull( penalty )
-	LogService:Log('death skull checkout')
-	self:CleanupReactivationSkulls()
-	local deathSkullCount = self:GetDeathSkullCount()
-	if penalty == true and deathSkullCount > 0 then 
-		self:TakeAwayResources( deathSkullCount )
-		LogService:Log('death skull count ' .. tostring( deathSkullCount ) )
- 	end
+	local playerEntity = PlayerService:GetGlobalPlayerEntity( self.player_id )
+ 	local playerGameStateComponent = EntityService:GetComponent( playerEntity, "PlayerGameStateComponent" )
+	if playerGameStateComponent then
+		LogService:Log('death skull checkout')
+		self:CleanupReactivationSkulls()
+		local deathSkullCount = self:GetDeathSkullCount()
+		if penalty == true and deathSkullCount > 0 then 
+			self:TakeAwayResources( deathSkullCount )
+			LogService:Log('death skull count ' .. tostring( deathSkullCount ) )
+	 	end
 
- 	local deathSkullMaxCount = self:GetDeathSkullMaxCount()
- 	if deathSkullCount < deathSkullMaxCount or deathSkullMaxCount == 0 then
-		local playerEntity = PlayerService:GetGlobalPlayerEntity( self.player_id )
-	 	local playerGameStateComponent = EntityService:GetComponent( playerEntity, "PlayerGameStateComponent" )
-		local helper = reflection_helper( playerGameStateComponent ) 
-	    local container = rawget(helper.mech_skull_cooldowns, "__ptr");
-		local item = container:CreateItem()
-		item:SetValue( tostring(1.0) )
-		LogService:Log('death skull ADDED')
+	 	local deathSkullMaxCount = self:GetDeathSkullMaxCount()
+	 	if deathSkullCount < deathSkullMaxCount or deathSkullMaxCount == 0 then
+
+			local helper = reflection_helper( playerGameStateComponent ) 
+		    local container = rawget(helper.mech_skull_cooldowns, "__ptr");
+			local item = container:CreateItem()
+			item:SetValue( tostring(1.0) )
+			LogService:Log('death skull ADDED')
+		end
 	end
 end
 
@@ -779,8 +782,8 @@ function mech:OnPortalOpenEnter( state )
 	local has_players_nearby = self:PreventMechsOverlap()
 
 	EntityService:SetVisible( self.entity, false )
-	EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.0)
-	self:UpdateChildrenDissolveAmount( self.entity,DD_FADE_OUT, 0 )
+	EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.0, false )
+	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_OUT, 0 )
 
 	local type = EntityService:GetType(self.entity)
 	EntityService:ChangeType( self.entity, type .. "|invisible" )
@@ -806,7 +809,7 @@ function mech:OnPortalOpenExit( state )
 	EntityService:SetVisible( self.entity, true )
 	EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_exit", "att_jump" )
 	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_IN, 0.5 )
-	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5)
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5, false )
 	self.fsm:ChangeState("initial_spawn")
 end
 
@@ -820,7 +823,7 @@ function mech:OnInitialSpawnExecute( state, dt )
 end
 
 function mech:OnInitialSpawnExit( state )
-	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.0)
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.0, false )
 end
 
 function mech:OnShockwaveEnter( state )

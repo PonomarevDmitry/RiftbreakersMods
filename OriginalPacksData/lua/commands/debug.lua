@@ -245,3 +245,9 @@ ConsoleService:RegisterCommand( "debug_cleanup_invalid_pawn_entities", function(
     LogService:Log( "-- End removing entities considered as pawns");
 end )
 
+ConsoleService:RegisterCommand( "debug_unlock_planetary_scanner", function()
+	CampaignService:OperatePlanetaryJump( true )
+	CampaignService:OperateDOMPlanetaryJump( true )
+
+end)
+

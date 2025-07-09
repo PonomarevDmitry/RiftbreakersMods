@@ -23,7 +23,7 @@ system rift/cryo_orb_beam
         }
         emitter                                 Box alpha_flame
         {
-            emission_rate                       150
+            emission_rate                       200
             angle                               2
             time_to_live                        dyn_random
             {
@@ -49,8 +49,8 @@ system rift/cryo_orb_beam
         affector                                Colour 
         {
             time_colour                         0    0.25098 0.25098 0.25098 0
-            time_colour                         0.1  1 1 1 0.288256
-            time_colour                         0.600379  1 1 1 0.259786
+            time_colour                         0.1  1 1 1 0.345196
+            time_colour                         0.745077  1 1 1 0.33452
             time_colour                         1    0.501961 0.501961 0.501961 0
         }
         affector                                Scale 
@@ -79,7 +79,7 @@ system rift/cryo_orb_beam
     }
     technique sparks
     {
-        visual_particle_quota                   50
+        visual_particle_quota                   100
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -88,11 +88,12 @@ system rift/cryo_orb_beam
         renderer                                Billboard
         {
             render_queue_group                  65
+            billboard_type                      oriented_self
             billboard_rotation_type             vertex
         }
         emitter                                 Box sparks
         {
-            emission_rate                       50
+            emission_rate                       100
             angle                               5
             time_to_live                        dyn_random
             {
@@ -100,10 +101,15 @@ system rift/cryo_orb_beam
                 max                             0.6
             }
             velocity                            3000
-            all_particle_dimensions             dyn_random
+            particle_width                      dyn_random
             {
-                min                             8
-                max                             12
+                min                             10
+                max                             15
+            }
+            particle_height                     dyn_random
+            {
+                min                             15
+                max                             30
             }
             direction                           1 0 0
             box_width                           150
@@ -122,29 +128,6 @@ system rift/cryo_orb_beam
             xyz_scale                           -1
         }
     }
-    technique flare
-    {
-        keep_local                              true
-        visual_particle_quota                   5
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/flare_add_02
-        renderer                                Billboard
-        {
-            render_queue_group                  61
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Point flare
-        {
-            emission_rate                       100
-            time_to_live                        0.1
-            velocity                            0.0001
-            all_particle_dimensions             100
-            colour                              0 0.501961 1 1
-        }
-    }
     technique sparksgravity
     {
         visual_particle_quota                   300
@@ -160,7 +143,7 @@ system rift/cryo_orb_beam
         }
         emitter                                 SphereSurface DebrisEmitter
         {
-            emission_rate                       50
+            emission_rate                       100
             angle                               85
             time_to_live                        dyn_random
             {
@@ -174,21 +157,21 @@ system rift/cryo_orb_beam
             }
             particle_width                      dyn_random
             {
-                min                             8
-                max                             12
+                min                             10
+                max                             15
             }
             particle_height                     dyn_random
             {
-                min                             12
-                max                             20
+                min                             15
+                max                             30
             }
             start_colour_range                  1 1 1 1
-            radius                              100
+            radius                              150
         }
         affector                                Colour 
         {
             time_colour                         0    1 1 1 1
-            time_colour                         0.495768  1 1 1 0.564838
+            time_colour                         0.495768  1 1 1 1
             time_colour                         1    0 0 0 0
         }
         affector                                Gravity Affector70

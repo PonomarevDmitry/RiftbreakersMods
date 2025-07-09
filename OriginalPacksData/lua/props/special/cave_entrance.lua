@@ -22,12 +22,19 @@ end
 
 
 function cave_entrance:OnInteractWithEntityRequest( evt )
+	local component = EntityService:GetSingletonComponent( "VoteStatusComponent" )
+	if ( component ) then
+    	local container = component:GetField("vote_type_count"):ToContainer()
+		if ( container:GetCount() > 0 ) then
+			return
+		end
+	end
+
 	local owner = evt:GetOwner()
 	local player = PlayerService:GetPlayerForEntity( owner )
 	
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 	if ( #PlayerService:GetConnectedPlayers() > 1) then
-
 		local voteParams =
 		{
 			localization = "gui/planetary_scanner/go_to_next_map_vote",
