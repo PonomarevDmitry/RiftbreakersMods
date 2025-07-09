@@ -18,6 +18,9 @@ function ghost_building:OnInit()
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
     self:ChangeEntityMaterial( self.entity, "hologram/blue" )
+    for child in Iter( self:GetChildren() ) do
+        EntityService:ChangeMaterial( child, "hologram/blue" )
+    end
 
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, transform )
