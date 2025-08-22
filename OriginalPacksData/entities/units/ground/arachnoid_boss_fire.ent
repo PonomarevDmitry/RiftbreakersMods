@@ -2,7 +2,7 @@ EntityBlueprint
 {
 	name  "units/ground/arachnoid_boss_fire"
 	
-	base_blueprint "units/ground/arachnoid_boss_easy"
+	base_blueprint "units/ground/arachnoid_boss_base"
 	
 	ResistanceComponent
 	{
@@ -36,6 +36,11 @@ EntityBlueprint
 			items 		string:"items/weapons_enemy/arachnoid_boss_fire_weapon_item"
 		}
 	}	
+	
+	DatabaseComponent
+	{
+		version int:"2"	
+	}		
 
 	DestroyDesc
 	{
@@ -63,7 +68,7 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"units/ground/arachnoid_boss_easy"
+			"units/ground/arachnoid_boss_base"
 		}	
 		EffectGroup
 		{						
@@ -175,7 +180,171 @@ EntityBlueprint
 			}
 		}		
 	}			
-}
+	children
+	{
+		EntityBlueprint
+		{
+			name "units/ground/arachnoid_boss/fire_attack_1"
+			
+			NetReplicationDisabledComponent
+			{
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_front_right_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"fire"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "0.25"
+						}
+					}	
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "units/ground/arachnoid_boss/fire_attack_2"
+			
+			NetReplicationDisabledComponent
+			{
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_front_left_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"fire"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "-0.25"
+						}
+					}	
+				}
+			}
+		}
+	}	
+}	
 
 EntityBlueprint
 {
@@ -194,7 +363,8 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"10000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_arachnoid/death_boss_long_fire"	
+					explosion_effect 		"effects/enemies_arachnoid/death_boss_long_fire"
+					explosion_effect_scale 	"0.6"					
 					part_material	 		"units/ground/arachnoid_boss_fire"
 					part_prefix 			"meshes/units/ground/arachnoid_boss_armor"
 					part_effect 			"effects/enemies_generic/blood_trail_fire"

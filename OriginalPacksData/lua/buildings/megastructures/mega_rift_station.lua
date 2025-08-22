@@ -130,7 +130,7 @@ function mega_rift_station:OnExecute()
             allWorking = false
         end
     end
-    allWorking = allWorking and BuildingService:IsBuildingPowered( self.entity ) and BuildingService:IsResourceSupplied( self.entity ) and BuildingService:IsPlayerWorking( self.entity )
+	allWorking = allWorking and BuildingService:IsBuildingPowered( self.entity ) and BuildingService:IsResourceSupplied( self.entity ) and BuildingService:IsPlayerWorking( self.entity )
 	
 	if stringValue == "true" and allWorking == true then
 		data:SetFloat( self.name, 1 )
@@ -238,6 +238,7 @@ function mega_rift_station:OnExitDestruction( state )
 end
 
 function mega_rift_station:OnLoad()
+	building.OnLoad(self)
 	self.children = EntityService:GetChildren( self.entity, false )
 end
 

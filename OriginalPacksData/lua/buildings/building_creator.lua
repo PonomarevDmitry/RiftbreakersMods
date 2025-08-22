@@ -341,7 +341,7 @@ function building_creator:_OnBuildingExecute( state )
     end
 	local buildingComponent = EntityService:GetComponent(self.parent, "BuildingComponent")
 
-	if ( progress >= 1 or buildingComponent == nil or reflection_helper(buildingComponent).mode == 2 ) then
+	if ( progress >= 1 or (buildingComponent ~= nil and reflection_helper(buildingComponent).mode == 2) ) then
 		state:Exit()
 	end
 end

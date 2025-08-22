@@ -57,7 +57,8 @@ function arcology_workshop:SpecialAction()
         return
     end
     --LogService:Log( "Arcology workshop activated." )
-     self.activated = true
+    self.activated = true
+    self.data:SetInt("is_special_action_enabled",0)
     BuildingService:EnableBuilding( self.entity )
 	QueueEvent( "LuaGlobalEvent", event_sink, "ArcologyWorkshopActivated", {} )
 end
@@ -131,6 +132,7 @@ function arcology_workshop:OnExecute()
         if ( self.activated ) then
             --LogService:Log( "Arcology workshop is already activated, enabling building." )
             BuildingService:EnableBuilding( self.entity )
+            self.data:SetInt("is_special_action_enabled",0)
             self.active = true
         else
             --LogService:Log( "Arcology workshop is not activated, enabling interactive component." )

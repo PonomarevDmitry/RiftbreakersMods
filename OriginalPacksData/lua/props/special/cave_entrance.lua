@@ -22,12 +22,8 @@ end
 
 
 function cave_entrance:OnInteractWithEntityRequest( evt )
-	local component = EntityService:GetSingletonComponent( "VoteStatusComponent" )
-	if ( component ) then
-    	local container = component:GetField("vote_type_count"):ToContainer()
-		if ( container:GetCount() > 0 ) then
-			return
-		end
+	if ( PlayerService:IsPlayerVoteInProgress()) then
+		return		
 	end
 
 	local owner = evt:GetOwner()

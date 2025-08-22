@@ -1,6 +1,7 @@
 local day_cycle_machine = require("lua/utils/day_cycle_machine.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
+require("lua/utils/teleport_machine.lua")
 
 class 'mech' ( day_cycle_machine )
 
@@ -74,64 +75,19 @@ local function HasOtherAlivePlayersInTeam( current_player )
 	return false
 end
 
-function mech:UpdateChildrenDissolveAmount( entity, type, time )
+function mech:UpdateChildrenDissolveAmount( entity, type, time, checkType )
 	local children =  EntityService:GetChildren( entity, false )
 	for child in Iter(children) do
-		local itemType = ItemService:GetItemType(child);
-		if ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" and itemType ~= "lift" ) then			
+		local itemType = ItemService:GetItemType(child)
+		if checkType == false or ( itemType ~= "interactive" and itemType ~= "equipment" and itemType ~= "" and itemType ~= "lift" ) then		
 			EntityService:FadeEntity( child, type, time, false )
-			self:UpdateChildrenDissolveAmount( child, type, time )
+			self:UpdateChildrenDissolveAmount( child, type, time, false )
 		end
 	end
 end
 
 function mech:__init()
 	day_cycle_machine.__init(self,self)
-end
-
-function mech:PreventMechsOverlap()
-	local player_pawns = PlayerService:GetPlayersMechs()
-	local HasAnyPlayerInRadius = function ( position, radius )
-		position.y = 0.0
-
-		for player_pawn in Iter(player_pawns) do
-			if player_pawn ~= self.entity then
-
-				local pawn_position = EntityService:GetPosition(player_pawn);
-				pawn_position.y = 0.0
-
-				local distance = Distance(position, pawn_position)
-
-				if distance <= radius then
-					return true
-				end
-			end
-		end
-
-		return false
-	end
-
-	local position = EntityService:GetPosition(self.entity)
-	if not HasAnyPlayerInRadius( position, 6.0 ) then
-		return
-	end
-
-	local empty_spots = FindService:FindEmptySpotsInRadius( self.entity, 0.0, 6.0, "character", "" )
-	if #empty_spots == 0 then
-		return
-	end
-
-	for empty_spot in Iter(empty_spots) do
-		local index = RandInt(1, #empty_spots)
-
-		local position = empty_spots[index]
-		if not HasAnyPlayerInRadius( position, 3.0 ) then
-			EntityService:Teleport( self.entity, position )
-			return true
-		end
-	end
-
-	return false
 end
 
 function mech:init()
@@ -316,7 +272,6 @@ function mech:OnReactivateMechRequest( evt )
 	EntityService:SpawnAndAttachEntity("items/special/multiplayer_revive_boost", evt:GetOwner() )
 	EntityService:SpawnAndAttachEntity("items/special/multiplayer_revive_boost", self.entity )
 
-	LogService:Log( "OnReactivateMechRequest" )
 	self.reactivationActive = false
 end
 
@@ -328,14 +283,11 @@ local g_deactivate_mech_components = {
 }
 
 function mech:OnInteractWithEntity( event )
-	LogService:Log( "OnInteractWithEntity" )
 	if event:GetEvent() == "InteractWithEntityStarted" then
-		LogService:Log( "Intaraction started" )
 		self.reactivationActive = true
 		EffectService:AttachEffects( self.entity, "reviving")
 	end
 	if event:GetEvent() == "InteractWithEntityEnded" then
-		LogService:Log( "Intaraction ended" )
 		if self.reactivationActive == true then
 			self.reactivationActive = false
 			EffectService:DestroyEffectsByGroup( self.entity, "reviving" )
@@ -377,7 +329,6 @@ function mech:TakeAwayResources( deathSkullCount )
 	local difficultyHelper = reflection_helper( difficulty )
 	local scale = ( 1.0 - ( difficultyHelper.death_skull_resource_decrease_percent / 100.0 ) * deathSkullCount )
 	scale = Clamp( scale, 0.0, 1.0 )
-	LogService:Log('death skull penalty ' .. tostring( scale ) .. '%' )
 	local player_team = PlayerService:GetPlayerTeam( self.player_id )
 	--PlayerService:ScaleTeamGlobalResources( player_team, scale )
 	local beforeCarbonium = PlayerService:GetResourceAmount( self.player_id, "carbonium" )
@@ -395,12 +346,10 @@ function mech:AddDeathSkull( penalty )
 	local playerEntity = PlayerService:GetGlobalPlayerEntity( self.player_id )
  	local playerGameStateComponent = EntityService:GetComponent( playerEntity, "PlayerGameStateComponent" )
 	if playerGameStateComponent then
-		LogService:Log('death skull checkout')
 		self:CleanupReactivationSkulls()
 		local deathSkullCount = self:GetDeathSkullCount()
 		if penalty == true and deathSkullCount > 0 then 
 			self:TakeAwayResources( deathSkullCount )
-			LogService:Log('death skull count ' .. tostring( deathSkullCount ) )
 	 	end
 
 	 	local deathSkullMaxCount = self:GetDeathSkullMaxCount()
@@ -410,7 +359,6 @@ function mech:AddDeathSkull( penalty )
 		    local container = rawget(helper.mech_skull_cooldowns, "__ptr");
 			local item = container:CreateItem()
 			item:SetValue( tostring(1.0) )
-			LogService:Log('death skull ADDED')
 		end
 	end
 end
@@ -425,7 +373,6 @@ function mech:InitReactivationSkulls()
 		for i = 1, count, 1 do
 			local item = container:CreateItem()
 			item:SetValue( tostring(1.0) )
-			LogService:Log('death reactivation skull ADDED')
 		end
 	end
 end
@@ -439,7 +386,6 @@ function mech:CleanupReactivationSkulls()
 		local count = self:GetDeathSkullCount()
 		for i = count, 0, -1 do
 			container:EraseItem( i )
-			LogService:Log('death reactivation skull DELETED')
 		end
 	end
 end
@@ -454,30 +400,24 @@ function mech:UpdateDeathSkull( dt )
 		if is_deactivated == 0 then
 	        local container = rawget(helper.mech_skull_cooldowns, "__ptr");
 		    local count = container:GetItemCount()
-		    --LogService:Log('death skull count ' .. tostring( count )  )
 			if count > 0 then
 				local item = container:GetItem( 0 )
 				local maxCooldown = self:GetDeathSkullCooldown()
 				local cooldown = ( ( tonumber( item:GetValue() ) * maxCooldown ) - dt ) / maxCooldown
 				item:SetValue( tostring( cooldown ) )
-				--LogService:Log('death skull dt:' .. tostring( dt ) .. ' ' .. item:GetValue() )
 				if tonumber( item:GetValue() ) <= 0 then
-					LogService:Log('death skull removed')
 					container:EraseItem( 0 )
 				end
 			end
 		else
 	        local container = rawget(helper.mech_skull_reactivations, "__ptr");
 		    local count = container:GetItemCount()
-		    --LogService:Log('death reactivation skull count ' .. tostring( count )  )
 			if self.reactivationActive == true and count > 0 then
 				local item = container:GetItem( 0 )
 				local maxCooldown = self:GetDeathSkullAdditionalTime()
 				local cooldown = ( ( tonumber( item:GetValue() ) * maxCooldown ) - dt ) / maxCooldown
 				item:SetValue( tostring( cooldown ) )
-				--LogService:Log('death reactivation skull ' .. tostring( i ) .. ' ' .. item:GetValue() )
 				if tonumber( item:GetValue() ) <= 0 then
-					LogService:Log('death reactivation skull removed')
 					container:EraseItem( 0 )
 				end
 			end
@@ -495,10 +435,6 @@ end
 
 function mech:OnDeactivateEnter(state)
 	self.death_duration = GetLogicTime() + self.data:GetFloatOrDefault( "death_explosion_timer", 10 )
-
-	LogService:Log('death skull count ' .. self:GetDeathSkullCount() )
-	LogService:Log('death additional reactivation duration ' .. self:GetAdditionalReactivationTime() )
-	LogService:Log('death duration ' .. self.death_duration )
 
 	local database = EntityService:GetDatabase( self.entity )
 	database:SetInt( "is_deactivated", 1 )
@@ -697,7 +633,7 @@ function mech:OnDestroyRequest( evt )
 	local player_team = PlayerService:GetPlayerTeam( self.player_id )
 	local has_other_players = #PlayerService:GetConnectedPlayersFromTeam( player_team ) > 1
 	if ( has_other_players ) then
-		local spawn_point_destroyed = PlayerService:GetPlayerSpawnPoint( self.player_id ) == INVALID_ID
+		local spawn_point_destroyed = PlayerService:GetPlayerSpawnPoint( self.player_id ) == INVALID_ID or MissionService:IsPlayerRespawnBlocked()
 		local has_other_players_alive = HasOtherAlivePlayersInTeam( self.player_id )
 		if spawn_point_destroyed and not has_other_players_alive then
 			self:DestroyMech()
@@ -779,11 +715,11 @@ end
 --- 
 
 function mech:OnPortalOpenEnter( state )
-	local has_players_nearby = self:PreventMechsOverlap()
+	local has_players_nearby = teleport_machine.TeleportEntity(self, self.entity, EntityService:GetPosition( self.entity))
 
 	EntityService:SetVisible( self.entity, false )
 	EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.0, false )
-	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_OUT, 0 )
+	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_OUT, 0, true )
 
 	local type = EntityService:GetType(self.entity)
 	EntityService:ChangeType( self.entity, type .. "|invisible" )
@@ -808,8 +744,9 @@ function mech:OnPortalOpenExit( state )
 
 	EntityService:SetVisible( self.entity, true )
 	EffectService:SpawnEffect( self.entity, "effects/mech/jump_portal_exit", "att_jump" )
-	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_IN, 0.5 )
+
 	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5, false )
+	self:UpdateChildrenDissolveAmount( self.entity, DD_FADE_IN, 0.5, true )
 	self.fsm:ChangeState("initial_spawn")
 end
 

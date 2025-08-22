@@ -204,6 +204,7 @@ function repair_drone:OnRepairExecute( state )
 	end
 
     HealthService:SetHealth(target, math.min( health, maxHealth ));
+	if state:GetDuration() < self.heal_interval then return end
     if health >= maxHealth then
         return self:FinishTargetAction(state)
     end

@@ -97,9 +97,13 @@ function upgrade_tool:OnActivateEntity( entity )
     local buildingDesc = BuildingService:GetBuildingDesc(buildingName )
     if ( buildingDesc and reflection_helper(buildingDesc).limit_name == "hq" ) then
         if( self.popupShown == false ) then
-            GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
-            self.popupShown = true
-            self:RegisterHandler(entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+            if ( CampaignService:GetCurrentCampaignType() == "story" ) then
+                GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
+                self.popupShown = true
+                self:RegisterHandler(entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+            else
+                QueueEvent("UpgradeBuildingRequest", entity, self.playerId )
+            end
         end
     else
         QueueEvent("UpgradeBuildingRequest", entity, self.playerId )

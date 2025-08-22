@@ -13,12 +13,54 @@ MainMenuScreen
 {
     states
     {
+		#ifdef win
+        MainMenuState
+        {
+            name    "main"
+            title   "BUTTON_main_menu"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+            background_material ""
+            toast_frame_visible "1"
+
+            items
+            {
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_single_player_game"
+                    icon    "gui/menu/buttons/main_menu/single_player_selected" 
+                    action  "change_state:single_player"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label       "BUTTON_multiplayer_game"
+                    icon        "gui/menu/buttons/main_menu/multi_player_selected" 
+                    action      "change_state:multiplayer"
+                    requirement "has_multiplayer"
+                }
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_game_features_demo"
+                    icon    "gui/menu/buttons/main_menu/mods_selected" 
+                    action  "change_screen:gui/menu/comming_soon"
+                }
+            }
+
+        }
+		#endif
         MainMenuState
         {
             name    "single_player"
             title   "BUTTON_single_player_game"
             background_movie_material "menu/movies/main_menu_prolog_bg"
-
+            background_material ""
+            
+		#ifdef win
+            toast_frame_visible "0"
+		#else
+            toast_frame_visible "1"
+		#endif	
             items
             {
 
@@ -32,9 +74,9 @@ MainMenuScreen
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_prologue_mission"
-                    icon    "gui/menu/buttons/main_menu/prolog_selected"
-                    action  "start_campaign:campaigns/prologue/prologue.campaign"
+                    label           "BUTTON_prologue_mission"
+                    icon            "gui/menu/buttons/main_menu/prolog_selected" 
+                    action          "start_campaign:campaigns/prologue/prologue.campaign"
                     action_database
                     {
                         streaming   int:"0"
@@ -43,9 +85,14 @@ MainMenuScreen
 
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_game_features_demo"
-                    icon    "gui/menu/buttons/main_menu/prolog_selected" 
-                    action  "change_screen:gui/menu/comming_soon"
+                    label           "BUTTON_custom_game"
+                    icon            "gui/menu/buttons/main_menu/custom_selected" 
+                    action          "change_screen:gui/menu/new_survival"
+                    {
+                        campaign_type   string:"custom"
+                        multiplayer     int:"0"
+                    }
+                    requirement     "has_campaign_type:custom"
                 }
 
                 MainMenuButtonInfo
@@ -55,8 +102,32 @@ MainMenuScreen
                     action  "change_screen:gui/menu/load_menu"
                 }
             }
-
         }
-        
+
+        MainMenuState
+        {
+            name    "multiplayer"
+            title   "BUTTON_multiplayer_game"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
+            background_material ""
+
+            items
+            {
+
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_host_game"
+                    icon    "gui/menu/buttons/main_menu/multi_player_host_game_selected" 
+                    action  "change_screen:gui/menu/multiplayer_lobby"
+                }
+    
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_join_game"
+                    icon    "gui/menu/buttons/main_menu/multi_player_join_game_selected" 
+                    action  "change_screen:gui/menu/multiplayer_server_list"
+                }
+            }
+        }
     }
 }

@@ -318,8 +318,12 @@ function item:IsPickable( owner )
 end
 
 function item:DissolveShow()
-	if ( EntityService:IsAlive( self.item )) then
-		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
+	if EntityService:IsAlive( self.item ) then
+		if EntityService:IsVisible( self.owner ) then
+			EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
+		else
+			EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0 )
+		end
 	end
 end
 

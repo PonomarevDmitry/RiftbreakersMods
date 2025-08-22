@@ -73,15 +73,71 @@ end
 
 function teleport_machine:OnWaitExecute( state)
     if ( not self.teleported and  (state:GetDuration() >= self.waitTime / 2.0) ) then
-        EntityService:Teleport( self.parent, self.destination )
-        self.teleported = true
+        self:Teleport()
     end
+end
+
+function teleport_machine:TeleportEntity( entity, destination )
+    EntityService:Teleport( entity, destination )
+
+	local player_pawns = PlayerService:GetPlayersMechs()
+	local HasAnyPlayerInRadius = function ( position, radius )
+		position.y = 0.0
+
+		for player_pawn in Iter(player_pawns) do
+			if player_pawn ~= entity then
+
+				local pawn_position = EntityService:GetPosition(player_pawn);
+				pawn_position.y = 0.0
+
+				local distance = Distance(position, pawn_position)
+
+				if distance <= radius then
+					return true
+				end
+			end
+		end
+
+		return false
+	end
+
+    local FIND_RADIUS = 10.0
+    local FIND_STEPS = 5
+    local FIND_RADIUS_STEP = FIND_RADIUS / FIND_STEPS
+
+	if not HasAnyPlayerInRadius( destination, FIND_RADIUS_STEP ) then
+		return
+	end
+
+    for i=1,FIND_STEPS do
+        local r = FIND_RADIUS_STEP * i
+
+        local empty_spots = FindService:FindEmptySpotsInRadius( entity, 0.0, r, "character|building|world_destructible|world_blocker", "" )
+        for empty_spot in Iter(empty_spots) do
+            local index = RandInt(1, #empty_spots)
+
+            local position = empty_spots[index]
+            position.y = position.y + 4.0
+
+            if not HasAnyPlayerInRadius( position, 3.0 ) then
+                EntityService:Teleport( entity, position )
+                return true
+            end
+        end
+    end
+
+	return false
+end
+
+function teleport_machine:Teleport()
+    self:TeleportEntity( self.parent, self.destination )
+    self.teleported = true
 end
 
 function teleport_machine:OnWaitExit( state)
     self.fsm:ChangeState("appear")
     if ( not self.teleported ) then
-        EntityService:Teleport( self.parent, self.destination )
+        self:Teleport()
     end
 end
 

@@ -177,6 +177,13 @@ EntityBlueprint
 	{
 		name    "rift/emergency_explosion"
 	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}	
 
 	CameraShakeDesc
 	{
@@ -190,7 +197,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_medium"
+		name "items/skills/emergency_explosion"
 	}
 	
 	DecalDesc
@@ -198,9 +205,9 @@ EntityBlueprint
 		blueprint "effects/decals/explosion_hole_random"
 		scale
 		{
-			x		4.0
-			y		4.0
-			z		4.0
+			x		5.0
+			y		5.0
+			z		5.0
 		}
 	}	
 	
@@ -247,10 +254,17 @@ EntityBlueprint
 		frequency 		"20"
 		group			"explosion_big"
 	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}		
 
 	SoundDesc
 	{
-		name "items/weapons/explosive/explosion_medium"
+		name "items/skills/generator_overcharge"
 	}
 	
 	DecalDesc
@@ -296,20 +310,6 @@ EntityBlueprint
 		frequency 		"30"
 		group			"explosion_big"
 	}	
-	
-	//TimeWarpDesc
-	//{
-	//	desaturation	"0.1"
-	//	contrast   		"1.0"
-	//	brightness		"1.0"
-	//	bloom_scale		"1.0"
-	//	time_factor		"0.3"
-	//	
-	//	delay			"0.1"
-	//	fade_in_time	"0.2"
-	//	fade_out_time	"0.5"
-	//	duration		"1.0"
-	//}	
 
 	SoundDesc
 	{
@@ -400,7 +400,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name structures/building_cube_hit_ground
+		name items/consumables/mine
 	}
 }
 
@@ -617,7 +617,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/explosion_blue_medium	
+		 lights/point/explosion_orange_small	
 		 effects/no_lifetime
 	}
 
@@ -643,6 +643,76 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/mech_mine_beacon_nuclear"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_mine_beacon_cryo_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_mild_blue_small
+		 effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+		layer_group		"player"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_mine_beacon_cryo"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/mech_mine_beacon_gravity_armed
+
+	base_blueprints
+	{
+		 lights/point/explosion_violet_small
+		 effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility		"discovered"
+		layer_group		"player"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_mine_beacon_gravity"
 	}	
 }
 
@@ -938,7 +1008,7 @@ EntityBlueprint
 
 	SoundDesc
 	{
-		name buildings/decorations/base_lamp/power_on
+		name items/consumables/holo_decoy
 	}
 }
 

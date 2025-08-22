@@ -70,14 +70,23 @@ function trigger_highlight_building:OnEnsureHighlight()
 end
 
 function trigger_highlight_building:OnEnteredTriggerEvent( evt )
-	self.remove_from_highlight = true
 	local player = PlayerService:GetPlayerForEntity( evt:GetOtherEntity() )
+	if player == INVALID_PLAYER_ID then
+		return
+	end
+
+	self.remove_from_highlight = true
 	self:AddHiglight( player )
 end
 
 function trigger_highlight_building:OnLeftTriggerEvent( evt )
 	self.remove_from_highlight = false
+	
 	local player = PlayerService:GetPlayerForEntity( evt:GetOtherEntity() )
+		if player == INVALID_PLAYER_ID then
+		return
+	end
+
 	self:RemoveHighlight( player )
 end
 

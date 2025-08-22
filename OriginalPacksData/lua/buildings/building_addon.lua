@@ -10,6 +10,7 @@ function building_addon:init()
 
 	self:RegisterHandler( self.parent, "DestroyRequest", "OnDestroyRequest" )
 	self:RegisterHandler( self.entity, "DamageEvent", "OnDamageEvent" )
+	self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" ) 
 
 	if ( self.data:GetIntOrDefault("working_from_parent", 1) == 1 ) then
 		self:RegisterHandler( self.parent, "ActivateBuildingEvent",  "_OnActivate" )
@@ -53,6 +54,10 @@ function building_addon:_OnDeactivate()
 	self.data:SetInt("resource", 0.0 )
 	EffectService:DestroyEffectsByGroup(self.entity, "working")	
 	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0 )
+end
+
+function building_addon:OnAnimationMarkerReached(evt)
+	EffectService:AttachEffects(self.entity, evt:GetMarkerName())
 end
 
 

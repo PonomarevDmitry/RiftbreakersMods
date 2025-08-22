@@ -1,8 +1,8 @@
-//editor "scroll(510.84,59.86)|zoom(0.67)"
+//editor "scroll(-17.03,-9.10)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "4"
-	editor "5390"
+	version "5"
+	editor "6595"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -28,7 +28,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1691,538)"
+			//editor "layout(event_end.xml)|pos(1691,529)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -71,6 +71,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -171,7 +177,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_adaptive_music_system.xml)|pos(1295,439)"
+			//editor "layout(audio_adaptive_music_system.xml)|pos(1296,516)"
 			database
 			{
 				Strings
@@ -213,7 +219,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(600,1105)"
+			//editor "layout(condition_false.xml)|pos(600,1099)"
 			key "false"
 			self_id "logic_if_biome_0###false"
 			value "logic_if_biome_0###false"
@@ -642,7 +648,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1283,1283)"
+			//editor "layout(condition_int.xml)|pos(1283,1264)"
 			key "0"
 			self_id "logic_random_output_0###0"
 			value "logic_random_output_0###0"
@@ -650,7 +656,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1283,1312)"
+			//editor "layout(condition_int.xml)|pos(1283,1292)"
 			key "1"
 			self_id "logic_random_output_0###1"
 			value "logic_random_output_0###1"
@@ -658,7 +664,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1283,1341)"
+			//editor "layout(condition_int.xml)|pos(1283,1320)"
 			key "2"
 			self_id "logic_random_output_0###2"
 			value "logic_random_output_0###2"
@@ -666,7 +672,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1283,1371)"
+			//editor "layout(condition_int.xml)|pos(1283,1348)"
 			key "3"
 			self_id "logic_random_output_0###3"
 			value "logic_random_output_0###3"
@@ -674,7 +680,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(1283,1400)"
+			//editor "layout(condition_int.xml)|pos(1283,1376)"
 			key "4"
 			self_id "logic_random_output_0###4"
 			value "logic_random_output_0###4"
@@ -685,6 +691,7 @@ FlowGraphTemplate
 	GraphConnections
 	{
 		audio_adaptive_music_system_0 "audio_music_change_playlist_0"
+		audio_adaptive_music_system_1 "event_end_0"
 		default "audio_adaptive_music_system_0|logic_if_biome_0|objective_generic_timer_0"
 		logic_if_biome_0 "logic_if_biome_0###false"
 		logic_if_biome_0###false "logic_random_output_0"
@@ -694,7 +701,7 @@ FlowGraphTemplate
 		logic_random_output_0###2 "interface_dialogue_show_3"
 		logic_random_output_0###3 "interface_dialogue_show_4"
 		logic_random_output_0###4 "interface_dialogue_show_5"
-		objective_generic_timer_0 "event_end_0"
+		objective_generic_timer_0 "audio_adaptive_music_system_1"
 	}
 
 	GraphComments

@@ -1,13 +1,13 @@
-//editor "scroll(1046.43,-708.25)|zoom(0.75)"
+//editor "scroll(-2405.00,-104.84)|zoom(1.00)"
 FlowGraphTemplate
 {
-	version "31"
-	editor "5686"
+	version "36"
+	editor "6595"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-390,405)"
+			//editor "layout(event_start.xml)|pos(-3954,309)"
 			database
 			{
 				Integers
@@ -179,6 +179,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -257,6 +263,7 @@ FlowGraphTemplate
 			interrupt "1"
 			priority "2.00"
 			self_id "interface_dialogue_show_group_1"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -349,6 +356,12 @@ FlowGraphTemplate
 					{
 						key "attach_entity"
 						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
 					}
 
 				}
@@ -455,7 +468,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_hud_visible.xml)|pos(2425,-412)"
+			//editor "layout(interface_hud_visible.xml)|pos(2435,-641)"
 			database
 			{
 				Integers
@@ -519,7 +532,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_event_send.xml)|pos(2427,-558)"
+			//editor "layout(logic_event_send.xml)|pos(2437,-787)"
 			database
 			{
 				Integers
@@ -575,6 +588,12 @@ FlowGraphTemplate
 					{
 						key "weather_blueprint"
 						value "weather/anoryxian_fight"
+					}
+
+					StringData
+					{
+						key "new_name"
+						value
 					}
 
 				}
@@ -633,6 +652,12 @@ FlowGraphTemplate
 					{
 						key "attach_entity"
 						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
 					}
 
 				}
@@ -734,6 +759,7 @@ FlowGraphTemplate
 			interrupt "1"
 			priority "2.00"
 			self_id "interface_dialogue_show_group_2"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -814,7 +840,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_block_players_action_mappers.xml)|pos(2426,-669)"
+			//editor "layout(logic_block_players_action_mappers.xml)|pos(2437,-897)"
 			database
 			{
 				Integers
@@ -833,6 +859,182 @@ FlowGraphTemplate
 			self_id "logic_block_players_action_mappers_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(df_entity_find.xml)|pos(-2450,493)"
+			database
+			{
+				find_radius "float:'50'"
+				find_type "string:'Type'"
+				find_value "string:'player'"
+			}
+
+			script "lua/graph/entity/df_entity_find.lua"
+			self_id "df_entity_find_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_team_spawn_point.xml)|pos(-3608,281)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "team_name"
+						value "player"
+					}
+
+					StringData
+					{
+						key "spawn_name"
+						value "logic/position_marker_player_distance_max"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_set_team_spawn_point.lua"
+			self_id "logic_set_team_spawn_point_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_entity_find.xml)|pos(-2856,335)"
+			database
+			{
+				find_radius "float:'0'"
+				find_type "string:'Name'"
+				find_value "string:'logic/position_marker_player_distance_max'"
+			}
+
+			script "lua/graph/entity/df_entity_find.lua"
+			self_id "df_entity_find_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_entity_find.xml)|pos(-2462,221)"
+			database
+			{
+				find_radius "float:'0'"
+				find_type "string:'Type'"
+				find_value "string:'player'"
+			}
+
+			script "lua/graph/entity/df_entity_find.lua"
+			self_id "df_entity_find_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_entity_array_subtract.xml)|pos(-1957,383)"
+			script "lua/graph/entity/df_entity_array_subtract.lua"
+			self_id "df_entity_array_subtract_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_player_pawn.xml)|pos(-1678,383)"
+			database
+			{
+				wait_for_portal "string:'true'"
+				with_portal_sequence "string:'false'"
+			}
+
+			script "lua/graph/entity/entity_spawn_player_pawn.lua"
+			self_id "entity_spawn_player_pawn_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-3121,245)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(-684,393)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(-764,129)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "BossPlayerSetupEnd"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_event_send.lua"
+			self_id "logic_event_send_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2519,-422)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_block_respawn.xml)|pos(-1227,381)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "status"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_block_respawn.lua"
+			self_id "mission_block_respawn_1"
+		}
+
 	}
 
 	GraphConnections
@@ -840,13 +1042,24 @@ FlowGraphTemplate
 		audio_adaptive_music_system_1 "audio_music_change_playlist_1"
 		audio_music_change_playlist_1 "event_end_1"
 		camera_move_at_target_1 "logic_block_players_action_mappers_1|logic_event_send_1|logic_wait_4|logic_wait_6"
-		default "camera_move_at_target_1|entity_spawn_single_2|interface_hud_visible_1|mission_ambient_creatures_spawn_1"
+		default "logic_set_team_spawn_point_1"
+		df_entity_array_subtract_1 "entity_spawn_player_pawn_1"
+		df_entity_find_1 "df_entity_array_subtract_1"
+		df_entity_find_2 "df_entity_find_1|df_entity_find_3"
+		df_entity_find_3 "df_entity_array_subtract_1"
+		entity_spawn_player_pawn_1 "mission_block_respawn_1"
 		interface_dialogue_show_group_1 "entity_spawn_single_1|interface_dialogue_show_group_2|logic_wait_8|weather_generic_1"
 		interface_dialogue_show_group_2 "event_end_1"
+		interface_hud_visible_2 "logic_wait_1"
+		logic_and_1 "camera_move_at_target_1|entity_spawn_single_2|interface_hud_visible_1|mission_ambient_creatures_spawn_1"
+		logic_and_9 "df_entity_find_2"
+		logic_set_team_spawn_point_1 "logic_and_9"
+		logic_wait_1 "interface_hud_visible_2"
 		logic_wait_4 "event_end_1"
 		logic_wait_6 "interface_dialogue_show_group_1"
 		logic_wait_7 "entity_spawn_single_3"
 		logic_wait_8 "audio_adaptive_music_system_1|audio_ears_attach_to_mech_1|interface_hud_visible_2|logic_block_players_action_mappers_2|logic_event_send_2"
+		mission_block_respawn_1 "logic_and_1|logic_event_send_3"
 	}
 
 	GraphComments

@@ -1020,6 +1020,73 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/weapons_energy/power_rod_projectile_explosion
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	BombAmmoComponent
+	{	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"66"
+					type			"area"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/explosion_building_energy_storage"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.6"
+		power   		"1"
+		falloff_radius 	"30"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "buildings_energy/explosion_building_energy_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/weapons_energy/power_rod_engine
 
 	base_blueprints 
