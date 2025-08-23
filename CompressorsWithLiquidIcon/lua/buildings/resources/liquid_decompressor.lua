@@ -17,7 +17,7 @@ function liquid_decompressor:OnInit()
     self.attachment = self.data:GetStringOrDefault("attachment", "att_out_1" )
     self.lastResource = ""
 
-    BuildingService:ClearDecompressor(self.entity)
+    BuildingService:ClearDecompressor(self.entity, true)
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "UnequipItemRequest", "OnUnequipItemRequest" )
@@ -213,6 +213,10 @@ end
 function liquid_decompressor:OnItemEquippedEvent( evt )
 	self.item = evt:GetItem()
     self:Refresh()
+end
+
+function liquid_decompressor:OnRemove()
+    BuildingService:ClearDecompressor(self.entity, false)
 end
 
 function liquid_decompressor:OnRelease()
