@@ -588,7 +588,7 @@ function harvester_drone:OnHarvestExit()
                 EffectService:SpawnEffect( target, "effects/loot/specimen_extracted")
             end
 
-            QueueEvent("DestroyRequest", target, "collapse", 100 )
+            EntityService:DestroyEntity( target, "collapse" )
         end
     end
 
