@@ -71,8 +71,9 @@ function ghost:GetChildren()
         self.childrenToUpdate = {}
         local children = EntityService:GetChildren( self.selector, true )
         for child in Iter( children ) do
-            local hasMesh = EntityService:HasComponent( child, "MeshComponent")
-            if ( hasMesh ) then
+            local hasMesh = EntityService:HasComponent( child, "MeshComponent" )
+            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent" )
+            if ( hasMesh and not isEffect ) then
                 Insert( self.childrenToUpdate, child )
             end
         end
@@ -155,7 +156,8 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive,
         local children = EntityService:GetChildren( self.selector, true )
         for child in Iter( children ) do
             local hasMesh = EntityService:HasComponent( child, "MeshComponent")
-            if ( hasMesh ) then
+            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent" )
+            if ( hasMesh and not isEffect ) then
                 Insert( self.childrenToUpdate, child )
             end
         end
