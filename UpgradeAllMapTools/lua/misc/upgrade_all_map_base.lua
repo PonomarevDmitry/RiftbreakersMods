@@ -404,7 +404,7 @@ function upgrade_all_map_base:SetEntitySelectedMaterial( entity, material )
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:SetMaterial( child, material, "selected" )
         end
     end

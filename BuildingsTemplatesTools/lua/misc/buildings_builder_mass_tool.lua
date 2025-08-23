@@ -682,7 +682,7 @@ function buildings_builder_mass_tool:ChangeEntityMaterial( entity, material )
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:ChangeMaterial( child, material )
         end
     end
@@ -694,7 +694,7 @@ function buildings_builder_mass_tool:SetEntitySelectedMaterial( entity, material
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:SetMaterial( child, material, "selected" )
         end
     end

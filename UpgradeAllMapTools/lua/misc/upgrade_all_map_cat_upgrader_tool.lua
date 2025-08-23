@@ -234,7 +234,7 @@ function upgrade_all_map_cat_upgrader_tool:SetEntitySelectedMaterial( entity, ma
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:SetMaterial( child, material, "selected" )
         end
     end

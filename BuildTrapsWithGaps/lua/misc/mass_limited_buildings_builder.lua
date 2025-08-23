@@ -208,7 +208,7 @@ function mass_limited_buildings_builder:ChangeEntityMaterial( entity, material )
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:ChangeMaterial( child, material )
         end
     end

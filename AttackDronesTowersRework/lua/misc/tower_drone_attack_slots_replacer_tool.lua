@@ -122,7 +122,7 @@ function tower_drone_attack_slots_replacer_tool:AddedToSelection( entity )
 
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) ) then
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:SetMaterial( child, "hologram/current", "selected" )
         end
     end
