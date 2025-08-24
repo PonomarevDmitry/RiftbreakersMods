@@ -64,6 +64,8 @@ function ghost_building_line:OnInit()
             }
         end
     end
+
+    self:SpawnMarkerLines()
 end
 
 function ghost_building_line:RemoveComponents(entity)
@@ -85,8 +87,7 @@ function ghost_building_line:CreateInfoChild()
     end
 end
 
-function ghost_building_line:OnUpdate()
-    self.buildCost = {}
+function ghost_building_line:SpawnMarkerLines()
 
     -- Multi layers only for wall, not pipes
     local wallLinesConfig = "1"
@@ -110,12 +111,26 @@ function ghost_building_line:OnUpdate()
             -- Create new marker
             self.currentMarkerLines = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
+            EntityService:CreateComponent(self.currentMarkerLines, "EffectReferenceComponent")
+
             EntityService:SetPosition( self.currentMarkerLines, 0, 0, -2 )
 
             -- Save number of wall layers
             self.markerLinesConfig = wallLinesConfig
 
         end
+    end
+end
+
+function ghost_building_line:OnUpdate()
+    self.buildCost = {}
+
+    -- Multi layers only for wall, not pipes
+    local wallLinesConfig = "1"
+
+    if (self.isWall) then
+
+        wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)        
     end
 
     if ( self.buildStartPosition ) then
@@ -1088,9 +1103,7 @@ function ghost_building_line:IncreaseWallLinesCount( evt )
     local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
-    if ( self.OnUpdate ) then
-        self:OnUpdate()
-    end
+    self:SpawnMarkerLines()
 end
 
 function ghost_building_line:OnRelease()
