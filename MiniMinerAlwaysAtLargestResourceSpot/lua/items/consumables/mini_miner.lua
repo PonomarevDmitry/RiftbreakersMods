@@ -19,6 +19,7 @@ end
 function mini_miner:OnActivate()
     local playerId = PlayerService:GetPlayerForEntity(self.owner)
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "", playerId )
+   	
     if ( pos.first == false ) then
         return
     end
