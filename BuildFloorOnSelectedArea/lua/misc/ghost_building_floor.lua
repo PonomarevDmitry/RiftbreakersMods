@@ -291,6 +291,8 @@ function ghost_building_floor:OnUpdate()
             end
 
             self.currentSizeMarker = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+            EntityService:CreateComponent(self.currentSizeMarker, "EffectReferenceComponent")
         end
     end
 
