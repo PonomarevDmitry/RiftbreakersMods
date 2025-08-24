@@ -16,7 +16,7 @@ function loot_container_spawner:init()
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "wait", { from="*", enter="OnEnterWating", exit="OnExitWaiting" } )
 	SetupUnitScale( self.entity, self.data )
-	
+
 	EntityService:SetGroup( self.entity, "loot_container");
 	EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, RandFloat(0.0, 360.0))
 
@@ -81,6 +81,7 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 	local playerId = PlayerService:GetPlayerByMech( owner )
 
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
+
 	if string.find(blueprintName, "metallic" ) ~= nil then
 		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "caverns" ) ~= nil then
@@ -95,10 +96,11 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 		if ( forcedGroup ~= "" ) then
 			QueueEvent("ForceLootContainerTypeRequest", self.entity,	forcedGroup )
 		end
+		
 	end
 
 	EntityService:DestroyEntity( self.entity, "default" )
-	
+
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 	QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyClose", params )
 end
