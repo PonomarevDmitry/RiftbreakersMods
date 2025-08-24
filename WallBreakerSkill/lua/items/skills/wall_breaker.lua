@@ -13,6 +13,10 @@ end
 
 function wall_breaker:CanActivate()
 
+    if ( item.CanActivate ) then
+        item.CanActivate(self)
+    end
+
     local currentBiome = MissionService:GetCurrentBiomeName()
     if ( currentBiome == "caverns" ) then
         self:SetCanActivate( true )
