@@ -682,7 +682,7 @@ function selector:OnRotateSelectorRequest( evt )
         ConsoleService:ExecuteCommand( "showed_change_info 1" )
     end
 
-    local data = EntityService:GetOrCreateDatabase( self.selector)
+    local data = EntityService:GetDatabase( self.selector) 
     local action = ""
     if ( data ) then
         action = data:GetStringOrDefault( "action", "")
