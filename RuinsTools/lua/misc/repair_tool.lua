@@ -135,7 +135,7 @@ function repair_tool:OnUpdate()
         elseif ( EntityService:GetGroup( entity ) == "##ruins##" ) then
             if ( database ) then
                 ruinsBlueprint = database:GetString("blueprint")
-                canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
+                canRepair = BuildingService:CanBuildBuilding( entity,self.playerId, ruinsBlueprint, 1 )
                 ruins = true
             end
         end
