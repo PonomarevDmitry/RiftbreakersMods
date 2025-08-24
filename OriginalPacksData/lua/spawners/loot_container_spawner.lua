@@ -64,7 +64,9 @@ function loot_container_spawner:OnInteractWithEntityRequest( evt )
 		end
 		
 	end
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+
+	EntityService:DestroyEntity( self.entity, "default" )
+
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 	QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyClose", params )
 end

@@ -112,8 +112,11 @@ function loot_collector_drone:OnUpdate()
         end
     else
 	    self:UnlockAllTargets()
+        
         loot_target = self:FindActionTarget()
-        UnitService:SetCurrentTarget( self.entity, "action", loot_target );
+        if EntityService:IsAlive(loot_target) then
+            UnitService:SetCurrentTarget( self.entity, "action", loot_target );
+        end
     end
 
     if not self:ValidateTarget( loot_target ) then

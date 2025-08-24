@@ -9,6 +9,8 @@ function mission_metallic_alien_base:__init()
 end
 
 function mission_metallic_alien_base:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_1/metallic_alien_base.logic", "default" )

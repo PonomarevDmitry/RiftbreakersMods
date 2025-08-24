@@ -471,7 +471,7 @@ function harvester_drone:OnHarvestExit()
             EntityService:RemoveComponent(target, "LootComponent")
             EntityService:RemoveComponent(target, "ResourceComponent")
 
-            QueueEvent("DestroyRequest", target, "collapse", 100 )
+	        EntityService:DestroyEntity( target, "collapse" )
         end
     end
 

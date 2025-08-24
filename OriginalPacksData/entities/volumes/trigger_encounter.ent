@@ -1,0 +1,49 @@
+EntityBlueprint
+{
+	name             "volumes/trigger_encounter"
+	
+	IdDesc
+	{
+		name "_encounter_trigger_"
+	}
+
+	SceneEditorDesc
+    {
+        //autogenerate_id	    "1"
+        mesh                "meshes/volume.mesh"
+        material            "volumes/trigger"
+
+        initial_scale
+        {
+            x "5.0"
+            y "1.0"
+            z "5.0"
+        }
+    }
+
+    LuaDesc
+    {
+        script "lua/volumes/trigger_encounter.lua"
+		
+		database
+		{
+			logic_path			string:"logic/encounters/jungle_encounter_volcano.logic"			
+		}
+    }
+
+	TriggerDesc
+    {
+        collision   "character"
+		type 		"GRID"
+
+        Shapes
+        {
+            PhysicsBoxShape
+            {
+                x "1"
+                y "1"
+                z "1"
+            }
+        }
+    }
+}

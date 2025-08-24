@@ -2,6 +2,7 @@ local day_cycle_machine = require("lua/utils/day_cycle_machine.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
 require("lua/utils/teleport_machine.lua")
+require("lua/utils/reflection.lua")
 
 class 'mech' ( day_cycle_machine )
 
@@ -220,12 +221,12 @@ function mech:OnLeaveShadowEvent()
 end
 
 function mech:OnDissolveStart( state)
-	self:EnableMechFunctionality( false )
+	--self:EnableMechFunctionality( false )
 	
 	EntityService:RemovePropsInEntityBounds( self.entity )
-	EntityService:FadeEntity( self.entity, DD_FADE_IN, 1.0, false )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, 0.5, false )
 
-	state:SetDurationLimit( 1.0 )
+	state:SetDurationLimit( 0.5 )
 end
 
 function mech:OnDissolveEnd()
@@ -318,6 +319,10 @@ end
 function mech:GetDeathSkullCount()
 	local playerEntity = PlayerService:GetGlobalPlayerEntity( self.player_id )
  	local playerGameStateComponent = EntityService:GetComponent( playerEntity, "PlayerGameStateComponent" )
+	if playerGameStateComponent == nil then
+		return 0
+	end
+	
 	local helper = reflection_helper( playerGameStateComponent ) 
     local container = rawget( helper.mech_skull_cooldowns, "__ptr" );
 	local count = container:GetItemCount()

@@ -9,6 +9,8 @@ function mission_caverns_tunnel:__init()
 end
 
 function mission_caverns_tunnel:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
 	MissionService:SetSkipSpawnPortalSequence(true)

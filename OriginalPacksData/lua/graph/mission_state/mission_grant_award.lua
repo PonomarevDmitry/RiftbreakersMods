@@ -11,7 +11,7 @@ function mission_grant_award:Activated()
 	local awards = self.data:GetStringKeys()
     for award in Iter(awards ) do
 	    LogService:Log( "Grant award = " .. award )
-        QueueEvent("NewAwardEvent", INVALID_ID, award, true, EntityService:GetTeam( "player") )
+        QueueEvent("NewAwardEvent", INVALID_ID, award, false, EntityService:GetTeam( "player") )
     end
 	self:SetFinished()	
 end

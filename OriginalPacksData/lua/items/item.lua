@@ -70,15 +70,17 @@ function item:SpawnReferenceEntity( blueprint, target, team )
 end
 
 function item:_OnEquipped( evt, forced )
+	if ( not self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
+		self:RegisterHandler( self.entity, "ActivateItemRequest", 	 "_OnActivate" )
+		self:RegisterHandler( self.entity, "ActivateOnceItemRequest", 	 "_OnActivateOnce" )
+		self:RegisterHandler( self.entity, "DeactivateItemRequest", "_OnDeactivate" )
+	end
+
 	local equipped = self:IsEquipped()
 	if ( ( is_server and not equipped ) or forced or ( is_client and not self.clientEquipped ) ) then
 		self.clientEquipped = true
 		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		invItemComponent:GetField( "equipped" ):SetValue("1")		
-		
-		self:RegisterHandler( self.entity, "ActivateItemRequest", 	 "_OnActivate" )
-		self:RegisterHandler( self.entity, "ActivateOnceItemRequest", 	 "_OnActivateOnce" )
-		self:RegisterHandler( self.entity, "DeactivateItemRequest", "_OnDeactivate" )
 		self.owner = tonumber(invItemComponent:GetField( "owner" ):GetField("id"):GetValue())
 
 		-- TODO: starbugzzz fix it!
@@ -187,13 +189,13 @@ end
 function item:_Deactivate( forced )
 	local activated = self:IsActivated() or ( is_client and self.clientActivated )
 	if ( activated ) then
-		if is_server then
-			EffectService:AttachEffects( self.item, "item_deactivated" ) 
-			EffectService:DestroyEffectsByGroup( self.item, "item_activated" )
-			EffectService:DestroyEffectsByGroup( self.item, "item_activated_once" )
-		end
 		local deactivated = self:OnDeactivate( forced )
 		if ( deactivated  == true or forced == true) then
+			if is_server then
+				EffectService:AttachEffects( self.item, "item_deactivated" ) 
+				EffectService:DestroyEffectsByGroup( self.item, "item_activated" )
+				EffectService:DestroyEffectsByGroup( self.item, "item_activated_once" )
+			end
 			--LogService:Log("forced deactivation")
 			ItemService:SetActivationStatus( self.entity, false );
 			self.clientActivated = false;
@@ -222,13 +224,14 @@ function item:DespawnReferenceEntities(  )
 	self.references = {}
 end
 
-function item:_OnUnequipped( evt )	
+function item:_OnUnequipped( evt )
+	if ( self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
+		self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
+		self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
+		self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
+	end
+
 	if ( ( is_server and self:IsEquipped() ) or ( is_client and self.clientEquipped ) ) then
-		if ( self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
-			self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
-			self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
-			self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
-		end
 		self.owner = evt:GetOwner()
 		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		if invItemComponent then

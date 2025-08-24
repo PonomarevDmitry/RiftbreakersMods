@@ -44,7 +44,7 @@ function skill_swarm:_CheckChild( entity )
 end
 
 function skill_swarm:OnUnitDeadStateEvent( evt )
-	QueueEvent( "DestroyRequest", self.entity, "default", 100 )
+	EntityService:DestroyEntity( self.entity, "default" )
 	EntityService:DetachEntity( self.entity )
 end
 

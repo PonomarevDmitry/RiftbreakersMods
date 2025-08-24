@@ -9,6 +9,8 @@ function mission_swamp_harvest:__init()
 end
 
 function mission_swamp_harvest:init()
+    mission_base.init( self )
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_3/swamp_harvest.logic", "default" )

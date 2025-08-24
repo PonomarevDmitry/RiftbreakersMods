@@ -8,7 +8,9 @@ function mission_swamp_meadow:__init()
     mission_base.__init(self,self)
 end
 
-function mission_swamp_meadow:init()	
+function mission_swamp_meadow:init()
+    mission_base.init( self )
+
     self:PrepareSpawnPoints();	
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_3/swamp_freedom.logic", "default" )

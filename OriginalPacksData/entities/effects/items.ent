@@ -1494,3 +1494,190 @@ EntityBlueprint
 		name    "rift/holder_energy"
 	}
 }
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_start
+	
+	base_blueprints
+	{
+		effects/default
+	}	
+
+	SoundDesc
+	{
+		name "items/skills/dodge_roll_start"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_hit
+	
+	base_blueprints
+	{
+		effects/default
+	}	
+	
+	ParticleDesc
+	{
+		name    "rift/dodge_roll_hit"
+	}	
+
+	SoundDesc
+	{
+		name "items/skills/dodge_roll_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_explosion_standard
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		lights/point/explosion_white_big
+		effects/default
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"7"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"250"
+					type			"area"
+				}
+			}
+		}
+	}	
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"40"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/dodge_roll_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.4"
+		power   		"0.7"
+		falloff_radius 	"30"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_big"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dodge_roll_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		5.0
+			y		5.0
+			z		5.0
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_explosion_advanced
+
+	base_blueprints
+	{
+		effects/items/dodge_roll_explosion_standard
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"7"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"350"
+					type			"area"
+				}
+			}
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_explosion_superior
+
+	base_blueprints
+	{
+		effects/items/dodge_roll_explosion_standard
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"7"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"500"
+					type			"area"
+				}
+			}
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/items/dodge_roll_explosion_extreme
+
+	base_blueprints
+	{
+		effects/items/dodge_roll_explosion_standard
+	}
+	
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"7"
+			area_damage_speed 	"40"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"650"
+					type			"area"
+				}
+			}
+		}
+	}		
+}

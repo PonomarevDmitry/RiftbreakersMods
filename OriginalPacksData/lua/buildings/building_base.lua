@@ -206,7 +206,7 @@ function building_base:_OnSell(evt)
 	if (self.isFloor == false ) then
 		EntityService:SetMaterial( self.meshEnt, "hologram/current", "sell" )
 		for child in Iter( children ) do
-			if ( EntityService:HasComponent( child, "MeshComponent" ) ) then
+			if ( EntityService:HasComponent( child, "MeshComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
 				EntityService:SetMaterial( child, "hologram/current", "sell" )
 				Insert( self.childrenToUpdate, child )
 			end
@@ -1059,7 +1059,7 @@ function building_base:OnLoad()
 		self.data:RemoveKey("activated")
 	end
 	local blueprintDatabase = EntityService:GetBlueprintDatabase( self.entity )
-	if ( self.buildingSell == false and self.buildingFinished == 0 and blueprintDatabase:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
+	if ( self.buildingSell == false and self.buildingFinished == 0 and blueprintDatabase ~= nil and blueprintDatabase:GetIntOrDefault("remove_lua_after_build", 0) == 1) then
 		QueueEvent("RemoveBuildingLuaComponent", self.entity )
 	end
 
@@ -1087,6 +1087,8 @@ function building_base:OnLoad()
 			end
 		end
 	end
+
+	self.playerIdOnSell = self.playerIdOnSell or INVALID_PLAYER_ID
 end
 
 function building_base:DisableTreasuresUnder()

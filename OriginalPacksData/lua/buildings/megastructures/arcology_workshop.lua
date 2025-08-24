@@ -60,6 +60,8 @@ function arcology_workshop:SpecialAction()
     self.activated = true
     self.data:SetInt("is_special_action_enabled",0)
     BuildingService:EnableBuilding( self.entity )
+    local data = CampaignService:GetCampaignData()
+    data:SetFloat("ArcologyWorkshopActivated", 1.0)
 	QueueEvent( "LuaGlobalEvent", event_sink, "ArcologyWorkshopActivated", {} )
 end
 

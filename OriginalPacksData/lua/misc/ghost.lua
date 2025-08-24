@@ -64,7 +64,8 @@ function ghost:GetChildren()
         local children = EntityService:GetChildren( self.selector, true )
         for child in Iter( children ) do
             local hasMesh = EntityService:HasComponent( child, "MeshComponent")
-            if ( hasMesh ) then
+            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent")
+            if ( hasMesh and not isEffect ) then
                 Insert( self.childrenToUpdate, child )
             end
         end

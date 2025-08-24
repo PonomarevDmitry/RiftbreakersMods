@@ -68,7 +68,8 @@ end
 function template_universal:PrepareMissionGeneratorParams( params )	
 	--local mission_params = 
 	--{
-	--	biome_name = self.missionBiome,
+	--	--biome_name = self.missionBiome,
+	--	biome_name = "desert",
 	--	mission_type = self.missionType,
 	--	terrain_type = nil,
 	--	mission_size = nil,
@@ -163,7 +164,7 @@ function template_universal:PrepareMissionGeneratorParams( params )
 end
 
 function template_universal:PrepareMapGenerator(params)
-    --MapGenerator:SetGeneratorSeed( 666 )
+    --MapGenerator:SetGeneratorSeed( 9001 )
 	self.mission_params = params
 
 	if self.mission_params.biome_name == "" then
@@ -222,8 +223,7 @@ function template_universal:PrepareMissionTilesPool()
 	LogService:Log("MissionResources flammable_gas_vent = ".. tostring(self.mission_params:GetResourceAmount("flammable_gas_vent") ) )		
     --===============RANDOM ENCOUNTER TILE RULES
 	
-	campaignData = CampaignService:GetCampaignData()
-	--local encounterTilePoolJungle = {}
+	campaignData = CampaignService:GetCampaignData()	
 	local encounterTilePool = 
 	{
 		acid = {},
@@ -236,70 +236,71 @@ function template_universal:PrepareMissionTilesPool()
 	}
 	
 	--JUNGLE	
-	if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost
-		table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_hostile_hive/jungle_encounter_hostile_hive.tile" )
-	end		
-	if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
-		table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_volcano/jungle_encounter_volcano.tile" )
-	end		
-	if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
-		table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_meteor/jungle_encounter_meteor.tile" )
-	end		
-	if campaignData:GetStringOrDefault( "global.caverns_end", "" ) == "true" then -- REQUIREMENT: Finished Into The Dark DLC
-		table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_cave/jungle_encounter_cave.tile" )
-	end
+	table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_hostile_hive/jungle_encounter_hostile_hive.tile" )	
+	table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_volcano/jungle_encounter_volcano.tile" )
+	
+	--table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_jurvins/jungle_encounter_jurvins.tile" )
+	--if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost	
+	--	table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_electric/jungle_encounter_electric.tile" )
+	--end			
+	--if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
+	--	table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_meteor/jungle_encounter_meteor.tile" )
+	--end		
+	--if campaignData:GetStringOrDefault( "global.caverns_end", "" ) == "true" then -- REQUIREMENT: Finished Into The Dark DLC
+	--	table.insert( encounterTilePool.jungle, 1, "biomes/jungle/tiles/jungle_encounter_cave/jungle_encounter_cave.tile" )
+	--end
 	
 	--ACID	
 	table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_arachnoid_pit/acid_encounter_arachnoid_pit.tile" ) -- REQUIREMENT: None
+	table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_hostile_nest/acid_encounter_hostile_nest.tile" )
 	
-	if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost
-		table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_radiation/acid_encounter_radiation.tile" )
-	end	
-	if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
-		table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_hostile_nest/acid_encounter_hostile_nest.tile" )
-	end	
-	if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
-		table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_xmorph/acid_encounter_xmorph.tile" )	
-	end
+	--if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost
+	--	table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_radiation/acid_encounter_radiation.tile" )
+	--end		
+	--if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
+	--	table.insert( encounterTilePool.acid, 1, "biomes/acid/tiles/acid_encounter_xmorph/acid_encounter_xmorph.tile" )	
+	--end
 	
 	--CAVERNS	
-	if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost
-		table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_green_energy/caverns_encounter_green_energy.tile" )
-	end	
-	if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
-		table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_lava/caverns_encounter_lava.tile" )
-	end	
+	--if campaignData:GetStringOrDefault( "global.uranium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Uranium Outpost
+	--	table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_green_energy/caverns_encounter_green_energy.tile" )
+	--end	
 	if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
 		table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_magnet/caverns_encounter_magnet.tile" )
 	end
+	
+	--table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_skull/caverns_encounter_skull.tile" )	
+	--if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
+	--	table.insert( encounterTilePool.caverns, 1, "biomes/caverns/tiles/caverns_encounter_lava/caverns_encounter_lava.tile" )
+	--end	
+	
 		
 	--DESERT	
-	table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_fire/desert_encounter_fire.tile" ) -- REQUIREMENT: None		
-	
-	if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
-		table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_hands/desert_encounter_hands.tile" )		
-	end	
+	table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_hands/desert_encounter_hands.tile" )		
 	if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
 		table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_iceberg/desert_encounter_iceberg.tile" )		
 	end
-	if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
-		table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_magnetic_rock/desert_encounter_magnetic_rock.tile" )		
-	end
-	if campaignData:GetStringOrDefault( "global.palladium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Palladium Outpost
-		table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_red_crystals/desert_encounter_red_crystals.tile" )		
-	end
+	
+	--table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_fire/desert_encounter_fire.tile" ) -- REQUIREMENT: None			
+	--if campaignData:GetStringOrDefault( "global.titanium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Titanium Outpost
+	--	table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_magnetic_rock/desert_encounter_magnetic_rock.tile" )		
+	--end
+	--if campaignData:GetStringOrDefault( "global.palladium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Palladium Outpost
+	--	table.insert( encounterTilePool.desert, 1, "biomes/desert/tiles/desert_encounter_red_crystals/desert_encounter_red_crystals.tile" )		
+	--end
 		
 	--MAGMA	
 	if campaignData:GetStringOrDefault( "global.palladium_outpost_complete", "" ) == "true" then -- REQUIREMENT: Finished Palladium Outpost
 		table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_acid/magma_encounter_acid.tile" )				
 	end
-	if campaignData:GetStringOrDefault( "global.caverns_end", "" ) == "true" then -- REQUIREMENT: Finished Into The Dark DLC
-		table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_mushroom/magma_encounter_mushroom.tile" )
-	end
 	if campaignData:GetStringOrDefault( "global.metallic_outpost_stage_3_complete", "" ) == "true" then -- REQUIREMENT: Finished Metallic Outpost
 		table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_morphium/magma_encounter_morphium.tile" )			
 	end
-	table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_water/magma_encounter_water.tile" ) -- REQUIREMENT: None	
+	
+	--if campaignData:GetStringOrDefault( "global.caverns_end", "" ) == "true" then -- REQUIREMENT: Finished Into The Dark DLC
+	--	table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_mushroom/magma_encounter_mushroom.tile" )
+	--end	
+	--table.insert( encounterTilePool.magma, 1, "biomes/magma/tiles/magma_encounter_water/magma_encounter_water.tile" ) -- REQUIREMENT: None	
 	
 	--METALLIC	
 	table.insert( encounterTilePool.metallic, 1, "biomes/metallic/tiles/metallic_encounter_factory/metallic_encounter_factory.tile" ) -- REQUIREMENT: None		
@@ -307,22 +308,47 @@ function template_universal:PrepareMissionTilesPool()
 	table.insert( encounterTilePool.metallic, 1, "biomes/metallic/tiles/metallic_encounter_trap/metallic_encounter_trap.tile" ) -- REQUIREMENT: None			
 	
 	--SWAMP	
-	--table.insert( encounterTilePool.caverns, 1, "biomes/swamp/tiles/swamp_encounter_/swamp_encounter_.tile" )
+	table.insert( encounterTilePool.swamp, 1, "biomes/swamp/tiles/swamp_encounter_octopus/swamp_encounter_octopus.tile" )
+	table.insert( encounterTilePool.swamp, 1, "biomes/swamp/tiles/swamp_encounter_stump/swamp_encounter_stump.tile" )
+
+	--SWAMP LAKES
+	--table.insert( encounterTilePool.swamp, 1, "biomes/swamp/tiles/swamp_encounter_tentacles/swamp_encounter_tentacles.tile" ) -- SWAMP LAKES ONLY
 	
 	--PICK RANDOM ENCOUNTER TILE
-	--local random_encounter_tile_spawn_rules = {}	
-	--
-	--if #encounterTilePool[self.mission_params.biome_name] > 0 then
-	--	random_encounter_tile_spawn_rules =
-	--	{			
-	--		{ 
-	--			tile_name = encounterTilePool[self.mission_params.biome_name][RandInt( 1, #encounterTilePool[self.mission_params.biome_name] )],                        
-	--			min_instances = 1,
-	--			max_instances = 1
-	--		}
-	--	}
-	--end
+	self.random_encounter_tile_spawn_rules = {}	
 	
+	local encounterTileForCurrentBiome = encounterTilePool[self.mission_params.biome_name]
+	local validEncounterTilesForCurrentBiome = {}
+	for tile in Iter(encounterTileForCurrentBiome) do
+		local counter = campaignData:GetIntOrDefault( tile, 0 )
+		if ( counter == 0) then
+			Insert( validEncounterTilesForCurrentBiome, tile )
+		end 
+	end
+
+	encounterTileForCurrentBiome = validEncounterTilesForCurrentBiome
+	if #encounterTileForCurrentBiome > 0 then
+		function GetMinDistanceFromEdge()
+			if tile_name == "biomes/jungle/tiles/jungle_encounter_hostile_hive/jungle_encounter_hostile_hive.tile" then
+				return 0
+			else
+				return 1
+			end
+		end
+		self.random_encounter_tile_spawn_rules =
+		{			
+			{ 
+				tile_name = encounterTileForCurrentBiome[RandInt( 1, #encounterTileForCurrentBiome )],                        
+				min_instances = 1,
+				max_instances = 1,				
+				min_distance_from_edge = GetMinDistanceFromEdge()				
+			}
+		}
+	end
+
+	for encounter in Iter( self.random_encounter_tile_spawn_rules )do
+		self.mission_params:AddEncounterTile( encounter.tile_name )
+	end
 	--===============RANDOM ENCOUNTER TILE RULES	
 	
 	--===============MISSION TILE THEME RULES
@@ -1531,11 +1557,11 @@ function template_universal:PrepareMissionTilesPool()
 					max_instances = 2,
 					random_weight =	1
 				},
-				{
-					tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",												
-					max_instances = 2,
-					random_weight =	1
-				},
+				--{
+				--	tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",												
+				--	max_instances = 2,
+				--	random_weight =	1
+				--},
 				{
 					tile_name = "biomes/swamp/tiles/swamp_lakes_01/swamp_lakes_01.tile",												
 					max_instances = 3,
@@ -1605,11 +1631,11 @@ function template_universal:PrepareMissionTilesPool()
 					min_instances = 1,
 					random_weight =	2
 				},
-				{
-					tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",												
-					min_instances = 1,
-					random_weight =	2
-				},
+				--{
+				--	tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",												
+				--	min_instances = 1,
+				--	random_weight =	2
+				--},
 				{
 					tile_name = "biomes/swamp/tiles/swamp_lakes_01/swamp_lakes_01.tile",												
 					max_instances = 3,
@@ -1675,10 +1701,10 @@ function template_universal:PrepareMissionTilesPool()
 					tile_name = "biomes/swamp/tiles/swamp_canyons_04/swamp_canyons_04.tile",																	
 					random_weight =	1
 				},
-				{
-					tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",																	
-					random_weight =	1
-				},
+				--{
+				--	tile_name = "biomes/swamp/tiles/swamp_canyons_05/swamp_canyons_05.tile",																	
+				--	random_weight =	1
+				--},
 				{
 					tile_name = "biomes/swamp/tiles/swamp_lakes_01/swamp_lakes_01.tile",												
 					min_instances = 3,
@@ -1732,7 +1758,7 @@ function template_universal:PrepareMissionTilesPool()
 		--end
 	end
 
-    --self:CreateTileSpawnRules( random_encounter_tile_spawn_rules )
+    self:CreateTileSpawnRules( self.random_encounter_tile_spawn_rules )
 	if self.mission_params.terrain_type == "open" then
 		self:CreateTileSpawnRules( missionGeneratorTilePool[self.mission_params.biome_name]["openTilePool"] )
 	elseif self.mission_params.terrain_type == "dense" then
@@ -2491,6 +2517,23 @@ function template_universal:PrepareMissionObjects()
 -- MISSION OBJECT SPAWNERS
 	local mission_object_spawners = {}
 	
+	-- MISSION SAFE ZONE MARKERS
+	local mission_objective_marker = 
+    {
+        spawner_type                    = "MarkerBlueprintSpawner",
+
+        spawn_pool                      = { "mission_objective" },
+        spawn_at_marker                 = "logic/mission_objective_marker",
+		silent_remove_after_spawn		= true,
+
+        spawn_blueprints =
+        {
+            {
+                spawn_blueprint         = "logic/position_marker",				
+            }            
+        }
+    }
+	
 	-- BIOANOMALY AND BIOCACHE MISSION SPAWN MODIFIERS
 	local bioanomaly_multipliers = 
 	{
@@ -2546,7 +2589,8 @@ function template_universal:PrepareMissionObjects()
 
         spawn_min_distance_from_pools = 
         {
-            player_spawn_point          = 150.0,
+            mission_objective   	    = 100,
+			player_spawn_point          = 150.0,
             loot_containers             = self.missionBioanomaliesMultiplier,
             loot_containers_small       = 50.0,
 			underground_treasures       = 50,
@@ -3328,8 +3372,9 @@ function template_universal:PrepareMissionObjects()
 		spawn_instances_minmax          = { min = 1, max = 1 },
 		
 		spawn_min_distance_from_pools   = 
-		{
+		{			
 			player_spawn_point          = 10,
+			mission_objective	        = 70,
 			loot_containers             = 20,			
 			loot_containers_small       = 20,			
 			underground_treasures       = 10,			
@@ -3361,6 +3406,7 @@ function template_universal:PrepareMissionObjects()
 		spawn_min_distance_from_pools   = 
 		{
 			player_spawn_point          = 10,
+			mission_objective	        = 70,
 			loot_containers             = 20,			
 			loot_containers_small       = 20,			
 			underground_treasures       = 10,			
@@ -3706,21 +3752,22 @@ function template_universal:PrepareMissionObjects()
 	}
 	
 	-- CREATE BASE MISSION OBJECT SPAWNERS TABLE
-	table.insert(mission_object_spawners, 1, bioanomaly )
-	table.insert(mission_object_spawners, 2, biocache )
-	table.insert(mission_object_spawners, 3, power_well )
-	table.insert(mission_object_spawners, 4, underground_treasure )
+	table.insert(mission_object_spawners, 1, mission_objective_marker )
+	table.insert(mission_object_spawners, 2, bioanomaly )
+	table.insert(mission_object_spawners, 3, biocache )
+	table.insert(mission_object_spawners, 4, power_well )
+	table.insert(mission_object_spawners, 5, underground_treasure )
 	
 	if self.mission_params.biome_name == "magma" then
-		table.insert(mission_object_spawners, 2, cryoPlants )
-		table.insert(mission_object_spawners, 3, magneticRocks )
+		table.insert(mission_object_spawners, 3, cryoPlants )
+		table.insert(mission_object_spawners, 4, magneticRocks )
 	elseif self.mission_params.biome_name == "acid" then
-		table.insert(mission_object_spawners, 2, yeast_colony_large )
+		table.insert(mission_object_spawners, 3, yeast_colony_large )
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, yeast_colony_small )
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, underground_mushrooms )
 	elseif self.mission_params.biome_name == "caverns" then
-		table.insert(mission_object_spawners, 2, wind_tunnels_starting )
-		table.insert(mission_object_spawners, 3, wind_tunnels )
+		table.insert(mission_object_spawners, 3, wind_tunnels_starting )
+		table.insert(mission_object_spawners, 4, wind_tunnels )
 	elseif self.mission_params.biome_name == "metallic" then
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, tower_plasma )		
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, tower_artillery )		
@@ -3746,15 +3793,15 @@ function template_universal:PrepareMissionObjects()
 	LogService:Log("Lucky Encounter Name = ".. self.luckyEncounter )
 		
 	if self.luckyEncounter == "bioanomaly" then
-		table.insert(mission_object_spawners, 1, bioanomalyClusterPrimary )
-		table.insert(mission_object_spawners, 2, bioanomalyClusterSecondary )
-		table.insert(mission_object_spawners, 3, biocacheCluster )
+		table.insert(mission_object_spawners, 2, bioanomalyClusterPrimary )
+		table.insert(mission_object_spawners, 3, bioanomalyClusterSecondary )
+		table.insert(mission_object_spawners, 4, biocacheCluster )
 	elseif self.luckyEncounter == "biocache" then		
-		table.insert(mission_object_spawners, 1, biocacheClusterPrimary )		
-		table.insert(mission_object_spawners, 2, biocacheCluster )
+		table.insert(mission_object_spawners, 2, biocacheClusterPrimary )		
+		table.insert(mission_object_spawners, 3, biocacheCluster )
 	elseif self.luckyEncounter == "underground_treasure" then
-		table.insert(mission_object_spawners, 1, undergroundTreasureClusterPrimary )		
-		table.insert(mission_object_spawners, 2, undergroundTreasureCluster )		
+		table.insert(mission_object_spawners, 2, undergroundTreasureClusterPrimary )		
+		table.insert(mission_object_spawners, 3, undergroundTreasureCluster )		
 	end
 	
 	--======= SPAWN MISSION OBJECTS
@@ -4136,6 +4183,11 @@ function template_universal:Activated()
 	end
 	
     MissionService:AddGameRule( "lua/missions/v2/dom_manager.lua", rulesPath )
+	local campaignData = CampaignService:GetCampaignData();
+	local tiles =  self.mission_params:GetEncounterTiles()
+	for encounterTile in Iter( tiles) do
+		campaignData:SetInt(encounterTile, campaignData:GetIntOrDefault(encounterTile, 0) + 1)
+	end
 end
 
 return template_universal

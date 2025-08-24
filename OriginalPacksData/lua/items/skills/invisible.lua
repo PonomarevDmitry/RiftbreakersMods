@@ -30,9 +30,9 @@ function invisible:OperateInvisibile()
 	ItemService:ActivateCooldown(self.entity )
 	ItemService:SetInvisible( self.owner, self.mode )
 	
-	if ( self.mode == true ) then
+	if self.mode == true and not self:HasEventHandler( self.owner, "DamageEvent" ) then
 		self:RegisterHandler( self.owner, "DamageEvent", "OnDamageEvent" )
-	else
+	elseif self:HasEventHandler( self.owner, "DamageEvent" ) then
 		self:UnregisterHandler( self.owner, "DamageEvent", "OnDamageEvent" )
 	end
 

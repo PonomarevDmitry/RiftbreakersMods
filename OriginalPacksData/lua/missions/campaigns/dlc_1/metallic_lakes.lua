@@ -9,6 +9,8 @@ function mission_metallic_lakes:__init()
 end
 
 function mission_metallic_lakes:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_1/metallic_lakes.logic", "default" )

@@ -193,7 +193,14 @@ end
 function rift_station:CheckCharging()
 	if (self.charging == 1 ) then
 		local isWorking = true
+		self.resetCounter = self.resetCounter or 0
 		if ( BuildingService:IsResourceSupplied( self.entity ) == false ) then
+			self.resetCounter = self.resetCounter + 1
+		else
+			self.resetCounter = 0
+		end
+		
+		if (self.resetCounter > 1 ) then
 			isWorking = false;
 			local missingResources = BuildingService:GetMissingResources( self.entity )
 			if ( IndexOf( missingResources, "water" ) ~= nil ) then
@@ -204,6 +211,8 @@ function rift_station:CheckCharging()
 			if ( IndexOf( missingResources, "plasma_charged" ) ~= nil ) then
 				QueueEvent( "LuaGlobalEvent", event_sink, "PortalMissingPlasmaEvent", {} )
 			end
+		else
+
 		end
 		
 		if (BuildingService:IsBuildingPowered( self.entity ) == false ) then

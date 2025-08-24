@@ -12,7 +12,9 @@ function fist_weapon_basic:OnEquipped()
 	end
 	self.slot = self.data:GetString( "override_slots");
 	local ownerData = EntityService:GetDatabase( self.owner );
-	ownerData:SetString( self.slot .. "_item_type", "melee_weapon" )
+	if ownerData ~= nil then
+		ownerData:SetString( self.slot .. "_item_type", "melee_weapon" )
+	end
 end
 
 function fist_weapon_basic:OnUnequipped()

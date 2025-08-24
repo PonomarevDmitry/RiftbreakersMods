@@ -37,6 +37,8 @@ end
 --end
 
 function mission_caverns_exploration:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
 	MissionService:SetSkipSpawnPortalSequence(true)

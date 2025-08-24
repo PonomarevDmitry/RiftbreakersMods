@@ -50,7 +50,7 @@ function holo_decoy_mech:OnDecoyStart( state )
 end
 
 function holo_decoy_mech:OnDecoyEnd(  )
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+	EntityService:DestroyEntity( self.entity, self.destroyPattern )
 end
 
 return holo_decoy_mech

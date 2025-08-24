@@ -14,7 +14,7 @@ end
 
 function building_creator:CalculateBuildingBuildTime( database )
 	if ( database:HasFloat( "building_time_left") == true ) then
-		return database:GetFloat( "building_time_left"  )
+		return database:GetFloat( "building_time_left"  ) - GetLogicTime()
 	end
 
 	if ( BuildingService.CalculateBuildTime ) then
@@ -104,7 +104,7 @@ function building_creator:CreateBuildingStateMachine()
 	
 	local children = EntityService:GetChildren( self.parent, true )
 	for child in Iter( children ) do
-		if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") ) then
+		if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
 			EntityService:SpawnAndAttachEntity( "player/building_creator" , child );
 			local childDatabase = EntityService:GetOrCreateDatabase( child )
 			childDatabase:SetInt( "is_addon", 1 )
@@ -316,7 +316,7 @@ function building_creator:_OnBuildingEnter( state )
 	end
 
 	EntityService:SetMaterial( self.meshEnt, "hologram/blue_depth" , "dissolve" )
-	EntityService:FadeEntity( self.meshEnt, DD_FADE_IN, state:GetDurationLimit() )
+	EntityService:FadeEntity( self.meshEnt, DD_FADE_IN, state:GetDurationLimit(), false )
 	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
 
     if ( self.printingCube ~= nil ) then
@@ -357,7 +357,12 @@ function building_creator:_OnBuildingExit( state )
 		return
 	end
 	
-	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent,SkeletonComponent" )
+	if ( is_client_only ) then
+    	--QueueEvent("NetClearEntityComponentStateRequest", self.meshEnt, "MeshComponent")
+		BuildingService:ResendBuildingVisuals(self.meshEnt )
+	else
+		QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent,SkeletonComponent" )
+	end
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
 		EntityService:RemoveEntity( self.endCubeEnt )

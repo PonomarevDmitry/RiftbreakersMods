@@ -61,11 +61,15 @@ function mission_metallic_outpost:UpdateMissionProgress()
 end
 
 function mission_metallic_outpost:OnLoad()
+    mission_base.OnLoad(self)
+
     self:UpdateMissionProgress()
     self:EnsureInfluencePylonsObjective()
 end
 
 function mission_metallic_outpost:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_1/metallic_outpost.logic", "default" )

@@ -56,8 +56,6 @@ end
 
 function multiplayer_boost:OnChargingInProgress( state )
     local mechs = {}
-    local ownerPosition = EntityService:GetPosition(self.owner)
-    local ownerSize = EntityService:GetBoundsSize( self.owner )
     local mechsUsed = {}
     local resetTimer = false
     local currentTime = GetLogicTime()
@@ -67,6 +65,9 @@ function multiplayer_boost:OnChargingInProgress( state )
         return
     end
 
+    local ownerPosition = EntityService:GetPosition(self.owner)
+    local ownerSize = EntityService:GetBoundsSize( self.owner )
+    
     local factor = 0.0
     if ( self.timer ~= -1 ) then
         factor = (currentTime - self.timer) / self.boostActivationTrigger
