@@ -50,11 +50,13 @@ TypeContainerHelper = {};
 TypeContainerHelper.mt = {
     __index = function( self, key )
         local ptr = rawget(self, "__ptr");
-
-        local count = ptr:GetItemCount()
         if key == "count" then
-            return count
+            return ptr:GetItemCount()
+        elseif TypeContainerHelper.mt[key] ~=nil then
+            return TypeContainerHelper.mt[key]
         elseif type(key) == 'number' then
+            local count = ptr:GetItemCount()
+
             local item = ptr:GetItem(key - 1)
             if item == nil then
                 return nil
@@ -69,6 +71,41 @@ TypeContainerHelper.mt = {
         end
 
         return nil
+    end,
+    create_item = function( self, type )
+        local ptr = rawget(self, "__ptr");
+        
+        if ( type ~= nil ) then
+            return reflection_helper(ptr:CreateItem(type))
+        end
+
+        return reflection_helper(ptr:CreateItem())
+    end,
+    map_get_item = function( self, key )
+        if not Assert(type(key) == 'number' or type(key) == 'string', "ERROR: key must be a number or string, got: " .. type(key)) then return nil end
+
+        local ptr = rawget(self, "__ptr");
+
+        local count = ptr:GetItemCount()
+        for i=1,count do
+            local item = ptr:GetItem(i - 1)
+
+            local k = GetPodValue( item:GetField("key") )
+            if k == key then
+                local v = item:GetField("value")
+                return GetPodValue( v ) or reflection_helper( v )
+            end
+        end
+
+        local item = ptr:ReserveItem();
+        item:GetField("key"):SetValue(tostring(key))
+        ptr:InsertItem(item);
+
+        return reflection_helper(item:GetField("value"))
+    end,
+    count = function( self )
+        local ptr = rawget(self, "__ptr");
+        return ptr:GetItemCount();
     end,
     size = function( self )
         local ptr = rawget(self, "__ptr");
@@ -239,6 +276,7 @@ function reflection_helper( ptr, userdata )
     if ptr:IsContainer() then
         local instance = setmetatable( {}, TypeContainerHelper.mt );
         rawset(instance, "__ptr", ptr:ToContainer());
+        rawset(instance, "__ptr2", ptr);
         rawset(instance, "__userdata", userdata );
         return instance;
     else
