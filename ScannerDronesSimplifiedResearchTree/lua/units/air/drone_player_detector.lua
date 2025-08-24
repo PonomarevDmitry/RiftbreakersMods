@@ -94,7 +94,7 @@ function drone_player_detector:OnWorkInProgress()
 				return false
 			end
 
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -151,17 +151,20 @@ function drone_player_detector:OnWorkInProgress()
 
 			local noSound = (mod_scanner_drone_no_sound and mod_scanner_drone_no_sound == 1)
 
+			local owner = self:GetDroneOwnerTarget()
+			local playerId = PlayerService:GetPlayerForEntity( owner )
+
 			if type == "enemy" then
 
 				if ( not noSound ) then
-					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+					PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
 				end
 				
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 1 )
 			else
 
 				if ( not noSound ) then
-					PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+					PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
 				end
 
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 0 )
@@ -217,7 +220,7 @@ function drone_player_detector:GetDiscoveryDistance( entity )
 
 	local discoverDistance = 10
 
-	local db = EntityService:GetDatabase( entity )
+	local db = EntityService:GetOrCreateDatabase( entity )
 
 	if ( db ~= nil and db:HasFloat("discovery_distance") ) then
 		discoverDistance = db:GetFloat("discovery_distance")
@@ -282,7 +285,7 @@ function drone_player_detector:FindNearestTreasure(skipLockCheck)
 				return false
 			end
 
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			if ( db == nil ) then
 				return false
 			end
@@ -348,7 +351,7 @@ function drone_player_detector:OnDroneTargetAction( target )
 
 	local type = ""
 
-	local db = EntityService:GetDatabase( target )
+	local db = EntityService:GetOrCreateDatabase( target )
 	if ( db ~= nil ) then
 		type = db:GetStringOrDefault("type","")
 	end
@@ -404,7 +407,7 @@ function drone_player_detector:OnHarvestEnter(state)
 		return state:Exit()
 	end
 
-	local database = EntityService:GetDatabase( target )
+	local database = EntityService:GetOrCreateDatabase( target )
 
 	local duration = 2.0
 	if ( database ~= nil ) then
@@ -463,7 +466,7 @@ function drone_player_detector:OnHarvestExecute(state, dt)
 		return state:Exit()
 	end
 
-	local database = EntityService:GetDatabase( target )
+	local database = EntityService:GetOrCreateDatabase( target )
 	local type = ""
 
 	local duration = 2.0
