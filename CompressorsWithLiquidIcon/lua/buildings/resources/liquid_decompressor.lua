@@ -211,12 +211,19 @@ function liquid_decompressor:OnUnequipItemRequest( evt )
     self:Refresh()
 end
 function liquid_decompressor:OnItemEquippedEvent( evt )
-	self.item = evt:GetItem()
+    self.item = evt:GetItem()
     self:Refresh()
 end
 
-function liquid_decompressor:OnRemove()
+function liquid_decompressor:OnDestroyRequest()
+    building.OnDestroyRequest(self)
     BuildingService:ClearDecompressor(self.entity, false)
+end
+function liquid_decompressor:OnSellStart()
+    BuildingService:ClearDecompressor(self.entity, false)
+end
+
+function liquid_decompressor:OnRemove()
 end
 
 function liquid_decompressor:OnRelease()
