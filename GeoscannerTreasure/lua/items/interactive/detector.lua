@@ -23,6 +23,10 @@ function detector:OnInit()
 end
 
 function detector:OnEquipped()
+	if ( self.data:HasFloat( "predicted" ) ) then
+		return
+	end
+
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.effectScanner =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_detector", "" )
 	EntityService:SetScale( self.effectScanner, 15.0, 15.0, 15.0 )
@@ -30,8 +34,12 @@ function detector:OnEquipped()
 end
 
 function detector:OnActivate()
+	if ( self.data:HasFloat( "predicted" ) ) then
+		return
+	end
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 
-	PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+	PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
 
 	self:OnExecuteDetecting()
 
@@ -41,13 +49,17 @@ function detector:OnActivate()
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
 		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
 	end
-
-	ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
-
+	if ( ownerData ~= nil ) then
+		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+	end
 end
 
 function detector:OnDeactivate( forced )
-	PlayerService:StopPadHapticFeedback( 0 )
+	if ( self.data:HasFloat( "predicted" ) ) then
+		return true
+	end
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	PlayerService:StopPadHapticFeedback( playerId )
 
 	EntityService:RemoveEntity( self.effect )
 	EntityService:SetGraphicsUniform( self.effectScanner, "cAlpha", 0 )
@@ -82,11 +94,12 @@ function detector:CheckAndSpawnEffect( ent, type, factor)
 	local mode = GetModeFromFactor( factor )
 	local oldMode = GetModeFromFactor( self.lastFactor )
 	--LogService:Log(tostring(mode) .. ":" .. tostring(oldMode))
-	if ( type ~= self.type or mode ~= oldMode or ( ent ~= self.oldEnt and self.oldEnt ~= INVALID_ID ) ) then
+	if ( type ~= self.type ) then
+		-- LogService:Log(tostring(mode) .. ":" .. tostring(oldMode))
+		-- LogService:Log(type  .. ":" .. self.type)
 		EntityService:RemoveEntity( self.effect )
 		self.effect  = INVALID_ID
-	--LogService:Log("remove")
-	self.type = ""
+		self.type = ""
 	end
 
 	self.oldEnt = ent
@@ -109,10 +122,24 @@ end
 
 function detector:CanActivate()
 	if MissionService.IsPlayerDetectorBlocked then
-		return not MissionService:IsPlayerDetectorBlocked()
+		local isPlayerDetectorBlocked = MissionService:IsPlayerDetectorBlocked()
+		self:SetCanActivate( not isPlayerDetectorBlocked )
+		return not isPlayerDetectorBlocked
+	end
+	self:SetCanActivate( true )
+	return true
+end
+
+function detector:SetSynthParam( entity, synthParam, paramValue )
+	--legacy: SoundService:SetSynthParam( self.effect, synthParam, paramValue )
+	if ( entity == nil or entity == INVALID_ID ) then
+		return
 	end
 
-	return true
+	local db = EntityService:GetOrCreateDatabase( entity )
+	if ( db ~= nil ) then
+		db:SetFloat( synthParam, paramValue );
+	end
 end
 
 function detector:OnExecuteDetecting()
@@ -195,19 +222,20 @@ function detector:OnExecuteDetecting()
 			EntityService:SetGraphicsUniform( self.effectScanner, "cTargetPos", targetPos.x, targetPos.y, targetPos.z )
 			EntityService:SetGraphicsUniform( self.effectScanner, "cCenterPos", itemPos.x, itemPos.y, itemPos.z )
 			EntityService:SetGraphicsUniform( self.effectScanner, "cRadius", radius )
+			local playerId = PlayerService:GetPlayerForEntity(self.owner )
 			if type == "enemy" then
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 1 )
 			else
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
 				EntityService:SetGraphicsUniform( self.effectScanner, "cIsEnemy", 0 )
 			end
 
 			if ( mode > 2 ) then
 				factor = Clamp(factor, 0.0, 0.999)
-				SoundService:SetSynthParam( self.effect, "latency", 1.0 / ( 1.0 - factor ) / 25.0 )
+				self:SetSynthParam( self.effect, "latency", 1.0 / ( 1.0 - factor ) / 25.0 )
 			else
-				SoundService:SetSynthParam( self.effect, "latency", 1.0 )
+				self:SetSynthParam( self.effect, "latency", 1.0 )
 			end
 			if ( type ~= "enemy") then
 				return

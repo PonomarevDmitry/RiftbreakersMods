@@ -34,7 +34,7 @@ function ghost_building_portal_construction:OnInit()
 
     self.configName = "ghost_building_portal_construction_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedMode = selectorDB:GetStringOrDefault(self.configName, "none")
     self.selectedMode = self:CheckModeValueExists(self.selectedMode)
@@ -553,7 +553,7 @@ function ghost_building_portal_construction:SpawnAndAttachGhostEntity(blueprintN
     
     self:RemoveUselessComponents(lineEnt)
     
-    EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
     EntityService:SetPosition( lineEnt, newPosition )
     
     if ( newPosition.degree ~= nil ) then
@@ -687,7 +687,7 @@ function ghost_building_portal_construction:BuildWallEntity(blueprintName, trans
         buildTransform.orientation = self.vectorByDegree[0]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false, {} )
 
     if ( buildFloor ) then
 
@@ -794,7 +794,7 @@ function ghost_building_portal_construction:OnUpdate()
 
             LogService:Log("BuildBuildingRequest spot.position.x" .. tostring(spot.position.x) .. " spot.position.z" .. tostring(spot.position.z))
 
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true, {} )
             self.buildPosition = spot
         end
     end
@@ -822,12 +822,12 @@ function ghost_building_portal_construction:OnActivate()
 
     if ( self.activated ) then
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
 
         elseif( testBuildable.flag == CBF_REPAIR ) then
             QueueEvent("RepairBuildingByPlayerRequest", testBuildable.entity_to_repair, self.playerId, -1 )
@@ -929,7 +929,7 @@ function ghost_building_portal_construction:OnRotateSelectorRequest(evt)
 
     self.selectedMode = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString(self.configName, newValue)
 
@@ -1073,35 +1073,33 @@ function ghost_building_portal_construction:CheckEntityBuildable( entity, transf
         buildingSelectorComponent.can_build = canBuild
     end
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testReflection.flag == CBF_REPAIR  ) then
         if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride and not floor ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
+
+    self:ChangeEntityMaterial( entity, materialToSet )
 
     if ( self.activated and checkActive ) then
         if ( BuildingService:BlinkBuildingSelector(self.selector, entity ) ) then
@@ -1136,6 +1134,18 @@ function ghost_building_portal_construction:CheckEntityBuildable( entity, transf
         end
     end
     return testReflection
+end
+
+function ghost_building_portal_construction:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function ghost_building_portal_construction:BuildDesertFloor(spot)

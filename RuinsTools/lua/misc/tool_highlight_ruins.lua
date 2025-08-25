@@ -29,18 +29,17 @@ function tool_highlight_ruins:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -64,7 +63,7 @@ function tool_highlight_ruins:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end
@@ -93,12 +92,28 @@ function tool_highlight_ruins:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}
 
     if ( tool.OnRelease ) then
         tool.OnRelease(self)
+    end
+end
+
+function tool_highlight_ruins:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 

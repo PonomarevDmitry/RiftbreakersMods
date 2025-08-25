@@ -66,6 +66,22 @@ function ghost:InitializeValues()
     end
 end
 
+function ghost:GetChildren()
+    if ( self.childrenToUpdate == nil ) then
+        self.childrenToUpdate = {}
+        local children = EntityService:GetChildren( self.selector, true )
+        for child in Iter( children ) do
+            local hasMesh = EntityService:HasComponent( child, "MeshComponent" )
+            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent" )
+            if ( hasMesh and not isEffect ) then
+                Insert( self.childrenToUpdate, child )
+            end
+        end
+    end
+
+    return self.childrenToUpdate
+end
+
 function ghost:GetBuildInfo( entity  )
     local buildInfoComponent = EntityService:GetComponent( entity, "BuildInfoComponent")
     if ( not Assert( buildInfoComponent ~= nil,"ERROR: missing build info component!") ) then return nil end
@@ -77,7 +93,7 @@ function ghost:GetBuildInfo( entity  )
 end
 
 function ghost:BuildBuilding( transform )
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
 end
 
 function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive, ignoreSelectorSettingCanBuild )
@@ -111,34 +127,43 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive,
         buildingSelectorComponent.can_build = canBuild
     end
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/pass"
 
     if ( testReflection.flag == CBF_REPAIR  ) then
         if ( BuildingService:CanAffordRepair( testReflection.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride and not floor ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+             materialToSet = "hologram/active"
         elseif ( canBuild  ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+            materialToSet = "hologram/red"
         end
+    end
+
+    EntityService:ChangeMaterial( entity, materialToSet)
+
+    if ( self.childrenToUpdate == nil ) then
+        self.childrenToUpdate = {}
+        local children = EntityService:GetChildren( self.selector, true )
+        for child in Iter( children ) do
+            local hasMesh = EntityService:HasComponent( child, "MeshComponent")
+            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent" )
+            if ( hasMesh and not isEffect ) then
+                Insert( self.childrenToUpdate, child )
+            end
+        end
+    end
+    for child in Iter( self.childrenToUpdate ) do
+        EntityService:ChangeMaterial( child, materialToSet)
     end
 
     if ( self.activated and checkActive ) then

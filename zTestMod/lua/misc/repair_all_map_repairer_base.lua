@@ -97,19 +97,20 @@ function repair_all_map_repairer_base:OnWorkExecute()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
+        EntityService:SetMaterial( entity, "hologram/pass", "selected" )
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+                EntityService:SetMaterial( child, "hologram/pass", "selected" )
+            end
         end
 
         local list = {}
 
         if ( isRuins ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
@@ -145,6 +146,10 @@ end
 
 function repair_all_map_repairer_base:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function repair_all_map_repairer_base:FindEntitiesToSelect( selectorComponent )
@@ -158,7 +163,7 @@ function repair_all_map_repairer_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -549,7 +554,7 @@ function repair_all_map_repairer_base:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 

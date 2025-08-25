@@ -68,7 +68,7 @@ end
 function repair_facility_drone:OnDroneLandingStarted(drone)
     self:UpdateWorkingDrones(false)
 
-    --QueueEvent( "FadeEntityOutRequest", drone, 2.0 )
+    --QueueEvent( "FadeEntityOutRequest", drone, 2.0, true )
 end
 
 -- #region Drone Point
@@ -282,20 +282,13 @@ function repair_facility_drone:SetPointEntitySelectedSkin()
 
     self.dronePointSelected = self.dronePointSelected or false
 
-    local isSkinned = EntityService:IsSkinned(self.pointEntity)
-
     if ( self.dronePointSelected ) then
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/pass", "selected" )
+        
     else
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/blue", "selected" )
     end
 end
 
@@ -470,7 +463,7 @@ function repair_facility_drone:GettingInfoFromBaseToUpgrade(eventEntity)
             goto continue
         end
 
-        local baseDatabase = EntityService:GetDatabase( entity )
+        local baseDatabase = EntityService:GetOrCreateDatabase( entity )
         if ( baseDatabase == nil ) then
             goto continue
         end
@@ -522,7 +515,7 @@ function repair_facility_drone:GettingInfoFromRuin()
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -585,7 +578,7 @@ function repair_facility_drone:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end

@@ -119,7 +119,7 @@ function buildings_eraser_tool:FillMarkerMessage()
 
     self:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -372,7 +372,7 @@ function buildings_eraser_tool:CreateSingleBuildingTemplate( blueprintName, buil
     EntityService:SetPosition( buildingEntity, newPosition )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     buildingTemplate.entity = buildingEntity
 

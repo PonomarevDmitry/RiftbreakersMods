@@ -27,7 +27,7 @@ function wall_borders_tool:OnInit()
 
     self.configNameWallsConfig = "$wall_borders_lines_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Wall layers config
     self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
@@ -90,7 +90,7 @@ function wall_borders_tool:OnUpdate()
             if ( lineEnt == nil ) then
 
                 lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:RemoveComponent(lineEnt, "LuaComponent")
 
                 self:RemoveUselessComponents(lineEnt)
@@ -544,12 +544,12 @@ function wall_borders_tool:FinishLineBuild()
         local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, i )
 
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
         elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -598,7 +598,7 @@ function wall_borders_tool:OnRotateSelectorRequest(evt)
     self.wallLinesConfig = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
     self:OnUpdate()

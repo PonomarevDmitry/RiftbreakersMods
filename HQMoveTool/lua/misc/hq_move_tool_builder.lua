@@ -92,7 +92,7 @@ function hq_move_tool_builder:OnBuildingSellEndEvent()
     EntityService:RemoveEntity( self.ghostHQ )
     self.ghostHQ = nil
 
-    QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, self.transform, true )
+    QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, self.transform, true, {} )
 
     EntityService:RemoveEntity( self.entity )
 end

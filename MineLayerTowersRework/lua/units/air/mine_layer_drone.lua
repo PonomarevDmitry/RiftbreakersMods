@@ -170,8 +170,8 @@ function mine_layer_drone:OnPlantExit()
         EntityService:SpawnAndAttachEntity(self.plant_marker, entity )
 
         self.is_visible = false
-        --QueueEvent( "FadeEntityOutRequest", self.entity, 0.1 )
-        EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.1 )
+        QueueEvent( "FadeEntityOutRequest", self.entity, 0.1, true )
+        --EntityService:FadeEntity( self.entity, DD_FADE_OUT, 0.1 )
         EffectService:DestroyEffectsByGroup(self.entity, "fly");
 
         EntityService:RemoveEntity( target )
@@ -185,7 +185,7 @@ function mine_layer_drone:GetDroneFindCenterPoint()
 
     local result = self:GetDroneOwnerTarget();
 
-    local database = EntityService:GetDatabase( result )
+    local database = EntityService:GetOrCreateDatabase( result )
 
     if ( database and database:HasInt("center_point_entity") and EntityService:HasComponent( result, "BuildingComponent" ) ) then
 

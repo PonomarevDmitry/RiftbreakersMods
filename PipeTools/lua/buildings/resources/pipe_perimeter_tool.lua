@@ -75,7 +75,7 @@ function pipe_perimeter_tool:OnInit()
     self.configNameScale = "$perimeter_pipe_scale"
     self.configNamePipesCount = "$perimeter_pipe_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Pipe layers config
     self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
@@ -179,7 +179,7 @@ function pipe_perimeter_tool:OnUpdate()
         if ( lineEnt == nil ) then
 
             lineEnt = EntityService:SpawnEntity( self.ghostBlueprintName, newPosition, team )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:RemoveComponent(lineEnt, "LuaComponent")
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
 
@@ -711,16 +711,16 @@ function pipe_perimeter_tool:IsConverterArray( converterArray )
 end
 
 function pipe_perimeter_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
+
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function pipe_perimeter_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function pipe_perimeter_tool:CheckConfigExists( pipeLinesCount )
@@ -798,7 +798,7 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
         self.pipeLinesCount = newValue
 
         -- Pipe layers config
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNamePipesCount, newValue)
 
         self:UpdateMarker()
@@ -824,7 +824,7 @@ function pipe_perimeter_tool:OnRotateSelectorRequest( evt )
 
         EntityService:SetScale( self.entity, self.currentScale, 1.0, self.currentScale)
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNameScale, self.currentScale)
 
         self:SetChildrenPosition()

@@ -5,13 +5,19 @@ local player_modificator_source = require("lua/misc/player_modificator_source.lu
 class 'power_well' ( player_modificator_source )
 
 function power_well:__init()
-	player_modificator_source.__init(self,self)
+    player_modificator_source.__init(self,self)
 end
 
 function power_well:UpdateWorkingState()
     local working = 0
-    if not self.activated and self.entities_in_trigger > 0 then
-        working = 1
+    if not self.activated then
+        for entity,v in pairs( self.entities_in_trigger ) do
+
+            if ( EntityService:IsAlive( entity ) ) then
+                working = 1
+                break
+            end
+        end
     end
 
     self.data:SetInt("working", working)
@@ -31,9 +37,9 @@ function power_well:init()
 
     self:RegisterHandler( self.entity, "EnteredTriggerEvent", "OnEnteredTriggerEvent" )
     self:RegisterHandler( self.entity, "LeftTriggerEvent", "OnLeftTriggerEvent" )
-	self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" ) 
+    self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" )
 
-    self.entities_in_trigger = 0
+    self.entities_in_trigger = {}
     self:UpdateWorkingState();
 
     self:SpawnIconEntity()
@@ -46,11 +52,15 @@ function power_well:OnLoad()
         player_modificator_source.OnLoad(self)
     end
 
+    if type(self.entities_in_trigger) == 'number' then
+        self.entities_in_trigger = {}
+    end
+
     self:SpawnIconEntity()
 end
 
 function power_well:OnAnimationMarkerReached(evt)
-	EffectService:SpawnEffects(self.entity, evt:GetMarkerName())
+    EffectService:SpawnEffects(self.entity, evt:GetMarkerName())
 end
 
 function power_well:OnInteractWithEntityRequest( evt )
@@ -58,7 +68,9 @@ function power_well:OnInteractWithEntityRequest( evt )
         return
     end
 
-    CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_POWER_WELLS, 1)
+    local playerId = PlayerService:GetPlayerByMech( evt:GetOwner() )
+
+    CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_POWER_WELLS, 1, playerId)
 
     self:AttachModificator(evt:GetOwner())
 
@@ -69,13 +81,33 @@ function power_well:OnInteractWithEntityRequest( evt )
 end
 
 function power_well:OnEnteredTriggerEvent(evt)
-    self.entities_in_trigger = ( self.entities_in_trigger or 0 ) + 1
+
+    local tag = evt:Gettag()
+    if tag ~= "" and tag ~= "open" then
+       return
+    end
+
+    if type(self.entities_in_trigger) == 'number' then
+        self.entities_in_trigger = {}
+    end
+
+    self.entities_in_trigger[ evt:GetOtherEntity() ] = true
 
     self:UpdateWorkingState();
 end
 
 function power_well:OnLeftTriggerEvent(evt)
-    self.entities_in_trigger = ( self.entities_in_trigger or 0 ) - 1
+
+    local tag = evt:Gettag()
+    if tag ~= "" and tag ~= "close" then
+        return
+    end
+
+    if type(self.entities_in_trigger) == 'number' then
+        self.entities_in_trigger = {}
+    end
+
+    self.entities_in_trigger[ evt:GetOtherEntity() ] = nil
 
     self:UpdateWorkingState();
 end
@@ -107,46 +139,46 @@ function power_well:SpawnIconEntity()
 
 
 
-	local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
-	if ( minimapItemComponent ~= nil ) then
+    local minimapItemComponent = EntityService:GetComponent( self.entity, "MinimapItemComponent" )
+    if ( minimapItemComponent ~= nil ) then
 
-		local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+        local minimapItemComponentRef = reflection_helper( minimapItemComponent )
 
         minimapItemComponentRef.icon_material = skillLinkUnitComponentRef.icon
 
         if ( minimapItemComponentRef.size ) then
-            minimapItemComponentRef.size.x = 0.5
-            minimapItemComponentRef.size.y = 0.5
+            minimapItemComponentRef.size.x = 0.75
+            minimapItemComponentRef.size.y = 0.75
         end
 
         EntityService:RemoveComponent( self.entity, "MinimapGuiComponent" )
-	end
+    end
 
 
 
 
 
-	local markerBlueprintName = "misc/power_well_icon_menu"
+    local markerBlueprintName = "misc/power_well_icon_menu"
 
-	local children = EntityService:GetChildren( self.entity, true )
-	for child in Iter(children) do
+    local children = EntityService:GetChildren( self.entity, true )
+    for child in Iter(children) do
 
-		local blueprintName = EntityService:GetBlueprintName( child )
+        local blueprintName = EntityService:GetBlueprintName( child )
 
-		if ( blueprintName == markerBlueprintName and EntityService:GetParent( child ) == self.entity ) then
+        if ( blueprintName == markerBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
-			return
-		end
-	end
+            return
+        end
+    end
 
-	local team = EntityService:GetTeam( self.entity )
+    local team = EntityService:GetTeam( self.entity )
 
-	local iconEntity = EntityService:SpawnAndAttachEntity( markerBlueprintName, self.entity, team )
+    local iconEntity = EntityService:SpawnAndAttachEntity( markerBlueprintName, self.entity, team )
 
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( iconEntity, 0, sizeSelf.y, 0 )
 
-    local menuDB = EntityService:GetDatabase( iconEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( iconEntity )
     if ( menuDB == nil ) then
         return
     end

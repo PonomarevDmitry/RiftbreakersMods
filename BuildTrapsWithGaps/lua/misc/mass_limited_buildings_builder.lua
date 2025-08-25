@@ -137,7 +137,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -145,7 +145,7 @@ function mass_limited_buildings_builder:BuildEntity(entity)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -171,37 +171,47 @@ function mass_limited_buildings_builder:CheckEntityBuildable( entity, transform,
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testBuildable.flag == CBF_REPAIR ) then
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
+
+            materialToSet = "hologram/pass"
+
             else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
-        else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+            
+            materialToSet = "hologram/blue"
+
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
 
+    self:ChangeEntityMaterial( entity, materialToSet )
+
     return testBuildable
+end
+
+function mass_limited_buildings_builder:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function mass_limited_buildings_builder:GetTooCloseAnnoucement( blueprintName )

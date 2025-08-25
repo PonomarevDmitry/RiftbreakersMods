@@ -144,8 +144,8 @@ function drone_spawner_building:SpawnDrones()
 			if self.drones_visible then
 				EntityService:FadeEntity( drone, DD_FADE_IN, DRONE_FADE_TIME )
 			else
-				--QueueEvent( "FadeEntityOutRequest", drone, 1 )
-				EntityService:FadeEntity( drone, DD_FADE_OUT, 1 )
+				QueueEvent( "FadeEntityOutRequest", drone, 1, true )
+				--EntityService:FadeEntity( drone, DD_FADE_OUT, 1 )
 			end
 
 			self:RegisterHandler( drone, "DroneLandingStartedEvent", "_OnDroneLandingStartedEvent" )
@@ -154,7 +154,7 @@ function drone_spawner_building:SpawnDrones()
 			self:RegisterHandler( drone, "DroneLiftingEndedEvent", "_OnDroneLiftingEndedEvent" )
 			self:DroneSpawned( drone )
 
-			local database = EntityService:GetDatabase( drone )
+			local database = EntityService:GetOrCreateDatabase( drone )
 			database:SetInt("drone_id", droneIdx )
 			database:SetFloat("drone_search_radius", self.drone_search_radius )
 			droneIdx = droneIdx + 1
@@ -213,8 +213,8 @@ end
 
 function drone_spawner_building:_OnDroneLandingEndedEvent(evt)
 	if not self.drones_visible then
-		--QueueEvent( "FadeEntityOutRequest", evt:GetEntity(), 1.0 )
-		EntityService:FadeEntity( evt:GetEntity(), DD_FADE_OUT, 1.0 )
+		QueueEvent( "FadeEntityOutRequest", evt:GetEntity(), 1.0, true )
+		--EntityService:FadeEntity( evt:GetEntity(), DD_FADE_OUT, 1.0 )
 	end
 
 	self:OnDroneLandingEnded(evt:GetEntity())
@@ -455,20 +455,13 @@ function drone_spawner_building:SetPointEntitySelectedSkin()
 
 	self.dronePointSelected = self.dronePointSelected or false
 
-	local isSkinned = EntityService:IsSkinned(self.pointEntity)
-
 	if ( self.dronePointSelected ) then
-		if ( isSkinned ) then
-			EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
-		else
-			EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-		end
+
+		EntityService:SetMaterial( self.pointEntity, "hologram/pass", "selected" )
+		
 	else
-		if ( isSkinned ) then
-			EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
-		else
-			EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-		end
+
+		EntityService:SetMaterial( self.pointEntity, "hologram/blue", "selected" )
 	end
 end
 
@@ -643,7 +636,7 @@ function drone_spawner_building:GettingInfoFromBaseToUpgrade(eventEntity)
 			goto continue
 		end
 
-		local baseDatabase = EntityService:GetDatabase( entity )
+		local baseDatabase = EntityService:GetOrCreateDatabase( entity )
 		if ( baseDatabase == nil ) then
 			goto continue
 		end
@@ -695,7 +688,7 @@ function drone_spawner_building:GettingInfoFromRuin()
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end
@@ -758,7 +751,7 @@ function drone_spawner_building:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
 			goto continue
 		end
 
-		local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+		local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
 		if ( ruinDatabase == nil ) then
 			goto continue
 		end

@@ -27,7 +27,7 @@ function wall_pencil_tool:OnInit()
 
     self.configNameWallsCount = "$pencil_wall_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Wall layers config
     self.wallLinesCount = selectorDB:GetIntOrDefault(self.configNameWallsCount, 1)
@@ -216,7 +216,7 @@ function wall_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
             self:RemoveUselessComponents(lineEnt)
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             EntityService:Rotate( lineEnt, 0.0, 1.0, 0.0, degree )
@@ -284,7 +284,7 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
                 self:RemoveUselessComponents(lineEnt)
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:SetPosition( lineEnt, newPosition)
 
                 Insert(gridEntitiesZ, lineEnt)
@@ -322,7 +322,7 @@ function wall_pencil_tool:AdjustInnerList(gridArray, arrayX)
                 self:RemoveUselessComponents(lineEnt)
 
                 EntityService:RemoveComponent( lineEnt, "LuaComponent" )
-                EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+                self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
                 EntityService:SetPosition( lineEnt, newPosition)
 
                 Insert(gridEntitiesZ, lineEnt)
@@ -508,7 +508,7 @@ function wall_pencil_tool:BuildSingleNeighbors(entity, entityTransform)
         end
         buildTransform.scale = {x=1,y=1,z=1}
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false, {} )
     end
 end
 
@@ -538,7 +538,7 @@ function wall_pencil_tool:OnRotateSelectorRequest(evt)
     self.wallLinesCount = newValue
 
     -- Wall layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameWallsCount, newValue)
 
     self:SpawnGhostEntities()

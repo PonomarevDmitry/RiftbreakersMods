@@ -38,7 +38,7 @@ function replace_wall_picker_tool:OnInit()
     self.modeBuilding = 0
     self.modeBuildingLastSelected = 100
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -96,7 +96,7 @@ function replace_wall_picker_tool:SetBuildingIcon()
         end
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB == nil ) then
         return
     end
@@ -114,16 +114,22 @@ end
 
 function replace_wall_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function replace_wall_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_wall_picker_tool:FilterSelectedEntities( selectedEntities )
@@ -211,7 +217,7 @@ function replace_wall_picker_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName )
 
@@ -261,7 +267,7 @@ function replace_wall_picker_tool:FillLastBuildingsList(defaultModesArray, modeB
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

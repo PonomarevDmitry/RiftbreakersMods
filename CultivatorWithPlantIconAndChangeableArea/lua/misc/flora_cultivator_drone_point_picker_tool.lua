@@ -74,6 +74,10 @@ end
 
 function flora_cultivator_drone_point_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function flora_cultivator_drone_point_picker_tool:OnUpdate()
@@ -84,34 +88,32 @@ function flora_cultivator_drone_point_picker_tool:OnUpdate()
 
     for entity in Iter( self.pickedBuildings ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
     end
 
     for entity in Iter( self.selectedEntities ) do
-
-        local skinned = EntityService:IsSkinned(entity)
 
         local isInList = ( IndexOf( self.pickedBuildings, entity ) ~= nil )
 
         if ( isInList ) then
 
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/deny" )
+
         else
             -- Mark candidate to add to template
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+        end
+    end
+end
+
+function flora_cultivator_drone_point_picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end
@@ -325,7 +327,7 @@ function flora_cultivator_drone_point_picker_tool:ShowDisplayRadiusComponent()
 
         for entity in Iter( self.pickedBuildings ) do
 
-            local entityDatabase = EntityService:GetDatabase( entity )
+            local entityDatabase = EntityService:GetOrCreateDatabase( entity )
 
             local entityMin, entityMax = self:GetBuildingDisplayRadius(entityDatabase)
 

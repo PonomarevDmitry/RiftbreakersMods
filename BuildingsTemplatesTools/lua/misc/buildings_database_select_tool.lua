@@ -116,7 +116,7 @@ function buildings_database_select_tool:FillMarkerMessage()
 
     self:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.markerEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
     if ( self.selectedMode == self.modeCurrentDatabase ) then
 

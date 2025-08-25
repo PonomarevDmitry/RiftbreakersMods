@@ -19,13 +19,13 @@ function barbaric_jump:InitalizeValues()
 	self.bp = database:GetString( "bp" )
 	self.att = database:GetString( "att" )
 	self.jumpDistance     = database:GetFloatOrDefault( "jump_distance", -1) -- Jump distance -1 == infinite
-	self.jumpSpeed 		  = database:GetFloatOrDefault("jump_speed", 1 )     -- animation multiplier for jump start and jump end
+	self.jumpSpeed 		  = database:GetFloatOrDefault("jump_speed", 2 )     -- animation multiplier for jump start and jump end
 	self.maxHeight 		  = database:GetFloatOrDefault( "max_height", 15)    -- max jump height 
-	self.peakStart 		  = database:GetFloatOrDefault( "peak_start", 0.85)  -- top slowdown start on reaching this point of jump (0-1)
-	self.peakEnd   		  = database:GetFloatOrDefault( "peak_end", 0.94 )   -- top slowdown ends on reaching this point of jump (0-1 )
+	self.peakStart 		  = database:GetFloatOrDefault( "peak_start", 0.5)  -- top slowdown start on reaching this point of jump (0-1)
+	self.peakEnd   		  = database:GetFloatOrDefault( "peak_end", 0.7)   -- top slowdown ends on reaching this point of jump (0-1 )
 	self.slowdownFactor   = database:GetFloatOrDefault( "slowdown_factor", 4)-- slowdown multiplier betwean peak points
- 	self.minTime   		  = database:GetFloatOrDefault( "min_time", 0.75)    -- min jump time + slowdown
-	self.maxTime   		  = database:GetFloatOrDefault( "max_time", 1.5)     -- max jump time + slowdown
+ 	self.minTime   		  = database:GetFloatOrDefault( "min_time", 0.375)    -- min jump time + slowdown
+	self.maxTime   		  = database:GetFloatOrDefault( "max_time", 0.75)     -- max jump time + slowdown
 	self.triggerBp = database:GetString( "trigger" )
 	self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
 	self.autoamingLeft = nil
@@ -35,7 +35,7 @@ function barbaric_jump:InitalizeValues()
 end
 
 function barbaric_jump:OnEquipped()
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data ~= nil )  then
 		data:SetInt("is_jumping", 0 )
 	end
@@ -64,7 +64,7 @@ function barbaric_jump:OnJumpEnter( state )
 
 	local foundPos = PlayerService:FindPositionForTeleport( self.owner, self.jumpPoint, self.jumpDistance )
 
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data == nil ) then
 		state:Exit()
 		self.enabled = 0
@@ -101,13 +101,6 @@ function barbaric_jump:OnJumpEnter( state )
 	data:SetInt("is_LEFT_HAND_autoaiming", 0 )
 	data:SetInt("is_RIGHT_HAND_autoaiming", 0 )
 
-	local mechComponent = EntityService:GetComponent(self.owner, "MechComponent")
-	if (mechComponent) then
-		local helper = reflection_helper(mechComponent)
-		helper.melee_attack_lock_aiming = 1
-		helper.lock_moving = 1
-	end
-
 	EntityService:ChangeGravityAffected( self.owner, false )
 	PlayerService:StartJump( self.owner, self.jumpPoint, self.maxHeight, time, self.peakStart, self.peakEnd, self.slowdownFactor )
 	self.trigger = EntityService:SpawnAndAttachEntity( self.triggerBp, self.owner, "att_forward_trigger", "" )
@@ -117,7 +110,7 @@ function barbaric_jump:OnJumpEnter( state )
 end
 
 function barbaric_jump:OnJumpExecute( state, dt )
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data and data:HasInt("is_jumping") and data:GetInt( "is_jumping" ) == 0 and self.enabled == 2 ) then
 		state:SetDurationLimit( 0.6 )
 	end
@@ -143,13 +136,6 @@ function barbaric_jump:OnJumpExecute( state, dt )
 end
 
 function barbaric_jump:OnJumpExit( state )
-
-	local mechComponent = EntityService:GetComponent(self.owner, "MechComponent")
-	if (mechComponent) then
-		local helper = reflection_helper(mechComponent)
-		helper.melee_attack_lock_aiming = 0
-		helper.lock_moving = 0
-	end
 	
 	QueueEvent("RemoveEffectsByGroupRequest", self.owner, "dash_trail_long", 0 )
 	EntityService:ChangeGravityAffected( self.owner, true )
@@ -159,7 +145,7 @@ function barbaric_jump:OnJumpExit( state )
 		self.trigger = INVALID_ID
 	end
 
-	local data = EntityService:GetDatabase(self.owner );
+	local data = EntityService:GetOrCreateDatabase(self.owner );
 	if ( data ) then
 		data:SetInt("is_jumping", 0 )
 

@@ -29,7 +29,7 @@ function replace_lamp_replacer_all_tool:OnInit()
     self.template_name = self.data:GetStringOrDefault("template_name", "") or ""
     self.low_name = self.data:GetStringOrDefault("low_name", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -118,7 +118,7 @@ end
 
 function replace_lamp_replacer_all_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("lamp_icon_visible", 1)
 
@@ -146,16 +146,15 @@ end
 
 function replace_lamp_replacer_all_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_lamp_replacer_all_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_lamp_replacer_all_tool:FilterSelectedEntities( selectedEntities )
@@ -338,7 +337,7 @@ function replace_lamp_replacer_all_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_lamp_replacer_tool/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

@@ -70,7 +70,7 @@ function turrets_cluster_panel:OnOperateActionMenuEvent()
         return
     end
 
-    local database = EntityService:GetDatabase( turretsClusterItem )
+    local database = EntityService:GetOrCreateDatabase( turretsClusterItem )
     if ( database == nil ) then
         return
     end
@@ -144,7 +144,7 @@ function turrets_cluster_panel:OnItemEquippedEvent( evt )
 
     if ( turretsClusterItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( turretsClusterItem )
+        local database = EntityService:GetOrCreateDatabase( turretsClusterItem )
 
         if ( database ~= nil ) then
 
@@ -179,7 +179,7 @@ function turrets_cluster_panel:OnItemUnequippedEvent( evt )
 
     if ( turretsClusterItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( turretsClusterItem )
+        local database = EntityService:GetOrCreateDatabase( turretsClusterItem )
 
         if ( database ~= nil ) then
 

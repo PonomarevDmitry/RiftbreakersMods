@@ -37,7 +37,7 @@ end
 
 function buildings_database_swap_templates_tool:FillMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")

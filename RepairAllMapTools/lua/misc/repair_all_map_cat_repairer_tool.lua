@@ -33,7 +33,7 @@ function repair_all_map_cat_repairer_tool:OnInit()
 
     if ( self.categoryTemplate ~= "" ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
@@ -116,7 +116,7 @@ function repair_all_map_cat_repairer_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -138,8 +138,24 @@ end
 function repair_all_map_cat_repairer_tool:AddedToSelection( entity )
 end
 
+function repair_all_map_cat_repairer_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function repair_all_map_cat_repairer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function repair_all_map_cat_repairer_tool:OnUpdate()
@@ -171,19 +187,13 @@ function repair_all_map_cat_repairer_tool:OnUpdate()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
-
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = {}
 
         if ( isRuins ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
@@ -270,7 +280,7 @@ function repair_all_map_cat_repairer_tool:FindRepairableBuildings()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( database and database:HasInt("number_of_activations")) then
 
             local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -301,7 +311,7 @@ function repair_all_map_cat_repairer_tool:FindRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( not database ) then
             goto continue
         end
@@ -412,14 +422,14 @@ function repair_all_map_cat_repairer_tool:OnActivateSelectorRequest()
 
         if ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-            local database = EntityService:GetDatabase( entity )
+            local database = EntityService:GetOrCreateDatabase( entity )
             if ( database ) then
 
                 local ruinsBlueprint = database:GetString("blueprint")
 
                 local transform = EntityService:GetWorldTransform( entity )
 
-                QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
+                QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true, database )
             end
         else
             local childRepair = EntityService:GetChildByName(entity, "##repair##")
@@ -447,7 +457,7 @@ function repair_all_map_cat_repairer_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.categoryTemplate, category )
 
@@ -470,7 +480,7 @@ function repair_all_map_cat_repairer_tool:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -491,7 +501,7 @@ function repair_all_map_cat_repairer_tool:FillLastCategoriesList(defaultModesArr
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

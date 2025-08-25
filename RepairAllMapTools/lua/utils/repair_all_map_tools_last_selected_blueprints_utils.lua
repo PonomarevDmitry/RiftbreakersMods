@@ -23,7 +23,7 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
     local selectorDB = nil
     if (selector and selector ~= INVALID_ID) then
-        selectorDB = EntityService:GetDatabase( selector )
+        selectorDB = EntityService:GetOrCreateDatabase( selector )
     end
 
 
@@ -214,7 +214,7 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
 
     local selectorDB = nil
     if (selector and selector ~= INVALID_ID) then
-        selectorDB = EntityService:GetDatabase( selector )
+        selectorDB = EntityService:GetOrCreateDatabase( selector )
     end
 
 

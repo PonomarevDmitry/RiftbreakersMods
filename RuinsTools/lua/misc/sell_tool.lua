@@ -30,21 +30,24 @@ function sell_tool:AddedToSelection( entity )
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
 
-    local isSkinned = EntityService:IsSkinned( entity )
-
     if ( buildingComponentHelper.m_isSellable == true ) then
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
+
     else
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected" )
+        self:SetEntitySelectedMaterial( entity, "hologram/red" )
+    end
+end
+
+function sell_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end
@@ -65,7 +68,8 @@ function sell_tool:FindEntitiesToSelect( selectorComponent )
 
     for entity in Iter( self.selectedEntities ) do
         if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
-            EntityService:RemoveMaterial( entity, "selected" )
+
+            sell_tool:RemovedFromSelection( entity )
         end
     end
 
@@ -73,11 +77,7 @@ function sell_tool:FindEntitiesToSelect( selectorComponent )
 
         if ( IndexOf( self.selectedEntities, entity ) == nil ) then
 
-            if ( EntityService:IsSkinned(entity ) ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
             if ( self.activated ) then
                 self:OnActivateEntity( entity )
@@ -115,6 +115,10 @@ end
 
 function sell_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_tool:OnUpdate()

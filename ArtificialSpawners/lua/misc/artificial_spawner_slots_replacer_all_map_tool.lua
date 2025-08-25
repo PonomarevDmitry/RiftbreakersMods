@@ -36,7 +36,7 @@ function artificial_spawner_slots_replacer_all_map_tool:OnInit()
     self.current_localization = self.data:GetString("current_localization")
     self.last_localization = self.data:GetString("last_localization")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.SelectedSlotsBlueprints = nil
 
@@ -88,7 +88,7 @@ end
 
 function artificial_spawner_slots_replacer_all_map_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB == nil ) then
         return
     end
@@ -291,12 +291,7 @@ function artificial_spawner_slots_replacer_all_map_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:AddedToSelection( entity )
     end
 end
 
@@ -346,16 +341,23 @@ function artificial_spawner_slots_replacer_all_map_tool:IsFullEqualSlots(slots1,
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:OnActivateSelectorRequest()
@@ -450,7 +452,7 @@ end
 
 function artificial_spawner_slots_replacer_all_map_tool:ChangeSelector(slotsValues)
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local value = table.concat(slotsValues, ",")
 
@@ -479,7 +481,7 @@ end
 
 function artificial_spawner_slots_replacer_all_map_tool:FillLastSlotssList(defaultModesArray, modeSelectLast, selector)
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedSlotssArray = self:GetCurrentList(self.configNameList, selectorDB)
 

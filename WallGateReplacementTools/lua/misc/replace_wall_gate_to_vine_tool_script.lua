@@ -94,7 +94,7 @@ function replace_wall_gate_to_vine_tool_script:OnBuildingSellEndEvent()
 
             if ( self:AddToHash(hashPositions, newTransform.position.x, newTransform.position.z) ) then
 
-                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false, {} )
             end
         end
     end

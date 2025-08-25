@@ -17,7 +17,7 @@ function turn_on_off_by_type_switch_tool:OnInit()
 
     self:InitLowUpgradeList()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -80,16 +80,15 @@ end
 
 function turn_on_off_by_type_switch_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function turn_on_off_by_type_switch_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function turn_on_off_by_type_switch_tool:FilterSelectedEntities( selectedEntities )
@@ -195,24 +194,14 @@ function turn_on_off_by_type_switch_tool:OnUpdate()
 
     for entity in Iter( availableBuildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
     end
 
     self.previousMarkedBuildings = availableBuildinsList
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
     end
 end
 

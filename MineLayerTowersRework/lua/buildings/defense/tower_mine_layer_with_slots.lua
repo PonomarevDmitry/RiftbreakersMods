@@ -25,9 +25,9 @@ function tower_mine_layer_with_slots:OnInit()
 
     self:CreateMenuEntity()
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( PlayerService:IsInFighterMode( owner ) ) then
+    if ( PlayerService:IsInFighterMode( playerId ) ) then
         self.showMenu = 0
     else
         self.showMenu = 1
@@ -134,7 +134,7 @@ function tower_mine_layer_with_slots:SpawnDrones()
                 self:RegisterHandler( drone, "DroneLiftingEndedEvent", "_OnDroneLiftingEndedEvent" )
                 self:DroneSpawned( drone )
 
-                local database = EntityService:GetDatabase( drone )
+                local database = EntityService:GetOrCreateDatabase( drone )
                 database:SetInt( "drone_id", droneIdx )
                 database:SetFloat( "drone_search_radius", self.drone_search_radius )
                 database:SetString( "plant_blueprint", towerMineBlueprint )
@@ -184,7 +184,7 @@ function tower_mine_layer_with_slots:GetMinesArray()
 
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetOrCreateDatabase( modItem )
 
                 if ( blueprintDatabase and blueprintDatabase:HasString("mine_blueprint") ) then
 
@@ -221,7 +221,7 @@ function tower_mine_layer_with_slots:OnItemEquippedEvent( evt )
 
     local key = selfLowName .. "_" .. slotName
 
-    local database = EntityService:GetDatabase( self.entity )
+    local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, itemBlueprintName)
 
     self:PopulateSpecialActionInfo()
@@ -240,7 +240,7 @@ function tower_mine_layer_with_slots:OnItemUnequippedEvent( evt )
 
     local key = selfLowName .. "_" .. slotName
 
-    local database = EntityService:GetDatabase( self.entity )
+    local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, "")
 
     self:PopulateSpecialActionInfo()
@@ -457,20 +457,13 @@ function tower_mine_layer_with_slots:SetPointEntitySelectedSkin()
 
     self.dronePointSelected = self.dronePointSelected or false
 
-    local isSkinned = EntityService:IsSkinned(self.pointEntity)
-
     if ( self.dronePointSelected ) then
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/pass", "selected" )
+        
     else
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/blue", "selected" )
     end
 end
 
@@ -645,7 +638,7 @@ function tower_mine_layer_with_slots:GettingInfoFromBaseToUpgrade(eventEntity)
             goto continue
         end
 
-        local baseDatabase = EntityService:GetDatabase( entity )
+        local baseDatabase = EntityService:GetOrCreateDatabase( entity )
         if ( baseDatabase == nil ) then
             goto continue
         end
@@ -697,7 +690,7 @@ function tower_mine_layer_with_slots:GettingInfoFromRuin()
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -790,7 +783,7 @@ function tower_mine_layer_with_slots:OnBuildingRemovedEventTrasferingInfoToRuin(
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -974,7 +967,7 @@ function tower_mine_layer_with_slots:SetMenuVisible(menuEntity)
         visible = self.showMenu
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", visible)
     end
@@ -1036,7 +1029,7 @@ function tower_mine_layer_with_slots:CreateMenuEntity()
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y, 0 )
 
-    local menuDB = EntityService:GetDatabase( self.menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( self.menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", 0)
     end
@@ -1049,7 +1042,7 @@ function tower_mine_layer_with_slots:PopulateSpecialActionInfo()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB == nil ) then
         return
     end

@@ -21,7 +21,7 @@ function spawn_resource_deposits_tool:OnInit()
     --self.configName = "$spawn_resource_deposits_tool_config." .. self.veinName
     self.configName = "$spawn_resource_deposits_tool_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     if ( selectorDB ) then
         self.currentValue = selectorDB:GetIntOrDefault(self.configName, self.currentValue)
     end
@@ -119,7 +119,7 @@ function spawn_resource_deposits_tool:OnActivateSelectorRequest()
 
     local entityScript = EntityService:SpawnEntity( "misc/spawn_resource_deposits/script", position, team )
 
-    local database = EntityService:GetDatabase( entityScript )
+    local database = EntityService:GetOrCreateDatabase( entityScript )
 
     database:SetInt( "player_id", self.playerId )
     database:SetString( "annoucement", self.annoucement )
@@ -194,7 +194,7 @@ function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)
 
     self.currentValue = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     if ( selectorDB ) then
         selectorDB:SetInt(self.configName, newValue)
     end

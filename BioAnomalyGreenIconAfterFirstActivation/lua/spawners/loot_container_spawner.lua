@@ -16,7 +16,7 @@ function loot_container_spawner:init()
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "wait", { from="*", enter="OnEnterWating", exit="OnExitWaiting" } )
 	SetupUnitScale( self.entity, self.data )
-	
+
 	EntityService:SetGroup( self.entity, "loot_container");
 	EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, RandFloat(0.0, 360.0))
 
@@ -77,29 +77,30 @@ end
 
 function loot_container_spawner:OnInteractWithEntityRequest( evt )
 
+	local owner = evt:GetOwner()
+	local playerId = PlayerService:GetPlayerByMech( owner )
+
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
+
 	if string.find(blueprintName, "metallic" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "caverns" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "poogret_poo" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1, playerId )
 	end
 
-	local owner = evt:GetOwner()
 	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
 	if ( playerReferenceComponent ) then
 		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" )
 		if ( forcedGroup ~= "" ) then
 			QueueEvent("ForceLootContainerTypeRequest", self.entity,	forcedGroup )
-			EntityService:RemoveComponent(self.entity, "LootComponent")
 		end
-
-		local helper = reflection_helper(playerReferenceComponent)
-		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
+		
 	end
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
-	
+
+	EntityService:DestroyEntity( self.entity, "default" )
+
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 	QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyClose", params )
 end
@@ -116,7 +117,7 @@ function loot_container_spawner:SpawnWaveLogicFiles( waveLogic, waveLogicMul, sp
 				MissionService:ActivateMissionFlow( "", waveLogic, "default", self.data )
 
 				local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
-				local db = EntityService:GetDatabase( pathCleaner )			
+				local db = EntityService:GetOrCreateDatabase( pathCleaner )			
 				db:SetString( "to_entity", tostring( spawnPoint[i] ) )
 				db:SetString( "from_entity", tostring( self.entity ) )
 
@@ -175,11 +176,9 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 
 		if ( self.delay > 0) then
 			local entity = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.entity, "")
-			local db = EntityService:GetDatabase( entity )
+			local db = EntityService:GetOrCreateDatabase( entity )
 			db:SetFloat( "delay", self.delay )
 			db:SetFloat( "aggressive_radius", self.aggressiveRadius )
-		else
-			EntityService:MarkEntityAsLootContainer( self.entity, self.rarity )
 		end
 	else
 		--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - already activated." )

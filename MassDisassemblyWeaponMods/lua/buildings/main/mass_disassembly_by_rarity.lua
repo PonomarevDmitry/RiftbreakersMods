@@ -213,7 +213,7 @@ function mass_disassembly_by_rarity:PopulateSpecialActionInfo()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB == nil ) then
         return
     end

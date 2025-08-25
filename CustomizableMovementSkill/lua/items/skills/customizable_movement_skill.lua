@@ -134,7 +134,7 @@ function customizable_movement_skill:OnActivate()
 
         self.rollSpeed = databaseMovementType:GetFloatOrDefault("roll_speed", 2.0 )
 
-        local db = EntityService:GetDatabase( self.owner )
+        local db = EntityService:GetOrCreateDatabase( self.owner )
         db:SetFloat( "roll_speed", self.rollSpeed )
     
         EntityService:Dash( self.owner, self.item )

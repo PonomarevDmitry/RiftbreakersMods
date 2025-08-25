@@ -26,7 +26,7 @@ function cultivator_sapling_replacer_tool:OnInit()
     local saplingIcon = componentRef.icon
     local saplingName = componentRef.name
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     markerDB:SetString("sapling_icon", saplingIcon)
     markerDB:SetString("sapling_name", saplingName)
     markerDB:SetInt("menu_visible", 1)
@@ -36,7 +36,7 @@ function cultivator_sapling_replacer_tool:GetSaplingItem()
 
     local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_item"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if selectorDB:HasString("cultivator_sapling_picker_tool.selecteditem") then
 
@@ -63,16 +63,23 @@ function cultivator_sapling_replacer_tool:SpawnCornerBlueprint()
 end
 
 function cultivator_sapling_replacer_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function cultivator_sapling_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function cultivator_sapling_replacer_tool:FilterSelectedEntities( selectedEntities )

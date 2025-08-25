@@ -18,7 +18,7 @@ function artificial_spawner_slots_replacer_tool:OnInit()
     self.missing_localization = self.data:GetString("missing_localization")
     self.buildingLowUpgrade = self.data:GetStringOrDefault("buildingLowUpgrade", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.SelectedSlotsBlueprints = nil
 
@@ -51,7 +51,7 @@ end
 
 function artificial_spawner_slots_replacer_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB == nil ) then
         return
     end
@@ -116,16 +116,23 @@ function artificial_spawner_slots_replacer_tool:SpawnCornerBlueprint()
 end
 
 function artificial_spawner_slots_replacer_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function artificial_spawner_slots_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function artificial_spawner_slots_replacer_tool:FilterSelectedEntities( selectedEntities )

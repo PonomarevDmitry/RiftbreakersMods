@@ -36,7 +36,7 @@ function ghost_building_line:OnInit()
 
     if ( self.isWall ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         -- Wall layers config
         self.wallLinesConfig = selectorDB:GetStringOrDefault(self.configNameWallsConfig, "1")
@@ -64,6 +64,8 @@ function ghost_building_line:OnInit()
             }
         end
     end
+
+    self:SpawnMarkerLines()
 end
 
 function ghost_building_line:RemoveComponents(entity)
@@ -85,8 +87,7 @@ function ghost_building_line:CreateInfoChild()
     end
 end
 
-function ghost_building_line:OnUpdate()
-    self.buildCost = {}
+function ghost_building_line:SpawnMarkerLines()
 
     -- Multi layers only for wall, not pipes
     local wallLinesConfig = "1"
@@ -110,12 +111,26 @@ function ghost_building_line:OnUpdate()
             -- Create new marker
             self.currentMarkerLines = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
 
+            EntityService:CreateComponent(self.currentMarkerLines, "EffectReferenceComponent")
+
             EntityService:SetPosition( self.currentMarkerLines, 0, 0, -2 )
 
             -- Save number of wall layers
             self.markerLinesConfig = wallLinesConfig
 
         end
+    end
+end
+
+function ghost_building_line:OnUpdate()
+    self.buildCost = {}
+
+    -- Multi layers only for wall, not pipes
+    local wallLinesConfig = "1"
+
+    if (self.isWall) then
+
+        wallLinesConfig = self:CheckConfigExists(self.wallLinesConfig)        
     end
 
     if ( self.buildStartPosition ) then
@@ -991,12 +1006,12 @@ function ghost_building_line:FinishLineBuild()
 
         local testBuildable = self:CheckEntityBuildable( ghostEntity, transform, false, i )
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
         elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -1085,12 +1100,10 @@ function ghost_building_line:IncreaseWallLinesCount( evt )
 
     self.wallLinesConfig = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetString(self.configNameWallsConfig, newValue)
 
-    if ( self.OnUpdate ) then
-        self:OnUpdate()
-    end
+    self:SpawnMarkerLines()
 end
 
 function ghost_building_line:OnRelease()

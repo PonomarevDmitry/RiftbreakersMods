@@ -13,7 +13,7 @@ function sell_by_type_base:InitLowUpgradeList()
     self.template_name = self.data:GetString("template_name")
     self.list_name = self.data:GetStringOrDefault("list_name", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -390,6 +390,18 @@ function sell_by_type_base:GetBuildingMenuIcon( blueprintName )
     end
 
     return ""
+end
+
+function sell_by_type_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
 end
 
 return sell_by_type_base

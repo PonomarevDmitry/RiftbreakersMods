@@ -17,7 +17,7 @@ function replace_wall_replacer_all_tool:OnInit()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.toBlueprintName = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -130,7 +130,7 @@ end
 
 function replace_wall_replacer_all_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("wall_icon_visible", 1)
 
@@ -158,16 +158,15 @@ end
 
 function replace_wall_replacer_all_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_wall_replacer_all_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_wall_replacer_all_tool:FilterSelectedEntities( selectedEntities )
@@ -352,7 +351,7 @@ function replace_wall_replacer_all_tool:OnActivateEntity( entity )
         transform.orientation = self.randomOrientationArray[RandInt(1,4)]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true, {} )
 end
 
 function replace_wall_replacer_all_tool:GetConnectType( blueprintName, buildingRef )

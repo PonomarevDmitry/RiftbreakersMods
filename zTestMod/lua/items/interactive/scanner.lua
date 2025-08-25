@@ -14,8 +14,6 @@ function scanner:OnInit()
 	self.effect 	= INVALID_ID
 	self.scanningTime = 0.0
 	self.lastItemEnt = nil
-	self.poseType = ""
-	self.lastItemType = ""
 end
 
 function scanner:OnEquipped()
@@ -27,46 +25,43 @@ function scanner:OnUnequipped()
 	item.OnUnequipped( self ) 
 end
 
-function scanner:OnActivate()
-	item.OnActivate( self )
+function scanner:OnActivate( activation_id )
+	item.OnActivate( self, activation_id )
 	self:OnExecuteScaning()
 
-	QueueEvent("ShowScannableRequest", event_sink, true )	
+	QueueEvent("ShowScannableRequest", self.owner, true )
+
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated() ) then
 		self.lastItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.5 )
 		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.5 )
-		self.lastItemType = ownerData:GetStringOrDefault( "RIGHT_HAND_item_type", "" )
-		self.poseType = ownerData:GetStringOrDefault( "RIGHT_HAND_pose_type", "" )
 	end
 	
-	ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+	if ( ownerData ~= nil ) then
+		ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
+	end
 end
 
 function scanner:OnDeactivate( forced )
-	PlayerService:StopPadHapticFeedback( 0 )
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
+	PlayerService:StopPadHapticFeedback( playerId )
 
 	if not ( mod_scanner_not_hide_scannable and mod_scanner_not_hide_scannable == 1 ) then
-		QueueEvent("ShowScannableRequest", event_sink, false )
+		QueueEvent("ShowScannableRequest", self.owner, false )
 	end
 	
 	if ( self.effect ~= INVALID_ID )  then
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
-	local ownerData = EntityService:GetDatabase( self.owner );
-	if ownerData ~= nil then
-		ownerData:SetString( "RIGHT_HAND_item_type", self.lastItemType )
-		if self.poseType ~= "" then
-			ownerData:SetString( "RIGHT_HAND_pose_type", self.poseType )
-		end
-		ownerData:SetFloat( "RIGHT_HAND_use_saspeed", 0 );
-	end
+
+	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	if ( forced == false and  self.lastItemEnt ~= nil and EntityService:IsAlive( self.lastItemEnt ) ) then
 		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.5 )
 	end
+
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.5 )
 
 	if ( self.lastTarget ~= INVALID_ID ) then 
@@ -97,9 +92,10 @@ function scanner:SpawnSpecifcEffect( currentTarget )
 end
 
 function scanner:OnExecuteScaning()
+	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	self.ammoEnt = EntityService:GetChildByName( self.item, "##ammo##" )
 	if ( self.ammoEnt == nil or self.ammoEnt == INVALID_ID ) then
-		PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+		PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 		return	
 	end
 	
@@ -114,21 +110,21 @@ function scanner:OnExecuteScaning()
 			self.lastTarget = INVALID_ID
 			self.scanningTime = 0.0
 
-			PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+			PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 		end
 		
 		if ( currentTarget ~= INVALID_ID ) then		
 			local scannableComponent = EntityService:GetComponent( currentTarget, "ScannableComponent")
 			if ( scannableComponent == nil ) then
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 				return
 			end
 			local scannableComponentHelper = reflection_helper(scannableComponent)
 			if ( self.effect == INVALID_ID ) then
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_active")
-				PlayerService:SetPadHapticFeedback( 0, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
 				self.scanningTime = 0.0
 				self:SpawnSpecifcEffect( currentTarget )
 				QueueEvent( "EntityScanningStartEvent", currentTarget )

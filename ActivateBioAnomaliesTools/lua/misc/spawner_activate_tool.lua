@@ -67,7 +67,7 @@ function spawner_activate_tool:FindEntitiesToSelect( selectorComponent )
             goto labelContinue
         end
 
-        local databaseEntity = EntityService:GetDatabase( entity )
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
         if ( databaseEntity ~= nil ) then
             
             if ( not databaseEntity:HasString("wave_logic_file") and not databaseEntity:HasString("boss_logic_file") ) then
@@ -95,16 +95,23 @@ function spawner_activate_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function spawner_activate_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function spawner_activate_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function spawner_activate_tool:OnRotate()
@@ -130,7 +137,7 @@ function spawner_activate_tool:OnActivateEntity( entity )
         minimapItemComponentRef.unknown_until_visible = false
     end
 
-    local databaseEntity = EntityService:GetDatabase( entity )
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
     if ( databaseEntity ~= nil ) then
         databaseEntity:SetFloat( "harvest_duration", 2.5 )
     end

@@ -38,7 +38,7 @@ function sell_all_map_cat_seller_tool:OnInit()
 
     if ( self.categoryTemplate ~= "" ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
@@ -235,7 +235,7 @@ function sell_all_map_cat_seller_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -336,8 +336,24 @@ end
 function sell_all_map_cat_seller_tool:AddedToSelection( entity )
 end
 
+function sell_all_map_cat_seller_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function sell_all_map_cat_seller_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_all_map_cat_seller_tool:OnUpdate()
@@ -366,13 +382,7 @@ function sell_all_map_cat_seller_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
-
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )
@@ -587,7 +597,7 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
 
                         local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                        local database = EntityService:GetDatabase( placeRuinScript )
+                        local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                         database:SetInt( "player_id", self.playerId )
                         database:SetInt( "target_entity", entity )
@@ -608,7 +618,7 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
 
             local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_all_map_seller_tool/script", position, team )
 
-            local database = EntityService:GetDatabase( buildAfterSellScript )
+            local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
             database:SetInt( "target_entity", entity )
             database:SetInt( "player_id", self.playerId )
@@ -626,7 +636,7 @@ function sell_all_map_cat_seller_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.categoryTemplate, category )
 
@@ -653,7 +663,7 @@ function sell_all_map_cat_seller_tool:FillLastCategoriesList(defaultModesArray, 
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

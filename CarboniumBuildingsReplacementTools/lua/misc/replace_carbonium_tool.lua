@@ -105,7 +105,7 @@ end
 
 function replace_carbonium_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.carboniumBluprintsArray,1,-1 do
 
@@ -133,6 +133,10 @@ end
 
 function replace_carbonium_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_carbonium_tool:OnUpdate()
@@ -188,11 +192,7 @@ function replace_carbonium_tool:OnUpdate()
             costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         ::continue::
     end
@@ -216,6 +216,18 @@ function replace_carbonium_tool:OnUpdate()
     else
         BuildingService:OperateBuildCosts( self.infoChild , self.playerId, {} )
         BuildingService:OperateBuildCosts( self.corners, self.playerId, self.buildCost )
+    end
+end
+
+function replace_carbonium_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
@@ -385,7 +397,7 @@ function replace_carbonium_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "misc/build_after_sell/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

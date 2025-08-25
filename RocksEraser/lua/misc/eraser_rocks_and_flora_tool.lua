@@ -255,30 +255,40 @@ end
 
 function eraser_rocks_and_flora_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function eraser_rocks_and_flora_tool:AddedToSelectionFlora( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/active" )
 end
 
 function eraser_rocks_and_flora_tool:RemovedFromSelectionFlora( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
+end
+
+function eraser_rocks_and_flora_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
 end
 
 function eraser_rocks_and_flora_tool:OnRotate()

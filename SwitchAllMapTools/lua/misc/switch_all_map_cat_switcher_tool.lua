@@ -38,7 +38,7 @@ function switch_all_map_cat_switcher_tool:OnInit()
 
     if ( self.categoryTemplate ~= "" ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
@@ -228,7 +228,7 @@ function switch_all_map_cat_switcher_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -246,6 +246,10 @@ end
 
 function switch_all_map_cat_switcher_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function switch_all_map_cat_switcher_tool:OnUpdate()
@@ -254,12 +258,13 @@ function switch_all_map_cat_switcher_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
+            EntityService:SetMaterial( entity, "hologram/current", "selected" )
 
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+            local children = EntityService:GetChildren( entity, true )
+            for child in Iter( children ) do
+                if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+                    EntityService:SetMaterial( child, "hologram/current", "selected" )
+                end
             end
         end
 
@@ -347,7 +352,7 @@ function switch_all_map_cat_switcher_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.categoryTemplate, category )
 
@@ -374,7 +379,7 @@ function switch_all_map_cat_switcher_tool:FillLastCategoriesList(defaultModesArr
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

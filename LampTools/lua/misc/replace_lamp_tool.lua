@@ -31,7 +31,7 @@ end
 
 function replace_lamp_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.icon_from ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.icon_from ) ) then
 
@@ -76,16 +76,15 @@ end
 
 function replace_lamp_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_lamp_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_lamp_tool:FilterSelectedEntities( selectedEntities )
@@ -166,12 +165,7 @@ function replace_lamp_tool:OnUpdate()
 
     for entity in Iter( buildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
     end
 
     self.previousMarkedBuildings = buildinsList
@@ -325,7 +319,7 @@ function replace_lamp_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_lamp_replacer_tool/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

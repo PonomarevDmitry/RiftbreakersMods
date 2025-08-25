@@ -70,7 +70,7 @@ function light_switcher_all_map_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
     markerDB:SetString("message_text", messageText)
@@ -85,21 +85,24 @@ end
 
 function light_switcher_all_map_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function light_switcher_all_map_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
+        EntityService:SetMaterial( entity, "hologram/current", "selected" )
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+        local children = EntityService:GetChildren( entity, true )
+        for child in Iter( children ) do
+            if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+                EntityService:SetMaterial( child, "hologram/current", "selected" )
+            end
         end
-
-        ::continue::
     end
 end
 

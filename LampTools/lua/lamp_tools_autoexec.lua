@@ -100,7 +100,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     if ( selector and selector ~= INVALID_ID ) then
 
-        local selectorDB = EntityService:GetDatabase( selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( selector )
         if ( selectorDB ) then
             selectorDB:SetString(parameterName, blueprintName)
         end

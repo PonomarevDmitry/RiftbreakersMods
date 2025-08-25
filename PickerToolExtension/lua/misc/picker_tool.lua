@@ -91,7 +91,7 @@ function picker_tool:SetBuildingIcon()
         --messageText = self:GetLastBuildinsDescription()
     end
 
-    local markerDB = EntityService:GetDatabase( self.menuEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.menuEntity )
     
     markerDB:SetInt("building_icon_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -296,54 +296,51 @@ function picker_tool:AddedToSelection( entity )
         end
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
+
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_grey_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_grey", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/grey" )
+
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_deny", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/deny" )
+        
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
+
     elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
+    end
+end
+
+function picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
+    end
+end
+
+function picker_tool:RemoveEntitySelectedMaterial( entity )
+
+    EntityService:RemoveMaterial( entity, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
     end
 end
 
@@ -390,29 +387,29 @@ function picker_tool:RemovedFromSelection( entity )
         end
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.minesEraserExists and self.isLandMine(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.rocksEraserExists and self.isRock(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( ( self.floraEraserExists or self.floraFertilizerExists ) and self.isFlora(entity) ) then
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
 
     elseif ( self.lootCollectorExists and self.isLoot(entity, self.player) ) then
 
     else
 
-        EntityService:RemoveMaterial( entity, "selected" )
+        self:RemoveEntitySelectedMaterial( entity )
     end
 end
 
@@ -673,7 +670,7 @@ function picker_tool:AddBioAnomalies( selectedItems, min, max, sorter )
             goto labelContinue
         end
 
-        local databaseEntity = EntityService:GetDatabase( entity )
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
         if ( databaseEntity == nil ) then
             goto labelContinue
         end
@@ -1153,7 +1150,7 @@ picker_tool.isBioAnomaly = function( entity )
         return false
     end
 
-    local databaseEntity = EntityService:GetDatabase( entity )
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
     if ( databaseEntity == nil ) then
         return false
     end
@@ -2206,7 +2203,7 @@ function picker_tool:GetLinkedEntityBlueprint( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -2544,19 +2541,14 @@ function picker_tool:HighlightRuins()
             goto labelContinue
         end
 
-        EntityService:RemoveMaterial( ruinEntity, "selected" )
+        self:RemoveEntitySelectedMaterial( ruinEntity )
 
         ::labelContinue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -2578,7 +2570,7 @@ function picker_tool:FindBuildingRuins()
             goto labelContinue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto labelContinue
         end
@@ -2614,7 +2606,8 @@ function picker_tool:OnRelease()
     if ( self.previousMarkedRuins ~= nil) then
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
+
+            self:RemoveEntitySelectedMaterial( ruinEntity )
         end
     end
     self.previousMarkedRuins = {}
@@ -2631,7 +2624,7 @@ function picker_tool:GetLastVeinExtractor(resourceId)
     local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local lowName = ""
     local timeValue = 0
@@ -2664,7 +2657,7 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
     local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
 
@@ -2690,7 +2683,7 @@ function picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSe
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
@@ -2851,7 +2844,7 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
     local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     local lastValue = ""
     local lastTimeValue = 0
@@ -2903,7 +2896,7 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
     local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
 

@@ -44,7 +44,7 @@ function mass_disassembly_by_rarity_tool:UpdateMarker()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB == nil ) then
         return
     end

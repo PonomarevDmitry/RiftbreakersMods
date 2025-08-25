@@ -100,7 +100,7 @@ end
 
 function replace_wall_gate_to_vine_tool:SetWallGateIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.wallBluprintsArray,1,-1 do
 
@@ -132,8 +132,24 @@ end
 function replace_wall_gate_to_vine_tool:AddedToSelection( entity )
 end
 
+function replace_wall_gate_to_vine_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function replace_wall_gate_to_vine_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_wall_gate_to_vine_tool:OnUpdate()
@@ -195,11 +211,7 @@ function replace_wall_gate_to_vine_tool:OnUpdate()
             costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         ::continue::
     end
@@ -379,7 +391,7 @@ function replace_wall_gate_to_vine_tool:OnActivateEntity( entity )
 
     local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/replace_wall_gate_to_vine/script", position, team )
 
-    local database = EntityService:GetDatabase( buildAfterSellScript )
+    local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
     database:SetInt( "target_entity", entity )
     database:SetInt( "player_id", self.playerId )

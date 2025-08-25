@@ -13,11 +13,17 @@ end
 
 function wall_breaker:CanActivate()
 
+    if ( item.CanActivate ) then
+        item.CanActivate(self)
+    end
+
     local currentBiome = MissionService:GetCurrentBiomeName()
     if ( currentBiome == "caverns" ) then
+        self:SetCanActivate( true )
         return true
     end
 
+    self:SetCanActivate( false )
     return false
 end
 
@@ -59,7 +65,7 @@ function wall_breaker:OnActivate()
 
                 local cleaner = EntityService:SpawnEntity( "items/skills/wall_breaker_cleaner", self.owner, "" )
 
-                local databaseCleaner = EntityService:GetDatabase( cleaner )
+                local databaseCleaner = EntityService:GetOrCreateDatabase( cleaner )
 
                 databaseCleaner:SetInt( "step_start", database:GetInt("step_start") )
 

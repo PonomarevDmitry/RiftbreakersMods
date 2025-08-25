@@ -23,7 +23,7 @@ function portal_builder_tool:OnInit()
 
     self:RegisterHandler( self.selector, "RotateSelectorRequest",   "OnRotateSelectorRequest" )
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     EntityService:SetVisible( self.entity, false )
     EntityService:SetScale( self.entity, 2, 1, 2 )
@@ -523,7 +523,7 @@ function portal_builder_tool:OnRotateSelectorRequest(evt)
 
         self.currentSize = newValue
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNameSize, newValue)
 
         self.sizeChanged = true
@@ -549,7 +549,7 @@ function portal_builder_tool:OnRotateSelectorRequest(evt)
 
         self.currentDirection = newIndex
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
         selectorDB:SetInt(self.configNameDirection, newIndex)
     end
 

@@ -38,21 +38,24 @@ function lamp_tool_sell:AddedToSelection( entity )
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
 
-    local isSkinned = EntityService:IsSkinned( entity )
-
     if ( buildingComponentHelper.m_isSellable == true ) then
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
+
     else
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected" )
+        self:SetEntitySelectedMaterial( entity, "hologram/red" )
+    end
+end
+
+function lamp_tool_sell:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end
@@ -82,7 +85,7 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
                 goto continue
             end
 
-            local database = EntityService:GetDatabase( ruinEntity )
+            local database = EntityService:GetOrCreateDatabase( ruinEntity )
             if ( database == nil ) then
                 goto continue
             end
@@ -110,11 +113,7 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
 
             if ( IndexOf( self.selectedEntities, entity ) == nil ) then
 
-                if ( EntityService:IsSkinned(entity ) ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-                end
+                self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
                 if ( self.activated ) then
                     self:OnActivateEntity( entity )
@@ -127,7 +126,8 @@ function lamp_tool_sell:FindEntitiesToSelect( selectorComponent )
 
     for entity in Iter( self.selectedEntities ) do
         if ( IndexOf( ruins, entity ) == nil and IndexOf( selectedItems, entity ) == nil ) then
-            EntityService:RemoveMaterial( entity, "selected" )
+
+            self:RemovedFromSelection( entity )
         end
     end
 
@@ -167,6 +167,10 @@ end
 
 function lamp_tool_sell:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function lamp_tool_sell:OnUpdate()
@@ -235,7 +239,7 @@ function lamp_tool_sell:OnActivateEntity( entity )
 
                         local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                        local database = EntityService:GetDatabase( placeRuinScript )
+                        local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                         database:SetInt( "player_id", self.playerId )
                         database:SetInt( "target_entity", entity )
@@ -267,19 +271,14 @@ function lamp_tool_sell:HighlightRuins()
             goto continue
         end
 
-        EntityService:RemoveMaterial( ruinEntity, "selected" )
+        self:RemovedFromSelection( ruinEntity )
 
         ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -303,7 +302,7 @@ function lamp_tool_sell:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end
@@ -336,7 +335,8 @@ function lamp_tool_sell:OnRelease()
     if ( self.previousMarkedRuins ~= nil) then
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
+
+            self:RemovedFromSelection( ruinEntity )
         end
     end
     self.previousMarkedRuins = {}

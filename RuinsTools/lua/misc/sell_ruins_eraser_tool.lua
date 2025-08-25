@@ -18,17 +18,16 @@ function sell_ruins_eraser_tool:SpawnCornerBlueprint()
 end
 
 function sell_ruins_eraser_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned( entity )
 
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/active" )
 end
 
 function sell_ruins_eraser_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_ruins_eraser_tool:FindEntitiesToSelect( selectorComponent )

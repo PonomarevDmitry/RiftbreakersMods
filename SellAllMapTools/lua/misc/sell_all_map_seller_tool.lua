@@ -234,7 +234,7 @@ function sell_all_map_seller_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -366,6 +366,10 @@ end
 
 function sell_all_map_seller_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_all_map_seller_tool:OnUpdate()
@@ -395,13 +399,7 @@ function sell_all_map_seller_tool:OnUpdate()
 
         if ( EntityService:HasComponent(entity, "IsVisibleComponent") ) then
 
-            local skinned = EntityService:IsSkinned(entity)
-
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
         end
 
         local list = BuildingService:GetSellResourceAmount( entity )
@@ -627,7 +625,7 @@ function sell_all_map_seller_tool:OnActivateSelectorRequest()
 
                         local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                        local database = EntityService:GetDatabase( placeRuinScript )
+                        local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                         database:SetInt( "player_id", self.playerId )
                         database:SetInt( "target_entity", entity )
@@ -648,7 +646,7 @@ function sell_all_map_seller_tool:OnActivateSelectorRequest()
 
             local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_all_map_seller_tool/script", position, team )
 
-            local database = EntityService:GetDatabase( buildAfterSellScript )
+            local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
             database:SetInt( "target_entity", entity )
             database:SetInt( "player_id", self.playerId )
@@ -666,7 +664,7 @@ function sell_all_map_seller_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName )
 
@@ -697,7 +695,7 @@ function sell_all_map_seller_tool:FillLastBuildingsList(defaultModesArray, modeB
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

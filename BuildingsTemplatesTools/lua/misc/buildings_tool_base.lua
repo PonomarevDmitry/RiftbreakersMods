@@ -24,7 +24,7 @@ end
 
 function buildings_tool_base:HideMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetString("message_text", "")
     markerDB:SetInt("menu_visible", 0)
@@ -812,6 +812,30 @@ function buildings_tool_base:GetUnlockedOrMaxAvailableLevel( blueprintName, unlo
     local firstLevelBlueprintName = self:GetFirstLevelBuilding(blueprintName)
 
     return self:GetMaxAvailableLevel(firstLevelBlueprintName)
+end
+
+function buildings_tool_base:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
+end
+
+function buildings_tool_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
 end
 
 return buildings_tool_base

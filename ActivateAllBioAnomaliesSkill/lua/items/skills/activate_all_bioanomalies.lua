@@ -83,7 +83,7 @@ function activate_all_bioanomalies:OnActivate()
                     minimapItemComponentRef.unknown_until_visible = false
                 end
 
-                local databaseEntity = EntityService:GetDatabase( entity )
+                local databaseEntity = EntityService:GetOrCreateDatabase( entity )
                 if ( databaseEntity ~= nil ) then
                     databaseEntity:SetFloat( "harvest_duration", 2.5 )
                 end
@@ -103,7 +103,7 @@ function activate_all_bioanomalies:OnActivate()
 
                 local lootContainerDelayer = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.owner, "" )
 
-                local dbLootContainerDelayer = EntityService:GetDatabase( lootContainerDelayer )
+                local dbLootContainerDelayer = EntityService:GetOrCreateDatabase( lootContainerDelayer )
                 dbLootContainerDelayer:SetFloat( "delay", 0.2 )
                 dbLootContainerDelayer:SetFloat( "aggressive_radius", 100 )
             end

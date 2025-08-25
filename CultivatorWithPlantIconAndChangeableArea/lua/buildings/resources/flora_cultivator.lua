@@ -38,13 +38,13 @@ function flora_cultivator:OnInit()
 
     if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( self.entity )
+        local database = EntityService:GetOrCreateDatabase( self.entity )
         if ( database ~= nil ) then
             local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
             database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
         end
 
-        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetOrCreateDatabase( modItem )
         if ( db and db:HasString("plant_prefab") ) then
 
             local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
@@ -107,6 +107,9 @@ function flora_cultivator:OnLoad()
                 ItemService:EquipItemInSlot( self.entity, self.default_item, "MOD_1" )
                 self:PopulateSpecialActionInfo()
             end
+
+            local sapling_item = EntityService:GetBlueprintName( self.item )
+            self.data:SetString("sapling_item", sapling_item)
         end
     end
 
@@ -123,13 +126,13 @@ function flora_cultivator:OnLoad()
 
     if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( self.entity )
+        local database = EntityService:GetOrCreateDatabase( self.entity )
         if ( database ~= nil ) then
             local selfLowName = BuildingService:FindLowUpgrade( EntityService:GetBlueprintName(self.entity) )
             database:SetString(selfLowName .. "_MOD_1", EntityService:GetBlueprintName(modItem))
         end
 
-        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+        local db = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetOrCreateDatabase( modItem )
         if ( db and db:HasString("plant_prefab") ) then
 
             local plant_prefab = db:GetStringOrDefault( "plant_prefab", "" )
@@ -223,7 +226,7 @@ function flora_cultivator:CreateMenuEntity()
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( self.cultivatorSaplingMenu, 0, sizeSelf.y, 0 )
 
-    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.cultivatorSaplingMenu )
     if ( menuDB == nil ) then
         return
     end
@@ -409,7 +412,7 @@ function flora_cultivator:PopulateSpecialActionInfo()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.cultivatorSaplingMenu )
     if ( menuDB == nil ) then
         return
     end
@@ -441,7 +444,7 @@ function flora_cultivator:DroneSpawned(drone)
         drone_spawner_building.DroneSpawned( self, drone )
     end
 
-    local db = EntityService:GetDatabase( drone )
+    local db = EntityService:GetOrCreateDatabase( drone )
     if db ~= nil then
         db:SetString( "plant_blueprint", self.spawn_blueprint or "" )
         db:SetString( "plant_prefab", self.spawn_prefab or "" )
@@ -508,7 +511,7 @@ function flora_cultivator:OnItemEquippedEvent( evt )
 
     local key = selfLowName .. "_" .. slotName
 
-    local database = EntityService:GetDatabase( self.entity )
+    local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, blueprintName)
 
     local playerForEntity = self:GetPlayerForEntity(self.entity)
@@ -517,16 +520,19 @@ function flora_cultivator:OnItemEquippedEvent( evt )
         local selector = PlayerService:GetPlayerSelector( playerForEntity )
 
         if ( selector ~= nil and selector ~= INVALID_ID ) then
-            local selectorDB = EntityService:GetDatabase( selector )
+            local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
             self:AddSaplingToLastList(blueprintName, selectorDB)
         end
     end
 
-    local db = EntityService:GetDatabase( self.item )
+    local db = EntityService:GetOrCreateDatabase( self.item )
     if( db == nil ) then
         return
     end
+
+    local sapling_item = EntityService:GetBlueprintName( self.item )
+    self.data:SetString("sapling_item", sapling_item)
 
     if db:HasString("plant_blueprint") then
         self.spawn_blueprint = db:GetStringOrDefault( "plant_blueprint", "" )
@@ -665,7 +671,7 @@ function flora_cultivator:SetCultivatorSaplingMenuVisible()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( self.cultivatorSaplingMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.cultivatorSaplingMenu )
     if ( menuDB == nil ) then
         return
     end
@@ -1066,20 +1072,13 @@ function flora_cultivator:SetPointEntitySelectedSkin()
 
     self.dronePointSelected = self.dronePointSelected or false
 
-    local isSkinned = EntityService:IsSkinned(self.pointEntity)
-
     if ( self.dronePointSelected ) then
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_pass", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/pass", "selected" )
+        
     else
-        if ( isSkinned ) then
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_skinned_blue", "selected" )
-        else
-            EntityService:SetMaterial( self.pointEntity, "selector/hologram_blue", "selected" )
-        end
+
+        EntityService:SetMaterial( self.pointEntity, "hologram/blue", "selected" )
     end
 end
 
@@ -1254,7 +1253,7 @@ function flora_cultivator:GettingInfoFromBaseToUpgrade(eventEntity)
             goto continue
         end
 
-        local baseDatabase = EntityService:GetDatabase( entity )
+        local baseDatabase = EntityService:GetOrCreateDatabase( entity )
         if ( baseDatabase == nil ) then
             goto continue
         end
@@ -1306,7 +1305,7 @@ function flora_cultivator:GettingInfoFromRuin()
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -1377,7 +1376,7 @@ function flora_cultivator:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end

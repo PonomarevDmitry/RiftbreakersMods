@@ -12,7 +12,7 @@ function repair_all_map_base:InitLowUpgradeList()
 
     self.template_name = self.data:GetString("template_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBuildingBlueprint = selectorDB:GetStringOrDefault( self.template_name, "" ) or ""
 
@@ -403,7 +403,7 @@ function repair_all_map_base:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -414,6 +414,18 @@ function repair_all_map_base:GetBlueprintName( entity )
     blueprintName = blueprintName or ""
 
     return blueprintName
+end
+
+function repair_all_map_base:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
 end
 
 return repair_all_map_base

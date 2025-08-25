@@ -33,7 +33,7 @@ function upgrade_all_map_cat_upgrader_tool:OnInit()
 
     if ( self.categoryTemplate ~= "" ) then
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.selectedCategory = selectorDB:GetStringOrDefault( self.categoryTemplate, "" ) or ""
 
@@ -116,7 +116,7 @@ function upgrade_all_map_cat_upgrader_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -228,8 +228,24 @@ function upgrade_all_map_cat_upgrader_tool:AddedToSelection( entity )
     self:CreateMarkEntity(entity)
 end
 
+function upgrade_all_map_cat_upgrader_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function upgrade_all_map_cat_upgrader_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 
     self:RemoveMarkEntity(entity)
 end
@@ -254,7 +270,6 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
 
 
 
@@ -266,20 +281,12 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
 
         if ( buildingDescRef.limit_name == "hq" ) then
 
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
             goto continue
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
@@ -549,7 +556,7 @@ function upgrade_all_map_cat_upgrader_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.categoryTemplate, category )
 
@@ -574,7 +581,7 @@ function upgrade_all_map_cat_upgrader_tool:FillLastCategoriesList(defaultModesAr
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

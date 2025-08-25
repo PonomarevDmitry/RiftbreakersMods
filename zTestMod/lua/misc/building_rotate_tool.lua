@@ -30,11 +30,18 @@ function building_rotate_tool:AddedToSelection( entity )
 
     if ( IndexOf( self.templateEntities, entity ) == nil ) then
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+        self:SetEntitySelectedMaterial( entity, "hologram/current" )
+    end
+end
+
+function building_rotate_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end
@@ -43,12 +50,7 @@ function building_rotate_tool:OnUpdate()
 
     for entity in Iter( self.templateEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-        end 
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
     end
 end
 
@@ -60,6 +62,10 @@ end
 
 function building_rotate_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 

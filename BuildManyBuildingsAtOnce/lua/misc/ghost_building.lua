@@ -17,7 +17,11 @@ function ghost_building:OnInit()
     local boundsSize = EntityService:GetBoundsSize( self.selector)
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue")
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
+    for child in Iter( self:GetChildren() ) do
+        EntityService:ChangeMaterial( child, "hologram/blue" )
+    end
+
     local transform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, transform )
     self:RegisterHandler( INVALID_ID, "StartBuildingEvent", "OnBuildingStartEvent" )
@@ -70,7 +74,7 @@ function ghost_building:OnInit()
 
         self.configNameCellGaps = "$" .. typeName .. "s_" .. lowName .. "_construction_cell_count"
 
-        local selectorDB = EntityService:GetDatabase( self.selector )
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
         self.cellGapsCount = selectorDB:GetIntOrDefault(self.configNameCellGaps, 0)
         self.cellGapsCount = self:CheckConfigExists(self.cellGapsCount)
@@ -139,6 +143,8 @@ function ghost_building:OnUpdate()
 
             -- Create new marker
             self.currentMarkerGaps = EntityService:SpawnAndAttachEntity( markerBlueprint, self.selector )
+
+            EntityService:CreateComponent(self.currentMarkerGaps, "EffectReferenceComponent")
 
             EntityService:SetPosition( self.currentMarkerGaps, 0, 0, -2 )
 
@@ -380,7 +386,7 @@ function ghost_building:UpdateBuildingCount( totalBuildings, countBuildable )
         return
     end
 
-    local markerDB = EntityService:GetDatabase( self.currentMarkerBuildingCount )
+    local markerDB = EntityService:GetOrCreateDatabase( self.currentMarkerBuildingCount )
 
     if ( markerDB == nil ) then
         return
@@ -619,9 +625,21 @@ function ghost_building:CreateNewEntity(newPosition, orientation, team)
     EntityService:RemoveComponent( result, "LuaComponent" )
     EntityService:SetOrientation( result, orientation )
 
-    EntityService:ChangeMaterial( result, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( result, "hologram/blue" )
 
     return result
+end
+
+function ghost_building:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function ghost_building:FindPositionsToBuildLine(buildStartPosition, buildEndPosition, cellGapsCount)
@@ -703,16 +721,22 @@ function ghost_building:AddToEntitiesToSellList(testBuildable)
 
             if ( IndexOf( self.oldBuildingsToSell, entityToSell ) == nil ) then
 
-                local skinned = EntityService:IsSkinned(entityToSell)
-
-                if ( skinned ) then
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entityToSell, "selector/hologram_active", "selected")
-                end
+                self:SetEntitySelectedMaterial( entityToSell, "hologram/active" )
 
                 Insert(self.oldBuildingsToSell, entityToSell)
             end
+        end
+    end
+end
+
+function ghost_building:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
         end
     end
 end
@@ -766,12 +790,12 @@ function ghost_building:BuildEntity(entity, idCheckBuildable)
     local buildingComponent = reflection_helper( EntityService:GetComponent( entity, "BuildingComponent" ) )
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true, {} )
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
         for entityToSell in Iter(testBuildable.entities_to_sell) do
             QueueEvent( "SellBuildingRequest", entityToSell, self.playerId, false )
         end
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, true, {} )
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
         QueueEvent( "ScheduleRepairBuildingRequest", testBuildable.entity_to_repair, self.playerId )
@@ -843,7 +867,7 @@ function ghost_building:FinishLineBuild()
 
             local builder = EntityService:SpawnEntity( "misc/mass_limited_buildings_builder", self.entity, "" )
 
-            local database = EntityService:GetDatabase( builder )
+            local database = EntityService:GetOrCreateDatabase( builder )
 
             database:SetInt( "playerId", self.playerId )
 
@@ -912,6 +936,10 @@ function ghost_building:RemoveMaterialFromOldBuildingsToSell()
     if ( self.oldBuildingsToSell ~= nil ) then
         for entityToSell in Iter( self.oldBuildingsToSell ) do
             EntityService:RemoveMaterial(entityToSell, "selected" )
+            local children = EntityService:GetChildren( entityToSell, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
 end
@@ -962,7 +990,7 @@ function ghost_building:OnRotateSelectorRequest(evt)
 
     self.cellGapsCount = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:OnUpdate()

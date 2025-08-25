@@ -17,17 +17,18 @@ function liquid_decompressor:OnInit()
     self.attachment = self.data:GetStringOrDefault("attachment", "att_out_1" )
     self.lastResource = ""
 
-    local owner = self.data:GetIntOrDefault( "owner", 0)
-    BuildingService:CheckAndAddAllCompressedresources( owner )
-    BuildingService:ClearDecompressor(self.entity  )
+    BuildingService:ClearDecompressor(self.entity, true)
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipItemRequest", "OnUnequipItemRequest" )
     self.postfix = self.data:GetStringOrDefault( "postfix", "_storage")
     EntityService:SetSubMeshMaterial( self.entity, "resources/resource_empty_fresnel", 1, "default" )
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    self.decompressorVersion = 1
 
-    if ( PlayerService:IsInFighterMode( owner ) ) then
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
+
+    if ( PlayerService:IsInFighterMode( playerId ) ) then
         self.showLiquidIcon = 0
     else
         self.showLiquidIcon = 1
@@ -38,6 +39,11 @@ end
 
 function liquid_decompressor:OnLoad()
     building.OnLoad(self)
+    local version = self.decompressorVersion or 0
+    if ( version < 1) then
+        self:RegisterHandler( self.entity, "UnequipItemRequest", "OnUnequipItemRequest" )
+    end
+    self.decompressorVersion = 1
 
     self.showLiquidIcon = self.showLiquidIcon or 0
     self:registerBuildMenuTracker()
@@ -64,15 +70,15 @@ function liquid_decompressor:CreateMenuEntity()
 
         self.compressorLiquidMenu = EntityService:SpawnAndAttachEntity("misc/compressor_liquid_menu", self.entity)
 
-        local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+        local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
 
         self.showLiquidIcon = self.showLiquidIcon or 1
 
         local visible = 0
 
-        local owner = self.data:GetIntOrDefault( "owner", 0 )
+        local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
+        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
             visible = self.showLiquidIcon
         end
 
@@ -84,7 +90,7 @@ function liquid_decompressor:PopulateSpecialActionInfo()
 
     self:CreateMenuEntity()
 
-    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
 
     if ( self:IsCompressedResourceFilled( menuDB ) ) then
 
@@ -173,19 +179,18 @@ function liquid_decompressor:SetCompressorLiquidMenuVisible()
 
     local visible = 0
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( owner ) ) then
+    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
         visible = self.showLiquidIcon
     end
 
-    local menuDB = EntityService:GetDatabase( self.compressorLiquidMenu )
+    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
     menuDB:SetInt("liquid_visible", visible)
 end
 
-function liquid_decompressor:OnItemEquippedEvent( evt )
+function liquid_decompressor:Refresh()
 
-    self.item = evt:GetItem()
     BuildingService:ReplaceProductionByCompressedItem( self.entity, self.item, self.lastResource, self.attachment, self.production, self.consumption )
     self:UpdateWorkingStatus()
 
@@ -199,6 +204,26 @@ function liquid_decompressor:OnItemEquippedEvent( evt )
         EntityService:SetSubMeshMaterial( self.entity, "resources/resource_" .. self.resource .. self.postfix, 1, "default" )
         EntityService:SetSubMeshMaterial( self.entity, "resources/resource_" .. self.resource .."_fresnel", 1, "fresnel" )
     end
+end
+
+function liquid_decompressor:OnUnequipItemRequest( evt )
+    self.item = INVALID_ID
+    self:Refresh()
+end
+function liquid_decompressor:OnItemEquippedEvent( evt )
+    self.item = evt:GetItem()
+    self:Refresh()
+end
+
+function liquid_decompressor:OnDestroyRequest()
+    building.OnDestroyRequest(self)
+    BuildingService:ClearDecompressor(self.entity, false)
+end
+function liquid_decompressor:OnSellStart()
+    BuildingService:ClearDecompressor(self.entity, false)
+end
+
+function liquid_decompressor:OnRemove()
 end
 
 function liquid_decompressor:OnRelease()

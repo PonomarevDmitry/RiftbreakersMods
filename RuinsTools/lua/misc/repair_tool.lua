@@ -50,6 +50,10 @@ end
 
 function repair_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function repair_tool:FilterSelectedEntities( selectedEntities )
@@ -70,7 +74,7 @@ function repair_tool:FilterSelectedEntities( selectedEntities )
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ent )
+        local database = EntityService:GetOrCreateDatabase( ent )
         if ( database and database:HasInt("number_of_activations")) then
 
             local currentNumberOfActivations =  database:GetInt("number_of_activations")
@@ -99,7 +103,6 @@ function repair_tool:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        local skinned = EntityService:IsSkinned(entity)
         local child = EntityService:GetChildByName( entity, "##repair##" )
         local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
 
@@ -107,7 +110,7 @@ function repair_tool:OnUpdate()
         local ruins = false
         local ruinsBlueprint = ""
         local canRepair = true
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         local toRepair = true
 
         if ( buildingComponent ~= nil ) then
@@ -132,24 +135,19 @@ function repair_tool:OnUpdate()
         elseif ( EntityService:GetGroup( entity ) == "##ruins##" ) then
             if ( database ) then
                 ruinsBlueprint = database:GetString("blueprint")
-                canRepair = BuildingService:CanAffordBuilding( ruinsBlueprint, self.playerId)
+                canRepair = BuildingService:CanBuildBuilding( entity,self.playerId, ruinsBlueprint, 1 )
                 ruins = true
             end
         end
 
         if ( toRepair ) then
             if ( canRepair and ((( BuildingService:CanAffordRepair( entity, self.playerId, -1 ) or ruins ) and not EntityService:IsAlive(child)) ) )  then
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/pass" )
+
             else
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-                end
+
+                self:SetEntitySelectedMaterial( entity, "hologram/deny" )
             end
 
             if ( canRepair and not EntityService:IsAlive(child) ) then
@@ -182,6 +180,18 @@ function repair_tool:OnUpdate()
     end
 end
 
+function repair_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function repair_tool:OnRotate()
 end
 
@@ -189,14 +199,14 @@ function repair_tool:OnActivateEntity( entity )
 
     if ( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
         if ( database ) then
 
             local ruinsBlueprint = database:GetString("blueprint")
 
             local transform = EntityService:GetWorldTransform( entity )
 
-            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true )
+            QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, ruinsBlueprint, transform, true, database )
         end
     else
         local child = EntityService:GetChildByName(entity, "##repair##")

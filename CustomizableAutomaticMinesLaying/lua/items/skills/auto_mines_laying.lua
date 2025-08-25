@@ -110,10 +110,12 @@ function auto_mines_laying:CanActivate()
     end
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
     if ( self.isWorking ) then
+        self:SetCanActivate( true )
         return true
     end
 
@@ -154,6 +156,7 @@ function auto_mines_laying:CanActivate()
 
                 if ( inventoryItemRuntimeDataComponentRef.use_count > 0 ) then
 
+                    self:SetCanActivate( true )
                     return true
                 end
             end
@@ -162,6 +165,7 @@ function auto_mines_laying:CanActivate()
         ::continue::
     end
 
+    self:SetCanActivate( false )
     return false
 end
 

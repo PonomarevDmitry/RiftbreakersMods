@@ -93,7 +93,7 @@ function sell_by_type_picker_tool:UpdateMarker()
         buildingIconVisible = 0
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -109,7 +109,7 @@ function sell_by_type_picker_tool:FillLastBuildingsList(defaultModesArray, modeB
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
@@ -141,16 +141,15 @@ end
 
 function sell_by_type_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
 end
 
 function sell_by_type_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_by_type_picker_tool:FilterSelectedEntities( selectedEntities )
@@ -237,7 +236,7 @@ function sell_by_type_picker_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName or "" )
 

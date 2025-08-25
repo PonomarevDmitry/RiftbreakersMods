@@ -138,7 +138,7 @@ end
 
 function replace_wall_tool:SetWallIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     for i=#self.wallBluprintsArray,1,-1 do
 
@@ -164,8 +164,24 @@ end
 function replace_wall_tool:AddedToSelection( entity )
 end
 
+function replace_wall_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function replace_wall_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_wall_tool:OnUpdate()
@@ -237,11 +253,7 @@ function replace_wall_tool:OnUpdate()
             costValues[resourceCost.first] = costValues[resourceCost.first] - resourceCost.second
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         ::continue::
     end
@@ -471,7 +483,7 @@ function replace_wall_tool:OnActivateEntity( entity )
         transform.orientation = self.randomOrientationArray[RandInt(1,4)]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, wallBlueprintName, transform, true, {} )
 end
 
 return replace_wall_tool

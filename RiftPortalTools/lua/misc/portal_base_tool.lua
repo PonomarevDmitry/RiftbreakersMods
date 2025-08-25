@@ -44,7 +44,7 @@ function portal_base_tool:InitializeValues()
     local boundsSize = EntityService:GetBoundsSize( self.selector )
     self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
-    EntityService:ChangeMaterial( self.entity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( self.entity, "hologram/blue" )
     EntityService:SetVisible( self.entity , false )
 
     self.announcements = {
@@ -67,7 +67,7 @@ function portal_base_tool:InitializeValues()
 
     local configName = "ghost_building_portal_construction_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.portalConstructionConfig = selectorDB:GetStringOrDefault(configName, "none")
     selectorDB:SetString(configName, self.portalConstructionConfig)
@@ -136,7 +136,7 @@ function portal_base_tool:SpawnGhostPortalEntity(position, orientation)
 
     EntityService:SetPosition( buildingEntity, position )
     EntityService:SetOrientation( buildingEntity, orientation )
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     return buildingEntity
 end
@@ -166,37 +166,46 @@ function portal_base_tool:CheckEntityBuildable( entity, transform, id )
     local canBuildOverride = (testBuildable.flag == CBF_OVERRIDES)
     local canBuild = (testBuildable.flag == CBF_CAN_BUILD or testBuildable.flag == CBF_ONE_GRID_FLOOR or testBuildable.flag == CBF_OVERRIDES)
 
-    local skinned = EntityService:IsSkinned(entity)
+    local materialToSet = "hologram/blue"
 
     if ( testBuildable.flag == CBF_REPAIR ) then
         if ( BuildingService:CanAffordRepair( testBuildable.entity_to_repair, self.playerId, -1 )) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_pass")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_pass")
-            end
+
+            materialToSet = "hologram/pass"
+
         else
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_skinned_deny")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_deny")
-            end
+
+            materialToSet = "hologram/deny"
         end
     else
         if ( canBuildOverride ) then
-            if ( skinned ) then
-                EntityService:ChangeMaterial( entity, "selector/hologram_active_skinned")
-            else
-                EntityService:ChangeMaterial( entity, "selector/hologram_active")
-            end
+
+            materialToSet = "hologram/active"
+
         elseif ( canBuild ) then
-            EntityService:ChangeMaterial( entity, "selector/hologram_blue")
+
+            materialToSet = "hologram/blue"
         else
-            EntityService:ChangeMaterial( entity, "selector/hologram_red")
+
+            materialToSet = "hologram/red"
         end
     end
 
+    self:ChangeEntityMaterial( entity, materialToSet )
+
     return testBuildable
+end
+
+function portal_base_tool:ChangeEntityMaterial( entity, material )
+
+    EntityService:ChangeMaterial( entity, material )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:ChangeMaterial( child, material )
+        end
+    end
 end
 
 function portal_base_tool:BuildEntity(entity, transform, createCube)
@@ -234,7 +243,7 @@ function portal_base_tool:BuildEntity(entity, transform, createCube)
 
     if ( testBuildable.flag == CBF_CAN_BUILD ) then
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_OVERRIDES ) then
 
@@ -242,7 +251,7 @@ function portal_base_tool:BuildEntity(entity, transform, createCube)
             QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
         end
 
-        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+        QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
 
     elseif( testBuildable.flag == CBF_REPAIR and testBuildable.entity_to_repair ~= nil and testBuildable.entity_to_repair ~= INVALID_ID ) then
 
@@ -379,7 +388,7 @@ function portal_base_tool:BuildWallEntity(blueprintName, transform, newPosition,
         buildTransform.orientation = self.vectorByDegree[0]
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, blueprintName, buildTransform, false, {} )
 
     if ( buildFloor ) then
 

@@ -69,7 +69,7 @@ function replace_lamp_replacer_tool_script:OnBuildingSellEndEvent()
         return
     end
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, self.transform, false )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, self.transform, false, {} )
 
     self:DestroySelf()
 end

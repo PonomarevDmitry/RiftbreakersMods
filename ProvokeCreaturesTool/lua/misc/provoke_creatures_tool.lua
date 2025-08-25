@@ -19,7 +19,7 @@ function provoke_creatures_tool:OnInit()
 
     self.configName = "$provoke_creatures_tool_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     if ( selectorDB ) then
         self.currentValue = selectorDB:GetIntOrDefault(self.configName, self.currentValue)
     end
@@ -103,7 +103,7 @@ function provoke_creatures_tool:OnRotateSelectorRequest(evt)
 
     self.currentValue = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     if ( selectorDB ) then
         selectorDB:SetInt(self.configName, newValue)
     end
@@ -113,7 +113,7 @@ end
 
 function provoke_creatures_tool:UpdateMarker()    
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
     if ( markerDB ~= nil ) then
         markerDB:SetString("message_text", tostring(self.currentValue))
         markerDB:SetInt("message_visible", 1)

@@ -16,6 +16,10 @@ function base_unit:init()
 	SetupUnitScale( self.entity, self.data )
 
 	self.lastDamageGenericTime = 0
+	self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 5
+	self.wreckMinSpeed = 8
+	self.disallowDeathAnim = ""
 
 	self:RegisterHandler( self.entity, "DestroyRequest",  "_OnDestroyRequest" )
 	self:RegisterHandler( self.entity, "DamageEvent",  "_OnDamageEvent" )
@@ -41,6 +45,37 @@ function base_unit:_OnDamageEvent( evt )
 
 	if self.OnDamageEvent then
 		self:OnDamageEvent(evt)
+	end
+end
+
+function base_unit:CreateNormalExplode()
+	EntityService:RequestDestroyPattern( self.entity, "wreck" )	
+end
+
+function base_unit:_OnDestroyRequest( evt )
+	if self.OnDestroyRequest then
+		self:OnDestroyRequest(evt)
+	end
+
+	local damageType = evt:GetDamageType()
+
+	if ( ( UnitService:IsOnHeightGround( self.entity ) == true ) or ( damageType == 'gravity' ) ) then
+		self:CreateNormalExplode()
+	else
+		local BehaviorRange1 = 0 + self.normalExplodeProbability
+		local BehaviorRange2 = BehaviorRange1 + self.leaveBodyProbability	
+		local probabilitySum = self.normalExplodeProbability + self.leaveBodyProbability    
+		local behaviorNumber = RandInt( 0, probabilitySum )
+
+		--LogService:Log( "base_unit : " .. tostring( self.normalExplodeProbability) .. " " .. tostring( self.leaveBodyProbability ) ) 
+
+		UnitService:SetRandomDeathAnimation( self.entity, self.wreckMinSpeed, "death", self.disallowDeathAnim )
+
+		if ( behaviorNumber >= 0 and behaviorNumber <= BehaviorRange1 and BehaviorRange1 > 0 ) then
+			self:CreateNormalExplode()
+		elseif (behaviorNumber > BehaviorRange1 or BehaviorRange1 == 0) and behaviorNumber <= BehaviorRange2  then
+			EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(), self.wreck_type, self.wreckMinSpeed )
+		end	
 	end
 end
 
@@ -146,7 +181,7 @@ end
 
 function base_unit:SetMenuValues(menuEntity, vulnerabilities)
 
-	local menuDB = EntityService:GetDatabase( menuEntity )
+	local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
 	if ( menuDB == nil ) then
 		return
 	end
@@ -294,6 +329,15 @@ function base_unit:OnLoad()
 		end
 
 		self.soundFSM = nil
+	end
+	
+	if ( self.normalExplodeProbability == nil ) or ( self.leaveBodyProbability == nil ) then
+		self.normalExplodeProbability = 1
+		self.leaveBodyProbability = 0
+	end
+
+	if ( self.disallowDeathAnim == nil ) then
+		self.disallowDeathAnim = ""
 	end
 	
 	self.baseUnitVersion = CURRENT_BASE_UNIT_VERSION

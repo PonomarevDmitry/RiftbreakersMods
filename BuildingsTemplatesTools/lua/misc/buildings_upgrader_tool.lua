@@ -118,7 +118,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     self:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
@@ -263,7 +263,7 @@ function buildings_upgrader_tool:OnRotateSelectorRequest(evt)
 
     self.selectedTemplate = newValue
 
-    --local selectorDB = EntityService:GetDatabase( self.selector )
+    --local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     --selectorDB:SetInt(self.configNameCellGaps, newValue)
 
     self:UpdateMarker()

@@ -19,9 +19,9 @@ function artificial_spawner:OnInit()
 
     self:CreateMenuEntity()
 
-    local owner = self.data:GetIntOrDefault( "owner", 0 )
+    local playerId = PlayerService:GetPlayerForEntity( self.entity )
 
-    if ( PlayerService:IsInFighterMode( owner ) ) then
+    if ( PlayerService:IsInFighterMode( playerId ) ) then
         self.showMenu = 0
     else
         self.showMenu = 1
@@ -93,7 +93,7 @@ function artificial_spawner:SpawnWaveLogicFiles( waveLogic, waveLogicMul, spawnD
 
                 local pathCleaner = EntityService:SpawnEntity( "misc/path_cleaner", self.entity, "" )
 
-                local db = EntityService:GetDatabase( pathCleaner )
+                local db = EntityService:GetOrCreateDatabase( pathCleaner )
                 db:SetString( "to_entity", tostring( point ) )
                 db:SetString( "from_entity", tostring( self.entity ) )
 
@@ -166,7 +166,7 @@ function artificial_spawner:SpawnWaves()
 
     if ( delay > 0) then
         local entity = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.entity, "")
-        local db = EntityService:GetDatabase( entity )
+        local db = EntityService:GetOrCreateDatabase( entity )
         db:SetFloat( "delay", delay )
         db:SetFloat( "aggressive_radius", aggressiveRadius )
     end
@@ -188,7 +188,7 @@ function artificial_spawner:OnItemEquippedEvent( evt )
 
     local key = selfLowName .. "_" .. slotName
 
-    local database = EntityService:GetDatabase( self.entity )
+    local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, itemBlueprintName)
 
     self:PopulateSpecialActionInfo()
@@ -203,7 +203,7 @@ function artificial_spawner:OnItemUnequippedEvent( evt )
 
     local key = selfLowName .. "_" .. slotName
 
-    local database = EntityService:GetDatabase( self.entity )
+    local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, "")
 
     self:PopulateSpecialActionInfo()
@@ -226,7 +226,7 @@ function artificial_spawner:GetWavesTemplatesArray()
             local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
             if ( modItem ~= nil and modItem ~= INVALID_ID ) then
 
-                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetDatabase( modItem )
+                local blueprintDatabase = EntityService:GetBlueprintDatabase( modItem ) or EntityService:GetOrCreateDatabase( modItem )
 
                 if ( blueprintDatabase and blueprintDatabase:HasString("spawner_blueprint") ) then
 
@@ -355,7 +355,7 @@ function artificial_spawner:SetMenuVisible(menuEntity)
         visible = self.showMenu
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", visible)
     end
@@ -417,7 +417,7 @@ function artificial_spawner:CreateMenuEntity()
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y + 3, 0 )
 
-    local menuDB = EntityService:GetDatabase( self.menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( self.menuEntity )
     if ( menuDB ) then
         menuDB:SetInt("menu_visible", 0)
     end
@@ -430,7 +430,7 @@ function artificial_spawner:PopulateSpecialActionInfo()
         return
     end
 
-    local menuDB = EntityService:GetDatabase( menuEntity )
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
     if ( menuDB == nil ) then
         return
     end
@@ -556,7 +556,7 @@ function artificial_spawner:GettingInfoFromRuin()
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end
@@ -637,7 +637,7 @@ function artificial_spawner:OnBuildingRemovedEventTrasferingInfoToRuin(evt)
             goto continue
         end
 
-        local ruinDatabase = EntityService:GetDatabase( ruinEntity )
+        local ruinDatabase = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( ruinDatabase == nil ) then
             goto continue
         end

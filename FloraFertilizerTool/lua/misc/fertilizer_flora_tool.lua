@@ -70,16 +70,22 @@ end
 
 function fertilizer_flora_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
+    EntityService:SetMaterial( entity, "hologram/active", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/active", "selected" )
+        end
     end
 end
 
 function fertilizer_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function fertilizer_flora_tool:OnRotate()

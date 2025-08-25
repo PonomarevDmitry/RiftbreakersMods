@@ -29,7 +29,7 @@ function pipe_pencil_tool:OnInit()
 
     self.configNamePipesCount = "$pencil_pipe_lines_count"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     -- Pipe layers config
     self.pipeLinesCount = selectorDB:GetIntOrDefault(self.configNamePipesCount, 1)
@@ -224,7 +224,7 @@ function pipe_pencil_tool:AdjustEdgeList(list, newPositions, degreeCorner, degre
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             EntityService:Rotate( lineEnt, 0.0, 1.0, 0.0, degree )
@@ -264,7 +264,7 @@ function pipe_pencil_tool:AdjustList(list, newPositions)
 
             EntityService:RemoveComponent( lineEnt, "LuaComponent" )
             EntityService:RemoveComponent( lineEnt, "GhostLineCreatorComponent" )
-            EntityService:ChangeMaterial( lineEnt, "selector/hologram_blue" )
+            self:ChangeEntityMaterial( lineEnt, "hologram/blue" )
             EntityService:SetPosition( lineEnt, newPositions[i] )
 
             Insert( list, lineEnt )
@@ -451,7 +451,7 @@ function pipe_pencil_tool:BuildSingleNeighbors(entity, entityTransform)
         buildTransform.orientation = entityTransform.orientation
         buildTransform.scale = {x=1,y=1,z=1}
 
-        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false )
+        QueueEvent( "BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, buildTransform, false, {} )
     end
 end
 
@@ -494,7 +494,7 @@ function pipe_pencil_tool:OnRotateSelectorRequest(evt)
     self.pipeLinesCount = newValue
 
     -- Pipe layers config
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNamePipesCount, newValue)
 
     self:SpawnGhostEntities()

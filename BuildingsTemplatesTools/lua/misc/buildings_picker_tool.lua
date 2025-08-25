@@ -43,7 +43,7 @@ end
 
 function buildings_picker_tool:FillMarkerMessage()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
@@ -85,6 +85,10 @@ end
 
 function buildings_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function buildings_picker_tool:OnUpdate()
@@ -103,12 +107,8 @@ function buildings_picker_tool:OnUpdate()
 
         firstEntity = self.templateEntities[1]
 
-        local skinned = EntityService:IsSkinned(firstEntity)
-        if ( skinned ) then
-            EntityService:SetMaterial( firstEntity, "selector/hologram_current_skinned", "selected")
-        else
-            EntityService:SetMaterial( firstEntity, "selector/hologram_current", "selected")
-        end
+
+        self:SetEntitySelectedMaterial( firstEntity, "hologram/current" )
 
         if ( #self.templateEntities > 1 ) then
 
@@ -116,19 +116,12 @@ function buildings_picker_tool:OnUpdate()
 
                 local entity = self.templateEntities[i]
 
-                local skinned = EntityService:IsSkinned(entity)
-                if ( skinned ) then
-                    EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-                else
-                    EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-                end
+                self:SetEntitySelectedMaterial( entity, "hologram/active" )
             end
         end
     end
 
     for entity in Iter( self.selectedEntities ) do
-
-        local skinned = EntityService:IsSkinned(entity)
 
         local isInList = ( IndexOf( self.templateEntities, entity ) ~= nil )
 
@@ -139,20 +132,12 @@ function buildings_picker_tool:OnUpdate()
                 if ( self.activated == false ) then
 
                     -- Mark candidate to remove from template
-                    if ( skinned ) then
-                        EntityService:SetMaterial( entity, "selector/hologram_skinned_deny", "selected")
-                    else
-                        EntityService:SetMaterial( entity, "selector/hologram_deny", "selected")
-                    end
+                    self:SetEntitySelectedMaterial( entity, "hologram/deny" )
                 end
             end
         else
             -- Mark candidate to add to template
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/pass" )
         end
     end
 end
@@ -239,18 +224,17 @@ function buildings_picker_tool:HighlightRuins()
         end
 
         EntityService:RemoveMaterial( ruinEntity, "selected" )
+        local children = EntityService:GetChildren( ruinEntity, true )
+        for child in Iter( children ) do
+            EntityService:RemoveMaterial( child, "selected" )
+        end
 
         ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -278,7 +262,7 @@ function buildings_picker_tool:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end
@@ -362,7 +346,7 @@ function buildings_picker_tool:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -632,7 +616,7 @@ end
 
 function buildings_picker_tool:GetDatabaseInfo(entity)
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database == nil ) then
         return ""
     end
@@ -715,6 +699,10 @@ function buildings_picker_tool:OnRelease()
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
             EntityService:RemoveMaterial( ruinEntity, "selected" )
+            local children = EntityService:GetChildren( ruinEntity, true )
+            for child in Iter( children ) do
+                EntityService:RemoveMaterial( child, "selected" )
+            end
         end
     end
     self.previousMarkedRuins = {}

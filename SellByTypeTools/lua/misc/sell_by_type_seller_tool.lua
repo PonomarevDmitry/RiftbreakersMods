@@ -24,7 +24,7 @@ function sell_by_type_seller_tool:OnInit()
 
     self:InitLowUpgradeList()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", 1)
 
@@ -103,16 +103,15 @@ end
 
 function sell_by_type_seller_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/active" )
 end
 
 function sell_by_type_seller_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_by_type_seller_tool:FilterSelectedEntities( selectedEntities )
@@ -208,12 +207,7 @@ function sell_by_type_seller_tool:OnUpdate()
 
     for entity in Iter( sellableBuildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
     end
 
     self.previousMarkedBuildings = sellableBuildinsList
@@ -314,7 +308,7 @@ function sell_by_type_seller_tool:OnActivateEntity( entity )
 
                     local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                    local database = EntityService:GetDatabase( placeRuinScript )
+                    local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                     database:SetInt( "player_id", self.playerId )
                     database:SetInt( "target_entity", entity )

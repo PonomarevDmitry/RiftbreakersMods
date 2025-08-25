@@ -31,7 +31,7 @@ function repair_all_map_cat_picker_tool:OnInit()
 
     self.category_name = self.data:GetString("category_name")
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedCategory = selectorDB:GetStringOrDefault( self.category_name, "" ) or ""
 
@@ -63,7 +63,7 @@ end
 
 function repair_all_map_cat_picker_tool:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.selectedMode >= self.modeSelectLast ) then
 
@@ -102,16 +102,27 @@ end
 
 function repair_all_map_cat_picker_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected" )
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected" )
+    self:SetEntitySelectedMaterial( entity, "hologram/current" )
+end
+
+function repair_all_map_cat_picker_tool:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
     end
 end
 
 function repair_all_map_cat_picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function repair_all_map_cat_picker_tool:FindEntitiesToSelect( selectorComponent )
@@ -192,7 +203,7 @@ function repair_all_map_cat_picker_tool:GetBlueprintName( entity )
 
     if( EntityService:GetGroup( entity ) == "##ruins##" ) then
 
-        local database = EntityService:GetDatabase( entity )
+        local database = EntityService:GetOrCreateDatabase( entity )
 
         if ( database and database:HasString("blueprint") ) then
 
@@ -258,7 +269,7 @@ function repair_all_map_cat_picker_tool:ChangeSelector(category)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.category_name, category )
 
@@ -302,7 +313,7 @@ function repair_all_map_cat_picker_tool:FillLastCategoriesList(defaultModesArray
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 
@@ -390,19 +401,14 @@ function repair_all_map_cat_picker_tool:HighlightRuins()
             goto continue
         end
 
-        EntityService:RemoveMaterial( ruinEntity, "selected" )
+        self:RemovedFromSelection( ruinEntity )
 
         ::continue::
     end
 
     for ruinEntity in Iter( ruinsList ) do
 
-        local skinned = EntityService:IsSkinned( ruinEntity )
-        if ( skinned ) then
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey_skinned", "selected")
-        else
-            EntityService:SetMaterial( ruinEntity, "selector/hologram_grey", "selected")
-        end
+        self:SetEntitySelectedMaterial( ruinEntity, "hologram/grey" )
     end
 
     self.previousMarkedRuins = ruinsList
@@ -426,7 +432,7 @@ function repair_all_map_cat_picker_tool:FindBuildingRuins()
             goto continue
         end
 
-        local database = EntityService:GetDatabase( ruinEntity )
+        local database = EntityService:GetOrCreateDatabase( ruinEntity )
         if ( database == nil ) then
             goto continue
         end
@@ -454,7 +460,8 @@ function repair_all_map_cat_picker_tool:OnRelease()
     if ( self.previousMarkedRuins ~= nil) then
 
         for ruinEntity in Iter( self.previousMarkedRuins ) do
-            EntityService:RemoveMaterial( ruinEntity, "selected" )
+
+            self:RemovedFromSelection( ruinEntity )
         end
     end
     self.previousMarkedRuins = {}

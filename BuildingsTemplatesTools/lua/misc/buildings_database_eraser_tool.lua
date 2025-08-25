@@ -124,7 +124,7 @@ function buildings_database_eraser_tool:FillMarkerMessage()
 
     self:UpdateMarker()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.persistentDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
@@ -375,7 +375,7 @@ function buildings_database_eraser_tool:CreateSingleBuildingTemplate( blueprintN
     EntityService:SetPosition( buildingEntity, newPosition )
     EntityService:SetOrientation( buildingEntity, orientation )
 
-    EntityService:ChangeMaterial( buildingEntity, "selector/hologram_blue" )
+    self:ChangeEntityMaterial( buildingEntity, "hologram/blue" )
 
     buildingTemplate.entity = buildingEntity
 

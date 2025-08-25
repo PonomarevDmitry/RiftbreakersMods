@@ -29,7 +29,7 @@ function sell_depleted:OnInit()
 
     self.configName = "$sell_depleted_config"
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.replaceWithConnectors = (selectorDB:GetIntOrDefault(self.configName, 0) == 1)
 
@@ -49,8 +49,24 @@ end
 function sell_depleted:AddedToSelection( entity )
 end
 
+function sell_depleted:SetEntitySelectedMaterial( entity, material )
+
+    EntityService:SetMaterial( entity, material, "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, material, "selected" )
+        end
+    end
+end
+
 function sell_depleted:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_depleted:OnUpdate()
@@ -61,11 +77,7 @@ function sell_depleted:OnUpdate()
 
     for entity in Iter( self.selectedEntities ) do
 
-        if ( EntityService:IsSkinned( entity ) ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
         local list = BuildingService:GetSellResourceAmount( entity )
 
@@ -239,7 +251,7 @@ function sell_depleted:OnActivateSelectorRequest()
 
             local buildAfterSellScript = EntityService:SpawnEntity( "buildings/tools/sell_depleted/script", position, team )
 
-            local database = EntityService:GetDatabase( buildAfterSellScript )
+            local database = EntityService:GetOrCreateDatabase( buildAfterSellScript )
 
             database:SetInt( "target_entity", entity )
             database:SetInt( "player_id", self.playerId )
@@ -292,7 +304,7 @@ function sell_depleted:OnRotateSelectorRequest(evt)
     if ( newValue ) then
         savedValue = 1;
     end
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configName, savedValue)
 
     self:UpdateMarker()

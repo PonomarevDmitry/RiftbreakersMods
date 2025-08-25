@@ -70,7 +70,7 @@ function customizable_movement_skill_panel:OnOperateActionMenuEvent()
         return
     end
 
-    local database = EntityService:GetDatabase( movementSkillItem )
+    local database = EntityService:GetOrCreateDatabase( movementSkillItem )
     if ( database == nil ) then
         return
     end
@@ -144,7 +144,7 @@ function customizable_movement_skill_panel:OnItemEquippedEvent( evt )
 
     if ( movementSkillItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( movementSkillItem )
+        local database = EntityService:GetOrCreateDatabase( movementSkillItem )
 
         if ( database ~= nil ) then
 
@@ -179,7 +179,7 @@ function customizable_movement_skill_panel:OnItemUnequippedEvent( evt )
 
     if ( movementSkillItem ~= INVALID_ID ) then
 
-        local database = EntityService:GetDatabase( movementSkillItem )
+        local database = EntityService:GetOrCreateDatabase( movementSkillItem )
 
         if ( database ~= nil ) then
 

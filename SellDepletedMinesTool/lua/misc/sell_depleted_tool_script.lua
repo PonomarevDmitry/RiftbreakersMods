@@ -95,7 +95,7 @@ function sell_depleted_tool_script:OnBuildingSellEndEvent()
 
             if ( self:AddToHash(hashPositions, newTransform.position.x, newTransform.position.z) ) then
 
-                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false )
+                QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.newBuildingBlueprintName, newTransform, false, {} )
             end
         end
     end

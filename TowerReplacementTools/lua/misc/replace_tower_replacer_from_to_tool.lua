@@ -20,7 +20,7 @@ function replace_tower_replacer_from_to_tool:OnInit()
 
     self.template_name_to = self.data:GetStringOrDefault("template_name_to", "") or ""
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.fromBlueprintName = selectorDB:GetStringOrDefault( self.template_name_from, "" ) or ""
 
@@ -142,7 +142,7 @@ end
 
 function replace_tower_replacer_from_to_tool:SetBuildingIcon()
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     if ( self.fromBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.fromBlueprintName ) ) then
 
@@ -187,16 +187,15 @@ end
 
 function replace_tower_replacer_from_to_tool:AddedToSelection( entity )
 
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_pass", "selected")
-    end
+    self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 end
 
 function replace_tower_replacer_from_to_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function replace_tower_replacer_from_to_tool:FilterSelectedEntities( selectedEntities )
@@ -289,12 +288,7 @@ function replace_tower_replacer_from_to_tool:OnUpdate()
 
     for entity in Iter( buildinsList ) do
 
-        local skinned = EntityService:IsSkinned( entity )
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
     end
 
     self.previousMarkedBuildings = buildinsList
@@ -436,7 +430,7 @@ function replace_tower_replacer_from_to_tool:OnActivateEntity( entity )
 
     local transform = EntityService:GetWorldTransform( entity )
 
-    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, towerBlueprintName, transform, true )
+    QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, towerBlueprintName, transform, true, {} )
 end
 
 function replace_tower_replacer_from_to_tool:GetTowerBlueprintByLevel( level )

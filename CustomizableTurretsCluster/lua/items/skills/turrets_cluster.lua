@@ -57,7 +57,9 @@ function turrets_cluster:OnActivate()
     local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
     local unlimitedAmmo = ConsoleService:GetConfig("cheat_unlimited_ammo") == "1"
 
-    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
+    local playerId = PlayerService:GetPlayerForEntity(self.owner)
+
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "", playerId )
     if ( pos.first == false ) then
         return
     end
@@ -136,7 +138,7 @@ function turrets_cluster:OnActivate()
                 goto continueSlot
             end
 
-            local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position )
+            local tower = PlayerService:BuildBuildingAtSpot( turretBlueprint, position, playerId )
             ItemService:SetItemCreator( tower, self.entity_blueprint )
             EntityService:PropagateEntityOwner( tower, self.owner )
             EntityService:DissolveEntity( tower, 1.0, timeout )
@@ -163,11 +165,15 @@ function turrets_cluster:CanActivate()
     end
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
-    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "")
+    local playerId = PlayerService:GetPlayerForEntity(self.owner)
+
+    local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, "items/consumables/sentry_gun", "", "", playerId )
     if ( pos.first == false ) then
+        self:SetCanActivate( false )
         return false
     end
 
@@ -208,6 +214,7 @@ function turrets_cluster:CanActivate()
 
                 if ( inventoryItemRuntimeDataComponentRef.use_count > 0 ) then
 
+                    self:SetCanActivate( true )
                     return true
                 end
             end
@@ -216,6 +223,7 @@ function turrets_cluster:CanActivate()
         ::continue::
     end
 
+    self:SetCanActivate( false )
     return false
 end
 

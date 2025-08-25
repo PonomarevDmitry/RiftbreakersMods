@@ -120,7 +120,7 @@ function upgrade_all_map_upgrader_tool:UpdateMarker()
         self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
     end
 
-    local markerDB = EntityService:GetDatabase( self.childEntity )
+    local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
     markerDB:SetInt("menu_visible", buildingIconVisible)
     markerDB:SetString("building_icon", buildingIcon)
@@ -258,6 +258,10 @@ end
 
 function upgrade_all_map_upgrader_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 
     self:RemoveMarkEntity(entity)
 end
@@ -282,7 +286,6 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
             goto continue
         end
 
-        local skinned = EntityService:IsSkinned(entity)
 
 
 
@@ -294,20 +297,12 @@ function upgrade_all_map_upgrader_tool:OnUpdate()
 
         if ( buildingDescRef.limit_name == "hq" ) then
 
-            if ( skinned ) then
-                EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected")
-            else
-                EntityService:SetMaterial( entity, "selector/hologram_active", "selected")
-            end
+            self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
             goto continue
         end
 
-        if ( skinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_skinned_pass", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_pass", "selected" )
-        end
+        self:SetEntitySelectedMaterial( entity, "hologram/pass" )
 
         local list = BuildingService:GetUpgradeCosts( entity, self.playerId )
         for resourceCost in Iter(list) do
@@ -550,7 +545,7 @@ function upgrade_all_map_upgrader_tool:ChangeSelector(blueprintName)
         return false
     end
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     selectorDB:SetString( self.template_name, blueprintName )
 
@@ -579,7 +574,7 @@ function upgrade_all_map_upgrader_tool:FillLastBuildingsList(defaultModesArray, 
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = EntityService:GetDatabase( selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( selector )
 
     self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
 

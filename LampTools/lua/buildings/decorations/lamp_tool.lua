@@ -23,7 +23,7 @@ function lamp_tool:OnInit()
     self.defaultRadius = 6
     self.maxRadius = 40
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.currentSize = selectorDB:GetIntOrDefault(self.configNameSize, self.defaultRadius)
     self.currentSize = self:CheckSizeExists(self.currentSize)
@@ -416,7 +416,7 @@ function lamp_tool:OnRotateSelectorRequest(evt)
 
     self.currentSize = newValue
 
-    local selectorDB = EntityService:GetDatabase( self.selector )
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
     selectorDB:SetInt(self.configNameSize, newValue)
 
     self:SpawnGhostLampEntities()

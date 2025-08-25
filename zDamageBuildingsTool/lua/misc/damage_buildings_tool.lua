@@ -18,16 +18,23 @@ function damage_buildings_tool:SpawnCornerBlueprint()
 end
 
 function damage_buildings_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+
+    EntityService:SetMaterial( entity, "hologram/current", "selected" )
+
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected" )
+        end
     end
 end
 
 function damage_buildings_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function damage_buildings_tool:OnRotate()
@@ -40,7 +47,7 @@ function damage_buildings_tool:OnActivateEntity( entity )
     QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
 
 
-    local database = EntityService:GetDatabase( entity )
+    local database = EntityService:GetOrCreateDatabase( entity )
     if ( database and database:HasInt("number_of_activations")) then
 
         local currentNumberOfActivations =  database:GetInt("number_of_activations")

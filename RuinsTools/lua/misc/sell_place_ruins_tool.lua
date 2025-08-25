@@ -30,27 +30,22 @@ function sell_place_ruins_tool:AddedToSelection( entity )
 
     local buildingComponentHelper = reflection_helper(buildingComponent)
 
-    local isSkinned = EntityService:IsSkinned( entity )
-
     if ( buildingComponentHelper.m_isSellable == true ) then
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_active_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_active", "selected" )
-        end
-    else
+        self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
-        if ( isSkinned ) then
-            EntityService:SetMaterial( entity, "selector/hologram_red_skinned", "selected" )
-        else
-            EntityService:SetMaterial( entity, "selector/hologram_red", "selected" )
-        end
+    else
+        
+        self:SetEntitySelectedMaterial( entity, "hologram/red" )
     end
 end
 
 function sell_place_ruins_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial( child, "selected" )
+    end
 end
 
 function sell_place_ruins_tool:FilterSelectedEntities( selectedEntities )
@@ -143,7 +138,7 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
                 local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
 
-                local database = EntityService:GetDatabase( placeRuinScript )
+                local database = EntityService:GetOrCreateDatabase( placeRuinScript )
 
                 database:SetInt( "player_id", self.playerId )
                 database:SetInt( "target_entity", entity )
