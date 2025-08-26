@@ -1,77 +1,4 @@
 EntityBlueprint
-{ 
-	name "units/ground/gnerot/underground_rock_burning"
-
-	LuaDesc
-	{
-		script "lua/misc/underground_rock.lua"
-		database
-		{
-			Strings
-			{
-				StringData
-				{
-					key		"damage_bp"
-					value	"units/ground/gnerot/underground_rock_damage_ultra"
-				}	
-			}	
-			Floats
-			{
-				FloatData
-				{
-					key		"speed_acceleration"
-					value	"12.0"
-				}
-				FloatData
-				{
-					key		"origin_to_stop_above_ground_height"
-					value	"0.0"
-				}		
-			}	
-		}			
-	}
-
-	MeshDesc
-	{
-		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
-		material "units/ground/gnerot_ultra_burning"
-	}
-
-	TypeDesc
-	{
-		type "prop"
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			EffectDesc
-			{
-				EffectGroup
-				{
-					Effects
-					{
-						Effect
-						{
-							blueprint "effects/enemies_gnerot/spike_emerge"
-						}
-					}
-				}
-			}
-
-			TransformDesc
-			{
-				position
-				{
-					y "4.0"
-				}
-			}
-		}
-	}
-}
-
-EntityBlueprint
 {
 	name "units/ground/gnerot_burning_fight"
 
@@ -83,7 +10,7 @@ EntityBlueprint
 		template_name "gnerot"
 		params
 		{
-			aggressive_speed					float:"6"
+			aggressive_speed					float:"8"
 			aggressive_acceleration				float:"60"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"30"
@@ -100,7 +27,7 @@ EntityBlueprint
 			bp_on_range_attack					string:"units/ground/gnerot/underground_rock_burning"
 			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-8.0"
-			range_attack_cooldown				float:"3.0"
+			range_attack_cooldown				float:"10"
 		}		
 	}
 
@@ -121,10 +48,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -146,7 +71,7 @@ EntityBlueprint
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"4.0"
-		area			"1.0"	
+		area			"2.0"	
 		reflect_damage_max_percent 		"0.1"
 	}
 	
@@ -166,7 +91,7 @@ EntityBlueprint
 
 	NavMeshMovementComponent
 	{
-		angle_turn_speed				"90"
+		angle_turn_speed				"180"
 		unit_soft_radius				"2.6"
 		ignore_cost_mask				"building|path_blocker|cavern_wall"
 		dominance_group				    "0"
@@ -174,8 +99,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		material "units/ground/gnerot_ultra_burning"
-		mesh "meshes/units/ground/gnerot.mesh"
+		material "units/ground/gnerot_boss_fire"
+		mesh "meshes/units/ground/gnerot_boss.mesh"
 	}
 	
  	ShadowExcludeComponent
@@ -187,7 +112,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"always"		
+		visibility 		"always"
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc
@@ -265,6 +191,10 @@ EntityBlueprint
 		disable_light_fade_out "1"
 	}		
 
+	//SkillUnitComponent
+	//{
+	//}
+
 	EffectDesc
 	{
 		EffectBaseBlueprints
@@ -279,141 +209,26 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_shin_right"
+					blueprint "effects/enemies_generic/boss_trail_fire"
+					bone "be_shin_right,be_shin_left,be_pelvis,be_elbow_right,be_elbow_left,att_hand_right_inside,att_hand_right_inside,be_finger_middle_1,att_head"
 				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_shin_left"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_pelvis"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_elbow_right"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_elbow_left"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "att_hand_right_inside"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_fire_trail"
-					bone "be_finger_middle_1"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies/gnerot_main_fire_trail"
-					bone "att_head"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
 				Effect
 				{
 					blueprint "effects/enemies/gnerot_light_above"
 					bone "att_light_above"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
+				}	
 				Effect
 				{
 					blueprint "effects/enemies/gnerot_light_eye"
 					bone "att_light"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"fire_trail"
-			enabled "1"
-			Effects
-			{
+				}	
 				Effect
 				{
 					blueprint "effects/enemies/gnerot_light"
 					bone "att_shadow_caster"
-				}
+				}				
 			}
-		}	
+		}						
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -472,6 +287,8 @@ EntityBlueprint
 
 	children
 	{
+		//EntityBlueprint "units/skills/additional_damage"
+
 		EntityBlueprint
 		{
 			name "units/ground/gnerot_burning_fight/destructor"
@@ -532,9 +349,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_1"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						attack_start_time			"0.83"
-						attack_end_time				"1.10"
-						attack_duration 			"2.00"
+						//attack_start_time			"0.83"
+						//attack_end_time				"1.10"
+						//attack_duration 			"2.00"
+						attack_start_time			"0.50"
+						attack_end_time				"0.78"
+						attack_duration 			"1.32"
 						damage_multiple  			"0"
 					}
 
@@ -546,9 +366,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_2"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						attack_start_time			"0.75"
-						attack_end_time				"1.00"
-						attack_duration 			"2.00"
+						//attack_start_time			"0.75"
+						//attack_end_time				"1.00"
+						//attack_duration 			"2.00"
+						attack_start_time			"0.45"
+						attack_end_time				"0.70"
+						attack_duration 			"1.32"
 						damage_multiple  			"1"
 					}
 				}
@@ -589,7 +412,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"160.0"
+										value 	"80"
 										type 	"fire"
 									}
 								}
@@ -612,3 +435,75 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{ 
+	name "units/ground/gnerot/underground_rock_burning"
+
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/ground/gnerot/underground_rock_damage_ultra"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"12.0"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
+		material "units/ground/gnerot_ultra_burning"
+	}
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			EffectDesc
+			{
+				EffectGroup
+				{
+					Effects
+					{
+						Effect
+						{
+							blueprint "effects/enemies_gnerot/spike_emerge"
+						}
+					}
+				}
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "4.0"
+				}
+			}
+		}
+	}
+}

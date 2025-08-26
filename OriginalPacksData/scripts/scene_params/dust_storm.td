@@ -69,6 +69,7 @@ TimeOfDayPreset
 		time_of_day "0"
 		weather_haptic "sound/samples/haptic/ambient_strong_wind.wav"
 		weather_effect "effects/weather/dust_storm"
+		weather_biome_mod "effects/biome_mod/dust_storm"
 		weather_wind "effects/wind/strong"
 		weather_type "0"
 	}
@@ -142,6 +143,7 @@ TimeOfDayPreset
 		time_of_day "2"
 		weather_haptic "sound/samples/haptic/ambient_strong_wind.wav"
 		weather_effect "effects/weather/dust_storm"
+		weather_biome_mod "effects/biome_mod/dust_storm"
 		weather_wind "effects/wind/strong"
 		weather_type "0"
 	}

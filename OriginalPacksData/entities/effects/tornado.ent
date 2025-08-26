@@ -1,0 +1,546 @@
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_boss"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"				
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_small_physical"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/white_big"
+					bone "att_tornado"
+					offset "0 4 0"
+				}				
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/boss_wind_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"400"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/boss_wind"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"400"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/boss_wind_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-400"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/boss_wind_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"400"
+					}
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_physical"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_physical"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}	
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/wind_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/wind"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/wind_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/wind_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_marker_physical"
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_tornado_wind_circle"
+	}
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"300"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_fire"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_fire"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}	
+
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_orange"
+					offset "0 10 0"
+				}		
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/fire_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/fire"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/fire_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/fire_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_marker_fire"
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_tornado_fire_circle"
+	}
+	
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"300"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_acid"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_acid"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_green"
+					offset "0 10 0"
+				}	
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/acid_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/acid"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/acid_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/acid_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{	
+	name  "effects/tornado/tornado_marker_acid"
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_tornado_acid_circle"
+	}
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"300"
+			}
+		}
+	}
+}

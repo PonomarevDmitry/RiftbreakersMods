@@ -225,6 +225,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"radar"
+		layer_group		"enemies"
 	}
 
 	EffectDesc
@@ -251,7 +252,7 @@ EntityBlueprint
 		diameter				"1.0"
 		manual_remove			"1"
 		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
-		
+		friendly_fire			"pass"		
 		artillery_gravity_factor 	"4"
 		artillery_min_angle 		"45"
 		artillery_max_angle 		"45"
@@ -292,6 +293,10 @@ EntityBlueprint
 			}
 		}
 	}	
+	LifeTimeDesc
+	{
+		time "5.0"
+	}		
 }
 
 EntityBlueprint
@@ -408,7 +413,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/enemy_medium"
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -418,7 +424,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -669,8 +676,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 2.5 0"
-					scale "0.5 0.5 0.5"
+					offset "0 3 0"
+					scale "0.7 0.7 0.7"
 				}
 			}
 		}	

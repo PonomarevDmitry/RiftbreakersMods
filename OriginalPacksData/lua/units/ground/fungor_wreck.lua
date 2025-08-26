@@ -7,10 +7,6 @@ function fungor_wreck:__init()
 end
 
 function fungor_wreck:initParams()
-
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 7
-
 end
 
 return fungor_wreck

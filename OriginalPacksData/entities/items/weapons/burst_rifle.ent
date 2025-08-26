@@ -20,7 +20,12 @@ EntityBlueprint
 
 	WeaponMovementDataComponent
 	{
-		attack_movement_factor	"1.00"
+		attack_movement_factor	"0.85"
+	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
 	}
 
 	BurstWeaponComponent
@@ -35,49 +40,49 @@ EntityBlueprint
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_1"
-        recoil_bone   "be_recoil_1"
+        		recoil_bone   "be_recoil_1"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_2"
-        recoil_bone   "be_recoil_2"
+        		recoil_bone   "be_recoil_2"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_3"
-        recoil_bone   "be_recoil_3"
+        		recoil_bone   "be_recoil_3"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_4"
-        recoil_bone   "be_recoil_1"
+        		recoil_bone   "be_recoil_1"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_5"
-        recoil_bone   "be_recoil_2"
+        		recoil_bone   "be_recoil_2"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_6"
-        recoil_bone   "be_recoil_3"
+        		recoil_bone   "be_recoil_3"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
 			WeaponMuzzle
 			{
 				attachment "att_muzzle_7"
-        recoil_bone   "be_recoil_1"
+        		recoil_bone   "be_recoil_1"
 				recoil_time   	"0.3"
 				recoil_offset   "0.4"
 			}
@@ -109,7 +114,7 @@ EntityBlueprint
                 charge_muzzle_flash_effect  "effects/weapons_bullet/burst_rifle_fire"
 
                 charge_time_start           "0.3"
-                charge_time_end             "1"
+                charge_time_end             "1.2"
                 charge_muzzle_idx           "0"
 
                 ammo_blueprint 				"mech/burst_rifle_projectile_charged"
@@ -229,6 +234,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/burst_rifle_advanced"
 		bigger_icon 	"gui/menu/items_icons/weapons/burst_rifle_advanced"
 		description 	"gui/menu/inventory/weapon_charge_description/burst_rifle"
+		predict 		1
 	}
 
 	LuaDesc
@@ -283,6 +289,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/burst_rifle_extreme"
 		bigger_icon 	"gui/menu/items_icons/weapons/burst_rifle_extreme"
 		description 	"gui/menu/inventory/weapon_charge_description/burst_rifle"
+		predict 		1
 	}
 
 	LuaDesc
@@ -318,6 +325,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/burst_rifle"
 		bigger_icon 	"gui/menu/items_icons/weapons/burst_rifle"
 		description 	"gui/menu/inventory/weapon_charge_description/burst_rifle"
+		predict 		1
 	}
 
 	LuaDesc
@@ -372,6 +380,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/burst_rifle_superior"
 		bigger_icon 	"gui/menu/items_icons/weapons/burst_rifle_superior"
 		description 	"gui/menu/inventory/weapon_charge_description/burst_rifle"
+		predict 		1
 	}
 
 	LuaDesc
@@ -408,9 +417,9 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-
+		diameter				"1"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
 		
 		DamagePattern
 		{
@@ -435,13 +444,13 @@ EntityBlueprint
 	ProjectileAmmoComponent
 	{
 		distribution 			"dissipation"
-
+		diameter				"1"
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
 		
 		DamagePattern
 		{

@@ -64,6 +64,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "0"
 		weather_effect "effects/weather/solar_burn"
+		weather_biome_mod "effects/biome_mod/solar_burn"
 		weather_wind "effects/wind/none"
 		weather_type "0"
 	}
@@ -132,6 +133,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "2"
 		weather_effect "effects/weather/solar_burn"
+		weather_biome_mod "effects/biome_mod/solar_burn"
 		weather_wind "effects/wind/none"
 		weather_type "0"
 	}

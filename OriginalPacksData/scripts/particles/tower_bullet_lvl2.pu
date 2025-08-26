@@ -4,7 +4,6 @@ system rift/tower_bullet_lvl2
     scale_velocity                              0.009
     scale                                       0.009 0.009 0.009
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 100
     technique 
     {
@@ -14,7 +13,7 @@ system rift/tower_bullet_lvl2
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/enemy_bullet_medium_01
+        material                                particles/enemy_bullet_medium_01_bright
         renderer                                Billboard
         {
             render_queue_group                  61
@@ -40,121 +39,6 @@ system rift/tower_bullet_lvl2
             time_colour                         0    0.5 0.5 0.5 1
             time_colour                         0.9  0.5 0.5 0.5 1
             time_colour                         1    0.5 0.5 0.5 0
-        }
-    }
-    technique sparks2
-    {
-        keep_local                              true
-        visual_particle_quota                   30
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/spark_orange_01
-        renderer                                Billboard
-        {
-            render_queue_group                  69
-            billboard_type                      oriented_self
-            billboard_origin                    top_center
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box trail111
-        {
-            emission_rate                       30
-            angle                               0
-            time_to_live                        dyn_random
-            {
-                min                             0.3
-                max                             0.6
-            }
-            velocity                            dyn_random
-            {
-                min                             350
-                max                             500
-            }
-            duration                            20
-            particle_width                      dyn_random
-            {
-                min                             15
-                max                             30
-            }
-            particle_height                     dyn_random
-            {
-                min                             40
-                max                             60
-            }
-            position                            50 0 0
-            direction                           -1 0 0
-            box_width                           25
-            box_height                          25
-            box_depth                           25
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0.2 0.2 0.2 0.294118
-            time_colour                         0.508696  0.2 0.2 0.2 1
-            time_colour                         1    0.2 0.2 0.2 0
-        }
-        affector                                Scale Affector35
-        {
-            xyz_scale                           -3
-        }
-    }
-    technique sparks2
-    {
-        keep_local                              true
-        visual_particle_quota                   30
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/fire_anim_01
-        renderer                                Billboard
-        {
-            render_queue_group                  68
-            texture_coords_rows                 8
-            texture_coords_columns              4
-            billboard_type                      oriented_self
-            billboard_origin                    top_center
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box trail111
-        {
-            emission_rate                       30
-            angle                               8
-            time_to_live                        dyn_random
-            {
-                min                             0.7
-                max                             1
-            }
-            velocity                            dyn_random
-            {
-                min                             350
-                max                             500
-            }
-            duration                            20
-            particle_width                      dyn_random
-            {
-                min                             15
-                max                             25
-            }
-            particle_height                     dyn_random
-            {
-                min                             30
-                max                             60
-            }
-            direction                           -1 0 0
-            end_texture_coords_range            31
-            box_width                           50
-            box_height                          50
-            box_depth                           50
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0.2 0.2 0.2 0.294118
-            time_colour                         0.306522  0.2 0.2 0.2 1
-            time_colour                         0.61087  0.2 0.2 0.2 1
-            time_colour                         1    0.2 0.2 0.2 0
         }
     }
 }

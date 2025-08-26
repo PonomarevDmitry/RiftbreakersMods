@@ -5,7 +5,6 @@ system rift/mortar_muzzle
     scale_velocity                              0.1
     scale                                       0.1 0.1 0.1
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 50
     technique smoke
@@ -22,10 +21,10 @@ system rift/mortar_muzzle
             texture_coords_columns              16
             billboard_rotation_type             vertex
         }
-        emitter                                 Circle 
+        emitter                                 Box 
         {
             emission_rate                       30
-            angle                               10
+            angle                               45
             time_to_live                        dyn_random
             {
                 min                             0.7
@@ -41,12 +40,14 @@ system rift/mortar_muzzle
                 min                             3
                 max                             6
             }
-            direction                           -1 0 0
+            direction                           1 0 0
             start_colour_range                  1 0.501961 0 1
             end_colour_range                    1 1 0 1
             auto_direction                      true
             force_emission                      true
-            radius                              1
+            box_width                           10
+            box_height                          10
+            box_depth                           10
         }
         affector                                TextureAnimator Affector13
         {
@@ -57,7 +58,7 @@ system rift/mortar_muzzle
         {
             time_colour                         0    0.501961 0.501961 0.501961 0
             time_colour                         0.134783  0.501961 0.501961 0.501961 0.34902
-            time_colour                         0.756522  0.501961 0.501961 0.501961 0.34902
+            time_colour                         0.501311  0.501961 0.501961 0.501961 0.34902
             time_colour                         1    0.501961 0.501961 0.501961 0
         }
         affector                                TextureRotator Affector6
@@ -80,7 +81,11 @@ system rift/mortar_muzzle
         }
         affector                                Scale Affector79
         {
-            xyz_scale                           40
+            xyz_scale                           dyn_random
+            {
+                min                             20
+                max                             40
+            }
         }
     }
     technique sparks
@@ -181,6 +186,7 @@ system rift/mortar_muzzle
                 min                             2
                 max                             4
             }
+            direction                           1 0 0
             auto_direction                      true
             force_emission                      true
         }

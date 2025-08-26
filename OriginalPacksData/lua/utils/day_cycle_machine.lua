@@ -55,7 +55,12 @@ function day_cycle_machine:DisableTimeStateMachine()
 	self:UnregisterHandler( event_sink, "NightStartedEvent", "_OnDayCycleNightStartedEvent")	
 	self:UnregisterHandler( event_sink, "SunriseStartedEvent", "_OnDayCycleSunriseStartedEvent")	
 	self:UnregisterHandler( event_sink, "SunsetStartedEvent", "_OnDayCycleSunsetStartedEvent")	
-	
+
+	self[self._dayCycleFSM["night"].exit](self)
+	self[self._dayCycleFSM["sunrise"].exit](self)
+	self[self._dayCycleFSM["day"].exit](self)
+	self[self._dayCycleFSM["sunset"].exit](self)
+
 	self._dayCycleFSM = nil
 end
 

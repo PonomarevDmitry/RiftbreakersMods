@@ -11,6 +11,7 @@ end
 function hyper_particle_condenser:OnInit()
 
 	self:RegisterHandler( event_sink , "PortalOpeningFinishedEvent", "OnPortalOpeningFinishedEvent" )
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "idle",		{ execute="OnIdle" } )
@@ -25,6 +26,8 @@ function hyper_particle_condenser:OnInit()
 	self.data:SetFloat("charging_speed", 0 )
 	self.workingEffect = false
 	self.portalEffect = false
+	self.finished = false
+	self.addonVersion = 1
 end
 
 function hyper_particle_condenser:OnBuildingStart()
@@ -42,8 +45,8 @@ function hyper_particle_condenser:OnBuildingEnd()
 end
 
 function hyper_particle_condenser:OnIdle( state, dt )
-	local portalPowered = BuildingService:IsBuildingPowered( self.riftPortal )
-	local isWorking = BuildingService:IsWorking( self.riftPortal )
+	local portalPowered = BuildingService:IsBuildingPowered( self.riftPortal ) and not self.finished
+	local isWorking = BuildingService:IsWorking( self.riftPortal )and not self.finished
 	local working 		= 0
 	if ( portalPowered == true ) then
 		EntityService:SetSubMeshMaterial( self.entity, "buildings/main/hyper_particle_condenser_screen", 1, "default")
@@ -63,7 +66,7 @@ function hyper_particle_condenser:OnIdle( state, dt )
 	self.glowFactor = math.min( 1.0, self.glowFactor )
 	self.glowFactor = math.max( 0.0, self.glowFactor )
 
-	self.data:SetInt("is_working", working )
+	self.data:SetFloat("is_working", working )
 	EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", self.glowFactor );
 	if ( working > 0 ) then
 		if ( isWorking ) then
@@ -93,6 +96,22 @@ end
 
 function hyper_particle_condenser:OnPortalOpeningFinishedEvent( event )
 		self.portalActivated = true
+end
+
+function hyper_particle_condenser:OnLuaGlobalEvent( event )
+		if event:GetEvent() == "PortalClosedLogicEvent" then
+			EntityService:RemoveComponent( self.entity, "AnimationGraphComponent" )
+			BuildingService:DisableBuilding( self.entity )
+			self.finished = true
+		end
+end
+
+function hyper_particle_condenser:OnLoad(  )
+	if ( self.addonVersion == nil or self.addonVersion < 1 ) then
+		self.finished = false
+		self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
+		self.addonVersion = 1
+	end
 end
 
 return hyper_particle_condenser

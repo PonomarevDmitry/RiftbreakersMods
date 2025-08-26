@@ -17,7 +17,9 @@ function necrodon:OnInit()
 	self:RegisterHandler( self.entity, "ChargeAttackEndEvent",  "OnChargeAttackEndEvent" )	
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 6
+	self.leaveBodyProbability = 4
 
 	self.resurrectEffect = false;
 	self.summonEffect = false; 

@@ -3,14 +3,37 @@ EntityBlueprint
 	name  "units/ground/stregaros_boss_energy"
 
 	base_blueprint "units/ground/stregaros_base"
+	
+	StateMachineDesc
+	{
+		template_name "stregaros"
+		params
+		{
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"24"
+			not_aggressive_speed				float:"3"
+			not_aggressive_acceleration			float:"3"
+			shielding_speed						float:"8"
+			shielding_acceleration				float:"16"
+			rotate_speed						float:"350"
+			priority_target						string:"player|headquarters|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"8.0"
+			max_idle_time						float:"12.0"
+			shielding_distance					float:"22.0"
+			shielding_cooldown					float:"1.0"
+		}		
+	}
 
 	LuaDesc
 	{
 		script "lua/units/ground/stregaros.lua"
 		database
 		{
-			min_scale	float:"1.1"
-			max_scale	float:"1.1"
+			min_scale	float:"1.3"
+			max_scale	float:"1.3"
 		}			
 	}
 
@@ -21,10 +44,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"4000"
-		health 						"4000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"3000"
+		health 						"3000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -48,9 +69,9 @@ EntityBlueprint
 	
 	ResistanceComponent
 	{
-		physical		"0.25"
+		physical		"1.0"
 		fire			"1.0"
-		acid			"2.0"
+		acid			"3.0"
 		energy			"0.1"
 		cryo			"1.0"
 		area			"1.0"	
@@ -62,11 +83,13 @@ EntityBlueprint
 		stagger_time 					"0.15"
 		stagger_health_threshold		"0.04"
 		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.3"
+		stagger_long_health_threshold	"0.1"
 		
-		stagger_cooldown				"1.0"
-		stagger_long_cooldown			"3.5"
-		stun_cooldown					"15"
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
 	}
 
 	NavMeshMovementComponent
@@ -79,7 +102,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/stregaros.mesh"
+		mesh 		"meshes/units/ground/stregaros_boss.mesh"
 		material 	"units/ground/stregaros_boss_energy"
 	}
 	
@@ -92,7 +115,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"
+		layer_group		"enemies"
 	}	
 
 	SelectableDesc
@@ -247,6 +271,20 @@ EntityBlueprint
 					scale "1.8 1.8 1.8"
 				}
 			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
 		}		
 	}	
 
@@ -331,7 +369,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"135"
+										value 	"60"
 										type 	"energy"
 									}
 								}

@@ -1,7 +1,7 @@
 class 'logic_wait_on_dissolve' ( LuaGraphNode )
 
 function logic_wait_on_dissolve:__init()
-    LuaGraphNodeSelector.__init(self, self)
+  LuaGraphNode.__init(self, self)
 end
 
 function logic_wait_on_dissolve:init()	

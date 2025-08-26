@@ -48,6 +48,7 @@ struct Light
     inline float            GetSpotLightAngleOffset()       { return LightCustomData.y; }
 };
 
+#   if SHADOW_MAP || LIGHT_MASK
 struct Shadow 
 {
     matrix                  ShadowData0;
@@ -78,10 +79,10 @@ struct Shadow
         return float4( leftTop + ShadowData0._m32_m33, rightBottom - ShadowData0._m32_m33 );
     }
 
-    inline float2 GetShadowViewportTexel( int viewportIdx )
+    inline float2 GetShadowViewportTexel()
     {
         return ShadowData0._m32_m33; 
     }
 };
-
+#   endif
 #endif

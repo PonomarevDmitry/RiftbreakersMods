@@ -71,6 +71,9 @@ function mission_survival:SelectWaveSpawnPoints()
     end
 end
 
+function mission_survival:OnLoad()
+end
+
 function mission_survival:init()
     -- local playable_min = MissionService:GetPlayableRegionMin();
     -- local playable_max = MissionService:GetPlayableRegionMax();

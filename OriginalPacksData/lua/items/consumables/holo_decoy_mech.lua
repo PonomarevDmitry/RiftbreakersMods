@@ -31,7 +31,7 @@ function holo_decoy_mech:init()
 		local blueprint = self:GetItemBlueprint( itemLeft )
 		if ( blueprint ~= "" ) then
 			local leftSword = EntityService:SpawnAndAttachEntity( blueprint, self.entity, "att_l_hand_item","")
-			EntityService:SetMaterial(leftSword, "selector/hologram_blue", "default")
+			EntityService:SetMaterial(leftSword, "hologram/blue", "default")
 		end
 	end
 	
@@ -40,7 +40,7 @@ function holo_decoy_mech:init()
 		local blueprint = self:GetItemBlueprint( itemRight )
 		if ( blueprint ~= "" ) then
 			local leftSword = EntityService:SpawnAndAttachEntity( blueprint, self.entity, "att_r_hand_item","")
-			EntityService:SetMaterial(leftSword, "selector/hologram_blue", "default")
+			EntityService:SetMaterial(leftSword, "hologram/blue", "default")
 		end
 	end
 end
@@ -50,7 +50,7 @@ function holo_decoy_mech:OnDecoyStart( state )
 end
 
 function holo_decoy_mech:OnDecoyEnd(  )
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+	EntityService:DestroyEntity( self.entity, self.destroyPattern )
 end
 
 return holo_decoy_mech

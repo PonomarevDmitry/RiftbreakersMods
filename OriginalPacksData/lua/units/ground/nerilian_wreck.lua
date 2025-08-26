@@ -7,8 +7,6 @@ function nerilian_wreck:__init()
 end
 
 function nerilian_wreck:initParams()
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
 end
 
 return nerilian_wreck

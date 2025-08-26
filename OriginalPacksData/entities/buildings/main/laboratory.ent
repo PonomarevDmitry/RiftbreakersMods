@@ -18,14 +18,15 @@ EntityBlueprint
 		menu_action			"research"
 		upgrade				"buildings/main/laboratory_lvl_2"	
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"	
-		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"		
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		hide_treasures 		"1"		
 
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 180
+				building_time 90
 				building_cost
 				{
 					carbonium 	"2000"
@@ -48,7 +49,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 			"water"
-				value			 	"10"
+				value			 	"100"
 				attachment			"att_in_1"
 			}
 		}
@@ -83,6 +84,7 @@ EntityBlueprint
 		remove_entity 	 "0"
 		remove_component "0"
 		recreate_component "1"
+		priority			"1"
 	}
 
 	HealthDesc
@@ -253,9 +255,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/laboratory"
-		additional_z_order 1
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/laboratory"
+		additional_z_order 	1
+		visibility			"always"
+		layer_group			"important_buildings"
 	}
 
 	FogOfWarRevealerComponentDesc

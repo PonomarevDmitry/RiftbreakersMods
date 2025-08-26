@@ -10,6 +10,7 @@ cbuffer FPConstantBuffer : register(b0)
     float       cGlowAmount;
     float       cGlowFactor;
     float       cProgress;
+    float       cAngle;
 };
 
 struct VS_OUTPUT
@@ -62,11 +63,21 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #else
     float2 texCoord = In.TexCoord;
 #endif
-    
+     
     float distance = length( ( texCoord.xy * 2.0f ) - 1.0f );
     if ( distance > cProgress )
         discard;
 
+    float2 centeredTexCoord = texCoord - float2( 0.5f, 0.5f );
+    float pixelAngle = atan2( centeredTexCoord.y, centeredTexCoord.x );
+
+    float angleInRadians = radians( cAngle );
+
+    if ( abs( pixelAngle ) > angleInRadians / 2.0f )
+    {
+        discard;
+    }
+    
     float4 color = texLinear2D( tColorMap, sColorMap, texCoord );
 
     color *= cEmissiveColor * ( distance / cProgress ) * cGlowAmount * cGlowFactor;

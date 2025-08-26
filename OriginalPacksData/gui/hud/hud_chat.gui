@@ -3,24 +3,25 @@ GuiRootGroupDef
 	full_screen "5"
 	navigation
 	{
-		default_node "text_input"
+		default_node "display.text_input"
 		nodes
 		{
 			GuiNavNodeDef "GuiTextEditNodeDef"
 			{
 				max_char_count "120"
-				path "text_input"
+				path "display.text_input"
 			}
 
 		}
 
 	}
 
+	priority "12"
 	children
 	{
 		Pair_String_GuiDef2
 		{
-			key "container"
+			key "background_display"
 			value "GuiGroupDef"
 			{
 				allow_overflow "0"
@@ -28,30 +29,209 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "stackpanel"
-						value "GuiStackPanelDef"
+						key "data"
+						value "GuiGroupDef"
 						{
-							stack_type "1"
-							template_reference
+							allow_overflow "0"
+							children
 							{
-								path "templates.message"
-								ref_gui_id "gui/hud/hud_chat"
-								alignment "top"
-								anchor "top"
-								size
+								Pair_String_GuiDef2
 								{
-									x "800.000"
-									y "26.000"
+									key "stackpanel"
+									value "GuiStackPanelDef"
+									{
+										stack_type "1"
+										template_reference
+										{
+											path "templates.short_message"
+											ref_gui_id "gui/hud/hud_chat"
+											margin
+											{
+												w "2"
+												y "2"
+											}
+
+											max_size
+											{
+												y "200"
+											}
+
+											size
+											{
+												x "400"
+												y "24"
+											}
+
+											size_mode_y "1"
+										}
+
+										alignment "bottom_left"
+										anchor "bottom_left"
+										id "stackpanel"
+										max_size
+										{
+											y "200"
+										}
+
+										model_source "short_messages"
+										size
+										{
+											x "400"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+									}
+
 								}
 
-								size_mode_y "1"
 							}
 
-							alignment "bottom"
-							anchor "bottom"
-							id "stackpanel"
-							model_source "messages"
-							size_mode_x "2"
+							alignment "bottom_right"
+							anchor "bottom_right"
+							id "data"
+							margin
+							{
+								w "60"
+							}
+
+							max_size
+							{
+								y "200"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "input"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/chat_input_frame"
+										id "bg"
+										size
+										{
+											x "400"
+											y "23"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "info"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icons"
+												value "GuiStackPanelDef"
+												{
+													template_reference
+													{
+														path "templates.icon_group"
+														ref_gui_id "gui/hud/hud_chat"
+														ref_model
+														{
+															bindings_proxy
+															{
+																material
+																{
+																	model_field "material"
+																	converter "GuiModelPostfixConverter"
+																	{
+																		postfix "_selected"
+																	}
+
+																}
+
+															}
+
+															database
+															{
+																Strings
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														size_mode_x "1"
+														size_mode_y "1"
+													}
+
+													alignment "left"
+													anchor "left"
+													id "icons"
+													model_source "active_icons"
+													size_mode_x "1"
+													size_mode_y "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													content "gui/hud/chat/press_to_chat"
+													style_name "research_gray"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													id "label"
+													margin
+													{
+														x "15"
+														z "5"
+													}
+
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										alignment "right"
+										anchor "right"
+										id "info"
+										size
+										{
+											y "48"
+										}
+
+										size_mode_x "1"
+									}
+
+								}
+
+							}
+
+							alignment "bottom_right"
+							anchor "bottom_right"
+							id "input"
+							size_mode_x "1"
 							size_mode_y "1"
 						}
 
@@ -59,20 +239,694 @@ GuiRootGroupDef
 
 				}
 
+				alignment "top_right"
+				anchor "top_right"
+				bindings
+				{
+					visible
+					{
+						model_field "active"
+						converter "GuiModelCompareConverter"
+						{
+							ref_value "0"
+						}
+
+					}
+
+				}
+
+				id "background_display"
+				margin
+				{
+					z "10"
+				}
+
+				size
+				{
+					x "300"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				z_order "-200"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "container"
+			value "GuiGroupDef"
+			{
+				allow_overflow "0"
 				alignment "bottom"
 				anchor "bottom"
 				id "container"
 				margin
 				{
-					w "70.000"
+					w "70"
 				}
 
 				size
 				{
-					x "800.000"
-					y "400.000"
+					x "800"
+					y "400"
 				}
 
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "display"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "content"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "scrollviewer"
+									value "GuiScrollViewerDef"
+									{
+										can_stick_to_the_end "1"
+										content
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "stackpanel"
+													value "GuiStackPanelDef"
+													{
+														stack_type "1"
+														template_reference
+														{
+															path "templates.message"
+															ref_gui_id "gui/hud/hud_chat"
+															margin
+															{
+																x "10"
+																y "1"
+																z "10"
+															}
+
+															size
+															{
+																x "800"
+																y "26"
+															}
+
+															size_mode_x "2"
+															size_mode_y "1"
+														}
+
+														id "stackpanel"
+														model_source "messages"
+														size
+														{
+															x "500"
+														}
+
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+											}
+
+											margin
+											{
+												w "5"
+												y "5"
+											}
+
+											size_mode_x "2"
+										}
+
+										horizontal_scroll_bar_visibility "2"
+										zoom_enabled "0"
+										vertical_scroll_bar
+										{
+											path "simple_vertical"
+											ref_gui_id "gui/template/scroll_bars"
+											margin
+											{
+												x "-15"
+											}
+
+											size
+											{
+												x "10"
+											}
+
+											size_mode_y "2"
+										}
+
+										id "scrollviewer"
+										margin
+										{
+											w "5"
+											x "5"
+											y "7"
+											z "5"
+										}
+
+										max_size
+										{
+											y "400"
+										}
+
+										size
+										{
+											x "50"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "subheader"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "background"
+												value "GuiQuadDef"
+												{
+													color
+													{
+														w "0.45"
+														x "0.145"
+														y "0.4"
+														z "0.576"
+													}
+
+													id "background"
+													margin
+													{
+														w "1"
+														x "5"
+														y "1"
+														z "5"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bottom_border"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "0.096"
+														y "0.476"
+														z "0.989"
+													}
+
+													alignment "bottom_left"
+													anchor "bottom_left"
+													color
+													{
+														x "0.098"
+														y "0.475"
+														z "0.988"
+													}
+
+													id "bottom_border"
+													margin
+													{
+														x "5"
+														z "5"
+													}
+
+													size
+													{
+														y "1"
+													}
+
+													size_mode_x "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icons"
+												value "GuiStackPanelDef"
+												{
+													template_reference
+													{
+														path "templates.icon_button_postfixes"
+														ref_gui_id "gui/hud/hud_chat"
+														ref_model
+														{
+															bindings_proxy
+															{
+																icon
+																{
+																	model_field "material"
+																}
+
+															}
+
+															database
+															{
+																Strings
+																{
+																	StringData
+																	{
+																		key "action"
+																		value "type_action"
+																	}
+
+																}
+
+																Floats
+																Vectors
+																Integers
+															}
+
+														}
+
+														alignment "left"
+														anchor "left"
+														bindings
+														{
+															z_order
+															{
+																model_field "active"
+																converter "GuiButtonNodeActivatingConverter"
+															}
+
+														}
+
+														margin
+														{
+															x "10"
+															z "10"
+														}
+
+														model_source "icons"
+														size
+														{
+															x "32"
+															y "32"
+														}
+
+													}
+
+													alignment "center"
+													anchor "center"
+													id "icons"
+													model_source "icons"
+													size
+													{
+														x "32"
+														y "32"
+													}
+
+													size_mode_x "1"
+													z_order "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "top_border"
+												value "GuiQuadDef"
+												{
+													border_color
+													{
+														x "0.096"
+														y "0.476"
+														z "0.989"
+													}
+
+													color
+													{
+														x "0.098"
+														y "0.475"
+														z "0.988"
+													}
+
+													id "top_border"
+													margin
+													{
+														x "5"
+														z "5"
+													}
+
+													size
+													{
+														y "1"
+													}
+
+													size_mode_x "2"
+												}
+
+											}
+
+										}
+
+										id "subheader"
+										margin
+										{
+											w "2"
+											y "2"
+										}
+
+										size
+										{
+											y "40"
+										}
+
+										size_mode_x "2"
+									}
+
+								}
+
+							}
+
+							container_type "2"
+							id "content"
+							margin
+							{
+								w "35"
+								y "38"
+							}
+
+							size
+							{
+								x "500"
+							}
+
+							size_mode_y "1"
+							z_order "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "header"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "exit"
+									value "GuiReferenceDef"
+									{
+										path "icon_button"
+										ref_gui_id "gui/template/buttons"
+										ref_model
+										{
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "icon"
+														value "gui/menu/buttons/queue_remove_neutral"
+													}
+
+													StringData
+													{
+														key "icon_selected"
+														value "gui/menu/buttons/queue_remove_active"
+													}
+
+													StringData
+													{
+														key "action"
+														value "close_chat"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										alignment "center"
+										anchor "top_right"
+										id "exit"
+										offset
+										{
+											x "-25"
+											y "22"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+										z_order "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "image"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/tooltip_header"
+										texture_border
+										{
+											w "0.045"
+											x "0.042"
+											y "0.652"
+											z "0.193"
+										}
+
+										id "image"
+										size
+										{
+											y "40"
+										}
+
+										size_mode_x "2"
+										size_mode_y "0"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "name"
+									value "GuiTextBoxDef"
+									{
+										capitals "1"
+										content "gui/hud/chat/chat"
+										style
+										{
+											char_height "27"
+											df "1"
+											font "Exo2_Bold_sdf"
+											glow_color
+											{
+												y "0.576"
+												z "1"
+											}
+
+											glow_size "7.831"
+											glow_spread "10"
+											gradient_enabled "1"
+											gradient_end
+											{
+												x "0.667"
+												y "0.667"
+												z "0.667"
+											}
+
+											gradient_start
+											{
+												x "1"
+												y "1"
+												z "1"
+											}
+
+											shadow_angle "132"
+											shadow_color
+											{
+												w "0.9"
+											}
+
+											shadow_distance "1.939"
+											shadow_enabled "1"
+											shadow_size "3.3"
+											shadow_spread "2.268"
+											stroke_color
+											{
+												w "0.289"
+												x "0.349"
+												y "1"
+												z "1"
+											}
+
+											stroke_position "1"
+											stroke_size "1.4"
+										}
+
+										style_name "build_info_header"
+										translate "1"
+										alignment "left"
+										anchor "left"
+										id "name"
+										margin
+										{
+											x "10"
+										}
+
+										max_size
+										{
+											x "366"
+										}
+
+										offset
+										{
+											y "2"
+										}
+
+										z_order "86"
+									}
+
+								}
+
+							}
+
+							id "header"
+							size
+							{
+								y "40"
+							}
+
+							size_mode_x "2"
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "selected_frame"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/frames/simple_frame"
+							texture_border
+							{
+								w "0.124"
+								x "0.122"
+								y "0.148"
+								z "0.103"
+							}
+
+							id "selected_frame"
+							margin
+							{
+								y "39"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "text_input"
+						value "GuiReferenceDef"
+						{
+							path "simpler"
+							ref_gui_id "gui/template/text_input"
+							allow_overflow "0"
+							alignment "bottom_right"
+							anchor "bottom_right"
+							color
+							{
+								w "0.865"
+							}
+
+							hitbox_visible "0"
+							id "text_input"
+							margin
+							{
+								w "3"
+								x "5"
+								y "3"
+								z "5"
+							}
+
+							size
+							{
+								x "800"
+								y "34"
+							}
+
+							size_mode_x "2"
+						}
+
+					}
+
+				}
+
+				alignment "bottom_right"
+				anchor "bottom_right"
+				bindings
+				{
+					visible
+					{
+						model_field "active"
+					}
+
+				}
+
+				id "display"
+				margin
+				{
+					w "365"
+					z "10"
+				}
+
+				size
+				{
+					x "479"
+					y "702"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				z_order "1"
 			}
 
 		}
@@ -86,6 +940,438 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
+						key "icon_button_postfixes"
+						value "GuiToggleButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_selected"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_active"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "active"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_selected"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_active_selected"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													scale
+													{
+														x "1.2"
+														y "1.2"
+													}
+
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "active_selected"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_disabled"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_disabled"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "disabled"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_disabled"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_disabled_selected"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													scale
+													{
+														x "1.2"
+														y "1.2"
+													}
+
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "disabled_selected"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_neutral"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_neutral"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "neutral"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/menu_options_selected"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_selected"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													scale
+													{
+														x "1.2"
+														y "1.2"
+													}
+
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "neutral_selected"
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								on_click_action
+								{
+									model_field "action"
+								}
+
+								popup_confirmation_node
+								{
+									model_field "popup_confirmation_node"
+								}
+
+								popup_dialog_msg
+								{
+									model_field "popup_dialog_msg"
+								}
+
+								popup_gui_id
+								{
+									model_field "popup_gui_id"
+								}
+
+							}
+
+							id "icon_button_postfixes"
+							offset
+							{
+								x "349.938"
+								y "-700"
+							}
+
+							size
+							{
+								x "32"
+								y "32"
+							}
+
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "icon_group"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/buttons/chat_server_selected"
+										bindings
+										{
+											material
+											{
+												model_field "material"
+												converter "GuiModelPostfixConverter"
+												{
+													postfix "_selected"
+												}
+
+											}
+
+										}
+
+										id "icon"
+									}
+
+								}
+
+							}
+
+							alignment "right"
+							anchor "right"
+							id "icon_group"
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "message"
 						value "GuiGroupDef"
 						{
@@ -96,20 +1382,20 @@ GuiRootGroupDef
 									key "background"
 									value "GuiQuadDef"
 									{
-										border_alpha "0.000"
+										border_alpha "0"
 										color
 										{
-											w "0.690"
-											x "0.000"
-											y "0.000"
-											z "0.000"
+											w "0.45"
+											x "0.145"
+											y "0.4"
+											z "0.576"
 										}
 
 										id "background"
 										margin
 										{
-											w "1.000"
-											y "1.000"
+											w "1"
+											y "1"
 										}
 
 										size_mode_x "2"
@@ -124,19 +1410,36 @@ GuiRootGroupDef
 									value "GuiTextDef"
 									{
 										content "gui/hud/player_chat"
-										style_name "mod_row_title"
+										style_name "chat_message"
 										translate "1"
+										alignment "top_right"
+										anchor "top_right"
 										bindings
 										{
-											style_name
+											content
 											{
-												model_field "sender"
+												model_field "type"
 												converter "GuiModelMapConverter"
 												{
-													fallback_value "mod_row_title"
+													fallback_value "gui/hud/system_chat"
 													map
 													{
-														SERVER "mod_row_label"
+														8 "gui/hud/player_chat"
+													}
+
+												}
+
+											}
+
+											style_name
+											{
+												model_field "type"
+												converter "GuiModelMapConverter"
+												{
+													fallback_value "chat_gray"
+													map
+													{
+														8 "chat_message"
 													}
 
 												}
@@ -148,37 +1451,179 @@ GuiRootGroupDef
 										id "message"
 										margin
 										{
-											w "5.000"
-											x "5.000"
-											y "5.000"
+											w "5"
+											x "5"
+											y "5"
 										}
 
 										max_size
 										{
-											x "800.000"
-											y "899999982852417519616.000"
+											x "470"
+											y "9e+20"
 										}
 
+										model_source "database"
 										size
 										{
-											x "800.000"
+											x "470"
 										}
 
 										size_mode_x "2"
-										z_order "1.000"
+										tooltip_def
+										z_order "1"
 									}
 
 								}
 
 							}
 
-							alignment "top"
-							anchor "top"
 							id "message"
 							size
 							{
-								x "800.000"
-								y "26.000"
+								x "500"
+								y "26"
+							}
+
+							size_mode_y "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "short_message"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/chat_text_frame"
+										alignment "right"
+										anchor "right"
+										id "background"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "info"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													text_alignment "2"
+													content "gui/hud/player_chat"
+													style_name "chat_message"
+													translate "1"
+													alignment "right"
+													anchor "right"
+													bindings
+													{
+														content
+														{
+															model_field "type"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "gui/hud/system_chat"
+																map
+																{
+																	8 "gui/hud/player_chat"
+																}
+
+															}
+
+														}
+
+														style_name
+														{
+															model_field "type"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "chat_gray"
+																map
+																{
+																	8 "chat_message"
+																}
+
+															}
+
+														}
+
+													}
+
+													id "label"
+													margin
+													{
+														z "10"
+													}
+
+													max_size
+													{
+														x "395"
+													}
+
+													model_source "database"
+													size_mode_x "2"
+													tooltip_def
+													{
+														tooltip_def
+														{
+															tooltip_def
+															{
+																tooltip_def
+																{
+																	tooltip_def
+																	{
+																		tooltip_def
+																		{
+																			tooltip_def
+																		}
+
+																	}
+
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+										alignment "right"
+										anchor "right"
+										id "info"
+										size_mode_x "2"
+										size_mode_y "1"
+									}
+
+								}
+
+							}
+
+							id "short_message"
+							size
+							{
+								x "400"
+								y "30"
 							}
 
 							size_mode_y "1"
@@ -193,13 +1638,13 @@ GuiRootGroupDef
 				id "templates"
 				margin
 				{
-					w "70.000"
+					w "70"
 				}
 
 				size
 				{
-					x "800.000"
-					y "400.000"
+					x "800"
+					y "400"
 				}
 
 				visible "0"
@@ -207,47 +1652,15 @@ GuiRootGroupDef
 
 		}
 
-		Pair_String_GuiDef2
-		{
-			key "text_input"
-			value "GuiReferenceDef"
-			{
-				path "simple"
-				ref_gui_id "gui/template/text_input"
-				alignment "bottom"
-				anchor "bottom"
-				color
-				{
-					w "0.865"
-				}
-
-				hitbox_visible "0"
-				id "text_input"
-				margin
-				{
-					w "30.000"
-					x "10.000"
-					y "10.000"
-					z "10.000"
-				}
-
-				size
-				{
-					x "800.000"
-					y "34.000"
-				}
-
-			}
-
-		}
-
 	}
 
+	alignment "bottom_right"
+	anchor "bottom_right"
 	id "gui/hud/hud_chat"
 	size
 	{
-		x "1920.000"
-		y "1080.000"
+		x "1920"
+		y "1080"
 	}
 
 }
@@ -257,8 +1670,108 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "active"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType4"
+					default_value
+					{
+						typehash "2968708132"
+						Vector_[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType4
+						{
+							[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType
+							{
+								material "gui/hud/buttons/chat_all"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "active_icons"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "chat"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType4"
+					default_value
+					{
+						typehash "2968708132"
+						Vector_[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType4
+						{
+							[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType
+							{
+								material "gui/hud/buttons/chat_all"
+							}
+
+							[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType
+							{
+								material "gui/hud/buttons/chat_chatting"
+							}
+
+							[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType
+							{
+								material "gui/hud/buttons/chat_gameevents"
+							}
+
+							[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]/IconType
+							{
+								material "gui/hud/buttons/chat_server"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "icons"
+			}
+
 			Pair_String_GuiDataTypeField
 			{
 				value
@@ -271,30 +1784,42 @@ GuiDataDefinitions
 						{
 							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
 							{
-								message "Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								user_name "Testowy"
+								message "gui/hud/player_joined_server"
 								timestamp "0"
-								sender "PlayerWithLongName"
+								sender "BUTTON_Server"
+								type "0"
+								style "chat_server"
 							}
 
 							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
 							{
+								user_name
 								message "Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
 								timestamp "0"
 								sender "PlayerWithLongName"
+								type "8"
+								style "chat_user"
 							}
 
 							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
 							{
-								message "Super message from server, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								user_name
+								message "Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
 								timestamp "0"
-								sender "SERVER"
+								sender "PlayerWithLongName"
+								type "8"
+								style "chat_current_user"
 							}
 
 							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
 							{
+								user_name
 								message "Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
 								timestamp "0"
 								sender "PlayerWithLongName"
+								type "8"
+								style "chat_server"
 							}
 
 						}
@@ -306,6 +1831,131 @@ GuiDataDefinitions
 				key "messages"
 			}
 
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "0"
+					}
+
+				}
+
+				key "mode"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage4"
+					default_value
+					{
+						typehash "1576439587"
+						Vector_[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage4
+						{
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "wSuper message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "8"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "zSuper message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "bSuper message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "vssage from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "zSuper message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "2Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "1Super message from some type of player, maybe we should do something about it, or maybe not who knows? Will it help us? Who will save us!"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "2"
+								style "chat_server"
+							}
+
+							[7ADB59C0-09A5-492E-BE94-015DCDC451B9]/HudChatMessage
+							{
+								user_name
+								message "ad"
+								timestamp "0"
+								sender "PlayerWithLongName"
+								type "8"
+								style "chat_server"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "short_messages"
+			}
+
 		}
 
 		handle "[B784C8C4-C7C3-4A31-AECF-73B8C5355C07]"
@@ -314,6 +1964,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "HudChatMessage"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -352,6 +2007,22 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "chat_server"
+					}
+
+				}
+
+				key "style"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "int"
 					default_value
 					{
@@ -364,9 +2035,144 @@ GuiDataDefinitions
 				key "timestamp"
 			}
 
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "8"
+					}
+
+				}
+
+				key "type"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "user_name"
+			}
+
 		}
 
 		handle "[7ADB59C0-09A5-492E-BE94-015DCDC451B9]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "a"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[97FD5C7D-ED80-4B90-965F-681D7D247AE4]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "w"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[9BBFB5A6-E579-4143-A523-A78E469D0AF1]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "qwe"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[118903E0-E1A1-4012-A1D2-975F32F091E9]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "q"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[ABBC72BE-6AC5-4861-B761-C87C2A4E4802]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "wase"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[59FE4F36-45A3-44DD-AE84-B2B0D8F45EDE]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "IconType"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "all"
+					}
+
+				}
+
+				key "material"
+			}
+
+		}
+
+		handle "[BD279169-E3C5-4AFF-AD96-D1AD14A0F864]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "asadqwe"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[5191AD64-E55C-4A0A-9650-6661E8F2CEAA]"
 	}
 
 }

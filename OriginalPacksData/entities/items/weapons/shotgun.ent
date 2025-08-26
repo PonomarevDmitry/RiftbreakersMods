@@ -23,6 +23,12 @@ EntityBlueprint
 		attack_movement_factor	"1.00"
 	}
 	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
+		use_slowdown "0"
+	}
+
 	BurstWeaponComponent
 	{
 		WeaponAffector
@@ -35,9 +41,9 @@ EntityBlueprint
 			WeaponMuzzle
 			{
 				attachment "att_muzzle"
-        recoil_bone   "be_recoil"
-        recoil_time   	"0.3"
-        recoil_offset   "0.5"
+				recoil_bone   "be_recoil"
+				recoil_time   	"0.3"
+				recoil_offset   "0.5"
 			}
 		}
 
@@ -48,7 +54,7 @@ EntityBlueprint
 		fire_effect 						"effects/weapons_shotguns/shotgun_fire"
 
 		burst_rate 							"0.2"
-		burst_column_angle 					"90"
+		burst_column_angle 					"45"
 	}
 
 	ChargeWeaponComponent
@@ -186,6 +192,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/shotgun_advanced"
 		bigger_icon "gui/menu/items_icons/weapons/shotgun_advanced"
 		description 	"gui/menu/inventory/weapon_charge_description/shotgun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -240,6 +247,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/shotgun_extreme"
 		bigger_icon "gui/menu/items_icons/weapons/shotgun_extreme"
 		description 	"gui/menu/inventory/weapon_charge_description/shotgun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -276,6 +284,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/shotgun"
 		bigger_icon "gui/menu/items_icons/weapons/shotgun"
 		description 	"gui/menu/inventory/weapon_charge_description/shotgun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -330,6 +339,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/shotgun_superior"
 		bigger_icon "gui/menu/items_icons/weapons/shotgun_superior"
 		description 	"gui/menu/inventory/weapon_charge_description/shotgun"
+		predict 		1
 	}
 
 	LuaDesc
@@ -367,8 +377,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
-		
+		//collision_2d 			"ground_unit|destructible"
+		diameter				"1"
 		DamagePattern
 		{
 			area_damage_effect_scale	"splash"
@@ -376,13 +386,10 @@ EntityBlueprint
 		}			
 	}
 
-
-
-	//LifeTimeDesc
-	//{
-	//	time 		0.2
-	//	type 		"camera"
-	//}
+	LifeTimeDesc
+	{
+		time "10.0"
+	}	
 }
 
 EntityBlueprint
@@ -400,8 +407,8 @@ EntityBlueprint
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
-		
+		//collision_2d 			"ground_unit|destructible"
+		diameter				"1"
 		DamagePattern
 		{
 			area_damage_effect_scale	"splash"
@@ -410,12 +417,9 @@ EntityBlueprint
 
 	}
 
-
-
-	//LifeTimeDesc
-	//{
-	//	time 		0.2
-	//	type 		"camera"
-	//}
+	LifeTimeDesc
+	{
+		time "10.0"
+	}	
 }
 

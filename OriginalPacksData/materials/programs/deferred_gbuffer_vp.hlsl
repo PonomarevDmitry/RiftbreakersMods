@@ -43,7 +43,7 @@ struct VS_INPUT
 #endif
 #if USE_HW_SKINNING
     float4      BlendWeights  : BLENDWEIGHT;
-    int4        BlendIndices  : BLENDINDICES;
+    uint4       BlendIndices  : BLENDINDICES;
 #endif
 #if USE_INSTANCING
     uint        InstanceId    : SV_InstanceID;
@@ -101,7 +101,7 @@ VS_OUTPUT mainVP( VS_INPUT In )
             for ( int i = 0; i < 4; ++i )
             {                    
                 float weight = In.BlendWeights[ i ];
-                uint boneIdx = uint( In.BlendIndices[ i ] );
+                uint boneIdx = In.BlendIndices[ i ];
 
                 uint idx = instanceDataAddr + boneIdx * 3;
                 float3x4 boneWorld;

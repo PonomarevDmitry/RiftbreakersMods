@@ -212,7 +212,8 @@ EntityBlueprint
 			y "3"
 		}
 		
-		visibility "discovered|radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -222,7 +223,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -491,7 +493,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 3 0"
+					offset "0 8 0"
 					scale "0.7 0.7 0.7"
 				}
 			}
@@ -641,6 +643,11 @@ EntityBlueprint
 		friendly_fire				"pass"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-		collision_2d 				"ground_unit|hitbox"
+		//collision_2d 				"ground_unit|hitbox"
 	}
+	
+	LifeTimeDesc
+	{
+		time "5.0"
+	}		
 }

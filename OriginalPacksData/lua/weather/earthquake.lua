@@ -10,7 +10,9 @@ end
 
 
 function earthquake:OnRelease()
-	GuiService:RemoveMinimapMarker( tostring( self.entity ) )
+	if ( GuiService:HasMinimapMarker( tostring( self.entity ) ) ) then
+		GuiService:RemoveMinimapMarker( tostring( self.entity ) )
+	end
 end
 
 return earthquake

@@ -9,24 +9,27 @@ function weapon:__init()
 end
 
 function weapon:init()
-    item.init(self)
-
     self:RegisterHandler( self.entity, "ShootingStartWeaponEvent",         "_ShootingStart" )
     self:RegisterHandler( self.entity, "ShootingStopWeaponEvent",        "_ShootingStop" )
     self:RegisterHandler( self.entity, "ShootingEmptyStartWeaponEvent",    "_ShootingEmptyStart" )
     self:RegisterHandler( self.entity, "ShootingEmptyStopWeaponEvent",    "_ShootingEmptyStop" )
-    
     self.scale = self.data:GetFloatOrDefault("scale", 1.0 )
     self:CreateFeedbackStateMachine();
+
+    item.init(self)
 end
 
 function weapon:ClearWeaponFeedbackState()
+    if not is_client then return end
+
     if not self.pad_trigger then return end
 
     PlayerService:ResetPadTriggerMode( 0, self.pad_trigger.index );
 end
 
 function weapon:CreateFeedbackStateMachine()
+    if not is_client then return end
+
     if not self._pad_fsm then
         self._pad_fsm = self:CreateStateMachine()
         self._pad_fsm:AddState("check_pad_feedback_state", { enter="UpdateWeaponFeedbackState", execute="UpdateWeaponFeedbackState", exit="ClearWeaponFeedbackState", interval=0.1 })
@@ -44,6 +47,8 @@ end
 
 -- position = [0,8], strength = [0,8]
 function weapon:SetPadTriggerFeedbackMode( position, strength, forced_duration )
+    if not is_client then return end
+
     if not self.pad_trigger then return end
 
     if forced_duration then
@@ -56,6 +61,8 @@ end
 
 -- start_position = [2,7], end_position = [3,8], strength = [0,8]
 function weapon:SetPadTriggerWeaponMode( start_position, end_position, strength, forced_duration )
+    if not is_client then return end
+
     if not self.pad_trigger then return end
 
     if forced_duration then
@@ -68,6 +75,8 @@ end
 
 -- position = [0,8], amplitude = [0,8], frequency = [0,255]
 function weapon:SetPadTriggerVibrationMode( position, amplitude, frequency, forced_duration )
+    if not is_client then return end
+    
     if not self.pad_trigger then return end
 
     if forced_duration then
@@ -79,6 +88,8 @@ function weapon:SetPadTriggerVibrationMode( position, amplitude, frequency, forc
 end
 
 function weapon:UpdateWeaponFeedbackState( state, dt )
+    if not self.pad_trigger then return end
+
     local playerReferenceComponent = EntityService:GetComponent( self.entity, "PlayerReferenceComponent")
     local playerId = -1    
     if (playerReferenceComponent) then
@@ -123,6 +134,8 @@ function weapon:UpdateWeaponFeedbackState( state, dt )
 end
 
 function weapon:ReactivatePadFeedbackState()
+    if not is_client then return end
+
     if self.pad_trigger then
         self._pad_fsm:Deactivate()
         self._pad_fsm:ChangeState("check_pad_feedback_state")
@@ -130,6 +143,8 @@ function weapon:ReactivatePadFeedbackState()
 end
 
 function weapon:GetPadTriggerIndexForSlot( slot )
+    if not is_client then return nil end
+
     if self.owner ~= PlayerService:GetPlayerControlledEnt(0) then
         return nil
     end
@@ -138,6 +153,8 @@ function weapon:GetPadTriggerIndexForSlot( slot )
 end
 
 function weapon:SetPadTriggerParams(item_status, duration)
+    if not is_client then return false end
+
 	if not self.data:HasString("pad_" .. item_status .. "_feedback") then
 		return false
 	end
@@ -163,67 +180,83 @@ function weapon:OnEquipped()
 
     self.item_type = ItemService:GetItemType( self.entity )
 
-    local pad_trigger_index = self:GetPadTriggerIndexForSlot(self.slot);
-    if pad_trigger_index ~= nil then
-        self.pad_trigger = { index = pad_trigger_index }
-        self:ReactivatePadFeedbackState();
+    if is_client then
+        local pad_trigger_index = self:GetPadTriggerIndexForSlot(self.slot);
+        if pad_trigger_index ~= nil then
+            self.pad_trigger = { index = pad_trigger_index }
+            self:ReactivatePadFeedbackState();
+        end
+
+    	self:SetPadTriggerParams("equipped");
     end
 
-	self:SetPadTriggerParams("equipped");
-
     WeaponService:UpdateWeaponStatComponent( self.entity, self.item )
-    
     EntityService:SetScale( self.item, self.scale, self.scale, self.scale )
     EntityService:SetPhysicsScale( self.item, self.scale, self.scale, self.scale )
     local children = EntityService:GetChildren(self.item, true)
     for child in Iter(children) do
         EntityService:SetPhysicsScale( child, self.scale, self.scale, self.scale )
     end
-
 end
 
 function weapon:OnUnequipped()
-    ItemService:ResetItemCooldownWeaponBased( self.entity, self.item)
+    if self.entity and self.item then
+        ItemService:ResetItemCooldownWeaponBased( self.entity, self.item)
+    end
+    if is_client then
+        if self.pad_trigger then
+            self._pad_fsm:Deactivate()
+            PlayerService:ResetPadTriggerMode( 0, self.pad_trigger.index );
 
-    if self.pad_trigger then
-        self._pad_fsm:Deactivate()
-        PlayerService:ResetPadTriggerMode( 0, self.pad_trigger.index );
-
-        self.pad_trigger = nil;
+            self.pad_trigger = nil;
+        end
     end
 end
 
 function weapon:_OnActivate(evt)
     item._OnActivate( self, evt )
-	if self:SetPadTriggerParams("active") then
-    	self:ReactivatePadFeedbackState();
-	end
+
+    if is_client then
+    	if self:SetPadTriggerParams("active") then
+        	self:ReactivatePadFeedbackState();
+    	end
+    end
 end
 
 function weapon:_OnDeactivate(evt)
     item._OnDeactivate( self, evt )
-	self:SetPadTriggerParams("equipped");
+
+    if is_client then
+	   self:SetPadTriggerParams("equipped");
+    end
 end
 
 function weapon:_ShootingStart( evt )
-    EffectService:AttachEffects( self.item, "shooting" ) 
+    if is_server then
+        EffectService:AttachEffects( self.item, "shooting" ) -- TODO Prediction?
+    end
     self:OnShootingStart()
 end
 
 function weapon:_ShootingStop( evt )
-    EffectService:DestroyEffectsByGroup( self.item, "shooting" ) 
-    --local forced = evt:GetForced()
+    if is_server then
+        EffectService:DestroyEffectsByGroup( self.item, "shooting" ) -- TODO Prediction?
+    end
     self:OnShootingStop()
 end
 
 function weapon:_ShootingEmptyStart( evt )
-    EffectService:AttachEffects( self.item, "shooting_empty" ) 
+    if is_server then
+        EffectService:AttachEffects( self.item, "shooting_empty" ) -- TODO Prediction?
+    end
     self:OnShootingEmptyStart()
 end
 
 function weapon:_ShootingEmptyStop( evt )
-    EffectService:DestroyEffectsByGroup( self.item, "shooting_empty" ) 
-    --local forced = evt:GetForced()
+    if is_server then
+        EffectService:DestroyEffectsByGroup( self.item, "shooting_empty" ) -- TODO Prediction?
+    end
+
     self:OnShootingEmptyStop()
 end
 
@@ -244,7 +277,9 @@ function weapon:OnShootingEmptyStop()
 end
 
 function weapon:OnDrop()
-    EffectService:DestroyEffectsByGroup(self.item, "laser_pointer")
+    if is_server then
+        EffectService:DestroyEffectsByGroup( self.item, "laser_pointer" ) -- TODO Prediction?
+    end
 end
 
 return weapon

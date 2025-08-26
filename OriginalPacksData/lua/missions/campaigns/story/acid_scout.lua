@@ -9,6 +9,8 @@ function mission_acid_scout:__init()
 end
 
 function mission_acid_scout:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/acid_scout.logic", "default" )

@@ -305,3 +305,34 @@ material items/skills/antimatter_ball
         }
     }
 }
+
+material items/skills/cryo_beam
+{
+    render_group 61
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+
+            glow 200
+            emissive 0 3 3 1
+
+            vertex_program_ref unlit_fresnel_vp
+			{
+			}
+
+			fragment_program_ref unlit_fresnel_fp
+			{
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
+				param_named cFresnelPower float 2
+
+				param_named cBlendColor1 float4 0 3 3 1
+				param_named cBlendColor2 float4 0 3 3 1
+			}
+        }
+    }
+}

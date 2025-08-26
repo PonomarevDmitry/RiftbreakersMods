@@ -158,32 +158,35 @@ EntityBlueprint
 {
 	name  "items/skills/tornado_standard"
 	
-	WeaponItemDesc
-	{
-	}	
-
 	SkeletonDesc
 	{
 		name "meshes/misc/tornado_big"
 	}
 
+	WeaponItemDesc
+	{
+	}	
+
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/tornado"
-		visibility		"visible|radar"		
-		additional_z_order	"20"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/tornado"
+		visibility			"visible|radar"		
+		additional_z_order	"20"
+		layer_group			"enemies"
 	}
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "600" 
-		//type                      "target_player"		
+		//type                      "target_player"
+		effect_bp					"effects/tornado/tornado_fire"
+		marker_bp					"effects/tornado/tornado_marker_fire"
 	}
 
 	AreaDamageComponent
@@ -191,14 +194,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"10"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"100"
+					value 			"75"
 					type			"fire"
 				}
 			}
@@ -220,21 +223,6 @@ EntityBlueprint
 			
 			Effects
 			{
-				Effect
-				{
-					blueprint "effects/world/tornado_big_fire"
-					bone "att_tornado"
-				}
-				Effect
-				{
-					blueprint "effects/world/tornado_big_stones"
-					bone "att_tornado"
-				}	
-				Effect
-				{
-					blueprint "lights/point/tornado_shadow_caster_orange"
-					offset "0 10 0"
-				}
 				Effect
 				{
 					blueprint "effects/items/tornado_muzzle"					
@@ -284,6 +272,7 @@ EntityBlueprint
 			}
 		}
 	}
+
 	BurningComponent
 	{
 		spread_radius 			"10"			// radius to spread fire
@@ -310,13 +299,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "900" 
 		//type                      "target_player"		
+		effect_bp					"effects/tornado/tornado_fire"
+		marker_bp					"effects/tornado/tornado_marker_fire"
 	}
 
 	AreaDamageComponent
@@ -324,14 +315,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"10"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"150"
+					value 			"100"
 					type			"fire"
 				}
 			}
@@ -355,13 +346,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "1200" 
-		//type                      "target_player"		
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_fire"
+		marker_bp					"effects/tornado/tornado_marker_fire"
 	}
 
 	AreaDamageComponent
@@ -369,14 +362,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"10"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"200"
+					value 			"125"
 					type			"fire"
 				}
 			}
@@ -400,13 +393,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "1500" 
-		//type                      "target_player"		
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_fire"
+		marker_bp					"effects/tornado/tornado_marker_fire"
 	}
 
 	LifeTimeDesc
@@ -419,14 +414,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"10"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"250"
+					value 			"150"
 					type			"fire"
 				}
 			}

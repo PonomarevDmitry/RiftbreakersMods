@@ -323,6 +323,43 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name lights/point/mech_deactivation_explosion
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "0.2"
+			z "1.0"
+			w "50000.0"
+		}
+		light_size 0.1
+		light_range "50"
+		
+		light_world_offset
+		{
+			y "3"
+		}			
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"2"
+	}
+}
+
+EntityBlueprint
+{
 	name lights/point/mech_death_no_shadow
 
 	SceneEditorDesc
@@ -376,10 +413,10 @@ EntityBlueprint
 			x "1.0"
 			y "0.2"
 			z "0.05"
-			w "50000.0"
+			w "20000.0"
 		}
 		light_size 0.1
-		light_range "50"
+		light_range "30"
 		
 		light_world_offset
 		{
@@ -391,7 +428,7 @@ EntityBlueprint
 	{
 		start    	"1"
 		end    		"0"
-		duration	"2"
+		duration	"1"
 	}
 }
 
@@ -413,10 +450,10 @@ EntityBlueprint
 			x "0.05"
 			y "0.2"
 			z "1.0"
-			w "50000.0"
+			w "20000.0"
 		}
 		light_size 0.1
-		light_range "50"
+		light_range "30"
 		
 		light_world_offset
 		{
@@ -428,7 +465,7 @@ EntityBlueprint
 	{
 		start    	"1"
 		end    		"0"
-		duration	"2"
+		duration	"1"
 	}
 }
 
@@ -450,10 +487,10 @@ EntityBlueprint
 			x "0.1"
 			y "1.0"
 			z "0.1"
-			w "50000.0"
+			w "20000.0"
 		}
 		light_size 0.1
-		light_range "50"
+		light_range "30"
 		
 		light_world_offset
 		{
@@ -465,7 +502,7 @@ EntityBlueprint
 	{
 		start    	"1"
 		end    		"0"
-		duration	"2"
+		duration	"1"
 	}
 }
 
@@ -1190,14 +1227,6 @@ EntityBlueprint
 		light_size 0.1
 		light_range "30"
 	}
-
-	LightPerlinAffectorComponent
-	{
-		const_value 	"5"
-		frequency    	"25"
-		persistance    	"0.1"
-		steps 			"5"
-	}
 }
 
 EntityBlueprint
@@ -1913,6 +1942,80 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name lights/point/explosion_mild_blue_medium
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "1.0"
+			w "4000.0"
+		}
+
+		light_range "15"
+		
+		light_world_offset
+		{
+			y "3"
+		}		
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/explosion_mild_blue_small
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.1"
+			y "1.0"
+			z "1.0"
+			w "3000.0"
+		}
+
+		light_range "9"
+		
+		light_world_offset
+		{
+			y "3"
+		}		
+	}
+
+	LightLinearAffectorComponent
+	{
+		start    	"1"
+		end    		"0"
+		duration	"1.0"
+	}
+}
+
+EntityBlueprint
+{
 	name lights/point/explosion_blue_medium_bright
 
 	SceneEditorDesc
@@ -1929,7 +2032,7 @@ EntityBlueprint
 			x "0.05"
 			y "0.5"
 			z "1.0"
-			w "50000.0"
+			w "5000.0"
 		}
 
 		light_range "10"
@@ -3071,6 +3174,39 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name lights/point/fire_green_big
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "1.0"
+			z "0.05"
+			w "500.0"
+		}
+
+		light_range "15"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"1"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
 	name lights/point/fire_green_medium
 
 	SceneEditorDesc
@@ -3090,7 +3226,7 @@ EntityBlueprint
 			w "300.0"
 		}
 
-		light_range "8"
+		light_range "11"
 	}
 
 	LightPerlinAffectorComponent
@@ -6731,6 +6867,8 @@ EntityBlueprint
 		mesh 		"meshes/light_point.mesh"
 	}
 
+	NetReplicateOnceComponent
+
 	LightDesc
 	{
 		type "0"
@@ -6763,6 +6901,8 @@ EntityBlueprint
 	{
 		mesh 		"meshes/light_point.mesh"
 	}
+
+	NetReplicateOnceComponent
 
 	LightDesc
 	{
@@ -6830,6 +6970,8 @@ EntityBlueprint
 		mesh 		"meshes/light_point.mesh"
 	}
 
+	NetReplicateOnceComponent
+
 	LightDesc
 	{
 		type "0"
@@ -6851,5 +6993,108 @@ EntityBlueprint
 		frequency    	"25"
 		persistance    	"0.1"
 		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/gravitational_hyper_lens_shadow_caster_blue
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.82"
+		light_color
+		{
+			x "0.05"
+			y "0.3"
+			z "1.0"
+			w "2000.0" 				// "500"
+		}
+		light_size 0.3
+		light_range "35" 			// "150"
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+
+	LightPerlinAffectorComponent
+	{
+		const_value 	"5"
+		frequency    	"25"
+		persistance    	"0.1"
+		steps 			"5"
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/encounter_depth_green_radioactive
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"uranium"	
+		extend  		"26"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "5"
+		light_color
+		{
+			x "0.0"
+			y "1.0"
+			z "0.0"
+			w "300.0" 
+		}
+		light_range "25" 
+	}
+	
+	LightDayAndNightAffector
+	{
+		instant 0
+	}
+}
+
+EntityBlueprint
+{
+	name lights/point/encounter_depth_green_soft
+
+	SceneEditorDesc
+	{
+		mesh 		"meshes/light_point.mesh"
+	}
+	
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.5"
+		light_color
+		{
+			x "0.4"
+			y "1.0"
+			z "0.3"
+			w "300.0" 
+		}
+		light_range "35" 
+	}
+	
+	LightDayAndNightAffector
+	{
+		instant 0
 	}
 }

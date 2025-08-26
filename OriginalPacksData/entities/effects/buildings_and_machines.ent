@@ -713,6 +713,44 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/buildings_and_machines/drone_trail_cultivator
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/drone_trail"
+	//}
+
+	RibbonComponent
+	{
+		material 			"ribbon/drone_trail_yellow_green"
+		update_bounds 		1
+		fade_out_time		0.9
+		tesselation_step 	0.1
+		manual_fade 		1
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.4"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.4"
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
 	name effects/buildings_and_machines/drone_trail
 
 	base_blueprints
@@ -1700,7 +1738,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/teleport_exit
+		 lights/point/explosion_blue_big
 		 effects/default
 	}
 
@@ -1852,7 +1890,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/muzzle_green_medium
+		 lights/point/fire_green_medium
 		 effects/no_lifetime
 	}
 
@@ -1984,3 +2022,40 @@ EntityBlueprint
 	}	
 }
 
+EntityBlueprint
+{
+	name effects/buildings_and_machines/crash_site_core_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_blue_big
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"20"
+		radius 	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/crash_site_core_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/energy_explosion_medium"
+	}	
+}

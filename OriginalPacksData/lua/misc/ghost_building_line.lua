@@ -97,7 +97,7 @@ function ghost_building_line:FinishLineBuild()
        
         local testBuildable = self:CheckEntityBuildable( ghost , transform, false, i )
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, buildingComponent.bp, transform, createCube, {} )
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )

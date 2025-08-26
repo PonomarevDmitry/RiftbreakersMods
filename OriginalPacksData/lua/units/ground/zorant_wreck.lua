@@ -7,9 +7,7 @@ function zorant_wreck:__init()
 end
 
 function zorant_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return zorant_wreck

@@ -3,6 +3,26 @@ EntityBlueprint
 	name "units/ground/flurian_boss_energy"
 
 	base_blueprint "units/ground/flurian_base"
+	
+	StateMachineDesc
+	{
+		template_name "flurian"
+		params
+		{
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"36"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"55"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			range_attack_cooldown				float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
@@ -19,6 +39,11 @@ EntityBlueprint
 		version int:"2"	
 	}
 	
+	AnimationGraphDesc
+	{
+		animation_graph_name "flurian_boss"
+	}
+	
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"200"
@@ -29,10 +54,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"7000"
-		health 						"7000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -58,28 +81,30 @@ EntityBlueprint
 	{
 		physical		"1.0"
 		fire			"1.0"
-		acid			"1.5"
+		acid			"3.0"
 		energy			"0.1"
-		cryo			"0.5"
+		cryo			"1.0"
 		area			"0.5"	
-		reflect_damage_max_percent 		"0.03"
+		reflect_damage_max_percent 		"0.1"
 	}	
 	
 	StunDataComponent
 	{
 		stagger_time 					"0.25"
 		stagger_health_threshold		"0.05"
-		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.2"
+		stagger_long_time				"0.95"
+		stagger_long_health_threshold	"0.10"
 		
-		stagger_cooldown				"1.0"
-		stagger_long_cooldown			"3.5"
-		stun_cooldown					"15"
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.05"
 	}		
 
 	MeshDesc
 	{
-		mesh 		"meshes/units/ground/flurian.mesh"
+		mesh 		"meshes/units/ground/flurian_boss.mesh"
 		material 	"units/ground/flurian_boss"
 	}
 	
@@ -92,7 +117,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"	
+		layer_group		"enemies"
 	}	
 	
 	TurretDesc
@@ -296,6 +322,20 @@ EntityBlueprint
 					scale "2.5 2.5 2.5"
 				}
 			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
 		}		
 	}			
 
@@ -303,11 +343,9 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/flurian_ultra/attack"
 
 			NetReplicationDisabledComponent
 			{
-
 			}
 
 			AttachmentDesc
@@ -326,9 +364,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_flurian/attack_start"
-						attack_start_time			"0.85"
-						attack_end_time				"0.95"
-						attack_duration 			"1.83"
+						//attack_start_time			"0.85"
+						//attack_end_time				"0.95"
+						//attack_duration 			"1.83"
+						attack_start_time			"0.60"
+						attack_end_time				"0.75"
+						attack_duration 			"1.37"
 						damage_multiple  			"1"
 					}
 
@@ -339,9 +380,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_flurian/attack_start"
-						attack_start_time			"0.89"
-						attack_end_time				"0.99"
-						attack_duration 			"1.83"
+						//attack_start_time			"0.89"
+						//attack_end_time				"0.99"
+						//attack_duration 			"1.83"
+						attack_start_time			"0.63"
+						attack_end_time				"0.78"
+						attack_duration 			"1.37"
 						damage_multiple  			"1"
 					}
 				}
@@ -367,7 +411,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"99"
+										value 	"100"
 										type 	"energy"
 									}
 								}
@@ -435,7 +479,7 @@ EntityBlueprint
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
-
+		friendly_fire				"pass"
 		diameter					"2"
 
 		artillery_min_angle 		"10"
@@ -472,4 +516,8 @@ EntityBlueprint
 			}
 		}
 	}
+	LifeTimeDesc
+	{
+		time "5.0"
+	}		
 }

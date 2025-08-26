@@ -10,7 +10,7 @@ end
 function zorant:OnInit()
 	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 8
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end

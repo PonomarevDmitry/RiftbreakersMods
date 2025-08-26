@@ -65,7 +65,7 @@ end
 
 function proximity_mine:OnArmedStart( state )
 	if string.find(self.bp, "mine_nuclear") and EntityService:CompareTeam( self.entity, "player") then
-		CampaignService:UnlockAchievement(ACHIEVEMENT_KABOOM)
+		CampaignService:UnlockAchievement( ACHIEVEMENT_KABOOM, self.owner )
 	end
 
 	state:SetDurationLimit( self.delayBeforeArmoed )

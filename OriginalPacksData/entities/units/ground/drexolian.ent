@@ -17,7 +17,7 @@ EntityBlueprint
 
 	DatabaseComponent
 	{
-		version int:"1"
+		version int:"2"
 	}
 
 	HealthDesc
@@ -119,8 +119,8 @@ EntityBlueprint
 				{
 					PhysicsBoxShape
 					{
-						x "4.5"
-						y "3.0"
+						x "2.0"
+						y "3.5"
 						z "1.5"
 
 						position
@@ -201,7 +201,7 @@ EntityBlueprint
 				{
 					PhysicsBoxShape
 					{
-						x "4.5"
+						x "2.5"
 						y "3.0"
 						z "1.5"
 
@@ -259,7 +259,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/loot/power_well_buff_on_mech"
+					blueprint "effects/enemies_drexolian/drexolian_slowdown"
 				}
 			}
 		}
@@ -309,6 +309,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	ProjectileAmmoComponent
@@ -451,13 +452,15 @@ EntityBlueprint
 		stagger_cooldown				"2.0"
 		stagger_long_cooldown			"4.0"
 		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.1"
 	}
 	
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"180"
 		unit_soft_radius				"2.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
 		dominance_group				    "0"
 	}
 	
@@ -543,7 +546,8 @@ EntityBlueprint
 			y "3"
 		}
 
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -554,6 +558,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"10000"
 		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -827,7 +832,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 4 0"
+					offset "0 8 0"
 					scale "0.9 0.9 0.9"
 				}
 			}
@@ -945,6 +950,60 @@ EntityBlueprint
 			}
 		}		
 	}
+}
+
+EntityBlueprint
+{ 
+	name "units/ground/drexolian/wall_explosion"
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"50.0"
+					type 		"physical"
+				}
+			}
+		}
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"10000"
+					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
+
+	
 }
 
 EntityBlueprint

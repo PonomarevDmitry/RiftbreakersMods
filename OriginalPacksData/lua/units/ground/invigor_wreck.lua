@@ -8,8 +8,6 @@ end
 
 function invigor_wreck:initParams()
 	self.wreckLifetime = 10
-    self.normalExplodeProbability = 0
-	self.leaveBodyProbability = 10
 end
 
 return invigor_wreck

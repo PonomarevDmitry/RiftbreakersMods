@@ -1,3 +1,4 @@
+require ("lua/utils/table_utils.lua")
 function SetupUnitScale( entity, database )
 	local scaleMin = database:GetFloatOrDefault( "min_scale", 0.9 )
 	local scaleMax = database:GetFloatOrDefault( "max_scale", 1.1 )
@@ -9,6 +10,8 @@ function SetupUnitScale( entity, database )
 	for child in Iter(children) do
 		EntityService:SetPhysicsScale( child, x, x, x )
 	end
+
+    QueueEvent("NetClearEntityComponentStateRequest", entity, "TransformComponent")
 end
 
 function SetupComponentFieldOverrides(entity, database)

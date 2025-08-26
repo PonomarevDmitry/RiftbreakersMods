@@ -16,7 +16,7 @@ function loot_container_spawner:init()
 	self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "wait", { from="*", enter="OnEnterWating", exit="OnExitWaiting" } )
 	SetupUnitScale( self.entity, self.data )
-	
+
 	EntityService:SetGroup( self.entity, "loot_container");
 	EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, RandFloat(0.0, 360.0))
 
@@ -43,29 +43,30 @@ end
 
 function loot_container_spawner:OnInteractWithEntityRequest( evt )
 
+	local owner = evt:GetOwner()
+	local playerId = PlayerService:GetPlayerByMech( owner )
+
 	local blueprintName = EntityService:GetBlueprintName(self.entity)
+
 	if string.find(blueprintName, "metallic" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_METALLIC_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "caverns" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_CAVERNS_BIOANOMALLY, 1, playerId )
 	elseif string.find(blueprintName, "poogret_poo" ) ~= nil then
-		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1)
+		CampaignService:UpdateAchievementProgress(ACHIEVEMENT_COLLECT_RESOURCES_FROM_POO, 1, playerId )
 	end
 
-	local owner = evt:GetOwner()
 	local playerReferenceComponent = EntityService:GetComponent( owner, "PlayerReferenceComponent")
 	if ( playerReferenceComponent ) then
 		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" )
 		if ( forcedGroup ~= "" ) then
 			QueueEvent("ForceLootContainerTypeRequest", self.entity,	forcedGroup )
-			EntityService:RemoveComponent(self.entity, "LootComponent")
 		end
-
-		local helper = reflection_helper(playerReferenceComponent)
-		QueueEvent("SpawnFromLootContainerRequest", self.entity, self.rarity, helper.player_id )
+		
 	end
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
-	
+
+	EntityService:DestroyEntity( self.entity, "default" )
+
 	local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 	QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyClose", params )
 end
@@ -73,7 +74,6 @@ end
 function loot_container_spawner:SpawnWaveLogicFiles( waveLogic, waveLogicMul, spawnDistance, ignoreWater )
 	if ( ResourceManager:ResourceExists( "FlowGraphTemplate", waveLogic ) ) then
 		--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - exist : " .. tostring( waveLogic ) )
-
 		local spawnPoint = UnitService:CreateDynamicSpawnPoints( self.entity, spawnDistance, waveLogicMul, ignoreWater )
 
 		for i = 1, #spawnPoint do
@@ -118,30 +118,27 @@ function loot_container_spawner:OnHarvestStartEvent( evt )
 
 		local exist1 = self:SpawnWaveLogicFiles( waveLogic, waveLogicMul, waveSpawnDistance, ignoreWater )
 		local exist2 = self:SpawnWaveLogicFiles( bossLogic, bossLogicMul, waveSpawnDistance, ignoreWater )
-
 		if ( exist1 or exist2 ) then
 		
 			local params = { target = tostring( EntityService:GetName( self.entity ) ) }
 			QueueEvent( "LuaGlobalEvent", event_sink, "BioanomalyOpen", params )	
 
-			local waveEffect = self.data:GetStringOrDefault( "wave_started_effect", "" )
+			local waveEffect	= self.data:GetStringOrDefault( "wave_started_effect", "" )
 			if waveEffect ~= "" then
 				EffectService:SpawnEffect(self.entity,waveEffect);
 			end
 
 			EntityService:SpawnAndAttachEntity( "spawners/loot_container_spawner_disarmed", self.entity );
-		end
+				end
 
 		if ( self.delay > 0) then
 			local entity = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.entity, "")
 			local db = EntityService:GetDatabase( entity )
 			db:SetFloat( "delay", self.delay )
 			db:SetFloat( "aggressive_radius", self.aggressiveRadius )
-		else
-			EntityService:MarkEntityAsLootContainer( self.entity, self.rarity )
 		end
 	else
-		--LogService:Log( "loot_container_spawner:OnHarvestStartEvent - already activated." )
+		LogService:Log( "loot_container_spawner:OnHarvestStartEvent - already activated." )
 	end
 end
 

@@ -2,26 +2,192 @@ EntityBlueprint
 {
 	name  "units/ground/arachnoid_boss_easy"
 
-	base_blueprint 	"units/ground/arachnoid_boss"
+	base_blueprint 	"units/ground/arachnoid_boss_base"
 
-	UnitsSpawnerDesc
+	LuaDesc
 	{
-		blueprint						"units/ground/egg_arachnoid_sentinel"
-		amount_on_single_spawn			"25"
-		max_spawn						"25"
-		time_to_spawn					"10000000000000"
-		unit_state_spawn				"1"  // do not touch
-		max_spawn_distance				"20"
-		spawn_type						"egg"
-		spawn_marker_bp					"effects/messages_and_markers/wave_marker_nest"
-		spawn_marker_life_time			"30"
-		can_spawn_when_visible			"0"
-		defend_radius					"40"
-	}
+		script "lua/units/ground/arachnoid_boss.lua"
+		
+		database
+		{
+			min_scale	float:"3.0"
+			max_scale	float:"3.0"
+						
+			STING_item_type string:"enemy_range_weapon"
+			STING_pose_type string:"range"
 
+			items 		string:"items/weapons_enemy/alien_acid_elite_item"
+		}
+	}		
+	
 	DatabaseComponent
 	{
-		version int:"1"	
+		version int:"2"	
+	}		
+	
+	children
+	{
+		EntityBlueprint
+		{
+			name "units/ground/arachnoid_boss/easy_attack_1"
+			
+			NetReplicationDisabledComponent
+			{
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_front_right_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "0.25"
+						}
+					}	
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "units/ground/arachnoid_boss/easy_attack_2"
+			
+			NetReplicationDisabledComponent
+			{
+			}
+
+			AttachmentDesc
+			{
+				attachment "be_front_left_talon"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_arachnoid/boss_attack"
+						attack_start_time			"0.34"
+						attack_end_time				"0.54"
+						attack_duration 			"1.00"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/enemy_hit_big"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"35.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "1.2"
+						y "1.75"
+						z "1.0"
+
+						position 
+						{
+							x "0.0"
+							y "0.0"
+							z "-0.25"
+						}
+					}	
+				}
+			}
+		}
 	}	
-}
+}	
 

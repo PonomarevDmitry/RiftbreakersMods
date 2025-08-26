@@ -1,25 +1,19 @@
 GameplayResourceDef
 {
-	id					"cobalt_vein"
-	localization_id 	"resource_name/cobalt_vein"
-	bp  				"resources/resource_cobalt"
-	type 				"vein"
-	ore					"cobalt"
-	random_rotation 	"1"
-	icon				"gui/hud/resource_icons/cobalt"
-	bigger_icon			"gui/hud/resource_icons/cobalt_bigger"
+	id						"cobalt_vein"
+	localization_id 		"resource_name/cobalt_vein"
+	bp  					"resources/resource_cobalt"
+	type 					"vein"
+	ore						"cobalt"
+	random_rotation 		"1"
+	icon					"gui/hud/resource_icons/cobalt"
+	bigger_icon				"gui/hud/resource_icons/cobalt_bigger"
 
-	terrain_material 	"ground/resources/cobalt"
-	spawn_type			"deposit"
-	order   			"30"
+	terrain_material 		"ground/resources/cobalt"
+	spawn_type				"deposit"
+	order   				"30"
 
-	volume_minimap_color
-	{
-		r "0"
-		g "0"
-		b "0.7"
-		a "1"
-	}
+	volume_unpack_blueprint "resources/volume_resource_cobalt"
 }
 
 GameplayResourceDef

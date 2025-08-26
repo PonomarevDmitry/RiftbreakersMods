@@ -1,0 +1,1040 @@
+GuiRootGroupDef
+{
+	full_screen "5"
+	priority "11"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "container"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "stackpanel"
+						value "GuiStackPanelDef"
+						{
+							stack_type "1"
+							template_reference
+							{
+								path "templates.player_button"
+								ref_gui_id "gui/hud/hud_players"
+								ref_model
+								{
+									database
+									{
+										Strings
+										{
+											StringData
+											{
+												key "icon_selected"
+												value "gui/menu/buttons/menu_options_neutral_selected"
+											}
+
+											StringData
+											{
+												key "icon_active"
+												value "gui/menu/buttons/menu_options_active"
+											}
+
+										}
+
+										Floats
+										Vectors
+										Integers
+									}
+
+								}
+
+								margin
+								{
+									x "10"
+									z "10"
+								}
+
+								size
+								{
+									x "96"
+									y "64"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+							}
+
+							id "stackpanel"
+							model_source "players"
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "10"
+						}
+
+					}
+
+				}
+
+				container_type "2"
+				alignment "bottom_right"
+				anchor "bottom_right"
+				id "container"
+				margin
+				{
+					w "10"
+					z "300"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				z_order "-200"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "templates"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "player_button"
+						value "GuiButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "container"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "barrier"
+												value "GuiBarDef"
+												{
+													rawData "1 0"
+													error_material "default_bar_1x2"
+													material "gui/hud/bars/mp_shield_1x2"
+													bindings
+													{
+														data
+														{
+															model_field "barrier"
+														}
+
+														visible
+														{
+															model_field "show_bars"
+														}
+
+													}
+
+													id "barrier"
+													offset
+													{
+														y "58"
+													}
+
+													size
+													{
+														x "50"
+													}
+
+													size_mode_x "0"
+													z_order "400"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "health"
+												value "GuiBarDef"
+												{
+													rawData "1 0"
+													error_material "default_bar_1x2"
+													material "gui/hud/bars/mp_hp_1x2"
+													bindings
+													{
+														data
+														{
+															model_field "health"
+														}
+
+														visible
+														{
+															model_field "show_bars"
+														}
+
+													}
+
+													id "health"
+													offset
+													{
+														y "53"
+													}
+
+													size
+													{
+														x "50"
+													}
+
+													size_mode_x "0"
+													z_order "400"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "bg"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/items_icon_bg"
+																bindings
+																{
+																	material
+																	{
+																		model_field "rarity"
+																		converter "GuiModelMapConverter"
+																		{
+																			map
+																			{
+																				1 "gui/hud/items_icon_bg_advanced"
+																				0 "gui/hud/items_icon_bg_standard"
+																				3 "gui/hud/items_icon_bg_extreme"
+																				2 "gui/hud/items_icon_bg_superior"
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "bg"
+																offset
+																{
+																	x "1"
+																	y "7"
+																}
+
+																z_order "84"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "c"
+															value "GuiGroupDef"
+															{
+																allow_overflow "0"
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "#MASK#"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "quad_0"
+																					value "GuiQuadDef"
+																					{
+																						id "quad_0"
+																						offset
+																						{
+																							x "4"
+																							y "-3"
+																						}
+
+																						size
+																						{
+																							x "37"
+																							y "11"
+																						}
+
+																						z_order "90"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "quad_1"
+																					value "GuiQuadDef"
+																					{
+																						id "quad_1"
+																						offset
+																						{
+																							x "-3"
+																							y "4"
+																						}
+
+																						size
+																						{
+																							x "44"
+																							y "37"
+																						}
+
+																						z_order "89"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "quad_2"
+																					value "GuiQuadDef"
+																					{
+																						material_mode "stencil"
+																						color
+																						{
+																							y "0"
+																							z "0"
+																						}
+
+																						id "quad_2"
+																						offset
+																						{
+																							x "4"
+																							y "-3"
+																						}
+
+																						rotation "45"
+																						size
+																						{
+																							x "8"
+																							y "9"
+																						}
+
+																						z_order "91"
+																					}
+
+																				}
+
+																			}
+
+																			id "#MASK#"
+																			offset
+																			{
+																				x "3"
+																				y "3"
+																			}
+
+																			size
+																			{
+																				x "44"
+																				y "44"
+																			}
+
+																			z_order "88"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "avatar"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/hud/items_icons/consumables/missing_icon"
+																			material "gui/menu/items_icons/appearance/skins/amd"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				material
+																				{
+																					model_field "icon"
+																				}
+
+																			}
+
+																			id "avatar"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			z_order "92"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "connecting"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/loading/loading_icon_loop"
+																			stretch_proportional "1"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "is_connecting"
+																				}
+
+																			}
+
+																			hitbox_visible "0"
+																			id "connecting"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			z_order "95"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "death"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/hud/minimap_icons/player_down_icon"
+																			stretch_proportional "1"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "is_dead"
+																				}
+
+																			}
+
+																			hitbox_visible "0"
+																			id "death"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			z_order "94"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "interference"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/hud/items_icons/consumables/missing_icon"
+																			material "gui/hud/build_menu_minimap_interference"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "is_under_interference"
+																				}
+
+																			}
+
+																			color
+																			{
+																				w "0.862"
+																			}
+
+																			id "interference"
+																			z_order "93"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "ping"
+																		value "GuiTextDef"
+																		{
+																			content "TEST"
+																			style_name "tooltip_small_white"
+																			alignment "bottom_right"
+																			anchor "bottom_right"
+																			bindings
+																			{
+																				content
+																				{
+																					model_field "ping"
+																					converter "GuiModelToStringConverter"
+																				}
+
+																				visible
+																				{
+																					model_field "ping"
+																					converter "GuiModelCompareConverter"
+																					{
+																						compare_operator "gt"
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "ping"
+																			margin
+																			{
+																				w "2"
+																				z "3"
+																			}
+
+																			scale
+																			{
+																				x "0.7"
+																				y "0.7"
+																			}
+
+																			z_order "96"
+																		}
+
+																	}
+
+																}
+
+																id "c"
+																margin
+																{
+																	x "3"
+																	y "3"
+																}
+
+																offset
+																{
+																	y "6"
+																}
+
+																size
+																{
+																	x "44"
+																	y "44"
+																}
+
+																z_order "86"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "empty"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/items_icon_bg_empty"
+																id "empty"
+																offset
+																{
+																	x "1"
+																	y "7"
+																}
+
+																z_order "85"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "outline"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/items_icon_bg_outline"
+																color
+																{
+																	w "0.5"
+																}
+
+																id "outline"
+																offset
+																{
+																	x "1"
+																	y "7"
+																}
+
+																z_order "87"
+															}
+
+														}
+
+													}
+
+													id "icon"
+													size_mode_x "1"
+													size_mode_y "1"
+												}
+
+											}
+
+										}
+
+										alignment "top"
+										anchor "top"
+										id "container"
+										size_mode_x "1"
+										size_mode_y "1"
+										tooltip_def
+										{
+											path "text_label"
+											ref_gui_id "gui/template/text_label"
+											ref_model
+											{
+												bindings_proxy
+												{
+													tooltip_content
+													{
+														model_field "user_name"
+													}
+
+												}
+
+												database
+												{
+													Strings
+													{
+														StringData
+														{
+															key "tooltip_content"
+															value "user_name"
+														}
+
+													}
+
+													Floats
+													Vectors
+													Integers
+												}
+
+											}
+
+											size_mode_x "1"
+											size_mode_y "1"
+										}
+
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "current"
+									value "GuiGroupDef"
+									{
+										id "current"
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										alignment "center"
+										anchor "center"
+										id "disabled"
+										size
+										{
+											x "96"
+											y "96"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "outline"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icon_bg_highlight"
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													id "outline"
+													offset
+													{
+														x "1"
+														y "7"
+													}
+
+													z_order "87"
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "disabled_selected"
+										size
+										{
+											x "96"
+											y "96"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										alignment "center"
+										anchor "center"
+										id "neutral"
+										size
+										{
+											x "96"
+											y "96"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "outline"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/items_icon_bg_highlight"
+													bindings
+													{
+														visible
+														{
+															model_field "interactive_hud"
+														}
+
+													}
+
+													id "outline"
+													offset
+													{
+														x "1"
+														y "7"
+													}
+
+													z_order "87"
+												}
+
+											}
+
+										}
+
+										alignment "center"
+										anchor "center"
+										id "neutral_selected"
+										size
+										{
+											x "96"
+											y "96"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								on_click_action
+								{
+									model_field "player_id"
+									converter "GuiModelPostfixConverter"
+									{
+										prefix "teleport_to_player:"
+									}
+
+								}
+
+								z_order
+								{
+									model_field "is_teleport_allowed"
+									converter "GuiButtonNodeEnablingConverter"
+								}
+
+							}
+
+							id "player_button"
+							size
+							{
+								x "96"
+								y "96"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+						}
+
+					}
+
+				}
+
+				id "templates"
+				size_mode_x "2"
+				size_mode_y "1"
+			}
+
+		}
+
+	}
+
+	alignment "bottom_right"
+	anchor "bottom_right"
+	id "gui/hud/hud_players"
+	size
+	{
+		x "1920"
+		y "1080"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player4"
+					default_value
+					{
+						typehash "1871199923"
+						Vector_[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player4
+						{
+							[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player
+							{
+								player_id "0"
+								barrier
+								is_under_interference "1"
+								user_name "Starbuggz"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "0"
+								ping "8"
+								icon "gui/menu/items_icons/appearance/skins/amd"
+							}
+
+							[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name "Starbuggz"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon "gui/menu/items_icons/appearance/skins/amd"
+							}
+
+							[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name "Starbuggz"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon "gui/menu/items_icons/appearance/skins/amd"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "players"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player"
+					default_value
+					{
+						typehash "2306380459"
+						[0F8F1900-774C-432B-B2AB-295A2CD57052]/Player
+						{
+							player_id "0"
+							barrier
+							is_under_interference "0"
+							user_name "Starbuggz"
+							is_teleport_allowed "0"
+							is_being_spectated "0"
+							is_dead "0"
+							health
+							is_connectiing "0"
+							tooltip_content
+							is_connecting "0"
+							ping "0"
+							icon "gui/menu/items_icons/appearance/skins/amd"
+						}
+
+					}
+
+				}
+
+				key "test"
+			}
+
+		}
+
+		handle "[04698AE1-4E29-4D78-A3D2-FFD8A3DD410A]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "Player"
+		base_type
+		{
+			typehash "787221047"
+			HudPlayerData
+			{
+				player_id "0"
+				barrier
+				is_under_interference "1"
+				user_name "Starbuggz"
+				is_teleport_allowed "1"
+				is_being_spectated "0"
+				is_dead "0"
+				health
+				is_connectiing "0"
+				tooltip_content
+				ping "200"
+				icon "gui/menu/items_icons/appearance/skins/amd"
+			}
+
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_connecting"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_under_interference"
+			}
+
+		}
+
+		handle "[0F8F1900-774C-432B-B2AB-295A2CD57052]"
+	}
+
+}
+

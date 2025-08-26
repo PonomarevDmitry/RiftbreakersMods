@@ -7,8 +7,10 @@ end
 
 function skill_aura_resistance:OnInit()
 
-	local radius		= self.data:GetFloat( "radius" )
-	self.resistance		= self.data:GetFloat( "resistance")
+	local radius			= self.data:GetFloat( "radius" )
+	self.resistance			= self.data:GetFloat( "resistance" )
+	self.resistanceOwner	= self.data:GetFloat( "resistance_owner" )
+	
 
 	self:SetupScale( radius )
 
@@ -17,7 +19,7 @@ function skill_aura_resistance:OnInit()
 	self.resistanceFSM:ChangeState( "resistance" )
 
 	local parent = EntityService:GetParent( self.entity )
-	EnvironmentService:SetWeaponAllResistances( parent, self.resistance, "aura_resistance" )
+	EnvironmentService:SetWeaponAllResistances( parent, self.resistanceOwner, "aura_resistance" )
 	self:SetResistanceMaterial( parent )
 end
 

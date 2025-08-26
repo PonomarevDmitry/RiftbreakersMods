@@ -169,7 +169,7 @@ function mine_layer_drone:OnPlantExit()
         EntityService:SpawnAndAttachEntity(self.plant_marker, entity );
 
         self.is_visible = false
-        QueueEvent( "FadeEntityOutRequest", self.entity, 0.1 )
+        QueueEvent( "FadeEntityOutRequest", self.entity, 0.1, true )
         EffectService:DestroyEffectsByGroup(self.entity, "fly");
 
         EntityService:RemoveEntity( target )

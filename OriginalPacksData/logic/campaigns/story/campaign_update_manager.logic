@@ -1,8 +1,8 @@
-//editor "scroll(373.58,692.43)|zoom(0.67)"
+//editor "scroll(-154.61,-306.68)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "12"
-	editor "5738"
+	version "16"
+	editor "6546"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -93,7 +93,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(543,341)"
+			//editor "layout(condition_true.xml)|pos(543,328)"
 			key "true"
 			self_id "logic_if_global_variable_1###true"
 			value
@@ -120,6 +120,12 @@ FlowGraphTemplate
 					{
 						key "item"
 						value "items/awards/campaign_acid_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
 					}
 
 				}
@@ -197,7 +203,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(554,691)"
+			//editor "layout(condition_true.xml)|pos(554,677)"
 			key "true"
 			self_id "logic_if_global_variable_2###true"
 			value
@@ -270,7 +276,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(561,1039)"
+			//editor "layout(condition_true.xml)|pos(561,1026)"
 			key "true"
 			self_id "logic_if_global_variable_3###true"
 			value
@@ -297,6 +303,12 @@ FlowGraphTemplate
 					{
 						key "item"
 						value "items/awards/campaign_magma_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
 					}
 
 				}
@@ -328,6 +340,12 @@ FlowGraphTemplate
 					{
 						key "item"
 						value "items/awards/campaign_desert_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
 					}
 
 				}
@@ -405,7 +423,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(565,1399)"
+			//editor "layout(condition_true.xml)|pos(565,1386)"
 			key "true"
 			self_id "logic_if_global_variable_4###true"
 			value
@@ -432,6 +450,12 @@ FlowGraphTemplate
 					{
 						key "item"
 						value "items/awards/campaign_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
 					}
 
 				}
@@ -509,7 +533,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(565,1739)"
+			//editor "layout(condition_true.xml)|pos(565,1726)"
 			key "true"
 			self_id "logic_if_global_variable_5###true"
 			value
@@ -521,11 +545,148 @@ FlowGraphTemplate
 			self_id "logic_or_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(557,-151)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(843,-197)"
+			graph "logic/campaigns/story/campaign_mission_generator_manager.logic"
+			self_id "event_graph_18"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(543,-694)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.endgame_start"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(543,-427)"
+			key "true"
+			self_id "logic_if_global_variable_6###true"
+			value "logic_if_global_variable_2###true"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1153,-487)"
+			graph "logic/campaigns/story/campaign_endgame_manager.logic"
+			self_id "event_graph_19"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3|logic_if_global_variable_4|logic_if_global_variable_5"
+		default "logic_and_1|logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3|logic_if_global_variable_4|logic_if_global_variable_5|logic_if_global_variable_6"
+		logic_and_1 "event_graph_18"
 		logic_if_global_variable_1 "logic_if_global_variable_1###true"
 		logic_if_global_variable_1###true "entity_add_item_5"
 		logic_if_global_variable_2 "logic_if_global_variable_2###true"
@@ -536,6 +697,8 @@ FlowGraphTemplate
 		logic_if_global_variable_4###true "logic_or_1"
 		logic_if_global_variable_5 "logic_if_global_variable_5###true"
 		logic_if_global_variable_5###true "logic_or_1"
+		logic_if_global_variable_6 "logic_if_global_variable_6###true"
+		logic_if_global_variable_6###true "event_graph_19"
 		logic_or_1 "entity_add_item_8"
 	}
 

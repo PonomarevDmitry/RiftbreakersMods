@@ -48,7 +48,7 @@ function entity_destroy:Activated()
 	end
 	
 	for entity in Iter(self.entities) do
-		QueueEvent("DestroyRequest",entity, self.destroyPattern, 100 )
+        EntityService:DestroyEntity(entity, self.destroyPattern)
 	end	
 	
 	self:SetFinished()

@@ -1,0 +1,241 @@
+EntityBlueprint
+{
+	name "units/skills/lightning_cascade"
+	
+	NetReplicateOnceComponent
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"45"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/lightning_cascade"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/lightning_cascade_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/lightning_cascade_ammo"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.0"
+			spawn_min_time			float:"1.75"
+			spawn_max_time			float:"2.75"
+			cascade_step_delay		float:"0.12"
+			spawn_entity_delay		float:"1.70"
+			wander_strength			float:"1.25"
+			radius					float:"65"
+			step_size				float:"8.5"
+			cascade_count			int:"1"
+			angle					int:"0"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/lightning_cascade_lvl_2"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/lightning_cascade_lvl_2"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/lightning_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/lightning_cascade_ammo_lvl_2"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.25"
+			spawn_min_time			float:"2.50"
+			spawn_max_time			float:"3.50"
+			cascade_step_delay		float:"0.15"
+			spawn_entity_delay		float:"1.85"
+			wander_strength			float:"0.75"
+			radius					float:"65"
+			step_size				float:"8.5"
+			cascade_count			int:"2"
+			angle					int:"35"
+		}						
+	}		
+}
+
+EntityBlueprint
+{
+	name "units/skills/lightning_cascade_lvl_3"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/lightning_cascade_lvl_3"
+		description 	"gui/hud/enemy_skill_description/bomb_cascade"
+		icon 			"gui/menu/inventory/stat_icons/lightning_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/lightning_cascade_ammo_lvl_3"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.5"
+			spawn_min_time			float:"2.75"
+			spawn_max_time			float:"3.75"
+			cascade_step_delay		float:"0.17"
+			spawn_entity_delay		float:"1.85"
+			wander_strength			float:"0.75"
+			radius					float:"65"
+			step_size				float:"8.0"
+			cascade_count			int:"3"
+			angle					int:"55"
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name "units/skills/lightning_cascade_lvl_4"
+	base_blueprint "units/skills/bomb_cascade"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/lightning_cascade_lvl_4"
+		description 	"gui/hud/enemy_skill_description/lightning_cascade"
+		icon 			"gui/menu/inventory/stat_icons/lightning_cascade_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/cascade.lua"
+		script "lua/units/skills/cascade.lua"
+		database
+		{
+			cascade_bp				string:"units/skills/lightning_cascade_ammo_lvl_4"
+			warning_bp				string:"effects/messages_and_markers/meteor_marker"
+			warning_radius      	float:"3.5"
+			spawn_min_time			float:"3.00"
+			spawn_max_time			float:"4.00"
+			cascade_step_delay		float:"0.15"
+			spawn_entity_delay		float:"1.85"
+			wander_strength			float:"1.00"
+			radius					float:"65"
+			step_size				float:"7.0"
+			cascade_count			int:"3"
+			angle					int:"65"
+		}		
+	}		
+}
+
+
+EntityBlueprint
+{ 
+	name "units/skills/lightning_cascade_ammo"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/lightning_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"3.75"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"30"
+					type 		"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/skills/lightning_cascade_ammo_lvl_2"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/lightning_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4.0"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"45"
+					type 		"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/skills/lightning_cascade_ammo_lvl_3"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/lightning_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4.25"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"65"
+					type 		"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/skills/lightning_cascade_ammo_lvl_4"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemy_skills/lightning_cascade_explosion"
+
+		DamagePattern
+		{
+			area_damage_radius 	"4.25"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"85"
+					type 		"energy"
+				}
+			}
+		}
+	}
+}

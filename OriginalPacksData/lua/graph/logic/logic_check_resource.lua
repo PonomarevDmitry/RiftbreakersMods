@@ -10,9 +10,10 @@ end
 function logic_check_resource:Update(time)
     local tempList = self.data:GetStringKeys()
     local canFinish = true
+	local leadingPlayer = PlayerService:GetLeadingPlayer()
     for i = 1, #tempList do 
         self.resurceCheckValue = tonumber( self.data:GetString( tempList[i] ) )
-        self.resurceHasValue   = PlayerService:GetResourceAmount( tostring( tempList[i] ) )
+        self.resurceHasValue   = PlayerService:GetResourceAmount( leadingPlayer, tostring( tempList[i] ) )
 
         --LogService:Log( "Required " .. tostring( tempList[i] ) .. " : " .. tostring( self.resurceCheckValue ) .. " has : " .. tostring( self.resurceHasValue ) )
         LogService:DebugText( 150, 150, "Required " .. tostring( tempList[i] ) .. " : " .. tostring( self.resurceCheckValue ) .. " has : " .. tostring( self.resurceHasValue ), "debug_white_size_38" )

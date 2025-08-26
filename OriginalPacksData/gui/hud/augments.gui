@@ -61,7 +61,6 @@ GuiRootGroupDef
 				alignment "buttons"
 				loop "1"
 				spacing "2.000"
-				default_sound "0"
 				navigable "0"
 				path "augments.slots"
 			}
@@ -82,21 +81,20 @@ GuiRootGroupDef
 				alignment "buttons"
 				loop "1"
 				spacing "2.000"
-				default_sound "0"
 				navigable "0"
 				path "augments.items"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "augments.items.scroll_button_1"
 				navigable "0"
+				path "augments.items.scroll_button_1"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
 			{
-				path "augments.items.scroll_button_2"
 				navigable "0"
+				path "augments.items.scroll_button_2"
 			}
 
 			GuiNavNodeDef "GuiButtonDef"
@@ -122,25 +120,6 @@ GuiRootGroupDef
 			{
 				children
 				{
-					Pair_String_GuiDef2
-					{
-						key "pointer_blocker"
-						value "GuiPointerEventBlockerDef"
-						{
-							navigable "0"
-							id "pointer_blocker"
-							size
-							{
-								x "380.000"
-								y "670.000"
-							}
-
-							size_mode_x "2"
-							size_mode_y "2"
-						}
-
-					}
-					
 					Pair_String_GuiDef2
 					{
 						key "bg"
@@ -1168,7 +1147,7 @@ GuiRootGroupDef
 															value "GuiTextLineDef"
 															{
 																capitals "1"
-																content "BUTTON_confirm"
+																content "BUTTON_Close"
 																style
 																{
 																	char_height "26.000"
@@ -1400,7 +1379,7 @@ GuiRootGroupDef
 															value "GuiTextLineDef"
 															{
 																capitals "1"
-																content "BUTTON_confirm"
+																content "BUTTON_Close"
 																style
 																{
 																	char_height "26.000"
@@ -2684,53 +2663,24 @@ GuiRootGroupDef
 								Pair_String_GuiDef2
 								{
 									key "vertical_scroll_bar"
-									value "GuiGroupDef"
+									value "GuiReferenceDef"
 									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "bar"
-												value "GuiQuadDef"
-												{
-													color
-													{
-														x "0.627"
-													}
-
-													id "bar"
-													offset
-													{
-														x "1.000"
-													}
-
-													size
-													{
-														x "10.000"
-														y "1.000"
-													}
-
-													z_order "117.000"
-												}
-
-											}
-
-										}
-
+										path "simple_vertical"
+										ref_gui_id "gui/template/scroll_bars"
+										anchor "top_right"
 										id "vertical_scroll_bar"
-										offset
+										margin
 										{
-											x "465.000"
-											y "18.000"
+											x "-12.000"
+											y "3.000"
 										}
 
 										size
 										{
-											x "12.000"
-											y "340.000"
+											x "10.000"
 										}
 
-										z_order "116.000"
+										size_mode_y "2"
 									}
 
 								}
@@ -2759,12 +2709,6 @@ GuiRootGroupDef
 						key "label"
 						value "GuiTextBoxDef"
 						{
-							max_size
-							{
-								x "450.000"
-								y "56.000"
-							}
-
 							content "COMMON_Text_Line"
 							style
 							{
@@ -2821,6 +2765,12 @@ GuiRootGroupDef
 							alignment "center"
 							anchor "center"
 							id "label"
+							max_size
+							{
+								x "450.000"
+								y "56.000"
+							}
+
 							offset
 							{
 								y "-120.000"
@@ -2836,12 +2786,6 @@ GuiRootGroupDef
 						key "name"
 						value "GuiTextBoxDef"
 						{
-							max_size
-							{
-								x "366.000"
-								y "30.000"
-							}
-
 							capitals "1"
 							content "gui/menu/category/mods"
 							style
@@ -2897,6 +2841,12 @@ GuiRootGroupDef
 							style_name "small_item_level_0"
 							translate "1"
 							id "name"
+							max_size
+							{
+								x "366.000"
+								y "30.000"
+							}
+
 							offset
 							{
 								x "16.000"
@@ -2904,6 +2854,25 @@ GuiRootGroupDef
 							}
 
 							z_order "119.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "pointer_blocker"
+						value "GuiPointerEventBlockerDef"
+						{
+							navigable "0"
+							id "pointer_blocker"
+							size
+							{
+								x "380.000"
+								y "670.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
 						}
 
 					}
@@ -3665,12 +3634,6 @@ GuiRootGroupDef
 																		key "name"
 																		value "GuiTextBoxDef"
 																		{
-																			max_size
-																			{
-																				x "130.000"
-																				y "58.000"
-																			}
-
 																			content "COMMON_Text_Line"
 																			style
 																			{
@@ -3727,6 +3690,12 @@ GuiRootGroupDef
 																			translate "1"
 																			alignment "top"
 																			id "name"
+																			max_size
+																			{
+																				x "130.000"
+																				y "58.000"
+																			}
+
 																			offset
 																			{
 																				x "58.000"
@@ -4357,6 +4326,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		handle "[EDCFDE76-7086-48C3-A12B-CA9D9CB46ED8]"
 	}

@@ -4,7 +4,6 @@ system rift/magmoth_projectile_cryo
     scale_velocity                              0.003
     scale                                       0.003 0.003 0.003
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 30
     technique frost
@@ -17,7 +16,6 @@ system rift/magmoth_projectile_cryo
         material                                particles/wispy_smoke_loop_8x4
         renderer                                Billboard
         {
-            render_queue_group                  60
             texture_coords_rows                 4
             texture_coords_columns              8
             billboard_rotation_type             vertex
@@ -26,11 +24,11 @@ system rift/magmoth_projectile_cryo
         }
         emitter                                 SphereSurface flash2
         {
-            emission_rate                       40
+            emission_rate                       80
             time_to_live                        dyn_random
             {
-                min                             2
-                max                             2.5
+                min                             1
+                max                             1.5
             }
             velocity                            0
             all_particle_dimensions             dyn_random
@@ -42,8 +40,8 @@ system rift/magmoth_projectile_cryo
         }
         affector                                Colour 
         {
-            time_colour                         0    0.498039 1 1 0.298039
-            time_colour                         0.5  0.498039 1 1 0.298039
+            time_colour                         0    0.498039 1 1 1
+            time_colour                         0.197606  0.498039 1 1 0.298039
             time_colour                         1    0.498039 1 1 0
         }
         affector                                TextureRotator Affector120
@@ -71,6 +69,54 @@ system rift/magmoth_projectile_cryo
         {
             end_texture_coords_range            31
             texture_start_random                false
+        }
+    }
+    technique trail3
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box trail1
+        {
+            emission_rate                       100
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             60
+            }
+            particle_width                      dyn_random
+            {
+                min                             10
+                max                             25
+            }
+            particle_height                     dyn_random
+            {
+                min                             25
+                max                             50
+            }
+            direction                           -1 0 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.508696  0.516014 0.516014 0.516014 1
+            time_colour                         1    0.121569 0.121569 0.121569 0
         }
     }
 }

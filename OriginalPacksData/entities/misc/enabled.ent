@@ -10,20 +10,21 @@ EntityBlueprint
 
 EntityBlueprint 
 {	
-		name 			"misc/enabled/missing_resource"
+	name 			"misc/enabled/missing_resource"
 
 	MinimapItemDesc
 	{
-		type			"def"
-		def 			"gui/hud/missing_resource"
+		type				"def"
+		def 				"gui/hud/missing_resource"
 		size
 		{
-			x	 		0.5
-			y			0.5
+			x	 		1
+			y			1
 		}
 
-		visibility		"discovered"
-		big_minimap_scale "1.5"
+		visibility			"discovered"
+		big_minimap_scale 	"2"
+		layer_group			"resource_warning"
 	}
 
 	GuiDesc
@@ -55,7 +56,7 @@ EntityBlueprint
 
 	GuiDesc
 	{
-		def_name 	"gui/hud/missing_resource_grid"\
+		def_name 	"gui/hud/missing_resource_grid"
 		visible		"0"
 	}
 
@@ -65,12 +66,13 @@ EntityBlueprint
 		def 			"gui/template/missing_resource_minimap"
 		size
 		{
-			x	 		0.5
-			y			0.5
+			x	 		1
+			y			1
 		}
 
-		visibility		"discovered"
-		big_minimap_scale "1.5"
+		visibility			"discovered"
+		big_minimap_scale 	"1.0"
+		layer_group			"resource_warning"
 	}
 }
 
@@ -87,5 +89,33 @@ EntityBlueprint
 	IdDesc
 	{
 		name 		"inputs"
+	}
+}
+
+EntityBlueprint 
+{	
+	name	"misc/enabled/damaged"
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 				"gui/hud/minimap_icons/damaged"
+
+		visibility			"discovered"
+		layer_group			"damaged"
+	}
+}
+
+EntityBlueprint 
+{	
+	name	"misc/enabled/upgradable"
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 				"gui/hud/minimap_icons/upgradables"
+
+		visibility			"discovered"
+		layer_group			"upgradables"
 	}
 }

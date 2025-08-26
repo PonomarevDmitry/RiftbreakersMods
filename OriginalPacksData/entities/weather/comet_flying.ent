@@ -1,24 +1,26 @@
-EntityBlueprint 
-{	
-		name "weather/comet"
+EntityBlueprint
+{
+	name  "weather/comet_flying_base"
 
-	MeshDesc
+	ShadowExcludeComponent
+
+	SoundDesc
 	{
-		mesh "meshes/projectiles/granite_rock_small.mesh"
-		material "units/ground/gnerot_ultra_burning"
+		name 		"ambient/earthquake"
+	}
+
+	LifeTimeDesc
+	{
+		time 		"999"
 	}
 	
- 	ShadowExcludeComponent
-	{
-
-	}	
-
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/comet"
-		visibility		"always"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/comet"
+		visibility			"always"
 		additional_z_order	"60"
+		layer_group			"weather_events"
 	}
 
 	VegetationBendingComponentDesc
@@ -47,14 +49,26 @@ EntityBlueprint
 		group			"special"
 	}
 
-	SoundDesc
+	PointWindDesc
 	{
-		name 		"ambient/earthquake"
+		power_frequency		"1.5"
+		power_max			"-15000"
+		power_min			"-8000"
+		radius				"70"
 	}
 
-	LifeTimeDesc
+	NetAlwaysRevelantComponent
+}
+
+EntityBlueprint 
+{	
+	name 			"weather/comet"
+	base_blueprint 	"weather/comet_flying_base"
+
+	MeshDesc
 	{
-		time 		"999"
+		mesh "meshes/projectiles/granite_rock_small.mesh"
+		material "units/ground/gnerot_ultra_burning"
 	}
 
 	EffectDesc
@@ -70,13 +84,4 @@ EntityBlueprint
 			}
 		}
 	}
-
-	PointWindDesc
-	{
-		power_frequency		"1.5"
-		power_max			"-15000"
-		power_min			"-8000"
-		radius				"70"
-	}
 }
-

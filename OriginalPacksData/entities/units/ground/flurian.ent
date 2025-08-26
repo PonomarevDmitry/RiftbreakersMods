@@ -42,6 +42,8 @@ EntityBlueprint
 		stagger_cooldown				"1.0"
 		stagger_long_cooldown			"3.5"
 		stun_cooldown					"15"
+		
+		force_stagger_chance 			"0.1"
 	}
 	
 	NavMeshMovementComponent
@@ -109,7 +111,8 @@ EntityBlueprint
 			y "3"
 		}
 		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -119,7 +122,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -389,8 +393,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 5 0"
-					scale "0.8 0.8 0.8"
+					offset "0 7 0"
+					scale "0.9 0.9 0.9"
 				}
 			}
 		}	
@@ -580,7 +584,7 @@ EntityBlueprint
 
 		ammo_blueprint 				"units/ground/flurian/granade_projectile"
 
-		muzzle_flash_effect 		"effects/enemies_flurian/muzzle"
+		muzzle_flash_effect 		"effects/enemies_flurian/muzzle_red"
 
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
@@ -752,7 +756,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"dynamic"
-				group_id 			"grenade"
+				group_id 			"debris"
 				physics_material 	"grenade_light"
 				Shapes
 				{
@@ -778,7 +782,7 @@ EntityBlueprint
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
-
+		friendly_fire				"pass"
 		diameter					"1"
 
 		artillery_min_angle 		"25"
@@ -814,4 +818,8 @@ EntityBlueprint
 			}
 		}
 	}
+	LifeTimeDesc
+	{
+		time "5.0"
+	}		
 }

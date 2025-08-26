@@ -13,6 +13,8 @@ function artigian:OnInit()
 
 	self.wreck_type = "wreck_small"
 	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 1
 
 	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end

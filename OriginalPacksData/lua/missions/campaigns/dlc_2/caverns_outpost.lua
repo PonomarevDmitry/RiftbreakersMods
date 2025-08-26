@@ -33,10 +33,14 @@ function mission_caverns_outpost:UpdateMissionProgress()
 end
 
 function mission_caverns_outpost:OnLoad()
+    mission_base.OnLoad(self)
+
     self:UpdateMissionProgress()
 end
 
 function mission_caverns_outpost:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
 	MissionService:SetSkipSpawnPortalSequence(true)

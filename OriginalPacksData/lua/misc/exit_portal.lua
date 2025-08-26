@@ -1,17 +1,17 @@
-class 'acid_undergound_mushroom' ( LuaEntityObject )
+class 'exit_portal' ( LuaEntityObject )
 
-function acid_undergound_mushroom:__init()
+function exit_portal:__init()
 	LuaEntityObject.__init(self,self)
 end
 
-function acid_undergound_mushroom:init()
+function exit_portal:init()
 	self:RegisterHandler( self.entity, "EnteredTriggerEvent", 	 "OnEnteredTriggerEvent" )
 end
 
-function acid_undergound_mushroom:OnEnteredTriggerEvent( evt )
-    QueueEvent("OpenEnterPortalPopupRequest", self.entity)
+function exit_portal:OnEnteredTriggerEvent( evt )
+    QueueEvent("OpenEnterPortalPopupRequest", evt:GetOtherEntity() )
 end
 
 
-return acid_undergound_mushroom
+return exit_portal
  

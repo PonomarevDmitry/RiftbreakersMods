@@ -44,7 +44,7 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|mud_vein|sludge_vein|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|mud_vein|sludge_vein|cavern_wall|water_vein"
 		dominance_group				    "0"
 	}
 
@@ -105,7 +105,8 @@ EntityBlueprint
 			y "3"
 		}
 		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -115,7 +116,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -402,7 +404,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 3 0"
+					offset "0 7 0"
 					scale "0.7 0.7 0.7"
 				}
 			}
@@ -726,6 +728,10 @@ EntityBlueprint
 				}
 			}
 		}		
+	}
+	LifeTimeDesc
+	{
+		time "5.0"
 	}	
 }
 

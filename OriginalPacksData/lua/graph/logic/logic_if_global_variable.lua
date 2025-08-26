@@ -66,16 +66,16 @@ function logic_if_global_variable:OnExecuteWait( state )
         elseif self.comparisonType == "not_equal" and ( self.floatValue ~= value ) then
             --LogService:Log("IF STATEMENT POSITIVE")
             self:SetFinished("true")
-        elseif self.comparisonType == "greater" and ( self.floatValue > value ) then
+        elseif self.comparisonType == "greater" and ( value > self.floatValue ) then
             --LogService:Log("IF STATEMENT POSITIVE")
             self:SetFinished("true")
-        elseif self.comparisonType == "greater_or_equal" and ( self.floatValue >= value ) then
+        elseif self.comparisonType == "greater_or_equal" and ( value >= self.floatValue ) then
             --LogService:Log("IF STATEMENT POSITIVE")
             self:SetFinished("true")
-        elseif self.comparisonType == "less" and ( self.floatValue < value ) then
+        elseif self.comparisonType == "less" and ( value < self.floatValue  ) then
             --LogService:Log("IF STATEMENT POSITIVE")
             self:SetFinished("true")
-        elseif self.comparisonType == "less_or_equal" and ( self.floatValue <= value ) then
+        elseif self.comparisonType == "less_or_equal" and ( value <= self.floatValue ) then
             --LogService:Log("IF STATEMENT POSITIVE")
             self:SetFinished("true")
         elseif self.waitUntilTrue == "false" then

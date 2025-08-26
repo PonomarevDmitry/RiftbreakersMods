@@ -109,7 +109,7 @@ function repair_drone:FindActionTarget()
     end
 
     if self.heal_amount_player > 0 and HealthService:GetHealthInPercentage( owner ) < 1.0 then
-        local component = EntityService:GetComponent(owner, "MechComponent")
+        local component = EntityService:GetComponent(owner, "MechMovementComponent")
         if component ~= nil then
 
             if Length( reflection_helper( component ).velocity ) <= 0.1 then
@@ -204,6 +204,7 @@ function repair_drone:OnRepairExecute( state )
 	end
 
     HealthService:SetHealth(target, math.min( health, maxHealth ));
+	if state:GetDuration() < self.heal_interval then return end
     if health >= maxHealth then
         return self:FinishTargetAction(state)
     end

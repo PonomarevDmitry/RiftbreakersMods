@@ -32,11 +32,12 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 end
 
 function picker_tool:AddedToSelection( entity )
-    local skinned = EntityService:IsSkinned(entity)
-    if ( skinned ) then
-        EntityService:SetMaterial( entity, "selector/hologram_current_skinned", "selected")
-    else
-        EntityService:SetMaterial( entity, "selector/hologram_current", "selected")
+    EntityService:SetMaterial( entity, "hologram/current", "selected")
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:SetMaterial( child, "hologram/current", "selected")
+        end
     end
 end
 
@@ -48,6 +49,10 @@ end
 
 function picker_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
+    local children = EntityService:GetChildren( entity, true )
+    for child in Iter( children ) do
+        EntityService:RemoveMaterial(child, "selected" )
+    end
 end
 
 
@@ -110,7 +115,7 @@ function picker_tool:OnActivateSelectorRequest()
             lowName = buildingDescHelper.name
         end
             
-        BuildingService:SetBuildingLastLevel( lowName, buildingDescHelper.name)
+        BuildingService:SetBuildingLastLevel(self.playerId, lowName, buildingDescHelper.name)
         QueueEvent("ChangeBuildingRequest", self.selector, lowName )
             
         ::continue::

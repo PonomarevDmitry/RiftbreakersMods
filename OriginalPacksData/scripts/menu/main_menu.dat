@@ -108,7 +108,11 @@ MainMenuScreen
                 {
                     label           "BUTTON_custom_game"
                     icon            "gui/menu/buttons/main_menu/custom_selected" 
-                    action          "change_screen:gui/menu/new_custom_game"
+                    action          "change_screen:gui/menu/new_survival"
+                    {
+                        campaign_type   string:"custom"
+                        multiplayer     int:"0"
+                    }
                     requirement     "has_campaign_type:custom"
                 }
 
@@ -130,7 +134,6 @@ MainMenuScreen
             
             items
             {
-
                 MainMenuButtonInfo
                 {
                     label   "BUTTON_continue_story"
@@ -144,6 +147,11 @@ MainMenuScreen
                     label   "BUTTON_survival"
                     icon    "gui/menu/buttons/main_menu/survival_selected" 
                     action  "change_screen:gui/menu/new_survival"
+                    action_database 
+                    {
+                        campaign_type   string:"survival"
+                        multiplayer     int:"0"
+                    }
                 }
     
                 MainMenuButtonInfo
@@ -151,6 +159,10 @@ MainMenuScreen
                     label   "BUTTON_load_game"
                     icon    "gui/menu/buttons/main_menu/load_selected" 
                     action  "change_screen:gui/menu/load_menu"
+                    action_database
+                    {
+                        campaign_type string:"survival"
+                    }
                 }
             }
 
@@ -177,7 +189,7 @@ MainMenuScreen
                 MainMenuButtonInfo
                 {
                     label   "BUTTON_new_campaign"
-                    icon    "gui/menu/buttons/main_menu/survival_selected" 
+                    icon    "gui/menu/buttons/main_menu/campaign_selected"
                     action  "change_screen:gui/menu/new_campaign"
                 }
     
@@ -186,6 +198,10 @@ MainMenuScreen
                     label   "BUTTON_load_game"
                     icon    "gui/menu/buttons/main_menu/load_selected" 
                     action  "change_screen:gui/menu/load_menu"
+                    action_database
+                    {
+                        campaign_type string:"story"
+                    }
                 }
             }
 
@@ -205,7 +221,7 @@ MainMenuScreen
                 {
                     label   "BUTTON_host_game"
                     icon    "gui/menu/buttons/main_menu/multi_player_host_game_selected" 
-                    action  "change_screen:gui/menu/multiplayer_game"
+                    action  "change_screen:gui/menu/multiplayer_lobby"
                 }
     
                 MainMenuButtonInfo
@@ -214,18 +230,6 @@ MainMenuScreen
                     icon    "gui/menu/buttons/main_menu/multi_player_join_game_selected" 
                     action  "change_screen:gui/menu/multiplayer_server_list"
                 }
-
-                MainMenuButtonInfo
-                {
-                    label   "BUTTON_load_game"
-                    icon    "gui/menu/buttons/main_menu/load_selected" 
-                    action  "change_screen:gui/menu/load_menu"
-                    action_database 
-                    {
-                        enable_listen_server    int:"1"
-                    }
-                }
-    
             }
         }
     }

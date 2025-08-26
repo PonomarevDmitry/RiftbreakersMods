@@ -7,9 +7,7 @@ function necrodon_wreck:__init()
 end
 
 function necrodon_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 6
-	self.leaveBodyProbability = 4
+
 end
 
 return necrodon_wreck

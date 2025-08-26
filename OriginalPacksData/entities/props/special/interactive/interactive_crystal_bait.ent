@@ -1,0 +1,90 @@
+EntityBlueprint
+{
+	name  "props/special/interactive/interactive_crystal_bait"
+
+	MeshDesc
+	{
+		material "buildings/decorations/crystal_structure"
+		mesh "meshes/buildings/decorations/crystal_structure_medium_01.mesh"
+	}
+	
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "4"
+						y "6"
+						z "4"
+
+						position 
+						{
+							x "0.0"
+							y "3"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	       cost_type "prop"
+	       nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x "3"
+				y "3"
+				z "3"
+			}
+		}
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"EXTRACTOR"
+		item 			"items/loot/resources/sample_crystal_item"
+		item_count 		"1"
+		radius 			"7"
+		remove_entity 	"1"
+		priority		"15"
+	}
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/destructibles/unique_crystal"
+                    offset "0 3.5 0"
+                }
+				Effect
+				{
+					blueprint "effects/destructibles/unique_crystal_shadow_caster"		
+					offset "0 3 0"
+				}				
+            }
+        }		
+    }
+}
+

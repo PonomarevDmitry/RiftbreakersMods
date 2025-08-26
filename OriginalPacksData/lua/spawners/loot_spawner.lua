@@ -1,3 +1,4 @@
+require("lua/utils/reflection.lua")
 
 class 'loot_spawner' ( LuaEntityObject )
 
@@ -15,6 +16,7 @@ function loot_spawner:init()
 	self.packageSize = self.data:GetIntOrDefault( "package_size", 1);
 	self.spawnCount = RandInt( minAmount, maxAmount )
 	self.removeEntity = self.removeEntity or true
+	self.addLifetime = minAmount > 1 or maxAmount > 1
 	local count = self.spawnCount / self.packageSize 
 	self.instant = false
 	if ( count > 30 ) then
@@ -22,12 +24,18 @@ function loot_spawner:init()
 		self.lootSpawn:AddState( "spawn", { from="*", enter="OnSpawnEnter", exit="OnSpawnExit", execute="OnSpawnExecute" } )
 		self.lootSpawn:ChangeState("spawn")
 	else
+		LogService:Log( "Loot spawner: force add " .. self.data:GetIntOrDefault( "force_add", 0 ) )
+		if ( self.data:GetIntOrDefault( "force_add", 0 ) == 1 ) then
+			self.playerId  = PlayerService:GetPlayerForEntity( self.entity )
+			self.playerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+		end
 		self.instant = true
 		self:SpawnLoot()
 		if self.removeEntity then
 			EntityService:RemoveEntity( self.entity )
 		end
 	end
+	self.loot_award_handled = false
 
 end
 
@@ -53,8 +61,34 @@ function loot_spawner:SpawnLoot()
 	do
 		local count = math.min( toSpawn, self.packageSize );
 		toSpawn = toSpawn - count;
+		
+		local lifeTime =  0
+		if ( EntityService:HasComponent( self.entity, "LifeTimeComponent") ) then
+			LogService:Log( "Loot spawner: has lifetime component" )
+			lifeTime = EntityService:GetLifeTime( self.entity )
+		end
 
-		ItemService:SpawnLoot( self.entity, self.blueprint, count, self.data )
+		if ( self.addLifetime ) then
+			lifeTime = -1
+		end
+
+		if ( self.playerEntity ~= INVALID_ID and self.playerEntity ~= nil) then
+			QueueEvent("CreateItemInInventoryRequest", self.playerEntity, self.blueprint,2,self.playerId)
+		else
+			ItemService:SpawnLoot( self.entity, self.blueprint, count, lifeTime, self.data )
+		end
+	end
+
+	if not self.loot_award_handled then
+		self.loot_award_handled = true
+		
+		local loot_component = EntityService:GetConstComponent(self.entity, "LootComponent")
+		if loot_component ~= nil then
+			local refl_loot_component = reflection_helper( loot_component )
+			if refl_loot_component.loot_award ~= "" then
+				QueueEvent("SpawnFromLootContainerRequest", self.entity, EntityService:GetWorldTransform( self.entity), refl_loot_component.loot_award, 0)
+			end
+		end
 	end
 end
 

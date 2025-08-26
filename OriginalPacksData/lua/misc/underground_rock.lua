@@ -38,14 +38,10 @@ function underground_rock:OnMoveExecute( state, dt )
 	end
 
 	if ( self.onTrigger == false ) and ( self.position.y > ( self.originToStopAboveGroundHeight - 3.0 ) ) then 
-		EntityService:SpawnEntity( self.damageBp, self.entity, EntityService:GetTeam( self.entity ) )
-		
-		local rocksCount = RandInt( 5, 10)
-		for i =1,rocksCount do
-			local ent = ItemService:SpawnLoot( self.entity, "units/ground/gnerot/gnerot_rock_debris", 30.0, 6000, 12000, "normal" )
-			EffectService:AttachEffect( ent, "effects/enemies_generic/blood_trail_dust" )
-			EntityService:DissolveEntity( ent, 1.0, 3.0 )
-		end
+		EntityService:SpawnEntity( self.damageBp, self.entity, EntityService:GetTeam( self.entity ) )		
+
+		EntityService:RequestDestroyPattern( self.entity, "rocks", false )
+
 		self.onTrigger = true
 	end
 

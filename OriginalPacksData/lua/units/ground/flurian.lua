@@ -12,7 +12,9 @@ function flurian:OnInit()
 	self:RegisterHandler( self.entity, "PrepareArtilleryEvent",  "OnPrepareArtilleryEvent" )
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 8
+    self.normalExplodeProbability = 2
+	self.leaveBodyProbability = 8
 
 	self.projectileBp = ""
 

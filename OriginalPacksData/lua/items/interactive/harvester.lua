@@ -18,12 +18,19 @@ function harvester:OnInit()
 end
 
 local function GetInteractiveEntity( owner )
-	local component = reflection_helper( EntityService:GetComponent(owner, "MechComponent") )
-	return component.interactive_ent.id;
+	local component = EntityService:GetComponent(owner, "MechComponent")
+	if component == nil then
+		return INVALID_ID
+	end
+
+	return reflection_helper( component ).interactive_ent.id;
 end
 
 function harvester:OnHarvestStartEnter( state )
 	state:SetDurationLimit( 0.75 )
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
 	QueueEvent( "HarvestStartEvent", GetInteractiveEntity( self.owner ) )
@@ -37,7 +44,9 @@ end
 
 function harvester:OnHarvestStopEnter( state )
 	state:SetDurationLimit( 0.75 )
-	
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
 end
@@ -54,6 +63,9 @@ function harvester:OnEquipped()
 end
 
 function harvester:OnActivate()
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return
+	end
 	if ( self.harvestering == true ) then
 		self:OnExecuteHarvesting()
 	end
@@ -75,6 +87,9 @@ function harvester:OnActivate()
 end
 
 function harvester:OnDeactivate()
+	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+		return true
+	end
 	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
 	EffectService:DestroyEffectsByGroup( self.item, "dig" )

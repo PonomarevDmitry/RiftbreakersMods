@@ -9,6 +9,8 @@ function mission_swamp_meadow:__init()
 end
 
 function mission_swamp_meadow:init()
+    mission_base.init( self )
+
 	--STAGE 1
 	local world_region = self:GetTileRegionBounds( { x = -3, y = -4 }, { x = 2, y = 0 } )
 	--STAGE 2

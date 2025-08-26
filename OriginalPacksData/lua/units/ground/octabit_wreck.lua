@@ -7,8 +7,7 @@ function octabit_wreck:__init()
 end
 
 function octabit_wreck:initParams()
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 0
+
 end
 
 return octabit_wreck

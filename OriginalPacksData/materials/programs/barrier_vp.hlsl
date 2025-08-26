@@ -22,7 +22,7 @@ struct VS_INPUT
 #endif
 #if USE_HW_SKINNING
     float4 BlendWeights   : BLENDWEIGHT;
-    int4   BlendIndices   : BLENDINDICES;
+    uint4  BlendIndices   : BLENDINDICES;
 #endif
 };
 

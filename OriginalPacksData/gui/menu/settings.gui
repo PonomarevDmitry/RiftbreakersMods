@@ -197,30 +197,6 @@ GuiRootGroupDef
 	}
 
 	priority "100.000"
-	shortcuts
-	{
-		Pair_GuiInputCode_String
-		{
-			key "5"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "7"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "8"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "9"
-		}
-
-	}
-
 	children
 	{
 		Pair_String_GuiDef2
@@ -413,7 +389,6 @@ GuiRootGroupDef
 					y "100.000"
 				}
 
-				tooltip_def
 				z_order "172.000"
 			}
 
@@ -428,6 +403,15 @@ GuiRootGroupDef
 				ref_gui_id "gui/template/buttons"
 				ref_model
 				{
+					bindings_proxy
+					{
+						is_enabled
+						{
+							model_field "has_changes"
+						}
+
+					}
+
 					database
 					{
 						Strings
@@ -460,7 +444,6 @@ GuiRootGroupDef
 					y "100.000"
 				}
 
-				tooltip_def
 				z_order "180.000"
 			}
 
@@ -508,7 +491,6 @@ GuiRootGroupDef
 					y "100.000"
 				}
 
-				tooltip_def
 				z_order "195.000"
 			}
 
@@ -780,7 +762,7 @@ GuiRootGroupDef
 																					z "0.000"
 																				}
 
-																				font "arial"
+																				font "DejaVuLegacy"
 																				glow_color
 																				{
 																					x "0.929"
@@ -1026,7 +1008,7 @@ GuiRootGroupDef
 																					z "0.000"
 																				}
 
-																				font "arial"
+																				font "DejaVuLegacy"
 																				glow_color
 																				{
 																					x "0.929"
@@ -1412,7 +1394,7 @@ GuiRootGroupDef
 																			{
 																				char_height "40.000"
 																				color_enabled "0"
-																				font "arial"
+																				font "DejaVuLegacy"
 																				gradient_enabled "1"
 																				gradient_end
 																				{
@@ -1664,7 +1646,7 @@ GuiRootGroupDef
 																			{
 																				char_height "40.000"
 																				color_enabled "0"
-																				font "arial"
+																				font "DejaVuLegacy"
 																				gradient_enabled "1"
 																				gradient_end
 																				{
@@ -6443,7 +6425,7 @@ GuiRootGroupDef
 																							shadow_enabled "1"
 																						}
 
-																						style_name "neutral_30"
+																						style_name "neutral_25"
 																						translate "1"
 																						alignment "center"
 																						animations
@@ -6880,7 +6862,7 @@ GuiRootGroupDef
 																							shadow_enabled "1"
 																						}
 
-																						style_name "neutral_30"
+																						style_name "neutral_25"
 																						translate "1"
 																						alignment "center"
 																						animations
@@ -9052,9 +9034,10 @@ GuiRootGroupDef
 										id "mask"
 										margin
 										{
-											w "10.000"
-											x "20.000"
-											y "20.000"
+											w "15.000"
+											x "10.000"
+											y "15.000"
+											z "10.000"
 										}
 
 										size
@@ -9290,6 +9273,11 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
 		{
 			Pair_String_GuiDataTypeField
@@ -9306,6 +9294,22 @@ GuiDataDefinitions
 				}
 
 				key "current_description"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "has_changes"
 			}
 
 		}

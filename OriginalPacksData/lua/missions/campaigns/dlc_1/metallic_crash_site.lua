@@ -9,6 +9,8 @@ function mission_metallic_crash_site:__init()
 end
 
 function mission_metallic_crash_site:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_1/metallic_crash_site.logic", "default" )

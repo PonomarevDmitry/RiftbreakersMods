@@ -1,25 +1,19 @@
 GameplayResourceDef
 {
-	id				"palladium_vein"
-	localization_id "resource_name/palladium_vein"
-	bp  			"resources/resource_palladium"
-	type 			"vein"
-	ore				"palladium"
-	random_rotation "1"
-	icon			"gui/hud/resource_icons/palladium_vein"
-	bigger_icon		"gui/hud/resource_icons/palladium_vein_bigger"
+	id						"palladium_vein"
+	localization_id 		"resource_name/palladium_vein"
+	bp  					"resources/resource_palladium"
+	type 					"vein"
+	ore						"palladium"
+	random_rotation 		"1"
+	icon					"gui/hud/resource_icons/palladium"
+	bigger_icon				"gui/hud/resource_icons/palladium_bigger"
 
-	terrain_material	"ground/resources/palladium"
-	spawn_type		"deposit"
-	order   		"31"
+	terrain_material		"ground/resources/palladium"
+	spawn_type				"deposit"
+	order   				"31"
 
-	volume_minimap_color
-	{
-		r "2"
-		g "2"
-		b "0"
-		a "1"
-	}
+	volume_unpack_blueprint "resources/volume_resource_palladium"
 }
 
 GameplayResourceDef

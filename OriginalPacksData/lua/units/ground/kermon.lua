@@ -16,7 +16,8 @@ function kermon:OnInit()
 	self.uniformFSM:ChangeState( "uniform" )
 
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 8
+	self.disallowDeathAnim = "death_running_3"
 
     self.damageInvisibilityCooldownFSM = self:CreateStateMachine()
     self.damageInvisibilityCooldownFSM:AddState( "cooldown", { from="*", enter="OnEnterCooldown", exit= "OnExitCooldown" } )

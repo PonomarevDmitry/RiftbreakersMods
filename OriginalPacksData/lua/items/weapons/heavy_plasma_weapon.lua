@@ -7,12 +7,17 @@ function heavy_plasma_weapon:__init()
 end
 
 function heavy_plasma_weapon:OnInit()
-    self:CreateShieldStateMachine()
+    if is_server then
+        self:CreateShieldStateMachine()
+    end
 end
 
 function heavy_plasma_weapon:OnLoad()
     charge_weapon.OnLoad( self )
-    self:CreateShieldStateMachine()
+    
+    if is_server then
+        self:CreateShieldStateMachine()
+    end
 end
 
 function heavy_plasma_weapon:CreateShieldStateMachine()
@@ -74,19 +79,27 @@ function heavy_plasma_weapon:RemoveShield()
     end
 end
 
-function heavy_plasma_weapon:OnActivate()
-    WeaponService:StartCharge( self.item )
-    self.fsm:ChangeState( "shield" )
+function heavy_plasma_weapon:OnActivate( activation_id )
+    WeaponService:StartCharge( self.item, activation_id )
+
+    if self.fsm ~= nil then
+        self.fsm:ChangeState( "shield" )
+    end
 end
 
 function heavy_plasma_weapon:OnDeactivate()
     WeaponService:StopCharge( self.item )
-    self.fsm:ChangeState( "dummy" )
+
+    if self.fsm ~= nil then
+        self.fsm:ChangeState( "dummy" )
+    end
+
     return true
 end
 
 function heavy_plasma_weapon:OnUnequipped()
     weapon.OnUnequipped( self )
+
     if self.shieldCreated then 
         self:RemoveShield()
         self.shieldCreated = false

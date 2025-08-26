@@ -15,8 +15,8 @@ end
 
 function weather_generic:OnEnterWait( state )
 	local minLifeTime = 20
-	local maxLifeTime = 30
-
+	local maxLifeTime = 30	
+	
 	if ( self.data:HasInt( "min_life_time" ) ) then 
 		minLifeTime = self.data:GetInt( "min_life_time" )
 	end
@@ -30,6 +30,11 @@ function weather_generic:OnEnterWait( state )
 	local weatherEnt = EntityService:CreateEntity( weatherBlueprint )
 	EntityService:CreateLifeTime( weatherEnt, lifeTime, "" )
     state:SetDurationLimit( lifeTime )
+	
+	self.newName = self.data:GetStringOrDefault("new_name", "")
+	if self.newName ~= "" then
+		EntityService:SetName( weatherEnt, self.newName  )
+	end
 end
 
 function weather_generic:OnExitWait( state )

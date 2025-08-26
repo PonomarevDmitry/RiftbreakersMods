@@ -292,19 +292,13 @@ EntityBlueprint
 		database
 		{
 			min_scale	float:"1.45"
-			max_scale	float:"1.5"
-						
-			STING_item_type string:"enemy_range_weapon"
-			STING_pose_type string:"range"
-
-			
-			items 		string:"items/weapons_enemy/alien_acid_ultra_item" 			
+			max_scale	float:"1.5"	
 		}			
 	}
 
 	DatabaseComponent
 	{
-		version int:"2"	
+		version int:"4"	
 	}
 
 	HealthDesc
@@ -339,6 +333,30 @@ EntityBlueprint
 	{
 		content "monster_name/arachnoid_ultra"
 		can_activate 0
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_acid_ultra_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/acid_spit"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+
+	WeaponItemDesc
+	{
 	}
 }
 

@@ -31,7 +31,7 @@ struct VS_INPUT
 #endif
 #if USE_HW_SKINNING
     float4  BlendWeights    : BLENDWEIGHT;
-    int4    BlendIndices    : BLENDINDICES;
+    uint4   BlendIndices    : BLENDINDICES;
 #endif
 #if USE_INSTANCING || USE_VIEWPORTARRAYINDEX
     uint    InstanceId      : SV_InstanceID;
@@ -77,7 +77,7 @@ VS_OUTPUT mainVP( VS_INPUT In )
     float3x4 cWorld = float3x4( 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 );
     for ( int i = 0; i < 4; ++i )
     {        
-        uint idx = instanceDataAddr + uint( In.BlendIndices[ i ] ) * 3;
+        uint idx = instanceDataAddr + In.BlendIndices[ i ] * 3;
         float3x4 boneWorld = { bInstanceData[ idx + 0 ], bInstanceData[ idx + 1 ], bInstanceData[ idx + 2 ] };
         cWorld += boneWorld * In.BlendWeights[ i ];
     }

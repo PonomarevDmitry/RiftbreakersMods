@@ -13,7 +13,9 @@ function phirian:OnInit()
 	self:RegisterHandler( self.entity, "ExitDashEvent",  "OnExitDashEvent" )
 
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 7
 
 	self.dashTargets = {}
 end

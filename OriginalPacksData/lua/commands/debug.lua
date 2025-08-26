@@ -1,6 +1,31 @@
+ConsoleService:RegisterCommand( "debug_remove_mission", function( args )
+    if not Assert( #args == 1, "Command requires one argument! [mission_name]" ) then return end   
+    CampaignService:RemoveMission( args[1], MISSION_STATUS_WIN )
+end)
+
 ConsoleService:RegisterCommand( "debug_unlock_mission", function( args )
-    if not Assert( #args == 2, "Command requires two argument! [resource] [amonut]" ) then return end   
+    if not Assert( #args == 2, "Command requires two argument! [mission_name] [mission_def]" ) then return end   
     CampaignService:UnlockMission( args[1], args[2])
+end)
+
+local g_generator_index = 1
+ConsoleService:RegisterCommand( "debug_unlock_generator_mission", function( args )
+    if not Assert( #args == 1, "Command requires two argument! [mission_def]" ) then return end
+
+    local GetMissionName = function()
+        return "generator_" .. tostring(g_generator_index) 
+    end
+
+    if CampaignService.IsMissionUnlocked then
+        g_generator_index = 1
+        while CampaignService:IsMissionUnlocked( GetMissionName() ) do
+            g_generator_index = g_generator_index + 1
+        end
+    end
+
+    CampaignService:UnlockMission( GetMissionName(), args[1])
+    g_generator_index = g_generator_index + 1
+
 end)
 
 ConsoleService:RegisterCommand( "debug_send_lua_event", function( args )
@@ -39,6 +64,18 @@ ConsoleService:RegisterCommand( "debug_dom_manager_spawn_wave_level", function( 
     if not Assert( #args == 1, "Command requires one argument! [level]" ) then return end
 
     table.insert(g_debug_dom_manager_spawn_wave_levels, tonumber( args[1] ) )
+end)
+
+ConsoleService:RegisterCommand( "debug_dom_finish", function( args )
+	QueueEvent( "LuaGlobalEvent", event_sink, "FinishSurvival", {} )
+end)
+
+ConsoleService:RegisterCommand( "debug_dom_pause", function( args )
+	QueueEvent( "LuaGlobalEvent", event_sink, "PauseDOM", {} )
+end)
+
+ConsoleService:RegisterCommand( "debug_dom_resume", function( args )
+	QueueEvent( "LuaGlobalEvent", event_sink, "ResumeDOM", {} )
 end)
 
 ConsoleService:RegisterCommand( "debug_spawn_resource_loot", function( args )
@@ -168,3 +205,49 @@ ConsoleService:RegisterCommand( "debug_change_biome_for_skill_overrides", functi
 
     g_debug_change_biome_for_skill_overrides = args[1]
 end)
+
+ConsoleService:RegisterCommand( "debug_win_game", function( args )
+    QueueEvent( "LuaGlobalEvent", event_sink, "win_game", {} )
+end)
+
+ConsoleService:RegisterCommand( "debug_lose_game", function( args )
+    QueueEvent( "LuaGlobalEvent", event_sink, "lose_game", {} )
+end)
+
+ConsoleService:RegisterCommand("debug_end_game", function( args )
+    QueueEvent( "ShowEndGameRequest", event_sink, MISSION_STATUS_WIN )
+end)
+
+ConsoleService:RegisterCommand( "debug_cleanup_invalid_pawn_entities", function( args )
+
+    local player_pawns = {}
+    local predicate = {
+        signature = "PlayerReferenceComponent",
+        filter = function(entity)
+            local component = reflection_helper( EntityService:GetConstComponent( entity,"PlayerReferenceComponent" ) )
+
+            local player_id = component.player_id
+            player_pawns[ player_id ] = player_pawns[ player_id ] or PlayerService:GetPlayerControlledEnt( player_id )
+            if entity == player_pawns[ player_id ] then
+                return false
+            end
+            return component.reference_type.internal_enum == 0
+        end
+    };
+    
+    LogService:Log( "-- Start removing entities considered as pawns:");
+    local entities = FindService:FindEntitiesByPredicateInBox( { x = -10000, y = -10000, z = -10000 }, { x = 10000, y = 10000, z = 10000 }, predicate);
+    for entity in Iter(entities) do
+        local blueprint_name = EntityService:GetBlueprintName(entity)
+        LogService:Log("  - " .. tostring(entity) .. " " .. blueprint_name );
+        EntityService:RemoveEntity(entity)
+    end
+    LogService:Log( "-- End removing entities considered as pawns");
+end )
+
+ConsoleService:RegisterCommand( "debug_unlock_planetary_scanner", function()
+	CampaignService:OperatePlanetaryJump( true )
+	CampaignService:OperateDOMPlanetaryJump( true )
+
+end)
+

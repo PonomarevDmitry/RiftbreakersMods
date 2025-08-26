@@ -47,6 +47,7 @@ function spreader_acid:OnCheckExecute()
         if ( self.isImmortal == true ) then
 		    EntityService:ChangeType( self.entity, "ground_unit" )
 		    EntityService:SetTeam( self.entity, "enemy" )
+	        QueueEvent("RecreateComponentFromBlueprintRequest", self.entity, "PhysicsComponent" )
             self.isImmortal = false
         end
         EffectService:DestroyEffectsByGroup(self.entity, "scanning")
@@ -57,12 +58,12 @@ function spreader_acid:OnCheckExecute()
         if ( self.isImmortal == false ) then
 		    EntityService:RemoveComponent( self.entity, "TypeComponent" )
 		    EntityService:RemoveComponent( self.entity, "TeamComponent" )
+            EntityService:ChangePhysicsGroupId( self.entity, "world_destructible" )
             HealthService:SetImmortality( self.entity,true )
             self.isImmortal = true
         end
     end
     if ( amountOfStations ~= self.lastAmountOfStations) then
-        LogService:Log("SetImmortality" .. tostring(amountOfStations))
         HealthService:SetImmortality( self.entity, amountOfStations )
         self.lastAmountOfStations = amountOfStations
     end

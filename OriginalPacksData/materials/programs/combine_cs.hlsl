@@ -112,11 +112,14 @@ void main( uint2 dispatchThreadID : SV_DispatchThreadID )
 #endif
 
 #if POSTPROCESS
-    float3 greyscale = dot( output, float3( 0.3f, 0.59f, 0.11f ) ).xxx; 
-    greyscale.yz *= 1.0f - cPostProcessParams.w;
-    output = lerp( output, greyscale, cPostProcessParams.x );
-    output *= cPostProcessParams.z;
-    output = max( float3( 0.0f, 0.0f, 0.0f ), output + cPostProcessParams.yyy ); 
+    if ( any( cPostProcessParams.xw > 0 ) || any( cPostProcessParams.yz ) != 1 )
+    {
+        float3 greyscale = dot( output, float3( 0.3f, 0.59f, 0.11f ) ).xxx; 
+        greyscale.yz *= 1.0f - cPostProcessParams.w;
+        output = lerp( output, greyscale, cPostProcessParams.x );
+        output *= cPostProcessParams.z;
+        output = max( float3( 0.0f, 0.0f, 0.0f ), output + cPostProcessParams.yyy );
+    }
 #endif
 
     OutputTexture[ did.xy ] = float4( output, 1.0f );

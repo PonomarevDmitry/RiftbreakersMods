@@ -24,7 +24,7 @@ function player_spawner:OnInteractWithEntityRequest( evt )
     table.insert(entities, self.entity)
 
     for entity in Iter(entities) do
-        QueueEvent( "FadeEntityOutRequest", entity, 1 )
+        QueueEvent( "FadeEntityOutRequest", entity, 1, true)
     end
 end
 

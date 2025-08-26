@@ -7,7 +7,36 @@ function anoryxian_alpha:__init()
 	anoryxian_boss_base.__init(self, self)
 end
 
+function anoryxian_alpha:HealthSetup()
+	self.healthSetup = 
+	{
+		--[[
+			This table defines the maximum health values for the boss
+			based on creature difficulty (rows) and player count (columns).
+
+			Format: healthSetup[difficulty][playerCount]
+			- 'difficulty' ranges from 1 to 10 (table rows)
+			- 'playerCount' ranges from 1 to 4 (table columns)
+
+			For example:
+				healthSetup[3][2] returns 123000,
+				which means for difficulty level 3 and 2 players, the boss will have 123000 HP.
+		]]
+		[1] = {60000, 105000, 135000, 165000},
+		[2] = {65000, 114000, 146000, 179000},
+		[3] = {70000, 123000, 158000, 193000},
+		[4] = {75000, 131000, 169000, 206000},
+		[5] = {80000, 140000, 180000, 220000},
+		[6] = {85000, 149000, 191000, 234000},
+		[7] = {90000, 158000, 203000, 248000},
+		[8] = {95000, 166000, 214000, 261000},
+		[9] = {100000, 175000, 225000, 275000},
+		[10] = {105000, 184000, 236000, 289000}
+	}
+end
+
 function anoryxian_alpha:_OnInit()
+
 	self.config = 
 	{
 		spawnPointGroupName			= "Boss",

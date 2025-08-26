@@ -15,7 +15,7 @@ end
 function lift_interactive:OnInteractWithEntityRequest( evt )
 	local destroyEntity = self.data:GetIntOrDefault( "destroy_entity", 0 )
 	if destroyEntity ~= 0 then
-		QueueEvent( "DestroyRequest", self.entity, "interact", 100 )
+		EntityService:DestroyEntity( self.entity, "interact" )
 	end
 
 	local emitEventName = self.data:GetStringOrDefault( "emit_event", "" )
@@ -33,7 +33,7 @@ function lift_interactive:OnDamageEvent( event )
 	if event:GetDamageType() == "fire" then
 		EntityService:RemoveComponent( self.entity, "TypeComponent" )
 		EntityService:RemoveComponent( self.entity, "InteractiveComponent" )
-		QueueEvent( "DestroyRequest", self.entity, "fire", 100 )
+		EntityService:DestroyEntity( self.entity, "fire" )
 	end
 end
 

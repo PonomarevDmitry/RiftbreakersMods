@@ -1,0 +1,80 @@
+system rift/mega_rift_cooling
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.01
+    scale                                       0.01 0.01 0.01
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 20
+    technique frost
+    {
+        visual_particle_quota                   250
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/wispy_smoke_loop_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       50
+            angle                               1
+            time_to_live                        dyn_random
+            {
+                min                             4
+                max                             5
+            }
+            velocity                            50
+            all_particle_dimensions             dyn_random
+            {
+                min                             20
+                max                             40
+            }
+            auto_direction                      true
+            radius                              250
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.647687 0.838263 1 0
+            time_colour                         0.5  0.711744 0.867669 1 0.298039
+            time_colour                         1    0.6121 0.863338 1 0
+        }
+        affector                                TextureRotator Affector120
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+        }
+        affector                                Scale Affector121
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             50
+                max                             100
+            }
+        }
+        affector                                TextureAnimator Affector256
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
+        affector                                LinearForce Affector56
+        {
+            force_vector                        0 -250 0
+        }
+    }
+}

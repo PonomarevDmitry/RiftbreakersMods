@@ -11,7 +11,8 @@ function wreck_ground_unit:init()
     self:RegisterHandler( self.entity, "AnimationStateChangedEvent", "OnAnimationStateChanged" )
     self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" )
     self:RegisterHandler( self.entity, "TargetFoundEvent", "OnBuildingFoundEvent" )
-
+    self:RegisterHandler( self.entity, "AnimationTerminalNodeReachedEvent", "OnAnimationTerminalNodeReachedEvent" )
+    
     local wreckTeamComponent = EntityService:GetConstComponent( self.entity, "WreckTeamComponent")
     local damageType = ""
     if ( wreckTeamComponent ~= nil ) then
@@ -75,8 +76,6 @@ function wreck_ground_unit:overrideParams()
     local forceLeaveBody = UnitService:GetStateMachineParamInt( self.entity, "force_leave_body" )
 
     if ( forceLeaveBody == 1 ) then
-        self.normalExplodeProbability = 0
-        self.leaveBodyProbability = 1
         self.resurrectCooldown = 1000
     end
 end
@@ -88,8 +87,6 @@ function wreck_ground_unit:initDefaultParams()
         self.wreckLifetime = RandInt( 120, 180 )
     end
 
-    self.normalExplodeProbability = 2
-    self.leaveBodyProbability = 10
     self.deathAnimationMarkers = {}
     self.deathAnimationStates = {}
     self.resurrectCooldown = 1
@@ -112,20 +109,10 @@ function wreck_ground_unit:OnBuildingFoundEvent()
 end
 
 function wreck_ground_unit:CreateNormalWreck()
-
-    if ( ( self.leaveBodyProbability ~= 0 ) and ( CameraService:IsOnScreen( self.entity, 10 ) == false ) ) then
-        self:LeaveBody()
+    if ( UnitService:IsOnHeightGround( self.entity ) == true ) then --fail safe
+        self:CreateNormalExplode()
     else
-        local BehaviorRange1 = 0 + self.normalExplodeProbability
-        local BehaviorRange2 = BehaviorRange1 + self.leaveBodyProbability	
-        local probabilitySum = self.normalExplodeProbability + self.leaveBodyProbability    
-        local behaviorNumber = RandInt( 0, probabilitySum )
-
-        if ( behaviorNumber >= 0 and behaviorNumber <= BehaviorRange1 and BehaviorRange1 > 0 ) then
-            self:CreateNormalExplode()
-        elseif (behaviorNumber > BehaviorRange1 or BehaviorRange1 == 0) and behaviorNumber <= BehaviorRange2  then
-            self:LeaveBody()
-        end
+        self:LeaveBody()
     end
 end
 
@@ -182,7 +169,28 @@ function wreck_ground_unit:OnAnimationStateChanged( evt )
         self:_OnAnimationStateChanged( evt )
     end
 
-    --LogService:Log( "wreck_ground_unit:OnAnimationMarkerReached :" .. stateName )
+    if string.match( stateName, "^death_" ) then
+        self.deathAnimName = stateName
+    end
+
+end
+
+function wreck_ground_unit:OnAnimationTerminalNodeReachedEvent( evt )
+    
+    if ( self.deathAnimName ~= nil ) then
+        EntityService:RemoveComponent( self.entity, "AnimationGraphComponent" )
+
+        local animationComponent = EntityService:CreateComponent( self.entity, "AnimationComponent" )
+        local animationComponentHelper = reflection_helper( animationComponent )
+        local container = rawget( animationComponentHelper.active_animations, "__ptr" );
+        local instance =  reflection_helper( container:CreateItem() )
+
+        instance.name = self.deathAnimName
+        instance.start_time = 10.0
+        instance.remove_on_end = 0
+
+       -- LogService:Log( "wreck_ground_unit:OnAnimationTerminalNodeReachedEvent replaced AnimationGraphComponent with AnimationComponent :" .. self.deathAnimName )
+    end
 end
 
 function wreck_ground_unit:OnAnimationMarkerReached( evt )

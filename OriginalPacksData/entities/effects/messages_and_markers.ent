@@ -220,10 +220,11 @@ EntityBlueprint "effects/default"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/building_destroyed"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/building_destroyed"
 		additional_z_order	"100"
-		visibility		"always"		
+		visibility			"always"
+		layer_group			"warning"
 	}
 
 	LifeTimeDesc
@@ -238,16 +239,20 @@ EntityBlueprint "effects/default"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/building_under_attack"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/building_under_attack"
 		additional_z_order	"50"
-		visibility		"always"		
+		visibility			"always"
+		layer_group			"warning"		
 	}
 
 	LifeTimeDesc
 	{
 		time 		2.0
 	}
+
+	NetReplicateOnceComponent
+	NetAlwaysRevelantComponent
 }
 
 EntityBlueprint "effects/no_lifetime"
@@ -285,11 +290,23 @@ EntityBlueprint
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_arrow
-
-	ParticleDesc
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_blue_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}		
+	
+	AffectorDesc
 	{
-		name    "rift/objective_marker_arrow"
-	}
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
+	}	
 }
 
 EntityBlueprint "effects/no_lifetime"
@@ -331,11 +348,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_blue"
-		clamp_mode		"1"
-		visibility		"always"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_blue"
+		clamp_mode			"1"
+		visibility			"always"	
 		additional_z_order	"95"
+		layer_group			"warning"
 	}
 
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -374,11 +392,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_blue"
-		clamp_mode		"1"
-		visibility		"always"	
-		additional_z_order	"95"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_blue"
+		clamp_mode			"1"
+		visibility			"always"	
+		additional_z_order	"95"
+		layer_group			"warning"		
 	}
 
 	LuaDesc
@@ -434,11 +453,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_blue"
-		clamp_mode		"1"
-		visibility		"always"	
-		additional_z_order	"95"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_blue"
+		clamp_mode			"1"
+		visibility			"always"	
+		additional_z_order	"95"
+		layer_group			"warning"
 	}
 
 	LuaDesc
@@ -491,10 +511,22 @@ EntityBlueprint "effects/no_lifetime"
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_red_arrow
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_red_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}	
 
-	ParticleDesc
+	AffectorDesc
 	{
-		name    "rift/objective_marker_red_arrow"
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
 	}
 }
 
@@ -525,11 +557,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_red"
-		clamp_mode		"1"
-		visibility		"always"
-		additional_z_order	"95"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_red"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"95"
+		layer_group			"warning"		
 	}
 
 	LuaDesc
@@ -577,10 +610,22 @@ EntityBlueprint "effects/no_lifetime"
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_green_arrow
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_green_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}		
 
-	ParticleDesc
+	AffectorDesc
 	{
-		name    "rift/objective_marker_green_arrow"
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
 	}
 }
 
@@ -611,11 +656,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_green"
-		clamp_mode		"1"
-		visibility		"always"
-		additional_z_order	"95"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_green"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"95"
+		layer_group			"warning"		
 	}
 
 	LuaDesc
@@ -663,10 +709,22 @@ EntityBlueprint "effects/no_lifetime"
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_light_green_arrow
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_light_green_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}		
 
-	ParticleDesc
+	AffectorDesc
 	{
-		name    "rift/objective_marker_light_green_arrow"
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
 	}
 }
 
@@ -697,11 +755,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_light_green"
-		clamp_mode		"1"
-		visibility		"always"
-		additional_z_order	"95"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_light_green"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"95"
+		layer_group			"warning"		
 	}
 
 	LuaDesc
@@ -749,10 +808,22 @@ EntityBlueprint "effects/no_lifetime"
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_violet_arrow
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_purple_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}		
 
-	ParticleDesc
+	AffectorDesc
 	{
-		name    "rift/objective_marker_violet_arrow"
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
 	}
 }
 
@@ -783,11 +854,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_violet"
-		clamp_mode		"1"
-		visibility		"always"
-		additional_z_order	"95"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_violet"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"95"
+		layer_group			"warning"
 	}
 
 	LuaDesc
@@ -835,10 +907,22 @@ EntityBlueprint "effects/no_lifetime"
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/objective_marker_yellow_arrow
+	
+	MeshDesc
+	{	
+		mesh "meshes/misc/objective_marker_yellow_arrow.mesh"
+		material "misc/objective_marker_arrow"	
+	}		
 
-	ParticleDesc
+	AffectorDesc
 	{
-		name    "rift/objective_marker_yellow_arrow"
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"30"
+			}
+		}
 	}
 }
 
@@ -869,11 +953,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_yellow"
-		clamp_mode		"1"
-		visibility		"always"
-		additional_z_order	"95"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_yellow"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"95"
+		layer_group			"warning"		
 	}
 
 	LuaDesc
@@ -924,11 +1009,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_red"
-		clamp_mode		"1"
-		visibility		"always"	
-		additional_z_order	"95"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_red"
+		clamp_mode			"1"
+		visibility			"always"	
+		additional_z_order	"95"
+		layer_group			"warning"
 	}
 
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -980,11 +1066,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_objective_red"
-		clamp_mode		"1"
-		visibility		"always"	
-		additional_z_order	"95"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_objective_red"
+		clamp_mode			"1"
+		visibility			"always"	
+		additional_z_order	"95"
+		layer_group			"warning"
 	}
 
 	// BOUNDS HACK FOR SPATIAL SEARCH
@@ -1079,8 +1166,56 @@ EntityBlueprint "effects/no_lifetime"
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/building_destroyed_blue"
 		clamp_mode		"1"
-		visibility		"always"		
+		visibility		"always"
+		layer_group		"warning"		
 	}
+
+	MeshDesc
+	{	
+		mesh "meshes/misc/treasure_finder_x_spot.mesh"
+		material "selector/hologram_treasure_finder_x_spot"
+	    //material 	"misc/treasure_finder_x_spot"
+
+	     SubMeshes
+	     {
+	     	SubMesh
+	     	{
+	     		id "1"
+	     		material "misc/treasure_finder_x_spot"
+	     	}
+
+	     	SubMesh
+	     	{
+	     		id "2"
+	     		material "misc/treasure_finder_x_spot_darker"
+	     	}
+
+	     	SubMesh
+	     	{
+	     		id "3"
+	     		material "misc/treasure_finder_x_spot_dark"
+	     	}
+	     
+	     }	
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/misc/treasure_finder_x_spot"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "is_working"
+				animTime "0.0"
+			}
+		}
+	}
+
 
 	ParticleDesc
 	{
@@ -1100,17 +1235,86 @@ EntityBlueprint "effects/no_lifetime"
 		clamp_in_frustum "0"
 		order 			"1"
 		additional_z_order	"15"
-	}	
+	}
+
+	EffectDesc
+	{			
+		EffectGroup
+		{
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_blue"								
+					offset "0 0 0"
+					orientation "0 90 0"
+				}
+				Effect
+				{
+					blueprint "lights/point/blue_small"								
+					offset "0 1 0"
+				}				
+			}
+		}			
+	}		
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
 	name effects/messages_and_markers/underground_mushroom_trigger_radius
 
-	ParticleDesc
-	{
-		name    "rift/underground_mushroom_trigger_radius"
+	MeshDesc
+	{	
+		mesh "meshes/misc/underground_mushroom_trigger_radius.mesh"
+		material "selector/hologram_active_skinned_treasure_red"
+	    //material 	"buildings/decorations/treasure_marker"
+
+	     SubMeshes
+	     {
+	     	SubMesh
+	     	{
+	     		id "1"
+	     		material "misc/underground_mushroom_trigger_radius"
+	     	}
+
+	     	SubMesh
+	     	{
+	     		id "2"
+	     		material "misc/underground_mushroom_trigger_radius_darker"
+	     	}
+
+	     	SubMesh
+	     	{
+	     		id "3"
+	     		material "misc/underground_mushroom_trigger_radius_dark"
+	     	}
+	     
+	     }	
 	}
+
+	SkeletonDesc
+	{
+		name "meshes/misc/underground_mushroom_trigger_radius"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "is_working"
+				animTime "0.0"
+			}
+		}
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/underground_mushroom_trigger_radius"
+	//}
 	
 	LocalAabbDesc
 	{
@@ -1129,7 +1333,30 @@ EntityBlueprint "effects/no_lifetime"
 				z "1"
 			}	
 		}
-	}	
+	}
+
+	EffectDesc
+	{			
+		EffectGroup
+		{
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "lights/spot/future_city_lamp_orange"							
+					offset "0 0 0"
+					orientation "0 90 0"
+				}
+				Effect
+				{
+					blueprint "lights/point/red_small"								
+					offset "0 1 0"
+				}				
+			}
+		}			
+	}		
 }
 
 EntityBlueprint "effects/no_lifetime"
@@ -1138,11 +1365,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_nest_wave_marker"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_nest_wave_marker"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"warning"
 	}
 
 	ParticleDesc
@@ -1172,11 +1400,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/minimap_wave"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/minimap_wave"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"warning"
 	}
 
 	ParticleDesc
@@ -1228,43 +1457,46 @@ EntityBlueprint
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/earthquake_marker
+	name effects/messages_and_markers/earthquake_marker
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/earthquake"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/earthquake"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"weather_events"
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/acid_rain_marker
+	name effects/messages_and_markers/acid_rain_marker
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/acid_rain"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/acid_rain"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"weather_events"
 	}
 }
 
 EntityBlueprint "effects/no_lifetime"
 {
-		name effects/messages_and_markers/meteor_shower_marker
+	name effects/messages_and_markers/meteor_shower_marker
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/meteor_shower"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/meteor_shower"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"weather_events"
 	}
 }
 
@@ -1274,11 +1506,12 @@ EntityBlueprint "effects/no_lifetime"
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/wind_spot"
-		clamp_mode		"1"
-		visibility		"always"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/wind_spot"
+		clamp_mode			"1"
+		visibility			"always"		
 		additional_z_order	"15"
+		layer_group			"weather_events"
 	}
 }
 
@@ -1311,5 +1544,163 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/holder_marker_blue"
+	}
+}
+
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/mech_down_marker
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/player_down_icon"
+		clamp_mode			"1"
+		visibility			"always"
+		additional_z_order	"101"
+		layer_group			"player"
+
+		size
+		{
+			x "0.6"
+			y "0.6"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/objective_marker.lua"
+
+		database
+		{
+			circle_width_factor		float:"3.0"
+			arrow_extra_height		float:"2.0"
+
+			arrow_effect		string:"effects/messages_and_markers/mech_down_marker_arrow"
+			circle_effect		string:"effects/messages_and_markers/mech_down_marker_circle"
+			core_effect 		string:"effects/messages_and_markers/mech_down_marker_core"
+		}
+	}
+
+	// BOUNDS HACK FOR SPATIAL SEARCH
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "-1"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+
+	SoundDesc
+	{
+		name "mech/self_destruction_counter"
+	}
+
+	GuiDesc
+	{
+		type 			"image"
+		material		"gui/hud/minimap_icons/player_down_icon"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"1"
+	}
+
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0.05"
+			y "0.3"
+			z "1.0"
+			w "2000.0"
+		}
+		light_size 0.0
+		light_range "20"
+		
+		light_world_offset
+		{
+			y "10"
+		}	
+	}
+
+	ShadowComponent
+	{
+		shadow_intensity "1"
+	}
+	
+	LightPulseAffectorComponent
+	{
+		frequency    	"1"
+		delta_power   	"0.25"
+	}
+
+	TimeWarpDesc
+	{
+		dark_vignette   "1.5"
+		desaturation_vignette "2.0"
+		
+		delay			"0.0"
+		fade_in_time	"2.0"
+		fade_out_time	"0.1"
+		duration		"999999"
+	}		
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/mech_down_marker_arrow
+
+	ParticleDesc
+	{
+		name    "rift/mech_down_marker_arrow"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/mech_down_marker_circle
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/mech_deactivated_marker"
+	}	
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/mech_down_marker_core
+
+	ParticleDesc
+	{
+		name    "rift/mech_down_marker_core"
+	}
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/messages_and_markers/minimap_unknown
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/unknown"
+		visibility			"radar|discovered"
+		additional_z_order	"20"
+		layer_group			"exploration"
 	}
 }

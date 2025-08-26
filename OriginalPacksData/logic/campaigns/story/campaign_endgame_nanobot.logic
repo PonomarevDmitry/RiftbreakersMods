@@ -1,0 +1,1778 @@
+//editor "scroll(1190.70,800.51)|zoom(0.20)"
+FlowGraphTemplate
+{
+	version "6"
+	editor "6576"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(521,592)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(889,541)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.build_nanobot_center_lvl_1"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_1"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_6"
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(2715,227)"
+			global "1"
+			interrupt "1"
+			priority "1"
+			self_id "campaign_interface_dialogue_show_group_14"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_start_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_start_02"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(2088,501)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "nanobot_center"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_21"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2088,730)"
+			key "true"
+			self_id "logic_if_exist_building_21###true"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(3319,995)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_19"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_complete_02"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_complete_02"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(2722,994)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "nanobot_center"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_24"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2722,1223)"
+			key "true"
+			self_id "logic_if_exist_building_24###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(3314,1601)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "nanobot_center_lvl_2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_26"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3314,1830)"
+			key "true"
+			self_id "logic_if_exist_building_26###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(3915,2057)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "nanobot_center_lvl_2"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_27"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3915,2286)"
+			key "true"
+			self_id "logic_if_exist_building_27###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(4473,2469)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "nanobot_center_lvl_3"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_28"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4473,2698)"
+			key "true"
+			self_id "logic_if_exist_building_28###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(5022,2973)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "nanobot_center_lvl_3"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_29"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5022,3202)"
+			key "true"
+			self_id "logic_if_exist_building_29###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(5577,3456)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "nanobot_center_lvl_4"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_30"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(5577,3685)"
+			key "true"
+			self_id "logic_if_exist_building_30###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(6074,3941)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "nanobot_center_lvl_4"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_31"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6074,4170)"
+			key "true"
+			self_id "logic_if_exist_building_31###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(6626,4452)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value "nanobot_center_lvl_5"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_32"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(6626,4681)"
+			key "true"
+			self_id "logic_if_exist_building_32###true"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_exist_building.xml)|pos(7104,5043)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value "nanobot_center_lvl_5"
+					}
+
+					StringData
+					{
+						key "target_bp"
+						value
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "target_global_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_exist_building.lua"
+			self_id "logic_if_exist_building_33"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(7104,5272)"
+			key "true"
+			self_id "logic_if_exist_building_33###true"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(3924,1605)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_35"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_01_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_01_start_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(4471,2058)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_36"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_01_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_01_complete_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(5570,3062)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_37"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_02_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_02_complete_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(5017,2561)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_38"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_02_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_02_start_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(6623,4021)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_39"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_03_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_03_complete_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(6071,3535)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_40"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_03_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_03_start_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(7629,5127)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_41"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_04_complete_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_04_complete_01"
+				}
+
+			}
+
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(campaign_interface_dialogue_show_group.xml)|pos(7102,4528)"
+			global "1"
+			interrupt "0"
+			priority "0"
+			self_id "campaign_interface_dialogue_show_group_42"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/endgame/mech_nanobot_upgrade_04_start_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/endgame/ashley_nanobot_upgrade_04_start_01"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(8975,5263)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(8293,5229)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(3319,843)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "value"
+						value "0.25"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "mode"
+						value "increment"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_change_creature_difficulty.lua"
+			self_id "mission_change_creature_difficulty_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(7809,4096)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.build_nanobot_center"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(3320,679)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_1"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(3999,1203)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(4607,1164)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.build_nanobot_center_lvl_2"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_2"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_8"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(4477,1906)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_2"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(5119,2173)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_2"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(5726,2134)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.build_nanobot_center_lvl_3"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_3"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_9"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(5574,2891)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_3"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(6235,3176)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_3"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_generic.xml)|pos(6843,3137)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "0"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/story/global.endgame.build_nanobot_center_lvl_4"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_4"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value "global.endgame"
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "campaign_objective_generic_10"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_status_change.xml)|pos(6624,3849)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_4"
+					}
+
+					StringData
+					{
+						key "status"
+						value "OBJECTIVE_SUCCESS"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_change_status.lua"
+			self_id "objective_status_change_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_remove.xml)|pos(7286,4133)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.endgame.build_nanobot_center_lvl_4"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_remove.lua"
+			self_id "objective_remove_8"
+		}
+
+	}
+
+	GraphConnections
+	{
+		campaign_interface_dialogue_show_group_19 "objective_remove_5"
+		campaign_interface_dialogue_show_group_36 "objective_remove_6"
+		campaign_interface_dialogue_show_group_37 "objective_remove_7"
+		campaign_interface_dialogue_show_group_39 "objective_remove_8"
+		campaign_interface_dialogue_show_group_41 "objective_status_change_1"
+		campaign_objective_generic_6 "logic_if_exist_building_21"
+		default "campaign_objective_generic_6"
+		logic_if_exist_building_21 "logic_if_exist_building_21###true"
+		logic_if_exist_building_21###true "campaign_interface_dialogue_show_group_14|logic_if_exist_building_24"
+		logic_if_exist_building_24 "logic_if_exist_building_24###true"
+		logic_if_exist_building_24###true "campaign_interface_dialogue_show_group_19|logic_if_exist_building_26|mission_change_creature_difficulty_1|objective_status_change_2"
+		logic_if_exist_building_26 "logic_if_exist_building_26###true"
+		logic_if_exist_building_26###true "campaign_interface_dialogue_show_group_35|logic_if_exist_building_27"
+		logic_if_exist_building_27 "logic_if_exist_building_27###true"
+		logic_if_exist_building_27###true "campaign_interface_dialogue_show_group_36|logic_if_exist_building_28|objective_status_change_3"
+		logic_if_exist_building_28 "logic_if_exist_building_28###true"
+		logic_if_exist_building_28###true "campaign_interface_dialogue_show_group_38|logic_if_exist_building_29"
+		logic_if_exist_building_29 "logic_if_exist_building_29###true"
+		logic_if_exist_building_29###true "campaign_interface_dialogue_show_group_37|logic_if_exist_building_30|objective_status_change_4"
+		logic_if_exist_building_30 "logic_if_exist_building_30###true"
+		logic_if_exist_building_30###true "campaign_interface_dialogue_show_group_40|logic_if_exist_building_31"
+		logic_if_exist_building_31 "logic_if_exist_building_31###true"
+		logic_if_exist_building_31###true "campaign_interface_dialogue_show_group_39|logic_if_exist_building_32|objective_status_change_5"
+		logic_if_exist_building_32 "logic_if_exist_building_32###true"
+		logic_if_exist_building_32###true "campaign_interface_dialogue_show_group_42|logic_if_exist_building_33"
+		logic_if_exist_building_33 "logic_if_exist_building_33###true"
+		logic_if_exist_building_33###true "campaign_interface_dialogue_show_group_41"
+		objective_remove_5 "campaign_objective_generic_8"
+		objective_remove_6 "campaign_objective_generic_9"
+		objective_remove_7 "campaign_objective_generic_10"
+		objective_remove_8 "campaign_objective_generic_7"
+		objective_status_change_1 "event_end_1"
+	}
+
+	GraphComments
+}
+

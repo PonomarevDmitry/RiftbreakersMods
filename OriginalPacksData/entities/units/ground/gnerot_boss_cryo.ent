@@ -1,143 +1,15 @@
 EntityBlueprint
-{ 
-	name "units/ground/gnerot/underground_rock_cryo"
-
-	LuaDesc
-	{
-		script "lua/misc/underground_rock.lua"
-		database
-		{
-			Strings
-			{
-				StringData
-				{
-					key		"damage_bp"
-					value	"units/ground/gnerot/underground_rock_damage_cryo"
-				}	
-			}	
-			Floats
-			{
-				FloatData
-				{
-					key		"speed_acceleration"
-					value	"12.0"
-				}
-				FloatData
-				{
-					key		"origin_to_stop_above_ground_height"
-					value	"0.0"
-				}		
-			}	
-		}			
-	}
-
-	MeshDesc
-	{
-		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
-		material "units/ground/gnerot_boss_cryo"
-	}
-
-	TypeDesc
-	{
-		type "prop"
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			EffectDesc
-			{
-				EffectGroup
-				{
-					Effects
-					{
-						Effect
-						{
-							blueprint "effects/enemies_gnerot/spike_emerge"
-						}
-					}
-				}
-			}
-
-			TransformDesc
-			{
-				position
-				{
-					y "4.0"
-				}
-			}
-		}
-	}
-}
-
-EntityBlueprint
-{ 
-	name "units/ground/gnerot/underground_rock_damage_cryo"
-
-	TeamDesc
-	{
-		team "neutral"
-	}
-
-	BombAmmoComponent
-	{
-		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
-
-		DamagePattern
-		{
-			area_damage_radius 	"6"
-
-			Damages
-			{
-				Damage
-				{
-					value 		"100"
-					type 		"cryo"
-				}
-			}
-		}
-	}
-
-	DestroyDesc
-	{
-		DestroyPatterns
-		{
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"10000"
-					explosion_min_power 	"10000"
-					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
-					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
-					part_effect 			"effects/enemies_generic/blood_trail_dust"
-					part_material 			"props/rocks/jagged/jagged_small_01_05"
-					part_physics_material   "gibs_heavy"					
-				}
-
-				key "rocks"
-			}
-		}		
-	}
-
-	
-}
-
-EntityBlueprint
 {
 	name "units/ground/gnerot_boss_cryo"
 
 	base_blueprint units/ground/gnerot_base
-
 
 	StateMachineDesc
 	{
 		template_name "gnerot"
 		params
 		{
-			aggressive_speed					float:"6"
+			aggressive_speed					float:"8"
 			aggressive_acceleration				float:"60"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"30"
@@ -154,7 +26,7 @@ EntityBlueprint
 			bp_on_range_attack					string:"units/ground/gnerot/underground_rock_cryo"
 			warning_effect_on_range_attack		string:"units/ground/gnerot/underground_rock_danger_marker"
 			range_attack_underground_offset		float:"-8.0"
-			range_attack_cooldown				float:"8.0"
+			range_attack_cooldown				float:"10"
 		}		
 	}
 
@@ -175,10 +47,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -196,11 +66,11 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"0.1"
-		fire			"1.0"
+		fire			"4.0"
 		acid			"1.0"
 		energy			"1.0"
 		cryo			"0.1"
-		area			"1.0"	
+		area			"2.0"	
 		reflect_damage_max_percent 		"0.1"
 	}	
 	
@@ -220,7 +90,7 @@ EntityBlueprint
 
 	NavMeshMovementComponent
 	{
-		angle_turn_speed				"90"
+		angle_turn_speed				"180"
 		unit_soft_radius				"2.6"
 		ignore_cost_mask				"building|path_blocker|cavern_wall"
 		dominance_group				    "0"
@@ -229,7 +99,7 @@ EntityBlueprint
 	MeshDesc
 	{
 		material "units/ground/gnerot_boss_cryo"
-		mesh "meshes/units/ground/gnerot.mesh"
+		mesh "meshes/units/ground/gnerot_boss.mesh"
 	}
 	
  	ShadowExcludeComponent
@@ -241,7 +111,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"always"		
+		visibility 		"always"
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc
@@ -546,9 +417,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_1"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						attack_start_time			"0.83"
-						attack_end_time				"1.10"
-						attack_duration 			"2.00"
+						//attack_start_time			"0.83"
+						//attack_end_time				"1.10"
+						//attack_duration 			"2.00"
+						attack_start_time			"0.50"
+						attack_end_time				"0.78"
+						attack_duration 			"1.32"
 						damage_multiple  			"0"
 					}
 
@@ -560,9 +434,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name  			"close_attack_2"
 						attack_start_effect 		"effects/enemies_gnerot/attack_start"
-						attack_start_time			"0.75"
-						attack_end_time				"1.00"
-						attack_duration 			"2.00"
+						//attack_start_time			"0.75"
+						//attack_end_time				"1.00"
+						//attack_duration 			"2.00"
+						attack_start_time			"0.45"
+						attack_end_time				"0.70"
+						attack_duration 			"1.32"
 						damage_multiple  			"1"
 					}
 				}
@@ -603,7 +480,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"160.0"
+										value 	"80"
 										type 	"cryo"
 									}
 								}
@@ -626,3 +503,127 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{ 
+	name "units/ground/gnerot/underground_rock_cryo"
+
+	LuaDesc
+	{
+		script "lua/misc/underground_rock.lua"
+		database
+		{
+			Strings
+			{
+				StringData
+				{
+					key		"damage_bp"
+					value	"units/ground/gnerot/underground_rock_damage_cryo"
+				}	
+			}	
+			Floats
+			{
+				FloatData
+				{
+					key		"speed_acceleration"
+					value	"12.0"
+				}
+				FloatData
+				{
+					key		"origin_to_stop_above_ground_height"
+					value	"0.0"
+				}		
+			}	
+		}			
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"10000"
+					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/gnerot/underground_rock.mesh"
+		material "units/ground/gnerot_boss_cryo"
+	}
+
+	TypeDesc
+	{
+		type "prop"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			EffectDesc
+			{
+				EffectGroup
+				{
+					Effects
+					{
+						Effect
+						{
+							blueprint "effects/enemies_gnerot/spike_emerge"
+						}
+					}
+				}
+			}
+
+			TransformDesc
+			{
+				position
+				{
+					y "4.0"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "units/ground/gnerot/underground_rock_damage_cryo"
+
+	TeamDesc
+	{
+		team "neutral"
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/enemies_gnerot/underground_rock_damage"
+
+		DamagePattern
+		{
+			area_damage_radius 	"6"
+
+			Damages
+			{
+				Damage
+				{
+					value 		"100"
+					type 		"cryo"
+				}
+			}
+		}
+	}
+}

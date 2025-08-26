@@ -9,6 +9,8 @@ function desert_resource_outpost:__init()
 end
 
 function desert_resource_outpost:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/desert_resource_outpost.logic", "default" )

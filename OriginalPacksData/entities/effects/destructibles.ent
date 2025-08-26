@@ -1844,6 +1844,11 @@ EntityBlueprint
 	{
 		 effects/default
 	}
+	
+	TeamDesc
+	{
+		team "player"
+	}	
 
 	ParticleDesc
 	{
@@ -1853,7 +1858,86 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "destructibles/destructible_rock_big"
-	}		
+	}	
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "items/destructibles/magnetic_rock_gravity_hole"
+					offset "0 -5 0"
+					//scale "0.1 0.1 0.1"
+				}	
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/destructibles/magnetic_rock_gravity_hole"
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"items/destructibles/magnetic_rock_gravity_hole_explosion"
+	
+		DamagePattern
+		{
+			area_damage_radius	"8"
+	
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			items/destructibles/magnetic_rock_gravity_hole_explosion
+
+	LuaDesc
+	{
+		script "lua/items/consumables/gravity_hole.lua"
+
+		database
+		{
+			initial_blast string:"items/consumables/gravity_hole_initial_blast"
+			damage 		  string:"items/consumables/gravity_hole_damage"
+		}
+	}
+	
+	LightDesc
+	{
+		type "0"
+		scattering_intensity "0.41"
+		light_color
+		{
+			x "0"
+			y "0.5"
+			z "1.0"
+			w "500.0"
+		}
+
+		light_range "40"
+	}
+
+	LightFadeInOutAffectorComponent
+	{
+		fade_in_start 	"0"
+		fade_in_end   	"2"
+		fade_out_start	"12"
+		fade_out_end    "12.5"
+	}
 }
 
 EntityBlueprint
@@ -1864,6 +1948,11 @@ EntityBlueprint
 	{
 		 effects/default
 	}
+	
+	TeamDesc
+	{
+		team "player"
+	}	
 
 	ParticleDesc
 	{
@@ -1873,6 +1962,22 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "destructibles/destructible_rock_small"
+	}	
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "items/destructibles/magnetic_rock_gravity_hole"
+					offset "0 -5 0"
+					//scale "0.1 0.1 0.1"
+				}	
+			}
+		}
 	}		
 }
 

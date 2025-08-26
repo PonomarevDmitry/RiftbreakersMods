@@ -45,13 +45,16 @@ Texture3D<float4>           VBufferScattering;
 
 StructuredBuffer<uint>      LightIndexList;
 StructuredBuffer<Light>     Lights;
+
+#if SHADOW_MAP || LIGHT_MASK
 StructuredBuffer<Shadow>    Shadows;
+#endif
 
 #include "materials/programs/tiled_deferred_light_internal.hlsl"
 
 RWTexture3D<float4>         LightScattering : register( u0 );
 
-inline void ComputeSpotLightScattering( in float3 worldPos, in Light light, in float2 uv, inout float3 output )
+inline void ComputeSpotLightScattering( in float3 worldPos, in Light light, inout float3 output )
 {    
     const float3 toLightVec = worldPos - light.WorldPos.xyz;
     const float dotVector = dot( toLightVec,toLightVec );
@@ -80,7 +83,7 @@ inline void ComputeSpotLightScattering( in float3 worldPos, in Light light, in f
     }
 }
 
-inline void ComputePointLightScattering( in float3 worldPos, in Light light, in float2 uv, inout float3 output )
+inline void ComputePointLightScattering( in float3 worldPos, in Light light, inout float3 output )
 {
     const float3 toLightVec = worldPos.xyz - light.WorldPos.xyz;
     const float dotVector = dot( toLightVec,toLightVec );
@@ -133,7 +136,7 @@ inline void ComputeDirectionalLightScattering( in float3 worldPos, in Light ligh
 }
 
 [numthreads( 4, 4, 4 )]
-void main( uint3 groupID : SV_GroupID, uint3 dispatchThreadID : SV_DispatchThreadID )
+void main( uint3 dispatchThreadID : SV_DispatchThreadID )
 {
     uint3 dims;
     LightScattering.GetDimensions( dims.x, dims.y, dims.z );
@@ -170,12 +173,12 @@ void main( uint3 groupID : SV_GroupID, uint3 dispatchThreadID : SV_DispatchThrea
             {
                 case POINT_LIGHT:
                 {
-                    ComputePointLightScattering( worldPos, light, screenUV.xy, lightScattering );
+                    ComputePointLightScattering( worldPos, light, lightScattering );
                 }
                 break;
                 case SPOT_LIGHT:
                 {
-                    ComputeSpotLightScattering( worldPos, light, screenUV.xy, lightScattering );
+                    ComputeSpotLightScattering( worldPos, light, lightScattering );
                 }
                 break;
                 case DIRECTIONAL_LIGHT:

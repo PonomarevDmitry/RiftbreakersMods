@@ -1,6 +1,7 @@
 class 'item' ( LuaEntityObject )
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/reflection.lua")
 
 function item:__init()
 	LuaEntityObject.__init(self,self)
@@ -11,7 +12,7 @@ function item:IsActivated()
 	if ( runtimeData == nil ) then
 		return false
 	end
-	
+
 	return runtimeData:GetField( "activated" ):GetValue() == "1"
 end
 
@@ -24,12 +25,25 @@ function item:IsEquipped()
 	return runtimeData:GetField( "equipped" ):GetValue() == "1"
 end
 
+function item:SetCanActivate(canActivate)
+
+	local runtimeData = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
+	if ( runtimeData == nil ) then
+		return false
+	end
+	local helper  = reflection_helper( runtimeData )
+	helper.can_activate = canActivate
+end
+
 
 function item:init()
 	self:RegisterHandler( self.entity, "EquipItemEvent", 	     "_OnEquipped" )
-	self:RegisterHandler( self.entity, "UnequipedItemEvent", 	 "_OnUnequipped" )		
-	self:RegisterHandler( self.entity, "DroppedItemEvent", 	 	 "_OnDropItemEvent" )
-	self:RegisterHandler( self.entity, "PickedUpItemEvent", 	 "_OnPickEventLua" )	
+	self:RegisterHandler( self.entity, "UnequipedItemEvent", 	 "_OnUnequipped" )
+
+	if is_server then		
+		self:RegisterHandler( self.entity, "DroppedItemEvent", 	 	 "_OnDropItemEvent" )
+		self:RegisterHandler( self.entity, "PickedUpItemEvent", 	 "_OnPickEventLua" )
+	end
 
 	self.entity_blueprint = EntityService:GetBlueprintName(self.entity);
 	self:OnInit()
@@ -38,8 +52,14 @@ function item:init()
 	self.subSlot = nil 
 	self.references = {}
 	self.pickup = false
+	self.clientEquipped = false
+	self.clientActivated = false
 
 	self.version = 2
+	self:CanActivate()
+	if(self:IsEquipped()) then
+		self:_OnEquipped( nil, true )
+	end
 end
 
 function item:SpawnReferenceEntity( blueprint, target, team )
@@ -49,26 +69,38 @@ function item:SpawnReferenceEntity( blueprint, target, team )
 	return ent
 end
 
-function item:_OnEquipped( evt )
-	local equipped = self:IsEquipped()
-	if ( not equipped  ) then
-		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
-		invItemComponent:GetField( "equipped" ):SetValue("1")		
-		
+function item:_OnEquipped( evt, forced )
+	if ( not self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
 		self:RegisterHandler( self.entity, "ActivateItemRequest", 	 "_OnActivate" )
 		self:RegisterHandler( self.entity, "ActivateOnceItemRequest", 	 "_OnActivateOnce" )
 		self:RegisterHandler( self.entity, "DeactivateItemRequest", "_OnDeactivate" )
-		self.item = evt:GetItemEnt()
-		self.owner = evt:GetOwner()
-		self.slot = evt:GetSlot()
+	end
+
+	local equipped = self:IsEquipped()
+	if ( ( is_server and not equipped ) or forced or ( is_client and not self.clientEquipped ) ) then
+		self.clientEquipped = true
+		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
+		invItemComponent:GetField( "equipped" ):SetValue("1")		
+		self.owner = tonumber(invItemComponent:GetField( "owner" ):GetField("id"):GetValue())
+
+		-- TODO: starbugzzz fix it!
+		if not evt then
+			self.slot = ItemService:GetItemSlot( self.entity )
+			self.item = ItemService:GetEquippedPresentationItem( self.owner, self.slot )
+		else
+			self.item = evt:GetItemEnt()
+			self.slot = evt:GetSlot()
+		end
+
 		self.subSlot = ItemService:GetItemSubSlot( self.owner, self.entity )
 
 		if ( self.item ~= INVALID_ID ) then 
 			ItemService:SetItemCreator( self.item, self.entity_blueprint )
 			EntityService:PropagateEntityOwner( self.item, self.owner )
-
-			EffectService:AttachEffects( self.item, self.slot ) 
-			EffectService:AttachEffects( self.item, "item_equipped" ) 
+			if is_server then
+				EffectService:AttachEffects( self.item, self.slot ) 
+				EffectService:AttachEffects( self.item, "item_equipped" )
+			end 
 		end
 		
 		self:DissolveShow()
@@ -77,69 +109,98 @@ function item:_OnEquipped( evt )
 end
 
 function item:_OnActivate(evt)
-	--LogService:Log( "_OnActivate!" )
+	if ( self.data:HasFloat( "client" ) and self.item == nil ) then 
+		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
+		self.owner = tonumber(invItemComponent:GetField( "owner" ):GetField("id"):GetValue())
+		self.slot = ItemService:GetItemSlot( self.entity )
+		self.item = ItemService:GetEquippedPresentationItem( self.owner, self.slot )
+		self.subSlot = ItemService:GetItemSubSlot( self.owner, self.entity )
+	end
+
 	if ( self:IsEquipped() ) then
 		local continous = evt:GetContinous()
-		local activated = self:IsActivated()
+		local activated = self:IsActivated() or ( is_client and self.clientActivated )
+		local activationId = evt:GetActivationId()
 		if( continous == true or not activated ) then	
 			if ( not activated ) then
-				EffectService:AttachEffects( self.item, "item_activated_once" )
+				if is_server then
+					EffectService:AttachEffects( self.item, "item_activated_once" )
+				end
 			end
 
 			EffectService:AttachEffects( self.item, "item_activated" ) 
-			self:OnActivate()
+			self:OnActivate(activationId)
 			ItemService:SetActivationStatus( self.entity, true );
+			self.clientActivated = true;
 		end
 	end
 end
 
 function item:_OnActivateOnce(evt)
-	--LogService:Log( "_OnActivateOnce!" )
 	if ( self:IsEquipped() ) then
-		local activated = self:IsActivated()
+		local activated = self:IsActivated() or ( is_client and self.clientActivated )
+		local activationId = evt:GetActivationId()
 		if ( self.OnActivateOnce == nil ) then
 			local continous = evt:GetContinous()
 			if( continous == true or not activated ) then	
 				if ( not activated ) then
-					EffectService:AttachEffects( self.item, "item_activated_once" )
+					if is_server then
+						EffectService:AttachEffects( self.item, "item_activated_once" )
+					end
 				end
 	
-				EffectService:AttachEffects( self.item, "item_activated" ) 
-				self:OnActivate()
+				if is_server then
+					EffectService:AttachEffects( self.item, "item_activated" )
+				end
+				self:OnActivate(activationId)
 				ItemService:SetActivationStatus( self.entity, true );
+				self.clientActivated = true;
 			end
 			
-			EffectService:AttachEffects( self.item, "item_deactivated" ) 
+			if is_server then
+				EffectService:AttachEffects( self.item, "item_deactivated" ) 
+			end
 			local deactivated = self:OnDeactivate( forced )
 			if ( deactivated  == true or forced == true) then
 				--LogService:Log("forced deactivation")
 				ItemService:SetActivationStatus( self.entity, false );
+				self.clientActivated = false;
 			end		
 		else
 			if ( not activated ) then
-				EffectService:AttachEffects( self.item, "item_activated_once" )
+				if is_server then
+					EffectService:AttachEffects( self.item, "item_activated_once" )
+				end
 			end
 	
-			EffectService:AttachEffects( self.item, "item_activated" ) 
-			self:OnActivateOnce()
-			EffectService:AttachEffects( self.item, "item_deactivated" ) 
+			if is_server then
+				EffectService:AttachEffects( self.item, "item_activated" )
+			end 
+
+			self:OnActivateOnce(activationId)
+
+			if is_server then
+				EffectService:AttachEffects( self.item, "item_deactivated" ) 
+			end
 		end
 	end
 end
 
 function item:_Deactivate( forced )
-	--LogService:Log( "_Deactivate!" )
-	local activated = self:IsActivated()
+	local activated = self:IsActivated() or ( is_client and self.clientActivated )
 	if ( activated ) then
-		EffectService:AttachEffects( self.item, "item_deactivated" ) 
-		EffectService:DestroyEffectsByGroup( self.item, "item_activated" )
-		EffectService:DestroyEffectsByGroup( self.item, "item_activated_once" )
 		local deactivated = self:OnDeactivate( forced )
 		if ( deactivated  == true or forced == true) then
+			if is_server then
+				EffectService:AttachEffects( self.item, "item_deactivated" ) 
+				EffectService:DestroyEffectsByGroup( self.item, "item_activated" )
+				EffectService:DestroyEffectsByGroup( self.item, "item_activated_once" )
+			end
 			--LogService:Log("forced deactivation")
 			ItemService:SetActivationStatus( self.entity, false );
+			self.clientActivated = false;
 		end		
-	end	
+	end
 end
 
 function item:_OnDeactivate( evt )
@@ -163,14 +224,14 @@ function item:DespawnReferenceEntities(  )
 	self.references = {}
 end
 
-function item:_OnUnequipped( evt )	
+function item:_OnUnequipped( evt )
+	if ( self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
+		self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
+		self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
+		self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
+	end
 
-	if ( self:IsEquipped() ) then
-		if ( self:HasEventHandler( self.entity, "ActivateItemRequest" ) ) then
-			self:UnregisterHandler( self.entity, "ActivateItemRequest", 	"_OnActivate" )
-			self:UnregisterHandler( self.entity, "ActivateOnceItemRequest", "_OnActivateOnce" )
-			self:UnregisterHandler( self.entity, "DeactivateItemRequest", 	"_OnDeactivate" )
-		end
+	if ( ( is_server and self:IsEquipped() ) or ( is_client and self.clientEquipped ) ) then
 		self.owner = evt:GetOwner()
 		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		if invItemComponent then
@@ -181,6 +242,7 @@ function item:_OnUnequipped( evt )
 		self:OnUnequipped()	
 		self:DespawnReferenceEntities()
 		self.owner = INVALID_ID;
+		self.clientEquipped = false
 	end
 end
 
@@ -205,7 +267,7 @@ function item:_OnPickEventLua( evt )
 		ItemService:ClearNewItemMark( owner, self.entity )
 
 	end
-	
+	self.data:RemoveKey( "is_award" )
 	self:OnPickUp( owner)
 end
 
@@ -259,8 +321,12 @@ function item:IsPickable( owner )
 end
 
 function item:DissolveShow()
-	if ( EntityService:IsAlive( self.item )) then
-		EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
+	if EntityService:IsAlive( self.item ) then
+		if EntityService:IsVisible( self.owner ) then
+			EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
+		else
+			EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0 )
+		end
 	end
 end
 
@@ -289,11 +355,13 @@ function item:CanActivate()
 			if ( condition == "biome") then
 				local currentBiome = MissionService:GetCurrentBiomeName()
 				if ( IndexOf( values, currentBiome ) ~= nil ) then
+					self:SetCanActivate( false )
 					return false
 				end
 			end
 		end
 	end
+	self:SetCanActivate( true )
 	return true
 end
 

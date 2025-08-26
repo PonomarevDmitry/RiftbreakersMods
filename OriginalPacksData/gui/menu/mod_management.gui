@@ -1,5 +1,6 @@
 GuiRootGroupDef
 {
+	bg_blur "0.25"
 	full_screen "0"
 	navigation
 	{
@@ -50,7 +51,7 @@ GuiRootGroupDef
 									GuiNavNodeDef "GuiScrollListDef"
 									{
 										alignment "buttons"
-										spacing "5.000"
+										spacing "5"
 										navigable "0"
 										path "mod_list"
 									}
@@ -58,7 +59,7 @@ GuiRootGroupDef
 									GuiNavNodeDef "GuiScrollListDef"
 									{
 										alignment "buttons"
-										spacing "5.000"
+										spacing "5"
 										path "mod_details.content.container.details"
 									}
 
@@ -90,7 +91,7 @@ GuiRootGroupDef
 									GuiNavNodeDef "GuiScrollListDef"
 									{
 										alignment "buttons"
-										spacing "5.000"
+										spacing "5"
 										navigable "0"
 										path "mod_list"
 									}
@@ -98,7 +99,7 @@ GuiRootGroupDef
 									GuiNavNodeDef "GuiScrollListDef"
 									{
 										alignment "buttons"
-										spacing "5.000"
+										spacing "5"
 										path "mod_details.content.container.details"
 									}
 
@@ -121,6 +122,7 @@ GuiRootGroupDef
 
 	}
 
+	priority "50"
 	children
 	{
 		Pair_String_GuiDef2
@@ -130,9 +132,24 @@ GuiRootGroupDef
 			{
 				error_material "gui/default"
 				material "gui/menu/inventory_placeholder_background"
+				bindings
+				{
+					visible
+					{
+						model_field "is_popup"
+						converter "GuiModelCompareConverter"
+						{
+							ref_value "0"
+						}
+
+					}
+
+				}
+
 				id "background"
 				size_mode_x "2"
 				size_mode_y "2"
+				z_order "1"
 			}
 
 		}
@@ -142,146 +159,17 @@ GuiRootGroupDef
 			key "footer"
 			value "GuiGroupDef"
 			{
-				children
-				{
-					Pair_String_GuiDef2
-					{
-						key "button_back"
-						value "GuiReferenceDef"
-						{
-							path "main_button"
-							ref_children
-							{
-								Pair_String_Vector_GuiDef2
-								{
-									key "content"
-								}
-
-							}
-
-							ref_gui_id "gui/template/buttons"
-							ref_model
-							{
-								database
-								{
-									Strings
-									{
-										StringData
-										{
-											key "content"
-											value "BUTTON_back"
-										}
-
-										StringData
-										{
-											key "action"
-											value "button_back"
-										}
-
-									}
-
-									Floats
-									Vectors
-									Integers
-								}
-
-							}
-
-							alignment "left"
-							anchor "left"
-							id "button_back"
-							offset
-							{
-								x "40.000"
-							}
-
-							size
-							{
-								x "600.000"
-								y "100.000"
-							}
-
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "button_confirm"
-						value "GuiReferenceDef"
-						{
-							path "main_button"
-							ref_children
-							{
-								Pair_String_Vector_GuiDef2
-								{
-									key "content"
-								}
-
-							}
-
-							ref_gui_id "gui/template/buttons"
-							ref_model
-							{
-								database
-								{
-									Strings
-									{
-										StringData
-										{
-											key "content"
-											value "BUTTON_apply"
-										}
-
-									}
-
-									Floats
-									Vectors
-									Integers
-								}
-
-							}
-
-							alignment "right"
-							anchor "right"
-							bindings
-							{
-								visible
-								{
-									model_field "restart_required"
-									converter "GuiButtonNodeEnablingConverter"
-								}
-
-							}
-
-							id "button_confirm"
-							offset
-							{
-								x "-40.000"
-							}
-
-							size
-							{
-								x "600.000"
-								y "100.000"
-							}
-
-						}
-
-					}
-
-				}
-
 				alignment "bottom"
 				anchor "bottom"
 				hitbox_visible "0"
 				id "footer"
 				size
 				{
-					x "1920.000"
-					y "120.000"
+					x "1920"
+					y "120"
 				}
 
+				z_order "1"
 			}
 
 		}
@@ -360,11 +248,11 @@ GuiRootGroupDef
 														id "icon"
 														scale
 														{
-															x "1.100"
-															y "1.100"
+															x "1.1"
+															y "1.1"
 														}
 
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -385,8 +273,8 @@ GuiRootGroupDef
 														id "active_label"
 														offset
 														{
-															x "-113.000"
-															y "-27.000"
+															x "-113"
+															y "-27"
 														}
 
 													}
@@ -399,7 +287,7 @@ GuiRootGroupDef
 														anchor "center"
 														hitbox_visible "0"
 														id "icon"
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -420,8 +308,8 @@ GuiRootGroupDef
 														id "active_label"
 														offset
 														{
-															x "-113.000"
-															y "-27.000"
+															x "-113"
+															y "-27"
 														}
 
 													}
@@ -436,11 +324,11 @@ GuiRootGroupDef
 														id "icon"
 														scale
 														{
-															x "1.100"
-															y "1.100"
+															x "1.1"
+															y "1.1"
 														}
 
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -460,7 +348,7 @@ GuiRootGroupDef
 														anchor "center"
 														hitbox_visible "0"
 														id "icon"
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -474,16 +362,16 @@ GuiRootGroupDef
 										id "available"
 										offset
 										{
-											x "129.000"
+											x "129"
 										}
 
 										size
 										{
-											x "130.000"
-											y "74.000"
+											x "130"
+											y "74"
 										}
 
-										z_order "100.000"
+										z_order "100"
 									}
 
 								}
@@ -511,11 +399,11 @@ GuiRootGroupDef
 														id "icon"
 														scale
 														{
-															x "1.100"
-															y "1.100"
+															x "1.1"
+															y "1.1"
 														}
 
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -536,8 +424,8 @@ GuiRootGroupDef
 														id "active_label"
 														offset
 														{
-															x "15.000"
-															y "-27.000"
+															x "15"
+															y "-27"
 														}
 
 													}
@@ -550,7 +438,7 @@ GuiRootGroupDef
 														anchor "center"
 														hitbox_visible "0"
 														id "icon"
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -571,8 +459,8 @@ GuiRootGroupDef
 														id "active_label"
 														offset
 														{
-															x "15.000"
-															y "-27.000"
+															x "15"
+															y "-27"
 														}
 
 													}
@@ -587,11 +475,11 @@ GuiRootGroupDef
 														id "icon"
 														scale
 														{
-															x "1.100"
-															y "1.100"
+															x "1.1"
+															y "1.1"
 														}
 
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -611,7 +499,7 @@ GuiRootGroupDef
 														anchor "center"
 														hitbox_visible "0"
 														id "icon"
-														z_order "3.000"
+														z_order "3"
 													}
 
 												}
@@ -625,11 +513,11 @@ GuiRootGroupDef
 										id "installed"
 										size
 										{
-											x "130.000"
-											y "74.000"
+											x "130"
+											y "74"
 										}
 
-										z_order "100.000"
+										z_order "100"
 									}
 
 								}
@@ -640,16 +528,16 @@ GuiRootGroupDef
 							id "buttons"
 							offset
 							{
-								x "15.000"
+								x "15"
 							}
 
 							size
 							{
-								x "1000.000"
-								y "74.000"
+								x "1000"
+								y "74"
 							}
 
-							z_order "2.000"
+							z_order "2"
 						}
 
 					}
@@ -679,7 +567,7 @@ GuiRootGroupDef
 							size
 							{
 								x "1238.207"
-								y "845.260"
+								y "845.26"
 							}
 
 						}
@@ -712,12 +600,12 @@ GuiRootGroupDef
 											id "installed"
 											size
 											{
-												x "1190.000"
-												y "745.000"
+												x "1190"
+												y "745"
 											}
 
 											visible "0"
-											z_order "10.000"
+											z_order "10"
 										}
 
 										GuiDef "GuiReferenceDef"
@@ -789,11 +677,11 @@ GuiRootGroupDef
 																		id "icon_container"
 																		size
 																		{
-																			x "32.000"
-																			y "32.000"
+																			x "32"
+																			y "32"
 																		}
 
-																		z_order "10000000000.000"
+																		z_order "10000000000"
 																	}
 
 																}
@@ -819,10 +707,10 @@ GuiRootGroupDef
 																					id "content"
 																					margin
 																					{
-																						x "35.000"
+																						x "35"
 																					}
 
-																					z_order "1.000"
+																					z_order "1"
 																				}
 
 																			}
@@ -832,13 +720,13 @@ GuiRootGroupDef
 																		id "neutral"
 																		size
 																		{
-																			x "200.000"
-																			y "20.000"
+																			x "200"
+																			y "20"
 																		}
 
 																		size_mode_x "1"
 																		size_mode_y "2"
-																		z_order "10000000000.000"
+																		z_order "10000000000"
 																	}
 
 																}
@@ -863,10 +751,10 @@ GuiRootGroupDef
 																					id "content"
 																					margin
 																					{
-																						x "35.000"
+																						x "35"
 																					}
 
-																					z_order "1.000"
+																					z_order "1"
 																				}
 
 																			}
@@ -901,8 +789,8 @@ GuiRootGroupDef
 																					id "icon_container"
 																					size
 																					{
-																						x "32.000"
-																						y "32.000"
+																						x "32"
+																						y "32"
 																					}
 
 																				}
@@ -914,12 +802,12 @@ GuiRootGroupDef
 																		id "neutral_selected"
 																		size
 																		{
-																			x "200.000"
+																			x "200"
 																		}
 
 																		size_mode_x "1"
 																		size_mode_y "2"
-																		z_order "10000000000.000"
+																		z_order "10000000000"
 																	}
 
 																}
@@ -931,24 +819,24 @@ GuiRootGroupDef
 															id "button_show_incompatible_mods"
 															margin
 															{
-																w "15.000"
-																z "20.000"
+																w "15"
+																z "20"
 															}
 
 															offset
 															{
-																x "20.000"
-																y "70.000"
+																x "20"
+																y "70"
 															}
 
 															size
 															{
-																x "200.000"
-																y "30.000"
+																x "200"
+																y "30"
 															}
 
 															size_mode_x "1"
-															z_order "10000000000.000"
+															z_order "10000000000"
 														}
 
 													}
@@ -962,12 +850,12 @@ GuiRootGroupDef
 											id "available"
 											size
 											{
-												x "1190.000"
-												y "745.000"
+												x "1190"
+												y "745"
 											}
 
 											visible "0"
-											z_order "10.000"
+											z_order "10"
 										}
 
 									}
@@ -988,16 +876,16 @@ GuiRootGroupDef
 							id "subtabs"
 							offset
 							{
-								y "60.000"
+								y "60"
 							}
 
 							size
 							{
-								x "1240.000"
-								y "788.000"
+								x "1240"
+								y "788"
 							}
 
-							z_order "4.000"
+							z_order "4"
 						}
 
 					}
@@ -1015,17 +903,17 @@ GuiRootGroupDef
 				id "frame_tabs"
 				offset
 				{
-					x "24.000"
-					y "114.000"
+					x "24"
+					y "114"
 				}
 
 				size
 				{
-					x "1240.000"
-					y "845.000"
+					x "1240"
+					y "845"
 				}
 
-				z_order "1.000"
+				z_order "1"
 			}
 
 		}
@@ -1039,6 +927,25 @@ GuiRootGroupDef
 				ref_gui_id "gui/template/menu_overlay"
 				ref_model
 				{
+					bindings_proxy
+					{
+						button_right_1_is_enabled
+						{
+							model_field "restart_required"
+						}
+
+						button_settings_visible
+						{
+							model_field "is_popup"
+							converter "GuiModelCompareConverter"
+							{
+								ref_value "0"
+							}
+
+						}
+
+					}
+
 					database
 					{
 						Strings
@@ -1046,13 +953,37 @@ GuiRootGroupDef
 							StringData
 							{
 								key "footer_visible"
-								value "0"
+								value "1"
 							}
 
 							StringData
 							{
 								key "title"
 								value "gui/menu/mod_management/header"
+							}
+
+							StringData
+							{
+								key "back_button_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_content"
+								value "BUTTON_apply"
+							}
+
+							StringData
+							{
+								key "button_right_1_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_action"
+								value "game.restart"
 							}
 
 						}
@@ -1069,7 +1000,19 @@ GuiRootGroupDef
 				id "menu_overlay"
 				size_mode_x "2"
 				size_mode_y "2"
-				z_order "200.000"
+				z_order "200"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "pointereventblocker"
+			value "GuiPointerEventBlockerDef"
+			{
+				id "pointereventblocker"
+				size_mode_x "2"
+				size_mode_y "2"
 			}
 
 		}
@@ -1096,12 +1039,12 @@ GuiRootGroupDef
 										id "active"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1133,7 +1076,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1146,12 +1089,12 @@ GuiRootGroupDef
 										id "active_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1187,21 +1130,21 @@ GuiRootGroupDef
 										id "content"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										offset
 										{
-											y "5.000"
+											y "5"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "1"
-										z_order "1.000"
+										z_order "1"
 									}
 
 								}
@@ -1214,12 +1157,12 @@ GuiRootGroupDef
 										id "neutral"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1252,7 +1195,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1265,12 +1208,12 @@ GuiRootGroupDef
 										id "neutral_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1312,12 +1255,12 @@ GuiRootGroupDef
 										id "active"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1349,7 +1292,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1362,12 +1305,12 @@ GuiRootGroupDef
 										id "active_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1387,12 +1330,12 @@ GuiRootGroupDef
 										id "content"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size_mode_x "1"
 										size_mode_y "2"
-										z_order "1.000"
+										z_order "1"
 									}
 
 								}
@@ -1410,8 +1353,8 @@ GuiRootGroupDef
 										id "icon"
 										offset
 										{
-											x "-10.000"
-											y "2.000"
+											x "-10"
+											y "2"
 										}
 
 									}
@@ -1426,12 +1369,12 @@ GuiRootGroupDef
 										id "neutral"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1464,7 +1407,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1477,12 +1420,12 @@ GuiRootGroupDef
 										id "neutral_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1512,8 +1455,8 @@ GuiRootGroupDef
 
 							size
 							{
-								x "20.000"
-								y "22.000"
+								x "20"
+								y "22"
 							}
 
 							size_mode_x "1"
@@ -1536,12 +1479,12 @@ GuiRootGroupDef
 										id "active"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1574,7 +1517,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1587,12 +1530,12 @@ GuiRootGroupDef
 										id "active_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1630,7 +1573,7 @@ GuiRootGroupDef
 													id "label"
 													offset
 													{
-														y "2.000"
+														y "2"
 													}
 
 												}
@@ -1643,16 +1586,16 @@ GuiRootGroupDef
 										id "content"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "1"
-										z_order "1.000"
+										z_order "1"
 									}
 
 								}
@@ -1670,8 +1613,8 @@ GuiRootGroupDef
 										id "icon"
 										offset
 										{
-											x "-10.000"
-											y "2.000"
+											x "-10"
+											y "2"
 										}
 
 									}
@@ -1686,12 +1629,12 @@ GuiRootGroupDef
 										id "neutral"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1724,7 +1667,7 @@ GuiRootGroupDef
 													id "underline"
 													size
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size_mode_x "2"
@@ -1737,12 +1680,12 @@ GuiRootGroupDef
 										id "neutral_selected"
 										margin
 										{
-											x "20.000"
+											x "20"
 										}
 
 										size
 										{
-											y "35.000"
+											y "35"
 										}
 
 										size_mode_x "2"
@@ -1756,12 +1699,12 @@ GuiRootGroupDef
 							id "mod_dependency_row"
 							size
 							{
-								x "200.000"
-								y "30.000"
+								x "200"
+								y "30"
 							}
 
 							size_mode_x "1"
-							z_order "100000.000"
+							z_order "100000"
 						}
 
 					}
@@ -1801,12 +1744,12 @@ GuiRootGroupDef
 										id "value"
 										margin
 										{
-											z "5.000"
+											z "5"
 										}
 
 										offset
 										{
-											y "3.000"
+											y "3"
 										}
 
 									}
@@ -1818,8 +1761,8 @@ GuiRootGroupDef
 							id "mod_details_tag"
 							size
 							{
-								x "100.000"
-								y "30.000"
+								x "100"
+								y "30"
 							}
 
 							size_mode_x "1"
@@ -1959,13 +1902,13 @@ GuiRootGroupDef
 																				id "button_install_remove"
 																				offset
 																				{
-																					x "-5.000"
+																					x "-5"
 																				}
 
 																				size
 																				{
 																					x "134.933"
-																					y "44.000"
+																					y "44"
 																				}
 
 																				size_mode_x "1"
@@ -2056,13 +1999,13 @@ GuiRootGroupDef
 																				id "button_update"
 																				offset
 																				{
-																					x "5.000"
+																					x "5"
 																				}
 
 																				size
 																				{
 																					x "134.933"
-																					y "44.000"
+																					y "44"
 																				}
 
 																				size_mode_x "1"
@@ -2095,8 +2038,8 @@ GuiRootGroupDef
 
 																				size
 																				{
-																					x "596.430"
-																					y "2.000"
+																					x "596.43"
+																					y "2"
 																				}
 
 																				size_mode_x "2"
@@ -2128,8 +2071,8 @@ GuiRootGroupDef
 
 																				size
 																				{
-																					x "596.430"
-																					y "2.000"
+																					x "596.43"
+																					y "2"
 																				}
 
 																				size_mode_x "2"
@@ -2203,13 +2146,13 @@ GuiRootGroupDef
 																							model_source "action_queue"
 																							offset
 																							{
-																								x "5.000"
+																								x "5"
 																							}
 
 																							size
 																							{
-																								x "271.000"
-																								y "29.000"
+																								x "271"
+																								y "29"
 																							}
 
 																							size_mode_x "1"
@@ -2233,12 +2176,12 @@ GuiRootGroupDef
 																							model_source "action_queue"
 																							offset
 																							{
-																								y "-25.000"
+																								y "-25"
 																							}
 
 																							size
 																							{
-																								y "12.000"
+																								y "12"
 																							}
 
 																							size_mode_x "2"
@@ -2282,8 +2225,8 @@ GuiRootGroupDef
 																							model_source "action_queue"
 																							offset
 																							{
-																								x "18.000"
-																								y "-8.000"
+																								x "18"
+																								y "-8"
 																							}
 
 																						}
@@ -2311,8 +2254,8 @@ GuiRootGroupDef
 																				id "queue"
 																				margin
 																				{
-																					x "10.000"
-																					z "10.000"
+																					x "10"
+																					z "10"
 																				}
 
 																				model_source "action_queue"
@@ -2323,7 +2266,7 @@ GuiRootGroupDef
 
 																				size
 																				{
-																					x "5.000"
+																					x "5"
 																					y "70.723"
 																				}
 
@@ -2339,17 +2282,17 @@ GuiRootGroupDef
 																	id "actions"
 																	offset
 																	{
-																		x "-18.000"
-																		y "-140.000"
+																		x "-18"
+																		y "-140"
 																	}
 
 																	size
 																	{
-																		x "626.000"
+																		x "626"
 																		y "64.383"
 																	}
 
-																	z_order "1.000"
+																	z_order "1"
 																}
 
 															}
@@ -2361,7 +2304,7 @@ GuiRootGroupDef
 																{
 																	color
 																	{
-																		w "0.200"
+																		w "0.2"
 																		x "0.031"
 																		y "0.071"
 																		z "0.102"
@@ -2371,10 +2314,10 @@ GuiRootGroupDef
 																	id "background"
 																	margin
 																	{
-																		w "-18.000"
-																		x "-18.000"
-																		y "-18.000"
-																		z "-36.000"
+																		w "-18"
+																		x "-18"
+																		y "-18"
+																		z "-36"
 																	}
 
 																	size_mode_x "2"
@@ -2404,18 +2347,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -2474,7 +2417,7 @@ GuiRootGroupDef
 																							id "value"
 																							offset
 																							{
-																								x "205.000"
+																								x "205"
 																							}
 
 																						}
@@ -2487,16 +2430,16 @@ GuiRootGroupDef
 																				id "author"
 																				offset
 																				{
-																					y "5.000"
+																					y "5"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "1.000"
+																				z_order "1"
 																			}
 
 																		}
@@ -2515,18 +2458,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -2585,7 +2528,7 @@ GuiRootGroupDef
 																							id "value"
 																							offset
 																							{
-																								x "205.000"
+																								x "205"
 																							}
 
 																						}
@@ -2598,16 +2541,16 @@ GuiRootGroupDef
 																				id "game_version"
 																				offset
 																				{
-																					y "85.000"
+																					y "85"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "2.000"
+																				z_order "2"
 																			}
 
 																		}
@@ -2626,18 +2569,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -2724,12 +2667,12 @@ GuiRootGroupDef
 																							id "button_hyperlink"
 																							offset
 																							{
-																								x "185.000"
+																								x "185"
 																							}
 
 																							size_mode_x "1"
 																							size_mode_y "2"
-																							z_order "10000.000"
+																							z_order "10000"
 																						}
 
 																					}
@@ -2756,16 +2699,16 @@ GuiRootGroupDef
 																				id "homepage"
 																				offset
 																				{
-																					y "205.000"
+																					y "205"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "5.000"
+																				z_order "5"
 																			}
 
 																		}
@@ -2784,24 +2727,24 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
 																							{
 																								x "615.468"
-																								y "30.000"
+																								y "30"
 																							}
 
 																							size_mode_x "2"
@@ -2818,8 +2761,8 @@ GuiRootGroupDef
 																							id "content_group"
 																							offset
 																							{
-																								x "185.000"
-																								y "5.000"
+																								x "185"
+																								y "5"
 																							}
 
 																							size
@@ -2828,7 +2771,7 @@ GuiRootGroupDef
 																							}
 
 																							size_mode_y "1"
-																							z_order "6.000"
+																							z_order "6"
 																						}
 
 																					}
@@ -2845,7 +2788,7 @@ GuiRootGroupDef
 																							id "label"
 																							offset
 																							{
-																								y "5.000"
+																								y "5"
 																							}
 
 																						}
@@ -2878,8 +2821,8 @@ GuiRootGroupDef
 																							id "value"
 																							offset
 																							{
-																								x "205.000"
-																								y "5.000"
+																								x "205"
+																								y "5"
 																							}
 
 																						}
@@ -2891,16 +2834,16 @@ GuiRootGroupDef
 																				id "mask"
 																				offset
 																				{
-																					y "285.000"
+																					y "285"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "100.160"
+																					x "560"
+																					y "100.16"
 																				}
 
-																				z_order "1.000"
+																				z_order "1"
 																			}
 
 																		}
@@ -2913,7 +2856,7 @@ GuiRootGroupDef
 																				id "neutral"
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "1.000"
+																				z_order "1"
 																			}
 
 																		}
@@ -2926,7 +2869,7 @@ GuiRootGroupDef
 																				id "neutral_selected"
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "1.000"
+																				z_order "1"
 																			}
 
 																		}
@@ -2945,18 +2888,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -3042,12 +2985,12 @@ GuiRootGroupDef
 																							id "button_hyperlink"
 																							offset
 																							{
-																								x "185.000"
+																								x "185"
 																							}
 
 																							size_mode_x "1"
 																							size_mode_y "2"
-																							z_order "10000.000"
+																							z_order "10000"
 																						}
 
 																					}
@@ -3074,16 +3017,16 @@ GuiRootGroupDef
 																				id "portal"
 																				offset
 																				{
-																					y "245.000"
+																					y "245"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "6.000"
+																				z_order "6"
 																			}
 
 																		}
@@ -3102,18 +3045,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -3171,7 +3114,7 @@ GuiRootGroupDef
 																							id "value"
 																							offset
 																							{
-																								x "205.000"
+																								x "205"
 																							}
 
 																						}
@@ -3184,16 +3127,16 @@ GuiRootGroupDef
 																				id "size"
 																				offset
 																				{
-																					y "165.000"
+																					y "165"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "4.000"
+																				z_order "4"
 																			}
 
 																		}
@@ -3212,18 +3155,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -3256,8 +3199,8 @@ GuiRootGroupDef
 																											ref_gui_id "gui/menu/mod_management"
 																											size
 																											{
-																												x "100.000"
-																												y "30.000"
+																												x "100"
+																												y "30"
 																											}
 
 																											size_mode_x "1"
@@ -3335,7 +3278,7 @@ GuiRootGroupDef
 																							id "value"
 																							offset
 																							{
-																								x "205.000"
+																								x "205"
 																							}
 
 																						}
@@ -3348,16 +3291,16 @@ GuiRootGroupDef
 																				id "tags"
 																				offset
 																				{
-																					y "125.000"
+																					y "125"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "3.000"
+																				z_order "3"
 																			}
 
 																		}
@@ -3376,18 +3319,18 @@ GuiRootGroupDef
 																						{
 																							color
 																							{
-																								w "0.400"
-																								x "0.000"
-																								y "0.000"
-																								z "0.000"
+																								w "0.4"
+																								x "0"
+																								y "0"
+																								z "0"
 																							}
 
 																							hitbox_visible "0"
 																							id "background"
 																							margin
 																							{
-																								x "-18.000"
-																								z "-36.000"
+																								x "-18"
+																								z "-36"
 																							}
 
 																							size
@@ -3474,12 +3417,12 @@ GuiRootGroupDef
 																							id "button_changelog"
 																							offset
 																							{
-																								x "185.000"
+																								x "185"
 																							}
 
 																							size_mode_x "1"
 																							size_mode_y "2"
-																							z_order "10000.000"
+																							z_order "10000"
 																						}
 
 																					}
@@ -3506,16 +3449,16 @@ GuiRootGroupDef
 																				id "version"
 																				offset
 																				{
-																					y "45.000"
+																					y "45"
 																				}
 
 																				size
 																				{
-																					x "560.000"
-																					y "30.000"
+																					x "560"
+																					y "30"
 																				}
 
-																				z_order "1.000"
+																				z_order "1"
 																			}
 
 																		}
@@ -3531,17 +3474,17 @@ GuiRootGroupDef
 																				id "vertical_scroll_bar"
 																				offset
 																				{
-																					x "40.000"
-																					y "-243.000"
+																					x "40"
+																					y "-243"
 																				}
 
 																				size
 																				{
-																					x "10.000"
-																					y "790.000"
+																					x "10"
+																					y "790"
 																				}
 
-																				z_order "5.000"
+																				z_order "5"
 																			}
 
 																		}
@@ -3551,8 +3494,8 @@ GuiRootGroupDef
 																	id "details"
 																	offset
 																	{
-																		x "5.000"
-																		y "223.000"
+																		x "5"
+																		y "223"
 																	}
 
 																	size
@@ -3561,7 +3504,7 @@ GuiRootGroupDef
 																		y "383.949"
 																	}
 
-																	z_order "1.000"
+																	z_order "1"
 																}
 
 															}
@@ -3638,14 +3581,14 @@ GuiRootGroupDef
 																				id "button_more_details"
 																				offset
 																				{
-																					x "-15.000"
-																					y "-10.000"
+																					x "-15"
+																					y "-10"
 																				}
 
 																				size
 																				{
-																					x "64.720"
-																					y "26.000"
+																					x "64.72"
+																					y "26"
 																				}
 
 																				size_mode_x "1"
@@ -3672,7 +3615,7 @@ GuiRootGroupDef
 																				id "line"
 																				size
 																				{
-																					y "2.000"
+																					y "2"
 																				}
 
 																				size_mode_x "2"
@@ -3701,17 +3644,17 @@ GuiRootGroupDef
 																				id "mod_decription"
 																				max_size
 																				{
-																					x "348.000"
-																					y "140.000"
+																					x "348"
+																					y "140"
 																				}
 
 																				offset
 																				{
-																					x "260.920"
+																					x "260.92"
 																					y "64.999"
 																				}
 
-																				z_order "10.000"
+																				z_order "10"
 																			}
 
 																		}
@@ -3740,18 +3683,18 @@ GuiRootGroupDef
 																				max_size
 																				{
 																					x "591.254"
-																					y "33.000"
+																					y "33"
 																				}
 
 																				offset
 																				{
-																					x "25.000"
-																					y "37.000"
+																					x "25"
+																					y "37"
 																				}
 
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "5.000"
+																				z_order "5"
 																			}
 
 																		}
@@ -3773,13 +3716,13 @@ GuiRootGroupDef
 																				id "noise"
 																				offset
 																				{
-																					x "-1.000"
+																					x "-1"
 																					y "-0.597"
 																				}
 
 																				scale
 																				{
-																					x "-1.000"
+																					x "-1"
 																				}
 
 																			}
@@ -3828,7 +3771,7 @@ GuiRootGroupDef
 																							id "mod_preview"
 																							size_mode_x "2"
 																							size_mode_y "2"
-																							z_order "1.000"
+																							z_order "1"
 																						}
 
 																					}
@@ -3847,10 +3790,10 @@ GuiRootGroupDef
 																							id "mod_rating"
 																							offset
 																							{
-																								y "5.000"
+																								y "5"
 																							}
 
-																							z_order "1.000"
+																							z_order "1"
 																						}
 
 																					}
@@ -3861,14 +3804,14 @@ GuiRootGroupDef
 																				id "preview"
 																				offset
 																				{
-																					x "20.000"
-																					y "70.000"
+																					x "20"
+																					y "70"
 																				}
 
 																				size
 																				{
-																					x "228.000"
-																					y "128.000"
+																					x "228"
+																					y "128"
 																				}
 
 																			}
@@ -3887,11 +3830,11 @@ GuiRootGroupDef
 
 																	size
 																	{
-																		x "626.000"
-																		y "239.000"
+																		x "626"
+																		y "239"
 																	}
 
-																	z_order "1.000"
+																	z_order "1"
 																}
 
 															}
@@ -3923,7 +3866,7 @@ GuiRootGroupDef
 														anchor "center"
 														hitbox_visible "0"
 														id "missing_mod"
-														z_order "20.000"
+														z_order "20"
 													}
 
 												}
@@ -3946,17 +3889,17 @@ GuiRootGroupDef
 										id "mod_details"
 										offset
 										{
-											x "40.000"
-											y "1.000"
+											x "40"
+											y "1"
 										}
 
 										size
 										{
-											x "629.000"
-											y "790.000"
+											x "629"
+											y "790"
 										}
 
-										z_order "1.000"
+										z_order "1"
 									}
 
 								}
@@ -3985,8 +3928,8 @@ GuiRootGroupDef
 																id "content_group"
 																size
 																{
-																	x "1240.000"
-																	y "655.000"
+																	x "1240"
+																	y "655"
 																}
 
 																size_mode_y "1"
@@ -4000,8 +3943,8 @@ GuiRootGroupDef
 													id "mask"
 													offset
 													{
-														x "-1.000"
-														y "-1.000"
+														x "-1"
+														y "-1"
 													}
 
 													size
@@ -4022,8 +3965,8 @@ GuiRootGroupDef
 													id "neutral"
 													offset
 													{
-														x "-1.000"
-														y "-1.000"
+														x "-1"
+														y "-1"
 													}
 
 													size
@@ -4032,7 +3975,7 @@ GuiRootGroupDef
 														y "655.487"
 													}
 
-													z_order "9000.000"
+													z_order "9000"
 												}
 
 											}
@@ -4045,8 +3988,8 @@ GuiRootGroupDef
 													id "neutral_selected"
 													size
 													{
-														x "1250.000"
-														y "655.000"
+														x "1250"
+														y "655"
 													}
 
 												}
@@ -4074,18 +4017,18 @@ GuiRootGroupDef
 																		{
 																			color
 																			{
-																				w "0.546"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				w "0.8"
+																				x "0.925"
+																				y "0.725"
+																				z "0.259"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
-																				y "40.000"
+																				x "1236"
+																				y "40"
 																			}
 
 																			size_mode_x "2"
@@ -4099,13 +4042,13 @@ GuiRootGroupDef
 																id "active"
 																size
 																{
-																	x "1236.000"
-																	y "32.000"
+																	x "1236"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4122,28 +4065,29 @@ GuiRootGroupDef
 																		key "background"
 																		value "GuiQuadDef"
 																		{
+																			border_alpha "0.75"
 																			border_color
 																			{
-																				x "1.000"
-																				y "1.000"
-																				z "1.000"
+																				x "1"
+																				y "1"
+																				z "1"
 																			}
 
-																			border_width "1.000"
+																			border_width "1"
 																			color
 																			{
-																				w "0.750"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				w "0.8"
+																				x "0.925"
+																				y "0.725"
+																				z "0.259"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
-																				y "40.000"
+																				x "1236"
+																				y "40"
 																			}
 
 																			size_mode_x "2"
@@ -4162,13 +4106,13 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "1236.000"
-																	y "32.000"
+																	x "1236"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4183,17 +4127,17 @@ GuiRootGroupDef
 																color
 																{
 																	w "0.472"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
+																	x "0"
+																	y "0"
+																	z "0"
 																}
 
 																hitbox_visible "0"
 																id "background"
 																size
 																{
-																	x "1236.000"
-																	y "30.000"
+																	x "1236"
+																	y "30"
 																}
 
 																size_mode_x "2"
@@ -4241,16 +4185,16 @@ GuiRootGroupDef
 																id "mod_downloads"
 																offset
 																{
-																	x "650.000"
+																	x "650"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -4323,18 +4267,17 @@ GuiRootGroupDef
 
 																			}
 
-																			hitbox_visible "1"
 																			id "mod_warning"
 																			scale
 																			{
-																				x "0.800"
-																				y "0.800"
+																				x "0.8"
+																				y "0.8"
 																			}
 
 																			size
 																			{
-																				x "32.000"
-																				y "32.000"
+																				x "32"
+																				y "32"
 																			}
 
 																			size_mode_x "2"
@@ -4367,8 +4310,7 @@ GuiRootGroupDef
 																				alignment "bottom_left"
 																			}
 
-
-																			z_order "1.000"
+																			z_order "1"
 																		}
 
 																	}
@@ -4381,16 +4323,16 @@ GuiRootGroupDef
 																id "mod_icon"
 																offset
 																{
-																	x "15.000"
+																	x "15"
 																}
 
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -4428,16 +4370,16 @@ GuiRootGroupDef
 																id "mod_rating"
 																offset
 																{
-																	x "430.000"
+																	x "430"
 																}
 
 																size
 																{
-																	x "150.000"
-																	y "32.000"
+																	x "150"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -4488,14 +4430,14 @@ GuiRootGroupDef
 																id "mod_size"
 																offset
 																{
-																	x "850.000"
+																	x "850"
 																	y "0.001"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
 															}
@@ -4553,17 +4495,17 @@ GuiRootGroupDef
 																id "mod_source"
 																offset
 																{
-																	x "-32.000"
+																	x "-32"
 																	y "0.001"
 																}
 
 																size
 																{
-																	x "180.000"
-																	y "32.000"
+																	x "180"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -4616,7 +4558,7 @@ GuiRootGroupDef
 																			max_size
 																			{
 																				x "366.892"
-																				y "30.000"
+																				y "30"
 																			}
 
 																		}
@@ -4635,10 +4577,10 @@ GuiRootGroupDef
 																size
 																{
 																	x "366.892"
-																	y "30.000"
+																	y "30"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -4651,13 +4593,13 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "1240.000"
-																	y "32.000"
+																	x "1240"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4674,27 +4616,28 @@ GuiRootGroupDef
 																		key "background"
 																		value "GuiQuadDef"
 																		{
+																			border_alpha "0.75"
 																			border_color
 																			{
-																				x "1.000"
-																				y "1.000"
-																				z "1.000"
+																				x "1"
+																				y "1"
+																				z "1"
 																			}
 
-																			border_width "1.000"
+																			border_width "1"
 																			color
 																			{
 																				w "0.495"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				x "0"
+																				y "0"
+																				z "0"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
+																				x "1236"
 																				y "59.999"
 																			}
 
@@ -4709,13 +4652,13 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "1236.000"
-																	y "30.000"
+																	x "1236"
+																	y "30"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4726,17 +4669,17 @@ GuiRootGroupDef
 													id "table_row"
 													offset
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size
 													{
-														x "1236.000"
-														y "32.000"
+														x "1236"
+														y "32"
 													}
 
 													visible "0"
-													z_order "100.000"
+													z_order "100"
 												}
 
 											}
@@ -4762,18 +4705,18 @@ GuiRootGroupDef
 																		{
 																			color
 																			{
-																				w "0.546"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				w "0.8"
+																				x "0.925"
+																				y "0.725"
+																				z "0.259"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
-																				y "40.000"
+																				x "1236"
+																				y "40"
 																			}
 
 																			size_mode_x "2"
@@ -4787,13 +4730,13 @@ GuiRootGroupDef
 																id "active"
 																size
 																{
-																	x "1236.000"
-																	y "32.000"
+																	x "1236"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4810,28 +4753,29 @@ GuiRootGroupDef
 																		key "background"
 																		value "GuiQuadDef"
 																		{
+																			border_alpha "0.75"
 																			border_color
 																			{
-																				x "1.000"
-																				y "1.000"
-																				z "1.000"
+																				x "1"
+																				y "1"
+																				z "1"
 																			}
 
-																			border_width "1.000"
+																			border_width "1"
 																			color
 																			{
-																				w "0.750"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				w "0.8"
+																				x "0.925"
+																				y "0.725"
+																				z "0.259"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
-																				y "40.000"
+																				x "1236"
+																				y "40"
 																			}
 
 																			size_mode_x "2"
@@ -4850,13 +4794,13 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "1236.000"
-																	y "32.000"
+																	x "1236"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -4871,17 +4815,17 @@ GuiRootGroupDef
 																color
 																{
 																	w "0.472"
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
+																	x "0"
+																	y "0"
+																	z "0"
 																}
 
 																hitbox_visible "0"
 																id "background"
 																size
 																{
-																	x "1236.000"
-																	y "30.000"
+																	x "1236"
+																	y "30"
 																}
 
 																size_mode_x "2"
@@ -4923,13 +4867,13 @@ GuiRootGroupDef
 																			id "active_selected"
 																			size
 																			{
-																				x "32.000"
-																				y "32.000"
+																				x "32"
+																				y "32"
 																			}
 
 																			size_mode_x "2"
 																			size_mode_y "2"
-																			z_order "20000.000"
+																			z_order "20000"
 																		}
 
 																	}
@@ -4969,7 +4913,7 @@ GuiRootGroupDef
 																			id "enabled"
 																			size_mode_x "2"
 																			size_mode_y "2"
-																			z_order "1.000"
+																			z_order "1"
 																		}
 
 																	}
@@ -4982,13 +4926,13 @@ GuiRootGroupDef
 																			id "neutral"
 																			size
 																			{
-																				x "32.000"
-																				y "32.000"
+																				x "32"
+																				y "32"
 																			}
 
 																			size_mode_x "2"
 																			size_mode_y "2"
-																			z_order "20000.000"
+																			z_order "20000"
 																		}
 
 																	}
@@ -5020,13 +4964,13 @@ GuiRootGroupDef
 																			id "neutral_selected"
 																			size
 																			{
-																				x "32.000"
-																				y "32.000"
+																				x "32"
+																				y "32"
 																			}
 
 																			size_mode_x "2"
 																			size_mode_y "2"
-																			z_order "20000.000"
+																			z_order "20000"
 																		}
 
 																	}
@@ -5053,17 +4997,17 @@ GuiRootGroupDef
 																id "button_enable_mod"
 																offset
 																{
-																	x "15.000"
+																	x "15"
 																}
 
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 																visible "0"
-																z_order "20000.000"
+																z_order "20000"
 															}
 
 														}
@@ -5169,16 +5113,16 @@ GuiRootGroupDef
 																id "mod_downloads"
 																offset
 																{
-																	x "650.000"
+																	x "650"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -5250,6 +5194,22 @@ GuiRootGroupDef
 																				}
 
 																			}
+
+																			id "mod_warning"
+																			scale
+																			{
+																				x "0.8"
+																				y "0.8"
+																			}
+
+																			size
+																			{
+																				x "32"
+																				y "32"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
 																			tooltip_def
 																			{
 																				path "text_label"
@@ -5278,24 +5238,7 @@ GuiRootGroupDef
 																				alignment "bottom_left"
 																			}
 
-																			hitbox_visible "1"
-																			id "mod_warning"
-																			scale
-																			{
-																				x "0.800"
-																				y "0.800"
-																			}
-
-																			size
-																			{
-																				x "32.000"
-																				y "32.000"
-																			}
-
-																			size_mode_x "2"
-																			size_mode_y "2"
-
-																			z_order "1.000"
+																			z_order "1"
 																		}
 
 																	}
@@ -5323,16 +5266,16 @@ GuiRootGroupDef
 																id "mod_icon"
 																offset
 																{
-																	x "15.000"
+																	x "15"
 																}
 
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -5383,14 +5326,14 @@ GuiRootGroupDef
 																id "mod_size"
 																offset
 																{
-																	x "850.000"
+																	x "850"
 																	y "0.001"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
 															}
@@ -5448,17 +5391,17 @@ GuiRootGroupDef
 																id "mod_source"
 																offset
 																{
-																	x "-32.000"
+																	x "-32"
 																	y "0.001"
 																}
 
 																size
 																{
-																	x "180.000"
-																	y "32.000"
+																	x "180"
+																	y "32"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -5517,17 +5460,17 @@ GuiRootGroupDef
 																id "mod_title"
 																offset
 																{
-																	x "50.000"
-																	y "-0.000"
+																	x "50"
+																	y "-0"
 																}
 
 																size
 																{
 																	x "709.721"
-																	y "30.000"
+																	y "30"
 																}
 
-																z_order "10002.000"
+																z_order "10002"
 															}
 
 														}
@@ -5540,13 +5483,13 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "1240.000"
-																	y "32.000"
+																	x "1240"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
@@ -5563,27 +5506,28 @@ GuiRootGroupDef
 																		key "background"
 																		value "GuiQuadDef"
 																		{
+																			border_alpha "0.75"
 																			border_color
 																			{
-																				x "1.000"
-																				y "1.000"
-																				z "1.000"
+																				x "1"
+																				y "1"
+																				z "1"
 																			}
 
-																			border_width "1.000"
+																			border_width "1"
 																			color
 																			{
 																				w "0.495"
-																				x "0.000"
-																				y "0.000"
-																				z "0.000"
+																				x "0"
+																				y "0"
+																				z "0"
 																			}
 
 																			hitbox_visible "0"
 																			id "background"
 																			size
 																			{
-																				x "1236.000"
+																				x "1236"
 																				y "59.999"
 																			}
 
@@ -5598,34 +5542,33 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "1236.000"
-																	y "30.000"
+																	x "1236"
+																	y "30"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "10000.000"
+																z_order "10000"
 															}
 
 														}
 
 													}
 
-													hitbox_visible "1"
 													id "table_row_installed"
 													offset
 													{
-														y "2.000"
+														y "2"
 													}
 
 													size
 													{
-														x "1236.000"
-														y "32.000"
+														x "1236"
+														y "32"
 													}
 
 													visible "0"
-													z_order "100.000"
+													z_order "100"
 												}
 
 											}
@@ -5652,19 +5595,19 @@ GuiRootGroupDef
 																id "bar"
 																margin
 																{
-																	x "1.000"
-																	z "1.000"
+																	x "1"
+																	z "1"
 																}
 
 																size
 																{
-																	x "3.000"
-																	y "1.000"
+																	x "3"
+																	y "1"
 																}
 
 																size_mode_x "2"
 																tooltip_def
-																z_order "153.000"
+																z_order "153"
 															}
 
 														}
@@ -5684,14 +5627,14 @@ GuiRootGroupDef
 																id "bg"
 																size
 																{
-																	x "5.000"
-																	y "787.000"
+																	x "5"
+																	y "787"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
 																tooltip_def
-																z_order "151.000"
+																z_order "151"
 															}
 
 														}
@@ -5703,27 +5646,27 @@ GuiRootGroupDef
 															{
 																color
 																{
-																	x "0.000"
-																	y "0.000"
-																	z "0.000"
+																	x "0"
+																	y "0"
+																	z "0"
 																}
 
 																id "slider"
 																offset
 																{
-																	x "1.000"
-																	y "1.000"
+																	x "1"
+																	y "1"
 																}
 
 																size
 																{
-																	x "3.000"
-																	y "785.000"
+																	x "3"
+																	y "785"
 																}
 
 																size_mode_x "2"
 																tooltip_def
-																z_order "152.000"
+																z_order "152"
 															}
 
 														}
@@ -5735,18 +5678,18 @@ GuiRootGroupDef
 													id "vertical_scroll_bar"
 													offset
 													{
-														x "9.000"
-														y "-108.500"
+														x "9"
+														y "-108.5"
 													}
 
 													size
 													{
-														x "10.000"
-														y "788.000"
+														x "10"
+														y "788"
 													}
 
 													tooltip_def
-													z_order "150.000"
+													z_order "150"
 												}
 
 											}
@@ -5763,11 +5706,11 @@ GuiRootGroupDef
 
 										size
 										{
-											x "1236.000"
+											x "1236"
 											y "660.038"
 										}
 
-										z_order "5.000"
+										z_order "5"
 									}
 
 								}
@@ -5797,7 +5740,7 @@ GuiRootGroupDef
 																id "error_icon"
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "22.000"
+																z_order "22"
 															}
 
 														}
@@ -5815,10 +5758,10 @@ GuiRootGroupDef
 																id "query_error"
 																margin
 																{
-																	x "25.000"
+																	x "25"
 																}
 
-																z_order "33.000"
+																z_order "33"
 															}
 
 														}
@@ -5830,7 +5773,7 @@ GuiRootGroupDef
 													id "center"
 													size_mode_x "1"
 													size_mode_y "1"
-													z_order "22.000"
+													z_order "22"
 												}
 
 											}
@@ -5842,10 +5785,10 @@ GuiRootGroupDef
 												{
 													color
 													{
-														w "0.800"
-														x "0.420"
-														y "0.000"
-														z "0.000"
+														w "0.8"
+														x "0.42"
+														y "0"
+														z "0"
 													}
 
 													id "quad"
@@ -5882,17 +5825,17 @@ GuiRootGroupDef
 										id "query_error"
 										offset
 										{
-											x "-14.000"
+											x "-14"
 											y "15.773"
 										}
 
 										size
 										{
 											x "1227.548"
-											y "30.000"
+											y "30"
 										}
 
-										z_order "666.000"
+										z_order "666"
 									}
 
 								}
@@ -5944,7 +5887,7 @@ GuiRootGroupDef
 
 													hitbox_visible "0"
 													id "loading"
-													z_order "1.000"
+													z_order "1"
 												}
 
 											}
@@ -6019,13 +5962,13 @@ GuiRootGroupDef
 										id "query_status"
 										size
 										{
-											x "128.000"
-											y "128.000"
+											x "128"
+											y "128"
 										}
 
 										size_mode_x "1"
 										size_mode_y "1"
-										z_order "20.000"
+										z_order "20"
 									}
 
 								}
@@ -6045,9 +5988,9 @@ GuiRootGroupDef
 													color
 													{
 														w "0.486"
-														x "0.000"
-														y "0.000"
-														z "0.000"
+														x "0"
+														y "0"
+														z "0"
 													}
 
 													hitbox_visible "0"
@@ -6055,7 +5998,7 @@ GuiRootGroupDef
 													size
 													{
 														x "1160.647"
-														y "45.000"
+														y "45"
 													}
 
 													size_mode_x "2"
@@ -6108,12 +6051,12 @@ GuiRootGroupDef
 																				id "label"
 																				offset
 																				{
-																					y "4.000"
+																					y "4"
 																				}
 
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "100000.000"
+																				z_order "100000"
 																			}
 
 																		}
@@ -6124,13 +6067,13 @@ GuiRootGroupDef
 																	id "label_clipper"
 																	offset
 																	{
-																		x "20.000"
+																		x "20"
 																	}
 
 																	size
 																	{
-																		x "210.000"
-																		y "34.000"
+																		x "210"
+																		y "34"
 																	}
 
 																}
@@ -6175,12 +6118,12 @@ GuiRootGroupDef
 																				id "label"
 																				offset
 																				{
-																					y "4.000"
+																					y "4"
 																				}
 
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "100000.000"
+																				z_order "100000"
 																			}
 
 																		}
@@ -6191,13 +6134,13 @@ GuiRootGroupDef
 																	id "label_clipper"
 																	offset
 																	{
-																		x "20.000"
+																		x "20"
 																	}
 
 																	size
 																	{
-																		x "210.000"
-																		y "34.000"
+																		x "210"
+																		y "34"
 																	}
 
 																}
@@ -6242,12 +6185,12 @@ GuiRootGroupDef
 																				id "label"
 																				offset
 																				{
-																					y "4.000"
+																					y "4"
 																				}
 
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "100000.000"
+																				z_order "100000"
 																			}
 
 																		}
@@ -6258,13 +6201,13 @@ GuiRootGroupDef
 																	id "label_clipper"
 																	offset
 																	{
-																		x "20.000"
+																		x "20"
 																	}
 
 																	size
 																	{
-																		x "210.000"
-																		y "34.000"
+																		x "210"
+																		y "34"
 																	}
 
 																}
@@ -6309,12 +6252,12 @@ GuiRootGroupDef
 																				id "label"
 																				offset
 																				{
-																					y "4.000"
+																					y "4"
 																				}
 
 																				size_mode_x "2"
 																				size_mode_y "2"
-																				z_order "100000.000"
+																				z_order "100000"
 																			}
 
 																		}
@@ -6325,13 +6268,13 @@ GuiRootGroupDef
 																	id "label_clipper"
 																	offset
 																	{
-																		x "20.000"
+																		x "20"
 																	}
 
 																	size
 																	{
-																		x "210.000"
-																		y "34.000"
+																		x "210"
+																		y "34"
 																	}
 
 																}
@@ -6364,8 +6307,8 @@ GuiRootGroupDef
 																						ref_gui_id "gui/menu/mod_management"
 																						size
 																						{
-																							x "200.000"
-																							y "30.000"
+																							x "200"
+																							y "30"
 																						}
 
 																					}
@@ -6374,11 +6317,11 @@ GuiRootGroupDef
 																					id "tag_list"
 																					margin
 																					{
-																						y "10.000"
+																						y "10"
 																					}
 
 																					model_source "selected_tags"
-																					z_order "10000000000.000"
+																					z_order "10000000000"
 																				}
 
 																			}
@@ -6394,17 +6337,17 @@ GuiRootGroupDef
 																	offset
 																	{
 																		x "-25.875"
-																		y "33.000"
+																		y "33"
 																	}
 
 																	size
 																	{
 																		x "254.474"
-																		y "400.000"
+																		y "400"
 																	}
 
 																	visible "0"
-																	z_order "10000000000.000"
+																	z_order "10000000000"
 																}
 
 															}
@@ -6423,11 +6366,11 @@ GuiRootGroupDef
 
 													size
 													{
-														x "255.000"
-														y "34.000"
+														x "255"
+														y "34"
 													}
 
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -6498,8 +6441,8 @@ GuiRootGroupDef
 																id "border_left"
 																margin
 																{
-																	w "20.000"
-																	y "20.000"
+																	w "20"
+																	y "20"
 																}
 
 																size_mode_y "2"
@@ -6520,8 +6463,8 @@ GuiRootGroupDef
 																id "border_right"
 																margin
 																{
-																	w "20.000"
-																	y "20.000"
+																	w "20"
+																	y "20"
 																}
 
 																size_mode_y "2"
@@ -6542,8 +6485,8 @@ GuiRootGroupDef
 																id "border_top"
 																margin
 																{
-																	x "20.000"
-																	z "20.000"
+																	x "20"
+																	z "20"
 																}
 
 																size_mode_x "2"
@@ -6562,12 +6505,12 @@ GuiRootGroupDef
 																id "border_top_left"
 																offset
 																{
-																	x "20.000"
+																	x "20"
 																}
 
 																scale
 																{
-																	x "-1.000"
+																	x "-1"
 																}
 
 															}
@@ -6599,7 +6542,7 @@ GuiRootGroupDef
 																alignment "center"
 																anchor "center"
 																id "search_icon"
-																z_order "1.000"
+																z_order "1"
 															}
 
 														}
@@ -6610,17 +6553,17 @@ GuiRootGroupDef
 													id "icon"
 													offset
 													{
-														x "265.000"
-														y "2.000"
+														x "265"
+														y "2"
 													}
 
 													size
 													{
-														x "30.000"
-														y "30.000"
+														x "30"
+														y "30"
 													}
 
-													z_order "1.000"
+													z_order "1"
 												}
 
 											}
@@ -6636,13 +6579,13 @@ GuiRootGroupDef
 													id "text_input"
 													offset
 													{
-														x "300.000"
+														x "300"
 													}
 
 													size
 													{
 														x "895.006"
-														y "34.000"
+														y "34"
 													}
 
 												}
@@ -6655,17 +6598,17 @@ GuiRootGroupDef
 										id "table_filter"
 										offset
 										{
-											y "-1.000"
+											y "-1"
 										}
 
 										size
 										{
 											x "1194.989"
-											y "33.890"
+											y "33.89"
 										}
 
 										size_mode_x "2"
-										z_order "10.000"
+										z_order "10"
 									}
 
 								}
@@ -6685,9 +6628,9 @@ GuiRootGroupDef
 													color
 													{
 														w "0.486"
-														x "0.000"
-														y "0.000"
-														z "0.000"
+														x "0"
+														y "0"
+														z "0"
 													}
 
 													hitbox_visible "0"
@@ -6695,7 +6638,7 @@ GuiRootGroupDef
 													size
 													{
 														x "1160.647"
-														y "45.000"
+														y "45"
 													}
 
 													size_mode_x "2"
@@ -6738,13 +6681,13 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "20000.000"
+																z_order "20000"
 															}
 
 														}
@@ -6784,7 +6727,7 @@ GuiRootGroupDef
 																id "enabled"
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "1.000"
+																z_order "1"
 															}
 
 														}
@@ -6797,13 +6740,13 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "20000.000"
+																z_order "20000"
 															}
 
 														}
@@ -6835,13 +6778,13 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 																size_mode_x "2"
 																size_mode_y "2"
-																z_order "20000.000"
+																z_order "20000"
 															}
 
 														}
@@ -6863,17 +6806,17 @@ GuiRootGroupDef
 													id "button_toggle_mods"
 													offset
 													{
-														x "15.000"
+														x "15"
 													}
 
 													size
 													{
-														x "32.000"
-														y "32.000"
+														x "32"
+														y "32"
 													}
 
 													visible "0"
-													z_order "20000.000"
+													z_order "20000"
 												}
 
 											}
@@ -6931,14 +6874,14 @@ GuiRootGroupDef
 													id "mod_source"
 													offset
 													{
-														x "930.000"
+														x "930"
 														y "0.001"
 													}
 
 													size
 													{
-														x "270.000"
-														y "32.000"
+														x "270"
+														y "32"
 													}
 
 												}
@@ -7012,14 +6955,14 @@ GuiRootGroupDef
 													id "mod_version"
 													offset
 													{
-														x "650.000"
+														x "650"
 														y "0.001"
 													}
 
 													size
 													{
-														x "175.000"
-														y "32.000"
+														x "175"
+														y "32"
 													}
 
 												}
@@ -7041,14 +6984,14 @@ GuiRootGroupDef
 																id "active"
 																offset
 																{
-																	x "-1.000"
-																	y "-1.000"
+																	x "-1"
+																	y "-1"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
 															}
@@ -7063,14 +7006,14 @@ GuiRootGroupDef
 																id "active_selected"
 																offset
 																{
-																	x "-1.000"
-																	y "-1.000"
+																	x "-1"
+																	y "-1"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
 															}
@@ -7110,14 +7053,14 @@ GuiRootGroupDef
 																			color
 																			{
 																				x "0.455"
-																				y "0.910"
+																				y "0.91"
 																			}
 
 																			hitbox_visible "0"
 																			id "chevron"
 																			offset
 																			{
-																				x "-5.000"
+																				x "-5"
 																			}
 
 																		}
@@ -7148,7 +7091,7 @@ GuiRootGroupDef
 																id "layout"
 																size
 																{
-																	y "32.000"
+																	y "32"
 																}
 
 																size_mode_x "1"
@@ -7164,14 +7107,14 @@ GuiRootGroupDef
 																id "neutral"
 																offset
 																{
-																	x "-1.000"
-																	y "-1.000"
+																	x "-1"
+																	y "-1"
 																}
 
 																size
 																{
-																	x "176.050"
-																	y "32.000"
+																	x "176.05"
+																	y "32"
 																}
 
 															}
@@ -7186,14 +7129,14 @@ GuiRootGroupDef
 																id "neutral_selected"
 																offset
 																{
-																	x "-1.000"
-																	y "-1.000"
+																	x "-1"
+																	y "-1"
 																}
 
 																size
 																{
-																	x "175.000"
-																	y "32.000"
+																	x "175"
+																	y "32"
 																}
 
 															}
@@ -7222,16 +7165,16 @@ GuiRootGroupDef
 													id "sorting_downloads"
 													offset
 													{
-														x "650.000"
+														x "650"
 													}
 
 													size
 													{
-														x "175.000"
-														y "32.000"
+														x "175"
+														y "32"
 													}
 
-													z_order "0.300"
+													z_order "0.3"
 												}
 
 											}
@@ -7251,8 +7194,8 @@ GuiRootGroupDef
 																id "active"
 																size
 																{
-																	x "150.000"
-																	y "32.000"
+																	x "150"
+																	y "32"
 																}
 
 															}
@@ -7267,8 +7210,8 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "150.000"
-																	y "32.000"
+																	x "150"
+																	y "32"
 																}
 
 															}
@@ -7308,14 +7251,14 @@ GuiRootGroupDef
 																			color
 																			{
 																				x "0.455"
-																				y "0.910"
+																				y "0.91"
 																			}
 
 																			hitbox_visible "0"
 																			id "chevron"
 																			offset
 																			{
-																				x "-5.000"
+																				x "-5"
 																			}
 
 																		}
@@ -7345,7 +7288,7 @@ GuiRootGroupDef
 																id "layout"
 																size
 																{
-																	y "32.000"
+																	y "32"
 																}
 
 																size_mode_x "1"
@@ -7361,8 +7304,8 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "150.000"
-																	y "32.000"
+																	x "150"
+																	y "32"
 																}
 
 															}
@@ -7377,8 +7320,8 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "150.000"
-																	y "32.000"
+																	x "150"
+																	y "32"
 																}
 
 															}
@@ -7407,17 +7350,17 @@ GuiRootGroupDef
 													id "sorting_rating"
 													offset
 													{
-														x "430.000"
+														x "430"
 													}
 
 													size
 													{
-														x "150.000"
-														y "32.000"
+														x "150"
+														y "32"
 													}
 
 													size_mode_x "1"
-													z_order "0.200"
+													z_order "0.2"
 												}
 
 											}
@@ -7437,8 +7380,8 @@ GuiRootGroupDef
 																id "active"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 															}
@@ -7453,8 +7396,8 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "300.000"
-																	y "32.000"
+																	x "300"
+																	y "32"
 																}
 
 															}
@@ -7489,14 +7432,14 @@ GuiRootGroupDef
 																			color
 																			{
 																				x "0.455"
-																				y "0.910"
+																				y "0.91"
 																			}
 
 																			hitbox_visible "0"
 																			id "chevron"
 																			offset
 																			{
-																				x "-5.000"
+																				x "-5"
 																			}
 
 																		}
@@ -7517,11 +7460,11 @@ GuiRootGroupDef
 																			id "label"
 																			max_size
 																			{
-																				x "300.000"
-																				y "40.000"
+																				x "300"
+																				y "40"
 																			}
 
-																			z_order "0.100"
+																			z_order "0.1"
 																		}
 
 																	}
@@ -7545,8 +7488,8 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 															}
@@ -7561,8 +7504,8 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 															}
@@ -7577,13 +7520,13 @@ GuiRootGroupDef
 													id "sorting_size"
 													offset
 													{
-														x "850.000"
+														x "850"
 													}
 
 													size
 													{
-														x "175.000"
-														y "32.000"
+														x "175"
+														y "32"
 													}
 
 												}
@@ -7605,8 +7548,8 @@ GuiRootGroupDef
 																id "active"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 																size_mode_x "2"
@@ -7623,8 +7566,8 @@ GuiRootGroupDef
 																id "active_selected"
 																size
 																{
-																	x "300.000"
-																	y "32.000"
+																	x "300"
+																	y "32"
 																}
 
 																size_mode_x "2"
@@ -7664,18 +7607,18 @@ GuiRootGroupDef
 																			color
 																			{
 																				x "0.455"
-																				y "0.910"
+																				y "0.91"
 																			}
 
 																			hitbox_visible "0"
 																			id "chevron"
 																			offset
 																			{
-																				x "-2.000"
-																				y "7.000"
+																				x "-2"
+																				y "7"
 																			}
 
-																			z_order "1.000"
+																			z_order "1"
 																		}
 
 																	}
@@ -7692,8 +7635,8 @@ GuiRootGroupDef
 																			id "label"
 																			max_size
 																			{
-																				x "300.000"
-																				y "33.000"
+																				x "300"
+																				y "33"
 																			}
 
 																		}
@@ -7708,8 +7651,8 @@ GuiRootGroupDef
 																id "group"
 																size
 																{
-																	x "200.000"
-																	y "30.000"
+																	x "200"
+																	y "30"
 																}
 
 																size_mode_x "1"
@@ -7725,8 +7668,8 @@ GuiRootGroupDef
 																id "neutral"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 																size_mode_x "2"
@@ -7743,8 +7686,8 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size
 																{
-																	x "380.000"
-																	y "32.000"
+																	x "380"
+																	y "32"
 																}
 
 																size_mode_x "2"
@@ -7761,13 +7704,13 @@ GuiRootGroupDef
 													id "sorting_title"
 													offset
 													{
-														x "50.000"
+														x "50"
 													}
 
 													size
 													{
-														x "380.000"
-														y "32.000"
+														x "380"
+														y "32"
 													}
 
 													size_mode_x "1"
@@ -7781,17 +7724,17 @@ GuiRootGroupDef
 										id "table_header"
 										offset
 										{
-											x "-18.000"
-											y "40.000"
+											x "-18"
+											y "40"
 										}
 
 										size
 										{
-											x "1236.000"
-											y "40.000"
+											x "1236"
+											y "40"
 										}
 
-										z_order "5.000"
+										z_order "5"
 									}
 
 								}
@@ -7802,8 +7745,8 @@ GuiRootGroupDef
 							id "tab_content"
 							offset
 							{
-								x "45.000"
-								y "192.000"
+								x "45"
+								y "192"
 							}
 
 							size
@@ -7838,13 +7781,13 @@ GuiRootGroupDef
 													id "active"
 													size
 													{
-														x "200.000"
-														y "20.000"
+														x "200"
+														y "20"
 													}
 
 													size_mode_x "2"
 													size_mode_y "2"
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -7886,13 +7829,13 @@ GuiRootGroupDef
 																id "icon_container"
 																margin
 																{
-																	x "5.000"
+																	x "5"
 																}
 
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 															}
@@ -7904,13 +7847,13 @@ GuiRootGroupDef
 													id "active_selected"
 													size
 													{
-														x "200.000"
-														y "20.000"
+														x "200"
+														y "20"
 													}
 
 													size_mode_x "2"
 													size_mode_y "2"
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -7969,16 +7912,16 @@ GuiRootGroupDef
 													id "icon_container"
 													margin
 													{
-														x "5.000"
+														x "5"
 													}
 
 													size
 													{
-														x "32.000"
-														y "32.000"
+														x "32"
+														y "32"
 													}
 
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -8006,10 +7949,10 @@ GuiRootGroupDef
 													id "label"
 													margin
 													{
-														x "36.000"
+														x "36"
 													}
 
-													z_order "1.000"
+													z_order "1"
 												}
 
 											}
@@ -8022,13 +7965,13 @@ GuiRootGroupDef
 													id "neutral"
 													size
 													{
-														x "200.000"
-														y "20.000"
+														x "200"
+														y "20"
 													}
 
 													size_mode_x "2"
 													size_mode_y "2"
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -8070,13 +8013,13 @@ GuiRootGroupDef
 																id "icon_container"
 																margin
 																{
-																	x "5.000"
+																	x "5"
 																}
 
 																size
 																{
-																	x "32.000"
-																	y "32.000"
+																	x "32"
+																	y "32"
 																}
 
 															}
@@ -8088,13 +8031,13 @@ GuiRootGroupDef
 													id "neutral_selected"
 													size
 													{
-														x "200.000"
-														y "20.000"
+														x "200"
+														y "20"
 													}
 
 													size_mode_x "2"
 													size_mode_y "2"
-													z_order "10000000000.000"
+													z_order "10000000000"
 												}
 
 											}
@@ -8106,13 +8049,13 @@ GuiRootGroupDef
 										id "button_toggle_tag"
 										size
 										{
-											x "200.000"
-											y "30.000"
+											x "200"
+											y "30"
 										}
 
 										size_mode_x "2"
 										size_mode_y "2"
-										z_order "10000000000.000"
+										z_order "10000000000"
 									}
 
 								}
@@ -8122,11 +8065,11 @@ GuiRootGroupDef
 							id "tag_filter_row"
 							size
 							{
-								x "200.000"
-								y "30.000"
+								x "200"
+								y "30"
 							}
 
-							z_order "100000.000"
+							z_order "100000"
 						}
 
 					}
@@ -8136,12 +8079,12 @@ GuiRootGroupDef
 				id "templates"
 				size
 				{
-					x "1920.000"
-					y "1080.000"
+					x "1920"
+					y "1080"
 				}
 
 				visible "0"
-				z_order "30000000532480.000"
+				z_order "30000000000000"
 			}
 
 		}
@@ -8151,8 +8094,8 @@ GuiRootGroupDef
 	id "gui/menu/mod_management"
 	size
 	{
-		x "1920.000"
-		y "1080.000"
+		x "1920"
+		y "1080"
 	}
 
 }
@@ -8162,7 +8105,31 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "restart_required"
+			}
+
+		}
+
 		handle "[FCDEB9F3-F0E8-4ACD-9C9B-6C38E2DF939C]"
 	}
 

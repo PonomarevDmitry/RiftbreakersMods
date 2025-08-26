@@ -22,24 +22,29 @@ EntityBlueprint
 	{
 		attack_movement_factor	"0.65"
 	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "0"
+	}
 
 	BurstWeaponComponent
 	{
 		WeaponMuzzles
 		{
-			WeaponMuzzle
+			WeaponMuzzleas
 			{
-				attachment "att_muzzle"
-        recoil_bone   "be_recoil"
-        recoil_time   	"0.1"
-        recoil_offset   "0.3"
+				attachment 		"att_muzzle"
+				recoil_bone   	"be_recoil"
+				recoil_time   	"0.1"
+				recoil_offset   "0.3"
 			}
 		}
 
 		WeaponAffector
 		{
-			emissive_time "0.35"
-			emissive_factor  "4"
+			emissive_time 		"0.35"
+			emissive_factor  	"4"
 		}
 
 		ammo_blueprint 				"items/weapons/corrosive_gun_projectile"
@@ -47,9 +52,9 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_fluid/acid_muzzle"
 
-		burst_column_spacing 		"0.5"
-		burst_rate 					"0.3"
-		//burst_column_angle 			"5"
+		burst_column_spacing 		"2.5"
+		burst_rate 					"0.1"
+		burst_column_angle 			"8"
 	}
 
 	EffectDesc
@@ -159,6 +164,7 @@ EntityBlueprint
 		item_bp		"items/weapons/corrosive_gun_advanced"
 		icon		"gui/hud/items_icons/weapons/corrosive_gun_advanced"
 		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_advanced"
+		predict 	1
 	}
 
 	LuaDesc
@@ -208,6 +214,7 @@ EntityBlueprint
 		item_bp		"items/weapons/corrosive_gun_superior"
 		icon		"gui/hud/items_icons/weapons/corrosive_gun_superior"
 		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_superior"
+		predict 	1
 	}
 
 	LuaDesc
@@ -258,6 +265,7 @@ EntityBlueprint
 		item_bp		"items/weapons/corrosive_gun_extreme"
 		icon		"gui/hud/items_icons/weapons/corrosive_gun_extreme"
 		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun_extreme"
+		predict 	1
 	}
 
 	LuaDesc
@@ -289,6 +297,7 @@ EntityBlueprint
 		item_bp		"items/weapons/corrosive_gun"
 		icon		"gui/hud/items_icons/weapons/corrosive_gun"
 		bigger_icon "gui/menu/items_icons/weapons/corrosive_gun"
+		predict 	1
 	}
 
 	LuaDesc
@@ -318,9 +327,9 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
 		on_world_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
 		on_resisted_hit_effect 	"effects/weapons_fluid/acid_explosion_small"
-
+		diameter				"1"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
 		
 		DamagePattern
 		{

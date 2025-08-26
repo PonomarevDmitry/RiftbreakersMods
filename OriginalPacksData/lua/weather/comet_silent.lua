@@ -57,11 +57,11 @@ end
 
 function comet_silent:OnEnterSpawn( state )
 	if ( self.findMode == "resource") then
-		self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
+		self.spaceEnt = ResourceService:FindEmptySpace( 50, 500 );
 	elseif ( self.findMode == "objective") then
 		self.spaceEnt = MissionService:SpawnMissionObjective( "logic/position_marker", true )
 	else
-	 	self.spaceEnt = ResourceService:FindEmptySpace( 100, 500 );
+	 	self.spaceEnt = ResourceService:FindEmptySpace( 50, 500 );
 	end
 	
 	if Assert(self.spaceEnt ~= INVALID_ID, "ERROR: failed to find spawn position for blueprint: '" .. self.cometFlyingBp .. "'") then
@@ -74,6 +74,7 @@ function comet_silent:OnEnterSpawn( state )
 		local spread_radius = self.data:GetFloatOrDefault("comet_extra_flying_spread_radius", 10.0)
 		for i=1,extra_count do
 			local entity = MeteorService:SpawnComet( candidate, self.spaceEnt, self.cometFlyingBp, RandFloat(25,35), 20 )
+			EntityService:DisableComponent( entity, "WorldEffectComponent" )
 			local position = EntityService:GetPosition( entity )
 			EntityService:SetPosition(entity, RandPositionInRadius(position, spread_radius))
 			EntityService:CreateOrSetLifetime(entity, EntityService:GetLifeTime(entity) + 20, "normal" )

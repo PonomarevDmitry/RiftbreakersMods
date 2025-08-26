@@ -50,7 +50,7 @@ function rift_station:OnInit()
 	self.chargingSpeed = self.data:GetFloatOrDefault("charging_work_speed",  1.0)
 	self.chargingEndSpeed = self.data:GetFloatOrDefault("charging_end_speed", 0.5)
 
-	self.riftVersion = 1
+	self.riftVersion = 2
 end
 
 function rift_station:OnBuildingEnd()
@@ -80,10 +80,11 @@ end
 
 function rift_station:OnAnimation( state, dt)
 	_G["rift_station_charging_state"] = self.charging
-	local portalPowered = BuildingService:IsBuildingPowered( self.entity ) or self.workingProtectionTimer > 0
-	local isWorking = BuildingService:IsWorking( self.entity ) or self.workingProtectionTimer > 0
+	local portalPowered = (BuildingService:IsBuildingPowered( self.entity ) or self.workingProtectionTimer > 0 ) and self.charging ~= 3
+	local isWorking = (BuildingService:IsWorking( self.entity ) or self.workingProtectionTimer > 0) and self.charging ~= 3
 	local specialActionEnabled = self:CanEnableSpecialAction();
-	
+	self.data:SetInt("is_special_action_enabled", specialActionEnabled and 1 or 0 )
+
 	local working 		= 0
 	if ( portalPowered == true ) then
 		EntityService:SetSubMeshMaterial( self.entity, "buildings/main/rift_station_base_screen", 1, "default")
@@ -192,7 +193,14 @@ end
 function rift_station:CheckCharging()
 	if (self.charging == 1 ) then
 		local isWorking = true
+		self.resetCounter = self.resetCounter or 0
 		if ( BuildingService:IsResourceSupplied( self.entity ) == false ) then
+			self.resetCounter = self.resetCounter + 1
+		else
+			self.resetCounter = 0
+		end
+		
+		if (self.resetCounter > 1 ) then
 			isWorking = false;
 			local missingResources = BuildingService:GetMissingResources( self.entity )
 			if ( IndexOf( missingResources, "water" ) ~= nil ) then
@@ -203,6 +211,8 @@ function rift_station:CheckCharging()
 			if ( IndexOf( missingResources, "plasma_charged" ) ~= nil ) then
 				QueueEvent( "LuaGlobalEvent", event_sink, "PortalMissingPlasmaEvent", {} )
 			end
+		else
+
 		end
 		
 		if (BuildingService:IsBuildingPowered( self.entity ) == false ) then
@@ -254,6 +264,14 @@ function rift_station:OnLoad()
 	if  (self.riftVersion == nil or self.riftVersion < 1) then
 		self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 	end
+
+	if ( self.riftVersion == nil or self.riftVersion < 2 ) then
+		local blueprintDatabase = EntityService:GetBlueprintDatabase( self.entity )
+		self.activationTime		= blueprintDatabase:GetFloatOrDefault("activation_time", 60 )
+		self.disableTime		= blueprintDatabase:GetFloatOrDefault("disable_time", 150 )
+	end
+	
+	self.riftVersion = 2
 end
 
 function rift_station:OnWorking( state , dt)	
@@ -375,6 +393,7 @@ function rift_station:OnLuaGlobalEvent( event )
 		if event:GetEvent() == "PortalClosedLogicEvent" then
 			self.charging = 3
 			BuildingService:DisableBuilding( self.entity )
+			BuildingService:EnableSellOption( self.entity )
 			EffectService:DestroyEffectsByGroup(self.entity, "portal_opened")
 			EntityService:RemoveComponent(self.entity, "ResourceConverterComponent")
 			EffectService:DestroyEffectsByGroup(self.entity, "idle")

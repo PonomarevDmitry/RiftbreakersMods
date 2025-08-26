@@ -103,12 +103,12 @@ function defensive_drone:OnFinderExecute(state)
         return self:SetEmissiveUniform( state:GetDuration() / self.search_interval )
     end
 
-    local owner = self:GetDroneOwnerTarget();
+    self.dron_temp_owner = self:GetDroneOwnerTarget();
 
     self.predicate = self.predicate or {
         signature=self.search_component,
         filter = function(entity)
-            return EntityService:IsInTeamRelation(owner, entity, "hostility")
+            return EntityService:IsInTeamRelation(self.dron_temp_owner, entity, "hostility")
         end
     };
 

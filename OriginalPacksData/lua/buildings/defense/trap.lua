@@ -29,7 +29,7 @@ function trap:OnTimerElapsedEvent(evt)
     self.data:SetFloat("is_activated", 0.0 )
 
     if ( self.numberOfActivations <= 0 ) then
-		QueueEvent("DestroyRequest",self.entity, "default", 100 )
+        EntityService:DestroyEntity(self.entity, "default")
         HealthService:SetHealth( self.entity, 0.0 )
     elseif (self.entitiesInsideCount > 0 ) then
         self:ActivateTrap( false)

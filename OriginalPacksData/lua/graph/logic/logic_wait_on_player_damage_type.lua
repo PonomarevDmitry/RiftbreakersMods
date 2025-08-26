@@ -12,7 +12,7 @@ function logic_wait_on_player_damage_type:init()
 end
 
 function logic_wait_on_player_damage_type:Activated()
-	self.entity = PlayerService:GetPlayerControlledEnt(0)
+	self.entity = PlayerService:GetPlayerControlledEnt(0) --#TODO: fix player id
 	self:RegisterHandler( event_sink, "PlayerControlledEntityChangeEvent",  "OnPlayerControlledEntityChangeEvent" )
 	if ( self.entity ~= INVALID_ID ) then
 		self:RegisterHandler( self.entity, "DamageEvent",  "OnDamageEvent" )

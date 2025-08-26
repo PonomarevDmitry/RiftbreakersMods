@@ -4,150 +4,8 @@ system rift/boss_trail_acid
     scale_velocity                              0.01
     scale                                       0.01 0.01 0.01
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 20
-    technique fire_alpha2
-    {
-        visual_particle_quota                   50
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/green_explosion_and_smoke_anim
-        renderer                                Billboard
-        {
-            texture_coords_rows                 4
-            texture_coords_columns              16
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box fire_alpha
-        {
-            emission_rate                       25
-            angle                               5
-            time_to_live                        dyn_random
-            {
-                min                             1
-                max                             2
-            }
-            velocity                            dyn_random
-            {
-                min                             2
-                max                             3
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             75
-                max                             100
-            }
-            direction                           0.5 1 0
-            box_width                           150
-            box_height                          150
-            box_depth                           150
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0 0 0
-            time_colour                         0.3  0.294118 0.294118 0.294118 0.5
-            time_colour                         0.804348  0.294118 0.294118 0.294118 0.5
-            time_colour                         1    0 0 0 0
-        }
-        affector                                TextureRotator Affector15
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -3
-                max                             3
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             0
-                max                             1
-            }
-        }
-        affector                                TextureAnimator Affector12
-        {
-            end_texture_coords_range            63
-            texture_start_random                false
-        }
-        affector                                LinearForce Affector2
-        {
-            force_vector                        0 150 0
-            force_application                   average
-        }
-    }
-    technique fire_alpha3
-    {
-        visual_particle_quota                   50
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/green_explosion_fire_01_anim
-        renderer                                Billboard
-        {
-            render_queue_group                  61
-            texture_coords_rows                 2
-            texture_coords_columns              16
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Box fire_alpha
-        {
-            emission_rate                       25
-            angle                               5
-            time_to_live                        dyn_random
-            {
-                min                             1
-                max                             2
-            }
-            velocity                            dyn_random
-            {
-                min                             2
-                max                             3
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             100
-                max                             150
-            }
-            direction                           0.5 1 0
-            box_width                           150
-            box_height                          150
-            box_depth                           150
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0 0 0
-            time_colour                         0.3  0.294118 0.294118 0.294118 0.7
-            time_colour                         0.806522  0.294118 0.294118 0.294118 0.7
-            time_colour                         1    0 0 0 0
-        }
-        affector                                TextureRotator Affector15
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -3
-                max                             3
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             0
-                max                             2
-            }
-        }
-        affector                                TextureAnimator Affector12
-        {
-            end_texture_coords_range            31
-            texture_start_random                false
-        }
-        affector                                LinearForce Affector25
-        {
-            force_vector                        0 150 0
-            force_application                   average
-        }
-    }
     technique sparks
     {
         visual_particle_quota                   40
@@ -164,6 +22,7 @@ system rift/boss_trail_acid
         emitter                                 Box sparks
         {
             emission_rate                       40
+            angle                               90
             time_to_live                        dyn_random
             {
                 min                             1
@@ -171,13 +30,13 @@ system rift/boss_trail_acid
             }
             velocity                            dyn_random
             {
-                min                             3
-                max                             4
+                min                             60
+                max                             80
             }
             all_particle_dimensions             dyn_random
             {
-                min                             4
-                max                             8
+                min                             3
+                max                             6
             }
             start_colour_range                  1 0.501961 0 1
             end_colour_range                    1 1 0 1
@@ -193,7 +52,64 @@ system rift/boss_trail_acid
         }
         affector                                LinearForce Affector2525
         {
-            force_vector                        0 150 0
+            force_vector                        0 100 0
+        }
+    }
+    technique frost
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/wispy_smoke_loop_8x4
+        renderer                                Billboard
+        {
+            texture_coords_rows                 4
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 SphereSurface flash2
+        {
+            emission_rate                       20
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            0
+            all_particle_dimensions             dyn_random
+            {
+                min                             150
+                max                             200
+            }
+            radius                              150
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.227758 1 0 0
+            time_colour                         0.5  0.33452 1 0 0.11032
+            time_colour                         1    0.185053 1 0 0
+        }
+        affector                                TextureRotator Affector120
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+        }
+        affector                                TextureAnimator Affector256
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
         }
     }
 }

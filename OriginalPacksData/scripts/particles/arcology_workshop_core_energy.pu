@@ -1,0 +1,223 @@
+system rift/arcology_workshop_core_energy
+{
+    keep_local                                  true
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.05
+    scale                                       0.05 0.05 0.05
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 30
+    technique 
+    {
+        enabled                                 false
+        visual_particle_quota                   250
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       100
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.7
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             1
+                max                             3
+            }
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.3  0.8 0.8 0.8 1
+            time_colour                         0.7  0.8 0.8 0.8 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique 
+    {
+        enabled                                 false
+        position                                0 1 0
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/mp_woosh_streak_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       60
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.7
+            }
+            particle_width                      75
+            particle_height                     dyn_random
+            {
+                min                             100
+                max                             125
+            }
+            colour                              0 0.626335 1 1
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0 0 0 1
+            colour_operation                    multiply
+        }
+    }
+    technique flare_1
+    {
+        enabled                                 false
+        keep_local                              true
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/alien_energy_01
+        renderer                                Billboard
+        {
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       5
+            angle                               0
+            time_to_live                        1.75
+            velocity                            0.0001
+            all_particle_dimensions             1
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector15
+        {
+            xyz_scale                           30
+        }
+    }
+    technique 
+    {
+        enabled                                 false
+        visual_particle_quota                   60
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.7
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.495968  0.8 0.8 0.8 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+    technique flare_2
+    {
+        keep_local                              true
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flare
+        {
+            emission_rate                       5
+            angle                               0
+            time_to_live                        1.75
+            velocity                            0.0001
+            all_particle_dimensions             1
+            position                            0 3 0
+        }
+        affector                                Colour Affector13
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector15
+        {
+            xyz_scale                           10
+        }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+    }
+}

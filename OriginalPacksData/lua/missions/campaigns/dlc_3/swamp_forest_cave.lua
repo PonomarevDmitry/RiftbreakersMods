@@ -9,6 +9,8 @@ function mission_swamp_forest_cave:__init()
 end
 
 function mission_swamp_forest_cave:init()
+    mission_base.init( self )
+    
     self:PrepareSpawnPoints();
 	MissionService:SetSkipSpawnPortalSequence(true)
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_3/swamp_forest_cave.logic", "default" )

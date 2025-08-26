@@ -1,0 +1,964 @@
+GuiRootGroupDef
+{
+	bg_blur "0.25"
+	full_screen "0"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "background"
+			value "GuiQuadDef"
+			{
+				alignment "center"
+				color
+				{
+					w "0.9"
+					x "0"
+					y "0"
+					z "0"
+				}
+
+				id "background"
+				offset
+				{
+					x "958"
+					y "541"
+				}
+
+				size
+				{
+					x "5280"
+					y "4800"
+				}
+
+				size_mode_x "2"
+				size_mode_y "2"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "center"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "chat_container"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "chat_viewer"
+									value "GuiScrollViewerDef"
+									{
+										content
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "chat"
+													value "GuiStackPanelDef"
+													{
+														stack_type "1"
+														template_reference
+														{
+															path "templates.chat_message"
+															ref_gui_id "gui/menu/multiplayer_lobby"
+															margin
+															{
+																w "1"
+															}
+
+															size_mode_x "2"
+															size_mode_y "1"
+														}
+
+														id "chat"
+														margin
+														{
+															x "1"
+															y "2"
+															z "1"
+														}
+
+														model_source "messages"
+														size_mode_x "2"
+														size_mode_y "1"
+													}
+
+												}
+
+											}
+
+											size_mode_x "2"
+										}
+
+										horizontal_scroll_bar
+										{
+											path "simple_vertical"
+											ref_gui_id "gui/template/scroll_bars"
+											size
+											{
+												x "10"
+											}
+
+											size_mode_y "2"
+											visible "0"
+										}
+
+										horizontal_scroll_bar_visibility "2"
+										can_stick_to_the_end "1"
+										zoom_enabled "0"
+										vertical_scroll_bar
+										{
+											path "simple_vertical"
+											ref_gui_id "gui/template/scroll_bars"
+											anchor "top_right"
+											margin
+											{
+												x "2"
+												y "-5"
+											}
+
+											size
+											{
+												x "10"
+											}
+
+											size_mode_y "2"
+										}
+
+										id "chat_viewer"
+										margin
+										{
+											w "34"
+											x "1"
+											y "52"
+											z "2"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "3"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "fill"
+									value "GuiQuadDef"
+									{
+										alignment "bottom_left"
+										anchor "bottom_left"
+										color
+										{
+											w "0.75"
+											x "0"
+											y "0"
+											z "0"
+										}
+
+										id "fill"
+										margin
+										{
+											w "33"
+											x "1"
+											y "1"
+											z "1"
+										}
+
+										size
+										{
+											y "32"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "frame"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/frames/simple_frame_opacity_bg"
+										texture_border
+										{
+											w "0.135"
+											x "0.054"
+											y "0.088"
+											z "0.082"
+										}
+
+										id "frame"
+										margin
+										{
+											w "33"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiReferenceDef"
+									{
+										path "templates.header"
+										ref_gui_id "gui/menu/multiplayer_lobby"
+										ref_model
+										{
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "icon"
+														value "gui/menu/lobby_chat_icon"
+													}
+
+													StringData
+													{
+														key "label"
+														value "${gui/hud/chat/chat}:"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										id "header"
+										size
+										{
+											y "50"
+										}
+
+										size_mode_x "2"
+										z_order "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "text_input"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "fill"
+												value "GuiQuadDef"
+												{
+													alignment "bottom_left"
+													anchor "bottom_left"
+													color
+													{
+														w "0.75"
+														x "0"
+														y "0"
+														z "0"
+													}
+
+													id "fill"
+													size
+													{
+														y "32"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "input"
+												value "GuiReferenceDef"
+												{
+													path "simpler"
+													ref_children
+													{
+														Pair_String_Vector_GuiDef2
+														{
+															key "neutral_selected"
+															value
+															{
+																GuiDef "GuiTextDef"
+																{
+																	content "gui/menu/multiplayer_lobby/click_to_chat"
+																	style_name "exo2_bold_20_gray"
+																	translate "1"
+																	alignment "left"
+																	anchor "left"
+																	id "placeholder"
+																	margin
+																	{
+																		x "25"
+																	}
+
+																}
+
+															}
+
+														}
+
+														Pair_String_Vector_GuiDef2
+														{
+															key "neutral"
+															value
+															{
+																GuiDef "GuiTextDef"
+																{
+																	content "gui/menu/multiplayer_lobby/click_to_chat"
+																	style_name "exo2_bold_20_gray"
+																	translate "1"
+																	alignment "left"
+																	anchor "left"
+																	id "placeholder"
+																	margin
+																	{
+																		x "25"
+																	}
+
+																}
+
+															}
+
+														}
+
+													}
+
+													ref_gui_id "gui/template/text_input"
+													allow_overflow "0"
+													alignment "bottom_left"
+													anchor "bottom_left"
+													id "input"
+													size
+													{
+														y "34"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													z_order "1"
+												}
+
+											}
+
+										}
+
+										alignment "bottom_left"
+										anchor "bottom_left"
+										id "text_input"
+										size
+										{
+											y "34"
+										}
+
+										size_mode_x "2"
+										z_order "1"
+									}
+
+								}
+
+							}
+
+							alignment "top"
+							anchor "top"
+							id "chat_container"
+							margin
+							{
+								x "51"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "chat"
+								}
+
+							}
+
+							size
+							{
+								x "700"
+								y "750"
+							}
+
+							size_mode_y "2"
+							z_order "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "players"
+						value "GuiStackPanelDef"
+						{
+							stack_type "1"
+							template_reference
+							{
+								path "templates.player_button"
+								ref_gui_id "gui/hud/hud_players"
+								ref_model
+								{
+									database
+									{
+										Strings
+										{
+											StringData
+											{
+												key "show_bars"
+												value "0"
+											}
+
+										}
+
+										Floats
+										Vectors
+										Integers
+									}
+
+								}
+
+								margin
+								{
+									w "-5"
+								}
+
+								size
+								{
+									x "96"
+									y "64"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+							}
+
+							id "players"
+							margin
+							{
+								y "-7"
+							}
+
+							model_source "players"
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "10"
+						}
+
+					}
+
+				}
+
+				alignment "top"
+				anchor "top"
+				id "center"
+				margin
+				{
+					w "90"
+					y "230"
+				}
+
+				size
+				{
+					y "750"
+				}
+
+				size_mode_x "1"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "container"
+			value "GuiReferenceDef"
+			{
+				path "simple"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "content"
+						value
+						{
+							GuiDef "GuiTextBoxDef"
+							{
+								content "gui/popup/server_paused"
+								style
+								{
+									char_height "45"
+									df "1"
+									font "orbitron-medium_sdf"
+									glow_color
+									{
+										x "1"
+										y "1"
+									}
+
+									glow_size "10"
+									glow_spread "10"
+									shadow_angle "100"
+									shadow_distance "3.056"
+									shadow_enabled "1"
+									stroke_color
+									{
+										w "0.197"
+										x "1"
+										y "1"
+									}
+
+									stroke_position "1"
+									stroke_size "2"
+								}
+
+								style_name "popups_content"
+								translate "1"
+								alignment "center"
+								anchor "center"
+								animations
+								{
+									items
+									{
+										GuiAnimationDef
+										{
+											frames
+											{
+												GuiAnimationFrame
+												{
+													color
+													{
+														x "1"
+														y "1"
+														z "1"
+													}
+
+												}
+
+												GuiAnimationFrame
+												{
+													color
+													{
+														w "1"
+														x "1"
+														y "1"
+														z "1"
+													}
+
+													frame_number "10"
+												}
+
+											}
+
+											name "transformation"
+										}
+
+									}
+
+								}
+
+								bindings
+								{
+									content
+									{
+										model_field "is_waiting_for_players"
+										converter "GuiModelMapConverter"
+										{
+											fallback_value "gui/popup/server_paused"
+											map
+											{
+												1 "gui/loading/client_waiting_for_players"
+											}
+
+										}
+
+									}
+
+								}
+
+								id "content"
+								max_size
+								{
+									x "860"
+									y "360"
+								}
+
+								z_order "13"
+							}
+
+						}
+
+					}
+
+				}
+
+				ref_gui_id "gui/template/framed_group"
+				ref_model
+				{
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "header_visible"
+								value "0"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				alignment "top"
+				anchor "top"
+				id "container"
+				margin
+				{
+					x "20"
+					y "100"
+					z "20"
+				}
+
+				size
+				{
+					x "900"
+					y "100"
+				}
+
+				size_mode_x "2"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "menu_overlay"
+			value "GuiReferenceDef"
+			{
+				path "overlay"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "bottom_bar.content"
+					}
+
+				}
+
+				ref_gui_id "gui/template/menu_overlay"
+				ref_model
+				{
+					bindings_proxy
+					{
+						button_right_1_is_enabled
+						{
+							model_field "is_server"
+						}
+
+					}
+
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "footer_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "title"
+								value "gui/menu/pause/header"
+							}
+
+							StringData
+							{
+								key "back_button_visible"
+								value "0"
+							}
+
+							StringData
+							{
+								key "button_left_1_content"
+								value "gui/menu/streaming/disconnect"
+							}
+
+							StringData
+							{
+								key "button_left_1_action"
+								value "game.menu"
+							}
+
+							StringData
+							{
+								key "button_left_1_popup_confirm_node"
+								value "button_yes"
+							}
+
+							StringData
+							{
+								key "button_left_1_popup_message"
+								value "gui/popup/are_you_sure"
+							}
+
+							StringData
+							{
+								key "button_left_1_popup_template"
+								value "gui/popup/popup_template_2buttons"
+							}
+
+							StringData
+							{
+								key "button_right_1_content"
+								value "BUTTON_resume_game"
+							}
+
+							StringData
+							{
+								key "button_right_1_action"
+								value "resume_game"
+							}
+
+							StringData
+							{
+								key "button_right_1_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_left_1_visible"
+								value "1"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				id "menu_overlay"
+				size_mode_x "2"
+				size_mode_y "2"
+				z_order "100"
+			}
+
+		}
+
+	}
+
+	id "gui/menu/server_pause"
+	size
+	{
+		x "1920"
+		y "1080"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_server"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_waiting_for_players"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]/HudPlayerData4"
+					default_value
+					{
+						typehash "2856787735"
+						Vector_[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]/HudPlayerData4
+						{
+							[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]/HudPlayerData
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name "TEST"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "1"
+								ping "0"
+								icon
+							}
+
+							[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]/HudPlayerData
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name "TEST2"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon
+							}
+
+							[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]/HudPlayerData
+							{
+								player_id "0"
+								barrier
+								is_under_interference "0"
+								user_name "TEST3"
+								is_teleport_allowed "0"
+								is_being_spectated "0"
+								is_dead "0"
+								health
+								is_connectiing "0"
+								tooltip_content
+								is_connecting "0"
+								ping "0"
+								icon
+							}
+
+						}
+
+					}
+
+				}
+
+				key "players"
+			}
+
+		}
+
+		handle "[5FA4A7A3-EA5D-452B-AE86-E23A8D73320B]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "HudPlayerData"
+		base_type
+		{
+			typehash "787221047"
+			HudPlayerData
+			{
+				player_id "0"
+				barrier
+				is_under_interference "0"
+				user_name
+				is_teleport_allowed "0"
+				is_being_spectated "0"
+				is_dead "0"
+				health
+				is_connectiing "0"
+				tooltip_content
+				ping "0"
+				icon
+			}
+
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "is_connecting"
+			}
+
+		}
+
+		handle "[F45B52D7-FDF4-4F5C-AD00-FA1919F4B2E9]"
+	}
+
+}
+

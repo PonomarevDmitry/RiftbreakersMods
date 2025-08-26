@@ -16,6 +16,7 @@ function kafferroceros:OnInit()
 
 	self.wreck_type = "wreck_big";
 	self.wreckMinSpeed = 4
+	self.disallowDeathAnim = "death_3"
 end
 
 function kafferroceros:OnChargeAttackPrepareEvent( evt )	

@@ -14,7 +14,7 @@ end
 
 function building_creator:CalculateBuildingBuildTime( database )
 	if ( database:HasFloat( "building_time_left") == true ) then
-		return database:GetFloat( "building_time_left"  )
+		return database:GetFloat( "building_time_left"  ) - GetLogicTime()
 	end
 
 	if ( BuildingService.CalculateBuildTime ) then
@@ -35,7 +35,7 @@ function GetOwner( entity )
 end
 
 function building_creator:init()
-	self.version = 1
+	self.buildingCreatorVersion = 1
 
 	self.parent = EntityService:GetParent( self.entity )
 	self:RegisterHandler( self.parent, "BuildingStartEvent",  "_OnBuild" )
@@ -45,18 +45,21 @@ function building_creator:init()
 	self:RegisterHandler( self.parent, "BuildingModifiedEvent", "_OnBuildingModifiedEvent" )
 
 	local database = EntityService:GetDatabase( self.parent )
-	DatabaseConcatenate( self.data , database )
-
+	if ( database ~= nil) then
+		DatabaseConcatenate( self.data , database )
+	end
 	local buildingComponent = EntityService:GetComponent(self.parent, "BuildingComponent")
-	self.buildingType = buildingComponent:GetField("type"):GetValue()
-	self.buildingName = buildingComponent:GetField("name"):GetValue()
+	if ( buildingComponent ~= nil )then
+		self.buildingType = buildingComponent:GetField("type"):GetValue()
+		self.buildingName = buildingComponent:GetField("name"):GetValue()
+	end
 
 	self.meshEnt = BuildingService:GetMeshEntity(self.parent);
 	self.buildingTime = math.max( 0.1, self:CalculateBuildingBuildTime( self.data ) )
 	self.materials = self:GetMaterials()
 	self.buildingMultiplier =  math.max( 0.1,  ConsoleService:GetConfig("building_speed_multiplier") )
 
-	self:CreateBuildingStateMachine()
+	self.buildStarted = true
 	self.extendLength = 0.5
 	self.currentLines = {}
 	self.lines = {}
@@ -73,7 +76,14 @@ function building_creator:init()
 	self.checkCollision = self.isFloor == false and  self.data:GetIntOrDefault("check_collison", 1 )
 	self.nextState = ""
 	self.owner = GetOwner( self.parent )
+	self.isAddon = self.data:GetIntOrDefault("is_addon", 0) == 1
+	if ( self.isAddon) then
+		self.occupiedCheckEnt =  EntityService:GetAncestorWithSignature( self.parent, "BuildingComponent" )		
+	else
+		self.occupiedCheckEnt =  self.parent
+	end
 
+	self:CreateBuildingStateMachine()
 end
 
 function building_creator:CreateBuildingStateMachine()
@@ -92,6 +102,16 @@ function building_creator:CreateBuildingStateMachine()
 	self.buildingSM:AddState( "hide_scaffolding", { from="*", enter="_OnHideScafoldingEnter", execute="_OnHideScafoldingExecute", exit="_OnHideScafoldingExit" } )
 	self.buildingSM:AddState( "wait_for_space", { from="*", execute="_OnWaitForSpace" } )
 	
+	local children = EntityService:GetChildren( self.parent, true )
+	for child in Iter( children ) do
+		if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent") and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+			EntityService:SpawnAndAttachEntity( "player/building_creator" , child );
+			local childDatabase = EntityService:GetOrCreateDatabase( child )
+			childDatabase:SetInt( "is_addon", 1 )
+			DatabaseConcatenate( childDatabase , self.data )
+			QueueEvent("BuildingStartEvent", child, INVALID_ID, self.owner, INVALID_ID, false, true );
+		end
+	end
 end
 
 function  building_creator:_OnSell()
@@ -150,7 +170,7 @@ function building_creator:_OnBuild(evt)
 	
 	local timer = self.buildingTime ;
 	self.timerEnt = nil
-	if ( timer > 10 ) then
+	if ( timer > 10 and self.isAddon ~= true ) then
 		if ( self.upgrading ) then
 			self.timerEnt = BuildingService:AttachGuiTimerWithMaterial( self.parent, timer, true,  "gui/hud/bars/upgrade_timer" )
 		else
@@ -180,8 +200,7 @@ function building_creator:_OnCubeFlyEnter( state )
 		AnimationService:StartAnim( self.cubeEnt, "fly_and_scale", false, 4 )
 	end
 	EffectService:AttachEffects(self.cubeEnt, "fly")
-	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth", "default"  )
-
+	EntityService:SetMaterial( self.meshEnt, "hologram/blue_depth", "default"  )
 	Insert(self.cubes, self.cubeEnt )
 	
 	if (  BuildingService:IsFloor( self.parent ) ) then	
@@ -201,8 +220,14 @@ function building_creator:_OnCubeFlyExit( state )
 	if ( self.buildingSell == false ) then
 		EffectService:DestroyEffectsByGroup(self.cubeEnt, "fly")
 
-		local spaceOccupied = BuildingService:IsBuildingSpaceOccupied( self.parent )
-		if ( spaceOccupied == false or self.checkCollision == false ) then
+		local buildingComponent = EntityService:GetComponent( self.occupiedCheckEnt ,"BuildingComponent")
+		if buildingComponent == nil then
+			return 0
+		end
+		local buildStarted = buildingComponent:GetField( "build_started" ):GetValue()
+		--LogService:Log(tostring(buildStarted))
+		self.buildStarted = buildStarted == "1"
+		if ( self.buildStarted == true or self.checkCollision == false ) then
 
 			if ( EntityService:IsAlive( self.endCubeEnt ) == true and self.forwardTime <= 0 and not BuildingService:IsFloor( self.parent )  ) then
 				self.height = EntityService:GetPositionY( self.endCubeEnt )
@@ -234,32 +259,37 @@ function building_creator:OnMoveEndEvent( evt )
 end
 
 function building_creator:_OnWaitForSpace( state )
-	--LogService:Log("_OnWaitForSpace")
 	if (self.buildingSell == true  ) then
 		return
 	end
-		local spaceOccupied = BuildingService:IsBuildingSpaceOccupied( self.parent )
-		if ( spaceOccupied == false ) then
-			if ( self.timerEnt ~= nil ) then
-				BuildingService:ResumeGuiTimer( self.timerEnt )
-			end
-			BuildingService:EnablePhysics( self.parent )
-			if ( EntityService:IsAlive( self.endCubeEnt ) == true ) then
-				self.height = EntityService:GetPositionY( self.endCubeEnt )
-				local x1 = EntityService:GetPositionX( self.cubeEnt )
-				local x2 = EntityService:GetPositionX( self.endCubeEnt )
-				self.width = ( math.abs( x2 - x1 ) / 2 ) * 0.7
-				EffectService:AttachEffects(self.cubeEnt, "hit_ground")
-				self.nextState = "big_building_state1"
-				self.nextStateWaitDuration = 0.1
-				self.buildingSM:ChangeState("wait")
-			else
-				
-				self.height = EntityService:GetPositionY( self.cubeEnt )
-				self.buildingSM:ChangeState("building")
-			end
-			 EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
+	local buildingComponent = EntityService:GetComponent( self.occupiedCheckEnt ,"BuildingComponent")
+	if buildingComponent == nil then
+		return 0
+	end
+	local buildStarted = buildingComponent:GetField( "build_started" ):GetValue()
+	--LogService:Log(tostring(buildStarted))
+	self.buildStarted = buildStarted == "1" or nil
+
+	if ( self.buildStarted == true ) then
+		if ( self.timerEnt ~= nil ) then
+			BuildingService:ResumeGuiTimer( self.timerEnt )
 		end
+		if ( EntityService:IsAlive( self.endCubeEnt ) == true ) then
+			self.height = EntityService:GetPositionY( self.endCubeEnt )
+			local x1 = EntityService:GetPositionX( self.cubeEnt )
+			local x2 = EntityService:GetPositionX( self.endCubeEnt )
+			self.width = ( math.abs( x2 - x1 ) / 2 ) * 0.7
+			EffectService:AttachEffects(self.cubeEnt, "hit_ground")
+			self.nextState = "big_building_state1"
+			self.nextStateWaitDuration = 0.1
+			self.buildingSM:ChangeState("wait")
+		else
+			
+			self.height = EntityService:GetPositionY( self.cubeEnt )
+			self.buildingSM:ChangeState("building")
+		end
+		 EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
+	end
 end
 
 function building_creator:_OnBuildingEnter( state )
@@ -285,8 +315,9 @@ function building_creator:_OnBuildingEnter( state )
 		EntityService:SetSubMeshMaterial( self.meshEnt, material .. "_dissolve", i - 1, "default" )
 	end
 
-	EntityService:SetMaterial( self.meshEnt, "selector/hologram_blue_depth" , "dissolve" )
-	EntityService:FadeEntity( self.meshEnt, DD_FADE_IN, state:GetDurationLimit() )
+	EntityService:SetMaterial( self.meshEnt, "hologram/blue_depth" , "dissolve" )
+	EntityService:FadeEntity( self.meshEnt, DD_FADE_IN, state:GetDurationLimit(), false )
+	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
 
     if ( self.printingCube ~= nil ) then
 		self.printingData1 = { EntityService:GetPositionX( self.printingCube ), EntityService:GetPositionY( self.printingCube ), EntityService:GetPositionZ( self.printingCube ) }
@@ -299,7 +330,6 @@ end
 function building_creator:_OnBuildingExecute( state )
 	local currentDuration = state:GetDuration() + self.forwardTime
 
-	EntityService:SetGraphicsUniform( self.meshEnt, "cMaxHeight", self.height - 1.0 )
     local progress = currentDuration / state:GetDurationLimit()
     if ( self.printingCube ~= nil ) then
     	local offset1 = math.sin( progress * 45 * self.width / 20 )
@@ -309,7 +339,9 @@ function building_creator:_OnBuildingExecute( state )
     	EntityService:SetPosition( self.printingLine1, self.width * offset1 + self.printingData2[1], self.printingData2[2], self.printingData2[3] );
     	EntityService:SetPosition( self.printingLine2, self.width * offset1 + self.printingData3[1], self.printingData3[2], self.printingData3[3] );
     end
-	if ( progress >= 1 ) then
+	local buildingComponent = EntityService:GetComponent(self.parent, "BuildingComponent")
+
+	if ( progress >= 1 or (buildingComponent ~= nil and reflection_helper(buildingComponent).mode == 2) ) then
 		state:Exit()
 	end
 end
@@ -325,8 +357,12 @@ function building_creator:_OnBuildingExit( state )
 		return
 	end
 	
-	QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent" )
-
+	if ( is_client_only ) then
+    	--QueueEvent("NetClearEntityComponentStateRequest", self.meshEnt, "MeshComponent")
+		BuildingService:ResendBuildingVisuals(self.meshEnt )
+	else
+		QueueEvent("RecreateComponentFromBlueprintRequest", self.meshEnt, "MeshComponent,SkeletonComponent" )
+	end
 	EffectService:DestroyEffectsByGroup(self.cubeEnt, "build_cone")
 	if ( EntityService:IsAlive(self.endCubeEnt) == true ) then
 		EntityService:RemoveEntity( self.endCubeEnt )
@@ -773,6 +809,12 @@ end
 
 function building_creator:OnLoad()
 	self.buildingMultiplier =  math.max( 0.1, ConsoleService:GetConfig("building_speed_multiplier") )
+	self.isAddon = self.isAddon or self.data:GetIntOrDefault("is_addon", 0) == 1
+	if ( not self.occupiedCheckEnt ) then
+		self.occupiedCheckEnt = EntityService:GetAncestorWithSignature( self.parent, "BuildingComponent" )
+	else
+		self.occupiedCheckEnt = self.parent
+	end
 end
 
 return building_creator

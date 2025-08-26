@@ -123,7 +123,7 @@ AnimationGraph
 					{
 						AnimationStateTransitionDef
 						{
-							src_idx "3"
+							src_idx "2"
 							condition "AnimationStateTransitionCondition"
 							{
 								max_time "999.000"
@@ -138,7 +138,7 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "2"
+							src_idx "1"
 							condition "AnimationStateTransitionCondition"
 							{
 								max_time "999.000"
@@ -195,7 +195,7 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "1"
+							src_idx "3"
 							condition "AnimationStateTransitionCondition"
 							{
 								max_time "999.000"
@@ -215,8 +215,8 @@ AnimationGraph
 						name "idle"
 						position
 						{
-							x "30.667"
-							y "326.000"
+							x "-30.000"
+							y "430.000"
 						}
 
 					}
@@ -492,8 +492,8 @@ AnimationGraph
 						name "move"
 						position
 						{
-							x "324.000"
-							y "774.000"
+							x "361.000"
+							y "848.000"
 						}
 
 					}
@@ -515,7 +515,7 @@ AnimationGraph
 								position
 								{
 									x "98.000"
-									y "336.667"
+									y "336.000"
 								}
 
 							}
@@ -598,7 +598,7 @@ AnimationGraph
 								name "death_3"
 								position
 								{
-									x "622.667"
+									x "622.000"
 									y "518.000"
 								}
 
@@ -616,8 +616,8 @@ AnimationGraph
 								name "exit_dead"
 								position
 								{
-									x "1231.333"
-									y "366.667"
+									x "1231.000"
+									y "366.000"
 								}
 
 							}
@@ -631,7 +631,7 @@ AnimationGraph
 					{
 						AnimationStateTransitionDef
 						{
-							src_idx "2"
+							src_idx "1"
 							condition "AnimationStateTransitionCondition"
 							{
 								max_time "999.000"
@@ -640,6 +640,54 @@ AnimationGraph
 
 							authoritative "0"
 							dst_idx "4"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "death_1"
+								param "death_anim_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "death_2"
+								param "death_anim_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationStringParamTransitionCondition"
+							{
+								compare_value "death_3"
+								param "death_anim_name"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "3"
 							blend_function_type "0"
 							duration "0.000"
 						}
@@ -656,42 +704,12 @@ AnimationGraph
 							authoritative "0"
 							dst_idx "4"
 							blend_function_type "0"
-							duration "0.000"
+							duration "0.200"
 						}
 
 						AnimationStateTransitionDef
 						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "1"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
-						AnimationStateTransitionDef
-						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "2"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
-						AnimationStateTransitionDef
-						{
-							src_idx "0"
-							condition "AnimationTrueTransitionCondition"
-							authoritative "0"
-							dst_idx "3"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
-						AnimationStateTransitionDef
-						{
-							src_idx "1"
+							src_idx "2"
 							condition "AnimationStateTransitionCondition"
 							{
 								max_time "999.000"
@@ -711,8 +729,8 @@ AnimationGraph
 						name "dead"
 						position
 						{
-							x "862.667"
-							y "160.667"
+							x "898.000"
+							y "149.000"
 						}
 
 					}
@@ -1210,22 +1228,7 @@ AnimationGraph
 					{
 						AnimationStateTransitionDef
 						{
-							src_idx "5"
-							condition "AnimationStateTransitionCondition"
-							{
-								max_time "0.000"
-								condition "1"
-							}
-
-							authoritative "0"
-							dst_idx "0"
-							blend_function_type "0"
-							duration "0.300"
-						}
-
-						AnimationStateTransitionDef
-						{
-							src_idx "5"
+							src_idx "0"
 							condition "AnimationFloatParamTransitionCondition"
 							{
 								compare_value "0.000"
@@ -1237,6 +1240,22 @@ AnimationGraph
 							dst_idx "2"
 							blend_function_type "0"
 							duration "0.100"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "3"
+							condition "AnimationFloatParamTransitionCondition"
+							{
+								compare_value "0.000"
+								param "stagger_long_speed"
+								cmp "4"
+							}
+
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.000"
 						}
 
 						AnimationStateTransitionDef
@@ -1305,7 +1324,22 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "0"
+							src_idx "5"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "0.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "0"
+							blend_function_type "0"
+							duration "0.300"
+						}
+
+						AnimationStateTransitionDef
+						{
+							src_idx "5"
 							condition "AnimationFloatParamTransitionCondition"
 							{
 								compare_value "0.000"
@@ -1319,22 +1353,6 @@ AnimationGraph
 							duration "0.100"
 						}
 
-						AnimationStateTransitionDef
-						{
-							src_idx "3"
-							condition "AnimationFloatParamTransitionCondition"
-							{
-								compare_value "0.000"
-								param "stagger_long_speed"
-								cmp "4"
-							}
-
-							authoritative "0"
-							dst_idx "2"
-							blend_function_type "0"
-							duration "0.000"
-						}
-
 					}
 
 					metadata
@@ -1342,7 +1360,7 @@ AnimationGraph
 						name "stun"
 						position
 						{
-							x "-192.667"
+							x "-192.000"
 							y "-448.000"
 						}
 
@@ -1616,21 +1634,6 @@ AnimationGraph
 
 						AnimationStateTransitionDef
 						{
-							src_idx "1"
-							condition "AnimationStateTransitionCondition"
-							{
-								max_time "999.000"
-								condition "1"
-							}
-
-							authoritative "0"
-							dst_idx "0"
-							blend_function_type "0"
-							duration "0.100"
-						}
-
-						AnimationStateTransitionDef
-						{
 							src_idx "0"
 							condition "AnimationStringParamTransitionCondition"
 							{
@@ -1661,6 +1664,21 @@ AnimationGraph
 							duration "0.100"
 						}
 
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "0"
+							blend_function_type "0"
+							duration "0.100"
+						}
+
 					}
 
 					metadata
@@ -1668,8 +1686,8 @@ AnimationGraph
 						name "attack_melee"
 						position
 						{
-							x "-640.000"
-							y "486.000"
+							x "-525.000"
+							y "542.000"
 						}
 
 					}
@@ -1791,7 +1809,7 @@ AnimationGraph
 						name "attack_range"
 						position
 						{
-							x "-362.667"
+							x "-362.000"
 							y "742.000"
 						}
 
@@ -1849,11 +1867,44 @@ AnimationGraph
 
 						}
 
+						AnimationStateNode "AnimationExitNode"
+						{
+							terminal_node "0"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "exit_dig_down"
+								position
+								{
+									x "1195.000"
+									y "197.000"
+								}
+
+							}
+
+						}
+
 					}
 
 					start_node_idx "0"
 					transition_vec
 					{
+						AnimationStateTransitionDef
+						{
+							src_idx "1"
+							condition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+							authoritative "0"
+							dst_idx "2"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
 						AnimationStateTransitionDef
 						{
 							src_idx "0"
@@ -1871,8 +1922,8 @@ AnimationGraph
 						name "dig_down"
 						position
 						{
-							x "508.667"
-							y "-52.000"
+							x "623.000"
+							y "-214.000"
 						}
 
 					}
@@ -1951,8 +2002,88 @@ AnimationGraph
 						name "dig_up"
 						position
 						{
-							x "-52.667"
-							y "30.667"
+							x "-11.000"
+							y "-186.000"
+						}
+
+					}
+
+					emit_progress_event "0"
+				}
+
+				AnimationStateNode "AnimationStateMachineNode"
+				{
+					animation_node_vec
+					{
+						AnimationStateNode "AnimationEntryNode"
+						{
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "underground_entry"
+								position
+								{
+									x "43.000"
+									y "383.000"
+								}
+
+							}
+
+						}
+
+						AnimationStateNode "AnimationMotionNode"
+						{
+							mirror "0"
+							blend_function_holder
+							{
+								funtion_type "0"
+							}
+
+							loop "0"
+							end_time "340282346638528859811704183484516925440.000"
+							anim_name "dig_down"
+							speed "1.000"
+							start_time "2.600"
+							emit_progress_event "0"
+							evaluate_blend_threshold "1.000"
+							metadata
+							{
+								name "stay_underground"
+								position
+								{
+									x "517.000"
+									y "384.000"
+								}
+
+							}
+
+						}
+
+					}
+
+					start_node_idx "0"
+					transition_vec
+					{
+						AnimationStateTransitionDef
+						{
+							src_idx "0"
+							condition "AnimationTrueTransitionCondition"
+							authoritative "0"
+							dst_idx "1"
+							blend_function_type "0"
+							duration "0.000"
+						}
+
+					}
+
+					metadata
+					{
+						name "underground"
+						position
+						{
+							x "-578.000"
+							y "160.000"
 						}
 
 					}
@@ -1967,18 +2098,50 @@ AnimationGraph
 			{
 				AnimationStateTransitionDef
 				{
-					src_idx "6"
+					src_idx "4"
 					condition "AnimationBoolParamTransitionCondition"
 					{
 						compare_value "0"
-						param "is_digging_down"
+						param "is_attacking_melee"
 						cmp "4"
 					}
 
 					authoritative "1"
 					dst_idx "0"
 					blend_function_type "0"
-					duration "0.200"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_stunned"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "3"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "4"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_dead"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "0.100"
 				}
 
 				AnimationStateTransitionDef
@@ -2000,65 +2163,31 @@ AnimationGraph
 				AnimationStateTransitionDef
 				{
 					src_idx "6"
-					condition "AnimationBoolParamTransitionCondition"
+					condition "AnimationOrTransitionCondition"
 					{
-						compare_value "1"
-						param "is_digging_up"
-						cmp "4"
+						conditions
+						{
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "1"
+								param "stay_underground"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationStateTransitionCondition"
+							{
+								max_time "999.000"
+								condition "1"
+							}
+
+						}
+
 					}
 
 					authoritative "1"
-					dst_idx "7"
+					dst_idx "8"
 					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "5"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_attacking_range"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.300"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "5"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_stunned"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "3"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "5"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_dead"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "2"
-					blend_function_type "0"
-					duration "0.100"
+					duration "0.000"
 				}
 
 				AnimationStateTransitionDef
@@ -2069,6 +2198,60 @@ AnimationGraph
 						compare_value "0"
 						param "is_dead"
 						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "8"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_digging_up"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "7"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "8"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "0"
+								param "stay_underground"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "0"
+								param "is_digging_up"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "0"
+								param "is_digging_down"
+								cmp "4"
+							}
+
+						}
+
 					}
 
 					authoritative "1"
@@ -2163,115 +2346,50 @@ AnimationGraph
 					condition "AnimationBoolParamTransitionCondition"
 					{
 						compare_value "1"
-						param "is_digging_down"
+						param "stay_underground"
 						cmp "4"
 					}
 
 					authoritative "1"
-					dst_idx "6"
-					blend_function_type "0"
-					duration "0.200"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "0"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_digging_up"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "7"
-					blend_function_type "0"
-					duration "0.200"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "4"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_attacking_melee"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "4"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_stunned"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "3"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "4"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_dead"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "2"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "4"
-					condition "AnimationFloatParamTransitionCondition"
-					{
-						compare_value "0.200"
-						param "speed"
-						cmp "2"
-					}
-
-					authoritative "1"
-					dst_idx "1"
-					blend_function_type "0"
-					duration "0.300"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "7"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_digging_up"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
+					dst_idx "8"
 					blend_function_type "0"
 					duration "0.000"
 				}
 
 				AnimationStateTransitionDef
 				{
-					src_idx "7"
+					src_idx "0"
+					condition "AnimationAndTransitionCondition"
+					{
+						conditions
+						{
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "0"
+								param "stay_underground"
+								cmp "4"
+							}
+
+							AnimationTransitionCondition "AnimationBoolParamTransitionCondition"
+							{
+								compare_value "1"
+								param "is_digging_down"
+								cmp "4"
+							}
+
+						}
+
+					}
+
+					authoritative "1"
+					dst_idx "6"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "3"
 					condition "AnimationBoolParamTransitionCondition"
 					{
 						compare_value "1"
@@ -2282,7 +2400,23 @@ AnimationGraph
 					authoritative "1"
 					dst_idx "2"
 					blend_function_type "0"
-					duration "0.200"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "3"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_stunned"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.100"
 				}
 
 				AnimationStateTransitionDef
@@ -2351,7 +2485,87 @@ AnimationGraph
 
 				AnimationStateTransitionDef
 				{
-					src_idx "3"
+					src_idx "1"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_attacking_melee"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "4"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "7"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_digging_up"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.000"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "7"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_dead"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "2"
+					blend_function_type "0"
+					duration "0.200"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "5"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "0"
+						param "is_attacking_range"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "0"
+					blend_function_type "0"
+					duration "0.300"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "5"
+					condition "AnimationBoolParamTransitionCondition"
+					{
+						compare_value "1"
+						param "is_stunned"
+						cmp "4"
+					}
+
+					authoritative "1"
+					dst_idx "3"
+					blend_function_type "0"
+					duration "0.100"
+				}
+
+				AnimationStateTransitionDef
+				{
+					src_idx "5"
 					condition "AnimationBoolParamTransitionCondition"
 					{
 						compare_value "1"
@@ -2363,506 +2577,6 @@ AnimationGraph
 					dst_idx "2"
 					blend_function_type "0"
 					duration "0.100"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "3"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_stunned"
-						cmp "4"
-					}
-
-					authoritative "1"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.100"
-				}
-
-			}
-
-			metadata
-			{
-				name
-				position
-				{
-					x "0.000"
-					y "0.000"
-				}
-
-			}
-
-			emit_progress_event "0"
-		}
-
-		AnimationGraphLayer
-		{
-			name "1_IK"
-			blend_type "1"
-			bone_group
-			emit_marker_events "1"
-			animation_node_vec
-			{
-				AnimationStateNode "AnimationBlendTreeNode"
-				{
-					end_node_idx "2"
-					eval_node_vec
-					{
-						AnimationEvalNode "AnimationGetVectorParamNode"
-						{
-							param_name "attack_pos"
-							dependency_vec
-							id "0"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-158.000"
-									y "198.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationMoveToNode"
-						{
-							end_bone "Tongue_tip"
-							ik_bone "Tongue_tip"
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "0"
-								}
-
-							}
-
-							id "1"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "389.000"
-									y "274.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationEndNode"
-						{
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "4"
-								}
-
-							}
-
-							id "2"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "1264.000"
-									y "528.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationGetNeutralPoseNode"
-						{
-							dependency_vec
-							id "3"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-691.000"
-									y "632.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationBlendTwoPoseNode"
-						{
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "3"
-								}
-
-								EvalNodeDependency
-								{
-									dst_slot "1"
-									src_slot "0"
-									src_node_idx "1"
-								}
-
-								EvalNodeDependency
-								{
-									dst_slot "2"
-									src_slot "0"
-									src_node_idx "11"
-								}
-
-							}
-
-							id "4"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "700.000"
-									y "477.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationGetTimeNode"
-						{
-							dependency_vec
-							id "5"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-637.000"
-									y "800.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationVector3ComposeNode"
-						{
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "7"
-								}
-
-								EvalNodeDependency
-								{
-									dst_slot "1"
-									src_slot "0"
-									src_node_idx "8"
-								}
-
-								EvalNodeDependency
-								{
-									dst_slot "2"
-									src_slot "0"
-									src_node_idx "10"
-								}
-
-							}
-
-							id "6"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-40.000"
-									y "325.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationConstFloatNode"
-						{
-							const_value "8.000"
-							dependency_vec
-							id "7"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-518.000"
-									y "300.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationConstFloatNode"
-						{
-							const_value "3.000"
-							dependency_vec
-							id "8"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-522.000"
-									y "367.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationFloatRemapNode"
-						{
-							arg_min "1.200"
-							value_min "0.000"
-							arg_max "1.400"
-							value_max "1.000"
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "5"
-								}
-
-							}
-
-							id "9"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-136.000"
-									y "755.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationConstFloatNode"
-						{
-							const_value "0.000"
-							dependency_vec
-							id "10"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "-510.000"
-									y "448.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationFloat1FunctionNode"
-						{
-							function "4"
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "9"
-								}
-
-							}
-
-							id "11"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "348.000"
-									y "688.000"
-								}
-
-							}
-
-						}
-
-					}
-
-					dependency_vec
-					id "65535"
-					emit_progress_event "0"
-					evaluate_blend_threshold "1.000"
-					metadata
-					{
-						name "tongue_IK"
-						position
-						{
-							x "114.000"
-							y "62.000"
-						}
-
-					}
-
-				}
-
-				AnimationStateNode "AnimationBlendTreeNode"
-				{
-					end_node_idx "0"
-					eval_node_vec
-					{
-						AnimationEvalNode "AnimationEndNode"
-						{
-							dependency_vec
-							{
-								EvalNodeDependency
-								{
-									dst_slot "0"
-									src_slot "0"
-									src_node_idx "1"
-								}
-
-							}
-
-							id "0"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "427.000"
-									y "233.000"
-								}
-
-							}
-
-						}
-
-						AnimationEvalNode "AnimationGetNeutralPoseNode"
-						{
-							dependency_vec
-							id "1"
-							emit_progress_event "0"
-							evaluate_blend_threshold "1.000"
-							metadata
-							{
-								name
-								position
-								{
-									x "20.000"
-									y "233.000"
-								}
-
-							}
-
-						}
-
-					}
-
-					dependency_vec
-					id "65535"
-					emit_progress_event "0"
-					evaluate_blend_threshold "1.000"
-					metadata
-					{
-						name "empty"
-						position
-						{
-							x "129.000"
-							y "291.000"
-						}
-
-					}
-
-				}
-
-			}
-
-			start_node_idx "1"
-			transition_vec
-			{
-				AnimationStateTransitionDef
-				{
-					src_idx "0"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "0"
-						param "is_attacking_range"
-						cmp "4"
-					}
-
-					authoritative "0"
-					dst_idx "1"
-					blend_function_type "1"
-					duration "0.200"
-				}
-
-				AnimationStateTransitionDef
-				{
-					src_idx "1"
-					condition "AnimationBoolParamTransitionCondition"
-					{
-						compare_value "1"
-						param "is_attacking_range"
-						cmp "4"
-					}
-
-					authoritative "0"
-					dst_idx "0"
-					blend_function_type "0"
-					duration "0.000"
 				}
 
 			}
@@ -2973,6 +2687,25 @@ AnimationGraph
 			is_const "0"
 		}
 
+		ParamDecl "StringParamDecl"
+		{
+			items
+			{
+				String "no_anim"
+				String "death_1"
+				String "death_2"
+				String "death_3"
+				String "death_running_1"
+				String "death_running_2"
+				String "death_running_3"
+			}
+
+			default "no_anim"
+			param_name "death_anim_name"
+			data_type "3"
+			is_const "0"
+		}
+
 		ParamDecl "BoolParamDecl"
 		{
 			default "0"
@@ -3003,6 +2736,14 @@ AnimationGraph
 		{
 			default "0"
 			param_name "is_digging_up"
+			data_type "0"
+			is_const "0"
+		}
+
+		ParamDecl "BoolParamDecl"
+		{
+			default "0"
+			param_name "stay_underground"
 			data_type "0"
 			is_const "0"
 		}

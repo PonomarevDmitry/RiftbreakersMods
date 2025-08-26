@@ -22,6 +22,7 @@ function df_entity_find:Activated()
 
     local out_entities = GetEntitiesAsString(entities)
     self.data:SetString("out_entities", out_entities)
+	--LogService:Log("ENTITIES FOUND: " .. #entities .. " (" .. out_entities .. ")")
 
     self:SetFinished()
 end

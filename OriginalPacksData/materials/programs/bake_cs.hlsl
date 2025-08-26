@@ -23,8 +23,8 @@ ByteAddressBuffer           InputPosition            : register(t0);
 
 #if USE_HW_SKINNING
 #ifdef __PSSL__
-Buffer<float4>              InputBlendWeights        : register(t1);
-Buffer<ushort4>             InputBlendIndices        : register(t2);
+Buffer<uint2>               InputBlendWeights        : register(t1);
+Buffer<uint>                InputBlendIndices        : register(t2);
 #else
 ByteAddressBuffer           InputBlendWeights        : register(t1);
 ByteAddressBuffer           InputBlendIndices        : register(t2);
@@ -58,13 +58,27 @@ void main(uint3 dtID : SV_DispatchThreadID)
 
 #if USE_HW_SKINNING
 #   ifdef __PSSL__
-    float4 blendWeights = InputBlendWeights[ i ];
-    ushort4 blendIndices = InputBlendIndices[ i ];
+    uint2 blendWeightsRaw = InputBlendWeights[ i ];
+    uint blendIndicesRaw = InputBlendIndices[ i ];
 #   else
-    float4 blendWeights = asfloat( InputBlendWeights.Load4( cVertexStrideInfo.y * i ) );
-    uint2 blendIndicesRaw = InputBlendIndices.Load2( cVertexStrideInfo.z * i );
-    uint4 blendIndices = uint4( blendIndicesRaw.x & 0xffff, blendIndicesRaw.x >> 16, blendIndicesRaw.y & 0xffff, blendIndicesRaw.y >> 16 );
+    uint2 blendWeightsRaw = InputBlendWeights.Load2( cVertexStrideInfo.y * i );
+    uint blendIndicesRaw = InputBlendIndices.Load( cVertexStrideInfo.z * i );
 #   endif
+
+    float4 blendWeights = float4( 
+        ( float )(   blendWeightsRaw.x & 0xffff ) / 65535.0f,
+        ( float )( ( blendWeightsRaw.x >> 16 ) & 0xffff ) / 65535.0f,
+        ( float )(   blendWeightsRaw.y & 0xffff ) / 65535.0f,
+        ( float )( ( blendWeightsRaw.y >> 16 ) & 0xffff ) / 65535.0f 
+    );
+
+    uint4 blendIndices = uint4( 
+        ( blendIndicesRaw ) & 0xff, 
+        ( blendIndicesRaw >> 8 ) & 0xff, 
+        ( blendIndicesRaw >> 16 ) & 0xff, 
+        ( blendIndicesRaw >> 24 ) & 0xff 
+    );
+
     float3x4 cWorld = blendWeights.x * cWorld3x4Array[ blendIndices.x ];
     cWorld += blendWeights.y * cWorld3x4Array[ blendIndices.y ];
     cWorld += blendWeights.z * cWorld3x4Array[ blendIndices.z ];

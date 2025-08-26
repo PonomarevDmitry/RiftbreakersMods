@@ -30,6 +30,8 @@ function hedge_wall:MoveDown()
 		EffectService:AttachEffects( self.entity, "down" )
 		self.down = true
 		EntityService:DisableCollisions(self.entity )
+
+		EntityService:CreateComponent( self.entity, "PhysicsClientDisableCollisionComponent")
 	end
 end
 
@@ -57,6 +59,8 @@ function hedge_wall:MoveUp()
 		self:DestroyWrecks();
 		self.down = false
 		EntityService:EnableCollisions(self.entity )
+
+		EntityService:RemoveComponent( self.entity, "PhysicsClientDisableCollisionComponent")
 
 	end
 end

@@ -9,6 +9,8 @@ function mission_acid_find_rare_resources:__init()
 end
 
 function mission_acid_find_rare_resources:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/acid_find_rare_resource.logic", "default" )

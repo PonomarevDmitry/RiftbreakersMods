@@ -96,62 +96,6 @@ GuiRootGroupDef
 	priority "50.000"
 	shortcuts
 	{
-		Pair_GuiInputCode_String
-		Pair_GuiInputCode_String
-		{
-			key "1"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "2"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "3"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "4"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "5"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "6"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "7"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "8"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "9"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "10"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "11"
-		}
-
 	}
 
 	children
@@ -244,6 +188,24 @@ GuiRootGroupDef
 			key "bg"
 			value "GuiQuadDef"
 			{
+				bindings
+				{
+					visible
+					{
+						model_field "slot"
+						converter "GuiModelObjectNullOrEmptyConverter"
+					}
+
+				}
+
+				color
+				{
+					w "0.800"
+					x "0.000"
+					y "0.000"
+					z "0.000"
+				}
+
 				id "bg"
 				size
 				{
@@ -251,6 +213,8 @@ GuiRootGroupDef
 					y "1.000"
 				}
 
+				size_mode_x "2"
+				size_mode_y "2"
 			}
 
 		}
@@ -862,7 +826,11 @@ GuiRootGroupDef
 												key "button_0"
 												value "GuiRadioButtonItemDef"
 												{
-													navigable "0"
+													node "GuiButtonDef"
+													{
+														navigable "0"
+													}
+
 													children
 													{
 														Pair_String_GuiDef2
@@ -1085,6 +1053,25 @@ GuiRootGroupDef
 
 																visible "0"
 																z_order "169.000"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														node.cursor_on_select
+														{
+															model_field "disassembly"
+															converter "GuiModelMapConverter"
+															{
+																map
+																{
+																	1 "materials/scripts/rb_hammer.cursor"
+																	0
+																}
+
 															}
 
 														}
@@ -1610,6 +1597,338 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "disassembly"
+			value "GuiReferenceDef"
+			{
+				path "group"
+				ref_gui_id "gui/template/disassembly_list"
+				container_type "2"
+				alignment "top"
+				anchor "top"
+				bindings
+				{
+					visible
+					{
+						model_field "disassembly"
+					}
+
+				}
+
+				id "disassembly"
+				offset
+				{
+					x "14.000"
+					y "101.000"
+				}
+
+				size
+				{
+					x "612.000"
+					y "900.000"
+				}
+
+				z_order "10.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "disassembly_info"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/buttons/inventory/weapon_list_btn_standard_neutral"
+							id "bg"
+							offset
+							{
+								x "6.000"
+							}
+
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "icon"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+										bindings
+										{
+											material
+											{
+												model_field "rarity"
+												converter "GuiModelMapConverter"
+												{
+													fallback_value "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+													map
+													{
+														1 "gui/menu/buttons/inventory/weapon_icon_advanced_bg"
+														0 "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+														3 "gui/menu/buttons/inventory/weapon_icon_extreme_bg"
+														2 "gui/menu/buttons/inventory/weapon_icon_superior_bg"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "bg"
+										tooltip_def
+										z_order "316.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/resource_icons/missing_item_bigger"
+										alignment "center"
+										anchor "center"
+										bindings
+										{
+											material
+											{
+												model_field "icon"
+											}
+
+										}
+
+										id "icon"
+										tooltip_def
+										z_order "371.000"
+									}
+
+								}
+
+							}
+
+							id "icon"
+							offset
+							{
+								x "10.000"
+								y "-1.000"
+							}
+
+							size
+							{
+								x "116.000"
+								y "116.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							tooltip_def
+							z_order "366.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "label_group"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextDef"
+									{
+										content "VARIABLE_mod_name"
+										style_name "item_level_3"
+										translate "1"
+										alignment "left"
+										bindings
+										{
+											style_name
+											{
+												model_field "rarity"
+												converter "GuiModelMapConverter"
+												{
+													fallback_value "smallest_orbiton_item_level_0"
+													map
+													{
+														1 "smallest_orbiton_item_level_1"
+														0 "smallest_orbiton_item_level_0"
+														3 "smallest_orbiton_item_level_3"
+														2 "smallest_orbiton_item_level_2"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "label"
+										max_size
+										{
+											x "450.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										{
+											tooltip_def
+										}
+
+										z_order "324.000"
+									}
+
+								}
+
+							}
+
+							container_type "1"
+							id "label_group"
+							max_size
+							{
+								x "319.000"
+								y "64.000"
+							}
+
+							offset
+							{
+								x "120.000"
+								y "36.000"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							tooltip_def
+							z_order "324.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "resources"
+						value "GuiStackPanelDef"
+						{
+							template_reference
+							{
+								path "templates.stat"
+								ref_gui_id "gui/template/buttons"
+								container_type "1"
+								margin
+								{
+									z "15.000"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+								z_order "329.000"
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "disassembly"
+								}
+
+							}
+
+							id "resources"
+							margin
+							{
+								x "115.000"
+								y "66.000"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "resources"
+								}
+
+							}
+
+							size
+							{
+								x "435.000"
+								y "36.000"
+							}
+
+							tooltip_def
+							{
+								tooltip_def
+							}
+
+							z_order "328.000"
+						}
+
+					}
+
+				}
+
+				bindings
+				{
+					visible
+					{
+						model_field "disassembly_info_button"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
+				id "disassembly_info"
+				margin
+				{
+					x "1300.000"
+					y "101.000"
+				}
+
+				model_source_solver
+				{
+					GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+					{
+						field_name "disassembly_info_button"
+					}
+
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				tooltip_def
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "down_menu"
 			value "GuiGroupDef"
 			{
@@ -1618,13 +1937,13 @@ GuiRootGroupDef
 					Pair_String_GuiDef2
 					{
 						key "disassembly_button"
-						value "GuiGroupDef"
+						value "GuiToggleButtonItemDef"
 						{
 							children
 							{
 								Pair_String_GuiDef2
 								{
-									key "disabled"
+									key "active"
 									value "GuiGroupDef"
 									{
 										children
@@ -1642,14 +1961,15 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_center_disabled"
+																material "gui/menu/buttons/inventory/simple_btn_center_active"
 																id "center"
 																scale
 																{
 																	x "10.000"
 																}
 
-																z_order "52.000"
+																tooltip_def
+																z_order "408.000"
 															}
 
 														}
@@ -1660,9 +1980,10 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_left_disabled"
+																material "gui/menu/buttons/inventory/simple_btn_left_active"
 																id "left"
-																z_order "53.000"
+																tooltip_def
+																z_order "409.000"
 															}
 
 														}
@@ -1673,9 +1994,10 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_right_disabled"
+																material "gui/menu/buttons/inventory/simple_btn_right_active"
 																id "right"
-																z_order "51.000"
+																tooltip_def
+																z_order "407.000"
 															}
 
 														}
@@ -1689,7 +2011,8 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													z_order "50.000"
+													tooltip_def
+													z_order "406.000"
 												}
 
 											}
@@ -1708,40 +2031,7 @@ GuiRootGroupDef
 															{
 																capitals "1"
 																content "gui/menu/inventory/disassembly"
-																style
-																{
-																	char_height "30.000"
-																	color
-																	{
-																		x "0.671"
-																		y "0.671"
-																		z "0.671"
-																	}
-
-																	df "1"
-																	font "orbitron-medium_sdf"
-																	glow_color
-																	{
-																		w "0.000"
-																	}
-
-																	glow_size "0.000"
-																	glow_spread "0.000"
-																	shadow_angle "135.000"
-																	shadow_color
-																	{
-																		w "0.850"
-																	}
-
-																	shadow_distance "2.000"
-																	shadow_enabled "1"
-																	shadow_spread "0.000"
-																	space_size "7.000"
-																	stroke_position "0"
-																	stroke_size "0.000"
-																}
-
-																style_name "shortcuts_disabled"
+																style_name "shortcuts_active"
 																translate "1"
 																id "label"
 																offset
@@ -1750,7 +2040,8 @@ GuiRootGroupDef
 																	y "3.000"
 																}
 
-																z_order "55.000"
+																tooltip_def
+																z_order "411.000"
 															}
 
 														}
@@ -1764,17 +2055,19 @@ GuiRootGroupDef
 														y "37.000"
 													}
 
-													z_order "54.000"
+													tooltip_def
+													z_order "410.000"
 												}
 
 											}
 
 										}
 
-										id "disabled"
+										hitbox_visible "0"
+										id "active"
 										offset
 										{
-											x "39.070"
+											x "39.000"
 											y "4.000"
 										}
 
@@ -1784,15 +2077,16 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
+										tooltip_def
 										visible "0"
-										z_order "49.000"
+										z_order "405.000"
 									}
 
 								}
 
 								Pair_String_GuiDef2
 								{
-									key "neutral"
+									key "active_selected"
 									value "GuiGroupDef"
 									{
 										children
@@ -1810,14 +2104,15 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																material "gui/menu/buttons/inventory/simple_btn_center_active"
 																id "center"
 																scale
 																{
 																	x "10.000"
 																}
 
-																z_order "45.000"
+																tooltip_def
+																z_order "397.000"
 															}
 
 														}
@@ -1828,9 +2123,10 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																material "gui/menu/buttons/inventory/simple_btn_left_active"
 																id "left"
-																z_order "46.000"
+																tooltip_def
+																z_order "398.000"
 															}
 
 														}
@@ -1841,9 +2137,10 @@ GuiRootGroupDef
 															value "GuiImageDef"
 															{
 																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																material "gui/menu/buttons/inventory/simple_btn_right_active"
 																id "right"
-																z_order "44.000"
+																tooltip_def
+																z_order "396.000"
 															}
 
 														}
@@ -1857,174 +2154,8 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													z_order "43.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "content"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextLineDef"
-															{
-																capitals "1"
-																content "gui/menu/inventory/disassembly"
-																style
-																{
-																	char_height "30.000"
-																	color
-																	{
-																		x "0.396"
-																		y "0.922"
-																	}
-
-																	df "1"
-																	font "orbitron-medium_sdf"
-																	glow_color
-																	{
-																		w "0.000"
-																	}
-
-																	glow_size "0.000"
-																	glow_spread "0.000"
-																	shadow_angle "135.000"
-																	shadow_color
-																	{
-																		w "0.850"
-																	}
-
-																	shadow_distance "2.000"
-																	shadow_enabled "1"
-																	shadow_spread "0.000"
-																	space_size "7.000"
-																	stroke_position "0"
-																	stroke_size "0.000"
-																}
-
-																style_name "shortcuts"
-																translate "1"
-																id "label"
-																offset
-																{
-																	x "15.000"
-																	y "3.000"
-																}
-
-																z_order "48.000"
-															}
-
-														}
-
-													}
-
-													id "content"
-													size
-													{
-														x "370.098"
-														y "37.000"
-													}
-
-													z_order "47.000"
-												}
-
-											}
-
-										}
-
-										id "neutral"
-										offset
-										{
-											x "39.070"
-											y "4.000"
-										}
-
-										size
-										{
-											x "370.098"
-											y "44.000"
-										}
-
-										visible "0"
-										z_order "42.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "neutral_selected"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "bg"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "center"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
-																id "center"
-																scale
-																{
-																	x "10.000"
-																}
-
-																z_order "34.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "left"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-																id "left"
-																z_order "35.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "right"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
-																id "right"
-																z_order "33.000"
-															}
-
-														}
-
-													}
-
-													id "bg"
-													size
-													{
-														x "160.000"
-														y "44.000"
-													}
-
-													z_order "32.000"
+													tooltip_def
+													z_order "395.000"
 												}
 
 											}
@@ -2049,7 +2180,8 @@ GuiRootGroupDef
 																	x "10.000"
 																}
 
-																z_order "38.000"
+																tooltip_def
+																z_order "401.000"
 															}
 
 														}
@@ -2062,7 +2194,8 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_left_selection"
 																id "left"
-																z_order "39.000"
+																tooltip_def
+																z_order "402.000"
 															}
 
 														}
@@ -2075,7 +2208,8 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_right_selection"
 																id "right"
-																z_order "37.000"
+																tooltip_def
+																z_order "400.000"
 															}
 
 														}
@@ -2089,7 +2223,8 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
-													z_order "36.000"
+													tooltip_def
+													z_order "399.000"
 												}
 
 											}
@@ -2108,39 +2243,7 @@ GuiRootGroupDef
 															{
 																capitals "1"
 																content "gui/menu/inventory/disassembly"
-																style
-																{
-																	char_height "30.000"
-																	color
-																	{
-																		x "0.396"
-																		y "0.922"
-																	}
-
-																	df "1"
-																	font "orbitron-medium_sdf"
-																	glow_color
-																	{
-																		w "0.000"
-																	}
-
-																	glow_size "0.000"
-																	glow_spread "0.000"
-																	shadow_angle "135.000"
-																	shadow_color
-																	{
-																		w "0.850"
-																	}
-
-																	shadow_distance "2.000"
-																	shadow_enabled "1"
-																	shadow_spread "0.000"
-																	space_size "7.000"
-																	stroke_position "0"
-																	stroke_size "0.000"
-																}
-
-																style_name "shortcuts"
+																style_name "shortcuts_active"
 																translate "1"
 																id "label"
 																offset
@@ -2149,7 +2252,8 @@ GuiRootGroupDef
 																	y "3.000"
 																}
 
-																z_order "41.000"
+																tooltip_def
+																z_order "404.000"
 															}
 
 														}
@@ -2163,17 +2267,19 @@ GuiRootGroupDef
 														y "37.000"
 													}
 
-													z_order "40.000"
+													tooltip_def
+													z_order "403.000"
 												}
 
 											}
 
 										}
 
-										id "neutral_selected"
+										hitbox_visible "0"
+										id "active_selected"
 										offset
 										{
-											x "39.070"
+											x "39.000"
 											y "4.000"
 										}
 
@@ -2183,108 +2289,13 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
+										tooltip_def
 										visible "0"
-										z_order "31.000"
+										z_order "394.000"
 									}
 
 								}
 
-								Pair_String_GuiDef2
-								{
-									key "shortcuts"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "pad"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "key"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "gui/hud/keys/key_263"
-																id "key"
-																scale
-																{
-																	x "0.770"
-																	y "0.770"
-																}
-
-																z_order "58.000"
-															}
-
-														}
-
-													}
-
-													id "pad"
-													size
-													{
-														x "44.660"
-														y "40.040"
-													}
-
-													z_order "57.000"
-												}
-
-											}
-
-										}
-
-										alignment "top"
-										id "shortcuts"
-										offset
-										{
-											x "22.000"
-										}
-
-										size
-										{
-											x "44.660"
-											y "40.040"
-										}
-
-										z_order "56.000"
-									}
-
-								}
-
-							}
-
-							id "disassembly_button"
-							offset
-							{
-								x "15.000"
-							}
-
-							size
-							{
-								x "409.168"
-								y "48.000"
-							}
-
-							z_order "30.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "drop_button"
-						value "GuiButtonItemDef"
-						{
-							popup_confirmation_node "button_yes"
-							popup_dialog_msg "gui/popup/are_you_sure"
-							popup_gui_id "gui/popup/popup_ingame_2buttons"
-							children
-							{
 								Pair_String_GuiDef2
 								{
 									key "disabled"
@@ -2312,6 +2323,7 @@ GuiRootGroupDef
 																	x "10.000"
 																}
 
+																tooltip_def
 																z_order "415.000"
 															}
 
@@ -2325,6 +2337,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_left_disabled"
 																id "left"
+																tooltip_def
 																z_order "416.000"
 															}
 
@@ -2338,6 +2351,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_right_disabled"
 																id "right"
+																tooltip_def
 																z_order "414.000"
 															}
 
@@ -2352,6 +2366,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													tooltip_def
 													z_order "413.000"
 												}
 
@@ -2370,7 +2385,7 @@ GuiRootGroupDef
 															value "GuiTextLineDef"
 															{
 																capitals "1"
-																content "BUTTON_Drop"
+																content "gui/menu/inventory/disassembly"
 																style_name "shortcuts_disabled"
 																translate "1"
 																id "label"
@@ -2380,6 +2395,7 @@ GuiRootGroupDef
 																	y "3.000"
 																}
 
+																tooltip_def
 																z_order "418.000"
 															}
 
@@ -2394,6 +2410,7 @@ GuiRootGroupDef
 														y "37.000"
 													}
 
+													tooltip_def
 													z_order "417.000"
 												}
 
@@ -2414,6 +2431,7 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
+										tooltip_def
 										visible "0"
 										z_order "412.000"
 									}
@@ -2447,6 +2465,7 @@ GuiRootGroupDef
 																	x "10.000"
 																}
 
+																tooltip_def
 																z_order "408.000"
 															}
 
@@ -2460,6 +2479,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
 																id "left"
+																tooltip_def
 																z_order "409.000"
 															}
 
@@ -2473,6 +2493,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																id "right"
+																tooltip_def
 																z_order "407.000"
 															}
 
@@ -2487,6 +2508,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													tooltip_def
 													z_order "406.000"
 												}
 
@@ -2505,7 +2527,7 @@ GuiRootGroupDef
 															value "GuiTextLineDef"
 															{
 																capitals "1"
-																content "BUTTON_Drop"
+																content "gui/menu/inventory/disassembly"
 																style_name "shortcuts"
 																translate "1"
 																id "label"
@@ -2515,6 +2537,7 @@ GuiRootGroupDef
 																	y "3.000"
 																}
 
+																tooltip_def
 																z_order "411.000"
 															}
 
@@ -2529,6 +2552,7 @@ GuiRootGroupDef
 														y "37.000"
 													}
 
+													tooltip_def
 													z_order "410.000"
 												}
 
@@ -2550,6 +2574,7 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
+										tooltip_def
 										visible "0"
 										z_order "405.000"
 									}
@@ -2583,6 +2608,7 @@ GuiRootGroupDef
 																	x "10.000"
 																}
 
+																tooltip_def
 																z_order "397.000"
 															}
 
@@ -2596,6 +2622,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
 																id "left"
+																tooltip_def
 																z_order "398.000"
 															}
 
@@ -2609,6 +2636,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
 																id "right"
+																tooltip_def
 																z_order "396.000"
 															}
 
@@ -2623,6 +2651,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													tooltip_def
 													z_order "395.000"
 												}
 
@@ -2648,6 +2677,7 @@ GuiRootGroupDef
 																	x "10.000"
 																}
 
+																tooltip_def
 																z_order "401.000"
 															}
 
@@ -2661,6 +2691,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_left_selection"
 																id "left"
+																tooltip_def
 																z_order "402.000"
 															}
 
@@ -2674,6 +2705,7 @@ GuiRootGroupDef
 																error_material "gui/default"
 																material "gui/menu/buttons/inventory/simple_btn_right_selection"
 																id "right"
+																tooltip_def
 																z_order "400.000"
 															}
 
@@ -2688,6 +2720,7 @@ GuiRootGroupDef
 														y "44.000"
 													}
 
+													tooltip_def
 													z_order "399.000"
 												}
 
@@ -2706,7 +2739,7 @@ GuiRootGroupDef
 															value "GuiTextLineDef"
 															{
 																capitals "1"
-																content "BUTTON_Drop"
+																content "gui/menu/inventory/disassembly"
 																style_name "shortcuts"
 																translate "1"
 																id "label"
@@ -2716,6 +2749,7 @@ GuiRootGroupDef
 																	y "3.000"
 																}
 
+																tooltip_def
 																z_order "404.000"
 															}
 
@@ -2730,6 +2764,7 @@ GuiRootGroupDef
 														y "37.000"
 													}
 
+													tooltip_def
 													z_order "403.000"
 												}
 
@@ -2751,15 +2786,95 @@ GuiRootGroupDef
 											y "44.000"
 										}
 
+										tooltip_def
 										visible "0"
 										z_order "394.000"
 									}
 
 								}
 
+								Pair_String_GuiDef2
+								{
+									key "shortcuts"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "pad"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "key"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/keys/key_263"
+																id "key"
+																scale
+																{
+																	x "0.770"
+																	y "0.770"
+																}
+
+																tooltip_def
+																z_order "421.000"
+															}
+
+														}
+
+													}
+
+													id "pad"
+													size
+													{
+														x "44.660"
+														y "40.040"
+													}
+
+													tooltip_def
+													z_order "420.000"
+												}
+
+											}
+
+										}
+
+										alignment "top"
+										id "shortcuts"
+										offset
+										{
+											x "22.000"
+										}
+
+										size
+										{
+											x "44.660"
+											y "40.040"
+										}
+
+										tooltip_def
+										z_order "419.000"
+									}
+
+								}
+
 							}
 
-							id "drop_button"
+							bindings
+							{
+								is_activated
+								{
+									model_field "disassembly"
+								}
+
+							}
+
+							id "disassembly_button"
 							offset
 							{
 								x "15.000"
@@ -2767,11 +2882,11 @@ GuiRootGroupDef
 
 							size
 							{
-								x "409.098"
+								x "250.000"
 								y "48.000"
 							}
 
-							z_order "10.000"
+							tooltip_def
 						}
 
 					}
@@ -4509,7 +4624,7 @@ GuiRootGroupDef
 										size
 										{
 											x "632.000"
-											y "813.000"
+											y "804.000"
 										}
 
 										z_order "302.000"
@@ -4527,8 +4642,11 @@ GuiRootGroupDef
 											Pair_String_GuiDef2
 											{
 												key "button_0"
-												value "GuiGroupDef"
+												value "GuiRadioButtonItemDef"
 												{
+													on_click_action "click"
+													on_double_click_action "double_click"
+													on_focus_action "focus"
 													children
 													{
 														Pair_String_GuiDef2
@@ -4553,6 +4671,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selected"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -4573,6 +4696,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -4588,6 +4716,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -4604,6 +4737,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -4613,6 +4751,11 @@ GuiRootGroupDef
 																id "active"
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -4639,6 +4782,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selected"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -4659,6 +4807,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -4674,6 +4827,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -4690,6 +4848,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -4709,6 +4872,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selection"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -4729,6 +4897,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -4744,6 +4917,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -4760,6 +4938,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -4769,6 +4952,11 @@ GuiRootGroupDef
 																id "active_selected"
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -4782,6 +4970,59 @@ GuiRootGroupDef
 																{
 																	Pair_String_GuiDef2
 																	{
+																		key "disassembly"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "disassembly_folder"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/disassembly_folder"
+																						alignment "right"
+																						anchor "right"
+																						id "disassembly_folder"
+																						offset
+																						{
+																							y "4.000"
+																						}
+
+																						tooltip_def
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly"
+																			offset
+																			{
+																				x "-13.000"
+																				y "-4.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			z_order "400.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
 																		key "folder"
 																		value "GuiImageDef"
 																		{
@@ -4789,10 +5030,67 @@ GuiRootGroupDef
 																			material "gui/menu/folder_icon"
 																			alignment "right"
 																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
 																			id "folder"
 																			margin
 																			{
 																				z "10.000"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "shared"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/shared"
+																			alignment "right"
+																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "shared"
+																				}
+
+																			}
+
+																			id "shared"
+																			margin
+																			{
+																				z "10.000"
+																			}
+
+																			offset
+																			{
+																				y "4.000"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
 																			}
 
 																		}
@@ -4804,6 +5102,11 @@ GuiRootGroupDef
 																id "additional_icons"
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "10.000"
 															}
 
@@ -4812,7 +5115,7 @@ GuiRootGroupDef
 														Pair_String_GuiDef2
 														{
 															key "button_label"
-															value "GuiTextBoxDef"
+															value "GuiTextDef"
 															{
 																content "VARIABLE_mod_name"
 																style
@@ -4905,9 +5208,17 @@ GuiRootGroupDef
 																	y "50.000"
 																}
 
-																offset
+																tooltip_def
 																{
-																	y "-1.500"
+																	tooltip_def
+																	{
+																		tooltip_def
+																		{
+																			tooltip_def
+																		}
+
+																	}
+
 																}
 
 																z_order "5.000"
@@ -4937,17 +5248,29 @@ GuiRootGroupDef
 																id "icon"
 																margin
 																{
-																	w "22.000"
+																	w "11.000"
 																	x "10.000"
+																	y "11.000"
 																}
 
 																offset
 																{
-																	y "-1.500"
+																	y "1.000"
 																}
 
-																size_mode_x "2"
-																size_mode_y "2"
+																size
+																{
+																	x "28.000"
+																	y "28.000"
+																}
+
+																size_mode_x "0"
+																size_mode_y "0"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "5.000"
 															}
 
@@ -4975,6 +5298,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_neutral"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -4995,6 +5323,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5010,7 +5343,26 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
 																					}
 
 																				}
@@ -5026,92 +5378,111 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		key "neutral"
+																		key "disassembly_background"
 																		value "GuiGroupDef"
 																		{
 																			children
 																			{
 																				Pair_String_GuiDef2
 																				{
-																					key "background"
-																					value "GuiGroupDef"
+																					key "bg"
+																					value "GuiImageDef"
 																					{
-																						children
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
 																						{
-																							Pair_String_GuiDef2
-																							{
-																								key "bg"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_left_neutral"
-																									id "bg"
-																									z_order "4.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_center"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_center_neutral"
-																									id "bg_center"
-																									margin
-																									{
-																										x "88.000"
-																										z "88.000"
-																									}
-
-																									size_mode_x "2"
-																									z_order "3.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_right"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_right_neutral"
-																									alignment "top_right"
-																									anchor "top_right"
-																									id "bg_right"
-																									z_order "1.000"
-																								}
-
-																							}
-
+																							tooltip_def
 																						}
 
-																						id "background"
-																						size
+																						z_order "4.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
 																						{
-																							x "500.000"
-																							y "50.000"
+																							x "88.000"
+																							z "88.000"
 																						}
 
 																						size_mode_x "2"
-																						size_mode_y "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1.000"
 																					}
 
 																				}
 
 																			}
 
-																			id "neutral"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500.000"
+																				y "50.000"
+																			}
+
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1.000"
 																		}
 
 																	}
@@ -5121,6 +5492,11 @@ GuiRootGroupDef
 																id "neutral"
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -5147,6 +5523,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_neutral"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5167,6 +5548,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5182,7 +5568,26 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
 																					}
 
 																				}
@@ -5198,6 +5603,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -5217,6 +5627,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selection"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5237,6 +5652,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5252,6 +5672,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -5268,6 +5693,112 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "2.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88.000"
+																							z "88.000"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500.000"
+																				y "50.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1.000"
 																		}
 
 																	}
@@ -5277,6 +5808,11 @@ GuiRootGroupDef
 																id "neutral_selected"
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -5298,6 +5834,11 @@ GuiRootGroupDef
 																			id "icon"
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																			z_order "136.000"
 																		}
 
@@ -5328,54 +5869,23 @@ GuiRootGroupDef
 																	y "16.000"
 																}
 
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "5.000"
 															}
 
 														}
 
-														Pair_String_GuiDef2
+													}
+
+													bindings
+													{
+														is_activated
 														{
-															key "time"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "gui/menu/inventory/stat_icons/dmg_time_icon"
-																stretch_proportional "1"
-																alignment "left"
-																anchor "left"
-																bindings
-																{
-																	visible
-																	{
-																		model_field "timer"
-																	}
-
-																}
-
-																id "time"
-																margin
-																{
-																	w "2.000"
-																	x "10.000"
-																	y "5.000"
-																}
-
-																offset
-																{
-																	y "-5.000"
-																}
-
-																scale
-																{
-																	x "0.600"
-																	y "0.600"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-																z_order "6.000"
-															}
-
+															model_field "is_activated"
 														}
 
 													}
@@ -5395,6 +5905,11 @@ GuiRootGroupDef
 													}
 
 													size_mode_x "2"
+													tooltip_def
+													{
+														tooltip_def
+													}
+
 												}
 
 											}
@@ -5402,8 +5917,11 @@ GuiRootGroupDef
 											Pair_String_GuiDef2
 											{
 												key "button_1"
-												value "GuiGroupDef"
+												value "GuiRadioButtonItemDef"
 												{
+													on_click_action "click"
+													on_double_click_action "double_click"
+													on_focus_action "focus"
 													children
 													{
 														Pair_String_GuiDef2
@@ -5428,6 +5946,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selected"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5448,6 +5971,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5463,6 +5991,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -5479,6 +6012,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -5493,6 +6031,11 @@ GuiRootGroupDef
 
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -5519,6 +6062,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selected"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5539,6 +6087,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5554,6 +6107,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -5570,6 +6128,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -5589,6 +6152,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selection"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5609,6 +6177,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5624,6 +6197,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -5640,6 +6218,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -5654,6 +6237,127 @@ GuiRootGroupDef
 
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "additional_icons"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "image"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/disassembly_icon"
+																						id "image"
+																						margin
+																						{
+																							x "23.000"
+																						}
+
+																						offset
+																						{
+																							y "-8.000"
+																						}
+
+																						tooltip_def
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly"
+																			offset
+																			{
+																				x "-13.000"
+																				y "-4.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			z_order "400.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "shared"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/shared"
+																			alignment "right"
+																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "shared"
+																				}
+
+																			}
+
+																			id "shared"
+																			margin
+																			{
+																				z "10.000"
+																			}
+
+																			offset
+																			{
+																				y "4.000"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "additional_icons"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "10.000"
 															}
 
 														}
@@ -5759,6 +6463,11 @@ GuiRootGroupDef
 																}
 
 																size_mode_x "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "5.000"
 															}
 
@@ -5786,17 +6495,29 @@ GuiRootGroupDef
 																id "icon"
 																margin
 																{
-																	w "20.000"
+																	w "10.000"
 																	x "38.000"
+																	y "10.000"
 																}
 
 																offset
 																{
-																	y "-1.500"
+																	y "-1.000"
 																}
 
-																size_mode_x "2"
-																size_mode_y "2"
+																size
+																{
+																	x "28.000"
+																	y "28.000"
+																}
+
+																size_mode_x "0"
+																size_mode_y "0"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "5.000"
 															}
 
@@ -5824,6 +6545,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_neutral"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -5844,6 +6570,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -5859,7 +6590,26 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
 																					}
 
 																				}
@@ -5875,92 +6625,111 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
 
 																	Pair_String_GuiDef2
 																	{
-																		key "neutral"
+																		key "disassembly_background"
 																		value "GuiGroupDef"
 																		{
 																			children
 																			{
 																				Pair_String_GuiDef2
 																				{
-																					key "background"
-																					value "GuiGroupDef"
+																					key "bg"
+																					value "GuiImageDef"
 																					{
-																						children
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
 																						{
-																							Pair_String_GuiDef2
-																							{
-																								key "bg"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_left_neutral"
-																									id "bg"
-																									z_order "4.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_center"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_center_neutral"
-																									id "bg_center"
-																									margin
-																									{
-																										x "88.000"
-																										z "88.000"
-																									}
-
-																									size_mode_x "2"
-																									z_order "3.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_right"
-																								value "GuiImageDef"
-																								{
-																									error_material "gui/default"
-																									material "gui/menu/buttons/mod_select_btn_right_neutral"
-																									alignment "top_right"
-																									anchor "top_right"
-																									id "bg_right"
-																									z_order "1.000"
-																								}
-
-																							}
-
+																							tooltip_def
 																						}
 
-																						id "background"
-																						size
+																						z_order "4.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
 																						{
-																							x "500.000"
-																							y "50.000"
+																							x "88.000"
+																							z "88.000"
 																						}
 
 																						size_mode_x "2"
-																						size_mode_y "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1.000"
 																					}
 
 																				}
 
 																			}
 
-																			id "neutral"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500.000"
+																				y "50.000"
+																			}
+
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1.000"
 																		}
 
 																	}
@@ -5975,6 +6744,11 @@ GuiRootGroupDef
 
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -6001,6 +6775,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_neutral"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -6021,6 +6800,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -6036,7 +6820,26 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
 																					}
 
 																				}
@@ -6052,6 +6855,11 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																		}
 
 																	}
@@ -6071,6 +6879,11 @@ GuiRootGroupDef
 																						error_material "gui/default"
 																						material "gui/menu/buttons/mod_select_btn_left_selection"
 																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "4.000"
 																					}
 
@@ -6091,6 +6904,11 @@ GuiRootGroupDef
 																						}
 
 																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "3.000"
 																					}
 
@@ -6106,6 +6924,11 @@ GuiRootGroupDef
 																						alignment "top_right"
 																						anchor "top_right"
 																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
 																						z_order "1.000"
 																					}
 
@@ -6122,6 +6945,112 @@ GuiRootGroupDef
 
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "2.000"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88.000"
+																							z "88.000"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3.000"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1.000"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500.000"
+																				y "50.000"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1.000"
 																		}
 
 																	}
@@ -6136,6 +7065,11 @@ GuiRootGroupDef
 
 																size_mode_x "2"
 																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 															}
 
 														}
@@ -6157,6 +7091,11 @@ GuiRootGroupDef
 																			id "icon"
 																			size_mode_x "2"
 																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
 																			z_order "136.000"
 																		}
 
@@ -6177,12 +7116,13 @@ GuiRootGroupDef
 																id "new"
 																margin
 																{
-																	x "28.000"
+																	x "14.000"
+																	z "14.000"
 																}
 
 																offset
 																{
-																	x "6.000"
+																	x "36.000"
 																	y "6.000"
 																}
 
@@ -6192,51 +7132,36 @@ GuiRootGroupDef
 																	y "16.000"
 																}
 
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
 																z_order "5.000"
 															}
 
 														}
 
-														Pair_String_GuiDef2
+													}
+
+													bindings
+													{
+														is_activated
 														{
-															key "time"
-															value "GuiImageDef"
+															model_field "is_activated"
+														}
+
+														node.cursor_on_select
+														{
+															model_field "disassembly"
+															converter "GuiModelMapConverter"
 															{
-																error_material "gui/default"
-																material "gui/menu/inventory/stat_icons/dmg_time_icon"
-																stretch_proportional "1"
-																alignment "left"
-																anchor "left"
-																bindings
+																map
 																{
-																	visible
-																	{
-																		model_field "timer"
-																	}
-
+																	1 "materials/scripts/rb_hammer.cursor"
+																	0
 																}
 
-																id "time"
-																margin
-																{
-																	x "38.000"
-																	y "5.000"
-																}
-
-																offset
-																{
-																	y "-5.000"
-																}
-
-																scale
-																{
-																	x "0.600"
-																	y "0.600"
-																}
-
-																size_mode_x "2"
-																size_mode_y "2"
-																z_order "6.000"
 															}
 
 														}
@@ -6258,6 +7183,11 @@ GuiRootGroupDef
 													}
 
 													size_mode_x "2"
+													tooltip_def
+													{
+														tooltip_def
+													}
+
 												}
 
 											}
@@ -6990,7 +7920,79 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "disassembly"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "1"
+					}
+
+				}
+
+				key "rarity"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Ice damage"
+					}
+
+				}
+
+				key "stat_name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "+25%"
+					}
+
+				}
+
+				key "stat_value"
+			}
+
+		}
+
 		handle "[384F4C93-1919-4E66-8C3E-84BF85D91152]"
 	}
 

@@ -3,52 +3,6 @@ GuiRootGroupDef
 	full_screen "5"
 	shortcuts
 	{
-		Pair_GuiInputCode_String
-		Pair_GuiInputCode_String
-		{
-			key "1"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "2"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "3"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "4"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "5"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "6"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "7"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "8"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "9"
-		}
-
 	}
 
 	children
@@ -351,12 +305,6 @@ GuiRootGroupDef
 												key "text"
 												value "GuiTextBoxDef"
 												{
-													max_size
-													{
-														x "284.000"
-														y "236.000"
-													}
-
 													content "COMMON_Text_Line"
 													style
 													{
@@ -388,6 +336,12 @@ GuiRootGroupDef
 													style_name "building_type"
 													translate "1"
 													id "text"
+													max_size
+													{
+														x "284.000"
+														y "236.000"
+													}
+
 													offset
 													{
 														x "15.000"
@@ -581,12 +535,6 @@ GuiRootGroupDef
 															key "content"
 															value "GuiTextBoxDef"
 															{
-																max_size
-																{
-																	x "262.000"
-																	y "51.000"
-																}
-
 																content "COMMON_Text_Line"
 																style
 																{
@@ -617,6 +565,12 @@ GuiRootGroupDef
 																translate "1"
 																alignment "left"
 																id "content"
+																max_size
+																{
+																	x "262.000"
+																	y "51.000"
+																}
+
 																offset
 																{
 																	x "8.000"
@@ -1178,11 +1132,6 @@ GuiRootGroupDef
 																}
 
 																id "MOD_2"
-																offset
-																{
-																	x "31.000"
-																}
-
 																scale
 																{
 																	x "0.500"
@@ -1395,11 +1344,6 @@ GuiRootGroupDef
 																}
 
 																id "MOD_3"
-																offset
-																{
-																	x "62.000"
-																}
-
 																scale
 																{
 																	x "0.500"
@@ -1419,11 +1363,14 @@ GuiRootGroupDef
 
 													}
 
+													container_type "1"
+													alignment "top_right"
+													anchor "top_right"
 													id "augments"
 													offset
 													{
-														x "211.000"
-														y "-1.000"
+														x "-5.000"
+														y "2.000"
 													}
 
 													size
@@ -1432,6 +1379,8 @@ GuiRootGroupDef
 														y "34.000"
 													}
 
+													size_mode_x "1"
+													size_mode_y "1"
 													z_order "36.000"
 												}
 
@@ -1511,6 +1460,27 @@ GuiRootGroupDef
 
 													style_name "resource_white"
 													translate "1"
+													bindings
+													{
+														content
+														{
+															model_field "building_name"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "gui/menu/category/mods"
+																map
+																{
+																	flora_cultivator_lvl_3 "gui/hud/saplings_header"
+																	flora_cultivator_lvl_2 "gui/hud/saplings_header"
+																	flora_cultivator "gui/hud/saplings_header"
+																}
+
+															}
+
+														}
+
+													}
+
 													id "label"
 													offset
 													{
@@ -1746,7 +1716,6 @@ GuiRootGroupDef
 																						key "OnShow"
 																						value
 																						{
-																							event_name "OnShow"
 																							script
 																							{
 																								children
@@ -1764,7 +1733,6 @@ GuiRootGroupDef
 
 																											}
 
-																											type "gui_play_anim"
 																										}
 
 																									}
@@ -1772,10 +1740,6 @@ GuiRootGroupDef
 																								}
 
 																								cmd
-																								{
-																									type "unsupported"
-																								}
-
 																							}
 
 																						}
@@ -2435,5 +2399,21 @@ GuiRootGroupDef
 	}
 
 	z_order "1.000"
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[9C7ABF9D-5B3C-45FF-8C04-1B26C13A78A4]"
+	}
+
 }
 

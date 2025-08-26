@@ -9,7 +9,9 @@ end
 
 function baxmoth:OnInit()
 	self.wreck_type = "wreck_big"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 1
 end
 
 return baxmoth

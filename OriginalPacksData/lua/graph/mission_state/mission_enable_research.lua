@@ -10,7 +10,7 @@ end
 function mission_enable_research:Activated()							
 	self.research = self.data:GetString("research_name")
 	LogService:Log( "Unlock research = " .. self.research )
-	PlayerService:EnableResearch( self.research )
+	PlayerService:EnableResearch(PlayerService:GetLeadingPlayer(), self.research )
 	self:SetFinished()	
 end
 

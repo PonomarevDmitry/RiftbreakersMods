@@ -2,6 +2,12 @@ EntityBlueprint
 {
 	name  "props/special/interactive/comet_impact_site"
 	
+	MeshDesc
+	{
+		mesh "meshes/props/rocks/metallic_mineral/metallic_mineral_debris_02.mesh"
+		material "props/rocks/metallic_mineral/metallic_mineral_debris"
+	}	
+	
 	TreasureComponent
     {
         bp      "spawners/loot_spawner"
@@ -12,6 +18,7 @@ EntityBlueprint
             blueprint 	    string:"items/loot/resources/meteorite_fragment_item"
             min   	 	    int:"1"
             max   	 	    int:"1"
+            force_add       int:"1"
         }
     }	
 
@@ -24,6 +31,34 @@ EntityBlueprint
 			y		3
 			z		3
 			
+		}
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/alien_comet_shadow_caster_blue"
+                    offset "0 4 0"
+                }
+                Effect
+                {
+                    blueprint "weather/alien_comet_dead_local"
+                    offset "0 1 0"
+                }				
+            }
+        }
+    }	
+	children
+	{
+		EntityBlueprint
+		{
+		    base_blueprint "logic/spawn_objective_prefab_alien_comet"
 		}
 	}	
 }

@@ -35,6 +35,11 @@ function anoryxian_base:OnInit()
 	self.BossHeartExposeStart	= "BossHeartExposeStart"
 	self.BossHeartExposeEnd		= "BossHeartExposeEnd"
 
+	self.healthSetup = 
+	{
+
+	}
+
 	self.config = 
 	{
 
@@ -159,6 +164,30 @@ function anoryxian_base:OnInit()
 	self:CreateShield( "is_shield_slow" )
 end
 
+function anoryxian_base:SetupDifficulty()
+
+	self:HealthSetup()
+
+	local creaturesDifficulty = CampaignService:GetCreaturesBaseDifficulty()
+
+	local health = HealthService:GetMaxHealth( self.entity )
+	local playersCount = #PlayerService:GetConnectedPlayers();
+
+	LogService:Log( "anoryxian_base:SetupDifficulty() Current health : " .. health )
+	LogService:Log( "anoryxian_base:SetupDifficulty() Creatures difficulty : " .. creaturesDifficulty )
+	LogService:Log( "anoryxian_base:SetupDifficulty() Players count : " .. playersCount )
+
+    local diff = math.max( 1, math.min( math.floor( creaturesDifficulty ), 10 ) )
+    local players = math.max( 1, math.min( playersCount, 4 ) )
+
+	local newHealth = self.healthSetup[diff][players]
+
+	LogService:Log( "anoryxian_base:SetupDifficulty() Adjusted health : " .. newHealth )
+
+	HealthService:SetMaxHealth( self.entity, newHealth )
+	HealthService:SetHealth( self.entity, newHealth )
+end
+
 function anoryxian_base:OnLoad()
 
 	LogService:Log( "anoryxian_base:OnLoad()" )
@@ -259,6 +288,13 @@ function anoryxian_base:OnEnterDead( state )
 	MissionService:DeactivateMissionFlow( self.bossFightFile )
 	self.bossOutroFile = MissionService:ActivateMissionFlow( "",  self.config.outroLogicFile , "default" )
 	self.isDead = true
+
+	local towersToDestroy = FindService:FindEntitiesByType( "tower" )
+    for tower in Iter( towersToDestroy ) do
+		if ( UnitService:IsOnArena( tower ) ) then
+			EntityService:DissolveEntity( tower, 0.5 )
+		end
+    end
 
 	self:ClearAfterDeath()
 end
@@ -780,6 +816,7 @@ function anoryxian_base:OnLuaGlobalEvent( evt )
 		CameraService:SetTargetDistance( cameraId, self.config.cameraDistance )
 		self.bossIntroFile = MissionService:ActivateMissionFlow( "",  self.config.introLogicFile , "default" )
 		self:DisableBuildMode()
+		self:SetupDifficulty()
 		CampaignService:OperateDOMPlanetaryJump( false )
 		GuiService:EnableMinimapInterference()
 	elseif 	( eventName == self.BossIntroDefenseDown ) then

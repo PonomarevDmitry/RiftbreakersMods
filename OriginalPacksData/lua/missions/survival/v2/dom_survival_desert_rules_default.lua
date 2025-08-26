@@ -19,8 +19,18 @@ return function()
 		{ action = "full_ammo", type = "POSITIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 2 },
 		{ action = "remove_ammo", type = "NEGATIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 2 },
 		{ action = "boss_attack", type = "NEGATIVE", gameStates = "ATTACK|STREAMING", minEventLevel = 4 },
-		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 3, logicFile="logic/event/shegret_attack.logic", weight = 3 },
-		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/event/shegret_attack.logic", weight = 3 },
+		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 2, maxEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "normal" } },
+		{ action = "shegret_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, maxEventLevel = 4, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "normal" } },
+		{ action = "shegret_attack_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 5, maxEventLevel = 7, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "hard" } },
+		{ action = "shegret_attack_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 5, maxEventLevel = 7, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "hard" } },
+		{ action = "shegret_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "shegret_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/shegret_attack.logic", weight = 3, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "kermon_attack", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "normal" } },
+		{ action = "kermon_attack", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 4, maxEventLevel = 5, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "normal" } },
+		{ action = "kermon_attack_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 6, maxEventLevel = 7, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "hard" } },
+		{ action = "kermon_attack_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 6, maxEventLevel = 7, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "hard" } },
+		{ action = "kermon_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "very_hard" } },
+		{ action = "kermon_attack_very_hard", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 8, maxEventLevel = 9, logicFile="logic/event/kermon_attack.logic", weight = 1, bindingParams = { attack_strength = "very_hard" } },
 		{ action = "spawn_earthquake", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 2, logicFile="logic/weather/earthquake.logic", minTime = 30, maxTime = 60 },
 		{ action = "spawn_earthquake", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 2, logicFile="logic/weather/earthquake.logic", minTime = 30, maxTime = 60 },
 		{ action = "spawn_solar_burn", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/solar_burn.logic", minTime = 15, maxTime = 30, weight = 4 },
@@ -36,11 +46,7 @@ return function()
 		{ action = "spawn_dust_storm", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/dust_storm.logic", minTime = 60, maxTime = 120, weight = 2 },
 		{ action = "spawn_dust_storm", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/dust_storm.logic", minTime = 60, maxTime = 120, weight = 2 },
 		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60 },
-		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60 },
-		--{ action = "spawn_tornado_near_player", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/tornado_near_player.logic" },
-		--{ action = "spawn_tornado_near_player", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/tornado_near_player.logic" },
-		--{ action = "spawn_tornado_near_base", type = "NEGATIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 1, logicFile="logic/weather/tornado_near_base.logic" },
-		--{ action = "spawn_tornado_near_base", type = "NEGATIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 1, logicFile="logic/weather/tornado_near_base.logic" },
+		{ action = "spawn_ion_storm", type = "POSITIVE", gameStates="IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/ion_storm.logic", minTime = 30, maxTime = 60 },		
 		{ action = "spawn_resource_comet", type = "POSITIVE", gameStates = "IDLE|STREAMING", minEventLevel = 3, logicFile="logic/weather/resource_comet.logic"  },
 		{ action = "spawn_resource_comet", type = "POSITIVE", gameStates = "IDLE|NO_STREAMING", minEventLevel = 3, logicFile="logic/weather/resource_comet.logic"  },
 		{ action = "spawn_resource_earthquake", type = "POSITIVE", gameStates="ATTACK|IDLE|STREAMING", minEventLevel = 4, logicFile="logic/weather/resource_earthquake.logic" },
@@ -51,7 +57,60 @@ return function()
 
 	rules.addResourcesOnRunOut = 
 	{
-
+		{ name = "carbon_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
+		{ name = "iron_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
+	}
+	
+	rules.creatureDifficultyIncrementPerDOMDifficulty =
+	{
+		[1] =
+		{	
+			0,	 -- initial difficulty
+			0, -- difficulty level 2
+			0, -- difficulty level 3	
+			0, -- difficulty level 4
+			0, -- difficulty level 5
+			0.5, -- difficulty level 6
+			0.5, -- difficulty level 7
+			0.5, -- difficulty level 8
+			1.5, -- difficulty level 9
+		},
+		[2] =
+		{	
+			0, -- initial difficulty
+			2, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			0, -- difficulty level 9
+		},
+		[3] =
+		{	
+			2,	 -- initial difficulty
+			0, -- difficulty level 2
+			1, -- difficulty level 3	
+			0, -- difficulty level 4
+			1, -- difficulty level 5
+			0, -- difficulty level 6
+			1, -- difficulty level 7
+			0, -- difficulty level 8
+			1, -- difficulty level 9
+		},
+		[4] =
+		{	
+			2,	 -- initial difficulty
+			1, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			1, -- difficulty level 9
+		},
 	}
 
 	rules.timeToNextDifficultyLevel = 
@@ -82,19 +141,19 @@ return function()
 
 	rules.buildingsUpgradeStartsLogic = 
 	{			
-		{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
-		{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
-		{ name = "headquarters_lvl_4", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
+		--{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
+		--{ name = "headquarters_lvl_4", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
 	}
 
 	rules.objectivesLogic = 
 	{
-		{ name = "logic/objectives/kill_elite.logic", minDifficultyLevel = 3 },
+		{ name = "logic/objectives/kill_elite_dynamic.logic", minDifficultyLevel = 3 },
 		{ name = "logic/objectives/destroy_nest_mushbit_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 6 }, 
-		{ name = "logic/objectives/destroy_nest_mushbit_multiple.logic", minDifficultyLevel = 3 } 
+		{ name = "logic/objectives/destroy_nest_mushbit_multiple.logic", minDifficultyLevel = 6 } 
 	}
 
 	rules.cooldownAfterAttacks = 
@@ -164,38 +223,38 @@ return function()
 		{
 			 -- difficulty level 1		
 			{ 
-				"logic/missions/survival/attack_level_1_id_1_desert.logic",
-				"logic/missions/survival/attack_level_1_id_2_desert.logic",
+				{ name = "logic/missions/survival/attack_level_1_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
+				{ name = "logic/missions/survival/attack_level_1_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
 			},
 	
 			 -- difficulty level 2
 			{ 			
-				"logic/missions/survival/attack_level_2_id_1_desert.logic",
-				"logic/missions/survival/attack_level_2_id_2_desert.logic",
+				{ name = "logic/missions/survival/attack_level_2_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
+				{ name = "logic/missions/survival/attack_level_2_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
 			},
 
 			 -- difficulty level 3
 			{ 
-				"logic/missions/survival/attack_level_3_id_1_desert.logic",
-				"logic/missions/survival/attack_level_3_id_2_desert.logic",
+				{ name = "logic/missions/survival/attack_level_3_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+				{ name = "logic/missions/survival/attack_level_3_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
 			},
 
 			 -- difficulty level 4
 			{ 			
-				"logic/missions/survival/attack_level_4_id_1_desert.logic",
-				"logic/missions/survival/attack_level_4_id_2_desert.logic",
+				{ name = "logic/missions/survival/attack_level_4_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+				{ name = "logic/missions/survival/attack_level_4_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
 			},
 
 			 -- difficulty level 5
 			{ 
-				"logic/missions/survival/attack_level_5_id_1_desert.logic",
-				"logic/missions/survival/attack_level_5_id_2_desert.logic",			
+				{ name = "logic/missions/survival/attack_level_5_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},
+				{ name = "logic/missions/survival/attack_level_5_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},			
 			},
 
 			 -- difficulty level 6
 			{ 
-				"logic/missions/survival/attack_level_6_id_1_desert.logic",
-				"logic/missions/survival/attack_level_6_id_2_desert.logic",			
+				{ name = "logic/missions/survival/attack_level_6_id_1_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},
+				{ name = "logic/missions/survival/attack_level_6_id_2_desert.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},			
 			},
 
 			 -- difficulty level 7
@@ -215,6 +274,89 @@ return function()
 				"logic/missions/survival/attack_level_8_id_1_desert.logic",
 				"logic/missions/survival/attack_level_8_id_2_desert.logic",
 			},
+		},
+	}
+	
+	rules.multiplayerWaves = 
+	{
+		 -- difficulty level 1		
+		{ 
+			additionalWaves = -1, -- Additional Waves count = 1 + additionalWaves - regardless of player number. Multiplayer Additional waves are disabled in single player mode. Check dom_mananger:GetMultiplayerAttackCount for actual code
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
+			}
+		},
+	
+		 -- difficulty level 2
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
+			}
+		},
+		 -- difficulty level 3
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+			}
+		},
+
+		 -- difficulty level 4
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+			}
+		},
+
+		 -- difficulty level 5
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},
+			}
+		},
+
+		 -- difficulty level 6
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},
+			}
+		},
+
+		 -- difficulty level 7
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 8
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 9
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
 		},
 	}
 
@@ -279,65 +421,47 @@ return function()
 	{
 		 -- difficulty level 1		
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 	
 		 -- difficulty level 2
-		{ 			
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+		{ 
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 3
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 4
-		{ 			
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+		{ 
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 5
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",	
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 6
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",		
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 7
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 8
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 
 		 -- difficulty level 9
 		{ 
-			"logic/missions/survival/attack_boss_stregaros.logic",
-			"logic/missions/survival/attack_boss_gnerot.logic",
-			"logic/missions/survival/attack_boss_krocoon.logic",
+			"logic/missions/survival/attack_boss_dynamic.logic",			
 		},
 	}
 

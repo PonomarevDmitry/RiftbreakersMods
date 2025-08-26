@@ -503,6 +503,30 @@ EntityBlueprint
 			}
 		}
 	}
+
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"6000"
+					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
+					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
+					part_effect 			"effects/enemies_generic/blood_trail_dust"
+					part_material 			"props/rocks/jagged/jagged_small_01_05"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "rocks"
+			}
+		}		
+	}
 }
 
 EntityBlueprint
@@ -531,32 +555,7 @@ EntityBlueprint
 				}
 			}
 		}
-	}
-
-	DestroyDesc
-	{
-		DestroyPatterns
-		{
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"10000"
-					explosion_min_power 	"10000"
-					//explosion_effect 		"effects/weapons_explosive/explosion_atomic"	
-					part_prefix 			"meshes/projectiles/gnerot/rock_debris"
-					part_effect 			"effects/enemies_generic/blood_trail_dust"
-					part_material 			"props/rocks/jagged/jagged_small_01_05"
-					part_physics_material   "gibs_heavy"					
-				}
-
-				key "rocks"
-			}
-		}		
-	}
-
-	
+	}	
 }
 
 EntityBlueprint
@@ -583,6 +582,8 @@ EntityBlueprint
 		stagger_cooldown				"2.0"
 		stagger_long_cooldown			"4.0"
 		stun_cooldown					"20"
+		
+		force_stagger_chance 			"0.1"
 	}
 
 	TypeDesc
@@ -642,7 +643,8 @@ EntityBlueprint
 			y "4"
 		}
 		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -653,7 +655,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -999,7 +1002,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 9 0"
+					offset "0 9.5 0"
 					scale "1 1 1"
 				}
 			}

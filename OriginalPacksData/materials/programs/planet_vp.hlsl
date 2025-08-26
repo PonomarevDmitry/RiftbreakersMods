@@ -18,7 +18,7 @@ struct VS_INPUT
     float2 TexCoord         : TEXCOORD0;
 #if USE_HW_SKINNING
     float4 BlendWeights     : BLENDWEIGHT;
-    int4   BlendIndices     : BLENDINDICES;
+    uint4  BlendIndices     : BLENDINDICES;
 #endif
 };
 

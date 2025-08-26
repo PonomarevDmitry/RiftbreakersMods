@@ -8,21 +8,20 @@ function arachnoid_sentinel_base:__init()
 end
 
 function arachnoid_sentinel_base:OnInit()
-	self.item = nil
+	
+	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
+
 	self.wreck_type = "wreck_big"
 	self.wreckMinSpeed = 4
+	self.disallowDeathAnim = "death_3"
 
-	local itemsString = self.data:GetStringOrDefault( "items" , "" )
-	if ( itemsString ~= "" ) then
-		local items = Split( itemsString, "," )
-		local v = RandInt( 1, #items)
-		self.item = items[v];	
-		
-		if ( self.item ~= nil ) then
-			self.stingItem = ItemService:AddItemToInventory( self.entity, self.item )
-			ItemService:EquipItemInSlot( self.entity, self.stingItem, "STING" )
-		end
-	end
+	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+end
+
+function arachnoid_sentinel_base:OnShootEvent( evt )
+
+	WeaponService:ShootOnce( self.entity )
+
 end
 
 return arachnoid_sentinel_base

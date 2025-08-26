@@ -96,9 +96,15 @@ function waller:OnCreateEnter( state )
     for _, point in ipairs(translatedPoints) do
         local spawnOrigin = { x = point.x, y = origin.y, z = point.y }
 
-        if ( UnitService:IsOnNavigationFreeSpace( spawnOrigin ) == true ) then
-            EntityService:SpawnEntity( self.wallBp, spawnOrigin.x, spawnOrigin.y - undergroundOffset, spawnOrigin.z, "" )
+        if ( UnitService:IsOnNavigationStatic( spawnOrigin ) == false ) then
+            local wall = EntityService:SpawnEntity( self.wallBp, spawnOrigin.x, spawnOrigin.y - undergroundOffset, spawnOrigin.z, "" )
+		    
+            local dynamicSpace = UnitService:IsOnNavigationDynamic( spawnOrigin )
+
+            local db = EntityService:GetDatabase( wall )
+            db:SetInt( "dynamic_space", dynamicSpace and 1 or 0 )
         end
+       
     end
 end
 

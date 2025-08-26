@@ -2,7 +2,7 @@ class 'logic_set_local_variable' ( LuaGraphNode )
 require("lua/utils/table_utils.lua")
 
 function logic_set_local_variable:__init()
-    LuaGraphNodeSelector.__init(self, self)
+    LuaGraphNode.__init(self, self)
 end
 
 function logic_set_local_variable:init()	

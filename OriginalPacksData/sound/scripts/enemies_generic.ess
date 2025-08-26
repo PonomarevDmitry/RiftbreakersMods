@@ -14,6 +14,7 @@ sound enemies/generic/wave_start
 	looping				0
 	rolloffFactor		5
 	referenceDistance	100
+	spacial				0
 	group				"enemy_ambient"
 
 	description			"scary growls of many incoming monsters"
@@ -35,6 +36,7 @@ sound enemies/generic/wave_start_spline
 	looping				0
 	rolloffFactor		5
 	referenceDistance	100
+	spacial				0
 	group				"enemy_ambient"
 
 	description			"warning sound, wave of mosters incoming from a ceiling in caverns or a tree in a swamp biome"
@@ -220,7 +222,7 @@ sound enemies/generic/crystal_enemy_damaged
     gain                0.5
     looping             0
     streaming			0
-	
+	instance_limit		5
 	freq_ratio_spread	0.2
 	freq_ratio			0.8
 
@@ -245,7 +247,7 @@ sound enemies/generic/rocky_enemy_damaged
     gain                0.6
     looping             0
     streaming			0
-
+	instance_limit		5
 	group				"enemy_attack"
     rolloffFactor		7
     referenceDistance	40
@@ -265,10 +267,10 @@ sound enemies/generic/metal_enemy_damaged
 		//audio_file          sound/samples/enemies/generic/metal_enemy_damaged_04.wav
 	}
 	
-    gain                0.2
+    gain                0.25
     looping             0
     streaming			0
-
+	instance_limit		5
 	group				"enemy_attack"
     rolloffFactor		7
     referenceDistance	40
@@ -290,8 +292,8 @@ sound enemies/generic/wooden_enemy_damaged
     gain                0.4
     looping             0
     streaming			0
-	//instance_limit		8
-
+	instance_limit		5
+	
 	group				"enemy_attack"
     rolloffFactor		7
     referenceDistance	40
@@ -527,3 +529,81 @@ sound enemies/generic/enemy_death_acid
 	status				"beta"
 }
 
+
+////////////////// ENEMY SKILLS //////////////
+
+sound enemy_skills/lightning_cascade_explosion
+{
+	random_file
+	{
+        audio_file          sound/samples/enemies/generic/lightning_explosion_01.wav
+        audio_file          sound/samples/enemies/generic/lightning_explosion_02.wav
+	}
+	
+    gain              	0.45
+    looping             0
+    //streaming			1
+	instance_limit		15
+	
+	freq_ratio_spread	0.2
+
+	group				"enemy_attack"
+    rolloffFactor		20
+    referenceDistance	45
+	
+	description			"explosion spawned in a place struck by a big lightning attack"
+	notes				""
+	status				"beta"
+}
+
+sound enemies/generic/enemy_skills/cryo_orb_spawn
+{
+	random_file
+	{
+        audio_file      sound/samples/enemies/generic/cryo_orb_spawn_01.wav
+        audio_file      sound/samples/enemies/generic/cryo_orb_spawn_02.wav
+        audio_file      sound/samples/enemies/generic/cryo_orb_spawn_03.wav
+        audio_file      sound/samples/enemies/generic/cryo_orb_spawn_04.wav
+      
+	}
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	//freq_ratio			0.6
+	freq_ratio_spread	 0.02
+
+	group				"enemy_attack"
+	rolloffFactor		5
+	referenceDistance	50
+	
+	description			"cryo orb spawn"
+	notes				""
+	status				"placeholder"
+}
+
+sound enemies/generic/enemy_skills/fireball_spawn
+{
+	random_file
+	{
+        audio_file      sound/samples/enemies/generic/fireball_spawn_01.wav
+        audio_file      sound/samples/enemies/generic/fireball_spawn_02.wav
+        audio_file      sound/samples/enemies/generic/fireball_spawn_03.wav
+        audio_file      sound/samples/enemies/generic/fireball_spawn_04.wav
+        audio_file      sound/samples/enemies/generic/fireball_spawn_05.wav 
+	}
+    gain                0.8
+    looping             0
+    streaming			0
+	
+	//freq_ratio			0.6
+	freq_ratio_spread	 0.02
+
+	group				"enemy_attack"
+	rolloffFactor		5
+	referenceDistance	50
+	
+	description			"fireball spawn"
+	notes				""
+	status				"placeholder"
+}

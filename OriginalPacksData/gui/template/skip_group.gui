@@ -1,0 +1,250 @@
+GuiRootGroupDef
+{
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "skip"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "arrows"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "arrow"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/buttons/queue_arrow_up_neutral"
+										alignment "center"
+										anchor "center"
+										id "arrow"
+										offset
+										{
+											x "2.000"
+										}
+
+										rotation "90.000"
+										z_order "2.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "arrow2"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/buttons/queue_arrow_up_neutral"
+										alignment "center"
+										anchor "center"
+										id "arrow2"
+										offset
+										{
+											x "8.000"
+										}
+
+										rotation "90.000"
+										z_order "3.000"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							anchor "center"
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												mask "32"
+											}
+
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-0.500"
+												}
+
+												frame_number "15"
+												mask "32"
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "30"
+												mask "32"
+											}
+
+										}
+
+										name "Idle"
+									}
+
+								}
+
+							}
+
+							id "arrows"
+							item_scripts
+							{
+								scripts
+								{
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnShow"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															animations
+															{
+																Idle
+																{
+																	String
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "2.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "image"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/hud/building_timer_bg"
+							alignment "center"
+							anchor "center"
+							id "image"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "skip_bar"
+						value "GuiCircleBarDef"
+						{
+							error_material "gui/default"
+							material "gui/hud/bars/building_timer"
+							alignment "center"
+							anchor "center"
+							bindings
+							{
+								angle
+								{
+									model_field "skip_progress"
+								}
+
+							}
+
+							id "skip_bar"
+							z_order "1.000"
+						}
+
+					}
+
+				}
+
+				alignment "top_right"
+				anchor "top_right"
+				bindings
+				{
+					visible
+					{
+						model_field "skip_progress"
+						converter "GuiModelCompareConverter"
+						{
+							compare_operator "gt"
+							ref_value "0"
+						}
+
+					}
+
+				}
+
+				id "skip"
+				margin
+				{
+					y "50.000"
+					z "50.000"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+			}
+
+		}
+
+	}
+
+	id "gui/template/skip_group"
+	size
+	{
+		x "1920.000"
+		y "1080.000"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[45461B22-9D40-4DE9-97F6-7E99418AE5F5]"
+	}
+
+}
+

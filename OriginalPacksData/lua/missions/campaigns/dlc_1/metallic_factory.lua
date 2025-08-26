@@ -9,6 +9,8 @@ function mission_metallic_factory:__init()
 end
 
 function mission_metallic_factory:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_1/metallic_factory.logic", "default" )

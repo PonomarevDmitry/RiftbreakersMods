@@ -32,6 +32,10 @@ function danger_marker:init()
     	local scale = EntityService:GetScale( self.entity )
     	EntityService:SetScale( self.entity, scale.x, 7.0, scale.z )		
 	end
+
+	if database:HasFloat( "override_angle" ) then
+		self.angle =  database:GetFloat( "override_angle" )
+	end
 end
 
 function danger_marker:OnEnter( state )
@@ -41,6 +45,11 @@ end
 function danger_marker:OnExecute( state )
 	local currentProgress = ( state:GetDuration() / self.lifeTime )
 	EntityService:SetGraphicsUniform( self.entity, "cProgress", currentProgress )
+
+	if ( self.angle ~= nil ) then
+		EntityService:SetGraphicsUniform( self.entity, "cAngle", self.angle )
+	end
+	
 end
 
 function danger_marker:OnExit( state )

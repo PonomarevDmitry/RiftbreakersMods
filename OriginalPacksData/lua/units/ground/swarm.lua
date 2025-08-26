@@ -49,8 +49,36 @@ function swarm:OnInit()
 	self:_OnInit()
 end
 
+function swarm:GetRandomPositionOnBounds( radius )
+
+    local angle = math.random() * 2 * math.pi  
+
+    
+	local origin = EntityService:GetPosition( self.entity )
+	origin.x = origin.x + radius * math.cos( angle )
+	origin.z = origin.z + radius * math.sin( angle )
+
+    return { x = origin.x, y = origin.y, z = origin.z } 
+end
+
 function swarm:CreateChild()
-	local entity = EntityService:SpawnEntity( self.data:GetString( "child_bp" ), self.entity, "wave_enemy" )
+	
+	local originToSpawn = {}
+
+	if EntityService:HasComponent( self.entity, "NavMeshMovementComponent" ) or EntityService:HasComponent( EntityService:GetParent( self.entity ), "NavMeshMovementComponent" ) then
+		originToSpawn = EntityService:GetPosition( self.entity )
+	else
+		local boundsEntity = EntityService:GetParent( self.entity )
+
+		if ( boundsEntity == INVALID_ID ) then
+			boundsEntity = self.entity
+		end	
+
+		local size = EntityService:GetBoundsSize( boundsEntity )
+		originToSpawn = self:GetRandomPositionOnBounds( Length( size ) * 0.25 )
+	end
+
+	local entity = EntityService:SpawnEntity( self.data:GetString( "child_bp" ), originToSpawn.x, originToSpawn.y, originToSpawn.z, "wave_enemy" )
 	UnitService:SetInitialState( entity, UNIT_AGGRESSIVE )
 	UnitService:SetNavMeshMoveToTarget( entity, self.entity )
 	QueueEvent( "SetBaseMovementDataRequest", entity, self.childSpeed, self.childSpeed )
@@ -257,7 +285,7 @@ function swarm:_OnDestroyRequest( evt )
 			EffectService:DestroyEffectsByGroup( self.healTo[i].entity, self.healEffect );
 		end
 
-		EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
+		EntityService:RequestDestroyPattern( self.entity, "wreck" )	
     end
 end
 

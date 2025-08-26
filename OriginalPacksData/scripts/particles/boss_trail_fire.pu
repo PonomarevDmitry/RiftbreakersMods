@@ -5,76 +5,11 @@ system rift/boss_trail_fire
     scale                                       0.01 0.01 0.01
     tight_bounding_box                          true
     fade_out                                    true
-    category                                    RIFT
     cache_count                                 30
     technique fire_alpha
     {
-        visual_particle_quota                   200
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/fire_anim_01
-        renderer                                Billboard
-        {
-            render_queue_group                  61
-            texture_coords_rows                 8
-            texture_coords_columns              4
-            billboard_rotation_type             vertex
-        }
-        emitter                                 SphereSurface fire_alpha
-        {
-            emission_rate                       20
-            angle                               5
-            time_to_live                        dyn_random
-            {
-                min                             0.5
-                max                             2.5
-            }
-            velocity                            1
-            all_particle_dimensions             dyn_random
-            {
-                min                             125
-                max                             175
-            }
-            start_colour_range                  1 0.501961 0 1
-            end_colour_range                    1 1 0 1
-            radius                              120
-        }
-        affector                                Colour Affector26
-        {
-            time_colour                         0    0 0 0 0
-            time_colour                         0.5  0.7 0.7 0.7 0.34902
-            time_colour                         1    0 0 0 0
-        }
-        affector                                TextureRotator Affector15
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -180
-                max                             180
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             -1
-                max                             1
-            }
-        }
-        affector                                TextureAnimator Affector12
-        {
-            end_texture_coords_range            31
-            texture_start_random                false
-        }
-        affector                                LinearForce Affector2525
-        {
-            force_vector                        0 150 0
-        }
-    }
-    technique fire_alpha
-    {
         keep_local                              true
-        visual_particle_quota                   200
+        visual_particle_quota                   50
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -89,7 +24,7 @@ system rift/boss_trail_fire
         }
         emitter                                 SphereSurface fire_alpha
         {
-            emission_rate                       20
+            emission_rate                       15
             angle                               5
             time_to_live                        dyn_random
             {
@@ -109,7 +44,7 @@ system rift/boss_trail_fire
         affector                                Colour Affector26
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.5  0.7 0.7 0.7 0.34902
+            time_colour                         0.5  0.7 0.7 0.7 0.124555
             time_colour                         1    0 0 0 0
         }
         affector                                TextureRotator Affector15
@@ -138,7 +73,7 @@ system rift/boss_trail_fire
     }
     technique sparks
     {
-        visual_particle_quota                   300
+        visual_particle_quota                   125
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -151,7 +86,7 @@ system rift/boss_trail_fire
         }
         emitter                                 SphereSurface sparks
         {
-            emission_rate                       100
+            emission_rate                       50
             time_to_live                        dyn_random
             {
                 min                             0.5
@@ -180,7 +115,7 @@ system rift/boss_trail_fire
     }
     technique fire_refract
     {
-        visual_particle_quota                   20
+        visual_particle_quota                   15
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -193,6 +128,7 @@ system rift/boss_trail_fire
         }
         emitter                                 SphereSurface fire_add1
         {
+            emission_rate                       8
             angle                               5
             time_to_live                        dyn_random
             {
@@ -212,7 +148,7 @@ system rift/boss_trail_fire
         affector                                Colour Affector26
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.506522  1 1 1 0.74902
+            time_colour                         0.506522  1 1 1 0.309609
             time_colour                         1    0 0 0 0
         }
         affector                                LinearForce Affector25258

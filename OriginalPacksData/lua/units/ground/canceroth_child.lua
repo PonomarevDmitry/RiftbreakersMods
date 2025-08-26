@@ -9,7 +9,9 @@ end
 
 function canceroth_child:OnInit()
 	self.wreck_type = "wreck_small"
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 0
 
 	local speedMin = self.data:GetFloatOrDefault( "min_idle_speed", 0.9 )
 	local speedMax = self.data:GetFloatOrDefault( "max_idle_speed", 1.1 )

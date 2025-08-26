@@ -123,12 +123,12 @@ void main( uint3 groupID : SV_GroupID, uint3 dispatchThreadID  : SV_DispatchThre
 	        {
 	            case POINT_LIGHT:
 	            {
-	            	ComputePointLight( surface, light, uv, lighting );
+	            	ComputePointLight( surface, light, lighting );
 	            }
 	            break;
 	            case SPOT_LIGHT:
 	            {
-	            	ComputeSpotLight( surface, light, uv, lighting );
+	            	ComputeSpotLight( surface, light, lighting );
 	            }
 	            break;
 	            case DIRECTIONAL_LIGHT:

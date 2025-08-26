@@ -7,9 +7,7 @@ function viremoth_wreck:__init()
 end
 
 function viremoth_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 7
+
 end
 
 return viremoth_wreck

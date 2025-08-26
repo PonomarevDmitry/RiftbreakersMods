@@ -195,6 +195,7 @@ EntityBlueprint
 			y "3"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}		
 	
 	EffectDesc
@@ -268,7 +269,7 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 			"600"
+					value 			"400"
 					type			"energy"
 				}
 			}
@@ -319,7 +320,7 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 			"900"
+					value 			"520"
 					type			"energy"
 				}
 			}
@@ -328,57 +329,6 @@ EntityBlueprint
 	LifeTimeDesc
 	{
 		time 		5.5
-	}	
-}
-
-EntityBlueprint
-{ 
-	name "items/skills/antimatter_ball_extreme"
-	base_blueprint "items/skills/antimatter_ball_base"	
-
-	WeaponItemDesc
-	{
-	}
-
-	BeamWeaponComponent
-	{
-		WeaponMuzzles
-		{
-			WeaponMuzzle
-			{
-				attachment "att_muzzle"
-			}
-		}
-
-		ammo_blueprint				"items/skills/antimatter_ball_lightning_extreme"
-	}
-
-	ProjectileAmmoComponent
-	{
-		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
-		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
-		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
-
-		collision_3d 			"world|world_blocker|world_destructible"
-
-		DamagePattern
-		{
-			area_damage_radius		"10"
-
-			Damages
-			{
-				Damage
-				{
-					value 			"1500"
-					type			"energy"
-				}
-			}
-		}
-	}
-	
-	LifeTimeDesc
-	{
-		time 		6.5
 	}	
 }
 
@@ -420,7 +370,7 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 			"1200"
+					value 			"660"
 					type			"energy"
 				}
 			}
@@ -430,6 +380,57 @@ EntityBlueprint
 	LifeTimeDesc
 	{
 		time 		6
+	}	
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/antimatter_ball_extreme"
+	base_blueprint "items/skills/antimatter_ball_base"	
+
+	WeaponItemDesc
+	{
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		ammo_blueprint				"items/skills/antimatter_ball_lightning_extreme"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_world_hit_effect 	"effects/items/antimatter_ball_explosion"
+		on_resisted_hit_effect 	"effects/items/antimatter_ball_explosion"
+
+		collision_3d 			"world|world_blocker|world_destructible"
+
+		DamagePattern
+		{
+			area_damage_radius		"10"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"800"
+					type			"energy"
+				}
+			}
+		}
+	}
+	
+	LifeTimeDesc
+	{
+		time 		6.5
 	}	
 }
 
@@ -479,7 +480,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "items/skills/antimatter_ball_lightning_extreme"
+	name  "items/skills/antimatter_ball_lightning_superior"
 
 	LightningBeamComponent
 	{
@@ -501,7 +502,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "items/skills/antimatter_ball_lightning_superior"
+	name  "items/skills/antimatter_ball_lightning_extreme"
 
 	LightningBeamComponent
 	{

@@ -216,7 +216,8 @@ EntityBlueprint
 			y "1"
 		}
 			
-		visibility			"discovered|radar" 
+		visibility		"radar"
+		layer_group		"enemies"
 	}
 
 	LootDesc
@@ -392,6 +393,66 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  "units/ground/creeper_root_survival"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_survival_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_survival_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_survival_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_survival_01"
+
+	base_blueprint "units/ground/creeper_root_survival_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_survival_02"
+
+	base_blueprint "units/ground/creeper_root_survival_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_02.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_survival_03"
+
+	base_blueprint "units/ground/creeper_root_survival_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_03.mesh"
+		material "units/ground/creeper_root_set"
+	}
+}
+
+EntityBlueprint
+{
 	name  "units/ground/creeper_root_acid_scout"
 
 	base_blueprint "units/ground/creeper_root_base"
@@ -411,7 +472,7 @@ EntityBlueprint
 			stop_component   	string:"BurningComponent"
 			spread_interval		float:"1"
 			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
+			spread_child_interval_multiplier float:"1.1"
 			spread_radius		float:"20"
 			initial_spread		float:"2"
 			max_branch_interval float:"1.5"
@@ -447,7 +508,7 @@ EntityBlueprint
 			stop_component   	string:"BurningComponent"
 			spread_interval		float:"1"
 			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
+			spread_child_interval_multiplier float:"1.1"
 			spread_radius		float:"20"
 			initial_spread		float:"2"
 			max_branch_interval float:"1.5"
@@ -530,8 +591,8 @@ EntityBlueprint
 		}
 		
 		additional_z_order	"2"
-			
-		visibility			"discovered|radar"
+		visibility			"radar"
+		layer_group			"enemies"
 	}
 	
 	GridCullerDesc
@@ -704,6 +765,8 @@ EntityBlueprint
 	
 }
 
+
+
 EntityBlueprint
 {
 	name  "units/ground/creeper_root_origin"
@@ -727,11 +790,48 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  "units/ground/creeper_root_origin_survival"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_survival_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_survival_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/creeper_root_origin_survival_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
 	name  "units/ground/creeper_root_origin_01"
 
 	base_blueprints
 	{ 
 		units/ground/creeper_root_origin_base
+		units/ground/creeper_root_origin_base_flammable
+	}
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_survival_01"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base_survival
 		units/ground/creeper_root_origin_base_flammable
 	}
 	MeshDesc
@@ -760,6 +860,23 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name  "units/ground/creeper_root_origin_survival_02"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base_survival
+		units/ground/creeper_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_02.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
 	name  "units/ground/creeper_root_origin_03"
 
 	base_blueprints
@@ -772,6 +889,75 @@ EntityBlueprint
 	{
 		mesh "meshes/units/ground/creeper_root_origin_03.mesh"
 		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_survival_03"
+
+	base_blueprints
+	{ 
+		units/ground/creeper_root_origin_base_survival
+		units/ground/creeper_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_03.mesh"
+		material "units/ground/creeper_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_origin_base_survival"
+
+    base_blueprint "units/ground/creeper_root_origin_base"
+	
+    LuaDesc
+	{
+		script "lua/spawners/spreader_acid.lua"
+				
+		database
+		{
+			blueprint							string:"units/ground/creeper_branch"
+			root_blueprint						string:"units/ground/creeper_root_survival"
+			collision_detection					string:""
+			stop_component   					string:"BurningComponent"
+			spread_interval						float:"0.25"
+			spread_root_interval 				float:"10"
+			spread_child_interval_multiplier 	float:"0.9"
+			spread_radius						float:"15"
+			initial_spread						float:"15"
+			max_branch_interval 				float:"1"
+		}
+	}
+}	
+
+EntityBlueprint
+{
+	name  "units/ground/creeper_root_survival_base"
+
+	base_blueprint "units/ground/creeper_root_base"
+
+    LuaDesc
+	{
+		script "lua/spawners/spreader_acid.lua"
+				
+		database
+		{
+			blueprint							string:"units/ground/creeper_branch"
+			root_blueprint						string:"units/ground/creeper_root_survival"
+			collision_detection					string:""
+			stop_component   					string:"BurningComponent"
+			spread_interval						float:"0.5"
+			spread_root_interval 				float:"10"
+			spread_child_interval_multiplier 	float:"0.98"
+			spread_radius						float:"15"
+			initial_spread						float:"15"
+			max_branch_interval 				float:"1"
+		}
 	}
 }
 
@@ -803,7 +989,7 @@ EntityBlueprint
 			stop_component   	string:"BurningComponent"
 			spread_interval		float:"0.25"
 			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
+			spread_child_interval_multiplier float:"1.1"
 			spread_radius		float:"15"
 			initial_spread		float:"15"
 			max_branch_interval float:"1.5"
@@ -814,6 +1000,15 @@ EntityBlueprint
 	{
 		type "flora"
 	}
+	
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/inagressive_creeper_root"
+		visibility 				"radar"		
+		//additional_z_order	"2"
+		layer_group				"enemies"
+	}	
 }
 
 EntityBlueprint
@@ -865,12 +1060,12 @@ EntityBlueprint
 		database
 		{
 			blueprint			string:"units/ground/creeper_branch"
-			root_blueprint			string:"units/ground/creeper_root"
+			root_blueprint      string:"units/ground/creeper_root"
 			collision_detection	string:""
 			stop_component   	string:"BurningComponent"
 			spread_interval		float:"0.5"
 			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
+			spread_child_interval_multiplier float:"1.1"
 			spread_radius		float:"15"
 			initial_spread		float:"10"
 			max_branch_interval float:"1.5"
@@ -954,10 +1149,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"discovered|radar"		
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/agressive_creeper_root"
+		visibility 				"radar"		
 		//additional_z_order	"2"
+		layer_group				"enemies"
 	}
 
 	HighlightComponent

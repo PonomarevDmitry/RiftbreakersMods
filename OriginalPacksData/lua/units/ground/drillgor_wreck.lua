@@ -8,8 +8,7 @@ end
 
 function drillgor_wreck:initParams()
 	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 0
-	self.leaveBodyProbability = 1
+
 end
 
 return drillgor_wreck

@@ -7,10 +7,7 @@ function artigian_wreck:__init()
 end
 
 function artigian_wreck:initParams()
-	--self.wreckLifetime = 600
 	self.wreckLifetime = 10
-    self.normalExplodeProbability = 0
-	self.leaveBodyProbability = 1
 end
 
 return artigian_wreck

@@ -5,14 +5,18 @@ EntityBlueprint
 	LuaDesc
 	{
 		script "lua/units/ground/spawner.lua"
+		
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.0"
+		}
 	}
 
 	HealthDesc
 	{
 		max_health 					"3000"
 		health 						"3000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
 		update_health_uniform 		"1"
 		//is_manual					"1"
 	
@@ -104,12 +108,12 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.5"
+		physical		"0.1"
 		fire			"0.1"
 		acid			"1.0"
 		energy			"1.0"
-		cryo			"1.0"
-		area			"1.0"	
+		cryo			"3.0"
+		area			"2.0"	
 	}
 
 	UnitsSpawnerDesc
@@ -155,7 +159,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"world_destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
@@ -166,6 +170,20 @@ EntityBlueprint
 					}
 				}
 			}
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/spawner_morirot_c1.nxs"
+					}
+				}
+			}			
 		}
 	}
 	
@@ -192,7 +210,8 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc

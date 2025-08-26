@@ -1,0 +1,292 @@
+EntityBlueprint
+{
+	name "units/skills/cryo_orb"
+
+	NetReplicateOnceComponent
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cryo_orb"
+		description 	"gui/hud/enemy_skill_description/cryo_orb"
+		icon 			"gui/menu/inventory/stat_icons/cryo_orb_aura_icon"
+	}
+
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"45"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/cryo_orb_weapon"
+			warning_bp			string:"effects/enemies_gnerot/spike_warning"
+			warning_radius      float:"5"
+			spawn_min_time		float:"2.5"
+			spawn_max_time		float:"3.0"
+			orbs_in_one_spawn	int:"1"
+			delay_min			float:"0.75"
+			delay_max			float:"1.25"
+			delay_offset		float:"0.0"
+			spread				float:"7"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_lvl_2"
+	base_blueprint	"units/skills/cryo_orb"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cryo_orb_lvl_2"
+		description 	"gui/hud/enemy_skill_description/cryo_orb"
+		icon 			"gui/menu/inventory/stat_icons/cryo_orb_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/cryo_orb_weapon_lvl_2"
+			warning_radius      float:"5"
+			spawn_min_time		float:"1.75"
+			spawn_max_time		float:"2.25"
+			orbs_in_one_spawn	int:"1"
+			delay_min			float:"0.75"
+			delay_max			float:"1.00"
+			delay_offset		float:"0.0"
+			spread				float:"10"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_lvl_3"
+	base_blueprint	"units/skills/cryo_orb"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cryo_orb_lvl_3"
+		description 	"gui/hud/enemy_skill_description/cryo_orb"
+		icon 			"gui/menu/inventory/stat_icons/cryo_orb_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/cryo_orb_weapon_lvl_3"
+			warning_radius      float:"5"
+			spawn_min_time		float:"2.0"
+			spawn_max_time		float:"2.5"
+			orbs_in_one_spawn	int:"2"
+			delay_min			float:"0.75"
+			delay_max			float:"1.00"
+			delay_offset		float:"0.5"
+			spread				float:"12"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_lvl_4"
+	base_blueprint	"units/skills/cryo_orb"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/cryo_orb_lvl_4"
+		description 	"gui/hud/enemy_skill_description/cryo_orb"
+		icon 			"gui/menu/inventory/stat_icons/cryo_orb_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/orb_throw.lua"
+		database
+		{
+			orb_bp				string:"units/skills/cryo_orb_weapon_lvl_4"
+			warning_radius      float:"5"
+			spawn_min_time		float:"2.5"
+			spawn_max_time		float:"3.0"
+			orbs_in_one_spawn	int:"2"
+			delay_min			float:"0.75"
+			delay_max			float:"1.00"
+			delay_offset		float:"0.6"
+			spread				float:"14"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/cryo_orb_weapon"
+
+	MeshDesc
+	{
+		mesh "meshes/projectiles/ice_shard.mesh"
+		material "projectiles/ice_shard"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/units/skills/lightning_orb"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/orb_fly.lua"
+		database
+		{
+			rotate_speed			float:"2.0"
+			life_time				float:"7.0"
+		}			
+	}
+
+
+	TurretDesc
+	{
+		target ""
+		target_ignore "invisible"
+		speed "0"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "20"
+			aiming_range "30"
+		}
+
+		aiming_cooldown "100"
+		aiming_target_time "100"
+		aiming_idle_angle "0"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "0"
+	}
+
+	BeamWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.7"
+			emissive_factor "4"
+			submesh_idx "1"
+		}
+
+		ammo_blueprint				"units/skills/cryo_orb_ammmo"
+
+		fire_effect 				"effects/enemy_skills/cryo_orb_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+	
+	EffectDesc
+    {
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemy_skills/cryo_orb_spawn"
+					offset "0 1 0"
+                }				
+            }
+        }
+    }
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_weapon_lvl_2"
+	base_blueprint	"units/skills/cryo_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_weapon_lvl_3"
+	base_blueprint	"units/skills/cryo_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/cryo_orb_weapon_lvl_4"
+	base_blueprint	"units/skills/cryo_orb_weapon"
+
+	WeaponItemDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/cryo_orb_ammmo"
+	
+	base_blueprints
+	{
+		lights/point/fire_blue_big
+		effects/no_lifetime
+	}
+
+
+	FlameBeamComponent
+	{
+		max_hits					"16"
+		box_count					"2"
+		angle_speed					"57"
+		range_speed					"1.5"
+		particle_velocity_scale 	"0.0125"
+		particle_reference_range	"16"
+		burning_chance_override 	"0"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|hitbox"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cryo_orb_beam"
+	}
+
+	SoundDesc
+	{
+		name 		"items/weapons/fluid/flamer_loop"
+		start_name 	"items/weapons/fluid/flamer_start"
+		end_name 	"items/weapons/fluid/flamer_stop"
+	}
+}

@@ -10,7 +10,7 @@ end
 
 
 function influence_pylon:OnInteractWithEntityRequest( evt )
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+	EntityService:DestroyEntity( self.entity, "default" )
     QueueEvent("DissolveEntityRequest", self.entity, 4.0, 0.0 )			
     EntityService:SetGraphicsUniform( self.entity, "cDissolveColor", 0.0, 10.0, 20.0, 1.0 )
 end

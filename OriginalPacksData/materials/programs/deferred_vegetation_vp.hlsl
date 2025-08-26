@@ -42,7 +42,7 @@ struct VS_INPUT
     float4      Tangent         : TANGENT0;
 #if USE_HW_SKINNING
     float4      BlendWeights    : BLENDWEIGHT;
-    int4        BlendIndices    : BLENDINDICES;
+    uint4       BlendIndices    : BLENDINDICES;
 #endif
 #if USE_DEFORM
     float4      Color           : COLOR;
@@ -88,7 +88,7 @@ VS_OUTPUT mainVP( VS_INPUT In )
             for ( int i = 0; i < 4; ++i )
             {                    
                 float weight = In.BlendWeights[ i ];
-                uint boneIdx = uint( In.BlendIndices[ i ] );
+                uint boneIdx = In.BlendIndices[ i ];
 
                 uint idx = instanceDataAddr + 1 + boneIdx * 3;
                 float3x4 boneWorld;

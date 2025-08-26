@@ -9,6 +9,8 @@ function mission_desert_find_rare_resource:__init()
 end
 
 function mission_desert_find_rare_resource:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/story/desert_find_rare_resource.logic", "default" )

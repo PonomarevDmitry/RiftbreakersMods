@@ -52,7 +52,7 @@ function time_repair:init()
 
     local canAffordRepair = false
     if ( self.player == -1 ) then
-        canAffordRepair = BuildingService:PayRepairCosts( self.parent, 0, self.repairAmount )
+        canAffordRepair = BuildingService:PayRepairCosts( self.parent, PlayerService:GetLeadingPlayer(), self.repairAmount )
     else
         canAffordRepair = BuildingService:PayRepairCosts( self.parent, self.player, self.repairAmount )
     end
@@ -68,15 +68,19 @@ function time_repair:init()
 	    self:RegisterHandler( self.parent, "DestroyRequest", "OnDestroyRequest" )
         self.healMachine = self:CreateStateMachine()
 	    self.healMachine:AddState( "healing", { enter="OnHealStart", execute="OnHealExecute", exit="OnHealEnd", interval=self.interval } )
-        if self.player ~= -1 then
-            local cubes =  BuildingService:FlyCubesToBuilding(self.parent, self.player, true , false)		
+        if self.player ~= -1 then         
+            local createCubes = database:GetIntOrDefault( "create_cubes", 1 ) == 1
+            local cubes =  BuildingService:FlyCubesToBuilding(self.parent, self.player, createCubes , false)		
             self.cubeEnt = cubes.first
             self.endCubeEnt = cubes.second
-	        if ( AnimationService:HasAnim( self.cubeEnt, "fly_and_scale") ) then
-	        	AnimationService:StartAnim( self.cubeEnt, "fly_and_scale", false, 4 )
-	        end
-	        EffectService:AttachEffects(self.cubeEnt, "fly")
-            self:RegisterHandler( self.cubeEnt, "MoveEndEvent", "OnMoveEndEvent" )
+
+            if ( self.cubeEnt ~= INVALID_ID ) then
+	            if ( AnimationService:HasAnim( self.cubeEnt, "fly_and_scale") ) then
+	        	    AnimationService:StartAnim( self.cubeEnt, "fly_and_scale", false, 4 )
+	            end
+	            EffectService:AttachEffects(self.cubeEnt, "fly")
+                self:RegisterHandler( self.cubeEnt, "MoveEndEvent", "OnMoveEndEvent" )
+            end
         end
         
     else
@@ -98,7 +102,7 @@ end
 function  time_repair:Cleanup()
     if ( self.cleanup == true ) then return end
 
-    if ( EntityService:IsAlive( self.cubeEnt ) ) then
+    if ( ( EntityService:IsAlive( self.cubeEnt ) ) and ( AnimationService:HasAnim( self.cubeEnt, "scale_down" ) ) ) then
 	    AnimationService:StartAnim( self.cubeEnt, "scale_down", false )
 	    EntityService:CreateLifeTime( self.cubeEnt, 0.5, "" ) 
     end

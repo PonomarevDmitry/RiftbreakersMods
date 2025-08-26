@@ -14,8 +14,15 @@ local function ForcePlayerSpawn( spawn_point_name )
         return
     end
 
-    local pawn = PlayerService:GetPlayerControlledEnt( 0 )
-    EntityService:Teleport( pawn, entity )
+    local players = PlayerService:GetConnectedPlayers()
+    for player in Iter(players) do
+        local pawn = PlayerService:GetPlayerControlledEnt( player )
+        EntityService:Teleport( pawn, entity )
+    end
+     players = PlayerService:GetAllPlayers()
+     for  player in Iter(players) do
+        PlayerService:SetTempPlayerSpawnPoint( player, INVALID_ID )
+    end
 end
 
 function mission_swamp_forest:UpdateMissionProgress()
@@ -68,10 +75,14 @@ function mission_swamp_forest:UpdateMissionProgress()
 end
 
 function mission_swamp_forest:OnLoad()
+    mission_base.OnLoad(self)
+
     self:UpdateMissionProgress()
 end
 
 function mission_swamp_forest:init()
+    mission_base.init(self)
+
 	--STAGE 1
 	local world_region = self:GetTileRegionBounds( { x = -3, y = -1 }, { x = 2, y = 5 } )
 	--STAGE 2

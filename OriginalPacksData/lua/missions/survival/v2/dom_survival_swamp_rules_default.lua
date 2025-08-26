@@ -88,6 +88,141 @@ return function()
 		{ name = "carbon_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
 		{ name = "iron_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
 	}
+	
+	rules.creatureDifficultyIncrementPerDOMDifficulty =
+	{
+		[1] =
+		{	
+			0,	 -- initial difficulty
+			0, -- difficulty level 2
+			0, -- difficulty level 3	
+			0, -- difficulty level 4
+			0, -- difficulty level 5
+			0.5, -- difficulty level 6
+			0.5, -- difficulty level 7
+			0.5, -- difficulty level 8
+			1.5, -- difficulty level 9
+		},
+		[2] =
+		{	
+			0, -- initial difficulty
+			2, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			0, -- difficulty level 9
+		},
+		[3] =
+		{	
+			2,	 -- initial difficulty
+			0, -- difficulty level 2
+			1, -- difficulty level 3	
+			0, -- difficulty level 4
+			1, -- difficulty level 5
+			0, -- difficulty level 6
+			1, -- difficulty level 7
+			0, -- difficulty level 8
+			1, -- difficulty level 9
+		},
+		[4] =
+		{	
+			2,	 -- initial difficulty
+			1, -- difficulty level 2
+			0, -- difficulty level 3	
+			1, -- difficulty level 4
+			0, -- difficulty level 5
+			1, -- difficulty level 6
+			0, -- difficulty level 7
+			1, -- difficulty level 8
+			1, -- difficulty level 9
+		},
+	}
+	
+	rules.multiplayerWaves = 
+	{
+		 -- difficulty level 1		
+		{ 
+			additionalWaves = -1, -- Additional Waves count = 1 + additionalWaves - regardless of player number. Multiplayer Additional waves are disabled in single player mode. Check dom_mananger:GetMultiplayerAttackCount for actual code
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=350.0},
+			}
+		},
+	
+		 -- difficulty level 2
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=384.0},
+			}
+		},
+		 -- difficulty level 3
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=420.0},
+			}
+		},
+
+		 -- difficulty level 4
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=500.0},
+			}
+		},
+
+		 -- difficulty level 5
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=600.0},
+			}
+		},
+
+		 -- difficulty level 6
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				{ name="logic/missions/survival/attack_boss_dynamic.logic", spawn_type="RandomBorderInDistance", spawn_type_value=nil, target_type="Type", target_type_value="headquarters", target_min_radius=180.0, target_max_radius=700.0},
+			}
+		},
+
+		 -- difficulty level 7
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 8
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+
+		 -- difficulty level 9
+		{ 
+			additionalWaves = 0,
+			waves = 
+			{
+				"logic/missions/survival/attack_boss_dynamic.logic"
+			}
+		},
+	}
 
 	rules.timeToNextDifficultyLevel = 
 	{			
@@ -117,18 +252,17 @@ return function()
 
 	rules.buildingsUpgradeStartsLogic = 
 	{			
-		{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
-		{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
-		{ name = "headquarters_lvl_4", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
-		{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_2", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_1_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_1_exit.logic" },   
+		--{ name = "headquarters_lvl_3", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_2_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_2_exit.logic" },   
+		--{ name = "headquarters_lvl_4", level = 1, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_5", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_6", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
+		--{ name = "headquarters_lvl_7", level = 2, prepareTime = 120, entryLogic = "logic/dom/hq_upgrade_level_3_entry.logic", exitLogic = "logic/dom/hq_upgrade_level_3_exit.logic" },   
 	}
 
 	rules.objectivesLogic = 
 	{
-		{ name = "logic/objectives/kill_elite_baxmoth.logic", minDifficultyLevel = 3 },
-		{ name = "logic/objectives/kill_elite_mudroner.logic", minDifficultyLevel = 5 },
+		{ name = "logic/objectives/kill_elite_dynamic.logic", minDifficultyLevel = 3 },		
 		{ name = "logic/objectives/destroy_nest_stickrid_single.logic", minDifficultyLevel = 3, maxDifficultyLevel = 5 }, 
 		{ name = "logic/objectives/destroy_nest_stickrid_multiple.logic", minDifficultyLevel = 5 },
 		{ name = "logic/objectives/destroy_nest_plutrodon_single.logic", minDifficultyLevel = 4, maxDifficultyLevel = 6 }, 
@@ -356,56 +490,47 @@ return function()
 	{
 		 -- difficulty level 1		
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",			
-			--"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 	
 		 -- difficulty level 2
 		{ 			
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			--"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 3
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			--"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 4
 		{ 			
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 5
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 6
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 7
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 8
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 
 		 -- difficulty level 9
 		{ 
-			"logic/missions/survival/attack_boss_baxmoth.logic",
-			"logic/missions/survival/attack_boss_mudroner.logic",			
+			"logic/missions/survival/attack_boss_dynamic.logic",
 		},
 	}
 

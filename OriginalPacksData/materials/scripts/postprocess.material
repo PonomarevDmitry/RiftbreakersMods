@@ -1,0 +1,53 @@
+material postprocess
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref texture_to_clip_vp
+			{
+			}
+
+			fragment_program_ref postprocess_fp
+			{
+			}
+
+			texture_unit texture
+			{	
+				content_type compositor
+			    filtering none
+			}
+		}
+	}
+}
+
+material postprocess_upsample
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			cull_hardware none
+			
+			vertex_program_ref texture_to_clip_vp
+			{
+			}
+
+			fragment_program_ref postprocess_fp
+			{
+			}
+
+			texture_unit texture
+			{	
+			    filtering linear linear none
+			    content_type compositor
+			}
+		}
+	}
+}

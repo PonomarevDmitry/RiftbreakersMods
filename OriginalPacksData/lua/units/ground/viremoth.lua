@@ -14,6 +14,8 @@ function viremoth:_OnInit()
 
 	self.wreck_type = "wreck_big"
 	self.wreckMinSpeed = 4
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 7
 
 	self.lightnings  = {}
 

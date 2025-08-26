@@ -18,7 +18,9 @@ function gnerot:OnInit()
 
 	self.resource = INVALID_ID;
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 5
 
 	self.currentUniformValue = 1.0
 	self.newUniformValue = 1.0

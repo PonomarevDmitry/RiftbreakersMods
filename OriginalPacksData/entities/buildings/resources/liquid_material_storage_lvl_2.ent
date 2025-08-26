@@ -2,11 +2,11 @@ EntityBlueprint
 {
 	name  					"buildings/resources/liquid_material_storage_lvl_2"
 
-	base_blueprint 			buildings/resources/liquid_material_storage 			
+	base_blueprint 			buildings/resources/liquid_material_storage
 
 	BuildingDesc
 	{
-		buildable 			"0"		
+		buildable 			"0"
 		name 				"liquid_material_storage_lvl_2"
 		bp   				"buildings/resources/liquid_material_storage_lvl_2"
 		category 			"resources"
@@ -15,11 +15,11 @@ EntityBlueprint
 		description			"gui/hud/building_description/liquid_material_storage"
 		menu_icon			"gui/hud/building_icons/liquid_material_storage_lvl2"
 		require 			"headquarters"
-		upgrade				"buildings/resources/liquid_material_storage_lvl_3"		
-		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"	
+		upgrade				"buildings/resources/liquid_material_storage_lvl_3"
+		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		menu_action			"resource_clear"
-		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"		
-			
+		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+
 		costs
 		{
 			BuildingCostInfo
@@ -29,9 +29,65 @@ EntityBlueprint
 				building_cost
 				{
 					steel 		"200"
-					carbonium 	"200"	
+					carbonium 	"200"
 				}
-			}		
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/buildings/resources/liquid_material_storage.mesh"
+		material 	"buildings/resources/liquid_material_storage"
+
+		SubMeshes
+		{
+			SubMesh
+			{
+				id "1"
+				material "resources/resource_empty_fresnel"
+			}
+		}
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/buildings/resources/liquid_material_storage"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2.45"
+						half_height "2"
+
+						position
+						{
+							x "0.0"
+							y "1.5"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -49,7 +105,7 @@ EntityBlueprint
 			{
 				resource "energy"
 				max 	 "0"
-			}				
+			}
 		}
 	}
 
@@ -65,7 +121,7 @@ EntityBlueprint
 		regeneration_cooldown 		"0"
 		 is_manual 1
 		update_health_uniform 		"1"
-		
+
 		DestructionLevels
 		{
 			DestructionLevel
@@ -117,30 +173,8 @@ EntityBlueprint
 				destroy_comp_event 					"default"
 				//destroyed_state_material 			"units_ground/medium_tank_regular_dest_0"
 				//destroyed_state_effect_group 		"0_state"
-			}			
+			}
 		}
 	}
 
-	EffectDesc
-	{		
-		EffectBaseBlueprints
-		{
-			"buildings/resources/liquid_material_storage"
-		}					
-//////////////////////////////// MISC /////////////////////////////////////////		
-		EffectGroup
-		{
-			group "level"
-			enabled "1"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/level_2"
-					bone "att_level"
-				}
-			}
-		}			
-	}
 }
-

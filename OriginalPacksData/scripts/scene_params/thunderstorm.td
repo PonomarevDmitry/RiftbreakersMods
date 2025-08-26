@@ -65,6 +65,7 @@ TimeOfDayPreset
 		time_of_day "0"
 		weather_haptic "sound/samples/haptic/ambient_rain.wav"
 		weather_effect "effects/weather/thunderstorm"
+		weather_biome_mod "effects/biome_mod/thunderstorm"
 		weather_wind "effects/wind/strong"
 		weather_type "1"
 	}
@@ -134,6 +135,7 @@ TimeOfDayPreset
 		time_of_day "2"
 		weather_haptic "sound/samples/haptic/ambient_rain.wav"
 		weather_effect "effects/weather/thunderstorm"
+		weather_biome_mod "effects/biome_mod/thunderstorm"
 		weather_wind "effects/wind/strong"
 		weather_type "1"
 	}

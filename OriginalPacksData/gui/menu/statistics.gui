@@ -1,128 +1,19 @@
 GuiRootGroupDef
 {
 	full_screen "0"
-	navigation
-	{
-		default_node "scroll"
-		nodes
-		{
-			GuiNavNodeDef "GuiScrollListDef"
-			{
-				auto_scroll "0"
-				alignment "custom"
-				scroll_follow_selection "0"
-				navigation
-				{
-					nodes
-					{
-						GuiNavNodeDef "GuiButtonDef"
-						{
-							path "stats"
-						}
-
-					}
-
-				}
-
-				default_sound "0"
-				path "scroll"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "scroll.scroll_button_1"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "scroll.scroll_button_2"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "go_back"
-			}
-
-			GuiNavNodeDef "GuiScrollListDef"
-			{
-				auto_scroll "0"
-				horizontal "1"
-				items_number "5"
-				alignment "buttons"
-				loop "1"
-				spacing "5.000"
-				default_sound "0"
-				path "categories"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "categories.scroll_button_1"
-			}
-
-			GuiNavNodeDef "GuiButtonDef"
-			{
-				path "categories.scroll_button_2"
-			}
-
-		}
-
-	}
-
 	priority "50.000"
-	shortcuts
-	{
-		Pair_GuiInputCode_String
-		{
-			key "8"
-			value "categories.scroll_button_1"
-		}
-
-		Pair_GuiInputCode_String
-		{
-			key "9"
-			value "categories.scroll_button_2"
-		}
-
-	}
-
 	children
 	{
 		Pair_String_GuiDef2
 		{
-			key "available"
-			value "GuiTextLineDef"
-			{
-				content "gui/menu/statistics/no_statistics_available"
-				style_name "active_blue"
-				translate "1"
-				alignment "center"
-				anchor "center"
-				bindings
-				{
-					visible
-					{
-						model_field "empty_stats"
-					}
-
-				}
-
-				id "available"
-				z_order "112.000"
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "bg_image"
+			key "background"
 			value "GuiImageDef"
 			{
 				error_material "gui/default"
 				material "gui/menu/inventory_placeholder_background"
 				alignment "center"
 				anchor "center"
-				id "bg_image"
+				id "background"
 				z_order "1.000"
 			}
 
@@ -137,3452 +28,130 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "mask"
-						value "GuiGroupDef"
+						key "categories"
+						value "GuiStackPanelDef"
 						{
-							children
+							template_reference
 							{
-								Pair_String_GuiDef2
+								path "templates.category_header"
+								ref_gui_id "gui/menu/statistics"
+								ref_model
 								{
-									key "content_group"
-									value "GuiGroupDef"
+									bindings_proxy
 									{
-										children
+										is_activated
 										{
-											Pair_String_GuiDef2
+											model_field "is_active"
+										}
+
+										on_click_action
+										{
+											model_field "category_type"
+											converter "GuiModelPostfixConverter"
 											{
-												key "button_0"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "active"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "bg"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_active"
-																			id "bg"
-																			z_order "100.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "category_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/menu_inventory_consumable_selected"
-																			alignment "center"
-																			anchor "center"
-																			bindings
-																			{
-																				material
-																				{
-																					model_field "active_icon"
-																				}
-
-																			}
-
-																			id "category_icon"
-																			offset
-																			{
-																				y "3.000"
-																			}
-
-																			z_order "101.000"
-																		}
-
-																	}
-
-																}
-
-																id "active"
-																size
-																{
-																	x "132.000"
-																	y "64.000"
-																}
-
-																visible "0"
-																z_order "99.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "active_selected"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "bg"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_active"
-																			id "bg"
-																			z_order "96.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "bg_select"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_selection"
-																			id "bg_select"
-																			z_order "98.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "category_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/menu_inventory_consumable_selected"
-																			alignment "center"
-																			anchor "center"
-																			bindings
-																			{
-																				material
-																				{
-																					model_field "active_icon"
-																				}
-
-																			}
-
-																			id "category_icon"
-																			offset
-																			{
-																				y "3.000"
-																			}
-
-																			scale
-																			{
-																				x "1.100"
-																				y "1.100"
-																			}
-
-																			z_order "97.000"
-																		}
-
-																	}
-
-																}
-
-																id "active_selected"
-																size
-																{
-																	x "132.000"
-																	y "64.000"
-																}
-
-																visible "0"
-																z_order "95.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "bg"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_neutral"
-																			id "bg"
-																			z_order "107.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "category_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/menu_inventory_consumable_neutral"
-																			alignment "center"
-																			anchor "center"
-																			bindings
-																			{
-																				material
-																				{
-																					model_field "icon"
-																				}
-
-																			}
-
-																			id "category_icon"
-																			offset
-																			{
-																				y "3.000"
-																			}
-
-																			z_order "108.000"
-																		}
-
-																	}
-
-																}
-
-																id "neutral"
-																size
-																{
-																	x "132.000"
-																	y "64.000"
-																}
-
-																visible "0"
-																z_order "106.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral_selected"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "bg"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_neutral"
-																			id "bg"
-																			z_order "103.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "bg_select"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/research/tab_selection"
-																			id "bg_select"
-																			z_order "105.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "category_icon"
-																		value "GuiImageDef"
-																		{
-																			error_material "gui/default"
-																			material "gui/menu/buttons/menu_inventory_consumable_neutral"
-																			alignment "center"
-																			anchor "center"
-																			bindings
-																			{
-																				material
-																				{
-																					model_field "icon"
-																				}
-
-																			}
-
-																			id "category_icon"
-																			offset
-																			{
-																				y "3.000"
-																			}
-
-																			scale
-																			{
-																				x "1.100"
-																				y "1.100"
-																			}
-
-																			z_order "104.000"
-																		}
-
-																	}
-
-																}
-
-																id "neutral_selected"
-																size
-																{
-																	x "132.000"
-																	y "64.000"
-																}
-
-																visible "0"
-																z_order "102.000"
-															}
-
-														}
-
-													}
-
-													id "button_0"
-													size
-													{
-														x "132.000"
-														y "74.000"
-													}
-
-													z_order "94.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "pad"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "right"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "hud/keys/key_281"
-																id "right"
-																scale
-																{
-																	x "0.770"
-																	y "0.770"
-																}
-
-																z_order "93.000"
-															}
-
-														}
-
-													}
-
-													id "pad"
-													offset
-													{
-														y "14.000"
-													}
-
-													size
-													{
-														x "44.660"
-														y "40.040"
-													}
-
-													z_order "92.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "pad_1"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "left"
-															value "GuiImageDef"
-															{
-																error_material "gui/default"
-																material "hud/keys/key_282"
-																id "left"
-																scale
-																{
-																	x "0.770"
-																	y "0.770"
-																}
-
-																z_order "110.000"
-															}
-
-														}
-
-													}
-
-													id "pad_1"
-													offset
-													{
-														y "14.000"
-													}
-
-													size
-													{
-														x "44.660"
-														y "40.040"
-													}
-
-													z_order "109.000"
-												}
-
+												prefix "select_category:"
 											}
 
 										}
 
-										id "content_group"
-										size
+									}
+
+									database
+									{
+										Strings
+										Floats
+										Vectors
+										Integers
+									}
+
+								}
+
+								size
+								{
+									x "130.000"
+									y "60.000"
+								}
+
+								size_mode_y "1"
+								tooltip_def
+								{
+									ref_gui_id "gui/template/text_label"
+									ref_model
+									{
+										bindings_proxy
 										{
-											x "132.000"
-											y "74.000"
+											tooltip_content
+											{
+												model_field "name"
+											}
+
 										}
 
-										z_order "91.000"
+										database
+										{
+											Strings
+											Floats
+											Vectors
+											Integers
+										}
+
 									}
 
 								}
 
 							}
 
-							id "mask"
-							offset
+							id "categories"
+							model_source_solver
 							{
-								y "1.000"
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "categories"
+								}
+
 							}
 
 							size
 							{
-								x "500.000"
-								y "74.000"
+								y "60.000"
 							}
 
 							size_mode_x "1"
-							size_mode_y "1"
-							z_order "90.000"
 						}
 
 					}
 
 					Pair_String_GuiDef2
 					{
-						key "neutral"
-						value "GuiGroupDef"
+						key "selected_header"
+						value "GuiTextLineDef"
 						{
-							id "neutral"
-							offset
+							capitals "1"
+							content "(BIND) localization"
+							style_name "build_info_subheader_yellow"
+							translate "1"
+							alignment "bottom"
+							anchor "top"
+							bindings
 							{
-								y "1.000"
-							}
-
-							size
-							{
-								x "132.000"
-								y "64.000"
-							}
-
-							z_order "82.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "neutral_selected"
-						value "GuiGroupDef"
-						{
-							id "neutral_selected"
-							offset
-							{
-								y "1.000"
-							}
-
-							size
-							{
-								x "132.000"
-								y "64.000"
-							}
-
-							z_order "83.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "scroll_button_1"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
+								content
 								{
-									key "disabled"
-									value "GuiGroupDef"
-									{
-										id "disabled"
-										offset
-										{
-											x "-1.000"
-											y "-1.000"
-										}
-
-										size
-										{
-											x "50.000"
-											y "50.000"
-										}
-
-										z_order "88.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "neutral"
-									value "GuiGroupDef"
-									{
-										id "neutral"
-										offset
-										{
-											x "-1.000"
-											y "-1.000"
-										}
-
-										size
-										{
-											x "50.000"
-											y "50.000"
-										}
-
-										z_order "89.000"
-									}
-
+									model_field "name"
 								}
 
 							}
 
-							id "scroll_button_1"
-							offset
+							id "selected_header"
+							model_source_solver
 							{
-								y "1.000"
-							}
-
-							visible "0"
-							z_order "87.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "scroll_button_2"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
 								{
-									key "disabled"
-									value "GuiGroupDef"
-									{
-										id "disabled"
-										size
-										{
-											x "50.000"
-											y "50.000"
-										}
-
-										z_order "85.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "neutral"
-									value "GuiGroupDef"
-									{
-										id "neutral"
-										size
-										{
-											x "50.000"
-											y "50.000"
-										}
-
-										z_order "86.000"
-									}
-
+									field_name "selected_category"
 								}
 
 							}
 
-							id "scroll_button_2"
-							offset
-							{
-								y "1.000"
-							}
-
-							visible "0"
-							z_order "84.000"
-						}
-
-					}
-
-				}
-
-				alignment "center"
-				id "categories"
-				offset
-				{
-					x "960.000"
-					y "158.000"
-				}
-
-				size
-				{
-					x "197.000"
-					y "74.000"
-				}
-
-				size_mode_x "1"
-				size_mode_y "1"
-				z_order "81.000"
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "frame"
-			value "GuiGroupDef"
-			{
-				children
-				{
-					Pair_String_GuiDef2
-					{
-						key "bg_down"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "bottom"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_frame_corner_lower_edge"
-										id "bottom"
-										offset
-										{
-											x "40.000"
-											y "-6.000"
-										}
-
-										scale
-										{
-											x "5.310"
-										}
-
-										z_order "5.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "corner_bottom_right"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_frame_corner_right_down"
-										id "corner_bottom_right"
-										offset
-										{
-											x "1845.000"
-											y "-6.000"
-										}
-
-										z_order "6.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "corner_left_down"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_frame_corner_left_down"
-										id "corner_left_down"
-										offset
-										{
-											x "20.000"
-											y "-6.000"
-										}
-
-										z_order "7.000"
-									}
-
-								}
-
-							}
-
-							id "bg_down"
-							offset
-							{
-								x "9.000"
-								y "816.000"
-							}
-
-							size
-							{
-								x "374.000"
-								y "24.000"
-							}
-
-							z_order "4.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "corner_left_top"
-						value "GuiImageDef"
-						{
-							error_material "gui/default"
-							material "gui/hud/building_info_frame_corner_left"
-							id "corner_left_top"
-							offset
-							{
-								x "29.000"
-							}
-
-							z_order "13.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "corner_top_right"
-						value "GuiImageDef"
-						{
-							error_material "gui/default"
-							material "gui/hud/building_info_frame_corner_right"
-							alignment "top_right"
-							id "corner_top_right"
-							offset
-							{
-								x "1874.000"
-							}
-
-							z_order "14.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "resize"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "fill"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_fill"
-										id "fill"
-										offset
-										{
-											x "49.000"
-										}
-
-										scale
-										{
-											x "5.310"
-										}
-
-										z_order "11.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "left"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_frame_left"
-										id "left"
-										offset
-										{
-											x "29.000"
-										}
-
-										z_order "9.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "right"
-									value "GuiImageDef"
-									{
-										error_material "gui/default"
-										material "gui/hud/building_info_frame_right"
-										id "right"
-										offset
-										{
-											x "1854.000"
-										}
-
-										z_order "10.000"
-									}
-
-								}
-
-							}
-
-							id "resize"
-							offset
-							{
-								y "20.000"
-							}
-
-							scale
-							{
-								y "3.950"
-							}
-
-							size
-							{
-								x "592.000"
-								y "4.000"
-							}
-
-							z_order "8.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "top"
-						value "GuiImageDef"
-						{
-							error_material "gui/default"
-							material "gui/hud/building_info_frame_corner_upper_edge"
-							id "top"
-							offset
-							{
-								x "49.000"
-							}
-
-							scale
-							{
-								x "5.310"
-							}
-
-							z_order "12.000"
-						}
-
-					}
-
-				}
-
-				id "frame"
-				offset
-				{
-					x "-6.000"
-					y "182.000"
-				}
-
-				size
-				{
-					x "1866.000"
-					y "840.000"
-				}
-
-				z_order "3.000"
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "go_back"
-			value "GuiGroupDef"
-			{
-				children
-				{
-					Pair_String_GuiDef2
-					{
-						key "disabled"
-						value "GuiGroupDef"
-						{
-							id "disabled"
-							offset
-							{
-								x "39.500"
-								y "11.000"
-							}
-
-							size
-							{
-								x "1.000"
-								y "1.000"
-							}
-
-							visible "0"
-							z_order "132.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "neutral"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "bg"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "center"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_center_neutral"
-													id "center"
-													scale
-													{
-														x "10.000"
-													}
-
-													z_order "128.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "left"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-													id "left"
-													z_order "129.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "right"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_right_neutral"
-													id "right"
-													z_order "127.000"
-												}
-
-											}
-
-										}
-
-										id "bg"
-										size
-										{
-											x "160.000"
-											y "44.000"
-										}
-
-										z_order "126.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "content"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "label"
-												value "GuiTextLineDef"
-												{
-													capitals "1"
-													content "BUTTON_back"
-													style_name "shortcuts"
-													translate "1"
-													id "label"
-													offset
-													{
-														x "15.000"
-														y "3.000"
-													}
-
-													z_order "131.000"
-												}
-
-											}
-
-										}
-
-										id "content"
-										size
-										{
-											x "278.182"
-											y "37.000"
-										}
-
-										z_order "130.000"
-									}
-
-								}
-
-							}
-
-							id "neutral"
-							offset
-							{
-								x "39.500"
-							}
-
-							size
-							{
-								x "278.182"
-								y "44.000"
-							}
-
-							visible "0"
-							z_order "125.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "neutral_selected"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "bg"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "center"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_center_neutral"
-													id "center"
-													scale
-													{
-														x "10.000"
-													}
-
-													z_order "117.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "left"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_left_neutral"
-													id "left"
-													z_order "118.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "right"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_right_neutral"
-													id "right"
-													z_order "116.000"
-												}
-
-											}
-
-										}
-
-										id "bg"
-										size
-										{
-											x "160.000"
-											y "44.000"
-										}
-
-										z_order "115.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "bg_selection"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "center"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_center_selection"
-													id "center"
-													scale
-													{
-														x "10.000"
-													}
-
-													z_order "121.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "left"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_left_selection"
-													id "left"
-													z_order "122.000"
-												}
-
-											}
-
-											Pair_String_GuiDef2
-											{
-												key "right"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/menu/buttons/inventory/simple_btn_right_selection"
-													id "right"
-													z_order "120.000"
-												}
-
-											}
-
-										}
-
-										id "bg_selection"
-										size
-										{
-											x "160.000"
-											y "44.000"
-										}
-
-										z_order "119.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "content"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "label"
-												value "GuiTextLineDef"
-												{
-													capitals "1"
-													content "BUTTON_back"
-													style_name "shortcuts"
-													translate "1"
-													id "label"
-													offset
-													{
-														x "15.000"
-														y "3.000"
-													}
-
-													z_order "124.000"
-												}
-
-											}
-
-										}
-
-										id "content"
-										size
-										{
-											x "278.182"
-											y "37.000"
-										}
-
-										z_order "123.000"
-									}
-
-								}
-
-							}
-
-							id "neutral_selected"
-							offset
-							{
-								x "39.500"
-							}
-
-							size
-							{
-								x "278.182"
-								y "44.000"
-							}
-
-							visible "0"
-							z_order "114.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "shortcuts"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "keyboard"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "key"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/hud/keys/key_27"
-													id "key"
-													scale
-													{
-														x "0.770"
-														y "0.770"
-													}
-
-													z_order "135.000"
-												}
-
-											}
-
-										}
-
-										id "keyboard"
-										size
-										{
-											x "36.960"
-											y "33.880"
-										}
-
-										z_order "134.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "pad"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "key"
-												value "GuiImageDef"
-												{
-													error_material "gui/default"
-													material "gui/hud/keys/key_261"
-													id "key"
-													offset
-													{
-														x "-10.000"
-														y "-5.000"
-													}
-
-													scale
-													{
-														x "0.770"
-														y "0.770"
-													}
-
-													z_order "137.000"
-												}
-
-											}
-
-										}
-
-										id "pad"
-										offset
-										{
-											x "7.000"
-											y "1.000"
-										}
-
-										size
-										{
-											x "34.800"
-											y "31.200"
-										}
-
-										z_order "136.000"
-									}
-
-								}
-
-							}
-
-							alignment "top"
-							id "shortcuts"
-							offset
-							{
-								x "21.000"
-							}
-
-							size
-							{
-								x "41.800"
-								y "33.880"
-							}
-
-							z_order "133.000"
-						}
-
-					}
-
-				}
-
-				alignment "bottom_right"
-				anchor "bottom_right"
-				id "go_back"
-				offset
-				{
-					x "-44.000"
-					y "-10.000"
-				}
-
-				size
-				{
-					x "317.682"
-					y "44.000"
-				}
-
-				z_order "113.000"
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "quad_0"
-			value "GuiQuadDef"
-			{
-				alignment "center"
-				anchor "center"
-				color
-				{
-					x "0.000"
-					y "0.000"
-					z "0.000"
-				}
-
-				id "quad_0"
-				offset
-				{
-					x "3.000"
-				}
-
-				size
-				{
-					x "10000.000"
-					y "10000.000"
-				}
-
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "scroll"
-			value "GuiGroupDef"
-			{
-				children
-				{
-					Pair_String_GuiDef2
-					{
-						key "mask"
-						value "GuiGroupDef"
-						{
-							allow_overflow "0"
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "content_group"
-									value "GuiGroupDef"
-									{
-										children
-										{
-											Pair_String_GuiDef2
-											{
-												key "stats"
-												value "GuiGroupDef"
-												{
-													children
-													{
-														Pair_String_GuiDef2
-														{
-															key "columns"
-															value "GuiGroupDef"
-															{
-																children
-																{
-																	Pair_String_GuiDef2
-																	{
-																		key "0"
-																		value "GuiGroupDef"
-																		{
-																			children
-																			{
-																				Pair_String_GuiDef2
-																				{
-																					key "stats"
-																					value "GuiGroupDef"
-																					{
-																						children
-																						{
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_inside"
-																								value "GuiQuadDef"
-																								{
-																									border_color
-																									{
-																										x "0.180"
-																										y "0.471"
-																										z "0.600"
-																									}
-
-																									border_width "1.000"
-																									corner_cut "1"
-																									corner_radius "20.000"
-																									color
-																									{
-																										w "0.750"
-																										x "0.055"
-																										y "0.212"
-																										z "0.306"
-																									}
-
-																									id "bg_inside"
-																									size
-																									{
-																										x "616.000"
-																										y "82.000"
-																									}
-
-																									size_mode_x "2"
-																									size_mode_y "2"
-																									z_order "64.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "vstack"
-																								value "GuiGroupDef"
-																								{
-																									children
-																									{
-																										Pair_String_GuiDef2
-																										{
-																											key "header_group"
-																											value "GuiGroupDef"
-																											{
-																												children
-																												{
-																													Pair_String_GuiDef2
-																													{
-																														key "header"
-																														value "GuiTextBoxDef"
-																														{
-																															max_size
-																															{
-																																x "500.000"
-																																y "650.000"
-																															}
-
-																															content "COMMON_Text_Line"
-																															style
-																															{
-																																char_height "25.000"
-																																color
-																																{
-																																	x "0.396"
-																																	y "0.922"
-																																}
-
-																																df "1"
-																																font "orbitron-medium_sdf"
-																																glow_color
-																																{
-																																	w "0.000"
-																																}
-
-																																glow_size "0.000"
-																																glow_spread "0.000"
-																																shadow_angle "135.000"
-																																shadow_color
-																																{
-																																	w "0.850"
-																																}
-
-																																shadow_distance "2.000"
-																																shadow_enabled "1"
-																																shadow_spread "0.000"
-																																stroke_position "0"
-																																stroke_size "0.000"
-																															}
-
-																															translate "1"
-																															bindings
-																															{
-																																content
-																																{
-																																	model_field "header"
-																																}
-
-																																visible
-																																{
-																																	model_field "header"
-																																	converter "GuiModelCompareConverter"
-																																	{
-																																		compare_operator "neq"
-																																	}
-
-																																}
-
-																															}
-
-																															id "header"
-																															margin
-																															{
-																																y "10.000"
-																															}
-
-																															z_order "76.000"
-																														}
-
-																													}
-
-																													Pair_String_GuiDef2
-																													{
-																														key "header_value"
-																														value "GuiTextLineDef"
-																														{
-																															content "COMMON_Text_Line"
-																															style
-																															{
-																																char_height "25.000"
-																																color
-																																{
-																																	x "0.200"
-																																	y "0.949"
-																																	z "0.318"
-																																}
-
-																																df "1"
-																																font "orbitron-medium_sdf"
-																																glow_color
-																																{
-																																	w "0.000"
-																																}
-
-																																glow_size "0.000"
-																																glow_spread "0.000"
-																																shadow_angle "135.000"
-																																shadow_color
-																																{
-																																	w "0.913"
-																																}
-
-																																shadow_distance "2.000"
-																																shadow_enabled "1"
-																																shadow_size "0.000"
-																																shadow_spread "0.000"
-																																space_size "7.000"
-																																stroke_position "0"
-																																stroke_size "0.000"
-																															}
-
-																															translate "1"
-																															alignment "bottom_right"
-																															anchor "bottom_right"
-																															bindings
-																															{
-																																content
-																																{
-																																	model_field "header_value"
-																																}
-
-																																visible
-																																{
-																																	model_field "header_value"
-																																	converter "GuiModelCompareConverter"
-																																	{
-																																		compare_operator "neq"
-																																	}
-
-																																}
-
-																															}
-
-																															id "header_value"
-																															margin
-																															{
-																																z "15.000"
-																															}
-
-																															z_order "77.000"
-																														}
-
-																													}
-
-																												}
-
-																												id "header_group"
-																												margin
-																												{
-																													w "9.000"
-																													x "20.000"
-																												}
-
-																												size
-																												{
-																													x "580.000"
-																													y "35.000"
-																												}
-
-																												size_mode_y "1"
-																												z_order "75.000"
-																											}
-
-																										}
-
-																										Pair_String_GuiDef2
-																										{
-																											key "rows"
-																											value "GuiGroupDef"
-																											{
-																												container_type "2"
-																												id "rows"
-																												margin
-																												{
-																													w "3.000"
-																													x "3.000"
-																													z "13.000"
-																												}
-
-																												size
-																												{
-																													x "585.000"
-																												}
-
-																												size_mode_y "1"
-																												z_order "65.000"
-																											}
-
-																										}
-
-																									}
-
-																									container_type "2"
-																									id "vstack"
-																									size
-																									{
-																										x "600.000"
-																									}
-
-																									size_mode_y "1"
-																									z_order "66.000"
-																								}
-
-																							}
-
-																						}
-
-																						id "stats"
-																						offset
-																						{
-																							y "10.000"
-																						}
-
-																						size
-																						{
-																							x "600.000"
-																						}
-
-																						size_mode_y "1"
-																						z_order "63.000"
-																					}
-
-																				}
-
-																			}
-
-																			container_type "2"
-																			id "0"
-																			size
-																			{
-																				x "600.000"
-																				y "110.000"
-																			}
-
-																			size_mode_y "1"
-																			z_order "62.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "1"
-																		value "GuiGroupDef"
-																		{
-																			children
-																			{
-																				Pair_String_GuiDef2
-																				{
-																					key "stats"
-																					value "GuiGroupDef"
-																					{
-																						children
-																						{
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_inside"
-																								value "GuiQuadDef"
-																								{
-																									border_color
-																									{
-																										x "0.180"
-																										y "0.471"
-																										z "0.600"
-																									}
-
-																									border_width "1.000"
-																									corner_cut "1"
-																									corner_radius "20.000"
-																									color
-																									{
-																										w "0.750"
-																										x "0.055"
-																										y "0.212"
-																										z "0.306"
-																									}
-
-																									id "bg_inside"
-																									size
-																									{
-																										x "615.000"
-																										y "70.000"
-																									}
-
-																									size_mode_x "2"
-																									size_mode_y "2"
-																									z_order "48.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "header_group"
-																								value "GuiGroupDef"
-																								{
-																									children
-																									{
-																										Pair_String_GuiDef2
-																										{
-																											key "header"
-																											value "GuiTextBoxDef"
-																											{
-																												max_size
-																												{
-																													x "500.000"
-																													y "65.000"
-																												}
-
-																												content "COMMON_Text_Line"
-																												style
-																												{
-																													char_height "25.000"
-																													color
-																													{
-																														x "0.396"
-																														y "0.922"
-																													}
-
-																													df "1"
-																													font "orbitron-medium_sdf"
-																													glow_color
-																													{
-																														w "0.000"
-																													}
-
-																													glow_size "0.000"
-																													glow_spread "0.000"
-																													shadow_angle "135.000"
-																													shadow_color
-																													{
-																														w "0.850"
-																													}
-
-																													shadow_distance "2.000"
-																													shadow_enabled "1"
-																													shadow_spread "0.000"
-																													stroke_position "0"
-																													stroke_size "0.000"
-																												}
-
-																												translate "1"
-																												alignment "left"
-																												anchor "left"
-																												bindings
-																												{
-																													content
-																													{
-																														model_field "header"
-																													}
-
-																													visible
-																													{
-																														model_field "header"
-																														converter "GuiModelCompareConverter"
-																														{
-																															compare_operator "neq"
-																														}
-
-																													}
-
-																												}
-
-																												id "header"
-																												offset
-																												{
-																													y "5.000"
-																												}
-
-																												z_order "60.000"
-																											}
-
-																										}
-
-																										Pair_String_GuiDef2
-																										{
-																											key "header_value"
-																											value "GuiTextLineDef"
-																											{
-																												content "COMMON_Text_Line"
-																												style
-																												{
-																													char_height "25.000"
-																													color
-																													{
-																														x "0.200"
-																														y "0.949"
-																														z "0.318"
-																													}
-
-																													df "1"
-																													font "orbitron-medium_sdf"
-																													glow_color
-																													{
-																														w "0.000"
-																													}
-
-																													glow_size "0.000"
-																													glow_spread "0.000"
-																													shadow_angle "135.000"
-																													shadow_color
-																													{
-																														w "0.913"
-																													}
-
-																													shadow_distance "2.000"
-																													shadow_enabled "1"
-																													shadow_size "0.000"
-																													shadow_spread "0.000"
-																													space_size "7.000"
-																													stroke_position "0"
-																													stroke_size "0.000"
-																												}
-
-																												translate "1"
-																												alignment "right"
-																												anchor "right"
-																												bindings
-																												{
-																													content
-																													{
-																														model_field "header_value"
-																													}
-
-																													visible
-																													{
-																														model_field "header_value"
-																														converter "GuiModelCompareConverter"
-																														{
-																															compare_operator "neq"
-																														}
-
-																													}
-
-																												}
-
-																												id "header_value"
-																												offset
-																												{
-																													x "-15.000"
-																													y "7.000"
-																												}
-
-																												z_order "61.000"
-																											}
-
-																										}
-
-																									}
-
-																									id "header_group"
-																									offset
-																									{
-																										x "20.000"
-																									}
-
-																									size
-																									{
-																										x "580.000"
-																										y "33.000"
-																									}
-
-																									size_mode_y "1"
-																									z_order "59.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "rows"
-																								value "GuiGroupDef"
-																								{
-																									children
-																									{
-																										Pair_String_GuiDef2
-																										{
-																											key "row"
-																											value "GuiGroupDef"
-																											{
-																												children
-																												{
-																													Pair_String_GuiDef2
-																													{
-																														key "item_1"
-																														value "GuiGroupDef"
-																														{
-																															children
-																															{
-																																Pair_String_GuiDef2
-																																{
-																																	key "dark"
-																																	value "GuiQuadDef"
-																																	{
-																																		border_color
-																																		{
-																																			x "0.180"
-																																			y "0.471"
-																																			z "0.600"
-																																		}
-
-																																		border_width "1.000"
-																																		color
-																																		{
-																																			x "0.039"
-																																			y "0.133"
-																																			z "0.196"
-																																		}
-
-																																		id "dark"
-																																		size
-																																		{
-																																			x "452.000"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_y "2"
-																																		z_order "52.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "info"
-																																	value "GuiGroupDef"
-																																	{
-																																		children
-																																		{
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "icon"
-																																				value "GuiImageDef"
-																																				{
-																																					error_material "gui/menu/inventory/stat_icons/stat_icon"
-																																					material "gui/hud/resource_icons/carbonium"
-																																					alignment "left"
-																																					anchor "left"
-																																					bindings
-																																					{
-																																						material
-																																						{
-																																							model_field "icon"
-																																						}
-
-																																						scale
-																																						{
-																																							model_field "scale"
-																																						}
-
-																																						visible
-																																						{
-																																							model_field "icon"
-																																							converter "GuiModelCompareConverter"
-																																							{
-																																								compare_operator "neq"
-																																							}
-
-																																						}
-
-																																					}
-
-																																					id "icon"
-																																					margin
-																																					{
-																																						w "1.000"
-																																						y "1.000"
-																																					}
-
-																																					z_order "58.000"
-																																				}
-
-																																			}
-
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "label"
-																																				value "GuiTextBoxDef"
-																																				{
-																																					max_size
-																																					{
-																																						x "400.000"
-																																						y "650.000"
-																																					}
-
-																																					content "COMMON_Text_Line"
-																																					style
-																																					{
-																																						char_height "23.000"
-																																						color
-																																						{
-																																							y "0.765"
-																																							z "0.306"
-																																						}
-
-																																						df "1"
-																																						font "Exo2_Bold_sdf"
-																																						glow_color
-																																						{
-																																							w "0.000"
-																																						}
-
-																																						glow_size "0.000"
-																																						glow_spread "0.000"
-																																						shadow_angle "135.000"
-																																						shadow_color
-																																						{
-																																							w "0.850"
-																																						}
-
-																																						shadow_distance "2.000"
-																																						shadow_enabled "1"
-																																						shadow_spread "0.000"
-																																						space_size "7.000"
-																																						stroke_position "0"
-																																						stroke_size "0.000"
-																																					}
-
-																																					translate "1"
-																																					alignment "left"
-																																					anchor "left"
-																																					bindings
-																																					{
-																																						content
-																																						{
-																																							model_field "label"
-																																						}
-
-																																						visible
-																																						{
-																																							model_field "label"
-																																							converter "GuiModelCompareConverter"
-																																							{
-																																								compare_operator "neq"
-																																							}
-
-																																						}
-
-																																					}
-
-																																					id "label"
-																																					offset
-																																					{
-																																						x "10.000"
-																																					}
-
-																																					z_order "56.000"
-																																				}
-
-																																			}
-
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "spacer"
-																																				value "GuiQuadDef"
-																																				{
-																																					alignment "left"
-																																					anchor "left"
-																																					color
-																																					{
-																																						w "0.000"
-																																						y "0.000"
-																																						z "0.000"
-																																					}
-
-																																					id "spacer"
-																																					size
-																																					{
-																																						x "1.000"
-																																						y "40.000"
-																																					}
-
-																																					z_order "57.000"
-																																				}
-
-																																			}
-
-																																		}
-
-																																		container_type "1"
-																																		alignment "left"
-																																		anchor "left"
-																																		id "info"
-																																		size
-																																		{
-																																			x "198.173"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_x "1"
-																																		z_order "55.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "right_dark"
-																																	value "GuiQuadDef"
-																																	{
-																																		border_color
-																																		{
-																																			x "0.176"
-																																			y "0.471"
-																																			z "0.600"
-																																		}
-
-																																		border_width "1.000"
-																																		alignment "top_right"
-																																		anchor "top_right"
-																																		color
-																																		{
-																																			x "0.039"
-																																			y "0.133"
-																																			z "0.196"
-																																		}
-
-																																		id "right_dark"
-																																		size
-																																		{
-																																			x "152.000"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_y "2"
-																																		z_order "53.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "value"
-																																	value "GuiTextBoxDef"
-																																	{
-																																		max_size
-																																		{
-																																			x "135.000"
-																																			y "650.000"
-																																		}
-
-																																		capitals "1"
-																																		content "COMMON_Text_Line"
-																																		style
-																																		{
-																																			char_height "23.000"
-																																			df "1"
-																																			font "Exo2_Bold_sdf"
-																																			glow_color
-																																			{
-																																				w "0.000"
-																																			}
-
-																																			glow_size "0.000"
-																																			glow_spread "0.000"
-																																			shadow_angle "135.000"
-																																			shadow_color
-																																			{
-																																				w "0.913"
-																																			}
-
-																																			shadow_distance "2.000"
-																																			shadow_enabled "1"
-																																			shadow_size "0.000"
-																																			shadow_spread "0.000"
-																																			space_size "7.000"
-																																			stroke_position "0"
-																																			stroke_size "0.000"
-																																		}
-
-																																		translate "1"
-																																		alignment "right"
-																																		anchor "right"
-																																		bindings
-																																		{
-																																			content
-																																			{
-																																				model_field "value"
-																																			}
-
-																																			visible
-																																			{
-																																				model_field "value"
-																																				converter "GuiModelCompareConverter"
-																																				{
-																																					compare_operator "neq"
-																																				}
-
-																																			}
-
-																																		}
-
-																																		id "value"
-																																		margin
-																																		{
-																																			w "2.000"
-																																		}
-
-																																		offset
-																																		{
-																																			x "-10.000"
-																																		}
-
-																																		z_order "54.000"
-																																	}
-
-																																}
-
-																															}
-
-																															id "item_1"
-																															size
-																															{
-																																x "580.000"
-																																y "44.000"
-																															}
-
-																															size_mode_y "1"
-																															z_order "51.000"
-																														}
-
-																													}
-
-																												}
-
-																												container_type "1"
-																												id "row"
-																												margin
-																												{
-																													w "3.000"
-																												}
-
-																												size
-																												{
-																													x "609.000"
-																													y "38.000"
-																												}
-
-																												size_mode_x "1"
-																												z_order "50.000"
-																											}
-
-																										}
-
-																									}
-
-																									container_type "2"
-																									id "rows"
-																									margin
-																									{
-																										w "3.000"
-																										x "3.000"
-																										z "13.000"
-																									}
-
-																									offset
-																									{
-																										y "10.000"
-																									}
-
-																									size
-																									{
-																										x "609.000"
-																										y "38.000"
-																									}
-
-																									size_mode_y "1"
-																									z_order "49.000"
-																								}
-
-																							}
-
-																						}
-
-																						container_type "2"
-																						id "stats"
-																						offset
-																						{
-																							y "10.000"
-																						}
-
-																						size
-																						{
-																							x "600.000"
-																							y "100.000"
-																						}
-
-																						size_mode_y "1"
-																						z_order "47.000"
-																					}
-
-																				}
-
-																			}
-
-																			container_type "2"
-																			id "1"
-																			offset
-																			{
-																				x "15.000"
-																			}
-
-																			size
-																			{
-																				x "600.000"
-																				y "110.000"
-																			}
-
-																			size_mode_y "1"
-																			z_order "46.000"
-																		}
-
-																	}
-
-																	Pair_String_GuiDef2
-																	{
-																		key "2"
-																		value "GuiGroupDef"
-																		{
-																			children
-																			{
-																				Pair_String_GuiDef2
-																				{
-																					key "stats"
-																					value "GuiGroupDef"
-																					{
-																						children
-																						{
-																							Pair_String_GuiDef2
-																							{
-																								key "bg_inside"
-																								value "GuiQuadDef"
-																								{
-																									border_color
-																									{
-																										x "0.180"
-																										y "0.471"
-																										z "0.600"
-																									}
-
-																									border_width "1.000"
-																									corner_cut "1"
-																									corner_radius "20.000"
-																									color
-																									{
-																										w "0.750"
-																										x "0.055"
-																										y "0.212"
-																										z "0.306"
-																									}
-
-																									id "bg_inside"
-																									size
-																									{
-																										x "615.000"
-																										y "70.000"
-																									}
-
-																									size_mode_x "2"
-																									size_mode_y "2"
-																									z_order "32.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "header_group"
-																								value "GuiGroupDef"
-																								{
-																									children
-																									{
-																										Pair_String_GuiDef2
-																										{
-																											key "header"
-																											value "GuiTextBoxDef"
-																											{
-																												max_size
-																												{
-																													x "500.000"
-																													y "650.000"
-																												}
-
-																												content "COMMON_Text_Line"
-																												translate "1"
-																												alignment "left"
-																												anchor "left"
-																												bindings
-																												{
-																													content
-																													{
-																														model_field "header"
-																													}
-
-																													visible
-																													{
-																														model_field "header"
-																														converter "GuiModelCompareConverter"
-																														{
-																															compare_operator "neq"
-																														}
-
-																													}
-
-																												}
-
-																												id "header"
-																												offset
-																												{
-																													y "5.000"
-																												}
-
-																												z_order "44.000"
-																											}
-
-																										}
-
-																										Pair_String_GuiDef2
-																										{
-																											key "header_value"
-																											value "GuiTextLineDef"
-																											{
-																												content "COMMON_Text_Line"
-																												style
-																												{
-																													char_height "25.000"
-																													color
-																													{
-																														x "0.200"
-																														y "0.949"
-																														z "0.318"
-																													}
-
-																													df "1"
-																													font "orbitron-medium_sdf"
-																													glow_color
-																													{
-																														w "0.000"
-																													}
-
-																													glow_size "0.000"
-																													glow_spread "0.000"
-																													shadow_angle "135.000"
-																													shadow_color
-																													{
-																														w "0.913"
-																													}
-
-																													shadow_distance "2.000"
-																													shadow_enabled "1"
-																													shadow_size "0.000"
-																													shadow_spread "0.000"
-																													space_size "7.000"
-																													stroke_position "0"
-																													stroke_size "0.000"
-																												}
-
-																												translate "1"
-																												alignment "right"
-																												anchor "right"
-																												bindings
-																												{
-																													content
-																													{
-																														model_field "header_value"
-																													}
-
-																													visible
-																													{
-																														model_field "header_value"
-																														converter "GuiModelCompareConverter"
-																														{
-																															compare_operator "neq"
-																														}
-
-																													}
-
-																												}
-
-																												id "header_value"
-																												offset
-																												{
-																													x "-15.000"
-																													y "7.000"
-																												}
-
-																												z_order "45.000"
-																											}
-
-																										}
-
-																									}
-
-																									id "header_group"
-																									offset
-																									{
-																										x "20.000"
-																									}
-
-																									size
-																									{
-																										x "580.000"
-																										y "33.000"
-																									}
-
-																									size_mode_y "1"
-																									z_order "43.000"
-																								}
-
-																							}
-
-																							Pair_String_GuiDef2
-																							{
-																								key "rows"
-																								value "GuiGroupDef"
-																								{
-																									children
-																									{
-																										Pair_String_GuiDef2
-																										{
-																											key "row"
-																											value "GuiGroupDef"
-																											{
-																												children
-																												{
-																													Pair_String_GuiDef2
-																													{
-																														key "item_1"
-																														value "GuiGroupDef"
-																														{
-																															children
-																															{
-																																Pair_String_GuiDef2
-																																{
-																																	key "dark"
-																																	value "GuiQuadDef"
-																																	{
-																																		border_color
-																																		{
-																																			x "0.180"
-																																			y "0.471"
-																																			z "0.600"
-																																		}
-
-																																		border_width "1.000"
-																																		color
-																																		{
-																																			x "0.039"
-																																			y "0.133"
-																																			z "0.196"
-																																		}
-
-																																		id "dark"
-																																		size
-																																		{
-																																			x "452.000"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_y "2"
-																																		z_order "36.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "info"
-																																	value "GuiGroupDef"
-																																	{
-																																		children
-																																		{
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "icon"
-																																				value "GuiImageDef"
-																																				{
-																																					error_material "gui/menu/inventory/stat_icons/stat_icon"
-																																					material "gui/hud/resource_icons/carbonium"
-																																					alignment "left"
-																																					anchor "left"
-																																					bindings
-																																					{
-																																						material
-																																						{
-																																							model_field "icon"
-																																						}
-
-																																						scale
-																																						{
-																																							model_field "scale"
-																																						}
-
-																																						visible
-																																						{
-																																							model_field "icon"
-																																							converter "GuiModelCompareConverter"
-																																							{
-																																								compare_operator "neq"
-																																							}
-
-																																						}
-
-																																					}
-
-																																					id "icon"
-																																					margin
-																																					{
-																																						w "1.000"
-																																						y "1.000"
-																																					}
-
-																																					z_order "42.000"
-																																				}
-
-																																			}
-
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "label"
-																																				value "GuiTextBoxDef"
-																																				{
-																																					max_size
-																																					{
-																																						x "400.000"
-																																						y "650.000"
-																																					}
-
-																																					content "COMMON_Text_Line"
-																																					style
-																																					{
-																																						char_height "23.000"
-																																						color
-																																						{
-																																							y "0.765"
-																																							z "0.306"
-																																						}
-
-																																						df "1"
-																																						font "Exo2_Bold_sdf"
-																																						glow_color
-																																						{
-																																							w "0.000"
-																																						}
-
-																																						glow_size "0.000"
-																																						glow_spread "0.000"
-																																						shadow_angle "135.000"
-																																						shadow_color
-																																						{
-																																							w "0.850"
-																																						}
-
-																																						shadow_distance "2.000"
-																																						shadow_enabled "1"
-																																						shadow_spread "0.000"
-																																						space_size "7.000"
-																																						stroke_position "0"
-																																						stroke_size "0.000"
-																																					}
-
-																																					translate "1"
-																																					alignment "left"
-																																					anchor "left"
-																																					bindings
-																																					{
-																																						content
-																																						{
-																																							model_field "label"
-																																						}
-
-																																						visible
-																																						{
-																																							model_field "label"
-																																							converter "GuiModelCompareConverter"
-																																							{
-																																								compare_operator "neq"
-																																							}
-
-																																						}
-
-																																					}
-
-																																					id "label"
-																																					offset
-																																					{
-																																						x "10.000"
-																																					}
-
-																																					z_order "40.000"
-																																				}
-
-																																			}
-
-																																			Pair_String_GuiDef2
-																																			{
-																																				key "spacer_1"
-																																				value "GuiQuadDef"
-																																				{
-																																					alignment "left"
-																																					anchor "left"
-																																					color
-																																					{
-																																						w "0.000"
-																																						y "0.000"
-																																						z "0.000"
-																																					}
-
-																																					id "spacer_1"
-																																					size
-																																					{
-																																						x "1.000"
-																																						y "40.000"
-																																					}
-
-																																					z_order "41.000"
-																																				}
-
-																																			}
-
-																																		}
-
-																																		container_type "1"
-																																		alignment "left"
-																																		anchor "left"
-																																		id "info"
-																																		size
-																																		{
-																																			x "190.276"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_x "1"
-																																		z_order "39.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "right_darken"
-																																	value "GuiQuadDef"
-																																	{
-																																		border_color
-																																		{
-																																			x "0.176"
-																																			y "0.471"
-																																			z "0.600"
-																																		}
-
-																																		border_width "1.000"
-																																		alignment "right"
-																																		anchor "right"
-																																		color
-																																		{
-																																			x "0.039"
-																																			y "0.133"
-																																			z "0.196"
-																																		}
-
-																																		id "right_darken"
-																																		size
-																																		{
-																																			x "152.000"
-																																			y "40.000"
-																																		}
-
-																																		size_mode_y "2"
-																																		z_order "37.000"
-																																	}
-
-																																}
-
-																																Pair_String_GuiDef2
-																																{
-																																	key "value"
-																																	value "GuiTextBoxDef"
-																																	{
-																																		max_size
-																																		{
-																																			x "135.000"
-																																			y "650.000"
-																																		}
-
-																																		capitals "1"
-																																		content "COMMON_Text_Line"
-																																		style
-																																		{
-																																			char_height "23.000"
-																																			df "1"
-																																			font "Exo2_Bold_sdf"
-																																			glow_color
-																																			{
-																																				w "0.000"
-																																			}
-
-																																			glow_size "0.000"
-																																			glow_spread "0.000"
-																																			shadow_angle "135.000"
-																																			shadow_color
-																																			{
-																																				w "0.913"
-																																			}
-
-																																			shadow_distance "2.000"
-																																			shadow_enabled "1"
-																																			shadow_size "0.000"
-																																			shadow_spread "0.000"
-																																			space_size "7.000"
-																																			stroke_position "0"
-																																			stroke_size "0.000"
-																																		}
-
-																																		translate "1"
-																																		alignment "right"
-																																		anchor "right"
-																																		bindings
-																																		{
-																																			content
-																																			{
-																																				model_field "value"
-																																			}
-
-																																			visible
-																																			{
-																																				model_field "value"
-																																				converter "GuiModelCompareConverter"
-																																				{
-																																					compare_operator "neq"
-																																				}
-
-																																			}
-
-																																		}
-
-																																		id "value"
-																																		margin
-																																		{
-																																			w "2.000"
-																																		}
-
-																																		offset
-																																		{
-																																			x "-10.000"
-																																		}
-
-																																		z_order "38.000"
-																																	}
-
-																																}
-
-																															}
-
-																															id "item_1"
-																															size
-																															{
-																																x "580.000"
-																																y "44.000"
-																															}
-
-																															size_mode_y "1"
-																															z_order "35.000"
-																														}
-
-																													}
-
-																												}
-
-																												container_type "1"
-																												id "row"
-																												margin
-																												{
-																													w "3.000"
-																												}
-
-																												size
-																												{
-																													x "604.000"
-																													y "44.000"
-																												}
-
-																												size_mode_x "1"
-																												z_order "34.000"
-																											}
-
-																										}
-
-																									}
-
-																									container_type "2"
-																									id "rows"
-																									margin
-																									{
-																										w "3.000"
-																										x "3.000"
-																										z "13.000"
-																									}
-
-																									offset
-																									{
-																										y "10.000"
-																									}
-
-																									size
-																									{
-																										x "604.000"
-																										y "47.000"
-																									}
-
-																									size_mode_y "1"
-																									z_order "33.000"
-																								}
-
-																							}
-
-																						}
-
-																						container_type "2"
-																						id "stats"
-																						offset
-																						{
-																							y "10.000"
-																						}
-
-																						size
-																						{
-																							x "600.000"
-																							y "100.000"
-																						}
-
-																						size_mode_y "1"
-																						z_order "31.000"
-																					}
-
-																				}
-
-																			}
-
-																			container_type "2"
-																			id "2"
-																			offset
-																			{
-																				x "15.000"
-																			}
-
-																			size
-																			{
-																				x "600.000"
-																				y "110.000"
-																			}
-
-																			size_mode_y "1"
-																			z_order "30.000"
-																		}
-
-																	}
-
-																}
-
-																container_type "1"
-																id "columns"
-																size
-																{
-																	x "1600.000"
-																}
-
-																size_mode_x "1"
-																size_mode_y "1"
-																z_order "29.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral"
-															value "GuiGroupDef"
-															{
-																id "neutral"
-																size
-																{
-																	x "1864.000"
-																	y "720.000"
-																}
-
-																z_order "28.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "neutral_selected"
-															value "GuiGroupDef"
-															{
-																id "neutral_selected"
-																size
-																{
-																	x "1864.000"
-																	y "720.000"
-																}
-
-																z_order "27.000"
-															}
-
-														}
-
-													}
-
-													id "stats"
-													size
-													{
-														x "1864.000"
-														y "800.000"
-													}
-
-													size_mode_y "1"
-													z_order "26.000"
-												}
-
-											}
-
-										}
-
-										id "content_group"
-										size
-										{
-											x "1864.000"
-											y "862.000"
-										}
-
-										size_mode_x "1"
-										size_mode_y "1"
-										z_order "25.000"
-									}
-
-								}
-
-							}
-
-							id "mask"
-							offset
-							{
-								x "20.000"
-								y "15.000"
-							}
-
-							size
-							{
-								x "1827.000"
-								y "821.000"
-							}
-
-							z_order "24.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "neutral"
-						value "GuiGroupDef"
-						{
-							id "neutral"
-							size
-							{
-								x "1880.000"
-								y "900.000"
-							}
-
-							visible "0"
-							z_order "17.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "neutral_selected"
-						value "GuiGroupDef"
-						{
-							id "neutral_selected"
-							size
-							{
-								x "1880.000"
-								y "900.000"
-							}
-
-							visible "0"
-							z_order "16.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "scroll_button_1"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "disabled"
-									value "GuiGroupDef"
-									{
-										id "disabled"
-										size
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "19.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "neutral"
-									value "GuiGroupDef"
-									{
-										id "neutral"
-										size
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "20.000"
-									}
-
-								}
-
-							}
-
-							id "scroll_button_1"
-							offset
-							{
-								y "127.000"
-							}
-
-							size
-							{
-								x "1.000"
-								y "1.000"
-							}
-
-							size_mode_x "1"
-							size_mode_y "1"
-							z_order "18.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "scroll_button_2"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "disabled"
-									value "GuiGroupDef"
-									{
-										id "disabled"
-										size
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "23.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "neutral"
-									value "GuiGroupDef"
-									{
-										id "neutral"
-										size
-										{
-											x "1.000"
-											y "1.000"
-										}
-
-										z_order "22.000"
-									}
-
-								}
-
-							}
-
-							id "scroll_button_2"
-							offset
-							{
-								y "127.000"
-							}
-
-							size
-							{
-								x "1.000"
-								y "1.000"
-							}
-
-							z_order "21.000"
-						}
-
-					}
-
-					Pair_String_GuiDef2
-					{
-						key "vertical_scroll_bar"
-						value "GuiGroupDef"
-						{
-							children
-							{
-								Pair_String_GuiDef2
-								{
-									key "bar"
-									value "GuiQuadDef"
-									{
-										color
-										{
-											x "0.627"
-										}
-
-										id "bar"
-										offset
-										{
-											x "1.000"
-										}
-
-										size
-										{
-											x "10.000"
-											y "1.000"
-										}
-
-										z_order "80.000"
-									}
-
-								}
-
-								Pair_String_GuiDef2
-								{
-									key "slider"
-									value "GuiQuadDef"
-									{
-										border_color
-										{
-											x "0.118"
-											y "0.365"
-											z "0.698"
-										}
-
-										border_width "1.000"
-										color
-										{
-											x "0.000"
-											y "0.000"
-											z "0.000"
-										}
-
-										id "slider"
-										size
-										{
-											x "12.000"
-											y "828.000"
-										}
-
-										z_order "79.000"
-									}
-
-								}
-
-							}
-
-							id "vertical_scroll_bar"
-							offset
-							{
-								x "1855.000"
-								y "13.000"
-							}
-
-							size
-							{
-								x "12.000"
-								y "870.000"
-							}
-
-							size_mode_x "1"
-							size_mode_y "1"
-							z_order "78.000"
+							z_order "111.000"
 						}
 
 					}
@@ -3590,22 +159,710 @@ GuiRootGroupDef
 				}
 
 				alignment "top"
-				id "scroll"
-				offset
+				anchor "top"
+				id "categories"
+				margin
 				{
-					x "957.000"
-					y "170.000"
-				}
-
-				size
-				{
-					x "1800.000"
-					y "200.000"
+					y "120.000"
 				}
 
 				size_mode_x "1"
 				size_mode_y "1"
-				z_order "15.000"
+				z_order "2.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "container"
+			value "GuiReferenceDef"
+			{
+				path "frame_double"
+				ref_children
+				{
+					Pair_String_Vector_GuiDef2
+					{
+						key "content"
+						value
+						{
+							GuiDef "GuiTextLineDef"
+							{
+								content "gui/menu/statistics/no_statistics_available"
+								style_name "active_blue"
+								translate "1"
+								alignment "center"
+								anchor "center"
+								bindings
+								{
+									visible
+									{
+										model_field "is_empty"
+									}
+
+								}
+
+								id "available"
+								model_source_solver
+								{
+									GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+									{
+										field_name "selected_category"
+									}
+
+								}
+
+								z_order "10.000"
+							}
+
+							GuiDef "GuiScrollViewerDef"
+							{
+								content
+								{
+									allow_overflow "0"
+									children
+									{
+										Pair_String_GuiDef2
+										{
+											key "column_1"
+											value "GuiStackPanelDef"
+											{
+												stack_type "1"
+												template_reference
+												{
+													path "templates.stats_group"
+													ref_gui_id "gui/menu/statistics"
+													margin
+													{
+														w "10.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "1"
+												}
+
+												id "column_1"
+												margin
+												{
+													x "10.000"
+													y "10.000"
+												}
+
+												model_source_solver
+												{
+													GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+													{
+														field_name "stats_group_1"
+													}
+
+												}
+
+												size_mode_x "2"
+												size_mode_y "1"
+												z_order "3.000"
+											}
+
+										}
+
+										Pair_String_GuiDef2
+										{
+											key "column_2"
+											value "GuiStackPanelDef"
+											{
+												stack_type "1"
+												template_reference
+												{
+													path "templates.stats_group"
+													ref_gui_id "gui/menu/statistics"
+													margin
+													{
+														w "10.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "1"
+												}
+
+												id "column_2"
+												margin
+												{
+													x "15.000"
+													y "10.000"
+												}
+
+												model_source_solver
+												{
+													GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+													{
+														field_name "stats_group_2"
+													}
+
+												}
+
+												size_mode_x "2"
+												size_mode_y "1"
+												z_order "2.000"
+											}
+
+										}
+
+										Pair_String_GuiDef2
+										{
+											key "column_3"
+											value "GuiStackPanelDef"
+											{
+												stack_type "1"
+												template_reference
+												{
+													path "templates.stats_group"
+													ref_gui_id "gui/menu/statistics"
+													margin
+													{
+														w "10.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "1"
+												}
+
+												id "column_3"
+												margin
+												{
+													x "15.000"
+													y "10.000"
+													z "10.000"
+												}
+
+												model_source_solver
+												{
+													GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+													{
+														field_name "stats_group_3"
+													}
+
+												}
+
+												size_mode_x "2"
+												size_mode_y "1"
+												z_order "1.000"
+											}
+
+										}
+
+									}
+
+									container_type "1"
+									size_mode_x "2"
+								}
+
+								horizontal_scroll_bar_visibility "2"
+								zoom_enabled "0"
+								vertical_scroll_bar
+								{
+									path "simple_vertical"
+									ref_gui_id "gui/template/scroll_bars"
+									anchor "top_right"
+									margin
+									{
+										w "-6.000"
+										x "5.000"
+										y "-5.000"
+									}
+
+									offset
+									{
+										x "2.000"
+									}
+
+									size
+									{
+										x "12.000"
+									}
+
+									size_mode_y "2"
+								}
+
+								children
+								{
+									Pair_String_GuiDef2
+									{
+										key "#MASK#"
+										value "GuiGroupDef"
+										{
+											children
+											{
+												Pair_String_GuiDef2
+												{
+													key "corner_top_left"
+													value "GuiQuadDef"
+													{
+														material_mode "stencil"
+														color
+														{
+															y "0.000"
+															z "0.000"
+														}
+
+														id "corner_top_left"
+														offset
+														{
+															x "18.000"
+														}
+
+														rotation "45.000"
+														size
+														{
+															x "12.000"
+															y "40.000"
+														}
+
+														z_order "6.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "fill"
+													value "GuiQuadDef"
+													{
+														material_mode "stencil"
+														color
+														{
+															y "0.000"
+															z "0.000"
+														}
+
+														id "fill"
+														margin
+														{
+															y "20.000"
+														}
+
+														size_mode_x "2"
+														size_mode_y "2"
+														z_order "8.000"
+													}
+
+												}
+
+												Pair_String_GuiDef2
+												{
+													key "top_fill"
+													value "GuiQuadDef"
+													{
+														material_mode "stencil"
+														color
+														{
+															y "0.000"
+															z "0.000"
+														}
+
+														id "top_fill"
+														margin
+														{
+															x "20.000"
+														}
+
+														offset
+														{
+															x "-3.000"
+														}
+
+														size
+														{
+															x "930.000"
+															y "20.000"
+														}
+
+														size_mode_x "2"
+														z_order "4.000"
+													}
+
+												}
+
+											}
+
+											id "#MASK#"
+											size
+											{
+												x "945.000"
+												y "945.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "2"
+										}
+
+									}
+
+								}
+
+								id "statistics"
+								margin
+								{
+									w "6.000"
+									x "5.000"
+									y "5.000"
+									z "5.000"
+								}
+
+								size_mode_x "2"
+								size_mode_y "2"
+								z_order "2.000"
+							}
+
+						}
+
+					}
+
+				}
+
+				ref_gui_id "gui/template/framed_group"
+				id "container"
+				margin
+				{
+					w "78.000"
+					x "20.000"
+					y "180.000"
+					z "20.000"
+				}
+
+				model_source_solver
+				{
+					GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+					{
+						field_name "selected_category"
+					}
+
+				}
+
+				size_mode_x "2"
+				size_mode_y "2"
+				z_order "2.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "menu_overlay"
+			value "GuiReferenceDef"
+			{
+				path "overlay"
+				ref_gui_id "gui/template/menu_overlay"
+				ref_model
+				{
+					bindings_proxy
+					{
+						button_right_1_visible
+						{
+							model_field "continue_game"
+						}
+
+						title
+						{
+							model_field "title"
+						}
+
+					}
+
+					database
+					{
+						Strings
+						{
+							StringData
+							{
+								key "visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "footer_visible"
+								value "1"
+							}
+
+							StringData
+							{
+								key "button_right_1_content"
+								value "BUTTON_continue"
+							}
+
+							StringData
+							{
+								key "button_right_1_action"
+								value "game.continue"
+							}
+
+							//StringData
+							//{
+							//	key "back_button_visible"
+							//	value "1"
+							//}
+
+							StringData
+							{
+								key "title"
+								value "gui/menu/statistics/header"
+							}
+
+						}
+
+						Floats
+						Vectors
+						Integers
+					}
+
+				}
+
+				alignment "top"
+				anchor "top"
+				id "menu_overlay"
+				size_mode_x "2"
+				size_mode_y "2"
+				z_order "1.000"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "players"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "button_all_players"
+						value "GuiReferenceDef"
+						{
+							path "templates.player_header"
+							ref_gui_id "gui/menu/statistics"
+							ref_model
+							{
+								bindings_proxy
+								{
+									is_activated
+									{
+										model_field "stats_for_all_players"
+									}
+
+								}
+
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "on_click_action"
+											value "select_player:-1"
+										}
+
+										StringData
+										{
+											key "icon"
+											value "missing"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							id "button_all_players"
+							size
+							{
+								x "65.000"
+								y "42.000"
+							}
+
+							size_mode_y "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "players"
+						value "GuiStackPanelDef"
+						{
+							template_reference
+							{
+								path "templates.player_header"
+								ref_gui_id "gui/menu/statistics"
+								ref_model
+								{
+									bindings_proxy
+									{
+										is_activated
+										{
+											model_field "is_active"
+										}
+
+										on_click_action
+										{
+											model_field "player_id"
+											converter "GuiModelPostfixConverter"
+											{
+												prefix "select_player:"
+											}
+
+										}
+
+									}
+
+									database
+									{
+										Strings
+										{
+											StringData
+											{
+												key "icon"
+												value "gui/menu/buttons/statistics/category_player"
+											}
+
+										}
+
+										Floats
+										Vectors
+										Integers
+									}
+
+								}
+
+								size
+								{
+									x "65.000"
+									y "3.000"
+								}
+
+								size_mode_y "2"
+								tooltip_def
+								{
+									ref_gui_id "gui/template/text_label"
+									ref_model
+									{
+										bindings_proxy
+										{
+											tooltip_content
+											{
+												model_field "user_name"
+											}
+
+										}
+
+										database
+										{
+											Strings
+											Floats
+											Vectors
+											Integers
+										}
+
+									}
+
+								}
+
+							}
+
+							id "players"
+							margin
+							{
+								x "80.000"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "players"
+								}
+
+							}
+
+							size
+							{
+								y "40.000"
+							}
+
+							size_mode_x "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "selected_header"
+						value "GuiTextLineDef"
+						{
+							capitals "1"
+							content "(BIND) localization"
+							style_name "build_info_subheader_yellow"
+							translate "1"
+							alignment "bottom"
+							anchor "top"
+							bindings
+							{
+								content
+								{
+									model_field "user_name"
+								}
+
+							}
+
+							id "selected_header"
+							margin
+							{
+								x "80.000"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "selected_player"
+								}
+
+							}
+
+							z_order "111.000"
+						}
+
+					}
+
+				}
+
+				bindings
+				{
+					visible
+					{
+						model_field "players"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
+				id "players"
+				margin
+				{
+					x "40.000"
+					y "140.000"
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				z_order "2.000"
 			}
 
 		}
@@ -3619,247 +876,1252 @@ GuiRootGroupDef
 				{
 					Pair_String_GuiDef2
 					{
-						key "row"
-						value "GuiGroupDef"
+						key "category_header"
+						value "GuiRadioButtonItemDef"
 						{
 							children
 							{
 								Pair_String_GuiDef2
 								{
-									key "item_1"
+									key "active"
 									value "GuiGroupDef"
 									{
 										children
 										{
 											Pair_String_GuiDef2
 											{
-												key "dark"
-												value "GuiQuadDef"
+												key "bg"
+												value "GuiImageDef"
 												{
-													border_color
-													{
-														x "0.180"
-														y "0.471"
-														z "0.600"
-													}
-
-													border_width "1.000"
-													color
-													{
-														x "0.039"
-														y "0.133"
-														z "0.196"
-													}
-
-													id "dark"
-													size
-													{
-														x "452.000"
-														y "44.000"
-													}
-
-													size_mode_y "2"
-													z_order "68.000"
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
 												}
 
 											}
 
 											Pair_String_GuiDef2
 											{
-												key "info"
-												value "GuiGroupDef"
+												key "icon"
+												value "GuiImageDef"
 												{
-													children
+													error_material "gui/hud/items_icons/consumables/missing_icon"
+													material "gui/menu/buttons/menu_inventory_other_selected"
+													alignment "center"
+													anchor "center"
+													bindings
 													{
-														Pair_String_GuiDef2
+														material
 														{
-															key "icon"
-															value "GuiImageDef"
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
 															{
-																error_material "gui/menu/inventory/stat_icons/stat_icon"
-																material "gui/hud/resource_icons/carbonium"
-																alignment "left"
-																anchor "left"
-																bindings
-																{
-																	material
-																	{
-																		model_field "icon"
-																	}
-
-																	scale
-																	{
-																		model_field "scale"
-																	}
-
-																	visible
-																	{
-																		model_field "icon"
-																		converter "GuiModelCompareConverter"
-																		{
-																			compare_operator "neq"
-																		}
-
-																	}
-
-																}
-
-																id "icon"
-																z_order "74.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "label"
-															value "GuiTextBoxDef"
-															{
-																max_size
-																{
-																	x "400.000"
-																	y "639.000"
-																}
-
-																content "COMMON_Text_Line"
-																style
-																{
-																	char_height "23.000"
-																	color
-																	{
-																		y "0.765"
-																		z "0.306"
-																	}
-
-																	df "1"
-																	font "Exo2_Bold_sdf"
-																	glow_color
-																	{
-																		w "0.000"
-																	}
-
-																	glow_size "0.000"
-																	glow_spread "0.000"
-																	shadow_angle "135.000"
-																	shadow_color
-																	{
-																		w "0.850"
-																	}
-
-																	shadow_distance "2.000"
-																	shadow_enabled "1"
-																	shadow_spread "0.000"
-																	space_size "7.000"
-																	stroke_position "0"
-																	stroke_size "0.000"
-																}
-
-																translate "1"
-																alignment "left"
-																anchor "left"
-																bindings
-																{
-																	content
-																	{
-																		model_field "label"
-																	}
-
-																	visible
-																	{
-																		model_field "label"
-																		converter "GuiModelCompareConverter"
-																		{
-																			compare_operator "neq"
-																		}
-
-																	}
-
-																}
-
-																id "label"
-																offset
-																{
-																	x "10.000"
-																}
-
-																z_order "72.000"
-															}
-
-														}
-
-														Pair_String_GuiDef2
-														{
-															key "spacer"
-															value "GuiQuadDef"
-															{
-																alignment "left"
-																anchor "left"
-																color
-																{
-																	w "0.000"
-																	y "0.000"
-																	z "0.000"
-																}
-
-																id "spacer"
-																size
-																{
-																	x "1.000"
-																	y "42.000"
-																}
-
-																z_order "73.000"
+																postfix "_active"
 															}
 
 														}
 
 													}
 
-													container_type "1"
-													id "info"
-													size
+													hitbox_visible "0"
+													id "icon"
+													offset
 													{
-														x "162.419"
-														y "44.000"
+														y "3.000"
 													}
 
-													size_mode_x "1"
-													z_order "71.000"
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "active"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "99.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
 												}
 
 											}
 
 											Pair_String_GuiDef2
 											{
-												key "right_dark"
-												value "GuiQuadDef"
+												key "bg_select"
+												value "GuiImageDef"
 												{
-													border_color
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/hud/items_icons/consumables/missing_icon"
+													material "gui/menu/buttons/menu_inventory_other_selected"
+													alignment "center"
+													anchor "center"
+													bindings
 													{
-														x "0.176"
-														y "0.471"
-														z "0.600"
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_active"
+															}
+
+														}
+
 													}
 
-													border_width "1.000"
-													alignment "top_right"
-													anchor "top_right"
-													color
+													hitbox_visible "0"
+													id "icon"
+													offset
 													{
-														x "0.039"
-														y "0.133"
-														z "0.196"
+														y "3.000"
 													}
 
-													id "right_dark"
+													scale
+													{
+														x "1.100"
+														y "1.100"
+													}
+
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "95.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/hud/items_icons/consumables/missing_icon"
+													material "gui/menu/buttons/menu_inventory_other_neutral"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_neutral"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										z_order "106.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/hud/items_icons/consumables/missing_icon"
+													material "gui/menu/buttons/menu_inventory_other_neutral"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_neutral"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
+													scale
+													{
+														x "1.100"
+														y "1.100"
+													}
+
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "102.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								is_activated
+								{
+									model_field "is_activated"
+								}
+
+								on_click_action
+								{
+									model_field "on_click_action"
+								}
+
+							}
+
+							id "category_header"
+							size
+							{
+								x "132.000"
+								y "70.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "94.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "player_header"
+						value "GuiRadioButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/menu/buttons/inventory/sort_all_selected"
+													material "gui/menu/buttons/statistics/category_player_active"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_active"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
 													size
 													{
-														x "152.000"
-														y "41.000"
+														x "42.000"
+														y "42.000"
 													}
 
+													size_mode_x "0"
+													size_mode_y "0"
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "active"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+										visible "0"
+										z_order "99.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_active"
+													hitbox_visible "0"
+													id "bg"
+													size_mode_x "2"
 													size_mode_y "2"
-													z_order "69.000"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/menu/buttons/inventory/sort_all_selected"
+													material "gui/menu/buttons/statistics/category_player_active"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_active"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
+													scale
+													{
+														x "1.100"
+														y "1.100"
+													}
+
+													size
+													{
+														x "42.000"
+														y "42.000"
+													}
+
+													size_mode_x "0"
+													size_mode_y "0"
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "active_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+										visible "0"
+										z_order "95.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/menu/buttons/inventory/sort_all_neutral"
+													material "gui/menu/buttons/statistics/category_player_neutral"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_neutral"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
+													size
+													{
+														x "42.000"
+														y "42.000"
+													}
+
+													size_mode_x "0"
+													size_mode_y "0"
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+										z_order "106.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_neutral"
+													hitbox_visible "0"
+													id "bg"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "1.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_select"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/research/tab_selection"
+													hitbox_visible "0"
+													id "bg_select"
+													size_mode_x "2"
+													size_mode_y "2"
+													tooltip_def
+													z_order "2.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/menu/buttons/inventory/sort_all_neutral"
+													material "gui/menu/buttons/statistics/category_player_neutral"
+													alignment "center"
+													anchor "center"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+															converter "GuiModelPostfixConverter"
+															{
+																postfix "_neutral"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "icon"
+													offset
+													{
+														y "3.000"
+													}
+
+													scale
+													{
+														x "1.100"
+														y "1.100"
+													}
+
+													size
+													{
+														x "42.000"
+														y "42.000"
+													}
+
+													size_mode_x "0"
+													size_mode_y "0"
+													z_order "3.000"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "132.000"
+											y "64.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+										visible "0"
+										z_order "102.000"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								is_activated
+								{
+									model_field "is_activated"
+								}
+
+								on_click_action
+								{
+									model_field "on_click_action"
+								}
+
+							}
+
+							id "player_header"
+							offset
+							{
+								y "100.000"
+							}
+
+							size
+							{
+								x "65.000"
+								y "30.000"
+							}
+
+							tooltip_def
+							z_order "94.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "stat_row"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "dark"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "0.180"
+											y "0.471"
+											z "0.600"
+										}
+
+										border_width "1.000"
+										color
+										{
+											x "0.039"
+											y "0.133"
+											z "0.196"
+										}
+
+										id "dark"
+										size
+										{
+											x "452.000"
+											y "44.000"
+										}
+
+										size_mode_y "2"
+										z_order "68.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "info"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/hud/items_icons/consumables/missing_icon"
+													material "gui/hud/resource_icons/carbonium"
+													stretch_proportional "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+														visible
+														{
+															model_field "icon"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "icon"
+													margin
+													{
+														x "5.000"
+													}
+
+													max_size
+													{
+														y "44.000"
+													}
+
+													size
+													{
+														y "44.000"
+													}
+
+													size_mode_x "2"
+													size_mode_y "2"
+													visible "0"
+													z_order "74.000"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													content "(BIND) name"
+													style
+													{
+														char_height "23.000"
+														color
+														{
+															y "0.765"
+															z "0.306"
+														}
+
+														df "1"
+														font "Exo2_Bold_sdf"
+														glow_color
+														{
+															w "0.000"
+														}
+
+														glow_size "0.000"
+														glow_spread "0.000"
+														shadow_angle "135.000"
+														shadow_color
+														{
+															w "0.850"
+														}
+
+														shadow_distance "2.000"
+														shadow_enabled "1"
+														shadow_spread "0.000"
+														space_size "7.000"
+														stroke_position "0"
+														stroke_size "0.000"
+													}
+
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "name"
+														}
+
+														visible
+														{
+															model_field "name"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "label"
+													margin
+													{
+														w "10.000"
+														x "15.000"
+														y "10.000"
+													}
+
+													max_size
+													{
+														x "400.000"
+														y "639.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "72.000"
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										id "info"
+										size
+										{
+											x "162.419"
+											y "44.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "71.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "right_dark"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "0.176"
+											y "0.471"
+											z "0.600"
+										}
+
+										border_width "1.000"
+										alignment "top_right"
+										anchor "top_right"
+										color
+										{
+											x "0.039"
+											y "0.133"
+											z "0.196"
+										}
+
+										id "right_dark"
+										size
+										{
+											x "152.000"
+											y "41.000"
+										}
+
+										size_mode_y "2"
+										z_order "69.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "value"
+									value "GuiTextBoxDef"
+									{
+										capitals "1"
+										content "COMMON_Text_Line"
+										style
+										{
+											char_height "23.000"
+											df "1"
+											font "Exo2_Bold_sdf"
+											glow_color
+											{
+												w "0.000"
+											}
+
+											glow_size "0.000"
+											glow_spread "0.000"
+											shadow_angle "135.000"
+											shadow_color
+											{
+												w "0.913"
+											}
+
+											shadow_distance "2.000"
+											shadow_enabled "1"
+											shadow_size "0.000"
+											shadow_spread "0.000"
+											space_size "7.000"
+											stroke_position "0"
+											stroke_size "0.000"
+										}
+
+										translate "1"
+										alignment "right"
+										anchor "right"
+										bindings
+										{
+											content
+											{
+												model_field "value"
+											}
+
+											visible
+											{
+												model_field "value"
+												converter "GuiModelCompareConverter"
+												{
+													compare_operator "neq"
+												}
+
+											}
+
+										}
+
+										id "value"
+										max_size
+										{
+											x "135.000"
+											y "650.000"
+										}
+
+										offset
+										{
+											x "-10.000"
+										}
+
+										z_order "70.000"
+									}
+
+								}
+
+							}
+
+							id "stat_row"
+							margin
+							{
+								x "15.000"
+								z "15.000"
+							}
+
+							offset
+							{
+								y "50.000"
+							}
+
+							size
+							{
+								x "580.000"
+								y "44.000"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+							z_order "67.000"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "stats_group"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "background"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "0.180"
+											y "0.471"
+											z "0.600"
+										}
+
+										border_width "1.000"
+										corner_cut "1"
+										corner_radius "20.000"
+										inner_alpha "0.750"
+										color
+										{
+											x "0.055"
+											y "0.212"
+											z "0.306"
+										}
+
+										id "background"
+										size
+										{
+											x "616.000"
+											y "82.000"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiTextDef"
+												{
+													content "COMMON_Text_LineCOMMON_Text_LineCOMMON_Text_LineCOMMON_Text_LineCOMMON_Text_Line"
+													style
+													{
+														char_height "25.000"
+														color
+														{
+															x "0.396"
+															y "0.922"
+														}
+
+														df "1"
+														font "orbitron-medium_sdf"
+														glow_color
+														{
+															w "0.000"
+														}
+
+														glow_size "0.000"
+														glow_spread "0.000"
+														shadow_angle "135.000"
+														shadow_color
+														{
+															w "0.850"
+														}
+
+														shadow_distance "2.000"
+														shadow_enabled "1"
+														shadow_spread "0.000"
+														stroke_position "0"
+														stroke_size "0.000"
+													}
+
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "name"
+														}
+
+														visible
+														{
+															model_field "header"
+															converter "GuiModelCompareConverter"
+															{
+																compare_operator "neq"
+															}
+
+														}
+
+													}
+
+													id "header"
+													max_size
+													{
+														y "32.000"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													z_order "1.000"
 												}
 
 											}
@@ -3867,21 +2129,21 @@ GuiRootGroupDef
 											Pair_String_GuiDef2
 											{
 												key "value"
-												value "GuiTextBoxDef"
+												value "GuiTextLineDef"
 												{
-													max_size
-													{
-														x "135.000"
-														y "650.000"
-													}
-
-													capitals "1"
-													content "COMMON_Text_Line"
+													content "22"
 													style
 													{
-														char_height "23.000"
+														char_height "25.000"
+														color
+														{
+															x "0.200"
+															y "0.949"
+															z "0.318"
+														}
+
 														df "1"
-														font "Exo2_Bold_sdf"
+														font "orbitron-medium_sdf"
 														glow_color
 														{
 															w "0.000"
@@ -3905,8 +2167,8 @@ GuiRootGroupDef
 													}
 
 													translate "1"
-													alignment "right"
-													anchor "right"
+													alignment "left"
+													anchor "left"
 													bindings
 													{
 														content
@@ -3916,7 +2178,7 @@ GuiRootGroupDef
 
 														visible
 														{
-															model_field "value"
+															model_field "header_value"
 															converter "GuiModelCompareConverter"
 															{
 																compare_operator "neq"
@@ -3929,57 +2191,103 @@ GuiRootGroupDef
 													id "value"
 													margin
 													{
-														w "2.000"
+														z "5.000"
 													}
 
-													offset
-													{
-														x "-10.000"
-													}
-
-													z_order "70.000"
 												}
 
 											}
 
 										}
 
-										id "item_1"
+										container_type "1"
+										id "header"
+										margin
+										{
+											x "20.000"
+											z "15.000"
+										}
+
 										size
 										{
 											x "580.000"
-											y "44.000"
+											y "48.000"
 										}
 
+										size_mode_x "2"
+										z_order "1.000"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "stats"
+									value "GuiStackPanelDef"
+									{
+										stack_type "1"
+										template_reference
+										{
+											path "templates.stat_row"
+											ref_gui_id "gui/menu/statistics"
+											margin
+											{
+												w "2.000"
+												x "5.000"
+												y "2.000"
+												z "5.000"
+											}
+
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+										id "stats"
+										margin
+										{
+											w "8.000"
+											x "8.000"
+											y "40.000"
+											z "8.000"
+										}
+
+										model_source_solver
+										{
+											GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+											{
+												field_name "stats"
+											}
+
+										}
+
+										size_mode_x "2"
 										size_mode_y "1"
-										z_order "67.000"
+										z_order "2.000"
 									}
 
 								}
 
 							}
 
-							container_type "1"
-							id "row"
-							margin
+							id "stats_group"
+							offset
 							{
-								w "3.000"
+								y "600.000"
 							}
 
 							size
 							{
-								x "585.000"
-								y "44.000"
+								x "580.000"
 							}
 
-							size_mode_x "1"
-							z_order "66.000"
+							size_mode_y "1"
 						}
 
 					}
 
 				}
 
+				anchor "bottom_left"
 				id "templates"
 				margin
 				{
@@ -3994,40 +2302,10 @@ GuiRootGroupDef
 					y "38.000"
 				}
 
-				size_mode_y "1"
+				size_mode_x "2"
+				size_mode_y "2"
 				visible "0"
 				z_order "9999.000"
-			}
-
-		}
-
-		Pair_String_GuiDef2
-		{
-			key "top_header"
-			value "GuiTextLineDef"
-			{
-				capitals "1"
-				content "COMMON_Text_Line"
-				style_name "build_info_subheader_yellow"
-				translate "1"
-				alignment "center"
-				anchor "top"
-				bindings
-				{
-					content
-					{
-						model_field "top_header"
-					}
-
-				}
-
-				id "top_header"
-				offset
-				{
-					y "108.000"
-				}
-
-				z_order "111.000"
 			}
 
 		}
@@ -4048,8 +2326,1196 @@ GuiDataDefinitions
 	GuiDataTypeDefinition
 	{
 		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
 		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category4"
+					default_value
+					{
+						typehash "4117539713"
+						Vector_[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category4
+						{
+							[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category
+							{
+								name
+								stats_group_2
+								stats_group_3
+								stats_group_1
+								{
+									[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+									{
+										name
+										stats
+										{
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+										}
+
+										value "33"
+									}
+
+									[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+									{
+										name
+										stats
+										{
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+										}
+
+										value "33"
+									}
+
+									[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+									{
+										name
+										stats
+										{
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+											[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+											{
+												value "12"
+												label "Test"
+												icon
+											}
+
+										}
+
+										value "33"
+									}
+
+								}
+
+								is_active "0"
+								icon "gui/menu/buttons/menu_inventory_other"
+							}
+
+							[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category
+							{
+								name
+								stats_group_2
+								stats_group_3
+								stats_group_1
+								is_active "1"
+								icon "gui/menu/buttons/menu_inventory_other"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "categories"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player4"
+					default_value
+					{
+						typehash "3160224389"
+						Vector_[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player4
+						{
+							[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player
+							{
+								user_name "QMA666"
+								is_active "0"
+							}
+
+							[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player
+							{
+								user_name "QMA666"
+								is_active "0"
+							}
+
+							[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player
+							{
+								user_name "QMA666"
+								is_active "1"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "players"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category"
+					default_value
+					{
+						typehash "2778109301"
+						[9DEA770B-2330-4091-98F4-27AAD8F56098]/Category
+						{
+							name
+							stats_group_2
+							{
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.BuildingCreated"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+							}
+
+							stats_group_3
+							{
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+							}
+
+							stats_group_1
+							{
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.BuildingCreated"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.BuildingCreated"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+								[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+								{
+									name "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+									stats
+									{
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "1221"
+											label "Test"
+											icon "error"
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+										[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+										{
+											value "12"
+											label "Test"
+											icon
+										}
+
+									}
+
+									value "33"
+								}
+
+							}
+
+							is_active "1"
+							icon "gui/menu/buttons/menu_inventory_other"
+						}
+
+					}
+
+				}
+
+				key "selected_category"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player"
+					default_value
+					{
+						typehash "2389510809"
+						[DEBD7556-2729-46C0-BDC6-22FDDD133984]/Player
+						{
+							user_name "QMA666"
+							is_active "0"
+						}
+
+					}
+
+				}
+
+				key "selected_player"
+			}
+
+		}
+
 		handle "[08017F8E-F930-4079-A6CF-065DCA2E04D0]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "Category"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_active"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Test"
+					}
+
+				}
+
+				key "name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4"
+					default_value
+					{
+						typehash "2654692235"
+						Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4
+						{
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "stats_group_1"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4"
+					default_value
+					{
+						typehash "2654692235"
+						Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4
+						{
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "stats_group_2"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4"
+					default_value
+					{
+						typehash "2654692235"
+						Vector_[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup4
+						{
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+							[23019BED-9EFB-484A-B3E0-C158B2449D3F]/StatGroup
+							{
+								name
+								stats
+								{
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+									[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+									{
+										value "12"
+										label "Test"
+										icon
+									}
+
+								}
+
+								value "33"
+							}
+
+						}
+
+					}
+
+				}
+
+				key "stats_group_3"
+			}
+
+		}
+
+		handle "[9DEA770B-2330-4091-98F4-27AAD8F56098]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "StatGroup"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/menu/statistics/stat_name.PlayerDamageTakenByOwner"
+					}
+
+				}
+
+				key "name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat4"
+					default_value
+					{
+						typehash "2259553812"
+						Vector_[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat4
+						{
+							[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+							{
+								value "1221"
+								label "Test"
+								icon "error"
+							}
+
+							[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+							{
+								value "12"
+								label "Test"
+								icon
+							}
+
+							[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+							{
+								value "12"
+								label "Test"
+								icon
+							}
+
+							[39C44DD2-BF7E-46FD-ACC0-351671F531BB]/Stat
+							{
+								value "12"
+								label "Test"
+								icon
+							}
+
+						}
+
+					}
+
+				}
+
+				key "stats"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "33"
+					}
+
+				}
+
+				key "value"
+			}
+
+		}
+
+		handle "[23019BED-9EFB-484A-B3E0-C158B2449D3F]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "Stat"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "error"
+					}
+
+				}
+
+				key "icon"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Test"
+					}
+
+				}
+
+				key "label"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "12"
+					}
+
+				}
+
+				key "value"
+			}
+
+		}
+
+		handle "[39C44DD2-BF7E-46FD-ACC0-351671F531BB]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "Player"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "is_active"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "QMA666"
+					}
+
+				}
+
+				key "user_name"
+			}
+
+		}
+
+		handle "[DEBD7556-2729-46C0-BDC6-22FDDD133984]"
 	}
 
 }

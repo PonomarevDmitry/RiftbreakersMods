@@ -1,14 +1,13 @@
-//editor "offset(-868.746,203.367)|zoom(0.825)"
+//editor "scroll(1117.20,-110.83)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "6"
-	editor "3163"
+	version "7"
+	editor "6413"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(-414,545)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,6 +22,7 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
@@ -36,14 +36,42 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(objective_generic.xml)|pos(1029,500)"
-			script "lua/graph/objective/objective_spawn.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
 					{
 						key "objective_blueprint"
+						value
 					}
 
 					StringData
@@ -66,6 +94,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "unique_parent_id_name"
+						value
 					}
 
 					StringData
@@ -76,6 +105,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(2145,681)"
+			database
+			{
 				Integers
 				{
 					IntData
@@ -84,31 +124,8 @@ FlowGraphTemplate
 						value "1"
 					}
 
-					IntData
-					{
-						key "is_parent_local"
-						value "1"
-					}
-
-					IntData
-					{
-						key "is_global"
-						value "0"
-					}
-
 				}
 
-			}
-
-			self_id "objective_generic_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_finish.xml)|pos(2145,681)"
-			script "lua/graph/objective/objective_finish.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -125,27 +142,27 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "is_objective_local"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/objective/objective_finish.lua"
 			self_id "objective_finish_0"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_exist_building.xml)|pos(1650,471)"
-			script "lua/graph/logic/logic_if_exist_building.lua"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -157,6 +174,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "target_name"
+						value
 					}
 
 					StringData
@@ -173,38 +191,17 @@ FlowGraphTemplate
 
 				}
 
-				Integers
-				{
-					IntData
-					{
-						key "count"
-						value "1"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/logic/logic_if_exist_building.lua"
 			self_id "logic_if_exist_building_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_if_exist_building_0###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(1665,683)"
-			self_id "logic_if_exist_building_0###true"
+			//editor "layout(condition_true.xml)|pos(1650,676)"
 			key "true"
+			self_id "logic_if_exist_building_0###true"
 			value "logic_if_exist_building_0###true"
 		}
 
@@ -212,43 +209,228 @@ FlowGraphTemplate
 		{
 			//editor "layout(interface_dialogue_show_group.xml)|pos(132,422)"
 			global "0"
-			self_id "interface_dialogue_show_group_0"
 			interrupt "0"
 			priority "0"
+			self_id "interface_dialogue_show_group_0"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/objective/mech_upgrade_hq_01"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/objective/ashley_upgrade_hq_01"
-					extended_duration "0"
 				}
 
 			}
 
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_objective_marker.xml)|pos(1654,5)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "upgrade_headquarters"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value "hq_upgrade_marker"
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Type"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "headquarters"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_objective_marker.lua"
+			self_id "entity_spawn_objective_marker_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_remove.xml)|pos(2289,267)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "target_name"
+						value "hq_upgrade_marker"
+					}
+
+					StringData
+					{
+						key "target_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_type"
+						value
+					}
+
+					StringData
+					{
+						key "target_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "dissolve_state"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_remove.lua"
+			self_id "entity_remove_1"
+		}
+
 	}
 
 	GraphConnections
 	{
-		logic_if_exist_building_0###true "objective_finish_0"
+		default "interface_dialogue_show_group_0"
+		entity_spawn_objective_marker_1 "entity_remove_1"
 		interface_dialogue_show_group_0 "objective_generic_0"
 		logic_if_exist_building_0 "logic_if_exist_building_0###true"
+		logic_if_exist_building_0###true "entity_remove_1|objective_finish_0"
 		objective_finish_0 "event_end_0"
-		objective_generic_0 "logic_if_exist_building_0"
-		default "interface_dialogue_show_group_0"
+		objective_generic_0 "entity_spawn_objective_marker_1|logic_if_exist_building_0"
 	}
 
+	GraphComments
 }
 

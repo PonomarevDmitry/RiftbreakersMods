@@ -8,8 +8,10 @@ end
 
 function power_well:UpdateWorkingState()
     local working = 0
-    if not self.activated and self.entities_in_trigger > 0 then
-        working = 1
+    if not self.activated then
+        for k,v in pairs( self.entities_in_trigger ) do
+            working = 1
+        end
     end
 
     self.data:SetInt("working", working)
@@ -31,8 +33,14 @@ function power_well:init()
     self:RegisterHandler( self.entity, "LeftTriggerEvent", "OnLeftTriggerEvent" )
 	self:RegisterHandler( self.entity, "AnimationMarkerReached", "OnAnimationMarkerReached" ) 
 
-    self.entities_in_trigger = 0
+    self.entities_in_trigger = {}
     self:UpdateWorkingState();
+end
+
+function power_well:OnLoad()
+    if type(self.entities_in_trigger) == 'number' then
+        self.entities_in_trigger = {}
+    end
 end
 
 function power_well:OnAnimationMarkerReached(evt)
@@ -44,7 +52,9 @@ function power_well:OnInteractWithEntityRequest( evt )
         return
     end
 
-    CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_POWER_WELLS, 1)
+    local playerId = PlayerService:GetPlayerByMech( evt:GetOwner() )
+
+    CampaignService:UpdateAchievementProgress(ACHIEVEMENT_OPEN_POWER_WELLS, 1, playerId )
 
     self:AttachModificator(evt:GetOwner())
 
@@ -55,13 +65,23 @@ function power_well:OnInteractWithEntityRequest( evt )
 end
 
 function power_well:OnEnteredTriggerEvent(evt)
-    self.entities_in_trigger = ( self.entities_in_trigger or 0 ) + 1
+    local tag = evt:Gettag()
+    if tag ~= "" and tag ~= "open" then
+       return
+    end
+
+    self.entities_in_trigger[ evt:GetOtherEntity() ] = true
 
     self:UpdateWorkingState();
 end
 
 function power_well:OnLeftTriggerEvent(evt)
-    self.entities_in_trigger = ( self.entities_in_trigger or 0 ) - 1
+    local tag = evt:Gettag()
+    if tag ~= "" and tag ~= "close" then
+        return
+    end
+
+    self.entities_in_trigger[ evt:GetOtherEntity() ] = nil
 
     self:UpdateWorkingState();
 end

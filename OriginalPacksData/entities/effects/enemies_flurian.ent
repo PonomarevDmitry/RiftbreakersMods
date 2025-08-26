@@ -178,7 +178,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/muzzle_blue_very_small
+		 lights/point/muzzle_blue_medium
 		 effects/default
 	}
 
@@ -194,11 +194,52 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name "effects/enemies_flurian/muzzle_red"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_red_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/insect_gun_muzzle"
+	}
+	SoundDesc
+	{
+		name 		"enemies/flurian/projectile_launch"
+	}	
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_flurian/muzzle_physical"
+
+	base_blueprints
+	{
+		 lights/point/muzzle_orange_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_shotgun_muzzle"
+	}
+	SoundDesc
+	{
+		name 		"enemies/flurian/projectile_launch"
+	}	
+}
+
+
+EntityBlueprint
+{
 	name "effects/enemies_flurian/projectile_hit"
 	
 	base_blueprints
 	{
-		 lights/point/explosion_red_big
+		 lights/point/explosion_red_medium
 		 effects/default
 	}
 
@@ -247,7 +288,7 @@ EntityBlueprint
 	
 	base_blueprints
 	{
-		 lights/point/explosion_blue_big
+		 lights/point/explosion_blue_medium
 		 effects/default
 	}
 
@@ -261,6 +302,55 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/energy_explosion_big"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.3"
+		power   		"0.3"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+	
+	SoundDesc
+	{
+		name "enemies/flurian/projectile_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name "effects/enemies_flurian/projectile_hit_physical"
+	
+	base_blueprints
+	{
+		 lights/point/explosion_orange_medium
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/physical_explosion_big"
 	}
 
 	CameraShakeDesc

@@ -1,8 +1,8 @@
-//editor "scroll(-294.69,37.14)|zoom(0.47)"
+//editor "scroll(5552.44,10374.49)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "22"
-	editor "6197"
+	version "24"
+	editor "6315"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -49,7 +49,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(10594,8481)"
+			//editor "layout(event_end.xml)|pos(10891,8483)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -658,7 +658,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(1575,1617)"
+			//editor "layout(logic_wait.xml)|pos(1732,1613)"
 			database
 			{
 				Floats
@@ -1652,17 +1652,6 @@ FlowGraphTemplate
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/nurglax_boss_random"
-					count "1"
-					delay "3.00"
-					delay_group "5.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/stickrid"
 					count "3"
 					delay "3"
@@ -1893,17 +1882,6 @@ FlowGraphTemplate
 					delay_group "5.00"
 					spawn_type "blueprint"
 					units_in_one_spawn "5"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/baxmoth_boss_random"
-					count "1"
-					delay "5"
-					delay_group "5.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
 				}
 
 			}
@@ -2347,17 +2325,6 @@ FlowGraphTemplate
 			Enemies
 			{
 				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/nurglax_boss_random"
-					count "1"
-					delay "3"
-					delay_group "5.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
@@ -2810,6 +2777,137 @@ FlowGraphTemplate
 
 		}
 
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(2243,267)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "15"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Direction"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_16"
+			spawn_group
+			spawn_point "spawn_direction_1"
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_swamp_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(4705,606)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_13"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(7217,3663)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_14"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(10067,7800)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_15"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(10653,8480)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_16"
+		}
+
 	}
 
 	GraphConnections
@@ -2819,15 +2917,19 @@ FlowGraphTemplate
 		logic_and_10 "logic_or_0"
 		logic_and_11 "logic_and_12"
 		logic_and_12 "logic_wait_13"
+		logic_and_13 "logic_and_14"
+		logic_and_14 "logic_and_15"
+		logic_and_15 "logic_and_16"
+		logic_and_16 "event_end_0"
 		logic_and_2 "logic_and_7"
 		logic_and_3 "logic_and_7"
 		logic_and_4 "logic_and_8"
 		logic_and_5 "logic_and_8"
 		logic_and_6 "logic_and_8"
 		logic_and_7 "logic_and_9"
-		logic_and_8 "logic_and_10|logic_and_9"
+		logic_and_8 "logic_and_10"
 		logic_and_9 "logic_and_10"
-		logic_or_0 "event_end_0"
+		logic_or_0 "logic_and_16"
 		logic_or_1 "wave_ground_6"
 		logic_or_2 "wave_ground_1"
 		logic_or_3 "wave_ground_18"
@@ -2845,7 +2947,7 @@ FlowGraphTemplate
 		logic_wait_4 "wave_ground_4"
 		logic_wait_5 "wave_ground_12"
 		logic_wait_6 "logic_wait_15|logic_wait_5|wave_ground_13"
-		logic_wait_7 "logic_wait_2|logic_wait_6|wave_ground_5"
+		logic_wait_7 "logic_wait_2|logic_wait_6|wave_ground_16|wave_ground_5"
 		logic_wait_9 "logic_wait_17|wave_ground_15"
 		wave_ground_1 "logic_and_3"
 		wave_ground_11 "logic_or_1"
@@ -2853,6 +2955,7 @@ FlowGraphTemplate
 		wave_ground_13 "logic_or_2"
 		wave_ground_14 "logic_or_3"
 		wave_ground_15 "logic_or_4"
+		wave_ground_16 "logic_and_13"
 		wave_ground_17 "logic_and_4"
 		wave_ground_18 "logic_and_4"
 		wave_ground_2 "logic_and_5"
@@ -2870,7 +2973,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 1 - MIXED WAVES"
 			position "480.00,208.00"
-			size "4316.00,2366.67"
+			size "4356.00,2426.67"
 			color "0.59,0.64,1.00,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2880,7 +2983,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 2 - BASIC SWARM WAVES"
 			position "1840.00,2656.00"
-			size "3276.00,3330.00"
+			size "3316.00,3390.00"
 			color "0.20,0.53,0.15,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2890,7 +2993,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 3 - MIXED RANGE ATTACKERS"
 			position "2112.00,6112.00"
-			size "2956.00,2510.67"
+			size "2996.00,2570.67"
 			color "0.48,0.41,0.93,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2900,7 +3003,7 @@ FlowGraphTemplate
 		{
 			comment "DIRECTION 4 - RANGED + HEDRONER FOCUS"
 			position "3282.67,8606.67"
-			size "3068.00,2522.67"
+			size "3108.00,2582.67"
 			color "0.34,0.41,0.53,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -2910,7 +3013,7 @@ FlowGraphTemplate
 		{
 			comment "FOLLOW-UP ATTACK FOR DIRECTIONS 1& 2"
 			position "5616.00,11120.00"
-			size "3012.00,3494.00"
+			size "3052.00,3554.00"
 			color "0.00,0.50,0.00,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"

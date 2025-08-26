@@ -95,13 +95,6 @@ function mission_base:SetAccessibleWorldRegion( min, max )
         for entity in Iter( entities ) do
             EntityService:SetName( entity, "" );
             EntityService:SetGroup( entity, "" );
-
-            local children = EntityService:GetChildren( entity, false )
-            for child in Iter( children ) do
-                if EntityService:GetBlueprintName( child ) == "logic/spawn_enemy_grid_culler" then
-                    EntityService:RemoveEntity( child )
-                end
-            end
         end
     end
 
@@ -125,9 +118,11 @@ function mission_base:SelectWaveSpawnPoints()
         Assert( #entities > 0, "Failed to find entities for: `" .. group .. "` in bounds:\nMin: " .. tostring(bounds.min.x) .. "," ..tostring(bounds.min.y) .."," ..tostring(bounds.min.z) .. "\nMax: " .. tostring(bounds.max.x) .. "," ..tostring(bounds.max.y) .."," ..tostring(bounds.max.z) )
 
         for entity in Iter( entities ) do
-            EntityService:SetName( entity, group .. "/" .. tostring(entity) );
-            EntityService:SetGroup( entity, group );
-            EntityService:SpawnAndAttachEntity("logic/spawn_enemy_grid_culler", entity)
+            local cell = EnvironmentService:GetTerrainCell( EntityService:GetPosition( entity ) )
+            if cell ~= INVALID_ID and not EntityService:HasComponent( cell, "WorldBlockerLayerComponent" ) then
+                EntityService:SetName( entity, group .. "/" .. tostring(entity) );
+                EntityService:SetGroup( entity, group );
+            end
         end
     end
 end
@@ -230,7 +225,7 @@ function mission_base:SelectPlayerSpawnPoint()
     return MapGenerator:SelectSpawnPoint();
 end
 
-function mission_base:PrepareSpawnPoints(safeRadius)
+function mission_base:PrepareSpawnPoints()
     if MapGenerator:GetInitialSpawnPoint() == INVALID_ID then
         local spawn_point = self:SelectPlayerSpawnPoint();
         MapGenerator:SetInitialSpawnPoint( spawn_point );
@@ -238,17 +233,14 @@ function mission_base:PrepareSpawnPoints(safeRadius)
 
     self:SelectWaveSpawnPoints();
 
-    --self:RemoveBlueprintsOutOfPlayableBounds({ "logic/spawn_objective" });
-
     return spawn_point
 end
 
 function mission_base:init()
-    self:PrepareSpawnPoints();
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
 end
 
 function mission_base:Activated()
-	self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
 end
 
 function mission_base:OnMissionFinish( status )
@@ -290,4 +282,11 @@ function mission_base:OnLoad()
         self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
     end
 end
+
+function mission_base:PrepareMissionTilesPool()
+end
+
+function mission_base:PrepareMissionObjects()
+end
+
 return mission_base

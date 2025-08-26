@@ -11,8 +11,7 @@ function stickrid_wreck:initParams()
 		self.normalExplodeProbability = 1
 		self.leaveBodyProbability = 0
 	else
-		self.normalExplodeProbability = 0
-		self.leaveBodyProbability = 10
+
 	end
 
 end

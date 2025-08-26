@@ -21,9 +21,9 @@ EntityBlueprint
 		on_enemy_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
 		on_world_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
 		on_resisted_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
-
+		diameter				"1"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 			"ground_unit|destructible"
+		//collision_2d 			"ground_unit|destructible"
 		
 		DamagePattern
 		{
@@ -54,6 +54,7 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}	
 	EffectDesc
 	{
@@ -165,7 +166,12 @@ EntityBlueprint
 	{
 		attack_movement_factor	"0.35"
 	}
-	
+
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
+	}
+
 	BurstWeaponComponent
 	{
 		WeaponAffector
@@ -187,8 +193,8 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_energy/heavy_plasma_fire"
 
-		burst_column_spacing 		"0.5"
-		burst_rate 					"0.4"
+		burst_column_spacing 		"0.75"
+		burst_rate 					"0.5"
 		//burst_column_angle 			"5"
 	}
 
@@ -327,6 +333,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/heavy_plasma_advanced"
 		bigger_icon 	"gui/menu/items_icons/weapons/heavy_plasma_advanced"
 		description 	"gui/menu/inventory/weapon_charge_description/heavy_plasma"
+		predict 		1
 	}
 
 	LuaDesc
@@ -381,6 +388,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/heavy_plasma_extreme"
 		bigger_icon 	"gui/menu/items_icons/weapons/heavy_plasma_extreme"
 		description 	"gui/menu/inventory/weapon_charge_description/heavy_plasma"
+		predict 		1
 	}
 
 	LuaDesc
@@ -417,6 +425,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/heavy_plasma"
 		bigger_icon 	"gui/menu/items_icons/weapons/heavy_plasma"
 		description 	"gui/menu/inventory/weapon_charge_description/heavy_plasma"
+		predict 		1
 	}
 
 	LuaDesc
@@ -471,6 +480,7 @@ EntityBlueprint
 		icon			"gui/hud/items_icons/weapons/heavy_plasma_superior"
 		bigger_icon 	"gui/menu/items_icons/weapons/heavy_plasma_superior"
 		description 	"gui/menu/inventory/weapon_charge_description/heavy_plasma"
+		predict 		1
 	}
 
 	LuaDesc

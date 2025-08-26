@@ -7,9 +7,7 @@ function arachnoid_sentinel_base_wreck:__init()
 end
 
 function arachnoid_sentinel_base_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return arachnoid_sentinel_base_wreck

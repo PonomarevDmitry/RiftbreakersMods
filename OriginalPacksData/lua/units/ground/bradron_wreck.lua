@@ -7,13 +7,7 @@ function bradron_wreck:__init()
 end
 
 function bradron_wreck:initParams()
-	if ( UnitService:IsOnHeightGround( self.entity ) == true ) then
-		self.normalExplodeProbability = 1
-		self.leaveBodyProbability = 0
-	else
-		self.normalExplodeProbability = 2
-		self.leaveBodyProbability = 10
-	end
+
 end
 
 return bradron_wreck

@@ -100,8 +100,12 @@ function extractor:OnDeactivate()
 end
 
 local function GetInteractiveEntity( owner )
-	local component = reflection_helper( EntityService:GetComponent(owner, "MechComponent") )
-	return component.interactive_ent.id;
+	local component = EntityService:GetComponent(owner, "MechComponent")
+	if component == nil then
+		return INVALID_ID
+	end
+
+	return reflection_helper( component ).interactive_ent.id;
 end
 
 function extractor:OnExecuteHarvesting()

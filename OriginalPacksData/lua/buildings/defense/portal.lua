@@ -72,7 +72,6 @@ function portal:OnEnteredTriggerEvent(evt)
 end
 
 function portal:OnDestroy()
-	EntityService:ShowTimeoutSoundEvent(self.entity, 30.0, "voice_over/announcement/portal_destroyed" , false)
 	return true
 end
 

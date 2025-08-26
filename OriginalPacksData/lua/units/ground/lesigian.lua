@@ -13,7 +13,9 @@ function lesigian:OnInit()
 	self:RegisterHandler( self.entity, "ShootEvent",  "OnShootEvent" )
 
 	self.wreck_type =  "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+	self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 7
 
 	self.isTeleporting = false
 
@@ -24,10 +26,17 @@ function lesigian:OnShootEvent( evt )
 	WeaponService:ShootOnce( self.entity )
 end
 
+function lesigian:OnDestroyRequest( evt )
+	if ( self.isTeleporting == true ) then
+		self.normalExplodeProbability = 1
+		self.leaveBodyProbability = 0
+	end
+end
+
 function lesigian:OnAnimationMarkerReached( evt )
 	local markerName = evt:GetMarkerName() 
 
-	if( markerName == "fuse_start" ) then
+	if( ( markerName == "fuse_start" ) and ( HealthService:IsAlive( self.entity ) ) ) then
 		UnitService:SpawnFuse( self.entity, "units/ground/lesigian/teleport_fuse", 0.75, "teleport" )
 	end
 	if( markerName == "gather_energy" ) then

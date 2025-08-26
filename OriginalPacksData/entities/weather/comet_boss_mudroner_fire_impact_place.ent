@@ -3,19 +3,39 @@ EntityBlueprint
 	name "weather/comet_boss_mudroner_fire_impact_place"
 	//base_blueprint "units/volume_mudroner_boss_fire_spawner"
 		
-	EggDesc
+	WaveSpawnerComponent
 	{
-		blueprint				"units/ground/mudroner_boss_fire"
-		time_to_hatch			"0.1"
-		unit_state_spawn		"state_aggressive" // do not touch
+		delay_timer
+		{
+			timeLimit "1.0"
+		}
+
+		desc
+		{
+			percentage_units_to_end_wave "100"
+
+			Enemies
+			{
+				Enemy
+				{
+					blueprint "mudroner_elite_fire"
+					spawn_type "creature_species"
+
+					units_in_one_spawn "1"
+					count "1"
+				}
+			}
+
+		}
 	}
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/building_destroyed_blue"
-		visibility		"always"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/building_destroyed_blue"
+		visibility			"always"
 		additional_z_order	"60"
+		layer_group			"warning"
 	}
 
 	WorldEffectComponent

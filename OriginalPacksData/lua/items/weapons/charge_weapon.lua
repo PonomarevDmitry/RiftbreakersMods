@@ -15,7 +15,7 @@ function charge_weapon:OnInit()
         self.msm:AddState( "aiming_marker_execute", { execute="OnAimingMarkerExecute" } )
     end
     
-    if self.data:HasString( "ammo_bp" ) and self.data:HasString( "ammo_att" ) then
+    if is_server and self.data:HasString( "ammo_bp" ) and self.data:HasString( "ammo_att" ) then
         self.asm = self:CreateStateMachine()
         self.asm:AddState( "ammo_execute", { enter="OnAmmoEnter", execute="OnAmmoExecute", exit="OnAmmoExit" } )
     end
@@ -24,7 +24,7 @@ end
 function charge_weapon:OnLoad()
     weapon.OnLoad( self )
 
-    if ( not self.event_registered and self:IsEquipped() ) then
+    if ( is_client and not self.event_registered and self:IsEquipped() ) then
         self:RegisterEventsListeners( true )
     end
     
@@ -39,8 +39,10 @@ end
 
 function charge_weapon:OnEquipped()
 	weapon.OnEquipped( self )
-    
-    self:RegisterEventsListeners( true )
+
+    if is_client then
+        self:RegisterEventsListeners( true )
+    end
 
     if self.msm ~= nil then
         self.msm:ChangeState("aiming_marker_execute")
@@ -66,7 +68,9 @@ end
 function charge_weapon:OnUnequipped()
 	weapon.OnUnequipped( self )
 
-    self:RegisterEventsListeners( false )
+    if is_client then
+        self:RegisterEventsListeners( false )
+    end
 
     if self.msm ~= nil then
         self.msm:Deactivate()
@@ -78,15 +82,19 @@ function charge_weapon:OnUnequipped()
 end
 
 function charge_weapon:_ShootingChargeLevelAcquired( evt )
-	self:SetPadTriggerParams("charge_acquired", 0.2)
+    if is_client then
+	   self:SetPadTriggerParams("charge_acquired", 0.2)
+    end 
 end
 
 function charge_weapon:_ShootingChargeReleased( evt )
-	self:SetPadTriggerParams("charge_released", 0.2)
+    if is_client then
+	   self:SetPadTriggerParams("charge_released", 0.2)
+    end
 end
 
-function charge_weapon:OnActivate()
-    WeaponService:StartCharge( self.item );
+function charge_weapon:OnActivate( activation_id )
+    WeaponService:StartCharge( self.item, activation_id );
 end
 
 function charge_weapon:OnDeactivate()
@@ -101,13 +109,15 @@ end
 function charge_weapon:OnShootingStop()
     weapon.OnShootingStop( self )
 
-    EffectService:AttachEffects( self.item, "shooting_end" ) 
+    if is_server then
+        EffectService:AttachEffects( self.item, "shooting_end" )
+    end
 end
 
 function charge_weapon:OnAimingMarkerExecute( state )
     if ( self.aimEnt == INVALID_ID or EntityService:IsAlive( self.aimEnt ) == false ) then 
         self.aimEnt = self:SpawnReferenceEntity( self.aimBp, { x=0, y=0, z=0 })
-        EntityService:CreateComponent(self.aimEnt, "NetReplicateToOwnerComponent")
+        EntityService:CreateComponent(self.aimEnt, "NetReplicationDisabledComponent")
     end
 
     WeaponService:UpdateGrenadeAiming( self.aimEnt, self.owner, self.item, self.aimMaxDistance )

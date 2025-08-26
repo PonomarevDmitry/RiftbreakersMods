@@ -47,7 +47,7 @@ function ghost_building_radius:OnUpdate()
         local currentPosition = EntityService:GetWorldTransform( self.entity )
         local spots = BuildingService:FindSpotsByDistance( self.buildPosition, currentPosition, self.radius, self.blueprint)
         for spot in Iter( spots ) do
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, spot, true, {} )
             self.buildPosition = spot
         end
     end
@@ -61,12 +61,12 @@ function ghost_building_radius:OnActivate()
     self.buildPosition = transform
     if ( self.activated  ) then
         if ( testBuildable.flag == CBF_CAN_BUILD ) then
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true , {})
         elseif( testBuildable.flag == CBF_OVERRIDES ) then
             for entityToSell in Iter(testBuildable.entities_to_sell) do
                 QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
             end
-            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true )
+            QueueEvent("BuildBuildingRequest", INVALID_ID, self.playerId, self.blueprint, transform, true, {} )
 
         elseif( testBuildable.flag == CBF_REPAIR ) then
             QueueEvent("RepairBuildingByPlayerRequest", testBuildable.entity_to_repair, self.playerId, -1 )

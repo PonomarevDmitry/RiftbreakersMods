@@ -9,6 +9,8 @@ function mission_caverns_jungle_entrance:__init()
 end
 
 function mission_caverns_jungle_entrance:init()
+    mission_base.init(self)
+
     self:PrepareSpawnPoints();
 
     MissionService:ActivateMissionFlow("", "logic/missions/campaigns/dlc_2/caverns_jungle_entrance.logic", "default" )

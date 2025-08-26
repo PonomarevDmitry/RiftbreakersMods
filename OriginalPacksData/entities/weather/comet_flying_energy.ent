@@ -1,6 +1,7 @@
 EntityBlueprint 
 {	
-		name "weather/comet_energy"
+	name 			"weather/comet_energy"
+	base_blueprint 	"weather/comet_flying_base"
 
 	MeshDesc
 	{
@@ -8,55 +9,6 @@ EntityBlueprint
 		material "units/ground/krocoon_boss_energy"
 	}
 	
- 	ShadowExcludeComponent
-	{
-
-	}	
-
-	MinimapItemDesc
-	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/comet"
-		visibility		"always"
-		additional_z_order	"60"
-	}
-
-	VegetationBendingComponentDesc
-	{
-		bending_power	"5000.0"
-		bending_radius	"5.0"
-	}
-
-	WorldEffectComponent
-	{
-		damage_per_sec							"0"
-		type									"local"
-		time_of_day 							"scripts/scene_params/solar_eclipse.td"
-		effect_intesity_distance				"50"
-		size									"as_radius"
-		radius									"120"
-	}
-
-	CameraShakeDesc
-	{
-		duration 		"60"
-		power   		"0.7"
-		falloff_radius 	"30"
-		radius   		"60"
-		frequency 		"20"
-		group			"special"
-	}
-
-	SoundDesc
-	{
-		name 		"ambient/earthquake"
-	}
-
-	LifeTimeDesc
-	{
-		time 		"999"
-	}
-
 	EffectDesc
 	{
 		EffectGroup
@@ -70,13 +22,4 @@ EntityBlueprint
 			}
 		}
 	}
-
-	PointWindDesc
-	{
-		power_frequency		"1.5"
-		power_max			"-15000"
-		power_min			"-8000"
-		radius				"70"
-	}
 }
-

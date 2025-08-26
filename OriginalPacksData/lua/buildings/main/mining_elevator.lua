@@ -12,6 +12,7 @@ function mining_elevator:OnInit()
 	self:RegisterHandler( self.entity , "SpecialBuildingActionRequest", "OnSpecialAction" )
 	self:RegisterHandler( self.entity , "SpecialBuildingActionDeniedRequest", "OnSpecialActionDenied" )
     self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
+	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
 	self.elevatorVersion = 1
 end
 
@@ -31,24 +32,76 @@ function mining_elevator:CanEnableSpecialAction()
 end
 
 function mining_elevator:OnSpecialAction( req )
-	EffectService:AttachEffects(self.entity, "descend")
-	self.data:SetFloat("is_descending", 1)
-	QueueEvent( "LuaGlobalEvent", event_sink, "CavernsDrillActivated", {} )
+	local playerId = req:GetPlayerId()
+	self:Interact( playerId )
 end
 
 function mining_elevator:OnSpecialActionDenied( req )
 	EntityService:ShowTimeoutSoundEvent( event_sink, 30.0, "voice_over/announcement/travel_not_unavailable" , false)
 end
 
-function mining_elevator:OnInteractWithEntityRequest( event )
-	if ( self:CanEnableSpecialAction() ) then                 
+function mining_elevator:OnLuaGlobalEvent( event )
+	if ( event:GetEvent() == "CavernsDrillActivated" ) then
 		EffectService:AttachEffects(self.entity, "descend")
 		self.data:SetFloat("is_descending", 1)
 		EntityService:RemoveComponent( self.entity, "InteractiveComponent")
-		QueueEvent( "LuaGlobalEvent", event_sink, "CavernsDrillActivated", {} )
+	end
+end
+
+function mining_elevator:Interact( player )
+	if ( PlayerService:IsPlayerVoteInProgress()) then
+		return		
+	end
+
+	if ( self:CanEnableSpecialAction() ) then                 
+
+		if ( #PlayerService:GetConnectedPlayers() > 1) then
+
+
+			local voteParams =
+			{
+				localization = "gui/planetary_scanner/go_to_next_map_vote",
+				timeout = 60.0,
+				gui_id = "gui/popup/popup_vote_planetaryscanner",
+				default_action = "button_no",
+				vote_type = "GoToNextMapRequest",
+				map = "caverns",
+				win_label = "gui/planetary_scanner/rift_jump_commencing",
+				start_action = "button_yes",
+				player = PlayerService:GetPlayerName( player ),
+				actions = 
+				{
+					button_yes = 
+					{ 
+						localization = "gui/hud/vote_accepted" ,
+						event_name	 = "LuaGlobalEvent",
+						event_params = { argName1 = event_sink, argName2 = "CavernsDrillActivated" }
+					},
+
+					button_no =
+					{
+						localization = "gui/hud/vote_negative" ,
+						event_name = "",
+						event_params = {}
+					}
+				}
+			}
+			GameStreamingService:StartPlayerVote(player, voteParams, true )
+		else
+			EffectService:AttachEffects(self.entity, "descend")
+			self.data:SetFloat("is_descending", 1)
+			EntityService:RemoveComponent( self.entity, "InteractiveComponent")
+			QueueEvent( "LuaGlobalEvent", event_sink, "CavernsDrillActivated", {} )
+		end
 	else
 		EntityService:ShowTimeoutSoundEvent( event_sink, 30.0, "voice_over/announcement/travel_not_unavailable" , false)
 	end
+end
+
+function mining_elevator:OnInteractWithEntityRequest( event )
+	local owner = event:GetOwner()
+	local player = PlayerService:GetPlayerForEntity( owner )
+	self:Interact( player )
 end
 
 function mining_elevator:OnLoad()

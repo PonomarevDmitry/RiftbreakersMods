@@ -7,8 +7,7 @@ function mushbit_wreck:__init()
 end
 
 function mushbit_wreck:initParams()
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return mushbit_wreck

@@ -1,0 +1,95 @@
+system rift/mech_team_repair
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 10
+    technique sparks
+    {
+        visual_particle_quota                   50
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/health_sign_add_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Box flash2
+        {
+            emission_rate                       10000
+            angle                               30
+            time_to_live                        1
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             300
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            position                            0 50 0
+            keep_local                          true
+            colour                              0.776471 0.388235 0 1
+            auto_direction                      true
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 1 0 1
+            time_colour                         0.758696  0 1 0 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique flash2
+    {
+        visual_particle_quota                   5
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/shockwave_02_add
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_type                      perpendicular_common
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.5
+            velocity                            0
+            duration                            0.5
+            all_particle_dimensions             1
+            position                            0 10 0
+            colour                              0.776471 0.388235 0 1
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           500
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 1 0 0.894118
+            time_colour                         1    0 0 0 0
+        }
+        affector                                GeometryRotator Affector5
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+        }
+    }
+}

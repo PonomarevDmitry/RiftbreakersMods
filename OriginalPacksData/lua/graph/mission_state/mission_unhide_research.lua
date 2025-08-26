@@ -10,7 +10,7 @@ end
 function mission_unhide_research:Activated()							
 	self.research = self.data:GetString("research_name")
 	LogService:Log( "Unlock research = " .. self.research )
-	PlayerService:UnhideResearch( self.research )
+	PlayerService:UnhideResearch(PlayerService:GetLeadingPlayer(), self.research )
 	self:SetFinished()	
 end
 

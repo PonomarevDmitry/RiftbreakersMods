@@ -7,9 +7,7 @@ function nurglax_wreck:__init()
 end
 
 function nurglax_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return nurglax_wreck

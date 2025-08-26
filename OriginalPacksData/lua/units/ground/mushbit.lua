@@ -9,7 +9,7 @@ end
 
 function mushbit:OnInit()
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 8
+	self.wreckMinSpeed = 6
 end
 
 return mushbit

@@ -8,8 +8,6 @@ end
 
 function nurglax_drone_wreck:initParams()
 	self.wreckLifetime = 10
-	self.normalExplodeProbability = 1
-	self.leaveBodyProbability = 0	
 end
 
 return nurglax_drone_wreck

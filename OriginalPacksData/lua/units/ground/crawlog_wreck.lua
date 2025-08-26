@@ -1,3 +1,5 @@
+require ( "lua/utils/numeric_utils.lua" )
+
 local wreck_ground_unit = require("lua/units/wreck_ground_unit.lua")
 
 class 'crawlog_wreck' ( wreck_ground_unit )
@@ -7,23 +9,18 @@ function crawlog_wreck:__init()
 end
 
 function crawlog_wreck:initParams()
-	if ( UnitService:IsOnHeightGround( self.entity ) == true ) then
-		self.normalExplodeProbability = 1
-		self.leaveBodyProbability = 0
-	else
-		self.normalExplodeProbability = 2
-		self.leaveBodyProbability = 10
-	end
-
 	self.resurrect = self:CreateStateMachine()
 	self.resurrect:AddState( "resurrect", { enter="OnEnterResurrect", exit= "OnExitResurrect" } )
 	self.resurrect:AddState( "start_grow_crystal", { execute="OnExecuteStartGrowCrystal" } )
 	self.resurrect:AddState( "spawn_crystal", { enter="OnEnterSpawnCrystal" } )
 
 	local ressurectRoll = math.random( 1, 100 )
-
+	    
 	if ( ( self.data:HasString( "resurrect_bp" ) ) and ( ressurectRoll <= self.data:GetFloatOrDefault( "resurrect_chance", 100 ) ) ) then
-		EntityService:RemoveComponent( self.entity, "WreckTeamComponent" );
+		local wreckTeamComponent = EntityService:GetComponent( self.entity, "WreckTeamComponent" )
+		local helper = reflection_helper( wreckTeamComponent )
+		helper.remove_physic_on_sleep = false
+
 		self.resurrect:ChangeState( "resurrect" )
 	end
 
@@ -34,22 +31,42 @@ end
 function crawlog_wreck:OnEnterResurrect( state )
 	EntityService:RemoveComponent( self.entity,"UniformComponent" );
 	HealthService:SetHealth( self.entity, 5 )
-	EntityService:CreateComponent( self.entity,"DeadStateComponent" );
 	local time = math.random( self.data:GetFloat( "resurrect_min_time" ), self.data:GetFloat( "resurrect_max_time" ) )
 	state:SetDurationLimit( time )
 end
 
-function crawlog_wreck:OnExitResurrect( state )
+function crawlog_wreck:HasRotationInXOrZ(orientation, epsilon)
+    local pitch, yaw, roll = QuatToEuler( orientation )
 
+    if math.abs( pitch ) > epsilon or math.abs( roll ) > epsilon then
+        return true
+    else
+        return false
+    end
+end
+
+
+
+function crawlog_wreck:OnExitResurrect( state )
 	if ( self.canResurrect == true ) then
+
+		local transform = EntityService:GetWorldTransform(self.entity)
+
+		if self:HasRotationInXOrZ(transform.orientation, 0.01) then
+			EntityService:DissolveEntity( self.entity, 1.0 )
+			self.canResurrect = false
+			return
+		end
+
 		local position = EntityService:GetPosition( self.entity );
 		if position.y > EnvironmentService:GetTerrainHeight(position) + 0.1 then
+			EntityService:DissolveEntity( self.entity, 1.0 )
 			self.canResurrect = false
 			return
 		end
 
 		EntityService:RemoveComponent( self.entity, "PhysicsComponent" )
-		local entity = EntityService:SpawnEntity( self.data:GetString( "resurrect_bp" ), position.x, position.y, position.z, "wave_enemy" )
+		local entity = EntityService:SpawnEntity( self.data:GetString( "resurrect_bp" ), self.entity, "wave_enemy" )
 		UnitService:SetInitialState( entity, UNIT_RESSURECT );
 		EntityService:SetVisible( entity, false );
 
@@ -65,13 +82,18 @@ function crawlog_wreck:OnExitResurrect( state )
 		db:SetFloat( "min_scale", scaleMin )
 		db:SetFloat( "max_scale", scaleMax )
 
+		SetupUnitScale( entity, db )
+
+		db:SetFloat( "min_scale", 1.0 )
+		db:SetFloat( "max_scale", 1.0 )
+
 		db:SetInt( "is_resurrecting", 1 )
 
 		EntityService:DissolveEntity( self.entity, 0.1 )
 	end
 end
 
-function crawlog_wreck:_OnDestroyRequest( state )
+function crawlog_wreck:_OnDestroyRequest( state ) 
     EntityService:RequestDestroyPattern( self.entity, "resurrect" )
 end
 

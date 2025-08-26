@@ -7,13 +7,7 @@ function lesigian_wreck:__init()
 end
 
 function lesigian_wreck:initParams()
-	if ( UnitService:IsOnHeightGround( self.entity ) == true ) then
-		self.normalExplodeProbability = 1
-		self.leaveBodyProbability = 0
-	else
-		self.normalExplodeProbability = 1
-		self.leaveBodyProbability = 7
-	end
+
 end
 
 return lesigian_wreck

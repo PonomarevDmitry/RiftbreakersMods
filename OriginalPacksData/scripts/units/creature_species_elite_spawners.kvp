@@ -1,0 +1,3292 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// EXAMPLE ////////////////////////////////////////////
+//
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_cryo"				// name of the new species
+//
+//    volume_non_aggressive_distance      "60"                            // distance between player<>unit where they start evading
+//    volume_aggressive_distance      	  "15"                            // distance between player<>unit where they start evading
+//
+//    creatures
+//    {       
+//		Creature
+//        {
+//            blueprint                       "units/ground/stregaros_boss_cryo" // base blueprint for the new species
+//            min_difficulty_factor           "0.0"                              // minimum difficulty points for the boss to show up (those points gradually grow in the campaign mode)
+//            max_difficulty_factor           "1.0"                              // maximum difficulty points for the boss to show up
+//            
+//            min_unit_skill_count            "0"								// minimum number of skills that this species will have (random between min an max)
+//            max_unit_skill_count            "1"								// maximum number of skills that this species will have (random between min an max)
+//
+//            max_unit_skill_level            "1"								// maximum level of a skill that will be assigned during spawn (skills have 5 difficulty levels from 0 to 4)
+//            exclude_unit_skills             "resurrect,drones"				// list of skill names that this species cannot have
+
+//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,drones,eggs,meteor_shower,resurrect,shockwave,swarm,underground_rock,waller" // full list
+
+//	          force_include_unit_skills       "waller"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
+//	          additional_include_unit_skills  "additional_damage_wave_fire"				// this adds a skill for this species (it DOES NOT takes up unit skill slot - its an additional skill)
+//
+//			  unit_skill_overrides												// this can manually OVERRIDE any skill parameters for this species
+//			  {
+//				eggs															// name of the skill
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"					// component name and parameter name for a skill to be overriden
+//						value 	"units/ground/zorant"							// new value (in this case it is used to override default species spawned from eggs)
+//					}
+//				}
+//
+//				// eggs_lvl_1,2,3 etc will use overrides from eggs
+//
+//				eggs_lvl_4
+//				{
+//					TypeFieldOverride
+//					{
+//						path 	"UnitsSpawnerDesc.blueprint"
+//						value 	"units/ground/zorant_ultra"
+//					}
+//				}
+//			  }
+//            
+//            extra_unit_modifiers										// this can MODIFY unit parameters (only select parametrs have support for this)
+//            {
+//                health                      "10000"                   // accepted values: +/- 1000 flat value or +/- 20% to add pct value
+//				  movement_speed			  "20%"						// only PCT values accepted for now
+//				  resistance_all			  "30%"
+//				  resistance_fire			  "-50%"
+//				  resistance_physical		  "50%"
+//                //resistance_{damage_type}  "x%"
+//            }
+//
+//            volume_spawn_proximity_factor    "1"
+//        }
+//    }
+//}
+//CreatureSpecies
+//{
+//    species_name                        "xxx_boss_random"
+//    creatures_group											// weighted random
+//	  {
+//			xxx_boss_cryo 1.0
+//			xxx_boss_fire 1.0
+//			xxx_boss_acid 1.0
+//	}
+//}
+
+///////////////////////////////////// SPAWNER BRADRON ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_bradron_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_bradron"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER CANOPTRIX ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_canoptrix_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_canoptrix"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER FLURIAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_flurian_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_flurian"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER GRANAN ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_granan_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_granan"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER MORIROT ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_morirot_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_morirot"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER MUSHBIT ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_mushbit_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_mushbit"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER OCTABIT ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_octabit_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_octabit"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER CANCEROTH ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_canceroth_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_canceroth"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER FUNGOR ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_fungor_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_fungor"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER PLUTRODON ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_plutrodon_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_plutrodon"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER STICKRID ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_stickrid_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_swamp_stickrid"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// SPAWNER WINGMITE ELITE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"spawner_wingmite_elite"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"1500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			min_unit_skill_count            "0"
+			max_unit_skill_count            "0"
+			max_unit_skill_level            "0"
+			
+			extra_unit_modifiers
+			{
+				health						"4000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"6000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "1"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"8000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"12000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"16000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/spawner_wingmite"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "4"
+			exclude_unit_skills       		"aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_resistance,aura_heal,drones,eggs,shockwave,swarm,waller"
+			
+			extra_unit_modifiers
+			{
+				health						"25000"
+			}
+			
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.005"
+				}
+			}
+        }
+    }
+}
+
+///////////////////////////////////// DUMMY DAMAGE SPONGE ///////////////////////////////////
+
+CreatureSpecies
+{
+    species_name 							"dummy_damage_sponge"
+    volume_non_aggressive_distance      	"45"
+    volume_aggressive_distance      		"40"
+
+    creatures
+    {       
+		Creature       ////////////////////// LVL 1 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"0"
+			max_difficulty_factor			"0.75"
+
+			extra_unit_modifiers
+			{
+				health						"1000"
+			}
+        }
+		Creature       ////////////////////// LVL 2 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"1"
+			max_difficulty_factor			"2.75"
+			
+			extra_unit_modifiers
+			{
+				health						"2500"
+			}
+        }
+		Creature       ////////////////////// LVL 3 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"3"
+			max_difficulty_factor			"3.75"
+
+			extra_unit_modifiers
+			{
+				health						"5000"
+			}
+        }
+		Creature       ////////////////////// LVL 4 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"4"
+			max_difficulty_factor			"4.75"
+			
+			extra_unit_modifiers
+			{
+				health						"7500"
+			}
+
+        }
+		Creature       ////////////////////// LVL 5 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"5"
+			max_difficulty_factor			"5.75"
+			
+			extra_unit_modifiers
+			{
+				health						"10000"
+			}
+        }
+		Creature       ////////////////////// LVL 6 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"6"
+			max_difficulty_factor			"6.75"
+			
+			extra_unit_modifiers
+			{
+				health						"20000"
+			}
+        }
+		Creature       ////////////////////// LVL 7 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"7"
+			max_difficulty_factor			"7.75"
+			
+			extra_unit_modifiers
+			{
+				health						"30000"
+			}
+        }
+		Creature       ////////////////////// LVL 8 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"8"
+			max_difficulty_factor			"8.75"
+			
+			extra_unit_modifiers
+			{
+				health						"40000"
+			}
+        }
+		Creature       ////////////////////// LVL 9 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"9"
+			max_difficulty_factor			"9.75"
+			
+			extra_unit_modifiers
+			{
+				health						"50000"
+			}
+        }
+		Creature       ////////////////////// LVL 10 /////////////////////////////
+        {
+            blueprint               		"units/ground/dummy_damage_sponge"
+            min_difficulty_factor   		"10"
+			min_difficulty_factor   		"1000"
+			
+			extra_unit_modifiers
+			{
+				health						"50000"
+			}
+        }
+    }
+}

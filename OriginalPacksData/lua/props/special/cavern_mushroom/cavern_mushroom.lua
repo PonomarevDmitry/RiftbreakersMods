@@ -79,7 +79,8 @@ end
 function cavern_mushroom:OnExplodeEnd(  )
 
 	QueueEvent( "LuaGlobalEvent", event_sink, "UndergroundMushroomExplosion", self.data )
-	QueueEvent("DestroyRequest", self.entity, "default", 100 )
+	EntityService:DestroyEntity( self.entity, "default" )
+
     QueueEvent("DissolveEntityRequest", self.entity, 4.0, 0.0 )	
 	EntityService:DissolveEntity( self.mesh, 0.2 ) 
 	EntityService:DissolveEntity( self.entity, 0.2 ) 

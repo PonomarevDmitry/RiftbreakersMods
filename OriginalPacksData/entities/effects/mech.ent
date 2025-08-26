@@ -4,7 +4,7 @@ EntityBlueprint
 
 	base_blueprints 
 	{
-		lights/point/muzzle_orange_medium
+		//lights/point/muzzle_orange_medium
 		effects/default
 	}
 
@@ -13,10 +13,10 @@ EntityBlueprint
 		name    "rift/mech_dash_start"
 	}
 
-	SoundDesc
-	{
-		name "items/dash/dash_start_long"
-	}
+	//SoundDesc
+	//{
+	//	name "items/dash/dash_start_long"
+	//}
 }
 
 EntityBlueprint
@@ -25,7 +25,7 @@ EntityBlueprint
 
 	base_blueprints 
 	{
-		lights/point/muzzle_orange_medium
+		//lights/point/muzzle_orange_medium
 		effects/default
 	}
 
@@ -34,10 +34,10 @@ EntityBlueprint
 		name    "rift/mech_dash_start_short"
 	}
 
-	SoundDesc
-	{
-		name "items/dash/dash_start_short"
-	}
+	//SoundDesc
+	//{
+	//	name "items/dash/dash_start_short"
+	//}
 }
 
 EntityBlueprint
@@ -70,15 +70,16 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/menu/buttons/journal/journal_death_selected"
+		type				"image"
+		icon_material 		"gui/menu/buttons/journal/journal_death_neutral"
 		size
 		{
 			x "0.6"
 			y "0.6"
 		}
-		visibility 		"always"	
-		additional_z_order	"100"	
+		visibility 			"always"	
+		additional_z_order	"100"
+		layer_group			"player"		
 	}		
 
 	ShockWaveDesc
@@ -535,6 +536,27 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/portal/mech_portal_exit"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/mech/shield_destroyed"
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_big
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_shield_destroyed"
+	}
+
+	SoundDesc
+	{
+		name "items/shield/mech_shield_destroyed"
 	}
 }
 
@@ -1037,6 +1059,8 @@ EntityBlueprint
 	{
 		name "items/treasure_finder/treasure_finder_beep"
 	}
+
+	NetReplicateToOwnerComponent
 }
 
 EntityBlueprint
@@ -1053,6 +1077,8 @@ EntityBlueprint
 	{
 		name "items/treasure_finder/treasure_finder_beep_red"
 	}
+
+	NetReplicateToOwnerComponent
 }
 
 EntityBlueprint
@@ -1074,6 +1100,8 @@ EntityBlueprint
 	{
 		name "items/treasure_finder/treasure_finder_idle"
 	}
+
+	NetReplicateToOwnerComponent
 }
 
 EntityBlueprint
@@ -1134,5 +1162,238 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "items/weapons/melee_chainsaw/chainsaw_hit_object"
+	}
+}
+
+EntityBlueprint
+{
+	name  "effects/mech/reactivated_shockwave"
+
+	base_blueprints
+	{
+		 //lights/point/explosion_blue_portal_exit
+		 effects/default
+	}
+
+	//ParticleDesc
+	//{
+	//	name    "rift/mech_jump_portal_exit"
+	//}
+	//
+	//SoundDesc
+	//{
+	//	name "items/portal/mech_portal_exit"
+	//}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	BombAmmoComponent
+	{
+		DamagePattern
+		{
+			area_damage_radius	"10"
+			area_damage_speed 	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"300"
+					type			"area"
+				}
+			}
+		}
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+}
+
+EntityBlueprint
+{ 
+	name "effects/mech/deactivtion_shockwave"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				150
+				damage_type			"energy"
+				type	 			DAMAGE_VALUE
+			}
+			WeaponStatData
+			{
+				value 				8
+				type	 			DAMAGE_SPLASH
+			}			
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/mech/deactivtion_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"20"
+			area_damage_radius	"8"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"150"
+					type			"energy"
+				}
+			}
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/mech/deactivtion_explosion
+
+	base_blueprints
+	{
+		 lights/point/mech_deactivation_explosion
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_deactivation_explosion"
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"50"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.5"
+		power   		"1"
+		falloff_radius 	"15"
+		radius   		"40"
+		frequency 		"30"
+		group			"explosion_big"
+	}	
+	
+	SoundDesc
+	{
+		name "mech/deactivation_explosion"
+	}
+	
+	DecalDesc
+	{	
+		blueprint "effects/decals/mech_deactivation_hole"
+		scale
+		{
+			x		4.0
+			y		4.0
+			z		4.0
+		}
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/mech/multiplayer_boost_forcefield
+
+	base_blueprints
+	{
+		 lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/multiplayer_boost_forcefield"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/mech/multiplayer_boost_revive
+
+	base_blueprints
+	{
+		 lights/point/violet_small
+		 effects/no_lifetime
+	}
+	
+	SoundDesc
+	{
+		name "mech/revive"
+	}	
+
+	ParticleDesc
+	{
+		name    "rift/multiplayer_boost_revive"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/mech/team_repair
+
+	base_blueprints
+	{
+		 lights/point/muzzle_green_medium
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_team_repair"
+	}
+
+	SoundDesc
+	{
+		name "buildings_generic/building_repair_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/mech/reviving
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	SoundDesc
+	{
+		name "mech/reviving"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/mech/multiplayer_boost_activation
+
+	base_blueprints
+	{
+		 lights/point/explosion_blue_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/multiplayer_boost_activation"
 	}
 }

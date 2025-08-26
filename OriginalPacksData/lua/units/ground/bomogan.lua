@@ -12,8 +12,8 @@ function bomogan:OnInit()
 	self:RegisterHandler( self.entity, "ShootArtilleryEvent",  "OnShootArtilleryEvent" )
 	self:RegisterHandler( self.entity, "PrepareArtilleryEvent",  "OnPrepareArtilleryEvent" )
 
-	self.wreck_type 			= "wreck_big"
-	self.wreckMinSpeed			= 4
+	self.wreck_type 			  = "wreck_big"
+	self.wreckMinSpeed			  = 0
 
 	self.fakeProjectile			= INVALID_ID
 	self.fakeProjectileBp		= ""

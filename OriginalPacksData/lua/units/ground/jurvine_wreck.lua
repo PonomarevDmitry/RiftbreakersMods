@@ -7,7 +7,7 @@ function jurvine_wreck:__init()
 end
 
 function jurvine_wreck:initParams()
-	--self.wreckLifetime = 600
+
 end
 
 return jurvine_wreck

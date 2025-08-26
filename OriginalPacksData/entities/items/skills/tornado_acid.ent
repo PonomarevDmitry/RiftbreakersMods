@@ -12,7 +12,8 @@ EntityBlueprint
 		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
 		description 				"gui/menu/inventory/skill_description/tornado_acid"	
 		rarity						"STANDARD"	
-		replace_lower_quality		"1"		
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
 	}	
 	
 	LuaDesc
@@ -51,7 +52,8 @@ EntityBlueprint
 		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
 		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
 		rarity						"ADVANCED"	
-		replace_lower_quality		"1"		
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
 	}	
 	
 	LuaDesc
@@ -90,7 +92,8 @@ EntityBlueprint
 		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
 		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
 		rarity						"SUPERIOR"	
-		replace_lower_quality		"1"		
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
 	}	
 	
 	LuaDesc
@@ -129,7 +132,8 @@ EntityBlueprint
 		bigger_icon 				"gui/menu/items_icons/skills/tornado_acid"	
 		description 				"gui/menu/inventory/skill_description/tornado_acid_upgraded"	
 		rarity						"EXTREME"	
-		replace_lower_quality		"1"		
+		replace_lower_quality		"1"
+		add_after_obtaining 		"1"
 	}	
 	
 	LuaDesc
@@ -169,21 +173,24 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/tornado"
-		visibility		"visible|radar"	
-		additional_z_order	"20"	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/tornado"
+		visibility			"visible|radar"	
+		additional_z_order	"20"
+		layer_group			"player"
 	}
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "600" 
-		//type                      "target_player"		
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_acid"
+		marker_bp					"effects/tornado/tornado_marker_acid"
 	}
 
 	AreaDamageComponent
@@ -191,14 +198,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"9"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"100"
+					value 			"75"
 					type			"acid"
 				}
 			}
@@ -220,21 +227,6 @@ EntityBlueprint
 			
 			Effects
 			{
-				Effect
-				{
-					blueprint "effects/world/tornado_big_acid"
-					bone "att_tornado"
-				}
-				Effect
-				{
-					blueprint "effects/world/tornado_big_stones"
-					bone "att_tornado"
-				}
-				Effect
-				{
-					blueprint "lights/point/tornado_shadow_caster_green"
-					offset "0 10 0"
-				}	
 				Effect
 				{
 					blueprint "effects/items/tornado_muzzle"					
@@ -297,13 +289,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "900" 
 		//type                      "target_player"		
+		effect_bp					"effects/tornado/tornado_acid"
+		marker_bp					"effects/tornado/tornado_marker_acid"
 	}
 
 	AreaDamageComponent
@@ -311,14 +305,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"9.3"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"150"
+					value 			"100"
 					type			"acid"
 				}
 			}
@@ -342,13 +336,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "1200" 
-		//type                      "target_player"		
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_acid"
+		marker_bp					"effects/tornado/tornado_marker_acid"
 	}
 
 	AreaDamageComponent
@@ -356,14 +352,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"9.6"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"200"
+					value 			"125"
 					type			"acid"
 				}
 			}
@@ -387,13 +383,15 @@ EntityBlueprint
 
 	TornadoDesc
 	{
-		radius			          "15"
+		radius			          "10"
 		speed			          "0"
 		rotate_speed	          "0"
 		wander_jitter_multiplier  "0"
 		oscillation_radius        "15"
 		//damage_per_sec	          "1500" 
-		//type                      "target_player"		
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_acid"
+		marker_bp					"effects/tornado/tornado_marker_acid"
 	}
 
 	LifeTimeDesc
@@ -406,14 +404,14 @@ EntityBlueprint
 		infinite "1"
 		DamagePattern
 		{
-			area_damage_radius		"10"
+			area_damage_radius		"8"
 			area_damage_type		"normal"
 
 			Damages
 			{
 				Damage
 				{
-					value 			"250"
+					value 			"150"
 					type			"acid"
 				}
 			}

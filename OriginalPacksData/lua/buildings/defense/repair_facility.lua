@@ -61,6 +61,7 @@ function repair_facility:OnWorkInProgress( state )
 		
 	end
 
+	local player = PlayerService:GetPlayerByEntity( self.entity )
 	local worked = false
 	for i = #self.selected, 1, -1  do
 		local ent = self.selected[i]
@@ -69,7 +70,7 @@ function repair_facility:OnWorkInProgress( state )
 			local health = HealthService:GetHealthInPercentage( ent)
 	
 			if ( health < 1 ) then
-				local canAffordRepair = BuildingService:CanAffordRepair( ent, self.healthAmount )
+				local canAffordRepair = BuildingService:CanAffordRepair( ent,player, self.healthAmount )
 				local decrease = BuildingService:TryDecreaseResourceByEntity( self.entity, "energy", self.energyCost )
 
 				if decrease == false or canAffordRepair == false  then

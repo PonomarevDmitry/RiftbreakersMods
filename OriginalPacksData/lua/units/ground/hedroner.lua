@@ -13,7 +13,9 @@ function hedroner:OnInit()
 	self:RegisterHandler( self.entity, "ExitTeleportEvent",  "OnExitTeleportEvent" )
 
 	self.wreck_type = "wreck_big";
-	self.wreckMinSpeed = 4
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 0
+	self.leaveBodyProbability = 1
 
 	self.isTeleporting = false
 	self.allowTeleportHealthInPercentage = 30
@@ -42,10 +44,10 @@ function hedroner:OnAnimationMarkerReached( evt )
 	local markerName = evt:GetMarkerName() 
 	if ( markerName == "attack_range_1"  ) then
 		local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_1" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_1" )
 	elseif( markerName == "attack_range_2" ) then
 		local targetOrigin = UnitService:GetCurrentTargetAsOrigin( evt:GetEntity(), "range_attack_origin" )
-		WeaponService:ShootProjectileOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_2" )
+		WeaponService:ShootAmmoOnTargetOrigin( self.entity, self.entity, targetOrigin.x, targetOrigin.y + 0.5, targetOrigin.z, "att_shoot_2" )
 	elseif( markerName == "fuse_start" ) then
 		UnitService:SpawnFuse( self.entity, "units/ground/hedroner/teleport_fuse", 2.5, "teleport" )
 	end

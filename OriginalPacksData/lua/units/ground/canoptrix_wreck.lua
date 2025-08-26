@@ -7,7 +7,7 @@ function canoptrix_wreck:__init()
 end
 
 function canoptrix_wreck:initParams()
-	--self.wreckLifetime = 600
+
 end
 
 return canoptrix_wreck

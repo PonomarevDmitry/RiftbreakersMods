@@ -122,6 +122,7 @@ vertex_program forward_object_texture_fresnel_fog_world_skinned_vp hlsl
     source                                     materials/programs/forward_object_vp.hlsl
     entry_point                                mainVP
     target                                     vs_5_0
+    column_major_matrices                      false
     preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_FRESNEL=1,USE_NORMAL=1,USE_WORLD_POS=1,USE_PROJ_POS=1
 
     default_params
@@ -151,6 +152,7 @@ vertex_program forward_object_texture_color_skinned_vp hlsl
     source                                     materials/programs/forward_object_vp.hlsl
     entry_point                                mainVP
     target                                     vs_5_0
+    column_major_matrices                      false
     preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_COLOR=1
     
     default_params
@@ -179,6 +181,7 @@ vertex_program forward_object_texture_color_fog_skinned_vp hlsl
     source                                     materials/programs/forward_object_vp.hlsl
     entry_point                                mainVP
     target                                     vs_5_0
+    column_major_matrices                      false
     preprocessor_defines                       USE_TEXTURE=1,USE_HW_SKINNING=1,USE_COLOR=1,USE_PROJ_POS=1
 
     default_params
@@ -222,6 +225,7 @@ vertex_program forward_object_fresnel_fog_skinned_vp hlsl
     source                                     materials/programs/forward_object_vp.hlsl
     entry_point                                mainVP
     target                                     vs_5_0
+    column_major_matrices                      false
     preprocessor_defines                       USE_HW_SKINNING=1,USE_FRESNEL=1,USE_NORMAL=1,USE_PROJ_POS=1
 
     default_params
@@ -229,6 +233,35 @@ vertex_program forward_object_fresnel_fog_skinned_vp hlsl
         param_named_auto cWorld3x4Array        world_matrix_array_3x4
         param_named_auto cViewProj             viewproj_matrix
         param_named_auto cCameraWorldPos       camera_position
+    }
+}
+
+vertex_program forward_object_texture_world_tangent_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    preprocessor_defines                       USE_TEXTURE=1,USE_WORLD_POS=1,USE_PROJ_POS=1,USE_NORMAL=1,USE_TANGENT=1
+
+    default_params
+    {
+        param_named_auto cWorld                world_matrix 
+        param_named_auto cViewProj             viewproj_matrix
+    }
+}
+
+vertex_program forward_object_texture_world_tangent_skinned_vp hlsl
+{
+    source                                     materials/programs/forward_object_vp.hlsl
+    entry_point                                mainVP
+    target                                     vs_5_0
+    column_major_matrices                      false
+    preprocessor_defines                       USE_HW_SKINNING=1,USE_TEXTURE=1,USE_WORLD_POS=1,USE_PROJ_POS=1,USE_NORMAL=1,USE_TANGENT=1
+
+    default_params
+    {
+        param_named_auto cWorld3x4Array        world_matrix_array_3x4
+        param_named_auto cViewProj             viewproj_matrix
     }
 }
 

@@ -128,8 +128,8 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     float foamEdgeTilling = 6.0f;
     float2 foamEdgeCoord = texCoord * foamEdgeTilling;
 
-    float3 foamEdgeAlbedo = tFoamEdgeAlbedoTex.SampleBias( sFoamEdgeAlbedoTex, foamEdgeCoord, cMIPBias );
-    float3 foamEdgeEmissive = tFoamEdgeEmissiveTex.SampleBias( sFoamEdgeEmissiveTex, foamEdgeCoord, cMIPBias ) * foamEdgeGlow;
+    float3 foamEdgeAlbedo = tFoamEdgeAlbedoTex.SampleBias( sFoamEdgeAlbedoTex, foamEdgeCoord, cMIPBias ).xyz;
+    float3 foamEdgeEmissive = tFoamEdgeEmissiveTex.SampleBias( sFoamEdgeEmissiveTex, foamEdgeCoord, cMIPBias ).xyz * foamEdgeGlow;
     float3 foamEdgeNormal = texNormal2D( tFoamEdgeNormalTex, sFoamEdgeNormalTex, foamEdgeCoord );
     float3 foamEdgePacked = tFoamEdgePackedTex.SampleBias( sFoamEdgePackedTex, foamEdgeCoord, cMIPBias ).xyz;
 

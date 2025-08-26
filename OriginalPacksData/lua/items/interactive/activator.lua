@@ -11,6 +11,7 @@ end
 function activator:OnInit()
 	self.lastItemEnt = nil
 	self.interrupted = false
+	self.extractoring = false
 
 	self.sm = self:CreateStateMachine()
 	self.sm:AddState( "start", { from="*", enter="OnHarvestStartEnter", execute="OnHarvestStartExecute",  exit="OnHarvestStartExit" } )
@@ -57,9 +58,37 @@ end
 function activator:OnHarvestStopExit( state )
 end
 
+local function GetInteractiveEntity( owner )
+	local component = EntityService:GetComponent(owner, "MechComponent")
+	if component == nil then
+		return INVALID_ID
+	end
+
+	return reflection_helper( component ).interactive_ent.id;
+end
+
 function activator:OnEquipped()
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 	self.duration = 0.0
+end
+
+function activator:StartExtraction()
+	if self.extractoring == false then
+		self.extractoring = true;
+		self.extractoringEnt = GetInteractiveEntity( self.owner )
+		LogService:Log( "InteractWithEntityStarted" )
+		QueueEvent( "LuaGlobalEvent", self.extractoringEnt, "InteractWithEntityStarted", {} )
+	end
+end
+
+function activator:EndExtraction()
+	if self.extractoring == true then
+		self.extractoring = false;
+		local entity = GetInteractiveEntity( self.owner )
+		LogService:Log( "InteractWithEntityEnded" )
+		QueueEvent( "LuaGlobalEvent", self.extractoringEnt, "InteractWithEntityEnded", {} )
+		self.extractoringEnt = nil
+	end
 end
 
 function activator:OnActivate()
@@ -78,7 +107,7 @@ function activator:OnActivate()
 	if ( ownerData ~= nil ) then
 		if ItemService:GetItemType( self.entity ) == "equipment" then
 			ownerData:SetString( "RIGHT_HAND_item_type", "range_weapon" )
-			self.extractoring = true;
+			self:StartExtraction()
 		else
 			ownerData:SetString( "RIGHT_HAND_item_type", "harvester" )
 		end
@@ -90,7 +119,7 @@ function activator:OnDeactivate()
 
 	EffectService:DestroyEffectsByGroup( self.item, "dig" )
 	self:UnregisterHandler( self.owner, "AnimationStateChangedEvent", "OnAnimationStateChangedEvent" )
-	self.extractoring = false;
+	self:EndExtraction()
 	self.sm:ChangeState("stop")
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
@@ -101,11 +130,6 @@ function activator:OnDeactivate()
 	self.duration = 0.0
 	self.interrupted = true
 	return true
-end
-
-local function GetInteractiveEntity( owner )
-	local component = reflection_helper( EntityService:GetComponent(owner, "MechComponent") )
-	return component.interactive_ent.id;
 end
 
 function activator:OnExecuteHarvesting()
@@ -142,7 +166,7 @@ function activator:OnAnimationStateChangedEvent( evt )
 	local newStateName = evt:GetNewStateName()
 	if ( newStateName == "middle_front_drill" ) then
 		EffectService:AttachEffects(self.item, "dig")
-		self.extractoring = true;
+		self:StartExtraction()
 	end
 end  
 
@@ -153,6 +177,11 @@ end
 function activator:OnLoad()
 	item.OnLoad(self)
 	self.harvestStartTime = self.harvestStartTime or self.data:GetFloatOrDefault("drill_start_time", 0.5)
+
+	if self.extractoring ~= false or self.extractoring ~= true then
+		self.extractoring = false
+		self.extractoringEnt = INVALID_ID
+	end
 end
 
 return activator

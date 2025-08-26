@@ -17,8 +17,10 @@ function gather_resource:onUpdate()
 	local resourceNames = self.data:GetString( "resource_name" )
 	local resourceName = Split( resourceNames, "|" )
 	local progressCurrent = 0
+	local leadingPlayer = PlayerService:GetLeadingPlayer()
+
 	for resource in Iter(resourceName) do
-		progressCurrent = progressCurrent + PlayerService:GetResourceAmount( resource )
+		progressCurrent = progressCurrent + PlayerService:GetResourceAmount(leadingPlayer, resource )
 	end
 
     if ( progressCurrent >= self.maxProgress ) then
@@ -46,8 +48,10 @@ function gather_resource:FindMaxResource()
 		local resourceNames = self.data:GetString( "resource_name" )
 		local resourceName = Split( resourceNames, "|" )
 		local progressCurrent = 0
+		local leadingPlayer = PlayerService:GetLeadingPlayer()
+
 		for resource in Iter(resourceName) do
-			progressCurrent = progressCurrent + PlayerService:GetResourceAmount( resource )
+			progressCurrent = progressCurrent + PlayerService:GetResourceAmount(leadingPlayer, resource )
 		end
 		self.data:SetInt("progress_max", self.data:GetInt( "progress_max" ) + progressCurrent)
 	end

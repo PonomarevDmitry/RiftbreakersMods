@@ -52,21 +52,6 @@ EntityBlueprint
 		name "meshes/props/special/power_wells/power_well"
 	}
 
-	TriggerDesc
-	{
-		owner 		"self"
-		collision 	"character"
-		type 		"GRID"
-
-		Shapes
-		{
-			PhysicsSphereShape
-			{
-				r	32
-			}
-		}
-	}			
-	
 	AnimationGraphDesc
 	{
 		animation_graph_name "power_well"
@@ -77,6 +62,7 @@ EntityBlueprint
 		slot 			    "ACTIVATOR"
 		radius 			    "8"
 		remove_entity 	    "0"
+		priority			"10"
 	}
 
     LuaDesc
@@ -191,10 +177,12 @@ EntityBlueprint
 	
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/power_well"
-		visibility 		"discovered"
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/power_well"
+		visibility 				"discovered"
 		unknown_until_visible 	"1"
+		layer_group				"exploration"
+		condition				"BIOANOMALY"
 	}
 	
 	LootDesc
@@ -251,7 +239,52 @@ EntityBlueprint
                 }				
 			}
 		}		
-	}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name "props/special/power_wells/power_well/open_trigger"
+
+			TriggerDesc
+			{
+				owner 		"parent"
+				collision 	"character"
+				type 		"GRID"
+				tag 		"open"
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r	32
+					}
+				}
+			}	
+		}
+
+		EntityBlueprint
+		{
+			name "props/special/power_wells/power_well/close_trigger"
+
+			TriggerDesc
+			{
+				owner 		"parent"
+				collision 	"character"
+				type 		"GRID"
+				tag 		"close"
+
+				Shapes
+				{
+					PhysicsSphereShape
+					{
+						r	48
+					}
+				}
+			}	
+		}	
+	}
 }
 
 

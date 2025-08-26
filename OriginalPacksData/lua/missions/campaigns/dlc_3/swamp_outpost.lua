@@ -88,12 +88,16 @@ function mission_swamp_outpost:RemoveBrokenObjectiveSpawn()
 end
 
 function mission_swamp_outpost:OnLoad()
+    mission_base.OnLoad(self)
+
     self:UpdateMissionProgress()
 
     self:RemoveBrokenObjectiveSpawn()
 end
 
 function mission_swamp_outpost:init()
+    mission_base.init(self)
+
     --STAGE 1
 	local world_region = self:GetTileRegionBounds( { x = -4, y = -2 }, { x = 0, y = 1 } )
 	--STAGE 2

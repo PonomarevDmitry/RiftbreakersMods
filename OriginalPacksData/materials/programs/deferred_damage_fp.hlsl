@@ -16,6 +16,9 @@ cbuffer FPConstantBuffer : register(b0)
     float3      cWorldCameraPos;
 #endif
     float       cHealthAmount;
+#if USE_HEALTH_OFFSET
+    float       cHealthAmountOffset;
+#endif
     float       cMIPBias;
 #if USE_FLOWFIELD_MAP
     float       cTime;
@@ -115,9 +118,9 @@ inline void GetFlowFieldData( in float2 coords, out float4 albedo, out float3 no
 
     float flowLerp = abs( ( 2.0f * phase.x ) - 1.0f );
     albedo = GetDataWithFlowmap( tAlbedo1Tex, sAlbedo1Tex, coords0, coords1, flowLerp );
-    normal = GetNormalMapDataWithFlowmap( tNormal1Tex, sNormal1Tex, coords0, coords1, flowLerp );
-    material = GetDataWithFlowmap( tPacked1Tex, sPacked1Tex, coords0, coords1, flowLerp ); 
-    emissive = GetDataWithFlowmap( tEmissive1Tex, sEmissive1Tex, coords0, coords1, flowLerp ); 
+    normal = GetNormalMapDataWithFlowmap( tNormal1Tex, sNormal1Tex, coords0, coords1, flowLerp ).xyz;
+    material = GetDataWithFlowmap( tPacked1Tex, sPacked1Tex, coords0, coords1, flowLerp ).xyz; 
+    emissive = GetDataWithFlowmap( tEmissive1Tex, sEmissive1Tex, coords0, coords1, flowLerp ).xyz; 
 }
 
 inline void GetDamageFlowFieldData( in float2 coords, out float4 albedo, out float3 normal, out float3 material )
@@ -164,7 +167,13 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 
     float3x3 normalRotation = float3x3( In.Tangent, In.BiNormal, In.Normal );
 
-    if ( cHealthAmount != 1.0f )
+#if USE_HEALTH_OFFSET
+    float healthAmount = saturate( cHealthAmountOffset + cHealthAmount );
+#else 
+    float healthAmount = cHealthAmount;
+#endif
+    
+    if ( healthAmount != 1.0f )
     {   
 
 #if USE_FLOWFIELD_MAP
@@ -182,23 +191,23 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #endif
 
 #if USE_REFLECTION_MAP
-        float albedoDiff = ( cHealthAmount > 0.0f ) ? saturate( 1.0 - cHealthAmount - dissolve ) : saturate( 0.5 - dissolve );
+        float albedoDiff = ( healthAmount > 0.0f ) ? saturate( 1.0 - healthAmount - dissolve ) : saturate( 0.5 - dissolve );
 #else 
-        float albedoDiff =  saturate( 1.0 - cHealthAmount - dissolve );
+        float albedoDiff =  saturate( 1.0 - healthAmount - dissolve );
 #endif
         albedo.xyz = lerp( albedo.xyz, damageAlbedo.xyz, albedoDiff );
         material = lerp( material, damageMaterial, albedoDiff );
 #if USE_BUILDINGS
-        float emissiveDiff = saturate( 0.50 - cHealthAmount - dissolve );
+        float emissiveDiff = saturate( 0.50 - healthAmount - dissolve );
         emissive = lerp( emissive, damageEmissive, ( emissiveDiff > 0 ) ? 1 : 0 );
 #elif USE_EMISSIVE_MAP
-        float emissiveDiff = saturate( 1.0f - cHealthAmount - dissolve );
+        float emissiveDiff = saturate( 1.0f - healthAmount - dissolve );
         emissive = lerp( emissive, damageEmissive, emissiveDiff );
-        emissive *= ( cHealthAmount > 0.0f ) ? 1.0f : 0.0f;
+        emissive *= ( healthAmount > 0.0f ) ? 1.0f : 0.0f;
 #elif USE_REFLECTION_MAP
-        emissive *= ( cHealthAmount > 0.0f ) ? 1.0f : 0.25f;
+        emissive *= ( healthAmount > 0.0f ) ? 1.0f : 0.25f;
 #else
-        emissive *= min( cHealthAmount * 2.0f, 1.0f );
+        emissive *= min( healthAmount * 2.0f, 1.0f );
 #endif
 		texNormal = lerp( texNormal, damageNormal, albedoDiff );
     }

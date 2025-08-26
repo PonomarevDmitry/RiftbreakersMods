@@ -1,108 +1,12 @@
 system rift/tower_portal_bomb_explosion
 {
-    fixed_timeout                               4
+    fixed_timeout                               2
     nonvisible_update_timeout                   1
     scale_velocity                              0.039
     scale                                       0.039 0.039 0.039
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 2
-    technique fire
-    {
-        visual_particle_quota                   20
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/smokelet5
-        renderer                                Billboard
-        {
-        }
-        emitter                                 Circle Emitter1
-        {
-            emission_rate                       100
-            angle                               85
-            time_to_live                        dyn_random
-            {
-                min                             0.7
-                max                             0.9
-            }
-            velocity                            dyn_random
-            {
-                min                             0
-                max                             200
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             100
-                max                             150
-            }
-            force_emission                      true
-        }
-        affector                                Colour Affector35
-        {
-            time_colour                         0    1 1 1 1
-            time_colour                         1    0 0 0 0.388235
-        }
-    }
-    technique debris
-    {
-        visual_particle_quota                   300
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/mp2_debris_atlas_e
-        renderer                                Billboard
-        {
-            texture_coords_rows                 4
-            texture_coords_columns              4
-            billboard_rotation_type             vertex
-        }
-        emitter                                 Point debris
-        {
-            emission_rate                       300
-            angle                               70
-            time_to_live                        dyn_random
-            {
-                min                             2
-                max                             3
-            }
-            velocity                            dyn_random
-            {
-                min                             300
-                max                             500
-            }
-            all_particle_dimensions             dyn_random
-            {
-                min                             2
-                max                             10
-            }
-            position                            0 10 0
-            end_texture_coords_range            15
-            colour                              0.25098 0.25098 0.25098 1
-            force_emission                      true
-        }
-        affector                                LinearForce Affector50
-        {
-            force_vector                        0 -500 0
-        }
-        affector                                TextureRotator Affector192
-        {
-            use_own_rotation                    true
-            rotation                            dyn_random
-            {
-                min                             -0.9
-                max                             0.9
-            }
-            rotation_speed                      dyn_random
-            {
-                min                             -5
-                max                             5
-            }
-        }
-    }
     technique ring
     {
         visual_particle_quota                   1
@@ -119,7 +23,7 @@ system rift/tower_portal_bomb_explosion
         }
         emitter                                 Point ring
         {
-            time_to_live                        0.7
+            time_to_live                        1
             velocity                            0
             all_particle_dimensions             1
             position                            0 10 0
@@ -156,8 +60,8 @@ system rift/tower_portal_bomb_explosion
             angle                               360
             time_to_live                        dyn_random
             {
-                min                             3
-                max                             4
+                min                             1
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -353,7 +257,7 @@ system rift/tower_portal_bomb_explosion
     }
     technique debris
     {
-        visual_particle_quota                   100
+        visual_particle_quota                   200
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -371,12 +275,12 @@ system rift/tower_portal_bomb_explosion
             angle                               60
             time_to_live                        dyn_random
             {
-                min                             2
-                max                             3
+                min                             1
+                max                             2
             }
             velocity                            dyn_random
             {
-                min                             500
+                min                             250
                 max                             1500
             }
             all_particle_dimensions             dyn_random
@@ -407,6 +311,12 @@ system rift/tower_portal_bomb_explosion
                 max                             10
             }
         }
+        affector                                Colour 
+        {
+            time_colour                         0    0.313 0.261 0.195 1
+            time_colour                         0.802342  0.313 0.261 0.195 1
+            time_colour                         1    0 0 0 0
+        }
     }
     technique smoke_ring
     {
@@ -418,7 +328,6 @@ system rift/tower_portal_bomb_explosion
         material                                particles/smoke_03_alpha_atlas
         renderer                                Billboard
         {
-            render_queue_group                  60
             texture_coords_rows                 2
             texture_coords_columns              2
             billboard_rotation_type             vertex
@@ -429,8 +338,8 @@ system rift/tower_portal_bomb_explosion
             angle                               15
             time_to_live                        dyn_random
             {
-                min                             3
-                max                             4
+                min                             1
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -480,38 +389,6 @@ system rift/tower_portal_bomb_explosion
             stop_at_flip                        true
         }
     }
-    technique ring
-    {
-        visual_particle_quota                   1
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/flare_add_01
-        renderer                                Billboard
-        {
-            billboard_type                      perpendicular_common
-            common_direction                    0 1 0
-            common_up_vector                    0 0 1
-        }
-        emitter                                 Point ring
-        {
-            time_to_live                        0.4
-            velocity                            0
-            duration                            0.4
-            all_particle_dimensions             100
-            position                            0 10 0
-        }
-        affector                                Scale Affector20
-        {
-            xyz_scale                           2500
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    1 1 1 1
-            time_colour                         1    0 0 0 0
-        }
-    }
     technique shockwave_single
     {
         visual_particle_quota                   1
@@ -529,7 +406,8 @@ system rift/tower_portal_bomb_explosion
         }
         emitter                                 Point flash2
         {
-            time_to_live                        0.5
+            angle                               0
+            time_to_live                        1
             velocity                            0
             all_particle_dimensions             1
             position                            0 50 0
@@ -542,7 +420,7 @@ system rift/tower_portal_bomb_explosion
         affector                                Colour 
         {
             time_colour                         0    0.2 0.2 0.2 1
-            time_colour                         1    0.2 0.2 0.2 0
+            time_colour                         1    0 0 0 0
         }
     }
     technique refract_shockwave
@@ -564,6 +442,7 @@ system rift/tower_portal_bomb_explosion
         }
         emitter                                 Point flash2
         {
+            angle                               0
             time_to_live                        1
             velocity                            0
             all_particle_dimensions             100
@@ -591,7 +470,6 @@ system rift/tower_portal_bomb_explosion
         material                                particles/mp2_shockwave_a_add
         renderer                                Billboard
         {
-            render_queue_group                  60
             billboard_type                      perpendicular_common
             billboard_rotation_type             vertex
             common_direction                    0 1 0
@@ -599,6 +477,7 @@ system rift/tower_portal_bomb_explosion
         }
         emitter                                 Point flash2
         {
+            angle                               0
             time_to_live                        1
             velocity                            0
             all_particle_dimensions             100

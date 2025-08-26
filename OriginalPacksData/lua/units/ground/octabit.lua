@@ -20,7 +20,9 @@ function octabit:OnInit()
 	self.fsm:ChangeState( "check_eating" )
 
 	self.wreck_type = "wreck_small";
-	self.wreckMinSpeed = 8
+	self.wreckMinSpeed = 0
+    self.normalExplodeProbability = 1
+	self.leaveBodyProbability = 0
 	self.allowDivideHealthInPercentage = 70
 	self.divideScaleMul = 0.85
 	

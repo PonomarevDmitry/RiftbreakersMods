@@ -1,0 +1,281 @@
+EntityBlueprint
+{
+	name "units/skills/tornado_wave"
+	
+	NetReplicateOnceComponent
+	
+	StateMachineDesc
+	{
+		template_name "unit_skill"
+		params
+		{
+			priority_target						string:"headquarters|player|energy|tower"
+			ignore_target						string:"wall|invisible|not_move_to_target"
+			target_distance						float:"45"
+		}		
+	}
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/tornado_wave"
+		description 	"gui/hud/enemy_skill_description/tornado_wave"
+		icon 			"gui/menu/inventory/stat_icons/tornado_wave_aura_icon"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/tornado_wave_effect"
+			spawn_min_time		float:	"3.0"
+			spawn_max_time		float:	"4.0"
+			speed				float:	"8"
+			radius				int:	"85"
+			angle				int:	"25"
+			spread				int:	"15"
+			elements_count		int:	"2"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/tornado_wave_lvl_2"
+	base_blueprint	"units/skills/tornado_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/tornado_wave_lvl_2"
+		description 	"gui/hud/enemy_skill_description/tornado_wave"
+		icon 			"gui/menu/inventory/stat_icons/tornado_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/tornado_wave_effect_lvl_2"
+			spawn_min_time		float:	"2.5"
+			spawn_max_time		float:	"3.5"
+			speed				float:	"10"
+			radius				int:	"85"
+			angle				int:	"45"
+			spread				int:	"15"
+			elements_count		int:	"3"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/tornado_wave_lvl_3"
+	base_blueprint	"units/skills/tornado_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/tornado_wave_lvl_3"
+		description 	"gui/hud/enemy_skill_description/tornado_wave"
+		icon 			"gui/menu/inventory/stat_icons/tornado_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/tornado_wave_effect_lvl_3"
+			spawn_min_time		float:	"2.25"
+			spawn_max_time		float:	"3.25"
+			speed				float:	"12"
+			radius				int:	"85"
+			angle				int:	"55"
+			spread				int:	"12"
+			elements_count		int:	"4"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/tornado_wave_lvl_4"
+	base_blueprint	"units/skills/tornado_wave"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/tornado_wave_lvl_4"
+		description 	"gui/hud/enemy_skill_description/tornado_wave"
+		icon 			"gui/menu/inventory/stat_icons/tornado_wave_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/pulse_wave.lua"
+		database
+		{
+			wave_bp				string:	"units/skills/tornado_wave_effect_lvl_4"
+			spawn_min_time		float:	"2.0"
+			spawn_max_time		float:	"3.0"
+			speed				float:	"13"
+			radius				int:	"85"
+			angle				int:	"55"
+			spread				int:	"10"
+			elements_count		int:	"5"
+		}			
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/skills/tornado_wave_effect"
+
+	TornadoDesc
+	{
+		radius		              	"6.5"
+		speed		              	"0"
+		rotate_speed              	"0"
+		wander_jitter_multiplier  	"0.01"
+		oscillation_radius        	"30"
+		effect_bp					"effects/tornado/tornado_boss"
+		marker_bp					"effects/tornado/tornado_marker_physical"
+	}
+
+	LuaDesc
+	{
+		script "lua/misc/tornado_collision.lua"
+	}
+
+	TriggerDesc
+	{
+		owner 		"self"
+		collision 	"world|world_blocker"
+		tag 		"trigger"
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "1.0"
+			}
+		}
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"3.5"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"10"
+					type			"physical"
+				}
+			}
+		}
+	}	
+
+	PointWindDesc
+    {
+        type        "1"
+        power_max   "-3500"
+        power_min   "-3500"
+        radius      "10"
+    }	
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/tornado_wave_effect_lvl_2"
+	base_blueprint	"units/skills/tornado_wave_effect"
+	
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"3.5"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"13"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/tornado_wave_effect_lvl_3"
+	base_blueprint	"units/skills/tornado_wave_effect"
+	
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"3.5"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"16"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  			"units/skills/tornado_wave_effect_lvl_4"
+	base_blueprint	"units/skills/tornado_wave_effect"
+	
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"3.5"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"20"
+					type			"physical"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "units/skills/tornado_wave_warning"
+
+	LuaDesc
+	{
+		script "lua/misc/danger_marker.lua"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/cube.mesh"
+		material 	"markers/danger_marker_progress_angle_red"
+	}
+}

@@ -1,13 +1,13 @@
-//editor "scroll(-812.53,-532.92)|zoom(0.27)"
+//editor "scroll(-170.15,-419.23)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "6"
-	editor "6247"
+	version "7"
+	editor "6319"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-1348,499)"
+			//editor "layout(event_start.xml)|pos(-1867,488)"
 			database
 			{
 				Integers
@@ -279,7 +279,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(-1073,196)"
+			//editor "layout(condition_int.xml)|pos(-1073,124)"
 			key "0"
 			self_id "logic_random_output_1###0"
 			value
@@ -287,7 +287,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(-1073,224)"
+			//editor "layout(condition_int.xml)|pos(-1073,152)"
 			key "1"
 			self_id "logic_random_output_1###1"
 			value
@@ -911,11 +911,126 @@ FlowGraphTemplate
 			self_id "logic_or_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_generic.xml)|pos(-1158,679)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_parent_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_global"
+						value "0"
+					}
+
+					IntData
+					{
+						key "generate_type"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "objective_blueprint"
+						value
+					}
+
+					StringData
+					{
+						key "display_name"
+						value "gui/hud/objective_name/generic/phirian_attack"
+					}
+
+					StringData
+					{
+						key "display_description"
+					}
+
+					StringData
+					{
+						key "unique_name_id"
+						value "phirian_attack"
+					}
+
+					StringData
+					{
+						key "unique_parent_id_name"
+						value
+					}
+
+					StringData
+					{
+						key "wait"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_spawn.lua"
+			self_id "objective_generic_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(objective_finish.xml)|pos(1369,-143)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "phirian_attack"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "objective_finish_1"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_if_difficulty_wave_1|logic_random_output_1"
+		default "logic_if_difficulty_wave_1|logic_random_output_1|objective_generic_1"
 		interface_dialogue_show_11 "logic_or_2"
 		interface_dialogue_show_12 "logic_or_2"
 		logic_and_1 "logic_or_1"
@@ -925,7 +1040,7 @@ FlowGraphTemplate
 		logic_if_difficulty_wave_1###hard "wave_ground_3"
 		logic_if_difficulty_wave_1###normal "wave_ground_2"
 		logic_if_difficulty_wave_1###sandbox "logic_and_1"
-		logic_or_1 "logic_random_output_2"
+		logic_or_1 "logic_random_output_2|objective_finish_1"
 		logic_or_2 "event_end_0"
 		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1"
 		logic_random_output_1###0 "interface_dialogue_show_10"
@@ -933,6 +1048,7 @@ FlowGraphTemplate
 		logic_random_output_2 "logic_random_output_2###0|logic_random_output_2###1"
 		logic_random_output_2###0 "interface_dialogue_show_11"
 		logic_random_output_2###1 "interface_dialogue_show_12"
+		objective_finish_1 "event_end_0"
 		wave_ground_1 "logic_or_1"
 		wave_ground_2 "logic_or_1"
 		wave_ground_3 "logic_or_1"

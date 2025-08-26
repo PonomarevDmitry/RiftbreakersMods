@@ -5,11 +5,11 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"2.0"
+		fire			"3.0"
 		acid			"0.1"
 		energy			"1.0"
 		cryo			"1.0"
-		area			"1.0"
+		area			"2.0"
 	}
 	
 	HealthBarDesc
@@ -23,8 +23,6 @@ EntityBlueprint
 	{
 		max_health 					"10000"
 		health 						"10000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -169,7 +167,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"world_destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
@@ -185,6 +183,25 @@ EntityBlueprint
 					}
 				}					
 			}
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"building"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/spawrot_c1.nxs"
+					}
+					
+					PhysicsMeshShape
+					{
+						mesh "meshes/units/ground/spawrot_c2.nxs"
+					}
+				}					
+			}			
 		}
 	}	
 	
@@ -200,12 +217,19 @@ EntityBlueprint
 			}
 		}
 	}	
+	
+	NodeCullerDesc
+	{
+		cost_type "prop"
+		nav_mesh_cull_type "1"
+	}	
 
 	MinimapItemDesc
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -237,8 +261,8 @@ EntityBlueprint
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "60"
-			submesh_idx "1"
+			emissive_factor "10"
+			submesh_idx "0"
 		}
 
 		ammo_blueprint 			"units/ground/spawner_swamp_acid_projectile"
@@ -802,6 +826,7 @@ EntityBlueprint
 			y "1"
 		}
 		visibility		"discovered"
+		layer_group		"enemies"
 	}
 
 	PhysicsDesc
@@ -850,4 +875,8 @@ EntityBlueprint
 			time_damage_interval	"0.1"
 		}
 	}
+	LifeTimeDesc
+	{
+		time "5.0"
+	}	
 }

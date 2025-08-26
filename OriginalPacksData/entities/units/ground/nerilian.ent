@@ -37,6 +37,12 @@ EntityBlueprint
 		stagger_health_threshold		"0.08"
 		stagger_long_time				"0.8"
 		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+		
+		force_stagger_chance 			"0.1"
 	}
 	
 	NavMeshMovementComponent
@@ -104,7 +110,8 @@ EntityBlueprint
 			y "2"
 		}
 
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
@@ -115,6 +122,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"10000"
 		explosion_min_power 	"5000"
+		loot_award				"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -533,7 +541,7 @@ EntityBlueprint
 
 	DatabaseComponent
 	{
-		version int:"1"	
+		version int:"2"	
 	}
 
 	HealthDesc

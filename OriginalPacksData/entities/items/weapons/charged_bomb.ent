@@ -34,6 +34,11 @@ EntityBlueprint
 	{
 		attack_movement_factor	"0.65"
 	}
+	
+	WeaponPredictionComponent
+	{
+		spawn_ammo "0"
+	}
 
 	BurstWeaponComponent
 	{
@@ -238,7 +243,8 @@ EntityBlueprint
 			y "2"
 		}
 
-		visibility			"radar"
+		visibility		"radar"
+		layer_group		"enemies"
 	}
 
 	VegetationBendingComponentDesc
@@ -256,8 +262,12 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/weapons_explosive/charged_bomb_projectile"
-					delay     "0.3"
+					//delay     "0.3"
 				}
+				Effect
+				{
+					blueprint "lights/point/explosion_blue_medium"
+				}				
 			}
 		}
 	}
@@ -265,7 +275,7 @@ EntityBlueprint
 	FlakAmmoComponent
 	{
 		explosion_effect 		"effects/weapons_explosive/charged_bomb_explosion"
-		explosion_delay 		"1.9"
+		explosion_delay 		"1"
 
 		DamagePattern
 		{
@@ -305,7 +315,8 @@ EntityBlueprint
 			y "2"
 		}
 
-		visibility			"radar"
+		visibility		"radar"
+		layer_group		"enemies"
 	}
 
 	VegetationBendingComponentDesc
@@ -323,8 +334,12 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/weapons_explosive/charged_bomb_projectile_charged"
-					delay     "0.3"
+					//delay     "0.3"
 				}
+				Effect
+				{
+					blueprint "lights/point/explosion_blue_medium"
+				}				
 			}
 		}
 	}
@@ -332,7 +347,7 @@ EntityBlueprint
 	FlakAmmoComponent
 	{
 		explosion_effect 		"effects/weapons_explosive/charged_bomb_explosion_charged"
-		explosion_delay 		"1.9"
+		explosion_delay 		"1"
 
 		DamagePattern
 		{
@@ -365,6 +380,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/charged_bomb"
 		bigger_icon "gui/menu/items_icons/weapons/charged_bomb"
 		description "gui/menu/inventory/weapon_charge_description/charged_bomb"
+		predict 		1
 	}	
 
 	LuaDesc
@@ -401,6 +417,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/charged_bomb_advanced"
 		bigger_icon "gui/menu/items_icons/weapons/charged_bomb_advanced"
 		description "gui/menu/inventory/weapon_charge_description/charged_bomb"
+		predict 		1
 	}	
 
 	LuaDesc
@@ -437,6 +454,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/charged_bomb_superior"
 		bigger_icon "gui/menu/items_icons/weapons/charged_bomb_superior"
 		description "gui/menu/inventory/weapon_charge_description/charged_bomb"
+		predict 		1
 	}	
 
 	LuaDesc
@@ -473,6 +491,7 @@ EntityBlueprint
 		icon		"gui/hud/items_icons/weapons/charged_bomb_extreme"
 		bigger_icon "gui/menu/items_icons/weapons/charged_bomb_extreme"
 		description "gui/menu/inventory/weapon_charge_description/charged_bomb"
+		predict 		1
 	}	
 	
 	LuaDesc

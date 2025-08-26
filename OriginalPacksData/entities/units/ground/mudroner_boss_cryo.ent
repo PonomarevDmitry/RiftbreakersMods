@@ -9,8 +9,8 @@ EntityBlueprint
 		template_name "hedroner"
 		params
 		{
-			aggressive_speed					float:"7"
-			aggressive_acceleration				float:"14"
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"4"
 			rotate_speed						float:"450"
@@ -20,7 +20,7 @@ EntityBlueprint
 			melee_attack_name					string:"attack_1|attack_2"
 			teleport_distance					float:"30"
 			teleport_min_building_distance		float:"30"
-			teleport_time						float:"2.5"
+			teleport_time						float:"1.0"
 		}		
 	}
 
@@ -50,16 +50,21 @@ EntityBlueprint
 		ignore_cost_mask				"building|path_blocker|mud_vein|cavern_wall"
 		dominance_group				    "0"
 	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "mudroner_boss"
+	}
 
 	ResistanceComponent
 	{
 		physical		"0.5"
-		fire			"1.0"
+		fire			"4.0"
 		acid			"1.0"
-		energy			"2.0"
+		energy			"3.0"
 		cryo			"0.1"
 		area			"1.0"
-		reflect_damage_max_percent 		"0.1"		
+		reflect_damage_max_percent 		"0.02"		
 	}
 	
 	StunDataComponent
@@ -78,10 +83,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"25000"
-		health 						"25000"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"5000"
+		health 						"5000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -117,22 +120,44 @@ EntityBlueprint
 	{
 		ammo_blueprint 				"units/ground/mudroner/attack_range_cryo"
 
-		burst_column_spacing 		"0"
-		burst_rate 					"0"
-		burst_column_angle 			"0"
+		//burst_column_spacing 		"0"
+		//burst_rate 					"0.1"
+		burst_column_angle 			"23"
 	}
 
 	SelectableDesc
 	{
-		content "monster_name/mudroner"
+		content "monster_name/mudroner_ultra"
 		can_activate 0
+	}
+	
+	TurretDesc
+	{
+		name   "range"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "440"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "10"
+			range_max "30"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
 	}
 	
 	MinimapItemDesc
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"radar"		
+		visibility 		"radar"
+		layer_group		"enemies"
 	}		
 	
 	DestroyDesc
@@ -314,7 +339,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"149.0"
+										value 	"149"
 										type 	"cryo"
 									}
 								}
@@ -355,9 +380,9 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/enemies_magmoth/projectile_hit_cryo"
-		on_world_hit_effect 	"effects/enemies_magmoth/projectile_hit_cryo"	
-		on_shield_hit_effect	"effects/enemies_magmoth/projectile_hit_cryo"
+		on_enemy_hit_effect 	"effects/enemies_magmoth/projectile_hit_cryo_medium"
+		on_world_hit_effect 	"effects/enemies_magmoth/projectile_hit_cryo_medium"	
+		on_shield_hit_effect	"effects/enemies_magmoth/projectile_hit_cryo_medium"
 		hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
@@ -373,6 +398,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_magmoth/projectile_cryo"
+					scale "2 2 2"
 				}
 			}
 		}
@@ -390,5 +416,9 @@ EntityBlueprint
 				}
 			}
 		}			
+	}	
+	LifeTimeDesc
+	{
+		time "5.0"
 	}	
 }

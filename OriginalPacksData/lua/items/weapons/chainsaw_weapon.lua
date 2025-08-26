@@ -28,8 +28,8 @@ function chainsaw_weapon:OnUnequipped()
 	end
 end 
 
-function chainsaw_weapon:OnActivate()
-	melee_weapon.OnActivate( self )
+function chainsaw_weapon:OnActivate(activation_id)
+	melee_weapon.OnActivate( self, activation_id )
 	AnimationService:StartAnim( self.item, "attack", true )
 end
 

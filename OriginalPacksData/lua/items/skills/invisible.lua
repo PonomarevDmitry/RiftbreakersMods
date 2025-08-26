@@ -13,12 +13,16 @@ function invisible:OnInit()
 	self.invisibilityFsm = self:CreateStateMachine()
 	self.invisibilityFsm:AddState( "invisibility_enter", {enter="OnInvisibilityEnterEnter", execute="OnInvisibilityEnterExecute"} )
 	self.invisibilityFsm:AddState( "invisibility_exit", {enter="OnInvisibilityExitEnter", execute="OnInvisibilityExitExecute", exit="OnInvisibilityExitExit" } )
+
+	if self.data:GetIntOrDefault( "force_equip", 0 ) == 1 then
+        QueueEvent("EquipItemEvent", self.entity, self.entity, EntityService:GetParent( self.entity ), "" )        
+        QueueEvent("ActivateItemRequest", self.entity, false )        
+	end
 end
 
 function invisible:OnEquipped()
 	self:RegisterHandler( self.owner, "ItemEquippedEvent",  "OnItemEquippedEvent" )
 	self:RegisterHandler( self.owner, "RiftTeleportStartEvent",  "OnRiftTeleportStartEvent" )
-
 end
 
 function invisible:OperateInvisibile()
@@ -26,9 +30,9 @@ function invisible:OperateInvisibile()
 	ItemService:ActivateCooldown(self.entity )
 	ItemService:SetInvisible( self.owner, self.mode )
 	
-	if ( self.mode == true ) then
+	if self.mode == true and not self:HasEventHandler( self.owner, "DamageEvent" ) then
 		self:RegisterHandler( self.owner, "DamageEvent", "OnDamageEvent" )
-	else
+	elseif self:HasEventHandler( self.owner, "DamageEvent" ) then
 		self:UnregisterHandler( self.owner, "DamageEvent", "OnDamageEvent" )
 	end
 

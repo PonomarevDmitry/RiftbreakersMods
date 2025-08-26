@@ -23,6 +23,11 @@ EntityBlueprint
 		attack_movement_factor	"0.50"
 	}
 
+	WeaponPredictionComponent
+	{
+		spawn_ammo "1"
+	}
+	
 	BurstWeaponComponent
 	{
 		WeaponAffector
@@ -59,10 +64,11 @@ EntityBlueprint
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_explosive/rocket_fire_small"
 
-
 		burst_column_spacing 		"0.5"
 		burst_rate 					"0.1"
-		//burst_column_angle 			"5"
+		//burst_column_angle 		"5"
+		
+		use_accuracy				"1"
 	}
 
 	EffectDesc
@@ -171,6 +177,7 @@ EntityBlueprint
 		item_bp		"items/weapons/swarm_missiles_advanced"
 		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_advanced"
 		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_advanced"
+		predict 		1
 	}
 
 	LuaDesc
@@ -220,6 +227,7 @@ EntityBlueprint
 		item_bp		"items/weapons/swarm_missiles_extreme"
 		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_extreme"
 		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_extreme"
+		predict 		1
 	}
 
 	LuaDesc
@@ -251,6 +259,7 @@ EntityBlueprint
 		item_bp		"items/weapons/swarm_missiles"
 		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher"
 		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher"
+		predict 		1
 	}
 
 	LuaDesc
@@ -300,6 +309,7 @@ EntityBlueprint
 		item_bp		"items/weapons/swarm_missiles_superior"
 		icon		"gui/hud/items_icons/weapons/swarm_missile_launcher_superior"
 		bigger_icon "gui/menu/items_icons/weapons/swarm_missile_launcher_superior"
+		predict 		1
 	}
 
 	LuaDesc
@@ -343,21 +353,19 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_explosive/explosion_small"
-		on_world_hit_effect 	"effects/weapons_explosive/explosion_small"
+		on_enemy_hit_effect 	"effects/weapons_explosive/swarm_missile_explosion"
+		on_world_hit_effect 	"effects/weapons_explosive/swarm_missile_explosion"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
-		collision_2d 			"ground_unit|destructible"
-		
+		//collision_2d 			"ground_unit|destructible"
+		diameter				"1"
 		DamagePattern
 		{
 			area_damage_effect_scale	"splash"
 			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_orange"
 		}			
 	}
-
-
 
 	EffectDesc
 	{
@@ -391,7 +399,7 @@ EntityBlueprint
 			{
 				material 			ribbon/smoke_trail_01
 				update_bounds 		1
-				fade_out_time		0.1
+				fade_out_time		0.65
 				uv_scroll			"0 -2.5"
 				tiling_distance     "0"
 				tesselation_step 	"0.25"
@@ -402,13 +410,13 @@ EntityBlueprint
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 0.2"
+						offset "0 0 0.3"
 					}
 
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 -0.2"
+						offset "0 0 -0.3"
 					}
 				}
 			}

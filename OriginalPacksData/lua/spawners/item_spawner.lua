@@ -60,7 +60,7 @@ function item_spawner:OnCreationStart( state)
     self.model = EntityService:SpawnAndAttachEntity( self.modelBp, self.entity )
     EntityService:SetPosition( self.model, 0.0, 3.0, 0.0 )
     EffectService:DestroyEffectsByGroup( self.model, "laser_pointer")
-    EntityService:ChangeMaterial( self.model, "selector/hologram_blue_dissolve")
+    EntityService:ChangeMaterial( self.model, "hologram/blue_dissolve")
     
     EntityService:RemoveComponent( self.model, "MinimapItemComponent")
     EntityService:FadeEntity( self.model, DD_FADE_IN, self.cooldown )

@@ -19,6 +19,7 @@ struct VS_OUTPUT
     float4  Color       : COLOR;
 #if USE_TEXTURE || USE_BLEND_2_TEXTURE
     float2  TexCoord    : TEXCOORD0;
+    float4  ChannelMask : BINORMAL;
 #endif
 };
 
@@ -41,6 +42,26 @@ struct PS_OUTPUT
     SamplerState    sTex1       : register( s1 );
 #endif
 
+
+
+float3 rgb2hsv(float3 c)
+{
+    float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+    float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+float3 hsv2rgb(float3 c)
+{
+    float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
+}
+
 PS_OUTPUT mainFP( VS_OUTPUT In ) 
 {
     PS_OUTPUT Out;
@@ -48,14 +69,19 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 #if USE_TEXTURE
 
 #if USE_AA
-    float dscale = 4.0 * 0.354; // half of 1/sqrt2
+    float dscale = 1.0 * 0.354; // half of 1/sqrt2
     float2 duv = float2( dscale/cTextureSize.x, dscale/cTextureSize.y );
     float4 box = float4( In.TexCoord-duv, In.TexCoord+duv );
-    float4 boxColor = tTex0.Sample( sTex0, box.xy )
-                    + tTex0.Sample( sTex0, box.zw )
-                    + tTex0.Sample( sTex0, box.xw )
-                    + tTex0.Sample( sTex0, box.zy );
-    Out.Color = ( tTex0.Sample( sTex0, In.TexCoord ) + 0.5 * boxColor ) / 3.0 * In.Color;
+    float4 w = float4( 
+        tTex0.Sample( sTex0, box.xy ).w,
+        tTex0.Sample( sTex0, box.zw ).w,
+        tTex0.Sample( sTex0, box.xw ).w,
+        tTex0.Sample( sTex0, box.zy ).w );
+    float4 boxColor = tTex0.Sample( sTex0, box.xy ) * w.x
+                    + tTex0.Sample( sTex0, box.zw ) * w.y
+                    + tTex0.Sample( sTex0, box.xw ) * w.z
+                    + tTex0.Sample( sTex0, box.zy ) * w.w;
+    Out.Color = ( tTex0.Sample( sTex0, In.TexCoord ) + 0.5 * boxColor ) / (1.0 + 0.5 * (w.x+w.y+w.z+w.w) ) * In.Color;
 #elif USE_LANCZOS
     float2 step = cInvTextureSize;
     Out.Color = tTex0.Sample( sTex0, In.TexCoord ) * 0.38026 
@@ -79,20 +105,28 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
 	float w0 = 1.0 + 0.75 * force;
 	//float2 step = cInvTextureSize;
 	float2 step = ddx( In.TexCoord.x ) +  ddy( In.TexCoord.y );
-	float4 un = tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,-step.y) ) * w1
-              + tTex0.Sample( sTex0, In.TexCoord + float2(      0,-step.y) ) * w2
-              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x,-step.y) ) * w1
-              + tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,      0) ) * w2
-              + tTex0.Sample( sTex0, In.TexCoord + float2(      0,      0) ) * w0
-              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x,      0) ) * w2
-              + tTex0.Sample( sTex0, In.TexCoord + float2(-step.x, step.y) ) * w1
-              + tTex0.Sample( sTex0, In.TexCoord + float2(      0, step.y) ) * w2
-              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x, step.y) ) * w1;
-    Out.Color = un * In.Color;
+	float4 un = tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,-step.y) ) * w1 * tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,-step.y) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2(      0,-step.y) ) * w2 * tTex0.Sample( sTex0, In.TexCoord + float2(      0,-step.y) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x,-step.y) ) * w1 * tTex0.Sample( sTex0, In.TexCoord + float2( step.x,-step.y) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,      0) ) * w2 * tTex0.Sample( sTex0, In.TexCoord + float2(-step.x,      0) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2(      0,      0) ) * w0 * tTex0.Sample( sTex0, In.TexCoord + float2(      0,      0) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x,      0) ) * w2 * tTex0.Sample( sTex0, In.TexCoord + float2( step.x,      0) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2(-step.x, step.y) ) * w1 * tTex0.Sample( sTex0, In.TexCoord + float2(-step.x, step.y) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2(      0, step.y) ) * w2 * tTex0.Sample( sTex0, In.TexCoord + float2(      0, step.y) ).w
+              + tTex0.Sample( sTex0, In.TexCoord + float2( step.x, step.y) ) * w1 * tTex0.Sample( sTex0, In.TexCoord + float2( step.x, step.y) ).w;
+    Out.Color = un * In.Color * tTex0.Sample( sTex0, In.TexCoord ).w;
 	//Out.Color = float4(force,force,force,1);
 #else
-	Out.Color = tTex0.Sample( sTex0, In.TexCoord ) * In.Color;
+    float4 tex = tTex0.Sample( sTex0, In.TexCoord );
+    Out.Color = tex * In.Color;
 #endif
+
+    float saturationMod = In.ChannelMask.x;
+    float valueMod = In.ChannelMask.y;
+    float3 hsv = rgb2hsv( Out.Color.xyz );
+    hsv.y *= saturationMod;
+    hsv.z *= valueMod;
+    Out.Color.xyz = hsv2rgb(hsv);
 
 #if USE_MASK
     float4 c2 = tTex1.Sample( sTex1, In.TexCoord );

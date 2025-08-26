@@ -7,9 +7,7 @@ function granan_wreck:__init()
 end
 
 function granan_wreck:initParams()
-	--self.wreckLifetime = 600
-    self.normalExplodeProbability = 2
-	self.leaveBodyProbability = 10
+
 end
 
 return granan_wreck
