@@ -91,7 +91,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.forcefield_regen] = "0",         -- base
+            [EntityModType.forcefield_regen_cooldown] = "0",         -- base
             [EntityModType.movement_speed] = "1",       -- random
         },
     },
