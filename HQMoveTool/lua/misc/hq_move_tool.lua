@@ -98,22 +98,6 @@ function hq_move_tool:SpawnBuildinsTemplates()
     local blueprintBuildingDesc = BuildingService:GetBuildingDesc( hqBlueprint )
     local buildingDesc = reflection_helper( blueprintBuildingDesc )
 
-    local nextUpgradeResearch = ""
-
-    if ( buildingDesc.upgrade ~= "" and buildingDesc.upgrade ~= nil ) then
-
-        local nextUpgrade = buildingDesc.upgrade
-
-        nextUpgradeResearch = self:GetResearchForUpgrade( nextUpgrade )
-
-        if ( self:CanUpgrade( findResult, buildingDesc, nextUpgradeResearch ) ) then
-            markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
-            markerDB:SetInt("message_visible", 1)
-            return
-        end
-    end
-
-    self.nextUpgradeResearch = nextUpgradeResearch
 
     local baseDesc = BuildingService:GetBuildingDesc( "buildings/main/headquarters" )
     if (baseDesc ~= nil ) then
@@ -250,24 +234,6 @@ end
 
 function hq_move_tool:OnWorkExecute()
 
-    if ( self.hq ~= nil and self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
-
-        local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
-
-        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
-        markerDB:SetInt("message_visible", 1)
-
-        self:RemoveEntitySelectedMaterial( self.hq )
-
-        self.hq = nil
-
-        if ( self.ghostHQ ~= nil ) then
-            EntityService:RemoveEntity(self.ghostHQ)
-            self.ghostHQ = nil
-            self.buildCost = {}
-        end
-    end
-
     local currentTransform = EntityService:GetWorldTransform( self.entity )
     self:CheckEntityBuildable( self.entity, currentTransform, self.blueprint )
 
@@ -320,25 +286,6 @@ function hq_move_tool:OnActivateSelectorRequest()
         return
     end
 
-    if ( self:CanUpgrade( self.hq, self.buildingDesc, self.nextUpgradeResearch ) ) then
-
-        local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
-
-        markerDB:SetString("message_text", "gui/hud/messages/hq_move_tool/hq_not_upgraded")
-        markerDB:SetInt("message_visible", 1)
-
-        self:RemoveEntitySelectedMaterial( self.hq )
-
-        self.hq = nil
-
-        if ( self.ghostHQ ~= nil ) then
-            EntityService:RemoveEntity(self.ghostHQ)
-            self.ghostHQ = nil
-            self.buildCost = {}
-        end
-
-        return
-    end
 
     local transformToNewHQ = EntityService:GetWorldTransform( self.ghostHQ )
 
@@ -430,25 +377,6 @@ function hq_move_tool:OnActivateSelectorRequest()
     QueueEvent( "LeaveBuildModeRequest", self.selector, false )
 
     EntityService:RemoveEntity( self.entity )
-end
-
-function hq_move_tool:CanUpgrade( hqEntity, buildingDesc, nextUpgradeResearch )
-
-    if ( hqEntity ~= nil ) then
-
-        if ( BuildingService:CanUpgrade( hqEntity, self.playerId ) ) then
-            return true
-        end
-    end
-
-    if ( nextUpgradeResearch ~= "" and nextUpgradeResearch ~= nil ) then
-
-        if ( PlayerService:IsResearchUnlocked( nextUpgradeResearch ) ) then
-            return true
-        end
-    end
-
-    return false
 end
 
 function hq_move_tool:OnDeactivateSelectorRequest()
