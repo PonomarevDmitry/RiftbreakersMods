@@ -80,8 +80,15 @@ function liquid_decompressor:OnItemEquippedEvent( evt )
     self:Refresh()
 end
 
-function liquid_decompressor:OnRemove()
+function liquid_decompressor:OnDestroyRequest()
+    building.OnDestroyRequest(self)
     BuildingService:ClearDecompressor(self.entity, false)
+end
+function liquid_decompressor:OnSellStart()
+    BuildingService:ClearDecompressor(self.entity, false)
+end
+
+function liquid_decompressor:OnRemove()
 end
 
 return liquid_decompressor

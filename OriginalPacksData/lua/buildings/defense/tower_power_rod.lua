@@ -57,8 +57,13 @@ function tower_power_rod:OnTurretEvent( evt )
 end
 
 function tower_power_rod:OnWorkingEnter( state )
-	self.pendingRocket = EntityService:SpawnAndAttachEntity( self.rocketBp, self.entity, "att_rocket", "" )
-    self.readyRocker = nil
+	if self.readyRocker ~= nil then
+       return
+   end
+
+   if self.pendingRocket == nil then
+       self.pendingRocket = EntityService:SpawnAndAttachEntity( self.rocketBp, self.entity, "att_rocket", "" )
+   end
 end
 
 function tower_power_rod:UpdateMuzzles()
@@ -115,8 +120,10 @@ function tower_power_rod:OnCooldownExit( state )
 end
 
 function tower_power_rod:DetachAndFireRocket( rocketEnt )
-	MoveService:MoveInDirection( rocketEnt, 0, 30.0, 15.0, { x=1, y=0, z=0 } )
-	QueueEvent( "DissolveEntityRequest", rocketEnt, 2.0, 3.0 )
-	EffectService:AttachEffects( rocketEnt, "exhaust" )
+	if rocketEnt ~= nil and rocketEnt ~= INVALID_ID then
+		MoveService:MoveInDirection( rocketEnt, 0, 30.0, 15.0, { x=1, y=0, z=0 } )
+		QueueEvent( "DissolveEntityRequest", rocketEnt, 2.0, 3.0 )
+		EffectService:AttachEffects( rocketEnt, "exhaust" )
+	end
 end
 return tower_power_rod
