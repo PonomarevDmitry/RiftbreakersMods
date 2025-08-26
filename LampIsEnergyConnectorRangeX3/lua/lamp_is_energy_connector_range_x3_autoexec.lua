@@ -97,4 +97,4 @@ local new_storage_list = {
     "buildings/decorations/crystal_lamp_yellow",
 }
 
--- #warning Commented Local InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
+------ #warning Commented Local ------InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
