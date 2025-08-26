@@ -312,7 +312,9 @@ function repair_drone:OnRepairExecute( state )
             database:SetInt("number_of_activations", currentNumberOfActivations)
         end
     end
-    
+
+    if state:GetDuration() < self.heal_interval then return end
+
     if ( health >= maxHealth and currentNumberOfActivations >= maxNumberOfActivations ) then
         return self:FinishTargetAction(state)
     end
