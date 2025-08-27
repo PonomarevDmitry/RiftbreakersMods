@@ -1,4 +1,5 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
