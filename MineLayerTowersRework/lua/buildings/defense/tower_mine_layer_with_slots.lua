@@ -96,7 +96,7 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
     local level = BuildingService:GetBuildingLevel( self.entity )
 
-    local hoverMinHeight = 9 + 2 * (level - 1)
+    local hoverMinHeight = 11 + 2 * (level - 1)
 
     local isActive = ( self.data:GetIntOrDefault( "activated", 0 ) == 1 )
 
