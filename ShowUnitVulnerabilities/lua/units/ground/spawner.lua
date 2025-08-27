@@ -10,6 +10,8 @@ function spawner:__init()
 end
 
 function spawner:init()
+	SetupUnitScale( self.entity, self.data )
+	
 	self:RegisterHandler( self.entity, "DestroyRequest",	  "OnDestroyRequest" )
 	self:RegisterHandler( self.entity, "SpawnerInfoRequest",  "OnSpawnerInfoRequest" )
 	self:RegisterHandler( self.entity, "DamageEvent",  "_OnDamageEvent" )

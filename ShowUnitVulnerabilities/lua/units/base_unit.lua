@@ -354,6 +354,7 @@ end
 
 function base_unit:_OnSoundRunEnter( state )
 end
+
 function base_unit:_OnSoundRunExit( state )
 end
 	
