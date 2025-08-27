@@ -44,18 +44,19 @@ function auto_mines_laying_panel:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
-function auto_mines_laying_panel:OnBuildingEnd()
+--function auto_mines_laying_panel:OnBuildingEnd()
+--
+--    if ( building.OnBuildingEnd ) then
+--        building.OnBuildingEnd(self)
+--    end
+--
+--    self:OnOperateActionMenuEvent()
+--end
 
-    if ( building.OnBuildingEnd ) then
-        building.OnBuildingEnd(self)
-    end
+function auto_mines_laying_panel:OnOperateActionMenuEvent( evt )
 
-    self:OnOperateActionMenuEvent()
-end
+    local player_id = evt:GetPlayer()
 
-function auto_mines_laying_panel:OnOperateActionMenuEvent()
-
-    local player_id = 0
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
         return
