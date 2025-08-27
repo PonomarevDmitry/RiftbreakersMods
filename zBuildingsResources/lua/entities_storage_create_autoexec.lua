@@ -1,4 +1,5 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 -- test_log_blueprint player/player BlueprintComponent
 -- test_log_blueprint player/player EquipmentComponent
 -- test_log_blueprint player/player InventoryComponent

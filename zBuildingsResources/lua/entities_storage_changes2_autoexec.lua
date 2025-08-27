@@ -1,4 +1,5 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 --local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 -- test_log_blueprint player/player BlueprintComponent
 -- test_log_blueprint player/player EquipmentComponent
