@@ -510,6 +510,9 @@ function tower_mine_layer_with_slots:CreateLinkEntity()
 
         local team = EntityService:GetTeam( self.entity )
         self.linkEntity = EntityService:SpawnAndAttachEntity( linkEntityBlueprintName, self.entity, team)
+
+        EntityService:CreateComponent(self.linkEntity, "EffectReferenceComponent")
+
         ItemService:SetInvisible(self.linkEntity, true)
     end
 
