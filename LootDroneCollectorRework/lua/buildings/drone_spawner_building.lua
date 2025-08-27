@@ -508,6 +508,9 @@ function drone_spawner_building:CreateLinkEntity()
 
 		local team = EntityService:GetTeam( self.entity )
 		self.linkEntity = EntityService:SpawnAndAttachEntity( linkEntityBlueprintName, self.entity, team)
+
+		EntityService:CreateComponent(self.linkEntity, "EffectReferenceComponent")
+
 		ItemService:SetInvisible(self.linkEntity, true)
 	end
 
