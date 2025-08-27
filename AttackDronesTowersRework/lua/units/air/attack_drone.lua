@@ -161,6 +161,10 @@ function attack_drone:OnAttackExecute(state, dt)
 
     if self.attack_stop_timer then
         local non_attack_duration = state:GetDuration() - ( self.attack_stop_timer or state:GetDuration())
+        if non_attack_duration > 0.5 then
+            self.weapon_controller.StopShooting( self )
+        end
+
         if non_attack_duration > self.non_action_timeout then
 
             self:SetCurrentTarget(INVALID_ID)
