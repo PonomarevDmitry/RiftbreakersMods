@@ -1,4 +1,5 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 
 ConsoleService:RegisterCommand( "test_log_statemachine", function( args )
 
