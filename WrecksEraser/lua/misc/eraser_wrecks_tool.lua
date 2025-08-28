@@ -137,7 +137,8 @@ end
 
 function eraser_wrecks_tool:OnActivateEntity( entity )
 
-    EntityService:DissolveEntity( entity, 0.5 )
+    EntityService:DestroyEntity( entity, "collapse" )
+    --EntityService:DissolveEntity( entity, 0.5 )
 end
 
 return eraser_wrecks_tool
