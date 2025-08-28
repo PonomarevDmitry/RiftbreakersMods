@@ -1,3 +1,4 @@
+require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
 local base_lamp_trail_autoexec = function(evt)
