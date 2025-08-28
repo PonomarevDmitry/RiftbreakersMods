@@ -48,14 +48,14 @@ local player_flora_collector_drones_autoexec = function(evt)
         end
     end
 
-    for skillName in Iter( skillList ) do
-
-        local itemCount = PlayerService:GetItemNumber( playerId, skillName )
-
-        if ( itemCount == 0 ) then
-            PlayerService:AddItemToInventory( playerId, skillName )
-        end
-    end
+    --for skillName in Iter( skillList ) do
+    --
+    --    local itemCount = PlayerService:GetItemNumber( playerId, skillName )
+    --
+    --    if ( itemCount == 0 ) then
+    --        PlayerService:AddItemToInventory( playerId, skillName )
+    --    end
+    --end
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
