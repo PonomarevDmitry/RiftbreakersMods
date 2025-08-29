@@ -12,6 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | name |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | df |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | glow_enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | shadow_enabled |

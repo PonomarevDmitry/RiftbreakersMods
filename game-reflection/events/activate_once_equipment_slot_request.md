@@ -15,4 +15,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Owner |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | SlotID |
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | PermissionMatrixName |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | ActivationId |
 

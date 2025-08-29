@@ -12,5 +12,6 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | password |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | command |
 

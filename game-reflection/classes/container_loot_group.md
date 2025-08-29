@@ -5,13 +5,13 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# ContainerLootGroup
+# ContainerLootGroup( [ Resource ](/riftbreaker-wiki/docs/game-reflection/classes/resource/) )
 Description 
 
 ## Fields
 
 | Type | Name |
 |:----------|:--------------|
-| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | rarity |
-| Container< [ContainerLootGroupItem](/riftbreaker-wiki/docs/game-reflection/classes/container_loot_group_item/) > | items |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | condition_name |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | name |
 

@@ -13,7 +13,7 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | species_name |
-| Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | creatures_group |
+| Container< [Pair_String_float](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_float/) > | creatures_group |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | volume_aggressive_distance |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | volume_non_aggressive_distance |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | volume_respawn_time |

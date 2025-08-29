@@ -12,6 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_stick_to_the_end |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | vertical_scroll_bar_visibility |
 | [GuiReferenceDef](/riftbreaker-wiki/docs/game-reflection/classes/gui_reference_def/) | vertical_scroll_bar |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | horizontal_scroll_bar_visibility |

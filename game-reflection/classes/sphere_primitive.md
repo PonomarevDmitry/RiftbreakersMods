@@ -15,4 +15,5 @@ Description
 | [Vector3](/riftbreaker-wiki/docs/game-reflection/classes/vector3/) | position |
 | [Vector4](/riftbreaker-wiki/docs/game-reflection/classes/vector4/) | solidColor |
 | [Vector4](/riftbreaker-wiki/docs/game-reflection/classes/vector4/) | lineColor |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | radius |
 

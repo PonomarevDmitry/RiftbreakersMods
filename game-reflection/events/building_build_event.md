@@ -16,4 +16,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | Upgraded |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | BuildingName |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | BuildingType |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

@@ -25,4 +25,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | spawn_within_playable_bounds |
 | Container< [ObjectSpawn](/riftbreaker-wiki/docs/game-reflection/classes/object_spawn/) > | spawn_blueprints |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | ignore_excluded_cells_check |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | silent_remove_after_spawn |
 

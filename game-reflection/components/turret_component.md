@@ -15,7 +15,6 @@ Description
 | [TurretFlamerData](/riftbreaker-wiki/docs/game-reflection/classes/turret_flamer_data/) | flamer_data |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | target |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | custom_target |
-| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | idle_progress |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | cooldown_timer |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | target_change_timer |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | status |

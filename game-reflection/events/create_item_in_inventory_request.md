@@ -15,4 +15,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | InventoryEnt |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | Item |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | EventType |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

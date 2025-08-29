@@ -16,4 +16,6 @@ Description
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | Group |
 | [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | Transform |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | Relative |
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Owner |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | Flags |
 

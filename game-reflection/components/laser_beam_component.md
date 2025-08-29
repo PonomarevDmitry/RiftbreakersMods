@@ -42,6 +42,7 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | damage_factor_decrease |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | damage_max_beam_scale |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | damage_max_beam_glow |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | damage_max_lightning_scale |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | friendly_fire |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_visible_only |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | only_blocking_effect |

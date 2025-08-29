@@ -19,4 +19,6 @@ Description
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | attachment |
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | group |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | parent |
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | owner |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | flags |
 

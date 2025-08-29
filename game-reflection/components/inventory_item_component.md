@@ -22,7 +22,9 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | cooldown_category |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | description |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | inventory_attachment_override |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | value |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | cooldown |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | drop_weight |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | owner |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | storage_limit |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | use_count |
@@ -37,4 +39,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | add_quality |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | replace_lower_quality |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | add_after_obtaining |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | predict |
 

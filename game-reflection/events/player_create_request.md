@@ -15,4 +15,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [PlayerInfo](/riftbreaker-wiki/docs/game-reflection/classes/player_info/) | PlayerInfo |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | ForceSpawn |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | IsLeadingPlayer |
 

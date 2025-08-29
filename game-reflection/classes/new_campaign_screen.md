@@ -13,5 +13,8 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | campaign_name |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | streaming |
+| [MissionDifficulty2](/riftbreaker-wiki/docs/game-reflection/components/mission_difficulty2/) | selected_difficulty |
+| [MissionDifficulty2](/riftbreaker-wiki/docs/game-reflection/components/mission_difficulty2/) | hovered_difficulty |
+| Container< [MissionDifficulty](/riftbreaker-wiki/docs/game-reflection/classes/mission_difficulty/) > | difficulties |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hardcode_mode |
 

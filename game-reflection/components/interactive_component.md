@@ -16,6 +16,7 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | radius |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | item |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | item_count |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | priority |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | remove_entity |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | remove_component |

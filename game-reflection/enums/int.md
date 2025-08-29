@@ -12,11 +12,7 @@ Description
 
 | Name | Value |
 |:----------|:--------------|
-| Linear | 0 |
-| Quadratic | 1 |
-| EaseInOut | 2 |
-| Exponential | 3 |
-| Underdamped | 4 |
-| Sqrt | 5 |
-| Custom | 6 |
+| health_ratio | 0 |
+| damage_ratio | 1 |
+| flat_damage | 2 |
 

@@ -13,6 +13,6 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
-| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | Rarity |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | LootAward |
 | [TeamId](/riftbreaker-wiki/docs/game-reflection/classes/team_id/) | TeamId |
 

@@ -1,0 +1,19 @@
+---
+layout: default
+title: ResearchScreenResourceInfo
+has_children: false
+parent: Class
+grand_parent: Game Reflection
+---
+# ResearchScreenResourceInfo
+Description 
+
+## Fields
+
+| Type | Name |
+|:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | icon |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | label |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | amount |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | max |
+

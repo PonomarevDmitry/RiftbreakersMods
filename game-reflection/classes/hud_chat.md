@@ -12,5 +12,9 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| Container< [HudChatMessage](/riftbreaker-wiki/docs/game-reflection/classes/hud_chat_message/) > | messages |
+| Container< [ChatMessage](/riftbreaker-wiki/docs/game-reflection/classes/chat_message/) > | messages |
+| Container< [ChatMessage](/riftbreaker-wiki/docs/game-reflection/classes/chat_message/) > | short_messages |
+| Container< [Icons](/riftbreaker-wiki/docs/game-reflection/classes/icons/) > | icons |
+| Container< [Icons](/riftbreaker-wiki/docs/game-reflection/classes/icons/) > | active_icons |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | active |
 

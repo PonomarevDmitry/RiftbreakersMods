@@ -17,4 +17,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | Result |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | Stats |
 | [Database](/riftbreaker-wiki/docs/game-reflection/components/database/) | Database |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | VoteType |
 

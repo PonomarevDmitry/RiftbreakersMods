@@ -16,5 +16,6 @@ Description
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | min_instances |
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | max_instances |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | force_fixed_rotation |
+| [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | min_distance_from_edge |
 | Container< [TileCoord](/riftbreaker-wiki/docs/game-reflection/classes/tile_coord/) > | tile_coord |
 

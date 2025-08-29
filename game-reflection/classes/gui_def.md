@@ -12,6 +12,8 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | id |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | model_source |
 | [Vector4](/riftbreaker-wiki/docs/game-reflection/classes/vector4/) | color |
 | [Vector4](/riftbreaker-wiki/docs/game-reflection/classes/vector4/) | margin |
 | [Vector2](/riftbreaker-wiki/docs/game-reflection/classes/vector2/) | size |
@@ -28,13 +30,12 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hitbox_visible |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | alignment |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | anchor |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | id |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | synchronization_mode |
 | [GuiAnimationTimelineDef2](/riftbreaker-wiki/docs/game-reflection/components/gui_animation_timeline_def2/) | animations |
 | [GuiScriptDefMap2](/riftbreaker-wiki/docs/game-reflection/components/gui_script_def_map2/) | item_scripts |
 | [GuiTooltipDef2](/riftbreaker-wiki/docs/game-reflection/components/gui_tooltip_def2/) | tooltip_def |
 | Container< [Pair_String_GuiBind](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__gui_bind/) > | bindings |
 | Container< [Pair_String_String](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__string/) > | bindings_proxy |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | model_source |
 | [GuiTooltip](/riftbreaker-wiki/docs/game-reflection/classes/gui_tooltip/) | tooltip |
 | Container< [GuiAnimationGroupDef](/riftbreaker-wiki/docs/game-reflection/classes/gui_animation_group_def/) > | animation_groups |
 

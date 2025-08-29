@@ -21,5 +21,6 @@ Description
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | spawned_units_count |
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | killed_units_count |
 | [Timer](/riftbreaker-wiki/docs/game-reflection/classes/timer/) | delay_timer |
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | grid_culler_entity |
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | next_label_iter |
 

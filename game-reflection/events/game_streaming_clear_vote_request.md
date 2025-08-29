@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | VotingType |
 

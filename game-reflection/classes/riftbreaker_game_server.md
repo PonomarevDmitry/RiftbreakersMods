@@ -12,6 +12,11 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [NetServerMapChangedAck](/riftbreaker-wiki/docs/game-reflection/classes/net_server_map_changed_ack/) | info |
+| [ServerGameState](/riftbreaker-wiki/docs/game-reflection/classes/server_game_state/) | info |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | ping |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_selected |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_matching_filter |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_compatible |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | error_message |
+| [Database](/riftbreaker-wiki/docs/game-reflection/components/database/) | error_content |
 

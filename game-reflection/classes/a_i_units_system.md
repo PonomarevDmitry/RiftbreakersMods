@@ -15,5 +15,6 @@ Description
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | group_counter |
 | Container< [Pair_String_AIUnitsGroup](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__a_i_units_group/) > | units_groups |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | all_units_states_as_group |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | use_new_packer |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | pack_ver |
 

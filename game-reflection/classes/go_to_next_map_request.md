@@ -12,8 +12,8 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | MissionId |
-| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | Status |
+| [MissionStatusHolder](/riftbreaker-wiki/docs/game-reflection/classes/mission_status_holder/) | MissionStatus |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | Outpost |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | FromPlanetScanner |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | CheckRequirements |
 

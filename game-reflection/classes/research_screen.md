@@ -18,4 +18,8 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | have_research |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hidden |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | empty_queue |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | filter_active |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | research_content_visible |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | resources |
+| Container< [ResearchScreenResourceInfo](/riftbreaker-wiki/docs/game-reflection/classes/research_screen_resource_info/) > | resources_list |
 

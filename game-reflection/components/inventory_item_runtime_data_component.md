@@ -21,4 +21,7 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | activated |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | internal_block |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | force_switch_mode |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | crafted |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_activate |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_new |
 

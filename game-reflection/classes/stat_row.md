@@ -24,6 +24,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | diff_icon |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | left_modifiers |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | right_modifiers |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | tooltip_content |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | over_time |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | green |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | disabled |

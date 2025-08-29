@@ -12,6 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | render_group |
 | Container< [MinimapVertex](/riftbreaker-wiki/docs/game-reflection/components/minimap_vertex/) > | vertices |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | material |
 

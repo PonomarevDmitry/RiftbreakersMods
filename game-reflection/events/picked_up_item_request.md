@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Inventory |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

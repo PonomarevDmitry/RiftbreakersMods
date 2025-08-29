@@ -5,7 +5,7 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# GuiScrollViewerNodeDef
+# GuiScrollViewerNodeDef( [ GuiNavNodeDef ](/riftbreaker-wiki/docs/game-reflection/classes/gui_nav_node_def/) )
 Description 
 
 ## Fields

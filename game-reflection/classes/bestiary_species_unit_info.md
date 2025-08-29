@@ -22,6 +22,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | lvl |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | next_lvl |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | amount_needed |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | current_amount |
 | Container< [float](/riftbreaker-wiki/docs/game-reflection/components/float/) > | amount |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_new |

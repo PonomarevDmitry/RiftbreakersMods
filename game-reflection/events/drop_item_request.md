@@ -16,4 +16,5 @@ Description
 | [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | Transform |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | Interact |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | ClearPlayer |
 

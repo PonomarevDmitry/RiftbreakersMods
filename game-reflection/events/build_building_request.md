@@ -17,4 +17,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | BuildingBlueprint |
 | [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | Position |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | CreateCubes |
+| Container< [Database](/riftbreaker-wiki/docs/game-reflection/components/database/) > | Database |
 

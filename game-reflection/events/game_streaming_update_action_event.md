@@ -16,4 +16,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ActionName |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ParticipantName |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | ParticipantId |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | VotingType |
 

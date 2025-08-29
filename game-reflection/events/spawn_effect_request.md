@@ -17,4 +17,6 @@ Description
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | Attachment |
 | [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | Transform |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | Delay |
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Owner |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | Flags |
 

@@ -19,6 +19,7 @@ Description
 | Container< [Pair_TypeMask_uint](/riftbreaker-wiki/docs/game-reflection/classes/pair__type_mask_uint/) > | buildings_by_type |
 | Container< [Pair_StringHash_FlatMap_StringHashuint](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_hash__flat_map__string_hashuint/) > | local_buildings |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | unlocks |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | has_armory |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | unseen_new_blueprints |
 | Container< [Pair_String_String](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__string/) > | last_building_level |
 | Container< [Pair_String_String](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__string/) > | last_building |

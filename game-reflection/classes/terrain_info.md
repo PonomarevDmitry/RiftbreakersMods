@@ -18,6 +18,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | effect_group |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | haptic_feedback_left |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | haptic_feedback_right |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | affector_blueprint |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | speed |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | acceleration |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | deacceleration |

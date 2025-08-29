@@ -25,5 +25,6 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | empty |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | autosave |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | warning |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hardcore_mode |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | missing_content |
 

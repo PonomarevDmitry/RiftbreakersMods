@@ -14,4 +14,6 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [ComponentSignature](/riftbreaker-wiki/docs/game-reflection/components/component_signature/) | Signature |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | Options |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

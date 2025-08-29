@@ -16,4 +16,6 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | popup_dialog_msg |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | popup_confirmation_node |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | on_click_action |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | on_double_click_action |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | on_focus_action |
 

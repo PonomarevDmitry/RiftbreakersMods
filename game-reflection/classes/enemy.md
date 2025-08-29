@@ -21,5 +21,7 @@ Description
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | count |
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | units_in_one_spawn |
 | [EntityTemplate](/riftbreaker-wiki/docs/game-reflection/classes/entity_template/) | template |
-| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | force_species_difficulty |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | spawn_species_difficulty_min |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | spawn_species_difficulty_max |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | spawn_species_difficulty_offset |
 

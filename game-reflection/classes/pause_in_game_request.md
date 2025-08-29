@@ -13,6 +13,6 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ScreenName |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | InGame |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | HidePauseButtons |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | WorldType |
 

@@ -12,6 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | trimming_mode |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | trimming_mode |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | text_alignment |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | line_breaking |
 

@@ -25,6 +25,7 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | empty |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | optional |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | working |
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | traverse |
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | traverse_clear |
 | Container< [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) > | idx |

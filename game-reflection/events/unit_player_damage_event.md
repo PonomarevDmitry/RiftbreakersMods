@@ -17,4 +17,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | DamageType |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | EntityBlueprint |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | CreatorBlueprint |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

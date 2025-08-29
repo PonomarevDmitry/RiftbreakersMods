@@ -12,5 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Item |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | TeamEntity |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | title |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | continue_game |
 

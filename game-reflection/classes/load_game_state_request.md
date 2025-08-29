@@ -14,5 +14,5 @@ Description
 |:----------|:--------------|
 | [CampaignId](/riftbreaker-wiki/docs/game-reflection/classes/campaign_id/) | CampaignId |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | SaveName |
-| Container< [GameServerOptions](/riftbreaker-wiki/docs/game-reflection/components/game_server_options/) > | ServerOptions |
+| Container< [GameServerOptions](/riftbreaker-wiki/docs/game-reflection/classes/game_server_options/) > | ServerOptions |
 

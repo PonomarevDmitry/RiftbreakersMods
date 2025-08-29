@@ -23,6 +23,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | rich_presence |
 | Container< [MapUrl](/riftbreaker-wiki/docs/game-reflection/classes/map_url/) > | side_missions |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | continue_disabled |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | multiplayer_only |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | achievements_group |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | preview_material |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | order |
@@ -35,4 +36,6 @@ Description
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | difficulty_modes |
 | Container< [CampaignCustomOption](/riftbreaker-wiki/docs/game-reflection/classes/campaign_custom_option/) > | campaign_options |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | mission_list |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | award_events_file |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | award_packages_file |
 

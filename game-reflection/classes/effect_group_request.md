@@ -19,4 +19,6 @@ Description
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | blueprint |
 | [StringHash](/riftbreaker-wiki/docs/game-reflection/classes/string_hash/) | attachment |
 | [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | transform |
+| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | owner |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | flags |
 

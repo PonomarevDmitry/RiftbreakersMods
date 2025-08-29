@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | CheatName |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

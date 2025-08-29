@@ -22,6 +22,9 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | simple_damage_start |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | simple_damage_end |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | simple_attack_end |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | attack_speed |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | reset |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | block_interrupt |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_pending |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | attack_id |
 

@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | Duration |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | DissolveChildren |
 

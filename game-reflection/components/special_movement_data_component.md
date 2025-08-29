@@ -19,6 +19,8 @@ Description
 | [ModifiableValue](/riftbreaker-wiki/docs/game-reflection/classes/modifiable_value/) | max_speed |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | max_time |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | timer |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | angle_speed |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | block_aiming_dir |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | block_move_dir |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | disable_unit_collision |
 

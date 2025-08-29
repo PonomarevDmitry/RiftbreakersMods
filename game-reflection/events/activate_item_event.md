@@ -16,4 +16,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Item |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ItemName |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ItemType |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

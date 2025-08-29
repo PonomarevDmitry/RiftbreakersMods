@@ -15,4 +15,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | SpawnPoint |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | SkipPortalSequence |
 

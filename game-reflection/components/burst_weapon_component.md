@@ -20,6 +20,7 @@ Description
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | fire_loop_entities |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | last_snaped_ent |
 | [Vector3](/riftbreaker-wiki/docs/game-reflection/classes/vector3/) | custom_target |
+| [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | custom_muzzle |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | fire_effect |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | muzzle_flash_effect |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | ammo_blueprint |

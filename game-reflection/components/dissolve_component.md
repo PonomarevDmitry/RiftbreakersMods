@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [LogicTimer](/riftbreaker-wiki/docs/game-reflection/classes/logic_timer/) | timer |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | direction |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | dissolve_children |
 

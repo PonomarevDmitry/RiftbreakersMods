@@ -14,5 +14,6 @@ Description
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | blueprint |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | localization |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | filter_match |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | enabled |
 

@@ -16,4 +16,5 @@ Description
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | damage_type |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | ammo_storage |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | rarity |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | disable_mods |
 

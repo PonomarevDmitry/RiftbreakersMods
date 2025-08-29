@@ -12,7 +12,7 @@ Description
 
 | Name | Value |
 |:----------|:--------------|
-| canvas | 0 |
-| stack_horizontal | 1 |
-| stack_vertical | 2 |
+| always | 0 |
+| skip_once | 1 |
+| never | 2 |
 

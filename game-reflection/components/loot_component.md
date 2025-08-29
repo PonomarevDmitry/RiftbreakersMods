@@ -13,7 +13,8 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | bp |
-| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | loot_container_override |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | loot_award |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | inherit_loot_from_prefab |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_gatherable |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | explosion_min_power |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | explosion_max_power |

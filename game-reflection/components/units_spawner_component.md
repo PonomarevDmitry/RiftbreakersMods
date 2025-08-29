@@ -31,4 +31,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | spawn_disabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_spawn_when_visible |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | spawn_type |
+| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | blueprint_spawn_type |
 

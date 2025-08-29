@@ -15,6 +15,7 @@ Description
 | [Aabb](/riftbreaker-wiki/docs/game-reflection/classes/aabb/) | playable_bounds |
 | [Random](/riftbreaker-wiki/docs/game-reflection/components/random/) | random |
 | [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | generator_seed |
+| [MissionDef](/riftbreaker-wiki/docs/game-reflection/classes/mission_def/) | generator_params |
 | [ResourceHandle_MissionDef](/riftbreaker-wiki/docs/game-reflection/classes/resource_handle__mission_def/) | mission |
 | [ResourceHandle_BiomeDef](/riftbreaker-wiki/docs/game-reflection/classes/resource_handle__biome_def/) | biome |
 | Container< [Pair_MaterialHolder_MaterialHolder](/riftbreaker-wiki/docs/game-reflection/classes/pair__material_holder__material_holder/) > | shared_materials |

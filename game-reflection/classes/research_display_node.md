@@ -24,9 +24,13 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | selected |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_new |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_hilighted |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_filter_match |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | has_requirements |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | has_resources |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | cost_list |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | requirement |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | tooltip_icon |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | tooltip_header |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | tooltip_content |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | resource_missing |
 

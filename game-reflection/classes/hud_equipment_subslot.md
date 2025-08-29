@@ -14,6 +14,9 @@ Description
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ammo_string |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | icon |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | activate |
 | [Vector4](/riftbreaker-wiki/docs/game-reflection/classes/vector4/) | color |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | ammo |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | interactive_hud |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | crafted |
 

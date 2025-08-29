@@ -5,7 +5,7 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# BiomeDef
+# BiomeDef( [ Resource ](/riftbreaker-wiki/docs/game-reflection/classes/resource/) )
 Description 
 
 ## Fields
@@ -21,4 +21,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | icon_with_outpost |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | loading |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | loading_with_outpost |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | scannable_on_startup  |
 

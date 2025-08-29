@@ -12,5 +12,6 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| Container< [Pair_String_UnorderedMap_Stringfloat](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__unordered_map__stringfloat/) > | actions |
+| Container< [Pair_String_UnorderedMap_StringActionState](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__unordered_map__string_action_state/) > | instant_actions |
+| Container< [Pair_String_UnorderedMap_StringActionState](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__unordered_map__string_action_state/) > | queued_actions |
 

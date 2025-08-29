@@ -13,5 +13,6 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | description_visible |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | has_changes |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | current_description |
 

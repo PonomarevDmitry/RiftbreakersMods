@@ -13,9 +13,9 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | revision |
-| Container< [NetReplicationEntityDelta](/riftbreaker-wiki/docs/game-reflection/classes/net_replication_entity_delta/) > | updated_entities |
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | detached_entities |
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | removed_entities |
+| Container< [Pair_Entity_NetReplicationEntityDelta](/riftbreaker-wiki/docs/game-reflection/classes/pair__entity__net_replication_entity_delta/) > | updated_entities |
 | Container< [TypeAny](/riftbreaker-wiki/docs/game-reflection/components/type_any/) > | entity_events |
 | Container< [RelevantEvent](/riftbreaker-wiki/docs/game-reflection/classes/relevant_event/) > | relevan_events |
 

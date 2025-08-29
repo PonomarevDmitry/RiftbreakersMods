@@ -15,4 +15,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Sink |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Item |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | Blueprint |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

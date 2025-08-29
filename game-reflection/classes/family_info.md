@@ -20,4 +20,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | category |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | scannable_chance |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | specimen_chance |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | bestiary_hidden |
 

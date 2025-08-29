@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | material |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | info |
 

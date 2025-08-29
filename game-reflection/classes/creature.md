@@ -23,5 +23,6 @@ Description
 | Container< [Pair_String_Vector_TypeFieldOverride](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__vector__type_field_override/) > | unit_skill_overrides |
 | Container< [Pair_EntityModType_EntityMod](/riftbreaker-wiki/docs/game-reflection/classes/pair__entity_mod_type__entity_mod/) > | extra_unit_modifiers |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | force_include_unit_skills |
+| Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | additional_include_unit_skills |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | exclude_unit_skills |
 

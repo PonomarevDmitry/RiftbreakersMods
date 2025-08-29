@@ -5,7 +5,7 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# AnimationEvalNode( [ AnimationStateNode ](/riftbreaker-wiki/docs/game-reflection/classes/animation_state_node/) )
+# AnimationEvalNode( [ AnimationNode ](/riftbreaker-wiki/docs/game-reflection/classes/animation_node/) )
 Description 
 
 ## Fields

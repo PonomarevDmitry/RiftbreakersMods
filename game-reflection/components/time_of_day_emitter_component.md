@@ -12,6 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| Container< [Pair_uint_float](/riftbreaker-wiki/docs/game-reflection/classes/pair_uint_float/) > | timeofday_local_weights |
 | [TimeOfDayPresetHolder](/riftbreaker-wiki/docs/game-reflection/components/time_of_day_preset_holder/) | timeofday_preset |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | fixed_cycle |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | timeofday_weight |

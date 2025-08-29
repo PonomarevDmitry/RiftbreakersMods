@@ -5,7 +5,7 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# NetServerConnectedAck( [ NetServerMapChangedAck ](/riftbreaker-wiki/docs/game-reflection/classes/net_server_map_changed_ack/) )
+# NetServerConnectedAck( [ NetServerMapChangeStarted ](/riftbreaker-wiki/docs/game-reflection/classes/net_server_map_change_started/) )
 Description 
 
 ## Fields
@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [GameServer](/riftbreaker-wiki/docs/game-reflection/classes/game_server/) | server_info |
 | [CampaignState](/riftbreaker-wiki/docs/game-reflection/classes/campaign_state/) | campaign_state |
+| [uint64](/riftbreaker-wiki/docs/game-reflection/components/uint64/) | steam_lobby |
 

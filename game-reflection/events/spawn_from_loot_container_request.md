@@ -13,6 +13,7 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
-| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | Rarity |
+| [Transform](/riftbreaker-wiki/docs/game-reflection/classes/transform/) | Transform |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | LootAward |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | Player |
 

@@ -18,4 +18,5 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | requirement |
 | [Database](/riftbreaker-wiki/docs/game-reflection/components/database/) | action_database |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | was_last_selected |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | enabled |
 

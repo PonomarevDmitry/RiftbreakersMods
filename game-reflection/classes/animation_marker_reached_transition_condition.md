@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | marker_name |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | track_name |
 

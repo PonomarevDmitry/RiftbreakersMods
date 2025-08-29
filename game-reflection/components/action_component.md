@@ -12,8 +12,9 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| Container< [Pair_String_float](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_float/) > | current |
-| Container< [Pair_String_float](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_float/) > | previous |
+| Container< [Pair_String_ActionState](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__action_state/) > | current |
+| Container< [Pair_String_ActionState](/riftbreaker-wiki/docs/game-reflection/classes/pair__string__action_state/) > | previous |
+| Container< [Pair_String_uint](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_uint/) > | action_ids |
 | Container< [ActionMapperInfo](/riftbreaker-wiki/docs/game-reflection/classes/action_mapper_info/) > | action_mappers |
 | Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | to_remove |
 | Container< [ActionBlockInfo](/riftbreaker-wiki/docs/game-reflection/classes/action_block_info/) > | block_info_vec |

@@ -16,6 +16,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | address |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | ping_location |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | name |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | password |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | application |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | project |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | build |

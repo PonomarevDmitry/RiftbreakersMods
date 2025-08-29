@@ -16,6 +16,7 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | ack_wait_time |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | ack_wait_deltas |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | queued_deltas |
-| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | dropped_deltas |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | skipped_deltas |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | timed_deltas |
 | [ReplicationDeltaStats](/riftbreaker-wiki/docs/game-reflection/classes/replication_delta_stats/) | replication_stats |
 

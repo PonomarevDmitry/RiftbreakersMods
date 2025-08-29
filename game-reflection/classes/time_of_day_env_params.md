@@ -22,5 +22,4 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | light_size |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | skybox_diffuse_intensity |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | skybox_specular_intensity |
-| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | physics_gravity_factor |
 

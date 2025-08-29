@@ -14,5 +14,6 @@ Description
 |:----------|:--------------|
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | last_stun_factor |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | last_stun_type |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | last_stun_pose |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | reset_stun |
 

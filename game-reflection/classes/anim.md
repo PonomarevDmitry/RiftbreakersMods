@@ -16,4 +16,6 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | animLoop |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | animTime |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | animFactor |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | startTime |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | removeOnEnd |
 

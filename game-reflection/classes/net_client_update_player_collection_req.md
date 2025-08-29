@@ -13,5 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | player |
-| [TypeAny](/riftbreaker-wiki/docs/game-reflection/components/type_any/) | component |
+| [EntityTemplate](/riftbreaker-wiki/docs/game-reflection/classes/entity_template/) | components |
 

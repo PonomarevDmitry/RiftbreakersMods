@@ -24,8 +24,11 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | continue_disabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | discoverable_system_enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | conditional_loot |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | planetary_jump_enabled |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | planetary_jump_dom_enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | from_planetary_scanner_screen |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | creatures_base_difficulty |
+| [GameContent](/riftbreaker-wiki/docs/game-reflection/classes/game_content/) | game_content |
+| Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | scannable_biomes |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | next_map_movie |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | planetary_jump_enabled |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | planetary_jump_dom_enabled |
 

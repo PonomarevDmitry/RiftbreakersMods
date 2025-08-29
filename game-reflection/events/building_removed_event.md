@@ -16,4 +16,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | WasSold |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | BuildingName |
 | [Aabb](/riftbreaker-wiki/docs/game-reflection/classes/aabb/) | Bounds |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
 

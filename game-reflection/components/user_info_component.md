@@ -12,7 +12,6 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | sking_blueprint |
-| [Color](/riftbreaker-wiki/docs/game-reflection/classes/color/) | color |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | skin_blueprint |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | ping |
 

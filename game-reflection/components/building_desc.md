@@ -56,10 +56,11 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | check_connect |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_global |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_shortcut_bindable |
-| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | going_green_state |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hide_treasures |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | building_functionality |
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | condition |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | condition_value |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | disableable |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | mission_mode |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | going_green_state |
 

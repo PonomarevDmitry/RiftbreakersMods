@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Owner |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | SlotId |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | FilterWithAmmo |
 

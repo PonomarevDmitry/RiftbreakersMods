@@ -17,4 +17,7 @@ Description
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | controller |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | demo_mode |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_multiplayer |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_popup |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_steam_package |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | button_settings_visible |
 

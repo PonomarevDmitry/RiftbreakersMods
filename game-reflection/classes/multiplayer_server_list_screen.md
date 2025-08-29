@@ -12,6 +12,9 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | sorting_mode |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | server_provider |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | server_filter |
 | [RiftbreakerGameServer2](/riftbreaker-wiki/docs/game-reflection/components/riftbreaker_game_server2/) | selected_server |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | connect_allowed |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | refresh_allowed |

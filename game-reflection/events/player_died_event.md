@@ -13,10 +13,7 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | DamageType |
-| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | DamagePercentage |
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | PlayerId |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | PlayerName |
-| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | Killer |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | KillerName |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | KillerPlayerId |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | DamageType |
 

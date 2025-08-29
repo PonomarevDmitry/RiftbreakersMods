@@ -34,4 +34,5 @@ Description
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | area_damage_type |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | area_damage_effect_scale |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | time_damage_interval |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | force_friendly_fire |
 

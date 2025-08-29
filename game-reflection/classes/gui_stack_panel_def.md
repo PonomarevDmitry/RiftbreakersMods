@@ -5,7 +5,7 @@ has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# GuiStackPanelDef( [ GuiDef ](/riftbreaker-wiki/docs/game-reflection/classes/gui_def/) )
+# GuiStackPanelDef( [ GuiGroupDef ](/riftbreaker-wiki/docs/game-reflection/classes/gui_group_def/) )
 Description 
 
 ## Fields

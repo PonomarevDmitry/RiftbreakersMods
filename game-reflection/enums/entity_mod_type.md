@@ -51,4 +51,6 @@ Description
 | loot_drone | 52 |
 | weapon_fire_rate | 53 |
 | weapon_damage | 54 |
+| minimap_interference | 55 |
+| loot_equipment_chance | 56 |
 

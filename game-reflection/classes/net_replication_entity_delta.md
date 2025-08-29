@@ -12,9 +12,8 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | entity |
-| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | blueprint |
-| [EntityTemplate](/riftbreaker-wiki/docs/game-reflection/classes/entity_template/) | updated_components |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | base_blueprint |
+| Container< [TypeAny](/riftbreaker-wiki/docs/game-reflection/components/type_any/) > | updated_components |
 | Container< [TypeHash](/riftbreaker-wiki/docs/game-reflection/enums/type_hash/) > | removed_components |
 | Container< [TypeHash](/riftbreaker-wiki/docs/game-reflection/enums/type_hash/) > | created_components |
 

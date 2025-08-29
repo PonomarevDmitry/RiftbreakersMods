@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Entity |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | Message |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | Type |
 

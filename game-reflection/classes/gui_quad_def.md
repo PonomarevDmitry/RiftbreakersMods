@@ -16,5 +16,6 @@ Description
 | [Vector3](/riftbreaker-wiki/docs/game-reflection/classes/vector3/) | border_color |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | border_alpha |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | border_width |
+| [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | inner_alpha |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | corner_cut |
 

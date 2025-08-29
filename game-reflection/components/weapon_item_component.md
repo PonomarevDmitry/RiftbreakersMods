@@ -16,4 +16,5 @@ Description
 | Container< [WeaponStatDef](/riftbreaker-wiki/docs/game-reflection/classes/weapon_stat_def/) > | base_stat_vec |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | ammo_storage |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | rarity |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | crafted |
 

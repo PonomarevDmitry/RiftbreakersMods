@@ -22,5 +22,6 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | flow_field_size |
 | [ushort](/riftbreaker-wiki/docs/game-reflection/enums/ushort/) | size |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | manual |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | repulsor |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_multi_dimension |
 

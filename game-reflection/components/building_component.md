@@ -24,4 +24,5 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | m_isSellable |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | registered |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | upgraded |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | build_started |
 

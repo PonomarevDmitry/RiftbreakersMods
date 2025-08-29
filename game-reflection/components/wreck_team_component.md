@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | killed_by_damage_type |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | remove_physic_on_sleep |
 

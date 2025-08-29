@@ -12,6 +12,6 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | weapon_list |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | positive |
+| Container< [HudPickUpItem](/riftbreaker-wiki/docs/game-reflection/classes/hud_pick_up_item/) > | items |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | label |
 

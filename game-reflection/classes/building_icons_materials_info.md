@@ -12,7 +12,7 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| Container< [String](/riftbreaker-wiki/docs/game-reflection/components/string/) > | materials |
+| Container< [BuildiingIconMaterialInfo](/riftbreaker-wiki/docs/game-reflection/classes/buildiing_icon_material_info/) > | icon_materials |
 | Container< [Pair_String_float](/riftbreaker-wiki/docs/game-reflection/classes/pair__string_float/) > | materials_timers |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | minimap_icon |
 
