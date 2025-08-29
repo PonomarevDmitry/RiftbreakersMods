@@ -42,70 +42,55 @@ function activate_all_bioanomalies:OnActivate()
 
             self:DestroyTimer()
 
-            local activatedEntities = {}
+            if ( #PlayerService:GetConnectedPlayers() > 1) then
 
-            local entities = FindService:FindEntitiesByGroup( "loot_container" )
-
-            for entity in Iter( entities ) do
-
-                if ( entity == nil ) then
-                    goto continue
+                if ( PlayerService:IsPlayerVoteInProgress()) then
+                    return		
                 end
 
-                if ( not EntityService:IsAlive( entity ) ) then
-                    goto continue
-                end
+                local playerId = PlayerService:GetPlayerForEntity( self.owner )
 
-                if ( IndexOf( activatedEntities, entity ) ~= nil ) then
-                    goto continue
-                end
+                local playerName = PlayerService:GetPlayerName( playerId )
 
-                local idComponentName = EntityService:GetName( entity )
+                local voteParams =
+                {
+                    localization = "gui/vote/spawner_activate_tools/activate_all_bioanomalies",
 
-                -- Ignore Into Dark Anomaly to do not create a soft lock. 
-                if ( idComponentName == "dlc_2_anomaly" or idComponentName == "swamp_harvest_anomaly" ) then
-                    goto continue
-                end
+                    timeout = 30.0,
 
-                local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
-                if ( interactiveComponent == nil ) then
-                    goto continue
-                end
+                    gui_id = "gui/popup/popup_vote_planetaryscanner",
 
-                local interactiveComponentRef = reflection_helper( interactiveComponent )
-                if ( interactiveComponentRef.slot ~= "HARVESTER" ) then
-                    goto continue
-                end
+                    default_action = "button_no",
 
-                local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
-                if ( minimapItemComponent ~= nil ) then
-                    local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-                    minimapItemComponentRef.unknown_until_visible = false
-                end
+                    start_action = "button_yes",
 
-                local databaseEntity = EntityService:GetOrCreateDatabase( entity )
-                if ( databaseEntity ~= nil ) then
-                    databaseEntity:SetFloat( "harvest_duration", 2.5 )
-                end
+                    win_label = "gui/vote/spawner_activate_tools/activating",
 
-                QueueEvent( "HarvestStartEvent", entity )
+                    player = playerName,
 
-                EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
+                    actions = 
+                    {
+                        button_yes = 
+                        { 
+                            localization = "gui/hud/vote_accepted" ,
+                            event_name	 = "LuaGlobalEvent",
+                            event_params = { argName1 = event_sink, argName2 = "activate_all_bioanomalies_event" }
+                        },
 
-                Insert( activatedEntities, entity )
+                        button_no =
+                        {
+                            localization = "gui/hud/vote_negative" ,
+                            event_name = "",
+                            event_params = {}
+                        }
+                    }
+                }
 
-                ::continue::
-            end
+                GameStreamingService:StartPlayerVote( playerId, voteParams, false )
 
-            if ( self.owner ~= nil and self.owner ~= INVALID_ID ) then
+            else
 
-                EffectService:SpawnEffect( self.owner, "effects/enemies_generic/wave_start" )
-
-                local lootContainerDelayer = EntityService:SpawnEntity( "props/special/loot_containers/loot_container_delayer", self.owner, "" )
-
-                local dbLootContainerDelayer = EntityService:GetOrCreateDatabase( lootContainerDelayer )
-                dbLootContainerDelayer:SetFloat( "delay", 0.2 )
-                dbLootContainerDelayer:SetFloat( "aggressive_radius", 100 )
+                QueueEvent( "LuaGlobalEvent", event_sink, "activate_all_bioanomalies_event", {} )
             end
         end
     end
