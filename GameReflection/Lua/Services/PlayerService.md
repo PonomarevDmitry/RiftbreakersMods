@@ -6,7 +6,7 @@ has_children: true
 parent: Lua services
 ---
 ### AddGlobalAward
- * ([string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+ * ([string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### AddItemToInventory
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
@@ -27,7 +27,7 @@ parent: Lua services
  * ([string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### BuildBuildingAtSpot
- * ([string](riftbreaker-wiki/docs/reflection/string), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+ * ([string](riftbreaker-wiki/docs/reflection/string), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
   
 ### CalculateJumpTrajectory
  * ([float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [Entity](riftbreaker-wiki/docs/reflection/Entity), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [float](riftbreaker-wiki/docs/reflection/float)): [struct std::pair<Math::Vector3<float>,float>](riftbreaker-wiki/docs/reflection/struct std::pair<Math::Vector3<float>,float>)
@@ -93,7 +93,16 @@ parent: Lua services
  * (): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
   
 ### GetAmmoList
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetAmmoList
  * (): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetConnectedPlayers
+ * (): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
+  
+### GetConnectedPlayersFromTeam
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
   
 ### GetEnergyLvl
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
@@ -101,11 +110,23 @@ parent: Lua services
 ### GetFamiliarityLevel
  * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [int](riftbreaker-wiki/docs/reflection/int)
   
+### GetGlobalPlayerEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
+  
+### GetGlobalResourcesList
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
 ### GetGlobalResourcesList
  * (): [string](riftbreaker-wiki/docs/reflection/string)
   
+### GetGlobalTeamEntity
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
+  
 ### GetItemNumber
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetLeadingPlayer
+ * (): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
   
 ### GetOrCreateGlobalDatabase
  * ([string](riftbreaker-wiki/docs/reflection/string)): [Database*](riftbreaker-wiki/docs/reflection/Database*)
@@ -124,6 +145,9 @@ parent: Lua services
   
 ### GetPlayerForEntity
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetPlayerName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
   
 ### GetPlayerSelector
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
@@ -183,12 +207,15 @@ parent: Lua services
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### HasEmptyEquipmentSlots
- * ([string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### HasGlobalAward
  * ([string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### HasItem
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### HasSimilarEquipped
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### HighlightResearch
@@ -199,6 +226,9 @@ parent: Lua services
   
 ### IncreaseFamilyInfoLvl
  * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### IsActionActive
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### IsCraftingEnabled
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
@@ -214,6 +244,9 @@ parent: Lua services
   
 ### IsInSelectorMode
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsPlayerVoteInProgress
+ * (): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### IsResearchEnabled
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
@@ -254,6 +287,12 @@ parent: Lua services
 ### ResetPadTriggerMode
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [int](riftbreaker-wiki/docs/reflection/int)): [void](riftbreaker-wiki/docs/reflection/void)
   
+### ScaleTeamBasicResources
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ScaleTeamGlobalResources
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
 ### SetActionBlocking
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
   
@@ -281,14 +320,20 @@ parent: Lua services
 ### SetPickupRange
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
   
-### SetPlayerSpawnPoint
- * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+### SetPlayerBlueprint
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### SetPlayerTeam
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [void](riftbreaker-wiki/docs/reflection/void)
   
+### SetPlayerTeamSpawnPoint
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
 ### SetResourceAmount
  * ([string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetTempPlayerSpawnPoint
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### SetWeaponLookPoint
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
@@ -319,6 +364,12 @@ parent: Lua services
   
 ### UnhideResearch
  * ([string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### UnlockLoot
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### UnlockLootBlueprint
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### UnlockResearch
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)

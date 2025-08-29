@@ -41,6 +41,9 @@ parent: Lua services
 ### CanBuildBuilding
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
+### CanBuildBuildingAtSpot
+ * ([Math::Transform<float>](riftbreaker-wiki/docs/reflection/Math::Transform<float>), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
 ### CanBuildFloor
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
@@ -60,7 +63,7 @@ parent: Lua services
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Entity](riftbreaker-wiki/docs/reflection/Entity), [Math::Transform<float>](riftbreaker-wiki/docs/reflection/Math::Transform<float>), [string](riftbreaker-wiki/docs/reflection/string)): [Optional<BuildInfo>](riftbreaker-wiki/docs/reflection/Optional<BuildInfo>)
   
 ### ClearDecompressor
- * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### ClearResourceGraphs
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
@@ -83,11 +86,17 @@ parent: Lua services
 ### CreateRadarComponent
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
   
+### CreateResourceStorageComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
 ### DecreaseBuildingLimits
  * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### DecreaseEnergyAmount
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DecreaseResourceStorage
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### DisableBuilding
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
@@ -200,11 +209,14 @@ parent: Lua services
 ### GetGeothermalPowerModificator
  * (): [float](riftbreaker-wiki/docs/reflection/float)
   
+### GetGlobalBuildingByNameCount
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
 ### GetMeshEntity
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
   
 ### GetMissingResources
- * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Set<StringHash,struct std::less<StringHash>,StlAllocatorProxy<StringHash> >](riftbreaker-wiki/docs/reflection/Set<StringHash,struct std::less<StringHash>,StlAllocatorProxy<StringHash> >)
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
   
 ### GetPipeResourceClaimed
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [string](riftbreaker-wiki/docs/reflection/string)
@@ -328,6 +340,9 @@ parent: Lua services
   
 ### ReplaceProductionByCompressedItem
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ResendBuildingVisuals
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### ResumeGuiTimer
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
