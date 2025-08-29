@@ -1,0 +1,586 @@
+---
+layout: default
+title: EntityService2
+nav_order: 1
+has_children: true
+parent: Lua services
+---
+### AddEntityMod
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### AttachEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### AttachEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### BuildConvexHullOrigins
+ * ([luabind::object](riftbreaker-wiki/docs/reflection/luabind::object)): [Vector<Math::Vector3<float>,StlAllocatorProxy<Math::Vector3<float> > >](riftbreaker-wiki/docs/reflection/Vector<Math::Vector3<float>,StlAllocatorProxy<Math::Vector3<float> > >)
+  
+### BuildType
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [unsigned __int64](riftbreaker-wiki/docs/reflection/unsigned __int64)
+  
+### ChangeAIGroupsToAggressive
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeCharacterControllerGroupId
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeGatherResourceAmount
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeGravityAffected
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeInteractiveEntityStatus
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeMaterial
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeMesh
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangePhysicsGroupId
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeResourceAmount
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeToDynamic
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [int](riftbreaker-wiki/docs/reflection/int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeToWreck
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ChangeType
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CombineDatabase
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Database*](riftbreaker-wiki/docs/reflection/Database*)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CompareTeam
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### CompareType
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### CompareType
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### CreateBoundsComponent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CreateComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView>](riftbreaker-wiki/docs/reflection/Optional<TypeValueView>)
+  
+### CreateEntity
+ * ([IdString](riftbreaker-wiki/docs/reflection/IdString)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### CreateLifeTime
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CreateOrSetLifetime
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CreateQuickSandSinkMovement
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CreateResourceComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### CullNavMeshUnderEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### Dash
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DestroyEntity
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DetachEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableCharacterController
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableCollision
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableCollisions
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableCollisionsByGroup
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DisableVegetationChain
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DissolveEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### DissolveEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableCharacterController
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableCollision
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableCollisions
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableCollisionsByGroup
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnableVegetationChain
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### EnsureGatherableComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### FadeEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [enum DissolveDirection](riftbreaker-wiki/docs/reflection/enum DissolveDirection), [float](riftbreaker-wiki/docs/reflection/float), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### FadeEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [enum DissolveDirection](riftbreaker-wiki/docs/reflection/enum DissolveDirection), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### FadeEntityIn
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### FadeEntityOut
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### GetAncestor
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetAncestorWithSignature
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetAngleBetween
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetAngleTo
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetBlueprintComponent
+ * ([string](riftbreaker-wiki/docs/reflection/string), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView>](riftbreaker-wiki/docs/reflection/Optional<TypeValueView>)
+  
+### GetBlueprintDatabase
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [Database*](riftbreaker-wiki/docs/reflection/Database*)
+  
+### GetBlueprintDatabase
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [Database*](riftbreaker-wiki/docs/reflection/Database*)
+  
+### GetBlueprintName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetBoundsSize
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetChildByName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetChildren
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
+  
+### GetComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView>](riftbreaker-wiki/docs/reflection/Optional<TypeValueView>)
+  
+### GetComponentId
+ * ([char const*](riftbreaker-wiki/docs/reflection/char const*)): [unsigned __int64](riftbreaker-wiki/docs/reflection/unsigned __int64)
+  
+### GetComponentNames
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetConstComponent
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView const >](riftbreaker-wiki/docs/reflection/Optional<TypeValueView const >)
+  
+### GetDatabase
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [Database*](riftbreaker-wiki/docs/reflection/Database*)
+  
+### GetDistance2DBetween
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetDistanceBetween
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetEntityCellIndexes
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [Vector<Entity,StlAllocatorProxy<Entity> >](riftbreaker-wiki/docs/reflection/Vector<Entity,StlAllocatorProxy<Entity> >)
+  
+### GetForward
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetGatherResourceAmount
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetGatherableResources
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetGroup
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetLifeTime
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetLocalDirTo
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetLocalPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetMeshName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetOrCreateDatabase
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [Database*](riftbreaker-wiki/docs/reflection/Database*)
+  
+### GetOverridenMaterial
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetOverridenMaterials
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetParent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### GetPhysicsGroupId
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetPhysicsWorldAabb
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [int](riftbreaker-wiki/docs/reflection/int)): [Math::Aabb<float>](riftbreaker-wiki/docs/reflection/Math::Aabb<float>)
+  
+### GetPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetPositionX
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetPositionY
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetPositionZ
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetResourceAmount
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetRightVector
+ * ([Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetScale
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### GetSingletonComponent
+ * ([char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView>](riftbreaker-wiki/docs/reflection/Optional<TypeValueView>)
+  
+### GetTeam
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)
+  
+### GetTeam
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)
+  
+### GetTeamComponent
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [char const*](riftbreaker-wiki/docs/reflection/char const*)): [Optional<TypeValueView>](riftbreaker-wiki/docs/reflection/Optional<TypeValueView>)
+  
+### GetTeamMask
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [enum TeamMask](riftbreaker-wiki/docs/reflection/enum TeamMask)
+  
+### GetType
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [string](riftbreaker-wiki/docs/reflection/string)
+  
+### GetUnitCurrentSpeed
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [float](riftbreaker-wiki/docs/reflection/float)
+  
+### GetWorldAabb
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Aabb<float>](riftbreaker-wiki/docs/reflection/Math::Aabb<float>)
+  
+### GetWorldTransform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [Math::Transform<float>](riftbreaker-wiki/docs/reflection/Math::Transform<float>)
+  
+### HasBone
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### HasComponent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### HasInArc
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### HasTeam
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### HighlightEntity
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### IsAlive
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsBlueprintExist
+ * ([string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsDashing
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsDerivedFromBlueprint
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsInFinalVegetationChainPhase
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsInTeamRelation
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsInTeamRelation
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsSkinned
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsVisible
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### LerpTwoDirections
+ * ([Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)
+  
+### LoadMissingDatabaseKeysFromBlueprint
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### LookAt
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### MarkEntityAsLootContainer
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### PhysicsSleep
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### PhysicsSleepNotify
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### PhysicsWakeUp
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### PropagateEntityOwner
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemovEntityMod
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveComponent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [int](riftbreaker-wiki/docs/reflection/int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveLifeTime
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveMaterial
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemovePropsInEntityBounds
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RemoveTypesInEntityBounds
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RequestDestroyPattern
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### RequestDestroyPattern
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### Rotate
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SendBuildingBuildEvent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SendBuildingSellEndEvent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetBonePosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetEntityWorldTransform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Transform<float> const&](riftbreaker-wiki/docs/reflection/Math::Transform<float> const&)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetForward
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetGroup
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetLightColor
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetLightRange
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetLightShadowCaster
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetMaterial
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetName
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetNavMeshScale
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetOrientation
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Quaternion<float>](riftbreaker-wiki/docs/reflection/Math::Quaternion<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetOrientation
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetParent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetPhysicsScale
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetRenderableUserFlag
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetRotateToTargetAngularSpeed
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetScale
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetSubMeshMaterial
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [int](riftbreaker-wiki/docs/reflection/int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetSubmeshGraphicsUniform
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [int](riftbreaker-wiki/docs/reflection/int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetTeam
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetTeam
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetTeamRelation
+ * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetVisible
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetWorldForward
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SetWorldPosition
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### ShowTimeoutSoundEvent
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [char const*](riftbreaker-wiki/docs/reflection/char const*), [bool](riftbreaker-wiki/docs/reflection/bool)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SpawnAndAttachEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnAndAttachEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnAndAttachEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnAndAttachEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnAndAttachEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnAndAttachEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntities
+ * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SpawnEntities
+ * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### SpawnEntity
+ * ([Math::Vector3<float> const&](riftbreaker-wiki/docs/reflection/Math::Vector3<float> const&)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnEntity
+ * ([string](riftbreaker-wiki/docs/reflection/string), [Math::Vector3<float> const&](riftbreaker-wiki/docs/reflection/Math::Vector3<float> const&), [struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
+### SpawnPrefabEntitiesInRadius
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool), [bool](riftbreaker-wiki/docs/reflection/bool), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### StopDash
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### Teleport
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### Teleport
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [void](riftbreaker-wiki/docs/reflection/void)
+  
+### UnpackEntity
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
+  
