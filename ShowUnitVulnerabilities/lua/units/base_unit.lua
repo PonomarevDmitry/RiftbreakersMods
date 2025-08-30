@@ -57,6 +57,11 @@ function base_unit:_OnDestroyRequest( evt )
 		self:OnDestroyRequest(evt)
 	end
 
+	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
+	if ( menuEntity ~= nil ) then
+		EntityService:CreateOrSetLifetime( menuEntity, 3, "normal" )
+	end
+
 	local damageType = evt:GetDamageType()
 
 	if ( ( UnitService:IsOnHeightGround( self.entity ) == true ) or ( damageType == 'gravity' ) ) then
@@ -277,20 +282,6 @@ function base_unit:GetResistanceToDamage(damageType, resistanceComponentRef)
 	end
 	
 	return 1
-end
-
-function base_unit:_OnDestroyRequest( evt )
-
-	local menuEntity = self:FindMenuEntity("misc/unit_vulnerabilities_menu")
-	if ( menuEntity ~= nil ) then
-		EntityService:CreateOrSetLifetime( menuEntity, 3, "normal" )
-	end
-
-	EntityService:ChangeToWreck( self.entity, evt:GetDamageType(), evt:GetDamagePercentage(),self.wreck_type, self.wreckMinSpeed )
-
-	if self.OnDestroyRequest then
-		self:OnDestroyRequest(evt)
-	end
 end
 
 function base_unit:_OnAnimationMarkerReached(evt)
