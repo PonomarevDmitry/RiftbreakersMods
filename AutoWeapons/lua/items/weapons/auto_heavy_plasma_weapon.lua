@@ -84,16 +84,32 @@ end
 function auto_heavy_plasma_weapon:OnActivate( activation_id )
     autofire_weapon.OnActivate(self, activation_id)
 
-    if ( self.fsm ~= nil ) then
-        self.fsm:ChangeState( "shield" )
+    if is_server then
+        if ( self.fsm ~= nil ) then
+            self.fsm:ChangeState( "shield" )
+        end
+    else
+        if ( self.fsm ~= nil ) then
+            self.fsm:Deactivate()
+
+            self.fsm = nil
+        end
     end
 end
 
 function auto_heavy_plasma_weapon:OnDeactivate()
     autofire_weapon.OnDeactivate(self)
 
-    if ( self.fsm ~= nil ) then
-        self.fsm:ChangeState( "dummy" )
+    if is_server then
+        if ( self.fsm ~= nil ) then
+            self.fsm:ChangeState( "dummy" )
+        end
+    else
+        if ( self.fsm ~= nil ) then
+            self.fsm:Deactivate()
+
+            self.fsm = nil
+        end
     end
 
     return true
