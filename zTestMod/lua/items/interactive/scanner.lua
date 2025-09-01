@@ -129,7 +129,7 @@ function scanner:OnExecuteScaning()
 				self:SpawnSpecifcEffect( currentTarget )
 				QueueEvent( "EntityScanningStartEvent", currentTarget )
 			elseif ( currentTarget == self.lastTarget ) then
-				scannableComponentHelper.scanning_progress = scannableComponentHelper.scanning_progress + ( 1.0 / 30 ) 
+				scannableComponentHelper.scanning_progress = scannableComponentHelper.scanning_progress + ( 1.0 / 30.0 ) 
 				self.scanningTime = scannableComponentHelper.scanning_progress
 				local factor =  self.scanningTime / self.maxScanTime
 				factor = math.min(factor, 1.0 )
