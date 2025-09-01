@@ -74,4 +74,4 @@ local supported_item_blueprints = {
     },
 }
 
-InjectChangeBlueprintMinimapItemComponentIcons(supported_item_blueprints)
+------ #warning Commented Local ------InjectChangeBlueprintMinimapItemComponentIcons(supported_item_blueprints)
