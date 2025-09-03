@@ -2,6 +2,10 @@ require("lua/utils/table_utils.lua")
 
 local customizable_movement_skill_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local playerId = evt:GetPlayerId()
 
     local player = PlayerService:GetPlayerControlledEnt( playerId )
@@ -47,20 +51,20 @@ local customizable_movement_skill_autoexec = function(evt)
         end
     end
 
-    --for skillName in Iter( skillList ) do
-    --
-    --    local itemCount = PlayerService:GetItemNumber( playerId, skillName )
-    --
-    --    if ( itemCount == 0 ) then
-    --        PlayerService:AddItemToInventory( playerId, skillName )
-    --    end
-    --end
+    for skillName in Iter( skillList ) do
+    
+        local itemCount = PlayerService:GetItemNumber( playerId, skillName )
+    
+        if ( itemCount == 0 ) then
+            PlayerService:AddItemToInventory( playerId, skillName )
+        end
+    end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    customizable_movement_skill_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    customizable_movement_skill_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
