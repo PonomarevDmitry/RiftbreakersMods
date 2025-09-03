@@ -1319,6 +1319,14 @@ function picker_tool:OnActivateSelectorRequest()
         return
     end
 
+
+
+    if ( self:ChangeSelectorToEntityByFilter( self.isResource ) ) then
+        return
+    end
+
+
+
     if ( self.activateBioAnomaliesExists ) then
 
         if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isBioAnomaly, "buildings/tools/spawner_activate", true ) ) then
@@ -1383,12 +1391,6 @@ function picker_tool:OnActivateSelectorRequest()
         if ( self:ChangeSelectorToFlora() ) then
             return
         end
-    end
-
-
-
-    if ( self:ChangeSelectorToEntityByFilter( self.isResource ) ) then
-        return
     end
 
 
