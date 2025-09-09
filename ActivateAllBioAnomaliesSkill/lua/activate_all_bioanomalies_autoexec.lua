@@ -1,3 +1,7 @@
+if ( not is_server ) then
+    return
+end
+
 local activate_all_bioanomalies_autoexec = function(evt)
 
     if ( not is_server ) then
