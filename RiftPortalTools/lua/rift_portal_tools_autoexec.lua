@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local rift_portal_tools_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -11,10 +19,10 @@ local rift_portal_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/rift_portal_tool_green")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    rift_portal_tools_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    rift_portal_tools_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
