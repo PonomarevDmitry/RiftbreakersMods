@@ -167,6 +167,9 @@ function mine_layer_drone:OnPlantExit()
         local plant_blueprint = self.data:GetStringOrDefault("plant_blueprint", "");
 
         local entity = EntityService:SpawnEntity(plant_blueprint, target, EntityService:GetTeam(self.entity) )
+
+        EntityService:PropagateEntityOwner( entity, self.entity )
+
         EntityService:SpawnAndAttachEntity(self.plant_marker, entity )
 
         self.is_visible = false

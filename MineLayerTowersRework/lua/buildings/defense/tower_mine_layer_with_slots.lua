@@ -116,6 +116,8 @@ function tower_mine_layer_with_slots:SpawnDrones()
 
                 local drone = EntityService:SpawnEntity( drone_blueprint, attachment, team )
 
+                EntityService:PropagateEntityOwner( drone, self.entity )
+
                 EntityService:SetScale( drone, 0.75,0.75,0.75 )
 
                 UnitService:SetCurrentTarget( drone, "owner", attachment )
