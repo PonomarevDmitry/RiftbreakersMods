@@ -16,10 +16,10 @@ local provoke_creatures_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/provoke_creatures")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    provoke_creatures_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    provoke_creatures_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

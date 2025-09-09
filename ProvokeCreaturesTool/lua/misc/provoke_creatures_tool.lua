@@ -137,9 +137,15 @@ end
 
 function provoke_creatures_tool:OnActivateSelectorRequest()
 
-    EffectService:SpawnEffect( self.entity, "effects/enemies_generic/wave_start" )
+    local transform = EntityService:GetWorldTransform( self.entity )
 
-    EntityService:ChangeAIGroupsToAggressive( self.entity, self.currentValue, true )
+    local cellEntity = EnvironmentService:GetTerrainCell( transform.position )
+
+
+
+    local mapperName = "ProvokeCreaturesTool_" .. tostring(cellEntity) .. "_" .. tostring(self.currentValue)
+
+    QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
 end
 
 return provoke_creatures_tool
