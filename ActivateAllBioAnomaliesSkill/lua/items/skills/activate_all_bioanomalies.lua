@@ -54,7 +54,7 @@ function activate_all_bioanomalies:OnActivate()
 
                 local voteParams =
                 {
-                    localization = "gui/vote/spawner_activate_tools/activate_all_bioanomalies",
+                    localization = "gui/vote/activate_all_bioanomalies/activate_all_bioanomalies",
 
                     timeout = 30.0,
 
@@ -64,7 +64,7 @@ function activate_all_bioanomalies:OnActivate()
 
                     start_action = "button_yes",
 
-                    win_label = "gui/vote/spawner_activate_tools/activating",
+                    win_label = "gui/vote/activate_all_bioanomalies/activating",
 
                     player = playerName,
 
