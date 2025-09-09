@@ -134,44 +134,34 @@ function spawner_activate_all_map_tool:OnActivateSelectorRequest()
 
     if( self.popupShown == false ) then
 
-        self.popupShown = true
-
         GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/spawner_activate_tools/activate_all_spawners")
+
+        self.popupShown = true
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     end
 end
 
 
-function spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
+function spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt )
+
+    local buttonResult = evt:GetResult()
+
+    if ( buttonResult == "button_yes" ) then
+
+        local mapperName = "ActivateBioAnomaliesToolsAll_" .. tostring(self.playerId)
+
+        QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
+    end
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     self.popupShown = false
 
-    if ( evt:GetResult() ~= "button_yes" ) then
-        return
-    end
 
-    EffectService:SpawnEffect( self.player, "effects/enemies_generic/wave_start" )
+    if ( buttonResult == "button_yes" ) then
 
-    for entity in Iter( self.allSpawners ) do
+        QueueEvent( "LeaveBuildModeRequest", self.selector, false )
 
-        if ( EntityService:IsAlive( entity ) ) then
-
-            local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
-            if ( minimapItemComponent ~= nil ) then
-                local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-                minimapItemComponentRef.unknown_until_visible = false
-            end
-
-            local databaseEntity = EntityService:GetOrCreateDatabase( entity )
-            if ( databaseEntity ~= nil ) then
-                databaseEntity:SetFloat( "harvest_duration", 2.5 )
-            end
-
-            QueueEvent( "HarvestStartEvent", entity )
-
-            EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
-        end
+        EntityService:RemoveEntity( self.entity )
     end
 end
 

@@ -131,20 +131,7 @@ function spawner_activate_tool:OnActivateEntity( entity )
         return
     end
 
-    local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
-    if ( minimapItemComponent ~= nil ) then
-        local minimapItemComponentRef = reflection_helper( minimapItemComponent )
-        minimapItemComponentRef.unknown_until_visible = false
-    end
-
-    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
-    if ( databaseEntity ~= nil ) then
-        databaseEntity:SetFloat( "harvest_duration", 2.5 )
-    end
-
-    QueueEvent( "HarvestStartEvent", entity )
-
-    EntityService:SpawnEntity( "items/consumables/radar_pulse", entity, "" )
+    QueueEvent("OperateActionMapperRequest", entity, "ActivateBioAnomaliesToolsSingle", false )
 end
 
 return spawner_activate_tool

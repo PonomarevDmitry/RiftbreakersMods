@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local spawners_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -9,10 +17,10 @@ local spawners_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/spawner_activate_all_map")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    spawners_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    spawners_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
