@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local wall_obstacles_tool_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -15,10 +23,10 @@ local wall_obstacles_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/wall_pencil_tool")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    wall_obstacles_tool_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    wall_obstacles_tool_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

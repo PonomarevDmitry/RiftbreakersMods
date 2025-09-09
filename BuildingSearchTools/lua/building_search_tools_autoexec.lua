@@ -6,6 +6,10 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/building_search_tools
 
 local building_search_tools_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -16,20 +20,23 @@ local building_search_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/building_search_2_clear")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    building_search_tools_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    building_search_tools_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    building_search_tools_autoexec(evt)
-end)
+        building_search_tools_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    building_search_tools_autoexec(evt)
-end)
+        building_search_tools_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

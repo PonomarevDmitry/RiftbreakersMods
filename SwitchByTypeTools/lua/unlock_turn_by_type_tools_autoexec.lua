@@ -7,6 +7,10 @@ local PowerUtils = require("lua/utils/power_utils.lua")
 
 local unlock_turn_by_type_tools_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -21,20 +25,23 @@ local unlock_turn_by_type_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/turn_by_type_5_off_group")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    unlock_turn_by_type_tools_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    unlock_turn_by_type_tools_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    unlock_turn_by_type_tools_autoexec(evt)
-end)
+        unlock_turn_by_type_tools_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    unlock_turn_by_type_tools_autoexec(evt)
-end)
+        unlock_turn_by_type_tools_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

@@ -7,6 +7,10 @@ local PowerUtils = require("lua/utils/power_utils.lua")
 
 local switch_all_map_tools_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -21,20 +25,23 @@ local switch_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/switch_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    switch_all_map_tools_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    switch_all_map_tools_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    switch_all_map_tools_autoexec(evt)
-end)
+        switch_all_map_tools_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    switch_all_map_tools_autoexec(evt)
-end)
+        switch_all_map_tools_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

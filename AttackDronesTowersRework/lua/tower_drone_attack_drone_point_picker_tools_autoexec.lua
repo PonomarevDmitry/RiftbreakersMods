@@ -1,4 +1,15 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local tower_drone_attack_drone_point_picker_tools_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -48,10 +59,10 @@ local tower_drone_attack_drone_point_picker_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    tower_drone_attack_drone_point_picker_tools_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    tower_drone_attack_drone_point_picker_tools_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
@@ -64,6 +75,10 @@ RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local awardName = evt:GetName()
 

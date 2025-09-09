@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local eraser_flora_tool_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -8,10 +16,10 @@ local eraser_flora_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/eraser_flora")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    eraser_flora_tool_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    eraser_flora_tool_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

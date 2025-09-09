@@ -6,6 +6,10 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/upgrade_all_map_tools
 
 local upgrade_all_map_tools_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -20,20 +24,23 @@ local upgrade_all_map_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_3")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    upgrade_all_map_tools_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    upgrade_all_map_tools_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    upgrade_all_map_tools_autoexec(evt)
-end)
+        upgrade_all_map_tools_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    upgrade_all_map_tools_autoexec(evt)
-end)
+        upgrade_all_map_tools_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

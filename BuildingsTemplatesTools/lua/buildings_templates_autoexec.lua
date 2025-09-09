@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local buildings_templates_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -50,10 +58,10 @@ local buildings_templates_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_swap_templates")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    buildings_templates_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    buildings_templates_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

@@ -6,6 +6,10 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/replace_trap_tool_las
 
 local replace_trap_tool_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -21,20 +25,23 @@ local replace_trap_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/replace_trap_replacer_from_2_to_1")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    replace_trap_tool_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    replace_trap_tool_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    replace_trap_tool_autoexec(evt)
-end)
+        replace_trap_tool_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    replace_trap_tool_autoexec(evt)
-end)
+        replace_trap_tool_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 

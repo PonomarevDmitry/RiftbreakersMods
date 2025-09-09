@@ -1,4 +1,15 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local pipe_area_tools_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -58,10 +69,10 @@ local pipe_area_tools_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    pipe_area_tools_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    pipe_area_tools_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
@@ -74,6 +85,10 @@ RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local awardName = evt:GetName()
 

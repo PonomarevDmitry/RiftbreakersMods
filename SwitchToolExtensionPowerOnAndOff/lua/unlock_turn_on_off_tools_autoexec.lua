@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local unlock_turn_on_off_tools_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -9,10 +17,10 @@ local unlock_turn_on_off_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/turn_2_off")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    unlock_turn_on_off_tools_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    unlock_turn_on_off_tools_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
