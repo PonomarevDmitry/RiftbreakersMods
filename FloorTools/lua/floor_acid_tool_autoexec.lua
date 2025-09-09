@@ -1,4 +1,15 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local floor_acid_tool_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -59,10 +70,10 @@ local floor_acid_tool_autoexec = function(evt)
     end
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    floor_acid_tool_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    floor_acid_tool_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
@@ -75,6 +86,10 @@ RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 end)
 
 RegisterGlobalEventHandler("NewAwardEvent", function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local awardName = evt:GetName()
 

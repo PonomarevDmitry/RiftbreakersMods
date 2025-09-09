@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local energy_connector_tool_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
@@ -12,10 +20,10 @@ local energy_connector_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/energy/energy_connector_tool_4")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    energy_connector_tool_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    energy_connector_tool_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
