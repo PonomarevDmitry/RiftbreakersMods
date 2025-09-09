@@ -1,3 +1,10 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local energy_connector_trail_autoexec = function(evt)
 
     if ( not is_server ) then

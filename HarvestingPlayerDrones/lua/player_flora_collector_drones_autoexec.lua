@@ -1,3 +1,8 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
 local player_flora_collector_drones_autoexec = function(evt)

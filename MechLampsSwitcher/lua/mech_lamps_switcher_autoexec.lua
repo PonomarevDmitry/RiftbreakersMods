@@ -1,3 +1,10 @@
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local mech_lamps_switcher_autoexec = function(evt)
 
     if ( not is_server ) then
