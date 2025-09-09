@@ -1,4 +1,12 @@
+if ( not is_server ) then
+    return
+end
+
 local unlock_defense_researches_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
     if ( researchComponent == nil ) then
@@ -12,10 +20,10 @@ local unlock_defense_researches_autoexec = function(evt)
     PlayerService:EnableResearch( "gui/menu/research/name/towers_morphium_lvl1" )
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    unlock_defense_researches_autoexec(evt)
-end)
+--RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+--
+--    unlock_defense_researches_autoexec(evt)
+--end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
