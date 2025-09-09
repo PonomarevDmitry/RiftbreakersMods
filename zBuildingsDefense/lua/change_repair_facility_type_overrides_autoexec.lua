@@ -10,7 +10,7 @@ local InjectChangeListTowersValues = function()
         "buildings/defense/repair_facility_lvl_3",
     }
 
-    local hashLampValues = 
+    local additionalHashValues = 
     {
         CalcHash("wall"),
         CalcHash("tower"),
@@ -28,7 +28,7 @@ local InjectChangeListTowersValues = function()
 
             local overridesArray = building_component:GetField("overrides"):ToContainer()
 
-            for hashValue in Iter( hashLampValues ) do
+            for hashValue in Iter( additionalHashValues ) do
 
                 for k=0,overridesArray:GetItemCount()-1 do
 
