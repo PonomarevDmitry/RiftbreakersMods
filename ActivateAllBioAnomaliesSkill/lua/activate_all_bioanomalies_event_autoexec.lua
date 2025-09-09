@@ -1,10 +1,10 @@
-require("lua/utils/reflection.lua")
-require("lua/utils/table_utils.lua")
-require("lua/utils/database_utils.lua")
-
 if ( not is_server ) then
     return
 end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/database_utils.lua")
 
 RegisterGlobalEventHandler("LuaGlobalEvent", function(evt)
 
