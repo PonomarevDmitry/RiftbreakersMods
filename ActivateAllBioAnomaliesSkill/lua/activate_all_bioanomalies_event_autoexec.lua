@@ -1,7 +1,16 @@
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 require("lua/utils/database_utils.lua")
 
+if ( not is_server ) then
+    return
+end
+
 RegisterGlobalEventHandler("LuaGlobalEvent", function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local eventName = evt:GetEvent()
     local eventDatabase = evt:GetDatabase()
