@@ -40,27 +40,7 @@ function hq_move_tool_builder:init()
 
     self:RegisterHandler( self.hq, "BuildingSellEndEvent", "OnBuildingSellEndEvent" )
 
-    local component = EntityService:GetComponent( self.hq, "BuildingComponent" )
-    if ( component ~= nil ) then
-
-        component:GetField("m_isSellable"):SetValue("1")
-
-        local componentRef = reflection_helper( component )
-
-        if ( componentRef.build_costs ~= nil and componentRef.build_costs.resource ~= nil ) then
-
-            local container = rawget( componentRef.build_costs.resource, "__ptr" );
-
-            if ( container ~= nil ) then
-
-                local itemsCount = container:GetItemCount()
-
-                for i=itemsCount,1,-1 do
-                    container:EraseItem(i-1)
-                end
-            end
-        end
-    end
+    QueueEvent("OperateActionMapperRequest", self.hq, "HQMoveToolEnableSellOption", false )
 
     QueueEvent( "SellBuildingRequest", self.hq, self.playerId, false )
 end

@@ -369,6 +369,10 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     self:RemoveEntitySelectedMaterial( self.hq )
 
+    QueueEvent("OperateActionMapperRequest", self.hq, "HQMoveToolEnableSellOption", false )
+
+    BuildingService:EnableSellOption( self.hq )
+
     self.hq = nil
 
     --local SM_SELECT  = 2
