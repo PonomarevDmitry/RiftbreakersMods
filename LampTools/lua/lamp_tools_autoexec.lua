@@ -6,6 +6,10 @@ local LastSelectedBlueprintsListUtils = require("lua/utils/replace_lamp_tool_las
 
 local lamp_tools_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
     if ( buildingSystemCampaignInfoComponent == nil ) then
         return
@@ -32,20 +36,23 @@ local lamp_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/replace_lamp_replacer_from_2_to_1")
 end
 
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+if ( is_server ) then
 
-    lamp_tools_autoexec(evt)
-end)
+    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+    --
+    --    lamp_tools_autoexec(evt)
+    --end)
 
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    lamp_tools_autoexec(evt)
-end)
+        lamp_tools_autoexec(evt)
+    end)
 
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    lamp_tools_autoexec(evt)
-end)
+        lamp_tools_autoexec(evt)
+    end)
+end
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
