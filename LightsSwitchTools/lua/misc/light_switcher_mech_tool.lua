@@ -71,18 +71,27 @@ end
 
 function light_switcher_mech_tool:OnActivateSelectorRequest()
 
-    local player = PlayerService:GetPlayerControlledEnt(self.playerId)
+    if ( is_server and is_client ) then
 
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
+        local player = PlayerService:GetPlayerControlledEnt(self.playerId)
 
-    if ( EffectService:HasEffectByGroup(player, "sunset_night_sunrise") ) then
+        if ( player == nil or player == INVALID_ID ) then
+            return
+        end
 
-        EffectService:DestroyEffectsByGroup(player, "sunset_night_sunrise")
+        if ( EffectService:HasEffectByGroup(player, "sunset_night_sunrise") ) then
+
+            EffectService:DestroyEffectsByGroup(player, "sunset_night_sunrise")
+        else
+
+            EffectService:AttachEffects(player, "sunset_night_sunrise")
+        end
+
     else
 
-        EffectService:AttachEffects(player, "sunset_night_sunrise")
+        local mapperName = "LightsSwitchToolsSwitchPlayer_" .. tostring(self.playerId)
+
+        QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end
 end
 

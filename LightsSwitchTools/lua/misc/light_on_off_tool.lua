@@ -48,7 +48,9 @@ function light_on_ff_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -68,19 +70,7 @@ function light_on_ff_tool:FilterSelectedEntities( selectedEntities )
 
         elseif ( lowName == "base_lamp" or lowName == "crystal_lamp" ) then
 
-            if( self.setPower ) then
-
-                if ( not EffectService:HasEffectByGroup(entity, "working") ) then
-
-                    Insert(result, entity)
-                end
-            else
-
-                if ( EffectService:HasEffectByGroup(entity, "working") ) then
-
-                    Insert(result, entity)
-                end
-            end
+            Insert(result, entity)
         end
 
         ::continue::
@@ -98,68 +88,72 @@ function light_on_ff_tool:IsEntityApproved( entity, effectGroupName )
         return false
     end
 
-    if( self.setPower ) then
-
-        if ( not EffectService:HasEffectByGroup(entity, effectGroupName) ) then
-
-            return true
-        end
-    else
-
-        if ( EffectService:HasEffectByGroup(entity, effectGroupName) ) then
-
-            return true
-        end
-    end
-
-    return false
+    return true
 end
 
 function light_on_ff_tool:OnActivateEntity( entity )
 
-    local blueprintName = EntityService:GetBlueprintName( entity )
+    if ( is_server and is_client ) then
 
-    local lowName = BuildingService:FindLowUpgrade( blueprintName )
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
-    if ( lowName == "base_lamp" or lowName == "crystal_lamp" ) then
+        local lowName = BuildingService:FindLowUpgrade( blueprintName )
 
-        if( self.setPower ) then
+        if ( lowName == "base_lamp" or lowName == "crystal_lamp" ) then
 
-            if ( not EffectService:HasEffectByGroup(entity, "working") ) then
+            if( self.setPower ) then
 
-                BuildingService:BlinkBuilding(entity)
+                if ( not EffectService:HasEffectByGroup(entity, "working") ) then
 
-                EffectService:AttachEffects(entity, "working")
+                    BuildingService:BlinkBuilding(entity)
+
+                    EffectService:AttachEffects(entity, "working")
+                end
+            else
+
+                if ( EffectService:HasEffectByGroup(entity, "working") ) then
+
+                    BuildingService:BlinkBuilding(entity)
+
+                    EffectService:DestroyEffectsByGroup(entity, "working")
+                end
             end
+
         else
 
-            if ( EffectService:HasEffectByGroup(entity, "working") ) then
+            if( self.setPower ) then
 
-                BuildingService:BlinkBuilding(entity)
+                if ( not EffectService:HasEffectByGroup(entity, "lamp") ) then
 
-                EffectService:DestroyEffectsByGroup(entity, "working")
+                    BuildingService:BlinkBuilding(entity)
+
+                    EffectService:AttachEffects(entity, "lamp")
+                end
+            else
+
+                if ( EffectService:HasEffectByGroup(entity, "lamp") ) then
+
+                    BuildingService:BlinkBuilding(entity)
+
+                    EffectService:DestroyEffectsByGroup(entity, "lamp")
+                end
             end
         end
 
     else
 
+        local mapperName = ""
+
         if( self.setPower ) then
 
-            if ( not EffectService:HasEffectByGroup(entity, "lamp") ) then
+            mapperName = "LightsSwitchToolsEntityTurnOn"
 
-                BuildingService:BlinkBuilding(entity)
-
-                EffectService:AttachEffects(entity, "lamp")
-            end
         else
 
-            if ( EffectService:HasEffectByGroup(entity, "lamp") ) then
-
-                BuildingService:BlinkBuilding(entity)
-
-                EffectService:DestroyEffectsByGroup(entity, "lamp")
-            end
+            mapperName = "LightsSwitchToolsEntityTurnOff"
         end
+
+        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
     end
 end
 
