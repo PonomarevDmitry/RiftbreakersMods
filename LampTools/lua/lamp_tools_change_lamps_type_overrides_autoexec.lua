@@ -58,4 +58,13 @@ for _,blueprint_name in ipairs(supported_item_blueprints) do
             newStringHash:GetField("hash"):SetValue(tostring(hashLampValue))
         end
     end
+
+
+
+    local building_component = blueprint:GetComponent("BuildingComponent")
+
+    if building_component ~= nil then
+
+        building_component:GetField("type"):SetValue("lamp")
+    end
 end
