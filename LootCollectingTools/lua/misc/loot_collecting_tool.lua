@@ -119,18 +119,26 @@ end
 
 function loot_collecting_tool:OnActivateEntity( entity )
 
-    if ( self:ValidateTarget( entity, self.player ) ) then
+    if ( is_server and is_client ) then
 
-        local test_entity = EntityService:GetParent( entity )
-        if test_entity == INVALID_ID then
-            test_entity = entity
-        end
+        if ( self:ValidateTarget( entity, self.player ) ) then
+
+            local test_entity = EntityService:GetParent( entity )
+            if test_entity == INVALID_ID then
+                test_entity = entity
+            end
         
-        EffectService:SpawnEffect(test_entity, "effects/loot_collecting_tool/select")
+            EffectService:SpawnEffect(test_entity, "effects/loot_collecting_tool/select")
 
-        EffectService:SpawnEffects(test_entity, "loot_collect")
+            EffectService:SpawnEffects(test_entity, "loot_collect")
 
-        ItemService:FlyItemToInventory(self.player, test_entity)
+            ItemService:FlyItemToInventory(self.player, test_entity)
+        end
+    else
+
+        local mapperName = "LootCollectingToolsSingle_" .. tostring(self.playerId)
+
+        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
     end
 end
 

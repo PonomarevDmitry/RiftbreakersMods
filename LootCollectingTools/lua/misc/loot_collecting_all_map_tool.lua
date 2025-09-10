@@ -31,7 +31,16 @@ function loot_collecting_all_map_tool:OnUpdate()
 
     if ( self.activated ) then
         
-        self:CollectlAllLoot()
+        if ( is_server and is_client ) then
+
+            self:CollectlAllLoot()
+
+        else
+
+            local mapperName = "LootCollectingToolsAll_" .. tostring(self.playerId)
+
+            QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
+        end
     end
 end
 
@@ -71,7 +80,16 @@ function loot_collecting_all_map_tool:OnActivateSelectorRequest()
 
     self.activated = true
 
-    self:CollectlAllLoot()
+    if ( is_server and is_client ) then
+
+        self:CollectlAllLoot()
+
+    else
+
+        local mapperName = "LootCollectingToolsAll_" .. tostring(self.playerId)
+
+        QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
+    end
 end
 
 function loot_collecting_all_map_tool:CollectlAllLoot()
