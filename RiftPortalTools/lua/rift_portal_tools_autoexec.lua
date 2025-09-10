@@ -19,10 +19,10 @@ local rift_portal_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/rift_portal_tool_green")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    rift_portal_tools_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    rift_portal_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
