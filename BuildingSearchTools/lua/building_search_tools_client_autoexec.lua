@@ -1,48 +1,18 @@
+if ( not is_client ) then
+    return
+end
+    
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/sell_by_type_tools_last_selected_blueprints_utils.lua")
-
-local sell_by_type_tools_autoexec = function(evt)
-
-    if ( not is_server ) then
-        return
-    end
-
-    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-    if ( buildingSystemCampaignInfoComponent == nil ) then
-        return
-    end
-
-    BuildingService:UnlockBuilding("buildings/tools/sell_by_type_picker")
-
-    BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller")
-    BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_group")
-
-    BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_ruin")
-    BuildingService:UnlockBuilding("buildings/tools/sell_by_type_seller_ruin_group")
-end
-
-if ( is_server ) then
-
-    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-    --
-    --    sell_by_type_tools_autoexec(evt)
-    --end)
-
-    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-        sell_by_type_tools_autoexec(evt)
-    end)
-
-    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
-
-        sell_by_type_tools_autoexec(evt)
-    end)
-end
+local LastSelectedBlueprintsListUtils = require("lua/utils/building_search_tools_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
 
     local blueprintName = evt:GetBlueprint() or ""
     if ( blueprintName == "" or blueprintName == nil ) then
@@ -82,12 +52,8 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local buildingComponentRef = reflection_helper(buildingComponent)
-    if ( buildingComponentRef.type == "floor" ) then
-        return
-    end
-
-    if ( buildingComponentRef.m_isSellable == false ) then
+    local buildingType = buildingComponent:GetField("type"):GetValue()
+    if ( buildingType == "floor" ) then
         return
     end
 
@@ -95,7 +61,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local parameterName = "$sell_by_type_picker_tool.last_selected_buildings"
+    local parameterName = "$last_selected_blueprint"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)

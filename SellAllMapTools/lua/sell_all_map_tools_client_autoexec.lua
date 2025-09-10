@@ -1,48 +1,18 @@
+if ( not is_client ) then
+    return
+end
+
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/upgrade_all_map_tools_last_selected_blueprints_utils.lua")
-
-local upgrade_all_map_tools_autoexec = function(evt)
-
-    if ( not is_server ) then
-        return
-    end
-
-    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-    if ( buildingSystemCampaignInfoComponent == nil ) then
-        return
-    end
-
-    BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_1_picker")
-    BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_1_upgrader")
-
-    BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_2_cat_picker")
-    BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_2_cat_upgrader")
-
-    BuildingService:UnlockBuilding("buildings/tools/upgrade_all_map_3")
-end
-
-if ( is_server ) then
-
-    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-    --
-    --    upgrade_all_map_tools_autoexec(evt)
-    --end)
-
-    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-        upgrade_all_map_tools_autoexec(evt)
-    end)
-
-    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
-
-        upgrade_all_map_tools_autoexec(evt)
-    end)
-end
+local LastSelectedBlueprintsListUtils = require("lua/utils/sell_all_map_tools_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
 
     local blueprintName = evt:GetBlueprint() or ""
     if ( blueprintName == "" or blueprintName == nil ) then
@@ -76,21 +46,12 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local category = buildingDescRef.category or ""
     if ( category ~= "" ) then
-
-        local parameterName = "$upgrade_all_map_cat_picker_tool.last_selected_categories"
+        local parameterName = "$sell_all_map_cat_picker_tool.last_selected_categories"
 
         LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, category)
     end
 
 
-
-    if ( buildingDescRef.limit_name == "hq" ) then
-        return
-    end
-
-    if ( buildingDescRef.level == 1 and (buildingDescRef.upgrade == "" or buildingDescRef.upgrade == nil) ) then
-        return
-    end
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -102,11 +63,17 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
+    local buildingComponentRef = reflection_helper(buildingComponent)
+    if ( buildingComponentRef.m_isSellable == false ) then
+        return
+    end
+
+    local buildingDescRef = reflection_helper( buildingDesc )
     if ( buildingDescRef.build_cost == nil or buildingDescRef.build_cost.resource == nil or buildingDescRef.build_cost.resource.count == nil or buildingDescRef.build_cost.resource.count <= 0 ) then
         return
     end
 
-    local parameterName = "$upgrade_all_map_picker_tool.last_selected_buildings"
+    local parameterName = "$sell_all_map_picker_tool.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)

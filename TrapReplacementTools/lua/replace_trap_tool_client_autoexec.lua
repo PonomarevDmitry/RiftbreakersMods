@@ -1,49 +1,18 @@
+if ( not is_client ) then
+    return
+end
+
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/replace_tower_tool_last_selected_blueprints_utils.lua")
-
-local replace_tower_tool_autoexec = function(evt)
-
-    if ( not is_server ) then
-        return
-    end
-
-    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-    if ( buildingSystemCampaignInfoComponent == nil ) then
-        return
-    end
-
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_all_picker")
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_all_replacer")
-
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_picker_1")
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_picker_2")
-
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_replacer_from_1_to_2")
-    BuildingService:UnlockBuilding("buildings/tools/replace_tower_replacer_from_2_to_1")
-end
-
-if ( is_server ) then
-
-    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-    --
-    --    replace_tower_tool_autoexec(evt)
-    --end)
-
-    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-        replace_tower_tool_autoexec(evt)
-    end)
-
-    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
-
-        replace_tower_tool_autoexec(evt)
-    end)
-end
+local LastSelectedBlueprintsListUtils = require("lua/utils/replace_trap_tool_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
 
     local blueprintName = evt:GetBlueprint() or ""
     if ( blueprintName == "" or blueprintName == nil ) then
@@ -73,7 +42,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    if ( buildingDescRef.type ~= "tower" ) then
+    if ( buildingDescRef.type ~= "trap" ) then
         return
     end
 
@@ -91,7 +60,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    local parameterName = "$replace_tower_all.last_selected_buildings"
+    local parameterName = "$replace_trap_all.last_selected_buildings"
 
     LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)

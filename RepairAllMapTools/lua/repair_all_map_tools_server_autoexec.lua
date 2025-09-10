@@ -1,0 +1,38 @@
+if ( not is_server ) then
+    return
+end
+
+local repair_all_map_tools_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
+
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
+        return
+    end
+
+    BuildingService:UnlockBuilding("buildings/tools/repair_all_map_1_picker")
+    BuildingService:UnlockBuilding("buildings/tools/repair_all_map_1_repairer")
+
+    BuildingService:UnlockBuilding("buildings/tools/repair_all_map_2_cat_picker")
+    BuildingService:UnlockBuilding("buildings/tools/repair_all_map_2_cat_repairer")
+
+    BuildingService:UnlockBuilding("buildings/tools/repair_all_map_3")
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    repair_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    repair_all_map_tools_autoexec(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    repair_all_map_tools_autoexec(evt)
+end)

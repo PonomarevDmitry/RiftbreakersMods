@@ -1,49 +1,18 @@
+if ( not is_client ) then
+    return
+end
+
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 
-local LastSelectedBlueprintsListUtils = require("lua/utils/switch_all_map_tools_last_selected_blueprints_utils.lua")
-local PowerUtils = require("lua/utils/power_utils.lua")
-
-local switch_all_map_tools_autoexec = function(evt)
-
-    if ( not is_server ) then
-        return
-    end
-
-    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
-    if ( buildingSystemCampaignInfoComponent == nil ) then
-        return
-    end
-
-    BuildingService:UnlockBuilding("buildings/tools/switch_all_map_1_picker")
-    BuildingService:UnlockBuilding("buildings/tools/switch_all_map_1_switcher")
-
-    BuildingService:UnlockBuilding("buildings/tools/switch_all_map_2_cat_picker")
-    BuildingService:UnlockBuilding("buildings/tools/switch_all_map_2_cat_switcher")
-
-    BuildingService:UnlockBuilding("buildings/tools/switch_all_map_3")
-end
-
-if ( is_server ) then
-
-    --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-    --
-    --    switch_all_map_tools_autoexec(evt)
-    --end)
-
-    RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-        switch_all_map_tools_autoexec(evt)
-    end)
-
-    RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
-
-        switch_all_map_tools_autoexec(evt)
-    end)
-end
+local LastSelectedBlueprintsListUtils = require("lua/utils/repair_all_map_tools_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
 
     local blueprintName = evt:GetBlueprint() or ""
     if ( blueprintName == "" or blueprintName == nil ) then
@@ -77,12 +46,12 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
     local category = buildingDescRef.category or ""
     if ( category ~= "" ) then
-        local parameterName = "$switch_all_map_cat_picker_tool.last_selected_categories"
+        local parameterName = "$repair_all_map_cat_picker_tool.last_selected_categories"
 
         LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector, category)
     end
 
-
+    
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -103,10 +72,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
         return
     end
 
-    if ( PowerUtils:BlueprintCanChangePower(blueprintName)) then
+    local parameterName = "$repair_all_map_picker_tool.last_selected_buildings"
 
-        local parameterName = "$switch_all_map_picker_tool.last_selected_buildings"
-    
-        LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
-    end
+    LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selector, blueprintName)
 end)
