@@ -16,10 +16,10 @@ local heal_neutral_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/heal_neutral_tool")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    heal_neutral_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    heal_neutral_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

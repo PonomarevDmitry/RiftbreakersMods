@@ -70,10 +70,10 @@ local floor_desert_tool_autoexec = function(evt)
     end
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    floor_desert_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    floor_desert_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

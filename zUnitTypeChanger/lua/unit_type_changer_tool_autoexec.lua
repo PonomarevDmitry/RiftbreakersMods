@@ -17,10 +17,10 @@ local unit_type_changer_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/unit_type_remove_invisible")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    unit_type_changer_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    unit_type_changer_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

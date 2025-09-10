@@ -16,10 +16,10 @@ local thorns_walls_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/thorns_walls_tool")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    thorns_walls_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    thorns_walls_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

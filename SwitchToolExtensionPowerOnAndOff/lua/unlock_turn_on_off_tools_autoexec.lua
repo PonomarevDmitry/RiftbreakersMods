@@ -17,10 +17,10 @@ local unlock_turn_on_off_tools_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/turn_2_off")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    unlock_turn_on_off_tools_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    unlock_turn_on_off_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

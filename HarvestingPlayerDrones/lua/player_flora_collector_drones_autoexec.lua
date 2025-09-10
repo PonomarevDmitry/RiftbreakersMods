@@ -67,10 +67,10 @@ local player_flora_collector_drones_autoexec = function(evt)
     end
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    player_flora_collector_drones_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    player_flora_collector_drones_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

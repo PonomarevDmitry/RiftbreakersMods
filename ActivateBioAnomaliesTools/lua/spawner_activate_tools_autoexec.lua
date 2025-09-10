@@ -17,10 +17,10 @@ local spawners_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/spawner_activate_all_map")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    spawners_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    spawners_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

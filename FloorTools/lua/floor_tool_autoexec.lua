@@ -20,10 +20,10 @@ local floor_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/decorations/floor_tool_4")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    floor_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    floor_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

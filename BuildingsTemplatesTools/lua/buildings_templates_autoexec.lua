@@ -50,7 +50,7 @@ local buildings_templates_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/buildings_upgrader")
     BuildingService:UnlockBuilding("buildings/tools/buildings_eraser")
     BuildingService:UnlockBuilding("buildings/tools/buildings_swap_templates")
-    
+
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_select")
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_exporter")
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_importer")
@@ -58,10 +58,10 @@ local buildings_templates_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/buildings_database_swap_templates")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    buildings_templates_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    buildings_templates_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

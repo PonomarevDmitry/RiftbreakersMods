@@ -20,10 +20,10 @@ local energy_connector_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/energy/energy_connector_tool_4")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    energy_connector_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    energy_connector_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

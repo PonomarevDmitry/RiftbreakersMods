@@ -16,10 +16,10 @@ local diagonal_wall_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/defense/diagonal_wall_tool")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    diagonal_wall_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    diagonal_wall_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

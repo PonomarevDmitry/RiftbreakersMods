@@ -16,10 +16,10 @@ local eraser_flora_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/tools/eraser_flora")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    eraser_flora_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    eraser_flora_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

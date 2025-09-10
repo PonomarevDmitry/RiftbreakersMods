@@ -69,10 +69,10 @@ local pipe_area_tools_autoexec = function(evt)
     end
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    pipe_area_tools_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    pipe_area_tools_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 

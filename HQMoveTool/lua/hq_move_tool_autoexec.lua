@@ -16,10 +16,10 @@ local hq_move_tool_autoexec = function(evt)
     BuildingService:UnlockBuilding("buildings/main/hq_move_tool")
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    hq_move_tool_autoexec(evt)
---end)
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    hq_move_tool_autoexec(evt)
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
