@@ -302,9 +302,11 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     local paidResources = "";
 
+    local leadingPlayer = PlayerService:GetLeadingPlayer()
+
     for resourceName,resourceValue in pairs(self.buildCost) do
 
-        PlayerService:AddResourceAmount( resourceName, -resourceValue )
+        PlayerService:AddResourceAmount( leadingPlayer, resourceName, -resourceValue )
 
         if ( string.len(paidResources) > 0 ) then
             paidResources = paidResources .. "|"

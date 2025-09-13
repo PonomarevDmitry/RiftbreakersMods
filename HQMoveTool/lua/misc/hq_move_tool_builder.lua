@@ -49,6 +49,8 @@ function hq_move_tool_builder:OnBuildingSellEndEvent()
 
     if ( self.paidResources ~= "" ) then
 
+        local leadingPlayer = PlayerService:GetLeadingPlayer()
+
         local paidResourcesArray = Split( self.paidResources, "|" )
 
         for template in Iter( paidResourcesArray ) do
@@ -62,7 +64,7 @@ function hq_move_tool_builder:OnBuildingSellEndEvent()
                     local resourceValue = tonumber( resourceArray[2] )
 
                     if ( resourceName ~= "" and resourceValue ~= nil ) then
-                        PlayerService:AddResourceAmount( resourceName, resourceValue )
+                        PlayerService:AddResourceAmount( leadingPlayer, resourceName, resourceValue )
                     end
                 end
             end
