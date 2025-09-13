@@ -9,13 +9,12 @@ end
 
 function heal_neutral_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_heal_neutral_tool", self.entity)
-    
-    self.heal_effect = self.data:GetStringOrDefault("heal_effect", "")
 
-    if ( self.heal_effect and self.heal_effect ~= "" ) then
+    self.heal_effectArray = {
 
-        self.heal_effectArray = Split(self.heal_effect, ",")
-    end
+        "effects/buildings_generic/building_repair_big",
+        "effects/items/potion"
+    }
 
     self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
 end
@@ -148,7 +147,9 @@ function heal_neutral_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -157,14 +158,22 @@ end
 
 function heal_neutral_tool:OnActivateEntity( entity )
 
-    HealthService:SetHealth( entity, HealthService:GetMaxHealth( entity) )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
-    if ( self.heal_effectArray and #self.heal_effectArray > 0 ) then
+    if ( is_server and is_client ) then
+
+        HealthService:SetHealth( entity, HealthService:GetMaxHealth( entity ) )
 
         for effectName in Iter(self.heal_effectArray) do
 
             EffectService:SpawnEffect( entity, effectName )
         end
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "NeutralUnitHealingToolHeal", false )
     end
 end
 
