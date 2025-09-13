@@ -98,6 +98,8 @@ function rift_skill_base:SpawnPortal(blueprintName)
     local playerReferenceComponentRef = reflection_helper(EntityService:CreateComponent(newPortal, "PlayerReferenceComponent"))
     playerReferenceComponentRef.player_id = playerId
     playerReferenceComponentRef.reference_type.internal_enum = 3
+
+    EntityService:CreateComponent( newPortal, "NetReplicateToOwnerComponent")
 end
 
 function rift_skill_base:DissolveRirtPortalEntities(blueprintName, playerId)
