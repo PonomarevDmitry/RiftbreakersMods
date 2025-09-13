@@ -57,8 +57,19 @@ function rift_portal_tool:OnActivateSelectorRequest()
         SoundService:Play( "gui/cannot_use_item" )
         return
     end
+
+    if ( is_server and is_client ) then
     
-    self:SpawnPortal( "misc/rift", position )
+        self:SpawnPortal( "misc/rift", position )
+
+    else
+
+        local cellEntity = EnvironmentService:GetTerrainCell( position )
+
+        local mapperName = "RiftPortalTool_" .. tostring(self.playerId) .. "_" .. tostring(cellEntity)
+
+        QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
+    end
 end
 
 function rift_portal_tool:SpawnPortal(blueprintName, position)
