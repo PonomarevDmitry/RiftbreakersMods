@@ -47,11 +47,11 @@ function floating_hunt_mine:OnHuntExecute( state )
     local target = FindClosestEntity( self.entity, allenemies )
 
     if target == INVALID_ID then
-        MoveService:StopMove( self.entity )
+        --MoveService:StopMove( self.entity )
         return
     end
 
-    MoveService:MoveToTarget( self.entity, target, self.hunt_move_speed )
+    --MoveService:MoveToTarget( self.entity, target, self.hunt_move_speed )
 end
 
 function floating_hunt_mine:FindEntitiesByTeamInRadius( origin, radius, team )
