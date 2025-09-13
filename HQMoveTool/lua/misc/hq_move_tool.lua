@@ -186,34 +186,6 @@ function hq_move_tool:RemoveEntitySelectedMaterial( entity )
     end
 end
 
-function hq_move_tool:GetResearchForUpgrade( nextUpgrade )
-
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-    local categories = researchComponent.research
-
-    for i=1,categories.count do
-
-        local category = categories[i]
-        local category_nodes = category.nodes
-
-        for j=1,category_nodes.count do
-
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == nextUpgrade then
-
-                    return node.research_name
-                end
-            end
-        end
-    end
-
-    return ""
-end
-
 function hq_move_tool:GetFullBuildCosts( targetBlueprintName )
 
     local buildCost = {}
