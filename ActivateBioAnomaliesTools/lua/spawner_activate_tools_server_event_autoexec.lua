@@ -42,63 +42,64 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         local splitArray = Split( mapperName, "_" )
 
-        if ( #splitArray == 2 ) then
+        if ( #splitArray ~= 2 ) then
+            return
+        end
 
-            local playerIdStr = splitArray[2]
+        local playerIdStr = splitArray[2]
 
-            local playerId = tonumber(playerIdStr)
+        local playerId = tonumber(playerIdStr)
+        if ( playerId == nil ) then
+            return
+        end
 
-            if ( playerId ~= nil ) then
+        if ( #PlayerService:GetConnectedPlayers() > 1) then
 
-                if ( #PlayerService:GetConnectedPlayers() > 1) then
-
-                    if ( PlayerService:IsPlayerVoteInProgress()) then
-                        return		
-                    end
-
-                    local playerName = PlayerService:GetPlayerName( playerId )
-
-                    local voteParams =
-                    {
-                        localization = "gui/vote/spawner_activate_tools/activate_all_bioanomalies",
-
-                        timeout = 30.0,
-
-                        gui_id = "gui/popup/popup_vote_planetaryscanner",
-
-                        default_action = "button_no",
-
-                        start_action = "button_yes",
-
-                        win_label = "gui/vote/spawner_activate_tools/activating",
-
-                        player = playerName,
-
-                        actions = 
-                        {
-                            button_yes = 
-                            { 
-                                localization = "gui/hud/vote_accepted" ,
-                                event_name	 = "LuaGlobalEvent",
-                                event_params = { argName1 = event_sink, argName2 = "spawner_activate_tools_event" }
-                            },
-
-                            button_no =
-                            {
-                                localization = "gui/hud/vote_negative" ,
-                                event_name = "",
-                                event_params = {}
-                            }
-                        }
-                    }
-
-                    GameStreamingService:StartPlayerVote( playerId, voteParams, false )
-
-                else
-
-                    QueueEvent( "LuaGlobalEvent", event_sink, "spawner_activate_tools_event", {} )
-                end
+            if ( PlayerService:IsPlayerVoteInProgress()) then
+                return		
             end
+
+            local playerName = PlayerService:GetPlayerName( playerId )
+
+            local voteParams =
+            {
+                localization = "gui/vote/spawner_activate_tools/activate_all_bioanomalies",
+
+                timeout = 30.0,
+
+                gui_id = "gui/popup/popup_vote_planetaryscanner",
+
+                default_action = "button_no",
+
+                start_action = "button_yes",
+
+                win_label = "gui/vote/spawner_activate_tools/activating",
+
+                player = playerName,
+
+                actions = 
+                {
+                    button_yes = 
+                    { 
+                        localization = "gui/hud/vote_accepted" ,
+                        event_name	 = "LuaGlobalEvent",
+                        event_params = { argName1 = event_sink, argName2 = "spawner_activate_tools_event" }
+                    },
+
+                    button_no =
+                    {
+                        localization = "gui/hud/vote_negative" ,
+                        event_name = "",
+                        event_params = {}
+                    }
+                }
+            }
+
+            GameStreamingService:StartPlayerVote( playerId, voteParams, false )
+
+        else
+
+            QueueEvent( "LuaGlobalEvent", event_sink, "spawner_activate_tools_event", {} )
         end
 
         return
