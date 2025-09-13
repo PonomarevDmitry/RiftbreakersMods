@@ -31,7 +31,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         end
 
         local player = PlayerService:GetPlayerControlledEnt(playerId)
-        if ( playerId == nil or playerId == INVALID_ID ) then
+        if ( player == nil or player == INVALID_ID ) then
             return
         end
 
