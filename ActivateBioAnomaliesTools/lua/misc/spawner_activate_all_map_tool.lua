@@ -30,6 +30,10 @@ function spawner_activate_all_map_tool:OnInit()
             goto labelContinue
         end
 
+        if ( IndexOf( self.allSpawners, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
         local idComponentName = EntityService:GetName( entity )
 
         -- Ignore Into Dark Anomaly to do not create a soft lock. 
@@ -61,16 +65,11 @@ function spawner_activate_all_map_tool:OnInit()
             end
         end
 
-
-        if ( IndexOf( self.allSpawners, entity ) ~= nil ) then
-            goto labelContinue
-        end
-
         Insert( self.allSpawners, entity )
 
         ::labelContinue::
-    end 
-    
+    end
+
     self.popupShown = false
 end
 
