@@ -30,34 +30,50 @@ RegisterGlobalEventHandler("LuaGlobalEvent", function(evt)
 
     for entity in Iter( entities ) do
 
-        if ( entity == nil ) then
-            goto continue
+        if ( entity == nil or entity == INVALID_ID ) then
+            goto labelContinue
         end
 
         if ( not EntityService:IsAlive( entity ) ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( IndexOf( activatedEntities, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local idComponentName = EntityService:GetName( entity )
 
         -- Ignore Into Dark Anomaly to do not create a soft lock. 
         if ( idComponentName == "dlc_2_anomaly" or idComponentName == "swamp_harvest_anomaly" ) then
-            goto continue
+            goto labelContinue
         end
 
         local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
         if ( interactiveComponent == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local interactiveComponentRef = reflection_helper( interactiveComponent )
         if ( interactiveComponentRef.slot ~= "HARVESTER" ) then
-            goto continue
+            goto labelContinue
         end
+
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
+        if ( databaseEntity ~= nil ) then
+            
+            if ( not databaseEntity:HasString("wave_logic_file") and not databaseEntity:HasString("boss_logic_file") ) then
+
+                goto labelContinue
+            end
+
+            if ( databaseEntity:HasString("forced_group") ) then
+
+                goto labelContinue
+            end
+        end
+
+
 
         local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
         if ( minimapItemComponent ~= nil ) then
@@ -65,7 +81,6 @@ RegisterGlobalEventHandler("LuaGlobalEvent", function(evt)
             minimapItemComponentRef.unknown_until_visible = false
         end
 
-        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
         if ( databaseEntity ~= nil ) then
             databaseEntity:SetFloat( "harvest_duration", 2.5 )
         end
@@ -76,8 +91,10 @@ RegisterGlobalEventHandler("LuaGlobalEvent", function(evt)
 
         Insert( activatedEntities, entity )
 
-        ::continue::
+        ::labelContinue::
     end
+
+
 
     local players = PlayerService:GetConnectedPlayers()
 
