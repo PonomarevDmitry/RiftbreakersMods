@@ -43,11 +43,6 @@ function rift_portal_tool:OnRotateSelectorRequest(evt)
 end
 
 function rift_portal_tool:OnActivateSelectorRequest()
-    
-    self:SpawnPortal( "misc/rift" )
-end
-
-function rift_portal_tool:SpawnPortal(blueprintName)
 
     local position = EntityService:GetPosition( self.entity )
 
@@ -62,6 +57,11 @@ function rift_portal_tool:SpawnPortal(blueprintName)
         SoundService:Play( "gui/cannot_use_item" )
         return
     end
+    
+    self:SpawnPortal( "misc/rift", position )
+end
+
+function rift_portal_tool:SpawnPortal(blueprintName, position)
 
     self:DissolveRirtPortalEntities(blueprintName)
 
