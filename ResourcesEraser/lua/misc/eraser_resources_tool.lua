@@ -177,21 +177,32 @@ end
 
 function eraser_resources_tool:OnActivateEntity( entity )
 
-    if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
-
-        local childrenList = EntityService:GetChildren( entity, false )
-
-        for childResource in Iter( childrenList ) do
-
-            self:RemoveGameplayResourceComponents(childResource)
-
-            EntityService:RemoveEntity(childResource)
-        end
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
     end
 
-    self:RemoveGameplayResourceComponents(entity)
+    if ( is_server and is_client ) then
 
-    QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+        if ( EntityService:HasComponent( entity, "ResourceVolumeComponent" ) ) then
+
+            local childrenList = EntityService:GetChildren( entity, false )
+
+            for childResource in Iter( childrenList ) do
+
+                self:RemoveGameplayResourceComponents(childResource)
+
+                EntityService:RemoveEntity(childResource)
+            end
+        end
+
+        self:RemoveGameplayResourceComponents(entity)
+
+        QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "ResourcesEraserToolRequest", false )
+    end
 end
 
 function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
@@ -201,13 +212,13 @@ function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
     for cellId in Iter( cellIndexes ) do
 
         if ( not EntityService:HasComponent( cellId, "GameplayResourceLayerComponent" ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local gameplayResourceLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GameplayResourceLayerComponent" ) )
 
         if ( gameplayResourceLayerComponentRef.ent == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local linkedResourceId = gameplayResourceLayerComponentRef.ent
@@ -218,17 +229,17 @@ function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
         end
 
         if ( linkedResourceId == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( linkedResourceId ~= entity ) then
-            goto continue
+            goto labelContinue
         end
 
         EntityService:RemoveComponent( cellId, "GameplayResourceLayerComponent" )
 
         if ( not EntityService:HasComponent( cellId, "GridFlagLayerComponent" ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local gridFlagLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GridFlagLayerComponent" ) )
@@ -238,7 +249,7 @@ function eraser_resources_tool:RemoveGameplayResourceComponents(entity)
             gridFlagLayerComponentRef.mask = 0
         end
 
-        ::continue::
+        ::labelContinue::
     end
 end
 
