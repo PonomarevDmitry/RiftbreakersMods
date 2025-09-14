@@ -14,6 +14,10 @@ globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfi
 
 RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
+    if ( not is_client ) then
+        return
+    end
+
     LogService:Log("InventoryItemCreatedEvent is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
 
     if (evt == nil) then
