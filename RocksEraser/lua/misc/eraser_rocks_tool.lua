@@ -115,7 +115,9 @@ function eraser_rocks_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -124,18 +126,31 @@ end
 
 function eraser_rocks_tool:OnActivateEntity( entity )
 
-    --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
-
-    if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
-
-        EntityService:DisableCollisions( entity )
-
-        BuildingService:DisablePhysics( entity )
-
-        EntityService:RequestDestroyPattern( entity, "default" )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
     end
 
-    EntityService:DissolveEntity( entity, 0.5 )
+    --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
+
+    if ( is_server and is_client ) then
+
+        if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+
+            EntityService:DisableCollisions( entity )
+
+            BuildingService:DisablePhysics( entity )
+
+            EntityService:RequestDestroyPattern( entity, "default" )
+        end
+
+        EntityService:DissolveEntity( entity, 0.5 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "RocksEraserRequest", false )
+    end
+
+
 
     --EntityService:ChangePhysicsGroupId( entity, "destructible" )
 

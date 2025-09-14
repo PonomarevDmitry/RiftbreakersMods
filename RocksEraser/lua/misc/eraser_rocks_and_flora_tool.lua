@@ -262,7 +262,9 @@ function eraser_rocks_and_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -275,7 +277,9 @@ function eraser_rocks_and_flora_tool:RemovedFromSelectionFlora( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -308,25 +312,47 @@ end
 
 function eraser_rocks_and_flora_tool:OnActivateEntity( entity )
 
-    if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
-
-        EntityService:DisableCollisions( entity )
-
-        BuildingService:DisablePhysics( entity )
-
-        EntityService:RequestDestroyPattern( entity, "default" )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
     end
 
-    EntityService:DissolveEntity( entity, 0.5 )
+    if ( is_server and is_client ) then
+
+        if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+
+            EntityService:DisableCollisions( entity )
+
+            BuildingService:DisablePhysics( entity )
+
+            EntityService:RequestDestroyPattern( entity, "default" )
+        end
+
+        EntityService:DissolveEntity( entity, 0.5 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "RocksEraserRequest", false )
+    end
 end
 
 function eraser_rocks_and_flora_tool:OnActivateEntityFlora( entity )
 
-    EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
-    EntityService:RequestDestroyPattern( entity, "default" )
+    if ( is_server and is_client ) then
 
-    QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+        EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
+
+        EntityService:RequestDestroyPattern( entity, "default" )
+
+        QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "RocksAndFloraEraserRequest", false )
+    end
 end
 
 function eraser_rocks_and_flora_tool:OnRelease()
