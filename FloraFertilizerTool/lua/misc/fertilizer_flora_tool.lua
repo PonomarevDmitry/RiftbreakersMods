@@ -84,7 +84,9 @@ function fertilizer_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -93,12 +95,23 @@ end
 
 function fertilizer_flora_tool:OnActivateEntity( entity )
 
-    EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
-    EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+    if ( is_server and is_client ) then
 
-    if self.effect_blueprint ~= "" then
-        EffectService:SpawnEffect( entity, self.effect_blueprint )
+        EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
+
+        EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+
+        if self.effect_blueprint ~= "" then
+            EffectService:SpawnEffect( entity, self.effect_blueprint )
+        end
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "FloraFertilizerToolRequest", false )
     end
 end
 
