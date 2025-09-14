@@ -120,7 +120,9 @@ function eraser_mines_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -129,7 +131,18 @@ end
 
 function eraser_mines_tool:OnActivateEntity( entity )
 
-    QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    if ( is_server and is_client ) then
+
+        QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "MinesEraserToolRequest", false )
+    end
 end
 
 return eraser_mines_tool
