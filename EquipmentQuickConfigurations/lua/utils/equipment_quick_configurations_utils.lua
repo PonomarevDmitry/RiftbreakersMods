@@ -94,7 +94,7 @@ function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( slotNamePrefixA
 
                 if ( subSlotEntityBlueprintName ~= "" ) then
 
-                    local itemKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey(subSlotEntityId)
+                    local itemKey = EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey(subSlotEntityId)
 
                     if ( itemKey ) then
 
@@ -481,7 +481,7 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
 
         if ( maxEntityId ~= nil ) then
 
-            local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( maxEntityId )
+            local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( maxEntityId )
             if ( itemDatabaseKey ~= "" or itemDatabaseKey ~= nil ) then
                 globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = maxEntityId
 
@@ -496,6 +496,55 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
 end
 
 function EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( subSlotEntityId )
+
+    local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
+    if ( database == nil ) then
+        return nil
+    end
+
+    local itemKeyConfigName = "$EquipmentQuickConfigurationsUtils_KeyId"
+
+    local itemKey = ""
+
+    if ( database:HasString(itemKeyConfigName) ) then
+
+        itemKey = database:GetString(itemKeyConfigName)
+    else
+
+        itemKey = EquipmentQuickConfigurationsUtils:GenerateGuid()
+
+        database:SetString(itemKeyConfigName, itemKey)
+
+        local mapperName = "EquipmentQuickConfigurationsNewId|" .. tostring(itemKey)
+
+        QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
+    end
+
+    return itemKey
+end
+
+function EquipmentQuickConfigurationsUtils:GetItemKey( subSlotEntityId )
+
+    local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
+    if ( database == nil ) then
+        return nil
+    end
+
+    local itemKeyConfigName = "$EquipmentQuickConfigurationsUtils_KeyId"
+
+    if ( not database:HasString(itemKeyConfigName) ) then
+
+        return nil
+    end
+
+    local itemKey = database:GetString(itemKeyConfigName)
+
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
+
+    return itemKey
+end
+
+function EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( subSlotEntityId )
 
     local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
     if ( database == nil ) then

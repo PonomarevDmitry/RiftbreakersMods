@@ -1,6 +1,8 @@
-if ( not is_client ) then
-    return
-end
+LogService:Log("Autoexec Load is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
+--if ( not is_client ) then
+--    return
+--end
 
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
@@ -14,9 +16,9 @@ mod_quick_equipment_mode_save = 0
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
 
-    if ( not is_client ) then
-        return
-    end
+    LogService:Log("change_quick_equipment_mode_save is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
+
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
@@ -37,13 +39,13 @@ end)
 
 ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
+    LogService:Log("operate_quick_equipment is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
     if not Assert( #args >= 2, "Command operate_eq_usable requires 2 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
-    if ( not is_client ) then
-        return
-    end
+
 
     local slotsName = args[1]
     local configName = args[2]
@@ -64,13 +66,13 @@ end)
 
 ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
+    LogService:Log("operate_eq_weapon is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
     if not Assert( #args >= 1, "Command operate_eq_weapon requires 1 arguments! [configname] " .. tostring(#args) ) then
         return
     end
 
-    if ( not is_client ) then
-        return
-    end
+
 
     local configName = args[1]
 
@@ -89,9 +91,9 @@ end)
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", function( args )
 
-    if ( not is_client ) then
-        return
-    end
+    LogService:Log("change_quick_equipment_mode_announcement is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
+
 
     if ( CampaignService.GetCampaignData == nil ) then
         return
@@ -119,4 +121,39 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", func
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
         SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_announcement_off", 0 )
     end
+end)
+
+
+
+RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+
+    LogService:Log("InventoryItemCreatedEvent is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
+    if (evt == nil) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    if ( entity == nil or entity == INVALID_ID) then
+        return
+    end
+
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    local itemType = ItemService:GetItemType(entity)
+
+    local isRightType = EquipmentQuickConfigurationsUtils:IsRightType(itemType)
+    if ( not isRightType ) then
+        return
+    end
+
+    local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetItemKey( entity )
+    if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
+        return
+    end
+
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)
