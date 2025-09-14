@@ -229,21 +229,11 @@ function lamp_tool_sell:OnActivateEntity( entity )
 
                     if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-                        local team = EntityService:GetTeam( entity )
+                        local mapperName = "SellAndPlaceRuinsRequest_" .. tostring(self.playerId)
 
-                        local transform = EntityService:GetWorldTransform( entity )
+                        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
 
-                        local position = transform.position
-                        local orientation = transform.orientation
-
-
-                        local placeRuinScript = EntityService:SpawnEntity( "misc/place_ruin_after_sell/script", position, team )
-
-                        local database = EntityService:GetOrCreateDatabase( placeRuinScript )
-
-                        database:SetInt( "player_id", self.playerId )
-                        database:SetInt( "target_entity", entity )
-                        database:SetString( "ruins_blueprint", ruinsBlueprintName )
+                        return
                     end
                 end
             end
