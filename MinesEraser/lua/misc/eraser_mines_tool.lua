@@ -1,5 +1,6 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/reflection.lua")
 
 class 'eraser_mines_tool' ( tool )
 
@@ -140,6 +141,24 @@ function eraser_mines_tool:OnActivateEntity( entity )
         QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 
     else
+
+        if ( EntityService:HasComponent(entity, "AmmoInterpolationComponent") ) then
+
+            local ammoInterpolationComponent = EntityService:GetComponent(entity, "AmmoInterpolationComponent")
+
+            local ammoInterpolationComponentRef = reflection_helper(ammoInterpolationComponent)
+
+            LogService:Log(tostring(ammoInterpolationComponentRef))
+
+            if (ammoInterpolationComponentRef.twin ~= nil and ammoInterpolationComponentRef.twin ~= INVALID_ID and ammoInterpolationComponentRef.twin.id ~= INVALID_ID) then
+
+                QueueEvent( "DissolveEntityRequest", ammoInterpolationComponentRef.twin.id, 0.5, 0 )
+
+                QueueEvent("OperateActionMapperRequest", ammoInterpolationComponentRef.twin.id, "MinesEraserToolRequest", false )
+            end
+        end
+
+        QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
 
         QueueEvent("OperateActionMapperRequest", entity, "MinesEraserToolRequest", false )
     end
