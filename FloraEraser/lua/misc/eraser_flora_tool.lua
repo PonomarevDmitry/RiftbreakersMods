@@ -159,7 +159,9 @@ function eraser_flora_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -168,11 +170,22 @@ end
 
 function eraser_flora_tool:OnActivateEntity( entity )
 
-    EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
-    EntityService:RequestDestroyPattern( entity, "default" )
+    if ( is_server and is_client ) then
 
-    QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
+        EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
+
+        EntityService:RequestDestroyPattern( entity, "default" )
+
+        QueueEvent( "DissolveEntityRequest", entity, 2.0, 0 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "FloraEraserToolRequest", false )
+    end
 end
 
 return eraser_flora_tool
