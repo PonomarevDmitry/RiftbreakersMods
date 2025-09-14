@@ -36,4 +36,6 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
     end
 
     local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( entity )
+
+    EntityService:CreateComponent( entity, "NetReplicateNextFrameComponent")
 end)
