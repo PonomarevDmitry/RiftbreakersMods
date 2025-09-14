@@ -1,3 +1,7 @@
+if ( not is_client ) then
+    return
+end
+
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
@@ -9,6 +13,10 @@ mod_quick_equipment_mode_save = 0
 
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_save", function( args )
+
+    if ( not is_client ) then
+        return
+    end
 
     mod_quick_equipment_mode_save = mod_quick_equipment_mode_save or 0
 
@@ -30,6 +38,10 @@ end)
 ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
     if not Assert( #args >= 2, "Command operate_eq_usable requires 2 arguments! [configname] " .. tostring(#args) ) then
+        return
+    end
+
+    if ( not is_client ) then
         return
     end
 
@@ -56,6 +68,10 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
         return
     end
 
+    if ( not is_client ) then
+        return
+    end
+
     local configName = args[1]
 
     if ( mod_quick_equipment_mode_save == 1 ) then
@@ -72,6 +88,10 @@ end)
 
 
 ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", function( args )
+
+    if ( not is_client ) then
+        return
+    end
 
     if ( CampaignService.GetCampaignData == nil ) then
         return
@@ -99,37 +119,4 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", func
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
         SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_announcement_off", 0 )
     end
-end)
-
-
-
-RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
-
-    if (evt == nil) then
-        return
-    end
-
-    local entity = evt:GetEntity()
-
-    if ( entity == nil or entity == INVALID_ID) then
-        return
-    end
-
-    if ( not EntityService:IsAlive( entity ) ) then
-        return
-    end
-
-    local itemType = ItemService:GetItemType(entity)
-
-    local isRightType = EquipmentQuickConfigurationsUtils:IsRightType(itemType)
-    if ( not isRightType ) then
-        return
-    end
-
-    local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( entity )
-    if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
-        return
-    end
-
-    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)
