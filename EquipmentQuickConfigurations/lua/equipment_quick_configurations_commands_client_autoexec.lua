@@ -10,7 +10,7 @@ local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_con
 
 globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
 
-mod_quick_equipment_mode_save = 0
+mod_quick_equipment_mode_save = 1
 
 
 
@@ -121,39 +121,4 @@ ConsoleService:RegisterCommand( "change_quick_equipment_mode_announcement", func
         SoundService:Play( "items/weapons/energy/blaster_equipped" )
         SoundService:PlayAnnouncement( "voice_over/announcement/equipment_quick_configurations_announcement_off", 0 )
     end
-end)
-
-
-
-RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
-
-    LogService:Log("InventoryItemCreatedEvent is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
-
-    if (evt == nil) then
-        return
-    end
-
-    local entity = evt:GetEntity()
-
-    if ( entity == nil or entity == INVALID_ID) then
-        return
-    end
-
-    if ( not EntityService:IsAlive( entity ) ) then
-        return
-    end
-
-    local itemType = ItemService:GetItemType(entity)
-
-    local isRightType = EquipmentQuickConfigurationsUtils:IsRightType(itemType)
-    if ( not isRightType ) then
-        return
-    end
-
-    local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetItemKey( entity )
-    if ( itemDatabaseKey == "" or itemDatabaseKey == nil ) then
-        return
-    end
-
-    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
 end)

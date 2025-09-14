@@ -1,9 +1,3 @@
-LogService:Log("is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
-
-if ( not is_client ) then
-    return
-end
-
 ConsoleService:ExecuteCommand('bind / "operate_quick_equipment dash_skill QuickConfig01"')
 ConsoleService:ExecuteCommand('bind * "operate_quick_equipment dash_skill QuickConfig02"')
 ConsoleService:ExecuteCommand('bind - "operate_quick_equipment dash_skill QuickConfig03"')
