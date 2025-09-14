@@ -32,6 +32,33 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     local minVector = VectorSub(selectorPosition, scaleVector)
     local maxVector = VectorAdd(selectorPosition, scaleVector)
 
+    local result = {}
+
+    self:FillFloraByTypeComponent(result, minVector, maxVector)
+
+    self:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
+
+    self:FillFloraByVegetationDummyRoot(result, minVector, maxVector)
+
+    
+
+    local sorter = function( t, lhs, rhs )
+        local p1 = EntityService:GetPosition( lhs )
+        local p2 = EntityService:GetPosition( rhs )
+        local d1 = Distance( selectorPosition, p1 )
+        local d2 = Distance( selectorPosition, p2 )
+        return d1 < d2
+    end
+
+    table.sort(result, function(a,b)
+        return sorter(result, a, b)
+    end)
+
+    return result
+end
+
+function eraser_flora_tool:FillFloraByTypeComponent(result, minVector, maxVector)
+
     self.predicateType = self.predicateType or {
 
         signature = "TypeComponent",
@@ -72,8 +99,6 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateType )
 
-    local result = {}
-
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
@@ -88,7 +113,9 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
         ::labelContinue::
     end
+end
 
+function eraser_flora_tool:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
 
     self.predicateVegetationLifecycle = self.predicateVegetationLifecycle or {
         signature = "VegetationLifecycleEnablerComponent"
@@ -99,48 +126,61 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
     for entity in Iter( tempCollection ) do
 
         if ( entity == nil ) then
-            goto labelContinue2
+            goto labelContinue
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
-            goto labelContinue2
+            goto labelContinue
         end
 
         local blueprintName = EntityService:GetBlueprintName(entity)
         if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
-            goto labelContinue2
+            goto labelContinue
         end
 
         local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
         if ( enablerComponent == nil ) then
-            goto labelContinue2
+            goto labelContinue
         end
 
         local enablerComponentRef = reflection_helper(enablerComponent)
         if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
-            goto labelContinue2
+            goto labelContinue
         end
 
         Insert( result, entity )
 
-        ::labelContinue2::
+        ::labelContinue::
     end
+end
 
-    
+function eraser_flora_tool:FillFloraByVegetationDummyRoot(result, minVector, maxVector)
 
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( selectorPosition, p1 )
-        local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2
+    local entities = FindService:FindEntitiesByBlueprintInBox( "props/base/vegetation_dummy_root", minVector, maxVector )
+
+    for entity in Iter( entities ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( enablerComponent ~= nil ) then
+
+            local enablerComponentRef = reflection_helper(enablerComponent)
+            if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
+                goto labelContinue
+            end
+        end
+
+        Insert(result, entity)
+
+        ::labelContinue::
     end
-
-    table.sort(result, function(a,b)
-        return sorter(result, a, b)
-    end)
-
-    return result
 end
 
 function eraser_flora_tool:AddedToSelection( entity )
