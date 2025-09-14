@@ -377,7 +377,7 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
 
     local itemKey = subSlotConfig.quickItemKey
 
-    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] ~= nil ) then
+    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil and globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] ~= nil ) then
 
         local entityId = globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey]
 
@@ -443,7 +443,9 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
                 local itemDatabaseKey = database:GetString(itemKeyConfigName) or ""
                 if ( itemDatabaseKey ~= "" and itemDatabaseKey ~= nil ) then
 
-                    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = itemEntity.id
+                    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
+                        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = itemEntity.id
+                    end
 
                     if ( itemDatabaseKey == itemKey ) then
                         return itemEntity.id, false
@@ -483,7 +485,10 @@ function EquipmentQuickConfigurationsUtils:FindItemByKey( player, subSlotConfig 
 
             local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( maxEntityId )
             if ( itemDatabaseKey ~= "" or itemDatabaseKey ~= nil ) then
-                globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = maxEntityId
+
+                if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
+                    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = maxEntityId
+                end
 
                 EquipmentQuickConfigurationsUtils:UpdateSubSlotConfig(subSlotConfig, maxEntityId, EntityService:GetBlueprintName( maxEntityId ), itemDatabaseKey)
 
@@ -539,7 +544,9 @@ function EquipmentQuickConfigurationsUtils:GetItemKey( subSlotEntityId )
 
     local itemKey = database:GetString(itemKeyConfigName)
 
-    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
+    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
+        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
+    end
 
     return itemKey
 end
@@ -565,7 +572,9 @@ function EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( subSlotEnti
         database:SetString(itemKeyConfigName, itemKey)
     end
 
-    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
+    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
+        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
+    end
 
     return itemKey
 end
