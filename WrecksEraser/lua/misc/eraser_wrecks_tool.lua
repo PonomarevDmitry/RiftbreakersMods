@@ -128,7 +128,9 @@ function eraser_wrecks_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -137,8 +139,19 @@ end
 
 function eraser_wrecks_tool:OnActivateEntity( entity )
 
-    EntityService:DestroyEntity( entity, "collapse" )
-    --EntityService:DissolveEntity( entity, 0.5 )
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    if ( is_server and is_client ) then
+
+        EntityService:DestroyEntity( entity, "collapse" )
+        --EntityService:DissolveEntity( entity, 0.5 )
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "WrecksEraserToolRequest", false )
+    end
 end
 
 return eraser_wrecks_tool
