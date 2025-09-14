@@ -1,7 +1,7 @@
 if ( not is_client ) then
     return
 end
-    
+
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
@@ -23,7 +23,7 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
     if ( selector == nil or selector == INVALID_ID ) then
         return
     end
-    
+
     local playerReferenceComponent = EntityService:GetComponent(selector, "PlayerReferenceComponent")
     if ( playerReferenceComponent == nil ) then
         return
