@@ -64,7 +64,7 @@ function hq_move_tool_builder:OnBuildingSellEndEvent()
                     local resourceValue = tonumber( resourceArray[2] )
 
                     if ( resourceName ~= "" and resourceValue ~= nil ) then
-                        PlayerService:AddResourceAmount( leadingPlayer, resourceName, resourceValue )
+                        PlayerService:AddResourceAmount( leadingPlayer, resourceName, resourceValue, false )
                     end
                 end
             end

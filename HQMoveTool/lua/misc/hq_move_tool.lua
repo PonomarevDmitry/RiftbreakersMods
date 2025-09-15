@@ -306,7 +306,7 @@ function hq_move_tool:OnActivateSelectorRequest()
 
     for resourceName,resourceValue in pairs(self.buildCost) do
 
-        PlayerService:AddResourceAmount( leadingPlayer, resourceName, -resourceValue )
+        PlayerService:AddResourceAmount( leadingPlayer, resourceName, -resourceValue, false )
 
         if ( string.len(paidResources) > 0 ) then
             paidResources = paidResources .. "|"
