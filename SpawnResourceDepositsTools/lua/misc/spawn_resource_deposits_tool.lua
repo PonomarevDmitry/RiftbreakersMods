@@ -92,10 +92,18 @@ function spawn_resource_deposits_tool:OnActivateSelectorRequest()
         return
     end
 
-    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    local unlimitedMoney = false
+
+    if ( ConsoleService and ConsoleService.GetConfig ) then
+
+        unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    end
+
     if ( unlimitedMoney == false ) then
 
-        local resourceCount = PlayerService:GetResourceAmount( self.resourceName )
+        local leadingPlayer = PlayerService:GetLeadingPlayer()
+
+        local resourceCount = PlayerService:GetResourceAmount( leadingPlayer, self.resourceName )
         if ( resourceCount < self.currentValue ) then
 
             local playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
@@ -105,27 +113,43 @@ function spawn_resource_deposits_tool:OnActivateSelectorRequest()
         end
     end
 
-    local treasureSpotFind = FindService:FindEmptySpotInRadius( self.entity, 1.0, "", "" )
-    if ( treasureSpotFind.first == false ) then
-        return
+    if ( is_server and is_client ) then
+
+        local treasureSpotFind = FindService:FindEmptySpotInRadius( self.entity, 1.0, "", "" )
+        if ( treasureSpotFind.first == false ) then
+            return
+        end
+
+        local team = EntityService:GetTeam( self.entity )
+
+        local position = treasureSpotFind.second
+
+
+
+
+        local entityScript = EntityService:SpawnEntity( "misc/spawn_resource_deposits/script", position, team )
+
+        local database = EntityService:GetOrCreateDatabase( entityScript )
+
+        database:SetInt( "player_id", self.playerId )
+        database:SetString( "annoucement", self.annoucement )
+        database:SetString( "vein_name", self.veinName )
+        database:SetString( "resource_name", self.resourceName )
+        database:SetFloat( "current_value", self.currentValue )
+
+    else
+
+        local position = EntityService:GetPosition( self.entity )
+
+        local cellEntity = EnvironmentService:GetTerrainCell( position )
+
+
+        local mapperName = "SpawnResourceDepositsTools|" .. tostring(self.playerId) .. "|" .. tostring(cellEntity) .. "|" .. tostring(self.veinName) .. "|" .. tostring(self.resourceName) .. "|" .. tostring(self.currentValue)
+
+        LogService:Log("mapperName " .. tostring(mapperName))
+
+        QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end
-
-    local team = EntityService:GetTeam( self.entity )
-
-    local position = treasureSpotFind.second
-
-
-
-
-    local entityScript = EntityService:SpawnEntity( "misc/spawn_resource_deposits/script", position, team )
-
-    local database = EntityService:GetOrCreateDatabase( entityScript )
-
-    database:SetInt( "player_id", self.playerId )
-    database:SetString( "annoucement", self.annoucement )
-    database:SetString( "vein_name", self.veinName )
-    database:SetString( "resource_name", self.resourceName )
-    database:SetFloat( "current_value", self.currentValue )
 end
 
 function spawn_resource_deposits_tool:OnRotateSelectorRequest(evt)

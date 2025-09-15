@@ -30,16 +30,29 @@ function spawn_resource_deposits_script:init()
 
     self.existingVolumes = self:FindResourceVolume()
 
+    
 
 
-    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+
+    local unlimitedMoney = false
+
+    if ( ConsoleService and ConsoleService.GetConfig ) then
+
+        unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    end
+
     if ( unlimitedMoney == false ) then
 
-        local resourceCount = PlayerService:GetResourceAmount( self.resourceName )
+        local leadingPlayer = PlayerService:GetLeadingPlayer()
+
+        local resourceCount = PlayerService:GetResourceAmount( leadingPlayer, self.resourceName )
         if ( resourceCount < self.currentValue ) then
 
-            local playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
-            QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 1.0, self.annoucement, playerEntity, false )
+            if ( self.annoucement ~= nil and self.annoucement ~= "" ) then
+
+                local playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+                QueueEvent( "PlayTimeoutSoundRequest", INVALID_ID, 1.0, self.annoucement, playerEntity, false )
+            end
 
             self:DestroySelf()
 
@@ -130,9 +143,15 @@ function spawn_resource_deposits_script:OnTimerElapsedEvent(evt)
         end
     end
 
-    local unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    local unlimitedMoney = false
+
+    if ( ConsoleService and ConsoleService.GetConfig ) then
+
+        unlimitedMoney = ConsoleService:GetConfig("cheat_unlimited_money") == "1"
+    end
+
     if ( unlimitedMoney == false ) then
-        PlayerService:AddResourceAmount( self.resourceName, -self.currentValue )
+        PlayerService:AddResourceAmount( self.playerId, self.resourceName, -self.currentValue, false )
     end
 end
 
