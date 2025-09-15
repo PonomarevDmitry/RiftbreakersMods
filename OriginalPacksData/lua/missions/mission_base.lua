@@ -3,6 +3,7 @@ require("lua/utils/rules_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/numeric_utils.lua")
 require("lua/utils/find_utils.lua")
+require("lua/utils/campaign_patcher.lua")
 
 class 'mission_base' ( LuaGraphNode )
 
@@ -280,6 +281,10 @@ end
 function mission_base:OnLoad()
     if ( self:HasEventHandler( event_sink, "LuaGlobalEvent") == false ) then
         self:RegisterHandler( event_sink, "LuaGlobalEvent", "_OnLuaGlobalEvent" )
+    end
+
+    if CampaignService:GetCurrentCampaignType() == "story" then
+        PatchStoryCampaign()
     end
 end
 

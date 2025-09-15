@@ -3,6 +3,7 @@ system rift/mech_heavy_plasma_gun_projectile
     scale_velocity                              0.007
     scale                                       0.007 0.007 0.007
     tight_bounding_box                          true
+    fade_out                                    true
     cache_count                                 40
     technique glow
     {
@@ -67,6 +68,7 @@ system rift/mech_heavy_plasma_gun_projectile
                 min                             0.4
                 max                             0.5
             }
+            velocity                            1
             particle_width                      200
             particle_height                     400
             keep_local                          true
@@ -113,8 +115,8 @@ system rift/mech_heavy_plasma_gun_projectile
             }
             velocity                            dyn_random
             {
-                min                             3000
-                max                             4000
+                min                             30
+                max                             40
             }
             particle_width                      100
             particle_height                     400
@@ -161,8 +163,8 @@ system rift/mech_heavy_plasma_gun_projectile
             }
             velocity                            dyn_random
             {
-                min                             3000
-                max                             4000
+                min                             30
+                max                             40
             }
             particle_width                      50
             particle_height                     200
@@ -184,7 +186,7 @@ system rift/mech_heavy_plasma_gun_projectile
     }
     technique trail3
     {
-        visual_particle_quota                   60
+        visual_particle_quota                   150
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -198,44 +200,43 @@ system rift/mech_heavy_plasma_gun_projectile
         }
         emitter                                 Box trail1
         {
+            emission_rate                       100
             angle                               0
             time_to_live                        dyn_random
             {
-                min                             0.5
-                max                             0.7
+                min                             0.7
+                max                             1
             }
             velocity                            dyn_random
             {
-                min                             3000
-                max                             4000
+                min                             200
+                max                             400
             }
             particle_width                      dyn_random
             {
-                min                             20
-                max                             40
+                min                             6
+                max                             12
             }
             particle_height                     dyn_random
             {
-                min                             60
-                max                             100
+                min                             12
+                max                             60
             }
-            position                            -250 0 0
-            keep_local                          true
-            direction                           -1 0 0
-            box_width                           50
+            position                            -200 0 0
+            direction                           1 0 0
+            box_width                           200
             box_height                          50
             box_depth                           50
         }
         affector                                Colour 
         {
-            time_colour                         0    0.2 0.2 0.2 0
-            time_colour                         0.0521739  0.2 0.2 0.2 1
-            time_colour                         0.508696  0.2 0.2 0.2 1
-            time_colour                         1    0.2 0.2 0.2 0
+            time_colour                         0    1 1 1 1
+            time_colour                         0.603904  1 1 1 1
+            time_colour                         1    1 1 1 0
         }
         affector                                Scale Affector35
         {
-            xyz_scale                           -30
+            xyz_scale                           -10
         }
     }
 }

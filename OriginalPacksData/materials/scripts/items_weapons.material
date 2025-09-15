@@ -1234,6 +1234,53 @@ material items/weapons/lightning_gun_extreme : pbr/default
 	glow 3
 }
 
+material items/weapons/laser_beam
+{
+    render_group 62
+
+    technique
+    {
+        pass
+        {
+            depth_write off
+            scene_blend alpha_blend
+            cull_hardware none
+
+            glow 1
+            emissive 0 1.5 3.0 1
+
+            vertex_program_ref forward_object_texture_vp
+            {
+            }
+
+            fragment_program_ref unlit_emissive_gradient_fp
+            {
+            }
+
+			texture_unit diffuse
+			{
+				texture materials/textures/color_black.dds
+				tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit emissive
+			{
+				texture materials/textures/color_white.dds
+                tex_address_mode clamp
+				filtering anisotropic
+			}
+
+			texture_unit gradient
+			{
+				texture materials/textures/color_white.dds
+				tex_address_mode clamp
+				filtering bilinear
+			}
+        }
+    }
+}
+
 material items/weapons/lightning_gun_beam
 {
     render_group 61
