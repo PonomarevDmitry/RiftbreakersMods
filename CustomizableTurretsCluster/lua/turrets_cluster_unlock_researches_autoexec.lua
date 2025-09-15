@@ -1,3 +1,7 @@
+if ( not is_server ) then
+    return
+end
+
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
@@ -62,6 +66,10 @@ local supported_research_list = {
 
 local turrets_cluster_unlock_researches_autoexec = function(evt)
 
+    if ( not is_server ) then
+        return
+    end
+
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
     if ( researchComponent == nil ) then
         return
@@ -70,6 +78,8 @@ local turrets_cluster_unlock_researches_autoexec = function(evt)
     local researchComponentRef = reflection_helper( researchComponent )
 
     local categories = researchComponentRef.research
+
+    local leadingPlayer = PlayerService:GetLeadingPlayer()
 
     for i=1,categories.count do
 
@@ -84,8 +94,8 @@ local turrets_cluster_unlock_researches_autoexec = function(evt)
 
                 if ( node.research_name == item.research_name and category.category == item.research_category ) then
 
-                    PlayerService:UnhideResearch( item.name )
-                    PlayerService:EnableResearch( item.name )
+                    PlayerService:UnhideResearch( leadingPlayer, item.name )
+                    PlayerService:EnableResearch( leadingPlayer, item.name )
                 end
             end
         end

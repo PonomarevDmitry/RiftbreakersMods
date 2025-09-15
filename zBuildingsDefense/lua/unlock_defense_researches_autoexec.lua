@@ -15,9 +15,11 @@ local unlock_defense_researches_autoexec = function(evt)
 
     --PlayerService:UnlockResearch( "gui/menu/research/name/towers_morphium_lvl1" )
 
-    PlayerService:UnhideResearch( "gui/menu/research/name/towers_morphium_lvl1" )
+    local leadingPlayer = PlayerService:GetLeadingPlayer()
 
-    PlayerService:EnableResearch( "gui/menu/research/name/towers_morphium_lvl1" )
+    PlayerService:UnhideResearch( leadingPlayer, "gui/menu/research/name/towers_morphium_lvl1" )
+
+    PlayerService:EnableResearch( leadingPlayer, "gui/menu/research/name/towers_morphium_lvl1" )
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
