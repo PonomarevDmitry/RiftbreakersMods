@@ -16,6 +16,20 @@ function crystal_wall_ruins:init()
 		EntityService:CreateComponent( self.entity, "TimerComponent")
 		QueueEvent( "SetTimerRequest", self.entity, "RegenerationStart", regenerationTime )
 	end
+
+	self.version = 1
+end
+
+function crystal_wall_ruins:OnLoad()
+	if not self.version or self.version < 1 then
+		local position = EntityService:GetPosition(self.entity)
+		local owners = FindService:FindGridOwnersByBox(position,position)
+		if #owners > 0 then
+			EntityService:DestroyEntity(self.entity, "default")
+		end
+	end
+
+	self.version = 1
 end
 
 function crystal_wall_ruins:OnTimerElapsedEvent(evt)
@@ -27,7 +41,7 @@ function crystal_wall_ruins:OnTimerElapsedEvent(evt)
 	local building = EntityService:SpawnEntity( ruinsBlueprint, self.entity, EntityService:GetTeam( self.entity ) )
 	
 	local healthAmountInPercent = self.data:GetFloatOrDefault("health_amount_in_percent", 30)
-	local dissolveTime = self.data:GetFloatOrDefault("dissolve_time", 2.0)
+	local dissolveTime = self.data:GetFloatOrDefault("dissolve_time", 0.75)
 
 	HealthService:SetHealthInPercentageWithoutEffects( building, healthAmountInPercent)
 	EntityService:FadeEntity( building, DD_FADE_IN, dissolveTime )
@@ -43,6 +57,8 @@ function crystal_wall_ruins:OnTimerElapsedEvent(evt)
 		playerReference.player_id = 0
     	playerReference.reference_type.internal_enum = 4
 	end
+
+	EntityService:RemoveEntity(self.entity)
 end
 
 return crystal_wall_ruins

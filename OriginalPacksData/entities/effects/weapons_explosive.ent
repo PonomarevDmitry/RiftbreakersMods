@@ -2565,7 +2565,6 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		effects/weapons_elemental/hit
 		lights/point/explosion_orange_big
 		effects/default
 	}
@@ -2579,7 +2578,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/rocket_explosion_very_big"
+		name    "rift/meteor_explosion_big"
 	}
 
 	CameraShakeDesc
@@ -2635,6 +2634,87 @@ EntityBlueprint
 				{
 					blueprint "player/water_collision"
 					scale "10 10 10"
+				}
+			}
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/meteor_medium_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"15"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/meteor_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.2"
+		falloff_radius 	"30"
+		radius   		"50"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_big"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+		}
+	}	
+	
+	BurningComponent
+	{
+		spread_radius 			"8.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"0.01"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "6 6 6"
 				}
 			}
 		}			

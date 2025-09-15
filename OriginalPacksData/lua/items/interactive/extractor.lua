@@ -22,7 +22,9 @@ end
 function extractor:OnHarvestStartEnter( state )
 	state:SetDurationLimit( self.harvestStartTime )
 	local ownerData = EntityService:GetDatabase( self.owner );
-	ownerData:SetFloat( "RIGHT_HAND_use_speed", 0.75 / self.harvestStartTime )
+	if ownerData ~= nil then
+		ownerData:SetFloat( "RIGHT_HAND_use_speed", 0.75 / self.harvestStartTime )
+	end
 	
 	EntityService:FadeEntity( self.item, DD_FADE_IN, self.harvestStartTime)
 	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, self.harvestStartTime)

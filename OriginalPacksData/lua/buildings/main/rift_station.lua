@@ -12,6 +12,7 @@ end
 function rift_station:OnInit()
 
 	self.energyNeeded 		= self.data:GetFloatOrDefault("energy_amount", 1000)
+	self.resourceAmount 	= self.data:GetFloatOrDefault("resource_amount", 5000)
 	self.stabilizerRadius	= self.data:GetFloatOrDefault("stabilizators_radius", 100 )
 	self.activationTime		= self.data:GetFloatOrDefault("activation_time", 60 )
 	self.disableTime		= self.data:GetFloatOrDefault("disable_time", 150 )
@@ -271,6 +272,7 @@ function rift_station:OnLoad()
 		self.disableTime		= blueprintDatabase:GetFloatOrDefault("disable_time", 150 )
 	end
 	
+	self.resourceAmount 	= self.data:GetFloatOrDefault("resource_amount", 5000)
 	self.riftVersion = 2
 end
 
@@ -312,6 +314,13 @@ function rift_station:CanEnableSpecialAction()
 			return false 
 		end
 		
+		local waterAmount = BuildingService:GetResourceConnected( self.entity, "water" )
+		local superCoolantAmount = BuildingService:GetResourceConnected( self.entity, "supercoolant" )
+		local plasmaChargedAmount = BuildingService:GetResourceConnected( self.entity, "plasma_charged" )
+
+		if (( plasmaChargedAmount < self.resourceAmount ) or (( waterAmount + superCoolantAmount ) < self.resourceAmount )) then
+			return false
+		end
 
 		if ( HaveWorkingStabilizators( self.entity, self.stabilizerRadius,self.stabilizerCount, self.alienFactor) == false ) then
 			return false

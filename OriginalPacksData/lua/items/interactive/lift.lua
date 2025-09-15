@@ -53,8 +53,8 @@ end
 
 function lift:OnEquipped()
 	self:CreateMirrorHolder( "att_l_hand_item")
-	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0 )
-	EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.0 )
+	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0, false )
+	EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.0, false )
 	self.missionName = MissionService:GetCurrentMissionName()
 
 	if self.recreateObject then
@@ -144,7 +144,7 @@ function lift:OnHoldingEnter( state )
 	self.objectEnt = EntityService:SpawnAndAttachEntity( self.bp, self.item, "att_tip", "" )
 	EntityService:RemoveComponent( self.objectEnt, "InteractiveComponent")
 	HealthService:SetImmortality( self.objectEnt, true )
-	EntityService:FadeEntity( self.objectEnt, DD_FADE_IN, 0.75 )
+	EntityService:FadeEntity( self.objectEnt, DD_FADE_IN, 0.75, false )
 	
 	self.randomDir = { x=RandFloat( 0.1, 0.9 ), y=0, z=RandFloat( 0.1, 0.9 ) }
 	self.randomDir = Normalize( self.randomDir )
@@ -251,24 +251,24 @@ function lift:ShowHolderItems()
 	self.lastRightItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "RIGHT_HAND" )
 	self.lastLeftItemEnt = ItemService:GetEquippedPresentationItem( self.owner, "LEFT_HAND" )
 	
-	EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_OUT, 0.75 )
-	EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_OUT, 0.75 )
-	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75 )
-	EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.75 )
+	EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_OUT, 0.75, false )
+	EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_OUT, 0.75, false )
+	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75, false )
+	EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.75, false )
 end
 
 function lift:HideHolderItems()
 	if self.lastRightItemEnt ~= nil then
-		EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_IN, 0.75 )
+		EntityService:FadeEntity( self.lastRightItemEnt, DD_FADE_IN, 0.75, false )
 	end
 	if self.lastLeftItemEnt ~= nil then
-		EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_IN, 0.75 )
+		EntityService:FadeEntity( self.lastLeftItemEnt, DD_FADE_IN, 0.75, false )
 	end
 	if self.item ~= nil then
-		EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75 )
+		EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75, false )
 	end
 	if self.mirrorItem ~= nil then
-		EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.75 )
+		EntityService:FadeEntity( self.mirrorItem, DD_FADE_OUT, 0.75, false )
 	end
 end
 

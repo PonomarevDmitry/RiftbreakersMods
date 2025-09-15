@@ -631,6 +631,7 @@ GuiRootGroupDef
 								{
 									model_field "is_enabled"
 								}
+
 							}
 
 							id "image"
@@ -771,6 +772,11 @@ GuiRootGroupDef
 						model_field "content"
 					}
 
+					node.is_enabled
+					{
+						model_field "is_enabled"
+					}
+
 					node.max_char_count
 					{
 						model_field "max_char_count"
@@ -779,11 +785,6 @@ GuiRootGroupDef
 					node.pswrd_mode
 					{
 						model_field "is_password_mode"
-					}
-
-					node.is_enabled
-					{
-						model_field "is_enabled"
 					}
 
 					on_content_changed_action
@@ -1413,6 +1414,12 @@ GuiRootGroupDef
 							anchor "left"
 							bindings
 							{
+								//content
+								//{
+								//	model_field "content"
+								//	converter "GuiModelToStringConverter"
+								//}
+
 								style_name
 								{
 									model_field "text_style_name"
@@ -1440,14 +1447,14 @@ GuiRootGroupDef
 						model_field "content"
 					}
 
-					node.max_char_count
-					{
-						model_field "max_char_count"
-					}
-
 					node.is_enabled
 					{
 						model_field "is_enabled"
+					}
+
+					node.max_char_count
+					{
+						model_field "max_char_count"
 					}
 
 					on_content_changed_action
@@ -1467,6 +1474,676 @@ GuiRootGroupDef
 				{
 					x "488.511"
 					y "315.968"
+				}
+
+				size
+				{
+					x "354"
+					y "32"
+				}
+
+				z_order "1"
+			}
+
+		}
+
+
+		Pair_String_GuiDef2
+		{
+			key "simple_binded"
+			value "GuiTextInputDef"
+			{
+				node "GuiTextEditNodeDef"
+				{
+					max_char_count "128"
+				}
+
+				allow_overflow "0"
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "active"
+						value "GuiGroupDef"
+						{
+							id "active"
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "active_selected"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "selection"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1"
+											y "0.702"
+										}
+
+										border_width "2"
+										inner_alpha "0"
+										id "selection"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+							}
+
+							color
+							{
+								w "0.7"
+							}
+
+							id "active_selected"
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "cursor"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bottom"
+									value "GuiQuadDef"
+									{
+										alignment "bottom_left"
+										anchor "bottom_left"
+										hitbox_visible "0"
+										id "bottom"
+										size
+										{
+											x "12"
+											y "2"
+										}
+
+										size_mode_x "2"
+										tooltip_def
+										z_order "128"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "top"
+									value "GuiQuadDef"
+									{
+										hitbox_visible "0"
+										id "top"
+										size
+										{
+											x "6"
+											y "2"
+										}
+
+										size_mode_x "2"
+										tooltip_def
+										visible "0"
+										z_order "127"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "vertical"
+									value "GuiQuadDef"
+									{
+										alignment "top"
+										anchor "top"
+										hitbox_visible "0"
+										id "vertical"
+										margin
+										{
+											w "2"
+											y "2"
+										}
+
+										size
+										{
+											x "2"
+											y "17"
+										}
+
+										size_mode_y "2"
+										tooltip_def
+										visible "0"
+										z_order "129"
+									}
+
+								}
+
+							}
+
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1"
+												}
+
+												mask "32"
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "10"
+												mask "32"
+											}
+
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1"
+												}
+
+												frame_number "20"
+												mask "32"
+											}
+
+										}
+
+										name "blink"
+									}
+
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "cursor"
+							item_scripts
+							{
+								scripts
+								{
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnShow"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															anim_info
+															{
+																multiplier "1.5"
+															}
+
+															animations
+															{
+																blink
+																{
+																	String
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+							margin
+							{
+								w "5"
+								y "5"
+							}
+
+							offset
+							{
+								x "2"
+							}
+
+							size
+							{
+								x "10"
+								y "21"
+							}
+
+							size_mode_y "2"
+							tooltip_def
+							z_order "126"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "disabled"
+						value "GuiGroupDef"
+						{
+							id "disabled"
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "disabled_selected"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "selection"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1"
+											y "0.702"
+										}
+
+										border_width "2"
+										inner_alpha "0"
+										id "selection"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+							}
+
+							color
+							{
+								w "0.7"
+							}
+
+							id "disabled_selected"
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "image"
+						value "GuiImageDef"
+						{
+							error_material "gui/hud/interact_frame_fill"
+							material "gui/menu/buttons/interactive_stream_textbox"
+							texture_border
+							{
+								w "0.25"
+								x "0.045"
+								y "0.25"
+								z "0.045"
+							}
+
+							bindings
+							{
+								saturate
+								{
+									model_field "is_enabled"
+								}
+
+							}
+
+							id "image"
+							margin
+							{
+								w "-10"
+								x "-10"
+								y "-10"
+								z "-10"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindAncestorItem "GuiModelSourceFindAncestorItem"
+								{
+									ancestor_type "GuiTextInput"
+								}
+
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "placeholder"
+									value "GuiTextLineDef"
+									{
+										style_name "neutral_25"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "placeholder"
+											}
+
+											style_name
+											{
+												model_field "text_style_name"
+											}
+
+											visible
+											{
+												model_field "content"
+												converter "GuiModelObjectNullOrEmptyConverter"
+											}
+
+										}
+
+										color
+										{
+											w "0.75"
+										}
+
+										hitbox_visible "0"
+										id "placeholder"
+										offset
+										{
+											x "20"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+							}
+
+							id "neutral"
+							model_source_solver
+							{
+								GuiModelSourceFindAncestorItem "GuiModelSourceFindAncestorItem"
+								{
+									ancestor_type "GuiTextInput"
+								}
+
+							}
+
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral_selected"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "placeholder"
+									value "GuiTextLineDef"
+									{
+										style_name "neutral_25"
+										alignment "left"
+										anchor "left"
+										bindings
+										{
+											content
+											{
+												model_field "placeholder"
+											}
+
+											style_name
+											{
+												model_field "text_style_name"
+											}
+
+											visible
+											{
+												model_field "content"
+												converter "GuiModelObjectNullOrEmptyConverter"
+											}
+
+										}
+
+										color
+										{
+											w "0.75"
+										}
+
+										hitbox_visible "0"
+										id "placeholder"
+										offset
+										{
+											x "20"
+										}
+
+										size_mode_x "2"
+										size_mode_y "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "selection"
+									value "GuiQuadDef"
+									{
+										border_color
+										{
+											x "1"
+											y "0.702"
+										}
+
+										border_width "2"
+										inner_alpha "0"
+										id "selection"
+										size_mode_x "2"
+										size_mode_y "2"
+										tooltip_def
+									}
+
+								}
+
+							}
+
+							color
+							{
+								w "0.7"
+							}
+
+							id "neutral_selected"
+							model_source_solver
+							{
+								GuiModelSourceFindAncestorItem "GuiModelSourceFindAncestorItem"
+								{
+									ancestor_type "GuiTextInput"
+								}
+
+							}
+
+							size
+							{
+								x "200"
+								y "50"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							tooltip_def
+							z_order "1"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "text"
+						value "GuiTextDef"
+						{
+							line_breaking "0"
+							plain_text "1"
+							style_name "neutral_25"
+							alignment "left"
+							anchor "left"
+							bindings
+							{
+								content
+								{
+									model_field "content"
+									converter "GuiModelToStringConverter"
+								}
+
+								style_name
+								{
+									model_field "text_style_name"
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "text"
+							offset
+							{
+								x "20"
+							}
+
+						}
+
+					}
+
+				}
+
+				bindings
+				{
+					content
+					{
+						model_field "content"
+					}
+
+					node.is_enabled
+					{
+						model_field "is_enabled"
+					}
+
+					node.max_char_count
+					{
+						model_field "max_char_count"
+					}
+
+					on_content_changed_action
+					{
+						model_field "on_content_changed_action"
+					}
+
+					on_content_submit_action
+					{
+						model_field "on_content_submit_action"
+					}
+
+				}
+
+				id "simple_binded"
+				offset
+				{
+					x "488.511"
+					y "256.000"
 				}
 
 				size
@@ -1917,6 +2594,7 @@ GuiRootGroupDef
 						key "text"
 						value "GuiTextDef"
 						{
+							line_breaking "0"
 							style_name "neutral_25"
 							alignment "left"
 							anchor "left"
@@ -1954,7 +2632,7 @@ GuiRootGroupDef
 					{
 						model_field "is_enabled"
 					}
-					
+
 					on_content_changed_action
 					{
 						model_field "on_content_changed_action"

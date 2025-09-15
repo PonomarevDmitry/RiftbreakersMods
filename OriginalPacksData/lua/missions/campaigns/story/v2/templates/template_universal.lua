@@ -1536,7 +1536,19 @@ function template_universal:PrepareMissionTilesPool()
 		["swamp"] = 
 		{
 			["openTilePool"] = 
-			{
+			{				
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_01/swamp_custom_resin_01.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_02/swamp_custom_resin_02.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
 				{
 					tile_name = "biomes/swamp/tiles/swamp_canyons_01/swamp_canyons_01.tile",												
 					max_instances = 2,
@@ -1611,6 +1623,18 @@ function template_universal:PrepareMissionTilesPool()
 			
 			["denseTilePool"] = 
 			{
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_01/swamp_custom_resin_01.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_02/swamp_custom_resin_02.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
 				{
 					tile_name = "biomes/swamp/tiles/swamp_canyons_01/swamp_canyons_01.tile",												
 					min_instances = 1,
@@ -1685,6 +1709,18 @@ function template_universal:PrepareMissionTilesPool()
 			
 			["lakesTilePool"] = 
 			{
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_01/swamp_custom_resin_01.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
+				{			
+					tile_name = "biomes/swamp/tiles/swamp_custom_resin_02/swamp_custom_resin_02.tile",
+					min_instances = 1,
+					max_instances = 2,
+					min_distance_from_edge = 1
+				},	
 				{
 					tile_name = "biomes/swamp/tiles/swamp_canyons_01/swamp_canyons_01.tile",																	
 					random_weight =	1
