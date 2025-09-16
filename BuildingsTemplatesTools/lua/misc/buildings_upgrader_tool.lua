@@ -28,6 +28,8 @@ function buildings_upgrader_tool:OnInit()
         -- Create new marker
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
+    self.templateEntities = {}
+
     self.currentChildTemplate = ""
 
     self:UpdateMarker()
@@ -111,6 +113,8 @@ function buildings_upgrader_tool:UpdateMarker()
 end
 
 function buildings_upgrader_tool:FillMarkerMessage()
+
+    self:CleanInformationTemplateEntities()
 
     local templatesArray = self:GetTemplatesArray()
 
@@ -212,6 +216,8 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
                 markerDB:SetString("message_text", markerText)
             end
+
+            self:SpawnInformationBuildinsTemplates(templateString)
         end
 
         markerDB:SetInt("menu_visible", 1)
@@ -417,6 +423,8 @@ function buildings_upgrader_tool:OnRelease()
         EntityService:RemoveEntity(self.allNumberEntity)
         self.allNumberEntity = nil
     end
+
+    self:CleanInformationTemplateEntities()
 
     if ( buildings_tool_base.OnRelease ) then
         buildings_tool_base.OnRelease(self)

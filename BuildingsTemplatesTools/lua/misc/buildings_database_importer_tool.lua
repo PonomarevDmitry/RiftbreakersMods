@@ -34,6 +34,8 @@ function buildings_database_importer_tool:OnInit()
     local markerBlueprint = "misc/marker_selector_buildings_database_importer_tool"
     self.childEntity = EntityService:SpawnAndAttachEntity(markerBlueprint, self.entity)
 
+    self.templateEntities = {}
+
     self:UpdateMarker()
 
     self:FillMarkerMessage()
@@ -115,6 +117,8 @@ function buildings_database_importer_tool:UpdateMarker()
 end
 
 function buildings_database_importer_tool:FillMarkerMessage()
+
+    self:CleanInformationTemplateEntities()
 
     self.selectedTemplate = self:CheckTemplateExists(self.selectedTemplate)
 
@@ -219,6 +223,8 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
                 markerText = markerText .. "\n${" .. templateCaption .. "}:\n" .. buildingsIcons
             end
+
+            self:SpawnInformationBuildinsTemplates(persistentTemplateString)
         end
     end
 
@@ -574,6 +580,8 @@ function buildings_database_importer_tool:OnRelease()
         EntityService:RemoveEntity(self.allNumberEntity)
         self.allNumberEntity = nil
     end
+
+    self:CleanInformationTemplateEntities()
 
     if ( buildings_tool_base.OnRelease ) then
         buildings_tool_base.OnRelease(self)
