@@ -49,11 +49,11 @@ local activate_all_bioanomalies_autoexec = function(evt)
         end
     end
 
-    local itemCount = PlayerService:GetItemNumber( playerId, skillName )
-
-    if ( itemCount == 0 ) then
-        PlayerService:AddItemToInventory( playerId, skillName )
-    end
+    --local itemCount = PlayerService:GetItemNumber( playerId, skillName )
+    --
+    --if ( itemCount == 0 ) then
+    --    PlayerService:AddItemToInventory( playerId, skillName )
+    --end
 end
 
 --RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
