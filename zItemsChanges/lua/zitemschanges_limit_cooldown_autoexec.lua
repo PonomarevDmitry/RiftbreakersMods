@@ -266,3 +266,49 @@ local supported_item_blueprints = {
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints)
+
+
+
+RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+
+    if (evt == nil) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    if ( entity == nil or entity == INVALID_ID) then
+        return
+    end
+
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    local entityBlueprintName = EntityService:GetBlueprintName(entity)
+    if ( supported_item_blueprints[entityBlueprintName] == nil ) then
+        return
+    end
+
+
+
+    local cooldownValue = supported_item_blueprints[entityBlueprintName]
+
+    local inventoryItemComponent = EntityService:GetComponent(entity, "InventoryItemComponent")
+    if ( inventoryItemComponent ~= nil ) then
+    
+        inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+    end
+
+    local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
+    if ( inventoryItemComponent ~= nil ) then
+
+        inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+    end
+
+    local inventoryItemRuntimeDataComponent = EntityService:GetComponent(entity, "InventoryItemRuntimeDataComponent")
+    if ( inventoryItemRuntimeDataComponent ~= nil ) then
+
+        inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue(cooldownValue)
+    end
+end)
