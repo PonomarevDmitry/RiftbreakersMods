@@ -36,7 +36,10 @@ function eraser_flora_tool:FindEntitiesToSelect( selectorComponent )
 
     self:FillFloraByTypeComponent(result, minVector, maxVector)
 
-    self:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
+    -- VegetationLifecycleEnablerComponent and VegetationLifecycleComponent only on server
+    if ( is_server ) then
+        self:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
+    end
 
     self:FillFloraByVegetationDummyRoot(result, minVector, maxVector)
 
