@@ -143,7 +143,7 @@ function provoke_creatures_tool:OnActivateSelectorRequest()
 
 
 
-    local mapperName = "ProvokeCreaturesTool_" .. tostring(cellEntity) .. "_" .. tostring(self.currentValue)
+    local mapperName = "ProvokeCreaturesToolRequest|" .. tostring(cellEntity) .. "|" .. tostring(self.currentValue)
 
     QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
 end
