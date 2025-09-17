@@ -115,3 +115,71 @@ local supported_item_blueprints = {
 }
 
 InjectChangeResourceBuildingBlueprintDatabaseComponent(supported_item_blueprints)
+
+
+
+
+
+local supported_item_blueprintsDict = {}
+
+for _,configObject in ipairs(supported_item_blueprints) do
+
+    local blueprintName = configObject.name
+
+    supported_item_blueprintsDict[blueprintName] = configObject
+end
+
+
+
+RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
+
+    if (evt == nil) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    if ( entity == nil or entity == INVALID_ID) then
+        return
+    end
+
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
+    local entityBlueprintName = EntityService:GetBlueprintName(entity)
+    if ( supported_item_blueprintsDict[entityBlueprintName] == nil ) then
+        return
+    end
+
+    local configObject = supported_item_blueprintsDict[entityBlueprintName]
+
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
+    if ( databaseEntity == nil ) then
+        return
+    end
+
+    if ( configObject.floats ) then
+
+        for fieldName,fieldValue in pairs(configObject.floats) do
+
+            databaseEntity:SetFloat(fieldName, tonumber( fieldValue ))
+        end
+    end
+
+    if ( configObject.strings ) then
+
+        for fieldName,fieldValue in pairs(configObject.strings) do
+
+            databaseEntity:SetString(fieldName, tostring( fieldValue ))
+        end
+    end
+
+    if ( configObject.ints ) then
+
+        for fieldName,fieldValue in pairs(configObject.ints) do
+
+            databaseEntity:SetInt(fieldName, tonumber( fieldValue ))
+        end
+    end
+end)
