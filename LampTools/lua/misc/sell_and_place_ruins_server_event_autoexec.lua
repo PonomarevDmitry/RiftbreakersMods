@@ -25,7 +25,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
-    local splitArray = Split( mapperName, "_" )
+    local splitArray = Split( mapperName, "|" )
     if ( #splitArray ~= 2 ) then
         return
     end

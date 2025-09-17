@@ -128,7 +128,7 @@ function sell_place_ruins_tool:OnActivateEntity( entity )
 
             if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-                local mapperName = "SellAndPlaceRuinsRequest_" .. tostring(self.playerId)
+                local mapperName = "SellAndPlaceRuinsRequest|" .. tostring(self.playerId)
 
                 QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
 

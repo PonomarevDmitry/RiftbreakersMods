@@ -587,7 +587,7 @@ function sell_all_map_cat_seller_tool:OnActivateSelectorRequest()
 
                     if ( ResourceManager:ResourceExists( "EntityBlueprint", ruinsBlueprintName ) ) then
 
-                        local mapperName = "SellAndPlaceRuinsRequest_" .. tostring(self.playerId)
+                        local mapperName = "SellAndPlaceRuinsRequest|" .. tostring(self.playerId)
 
                         QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
 
