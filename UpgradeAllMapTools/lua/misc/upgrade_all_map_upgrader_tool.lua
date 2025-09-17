@@ -382,8 +382,6 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
         return false
     end
 
-    LogService:Log("IsEntityApproved entity " .. EntityService:GetBlueprintName(entity) .. " " .. tostring(entity))
-
     if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
         return false
     end
