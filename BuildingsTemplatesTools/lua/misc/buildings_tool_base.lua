@@ -576,7 +576,7 @@ function buildings_tool_base:IsBlueprintAvailable( blueprintName )
     local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end

@@ -458,7 +458,7 @@ function replace_lamp_replacer_from_to_tool:IsLampBlueprintAvailable( blueprintN
     local researchName = self.lampBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end

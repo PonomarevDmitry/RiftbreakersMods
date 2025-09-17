@@ -437,7 +437,7 @@ function replace_trap_replacer_from_to_tool:IsTrapBlueprintAvailable( blueprintN
     local researchName = self.trapBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end

@@ -487,9 +487,11 @@ function detector:GetTreasureList()
 
 
 
+	local leadingPlayer = PlayerService:GetLeadingPlayer()
+
 	if ( self:IsResourceValidForBiome( "cobalt", "cobalt_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_cobalt" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_cobalt" )
 
 		if ( finished ) then
 
@@ -501,7 +503,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "titanium", "titanium_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_titanium" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_titanium" )
 
 		if ( finished ) then
 
@@ -513,7 +515,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "palladium", "palladium_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_palladium" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_palladium" )
 
 		if ( finished ) then
 
@@ -525,7 +527,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "uranium", "uranium_ore_vein", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_uranium" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_uranium" )
 
 		if ( finished ) then
 
@@ -541,7 +543,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "rhodonite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_rhodonite" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_rhodonite" )
 
 		if ( finished ) then
 
@@ -552,7 +554,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "tanzanite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_tanzanite" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_tanzanite" )
 
 		if ( finished ) then
 
@@ -563,7 +565,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "ferdonite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_ferdonite" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_ferdonite" )
 
 		if ( finished ) then
 
@@ -574,7 +576,7 @@ function detector:GetTreasureList()
 
 	if ( self:IsResourceValidForBiome( "hazenite", "", isCampaignBiome, biomeName, veinsList ) ) then
 
-		local finished = PlayerService:IsResearchUnlocked( "gui/menu/research/name/resource_handling_hazenite" )
+		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_hazenite" )
 
 		if ( finished ) then
 

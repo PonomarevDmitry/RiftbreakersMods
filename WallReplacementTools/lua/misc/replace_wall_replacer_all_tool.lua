@@ -413,7 +413,7 @@ function replace_wall_replacer_all_tool:IsWallBlueprintAvailable( blueprintName 
     local researchName = self.wallBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end

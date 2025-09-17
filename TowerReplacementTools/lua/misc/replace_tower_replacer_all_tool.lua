@@ -370,7 +370,7 @@ function replace_tower_replacer_all_tool:IstowerBlueprintAvailable( blueprintNam
     local researchName = self.towerBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end

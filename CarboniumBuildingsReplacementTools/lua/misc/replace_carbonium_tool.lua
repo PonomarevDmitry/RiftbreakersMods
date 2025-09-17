@@ -257,7 +257,7 @@ function replace_carbonium_tool:IsCarboniumBlueprintAvailable( blueprintName )
     local researchName = self.carboniumBluprintsResearch[blueprintName] or ""
     if ( researchName ~= "" ) then
 
-        if ( PlayerService:IsResearchUnlocked( researchName ) ) then
+        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
             return true
         end
     end
