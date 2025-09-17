@@ -14,7 +14,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     local mapperName = evt:GetMapperName()
 
-    if ( mapperName == "ActivateBioAnomaliesToolsSingle" ) then
+    if ( mapperName == "ActivateBioAnomaliesToolsSingleRequest" ) then
 
         local entity = evt:GetEntity()
 
@@ -36,11 +36,11 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
-    local stringNumber = string.find( mapperName, "ActivateBioAnomaliesToolsAll" )
+    local stringNumber = string.find( mapperName, "ActivateBioAnomaliesToolsAllRequest" )
 
     if ( stringNumber == 1 ) then
 
-        local splitArray = Split( mapperName, "_" )
+        local splitArray = Split( mapperName, "|" )
 
         if ( #splitArray ~= 2 ) then
             return

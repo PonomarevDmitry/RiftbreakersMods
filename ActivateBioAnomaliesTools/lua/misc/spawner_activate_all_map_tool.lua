@@ -147,7 +147,7 @@ function spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt )
 
     if ( buttonResult == "button_yes" ) then
 
-        local mapperName = "ActivateBioAnomaliesToolsAll_" .. tostring(self.playerId)
+        local mapperName = "ActivateBioAnomaliesToolsAllRequest|" .. tostring(self.playerId)
 
         QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end

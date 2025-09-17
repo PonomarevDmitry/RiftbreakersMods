@@ -133,7 +133,7 @@ function spawner_activate_tool:OnActivateEntity( entity )
         return
     end
 
-    QueueEvent("OperateActionMapperRequest", entity, "ActivateBioAnomaliesToolsSingle", false )
+    QueueEvent("OperateActionMapperRequest", entity, "ActivateBioAnomaliesToolsSingleRequest", false )
 end
 
 return spawner_activate_tool
