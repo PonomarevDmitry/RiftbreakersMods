@@ -374,9 +374,9 @@
 --    LogService:Log(text)
 --end)
 
---RegisterGlobalEventHandler("NewReseachAvailableEvent", function(evt)
+--RegisterGlobalEventHandler("NewResearchAvailableEvent", function(evt)
 --
---    local text = "NewReseachAvailableEvent " .. tostring(evt)
+--    local text = "NewResearchAvailableEvent " .. tostring(evt)
 --
 --    if (evt ~= nil) then
 --
