@@ -14,13 +14,13 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     local mapperName = evt:GetMapperName()
 
-    local stringNumber = string.find( mapperName, "RiftPortalTool" )
+    local stringNumber = string.find( mapperName, "RiftPortalToolRequest" )
 
     if ( stringNumber ~= 1 ) then
         return
     end
 
-    local splitArray = Split( mapperName, "_" )
+    local splitArray = Split( mapperName, "|" )
 
     if ( #splitArray ~= 3 ) then
         return

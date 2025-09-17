@@ -66,7 +66,7 @@ function rift_portal_tool:OnActivateSelectorRequest()
 
         local cellEntity = EnvironmentService:GetTerrainCell( position )
 
-        local mapperName = "RiftPortalTool_" .. tostring(self.playerId) .. "_" .. tostring(cellEntity)
+        local mapperName = "RiftPortalToolRequest|" .. tostring(self.playerId) .. "|" .. tostring(cellEntity)
 
         QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end
