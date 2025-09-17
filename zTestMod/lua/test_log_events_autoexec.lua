@@ -235,6 +235,36 @@
 --end)
 
 
+--RegisterGlobalEventHandler("NetReplicateEntityRequest", function(evt)
+--
+--    local text = "NetReplicateEntityRequest " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local options = evt:GetOptions()
+--
+--        local playerId = evt:GetPlayerId()
+--
+--        --local signature = evt:GetSignature()
+--
+--        --text = text .. "\n" .. "signature " .. tostring(signature)
+--
+--        text = text .. "\n" .. "playerId " .. tostring(playerId)
+--
+--        text = text .. "\n" .. "options " .. tostring(options)
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
 
 
 
