@@ -89,7 +89,7 @@ function light_switcher_mech_tool:OnActivateSelectorRequest()
 
     else
 
-        local mapperName = "LightsSwitchToolsSwitchPlayer_" .. tostring(self.playerId)
+        local mapperName = "LightsSwitchToolsSwitchPlayerRequest|" .. tostring(self.playerId)
 
         QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end

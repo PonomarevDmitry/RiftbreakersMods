@@ -146,11 +146,11 @@ function light_on_ff_tool:OnActivateEntity( entity )
 
         if( self.setPower ) then
 
-            mapperName = "LightsSwitchToolsEntityTurnOn"
+            mapperName = "LightsSwitchToolsEntityTurnOnRequest"
 
         else
 
-            mapperName = "LightsSwitchToolsEntityTurnOff"
+            mapperName = "LightsSwitchToolsEntityTurnOffRequest"
         end
 
         QueueEvent("OperateActionMapperRequest", entity, mapperName, false )

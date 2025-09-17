@@ -14,10 +14,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     local mapperName = evt:GetMapperName()
 
-    local stringNumber = string.find( mapperName, "LightsSwitchToolsSwitchPlayer" )
+    local stringNumber = string.find( mapperName, "LightsSwitchToolsSwitchPlayerRequest" )
     if ( stringNumber == 1 ) then
 
-        local splitArray = Split( mapperName, "_" )
+        local splitArray = Split( mapperName, "|" )
 
         if ( #splitArray ~= 2 ) then
             return
@@ -54,7 +54,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
 
 
-    if ( mapperName == "LightsSwitchToolsEntityTurnOn" or mapperName == "LightsSwitchToolsEntityTurnOff" ) then
+    if ( mapperName == "LightsSwitchToolsEntityTurnOnRequest" or mapperName == "LightsSwitchToolsEntityTurnOffRequest" ) then
 
         local entity = evt:GetEntity()
         if ( entity == nil or entity == INVALID_ID ) then
@@ -67,11 +67,11 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         local setPower = false
 
-        if ( mapperName == "LightsSwitchToolsEntityTurnOn" ) then
+        if ( mapperName == "LightsSwitchToolsEntityTurnOnRequest" ) then
 
             setPower = true
 
-        elseif ( mapperName == "LightsSwitchToolsEntityTurnOff" ) then
+        elseif ( mapperName == "LightsSwitchToolsEntityTurnOffRequest" ) then
 
             setPower = false
         end
