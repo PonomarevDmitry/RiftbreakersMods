@@ -359,15 +359,19 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
 
     local buildingComponent = EntityService:GetComponent( entity, "BuildingComponent" )
     if ( buildingComponent == nil ) then
+
+        if not ( is_server and is_client ) then
+
+            local mapperName = "ForceNetReplicateNextFrameRequest"
+
+            QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+        end
+
         return false
     end
 
     local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
     if ( mode ~= BM_COMPLETED ) then
-        return false
-    end
-
-    if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
         return false
     end
 
@@ -377,6 +381,8 @@ function upgrade_all_map_upgrader_tool:IsEntityApproved( entity )
     if ( buildingDesc == nil ) then
         return false
     end
+
+    LogService:Log("IsEntityApproved entity " .. EntityService:GetBlueprintName(entity) .. " " .. tostring(entity))
 
     if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
         return false
@@ -533,7 +539,16 @@ function upgrade_all_map_upgrader_tool:OnActivateSelectorRequest()
             goto labelContinue
         end
 
-        QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
+        if ( is_server and is_client ) then
+
+            QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
+
+        else
+
+            local mapperName = "UpgradeAllMapToolsForceUpgrade|" .. tostring(self.playerId)
+
+            QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+        end
 
         ::labelContinue::
     end

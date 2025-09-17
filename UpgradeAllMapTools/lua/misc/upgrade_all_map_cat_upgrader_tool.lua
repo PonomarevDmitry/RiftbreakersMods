@@ -421,15 +421,19 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
 
         local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
         if ( buildingComponent == nil ) then
+
+            if not ( is_server and is_client ) then
+
+                local mapperName = "ForceNetReplicateNextFrameRequest"
+
+                QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+            end
+
             goto labelContinue
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
         if ( mode ~= BM_COMPLETED ) then
-            goto labelContinue
-        end
-
-        if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
             goto labelContinue
         end
 
@@ -544,7 +548,16 @@ function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
             goto labelContinue
         end
 
-        QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
+        if ( is_server and is_client ) then
+
+            QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
+
+        else
+
+            local mapperName = "UpgradeAllMapToolsForceUpgrade|" .. tostring(self.playerId)
+
+            QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+        end
 
         ::labelContinue::
     end
