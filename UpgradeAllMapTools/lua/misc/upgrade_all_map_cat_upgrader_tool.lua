@@ -180,13 +180,13 @@ function upgrade_all_map_cat_upgrader_tool:GetIconsData()
     for entity in Iter( self.selectedEntities ) do
 
         if ( upgradeCostsEntities[entity] ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         upgradeCostsEntities[entity] = true
 
         if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
@@ -197,7 +197,7 @@ function upgrade_all_map_cat_upgrader_tool:GetIconsData()
 
         if ( buildingDescRef.limit_name == "hq" ) then
 
-            goto continue
+            goto labelContinue
         end
 
         local menuIcon = self:GetBuildingMenuIcon( blueprintName, buildingDescRef )
@@ -213,7 +213,7 @@ function upgrade_all_map_cat_upgrader_tool:GetIconsData()
             hashIconsCount[menuIcon] = hashIconsCount[menuIcon] + 1
         end
 
-        ::continue::
+        ::labelContinue::
     end
 
     return listIconsNames,hashIconsCount
@@ -261,13 +261,13 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
     for entity in Iter( self.selectedEntities ) do
 
         if ( upgradeCostsEntities[entity] ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         upgradeCostsEntities[entity] = true
 
         if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
+            goto labelContinue
         end
 
 
@@ -283,7 +283,7 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
 
             self:SetEntitySelectedMaterial( entity, "hologram/active" )
 
-            goto continue
+            goto labelContinue
         end
 
         self:SetEntitySelectedMaterial( entity, "hologram/pass" )
@@ -298,7 +298,7 @@ function upgrade_all_map_cat_upgrader_tool:OnUpdate()
             self.upgradeCosts[resourceCost.first] = self.upgradeCosts[resourceCost.first] + resourceCost.second
         end
 
-        ::continue::
+        ::labelContinue::
     end
 
 
@@ -376,17 +376,17 @@ function upgrade_all_map_cat_upgrader_tool:CalculateBuildingMenuIcon( blueprintN
                 local connectBlueprintName = connectRecord.value[j]
 
                 if ( not ResourceManager:ResourceExists( "EntityBlueprint", connectBlueprintName ) ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local connectBuildingDesc = BuildingService:GetBuildingDesc( connectBlueprintName )
                 if ( connectBuildingDesc == nil ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local connectBuildingDescRef = reflection_helper( connectBuildingDesc )
                 if ( connectBuildingDescRef == nil ) then
-                    goto continue
+                    goto labelContinue
                 end
 
                 local menuIcon = connectBuildingDescRef.menu_icon or ""
@@ -396,7 +396,7 @@ function upgrade_all_map_cat_upgrader_tool:CalculateBuildingMenuIcon( blueprintN
                 end
             end
 
-            ::continue::
+            ::labelContinue::
         end
     end
 
@@ -416,45 +416,45 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
     for entity in Iter( entitiesBuildings ) do
 
         if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local buildingComponent = EntityService:GetComponent(entity, "BuildingComponent")
         if ( buildingComponent == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
         if ( mode ~= BM_COMPLETED ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
         local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
         if ( buildingDesc == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         local buildingDescRef = reflection_helper( buildingDesc )
         if ( buildingDescRef == nil ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( self.categoryTemplate ~= "" ) then
 
             if ( buildingDescRef.category ~= self.selectedCategory ) then
 
-                goto continue
+                goto labelContinue
             end
         end
 
         if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local resourceRequirement = buildingDescRef.resource_requirement
@@ -479,7 +479,7 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
 
                                 if ( missingResource ~= "" and missingResource == resource ) then
 
-                                    goto continue
+                                    goto labelContinue
                                 end
                             end
                         end
@@ -490,7 +490,7 @@ function upgrade_all_map_cat_upgrader_tool:FindEntitiesToSelect( selectorCompone
 
         Insert( result, entity )
 
-        ::continue::
+        ::labelContinue::
     end
 
     return result
@@ -533,20 +533,20 @@ function upgrade_all_map_cat_upgrader_tool:OnActivateSelectorRequest()
         local buildingDescRef = reflection_helper( buildingDesc )
 
         if ( buildingDescRef.limit_name == "hq" ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( not BuildingService:IsBuildingFinished( entity ) ) then
-            goto continue
+            goto labelContinue
         end
 
         if ( not BuildingService:CanUpgrade( entity, self.playerId ) ) then
-            goto continue
+            goto labelContinue
         end
 
         QueueEvent( "UpgradeBuildingRequest", entity, self.playerId )
 
-        ::continue::
+        ::labelContinue::
     end
 end
 
