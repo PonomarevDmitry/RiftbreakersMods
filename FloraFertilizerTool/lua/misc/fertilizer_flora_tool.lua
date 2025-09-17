@@ -30,28 +30,18 @@ function fertilizer_flora_tool:FindEntitiesToSelect( selectorComponent )
     local minVector = VectorSub(selectorPosition, scaleVector)
     local maxVector = VectorAdd(selectorPosition, scaleVector)
 
-    local predicate = {
-        signature = "VegetationLifecycleEnablerComponent,VegetationLifecycleComponent"
-    }
-
-    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
-
     local result = {}
 
-    for entity in Iter( tempCollection ) do
+    self:FillFloraByTypeComponent(result, minVector, maxVector)
 
-        if ( entity == nil ) then
-            goto continue
-        end
-
-        if ( IndexOf( result, entity ) ~= nil ) then
-            goto continue
-        end
-
-        Insert( result, entity )
-
-        ::continue::
+    -- VegetationLifecycleEnablerComponent and VegetationLifecycleComponent only on server
+    if ( is_server ) then
+        self:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
     end
+
+    self:FillFloraByVegetationDummyRoot(result, minVector, maxVector)
+
+
 
     local sorter = function( t, lhs, rhs )
         local p1 = EntityService:GetPosition( lhs )
@@ -66,6 +56,132 @@ function fertilizer_flora_tool:FindEntitiesToSelect( selectorComponent )
     end)
 
     return result
+end
+
+function fertilizer_flora_tool:FillFloraByTypeComponent(result, minVector, maxVector)
+
+    self.predicateType = self.predicateType or {
+
+        signature = "TypeComponent",
+
+        filter = function(entity)
+
+            local blueprintName = EntityService:GetBlueprintName(entity)
+
+            if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
+                return false
+            end
+
+            if ( EntityService:CompareType( entity, "flora" ) ) then
+                return true
+            end
+
+            if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+
+                if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+
+                if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+
+                if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
+
+                    return true
+                end
+            end
+
+            return false
+        end
+    }
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateType )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+end
+
+function fertilizer_flora_tool:FillFloraByVegetationLifecycleEnablerComponent(result, minVector, maxVector)
+
+    self.predicateVegetationLifecycle = self.predicateVegetationLifecycle or {
+        signature = "VegetationLifecycleEnablerComponent"
+    }
+
+    tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateVegetationLifecycle )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+        if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
+            goto labelContinue
+        end
+
+        local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( enablerComponent == nil ) then
+            goto labelContinue
+        end
+
+        local enablerComponentRef = reflection_helper(enablerComponent)
+        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+end
+
+function fertilizer_flora_tool:FillFloraByVegetationDummyRoot(result, minVector, maxVector)
+
+    local entities = FindService:FindEntitiesByBlueprintInBox( "props/base/vegetation_dummy_root", minVector, maxVector )
+
+    for entity in Iter( entities ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+        if ( enablerComponent ~= nil ) then
+
+            local enablerComponentRef = reflection_helper(enablerComponent)
+            if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
+                goto labelContinue
+            end
+        end
+
+        Insert(result, entity)
+
+        ::labelContinue::
+    end
 end
 
 function fertilizer_flora_tool:AddedToSelection( entity )
@@ -108,7 +224,6 @@ function fertilizer_flora_tool:OnActivateEntity( entity )
         if self.effect_blueprint ~= "" then
             EffectService:SpawnEffect( entity, self.effect_blueprint )
         end
-
     else
 
         QueueEvent("OperateActionMapperRequest", entity, "FloraFertilizerToolRequest", false )
