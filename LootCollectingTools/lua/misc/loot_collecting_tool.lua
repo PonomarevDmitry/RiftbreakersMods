@@ -136,7 +136,7 @@ function loot_collecting_tool:OnActivateEntity( entity )
         end
     else
 
-        local mapperName = "LootCollectingToolsSingle_" .. tostring(self.playerId)
+        local mapperName = "LootCollectingToolsSingleRequest|" .. tostring(self.playerId)
 
         QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
     end

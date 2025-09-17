@@ -34,7 +34,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     local mapperName = evt:GetMapperName()
 
-    local stringNumber = string.find( mapperName, "LootCollectingToolsSingle" )
+    local stringNumber = string.find( mapperName, "LootCollectingToolsSingleRequest" )
     if ( stringNumber == 1 ) then
 
         local entity = evt:GetEntity()
@@ -46,7 +46,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return false
         end
 
-        local splitArray = Split( mapperName, "_" )
+        local splitArray = Split( mapperName, "|" )
 
         if ( #splitArray ~= 2 ) then
             return
@@ -87,10 +87,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
 
 
-    local stringNumber = string.find( mapperName, "LootCollectingToolsAll" )
+    local stringNumber = string.find( mapperName, "LootCollectingToolsAllRequest" )
     if ( stringNumber == 1 ) then
 
-        local splitArray = Split( mapperName, "_" )
+        local splitArray = Split( mapperName, "|" )
 
         if ( #splitArray ~= 2 ) then
             return

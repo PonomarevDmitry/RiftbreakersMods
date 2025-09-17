@@ -37,7 +37,7 @@ function loot_collecting_all_map_tool:OnUpdate()
 
         else
 
-            local mapperName = "LootCollectingToolsAll_" .. tostring(self.playerId)
+            local mapperName = "LootCollectingToolsAllRequest|" .. tostring(self.playerId)
 
             QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
         end
@@ -86,7 +86,7 @@ function loot_collecting_all_map_tool:OnActivateSelectorRequest()
 
     else
 
-        local mapperName = "LootCollectingToolsAll_" .. tostring(self.playerId)
+        local mapperName = "LootCollectingToolsAllRequest|" .. tostring(self.playerId)
 
         QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
     end
