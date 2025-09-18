@@ -12,8 +12,6 @@ RegisterGlobalEventHandler("NewResearchAvailableEvent", function(evt)
         return
     end
 
-    local leadingPlayer = PlayerService:GetLeadingPlayer()
-
     local buildingBuild = BuildingService:HasBuildingWithBp("buildings/main/communications_hub")
 
     if ( not buildingBuild ) then
@@ -21,6 +19,14 @@ RegisterGlobalEventHandler("NewResearchAvailableEvent", function(evt)
     end
 
     local researchName = evt:GetName()
+
+    if ( researchName == nil or researchName == "" ) then
+        return
+    end
+
+
+
+    local leadingPlayer = PlayerService:GetLeadingPlayer()
 
     QueueEvent( "AddToResearchRequest", INVALID_ID, researchName, leadingPlayer )
 end)
