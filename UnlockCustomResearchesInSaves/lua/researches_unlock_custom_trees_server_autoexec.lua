@@ -1,6 +1,14 @@
+if ( not is_server ) then
+    return
+end
+
 local Research = require("lua/utils/researches_unlock_custom_trees_utils.lua")
 
 local researches_unlock_custom_trees_autoexec = function(evt)
+
+    if ( not is_server ) then
+        return
+    end
 
     local playerId = evt:GetPlayerId()
 
