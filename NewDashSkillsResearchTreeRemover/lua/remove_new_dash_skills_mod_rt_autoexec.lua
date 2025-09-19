@@ -1,8 +1,16 @@
+if ( not is_server ) then
+    return
+end
+
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 require("lua/utils/reflection.lua")
 
 local removeResearchTree = function(categoryName)
+
+    if ( not is_server ) then
+        return
+    end
 
     local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
     if ( researchComponent == nil ) then
