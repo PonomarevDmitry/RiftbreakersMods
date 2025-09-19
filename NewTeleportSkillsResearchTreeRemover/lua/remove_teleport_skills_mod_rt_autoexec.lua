@@ -1,61 +1,72 @@
------- #warning Commented Local ------require("lua/utils/table_utils.lua")
------- #warning Commented Local ------require("lua/utils/string_utils.lua")
------- #warning Commented Local ------require("lua/utils/reflection.lua")
 ------ #warning Commented Local ------
------- #warning Commented Local ------local removeResearchTree = function(categoryName)
------- #warning Commented Local ------
------- #warning Commented Local ------    local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
------- #warning Commented Local ------    if ( researchComponent == nil ) then
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    local researchComponentRef = reflection_helper( researchComponent )
------- #warning Commented Local ------
------- #warning Commented Local ------    local categories = researchComponentRef.research
------- #warning Commented Local ------
------- #warning Commented Local ------    for i=1,categories.count do
------- #warning Commented Local ------
------- #warning Commented Local ------        local category = categories[i]
------- #warning Commented Local ------
------- #warning Commented Local ------        if ( category.category == categoryName ) then
------- #warning Commented Local ------
------- #warning Commented Local ------            LogService:Log("removeResearchTree category '" .. categoryName .. "' FOUNDED and REMOVED.")
------- #warning Commented Local ------
------- #warning Commented Local ------            local categoryContainer = researchComponent:GetField("research"):ToContainer()
------- #warning Commented Local ------
------- #warning Commented Local ------            categoryContainer:EraseItem( i - 1 )
------- #warning Commented Local ------
------- #warning Commented Local ------            return
------- #warning Commented Local ------        end
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------local removeResearchTreeEvent = function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    local playerId = evt:GetPlayerId()
------- #warning Commented Local ------
------- #warning Commented Local ------    local player = PlayerService:GetPlayerControlledEnt( playerId )
------- #warning Commented Local ------
------- #warning Commented Local ------    if ( player == nil or player == INVALID_ID ) then
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------    
------- #warning Commented Local ------    local categoryName = "gui/menu/research/category_teleport_skills"
------- #warning Commented Local ------
------- #warning Commented Local ------    removeResearchTree(categoryName)
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    removeResearchTreeEvent(evt)
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    removeResearchTreeEvent(evt)
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    removeResearchTreeEvent(evt)
------- #warning Commented Local ------end)
+do return end
+
+if ( not is_server ) then
+    return
+end
+
+require("lua/utils/table_utils.lua")
+require("lua/utils/string_utils.lua")
+require("lua/utils/reflection.lua")
+
+local removeResearchTree = function(categoryName)
+
+    if ( not is_server ) then
+        return
+    end
+
+    local researchComponent = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if ( researchComponent == nil ) then
+        return
+    end
+
+    local researchComponentRef = reflection_helper( researchComponent )
+
+    local categories = researchComponentRef.research
+
+    for i=1,categories.count do
+
+        local category = categories[i]
+
+        if ( category.category == categoryName ) then
+
+            LogService:Log("removeResearchTree category '" .. categoryName .. "' FOUNDED and REMOVED.")
+
+            local categoryContainer = researchComponent:GetField("research"):ToContainer()
+
+            categoryContainer:EraseItem( i - 1 )
+
+            return
+        end
+    end
+end
+
+local removeResearchTreeEvent = function(evt)
+
+    local playerId = evt:GetPlayerId()
+
+    local player = PlayerService:GetPlayerControlledEnt( playerId )
+
+    if ( player == nil or player == INVALID_ID ) then
+        return
+    end
+    
+    local categoryName = "gui/menu/research/category_teleport_skills"
+
+    removeResearchTree(categoryName)
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    removeResearchTreeEvent(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    removeResearchTreeEvent(evt)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    removeResearchTreeEvent(evt)
+end)
