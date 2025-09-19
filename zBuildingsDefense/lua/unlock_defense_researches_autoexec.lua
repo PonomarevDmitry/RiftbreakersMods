@@ -1,3 +1,5 @@
+LogService:Log("Autoexec Load is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+
 if ( not is_server ) then
     return
 end
