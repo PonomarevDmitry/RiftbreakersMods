@@ -24,10 +24,13 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
-    EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
+    if ( EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent" ) ) then
 
-    EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+        EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
 
-    EffectService:SpawnEffect( entity, "effects/fertilizer_flora_tool/fertilize_big" )
+        EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+
+        EffectService:SpawnEffect( entity, "effects/fertilizer_flora_tool/fertilize_big" )
+    end
 
 end)

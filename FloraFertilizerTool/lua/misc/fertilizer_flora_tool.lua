@@ -68,30 +68,23 @@ function fertilizer_flora_tool:FillFloraByTypeComponent(result, minVector, maxVe
 
             local blueprintName = EntityService:GetBlueprintName(entity)
 
-            if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
-                return false
-            end
-
             if ( EntityService:CompareType( entity, "flora" ) ) then
                 return true
             end
 
-            if ( mod_flora_eraser_enable_creeper and mod_flora_eraser_enable_creeper == 1 ) then
+            if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
 
-                if ( string.find(blueprintName, "units/ground/cosmic_crystal_creeper_branch" ) ~= nil ) then
+                return true
+            end
 
-                    return true
-                end
+            if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
 
-                if ( string.find(blueprintName, "units/ground/crystal_creeper_branch" ) ~= nil ) then
+                return true
+            end
 
-                    return true
-                end
+            if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
 
-                if ( string.find(blueprintName, "units/ground/creeper_branch" ) ~= nil ) then
-
-                    return true
-                end
+                return true
             end
 
             return false
@@ -134,18 +127,8 @@ function fertilizer_flora_tool:FillFloraByVegetationLifecycleEnablerComponent(re
             goto labelContinue
         end
 
-        local blueprintName = EntityService:GetBlueprintName(entity)
-        if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
-            goto labelContinue
-        end
-
         local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
         if ( enablerComponent == nil ) then
-            goto labelContinue
-        end
-
-        local enablerComponentRef = reflection_helper(enablerComponent)
-        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
             goto labelContinue
         end
 
@@ -167,15 +150,6 @@ function fertilizer_flora_tool:FillFloraByVegetationDummyRoot(result, minVector,
 
         if ( IndexOf( result, entity ) ~= nil ) then
             goto labelContinue
-        end
-
-        local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
-        if ( enablerComponent ~= nil ) then
-
-            local enablerComponentRef = reflection_helper(enablerComponent)
-            if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
-                goto labelContinue
-            end
         end
 
         Insert(result, entity)
@@ -217,12 +191,15 @@ function fertilizer_flora_tool:OnActivateEntity( entity )
 
     if ( is_server and is_client ) then
 
-        EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
+        if ( EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent" ) ) then
 
-        EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+            EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
 
-        if self.effect_blueprint ~= "" then
-            EffectService:SpawnEffect( entity, self.effect_blueprint )
+            EntityService:CreateComponent(entity, "VegetationLifecycleComponent") -- create new component that will trigger re-growth on next update
+
+            if self.effect_blueprint ~= "" then
+                EffectService:SpawnEffect( entity, self.effect_blueprint )
+            end
         end
     else
 
