@@ -137,6 +137,46 @@ local supported_item_blueprints = {
             ["drone_visible_on_spot"] = 0,
         },
     },
+
+    {
+        ["name"] = "buildings/megastructures/nanobot_center",
+        ["ints"] = {
+
+            ["number_of_ai_cores"] = 80,
+        },
+    },
+
+    {
+        ["name"] = "buildings/megastructures/nanobot_center_lvl_2",
+        ["ints"] = {
+
+            ["number_of_ai_cores"] = 120,
+        },
+    },
+
+    {
+        ["name"] = "buildings/megastructures/nanobot_center_lvl_3",
+        ["ints"] = {
+
+            ["number_of_ai_cores"] = 160,
+        },
+    },
+
+    {
+        ["name"] = "buildings/megastructures/nanobot_center_lvl_4",
+        ["ints"] = {
+
+            ["number_of_ai_cores"] = 200,
+        },
+    },
+
+    {
+        ["name"] = "buildings/megastructures/nanobot_center_lvl_5",
+        ["ints"] = {
+
+            ["number_of_ai_cores"] = 240,
+        },
+    },
 }
 
 InjectChangeResourceBuildingBlueprintDatabaseComponent(supported_item_blueprints)
