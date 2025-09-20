@@ -1,37 +1,40 @@
------- #warning Commented Local ------local supported_item_blueprints = {
 ------ #warning Commented Local ------
------- #warning Commented Local ------     "buildings/defense/portal",
------- #warning Commented Local ------     "buildings/defense/portal_ghost",
------- #warning Commented Local ------}
------- #warning Commented Local ------
------- #warning Commented Local ------local change_portal_building_mode_autoexec = function()
------- #warning Commented Local ------
------- #warning Commented Local ------    for _,blueprintName in ipairs(supported_item_blueprints) do
------- #warning Commented Local ------
------- #warning Commented Local ------        local blueprint = ResourceManager:GetBlueprint( blueprintName )
------- #warning Commented Local ------
------- #warning Commented Local ------        local buildingDesc = blueprint:GetComponent("BuildingDesc")
------- #warning Commented Local ------
------- #warning Commented Local ------        if ( buildingDesc ~= nil ) then
------- #warning Commented Local ------
------- #warning Commented Local ------            buildingDesc:GetField("building_mode"):SetValue("portal_construction")
------- #warning Commented Local ------        end
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------change_portal_building_mode_autoexec()
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    change_portal_building_mode_autoexec()
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    change_portal_building_mode_autoexec()
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    change_portal_building_mode_autoexec()
------- #warning Commented Local ------end)
+do return end
+
+local supported_item_blueprints = {
+
+     "buildings/defense/portal",
+     "buildings/defense/portal_ghost",
+}
+
+local change_portal_building_mode_autoexec = function()
+
+    for _,blueprintName in ipairs(supported_item_blueprints) do
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        local buildingDesc = blueprint:GetComponent("BuildingDesc")
+
+        if ( buildingDesc ~= nil ) then
+
+            buildingDesc:GetField("building_mode"):SetValue("portal_construction")
+        end
+    end
+end
+
+change_portal_building_mode_autoexec()
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    change_portal_building_mode_autoexec()
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    change_portal_building_mode_autoexec()
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    change_portal_building_mode_autoexec()
+end)
