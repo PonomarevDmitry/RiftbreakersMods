@@ -1,100 +1,103 @@
------- #warning Commented Local ------require("lua/utils/string_utils.lua")
------- #warning Commented Local ------require("lua/utils/table_utils.lua")
------- #warning Commented Local ------require("lua/utils/reflection.lua")
 ------ #warning Commented Local ------
------- #warning Commented Local ------local InjectChangeBlueprintDistributionRadiusValues = function(blueprintName, newDistributionRadius)
------- #warning Commented Local ------
------- #warning Commented Local ------    local blueprint = ResourceManager:GetBlueprint( blueprintName )
------- #warning Commented Local ------    if ( blueprint == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    local resourceStorageComponent = blueprint:GetComponent("ResourceStorageComponent")
------- #warning Commented Local ------    if ( resourceStorageComponent == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' ResourceStorageComponent NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    local storagesArray = resourceStorageComponent:GetField("Storages"):ToContainer()
------- #warning Commented Local ------    if ( storagesArray == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' resourceStorageComponent:GetField('Storages'):ToContainer() NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------        
------- #warning Commented Local ------    for i=0,storagesArray:GetItemCount()-1 do
------- #warning Commented Local ------
------- #warning Commented Local ------        local storageObject = storagesArray:GetItem(i)
------- #warning Commented Local ------            
------- #warning Commented Local ------        if ( storageObject == nil ) then
------- #warning Commented Local ------            LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' storageObject == nil")
------- #warning Commented Local ------
------- #warning Commented Local ------            goto continue
------- #warning Commented Local ------        end
------- #warning Commented Local ------
------- #warning Commented Local ------        local storageObjectRef = reflection_helper(storageObject)
------- #warning Commented Local ------
------- #warning Commented Local ------        local groupId = storageObjectRef.group
------- #warning Commented Local ------
------- #warning Commented Local ------        --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' groupId = " .. tostring(groupId))
------- #warning Commented Local ------
------- #warning Commented Local ------        if ( groupId == 12 ) then
------- #warning Commented Local ------
------- #warning Commented Local ------            if ( storageObjectRef.resource == nil ) then
------- #warning Commented Local ------                --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint 'player/player' storageObjectRef.resource == nil")
------- #warning Commented Local ------
------- #warning Commented Local ------                goto continue
------- #warning Commented Local ------            end
------- #warning Commented Local ------
------- #warning Commented Local ------            if ( storageObjectRef.resource.resource == nil ) then
------- #warning Commented Local ------                --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint 'player/player' storageObjectRef.resource.resource == nil")
------- #warning Commented Local ------
------- #warning Commented Local ------                goto continue
------- #warning Commented Local ------            end
------- #warning Commented Local ------
------- #warning Commented Local ------            local resourceId = storageObjectRef.resource.resource.id
------- #warning Commented Local ------
------- #warning Commented Local ------            --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' resourceId  = " .. tostring(resourceId) .. " groupId = " .. tostring(groupId))
------- #warning Commented Local ------
------- #warning Commented Local ------            if ( resourceId ~= nil and resourceId ~= "" and resourceId == "energy" ) then
------- #warning Commented Local ------
------- #warning Commented Local ------                storageObject:GetField("distribution_radius"):SetValue(newDistributionRadius)
------- #warning Commented Local ------            end
------- #warning Commented Local ------        end
------- #warning Commented Local ------
------- #warning Commented Local ------        ::continue::
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------local InjectChangeListBlueprintDistributionRadiusValues = function(blueprintStorageList)
------- #warning Commented Local ------
------- #warning Commented Local ------    for _, blueprintName in ipairs(blueprintStorageList) do
------- #warning Commented Local ------
------- #warning Commented Local ------        InjectChangeBlueprintDistributionRadiusValues(blueprintName, "10")
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------local new_storage_list = {
------- #warning Commented Local ------
------- #warning Commented Local ------    "buildings/decorations/base_lamp",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_blue",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_cyan",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_green",
------- #warning Commented Local ------
------- #warning Commented Local ------    "buildings/decorations/base_lamp_orange",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_red",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_violet",
------- #warning Commented Local ------    "buildings/decorations/base_lamp_yellow",
------- #warning Commented Local ------    
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_blue",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_cyan",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_green",
------- #warning Commented Local ------
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_orange",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_red",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_violet",
------- #warning Commented Local ------    "buildings/decorations/crystal_lamp_yellow",
------- #warning Commented Local ------}
------- #warning Commented Local ------
------- #warning Commented Local ------InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
+do return end
+
+require("lua/utils/string_utils.lua")
+require("lua/utils/table_utils.lua")
+require("lua/utils/reflection.lua")
+
+local InjectChangeBlueprintDistributionRadiusValues = function(blueprintName, newDistributionRadius)
+
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
+        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
+        return
+    end
+
+    local resourceStorageComponent = blueprint:GetComponent("ResourceStorageComponent")
+    if ( resourceStorageComponent == nil ) then
+        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' ResourceStorageComponent NOT EXISTS.")
+        return
+    end
+
+    local storagesArray = resourceStorageComponent:GetField("Storages"):ToContainer()
+    if ( storagesArray == nil ) then
+        LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' resourceStorageComponent:GetField('Storages'):ToContainer() NOT EXISTS.")
+        return
+    end
+        
+    for i=0,storagesArray:GetItemCount()-1 do
+
+        local storageObject = storagesArray:GetItem(i)
+            
+        if ( storageObject == nil ) then
+            LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' storageObject == nil")
+
+            goto continue
+        end
+
+        local storageObjectRef = reflection_helper(storageObject)
+
+        local groupId = storageObjectRef.group
+
+        --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' groupId = " .. tostring(groupId))
+
+        if ( groupId == 12 ) then
+
+            if ( storageObjectRef.resource == nil ) then
+                --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint 'player/player' storageObjectRef.resource == nil")
+
+                goto continue
+            end
+
+            if ( storageObjectRef.resource.resource == nil ) then
+                --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint 'player/player' storageObjectRef.resource.resource == nil")
+
+                goto continue
+            end
+
+            local resourceId = storageObjectRef.resource.resource.id
+
+            --LogService:Log("InjectChangeBlueprintDistributionRadiusValues Blueprint '" .. blueprintName .. "' resourceId  = " .. tostring(resourceId) .. " groupId = " .. tostring(groupId))
+
+            if ( resourceId ~= nil and resourceId ~= "" and resourceId == "energy" ) then
+
+                storageObject:GetField("distribution_radius"):SetValue(newDistributionRadius)
+            end
+        end
+
+        ::continue::
+    end
+end
+
+local InjectChangeListBlueprintDistributionRadiusValues = function(blueprintStorageList)
+
+    for _, blueprintName in ipairs(blueprintStorageList) do
+
+        InjectChangeBlueprintDistributionRadiusValues(blueprintName, "10")
+    end
+end
+
+local new_storage_list = {
+
+    "buildings/decorations/base_lamp",
+    "buildings/decorations/base_lamp_blue",
+    "buildings/decorations/base_lamp_cyan",
+    "buildings/decorations/base_lamp_green",
+
+    "buildings/decorations/base_lamp_orange",
+    "buildings/decorations/base_lamp_red",
+    "buildings/decorations/base_lamp_violet",
+    "buildings/decorations/base_lamp_yellow",
+    
+    "buildings/decorations/crystal_lamp",
+    "buildings/decorations/crystal_lamp_blue",
+    "buildings/decorations/crystal_lamp_cyan",
+    "buildings/decorations/crystal_lamp_green",
+
+    "buildings/decorations/crystal_lamp_orange",
+    "buildings/decorations/crystal_lamp_red",
+    "buildings/decorations/crystal_lamp_violet",
+    "buildings/decorations/crystal_lamp_yellow",
+}
+
+InjectChangeListBlueprintDistributionRadiusValues(new_storage_list)
