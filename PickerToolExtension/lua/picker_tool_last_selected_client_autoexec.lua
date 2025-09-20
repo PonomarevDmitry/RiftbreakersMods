@@ -1,3 +1,7 @@
+if ( not is_client ) then
+    return
+end
+
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
@@ -5,6 +9,10 @@ require("lua/utils/reflection.lua")
 local LastSelectedBlueprintsListUtils = require("lua/utils/picker_tool_last_selected_blueprints_utils.lua")
 
 RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
 
     local blueprintName = evt:GetBlueprint() or ""
     if ( blueprintName == "" or blueprintName == nil ) then
