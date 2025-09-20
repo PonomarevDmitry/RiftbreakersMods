@@ -1,3 +1,6 @@
+------ #warning Commented Local ------
+do return end
+
 local InjectChangeGameplayResourceDefValues = function(resource, hudVisible, order)
 
     local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resource)
@@ -45,4 +48,4 @@ local new_resource_values = {
     },
 }
 
------- #warning Commented Local ------InjectChangeListGameplayResourceDefValues(new_resource_values)
+InjectChangeListGameplayResourceDefValues(new_resource_values)
