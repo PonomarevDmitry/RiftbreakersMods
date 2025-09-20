@@ -330,10 +330,28 @@ function floor_center_tool:GetFloorBlueprintName( selectorDB, parameterName, def
 
     local blueprintName = ""
 
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
-        blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultFloor)
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            blueprintName = globalPlayerEntityDB:GetStringOrDefault(parameterName, defaultFloor)
+        end
     end
+
+
+    if ( blueprintName == "" ) then
+
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultFloor)
+        end
+    end
+
 
     if ( blueprintName == "" ) then
 

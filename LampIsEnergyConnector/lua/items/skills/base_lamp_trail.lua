@@ -50,15 +50,33 @@ function base_lamp_trail:GetLampBlueprint()
 
     local blueprintName = ""
 
-    local selector = PlayerService:GetPlayerSelector(self.playerId)
-    if ( selector and selector ~= INVALID_ID ) then
 
-        local selectorDB = EntityService:GetOrCreateDatabase( selector )
-        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
 
-            blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultBlueprint)
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            blueprintName = globalPlayerEntityDB:GetStringOrDefault(parameterName, defaultBlueprint)
         end
     end
+
+
+    if ( blueprintName == "" ) then
+
+        local selector = PlayerService:GetPlayerSelector(self.playerId)
+        if ( selector and selector ~= INVALID_ID ) then
+
+            local selectorDB = EntityService:GetOrCreateDatabase( selector )
+            if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+                blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultBlueprint)
+            end
+        end
+    end
+
 
     if ( blueprintName == "" ) then
 

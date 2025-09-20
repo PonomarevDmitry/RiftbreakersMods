@@ -93,10 +93,28 @@ function diagonal_wall_tool:GetWallBlueprint( selectorDB )
 
     local blueprintName = ""
 
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
-        blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultWall)
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            blueprintName = globalPlayerEntityDB:GetStringOrDefault(parameterName, defaultWall)
+        end
     end
+
+
+    if ( blueprintName == "" ) then
+
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultWall)
+        end
+    end
+
 
     if ( blueprintName == "" ) then
 

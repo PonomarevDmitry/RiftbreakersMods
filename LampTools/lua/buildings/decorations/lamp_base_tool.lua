@@ -82,10 +82,28 @@ function lamp_base_tool:GetLampBlueprintName( selectorDB )
 
     local blueprintName = ""
 
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
-        blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultLamp)
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            blueprintName = globalPlayerEntityDB:GetStringOrDefault(parameterName, defaultLamp)
+        end
     end
+
+
+    if ( blueprintName == "" ) then
+
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            blueprintName = selectorDB:GetStringOrDefault(parameterName, defaultLamp)
+        end
+    end
+
 
     if ( blueprintName == "" ) then
 
