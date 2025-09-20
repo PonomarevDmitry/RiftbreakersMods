@@ -588,15 +588,7 @@ end
 
 function upgrade_all_map_cat_upgrader_tool:FillLastCategoriesList(defaultModesArray, modeSelectLast, selector)
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetOrCreateDatabase( selector )
-
-    self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+    self.lastSelectedCategoriesArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selector)
 
     if ( self.selectedCategory ~= "" and self.selectedCategory ~= nil ) then
 

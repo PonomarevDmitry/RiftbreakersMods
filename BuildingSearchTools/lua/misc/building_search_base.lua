@@ -641,15 +641,7 @@ function building_search_base:FillLastBuildingsList(defaultModesArray, modeBuild
 
     local parameterName = "$last_selected_blueprint"
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetOrCreateDatabase( selector )
-
-    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selectorDB, campaignDatabase)
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selector)
 
     local modeValuesArray = Copy(defaultModesArray)
 

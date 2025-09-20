@@ -245,15 +245,7 @@ end
 
 function replace_trap_picker_tool:FillLastBuildingsList(defaultModesArray, modeBuildingLastSelected, selector)
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local selectorDB = EntityService:GetOrCreateDatabase( selector )
-
-    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selectorDB, campaignDatabase)
+    self.lastSelectedBuildingsArray = LastSelectedBlueprintsListUtils:GetCurrentList(self.list_name, selector)
 
     if ( self.selectedBuildingBlueprint ~= "" and self.selectedBuildingBlueprint ~= nil and ResourceManager:ResourceExists( "EntityBlueprint", self.selectedBuildingBlueprint ) ) then
 
