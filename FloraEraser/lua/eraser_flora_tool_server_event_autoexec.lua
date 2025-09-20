@@ -24,6 +24,35 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
+    -- Ignore Poogret plant
+    local blueprintName = EntityService:GetBlueprintName(entity)
+    if ( string.find(blueprintName, "props/special/interactive/poogret_plant" ) ~= nil ) then
+        return
+    end
+    
+    -- Ignore Poogret plant
+    local enablerComponent = EntityService:GetComponent( entity, "VegetationLifecycleEnablerComponent")
+    if ( enablerComponent ~= nil ) then
+
+        local enablerComponentRef = reflection_helper(enablerComponent)
+
+        if ( enablerComponentRef.chain_destination and enablerComponentRef.chain_destination.hash ) then
+
+            local poogretPlantSmall = CalcHash("props/special/interactive/poogret_plant_small_01")
+            local poogretPlantMedium = CalcHash("props/special/interactive/poogret_plant_medium_01")
+            local poogretPlantBig = CalcHash("props/special/interactive/poogret_plant_big_01")
+
+            local nextPlantHash = enablerComponentRef.chain_destination.hash
+
+            if ( nextPlantHash == poogretPlantSmall or nextPlantHash == poogretPlantMedium or nextPlantHash == poogretPlantBig ) then
+
+                return
+            end
+        end
+    end
+
+    
+
     EntityService:RemoveComponent( entity, "VegetationLifecycleEnablerComponent" )
 
     EntityService:RequestDestroyPattern( entity, "default" )

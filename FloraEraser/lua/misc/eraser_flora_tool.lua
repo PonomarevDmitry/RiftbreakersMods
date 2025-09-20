@@ -147,8 +147,14 @@ function eraser_flora_tool:FillFloraByVegetationLifecycleEnablerComponent(result
         end
 
         local enablerComponentRef = reflection_helper(enablerComponent)
-        if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
-            goto labelContinue
+        if ( enablerComponentRef.chain_destination and enablerComponentRef.chain_destination.hash ) then
+
+            local nextPlantHash = enablerComponentRef.chain_destination.hash
+
+            if ( nextPlantHash == self.poogretPlantSmall or nextPlantHash == self.poogretPlantMedium or nextPlantHash == self.poogretPlantBig ) then
+
+                goto labelContinue
+            end
         end
 
         Insert( result, entity )
@@ -175,8 +181,14 @@ function eraser_flora_tool:FillFloraByVegetationDummyRoot(result, minVector, max
         if ( enablerComponent ~= nil ) then
 
             local enablerComponentRef = reflection_helper(enablerComponent)
-            if ( enablerComponentRef.chain_destination and (enablerComponentRef.chain_destination.hash == self.poogretPlantSmall or enablerComponentRef.chain_destination.hash == self.poogretPlantMedium or enablerComponentRef.chain_destination.hash == self.poogretPlantBig)) then
-                goto labelContinue
+            if ( enablerComponentRef.chain_destination and enablerComponentRef.chain_destination.hash ) then
+
+                local nextPlantHash = enablerComponentRef.chain_destination.hash
+
+                if ( nextPlantHash == self.poogretPlantSmall or nextPlantHash == self.poogretPlantMedium or nextPlantHash == self.poogretPlantBig ) then
+
+                    goto labelContinue
+                end
             end
         end
 
