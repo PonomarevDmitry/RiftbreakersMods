@@ -1,116 +1,119 @@
------- #warning Commented Local ------require("lua/utils/reflection.lua")
------- #warning Commented Local ------require("lua/utils/table_utils.lua")
 ------ #warning Commented Local ------
------- #warning Commented Local ------local InjectChangeScannerDronesEntityModDescValues = function(blueprintName, hashChanges)
------- #warning Commented Local ------
------- #warning Commented Local ------    local blueprint = ResourceManager:GetBlueprint( blueprintName )
------- #warning Commented Local ------    if ( blueprint == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    local entityModDesc = blueprint:GetComponent("EntityModDesc")
------- #warning Commented Local ------    if ( entityModDesc == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' EntityModDesc NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    local mod_flagsContainer = entityModDesc:GetField("mod_flags"):ToContainer()
------- #warning Commented Local ------    if ( mod_flagsContainer == nil ) then
------- #warning Commented Local ------        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModDesc:GetField('mod_flags'):ToContainer() NOT EXISTS.")
------- #warning Commented Local ------        return
------- #warning Commented Local ------    end
------- #warning Commented Local ------
------- #warning Commented Local ------    for i=0,mod_flagsContainer:GetItemCount()-1 do
------- #warning Commented Local ------
------- #warning Commented Local ------        local entityModTypeEntityMod = mod_flagsContainer:GetItem(i)
------- #warning Commented Local ------
------- #warning Commented Local ------        if ( entityModTypeEntityMod == nil ) then
------- #warning Commented Local ------            LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod == nil")
------- #warning Commented Local ------
------- #warning Commented Local ------            goto continue
------- #warning Commented Local ------        end
------- #warning Commented Local ------
------- #warning Commented Local ------        local entityModTypeEntityModRef = reflection_helper(entityModTypeEntityMod)
------- #warning Commented Local ------        if ( entityModTypeEntityModRef.key == nil or entityModTypeEntityModRef.value == nil ) then
------- #warning Commented Local ------
------- #warning Commented Local ------            goto continue
------- #warning Commented Local ------        end
------- #warning Commented Local ------
------- #warning Commented Local ------        local keyValue = tonumber(entityModTypeEntityModRef.key)
------- #warning Commented Local ------
------- #warning Commented Local ------        if ( hashChanges[keyValue] == nil ) then
------- #warning Commented Local ------
------- #warning Commented Local ------            goto continue
------- #warning Commented Local ------        end
------- #warning Commented Local ------
------- #warning Commented Local ------        entityModTypeEntityModRef.value = hashChanges[keyValue]
------- #warning Commented Local ------
------- #warning Commented Local ------        --LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod " .. tostring(entityModTypeEntityModRef))
------- #warning Commented Local ------
------- #warning Commented Local ------        ::continue::
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------local InjectChangeListScannerDronesEntityModDescValues = function(blueprintStorageValues)
------- #warning Commented Local ------
------- #warning Commented Local ------    for _, configObject in ipairs(blueprintStorageValues) do
------- #warning Commented Local ------
------- #warning Commented Local ------        local list = configObject.list
------- #warning Commented Local ------        local hashChanges = configObject.changes
------- #warning Commented Local ------
------- #warning Commented Local ------        for _, blueprintName in ipairs(list) do
------- #warning Commented Local ------
------- #warning Commented Local ------            InjectChangeScannerDronesEntityModDescValues(blueprintName, hashChanges)
------- #warning Commented Local ------        end
------- #warning Commented Local ------    end
------- #warning Commented Local ------end
------- #warning Commented Local ------
------- #warning Commented Local ------local new_values = {
------- #warning Commented Local ------
------- #warning Commented Local ------    {
------- #warning Commented Local ------        ["list"] = {
------- #warning Commented Local ------            "items/upgrades/scanner_equipment_standard_item",
------- #warning Commented Local ------            "items/upgrades/scanner_equipment_advanced_item",
------- #warning Commented Local ------            "items/upgrades/scanner_equipment_superior_item",
------- #warning Commented Local ------            "items/upgrades/scanner_equipment_extreme_item",
------- #warning Commented Local ------        },
------- #warning Commented Local ------
------- #warning Commented Local ------        ["changes"] = {
------- #warning Commented Local ------            [EntityModType.health_regen] = "0",         -- base
------- #warning Commented Local ------            [EntityModType.movement_speed] = "1",       -- random
------- #warning Commented Local ------        },
------- #warning Commented Local ------    },
------- #warning Commented Local ------
------- #warning Commented Local ------    {
------- #warning Commented Local ------        ["list"] = {
------- #warning Commented Local ------
------- #warning Commented Local ------            "items/upgrades/detector_equipment_standard_item",
------- #warning Commented Local ------            "items/upgrades/detector_equipment_advanced_item",
------- #warning Commented Local ------            "items/upgrades/detector_equipment_superior_item",
------- #warning Commented Local ------            "items/upgrades/detector_equipment_extreme_item",
------- #warning Commented Local ------        },
------- #warning Commented Local ------
------- #warning Commented Local ------        ["changes"] = {
------- #warning Commented Local ------            [EntityModType.forcefield_regen_cooldown] = "0",         -- base
------- #warning Commented Local ------            [EntityModType.movement_speed] = "1",       -- random
------- #warning Commented Local ------        },
------- #warning Commented Local ------    },
------- #warning Commented Local ------}
------- #warning Commented Local ------
------- #warning Commented Local ------InjectChangeListScannerDronesEntityModDescValues(new_values)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    InjectChangeListScannerDronesEntityModDescValues(new_values)
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    InjectChangeListScannerDronesEntityModDescValues(new_values)
------- #warning Commented Local ------end)
------- #warning Commented Local ------
------- #warning Commented Local ------RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
------- #warning Commented Local ------
------- #warning Commented Local ------    InjectChangeListScannerDronesEntityModDescValues(new_values)
------- #warning Commented Local ------end)
+do return end
+
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
+local InjectChangeScannerDronesEntityModDescValues = function(blueprintName, hashChanges)
+
+    local blueprint = ResourceManager:GetBlueprint( blueprintName )
+    if ( blueprint == nil ) then
+        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' NOT EXISTS.")
+        return
+    end
+
+    local entityModDesc = blueprint:GetComponent("EntityModDesc")
+    if ( entityModDesc == nil ) then
+        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' EntityModDesc NOT EXISTS.")
+        return
+    end
+
+    local mod_flagsContainer = entityModDesc:GetField("mod_flags"):ToContainer()
+    if ( mod_flagsContainer == nil ) then
+        LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModDesc:GetField('mod_flags'):ToContainer() NOT EXISTS.")
+        return
+    end
+
+    for i=0,mod_flagsContainer:GetItemCount()-1 do
+
+        local entityModTypeEntityMod = mod_flagsContainer:GetItem(i)
+
+        if ( entityModTypeEntityMod == nil ) then
+            LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod == nil")
+
+            goto continue
+        end
+
+        local entityModTypeEntityModRef = reflection_helper(entityModTypeEntityMod)
+        if ( entityModTypeEntityModRef.key == nil or entityModTypeEntityModRef.value == nil ) then
+
+            goto continue
+        end
+
+        local keyValue = tonumber(entityModTypeEntityModRef.key)
+
+        if ( hashChanges[keyValue] == nil ) then
+
+            goto continue
+        end
+
+        entityModTypeEntityModRef.value = hashChanges[keyValue]
+
+        --LogService:Log("InjectChangeScannerDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod " .. tostring(entityModTypeEntityModRef))
+
+        ::continue::
+    end
+end
+
+local InjectChangeListScannerDronesEntityModDescValues = function(blueprintStorageValues)
+
+    for _, configObject in ipairs(blueprintStorageValues) do
+
+        local list = configObject.list
+        local hashChanges = configObject.changes
+
+        for _, blueprintName in ipairs(list) do
+
+            InjectChangeScannerDronesEntityModDescValues(blueprintName, hashChanges)
+        end
+    end
+end
+
+local new_values = {
+
+    {
+        ["list"] = {
+            "items/upgrades/scanner_equipment_standard_item",
+            "items/upgrades/scanner_equipment_advanced_item",
+            "items/upgrades/scanner_equipment_superior_item",
+            "items/upgrades/scanner_equipment_extreme_item",
+        },
+
+        ["changes"] = {
+            [EntityModType.health_regen] = "0",         -- base
+            [EntityModType.movement_speed] = "1",       -- random
+        },
+    },
+
+    {
+        ["list"] = {
+
+            "items/upgrades/detector_equipment_standard_item",
+            "items/upgrades/detector_equipment_advanced_item",
+            "items/upgrades/detector_equipment_superior_item",
+            "items/upgrades/detector_equipment_extreme_item",
+        },
+
+        ["changes"] = {
+            [EntityModType.forcefield_regen_cooldown] = "0",         -- base
+            [EntityModType.movement_speed] = "1",       -- random
+        },
+    },
+}
+
+InjectChangeListScannerDronesEntityModDescValues(new_values)
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    InjectChangeListScannerDronesEntityModDescValues(new_values)
+end)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
+
+    InjectChangeListScannerDronesEntityModDescValues(new_values)
+end)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
+
+    InjectChangeListScannerDronesEntityModDescValues(new_values)
+end)
