@@ -42,7 +42,7 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
     end
 
 
-    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     local firstLevelBlueprint = LastSelectedBlueprintsListUtils:GetFirstLevelBuilding(blueprintName)
 
@@ -59,7 +59,40 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
     LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntityDB, selectorDB, currentListArray)
 end
 
-function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selector)
+
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ) then
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
+    local globalPlayerEntityDB = nil
+    local selectorDB = nil
+
+    if (selector and selector ~= INVALID_ID) then
+
+        selectorDB = EntityService:GetOrCreateDatabase( selector )
+
+        local playerId = PlayerService:GetPlayerForEntity( selector )
+
+        if ( playerId ~= nil and playerId ~= -1 ) then
+
+            local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
+
+            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+                globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+            end
+        end
+    end
+
+
+
+    return LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+end
+
+function LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     local currentListString = LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
@@ -279,7 +312,7 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
     end
 
 
-    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     if ( IndexOf( currentListArray, stringValue ) ~= nil ) then
         Remove( currentListArray, stringValue )
