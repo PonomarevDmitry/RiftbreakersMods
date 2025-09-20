@@ -1,3 +1,6 @@
+------ #warning Commented Local ------
+do return end
+
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
@@ -302,4 +305,4 @@ local new_values = {
     },
 }
 
------- #warning Commented Local ------InjectChangeListBuildingsTemplatesToolsBuildingDescValues(new_values)
+InjectChangeListBuildingsTemplatesToolsBuildingDescValues(new_values)
