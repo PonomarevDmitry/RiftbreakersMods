@@ -2631,18 +2631,42 @@ function picker_tool:GetLastVeinExtractor(resourceId)
     local lowName = ""
     local timeValue = 0
 
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
-        lowName = selectorDB:GetStringOrDefault(parameterName, "") or ""
-        timeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
+
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            lowName = globalPlayerEntityDB:GetStringOrDefault(parameterName, "") or ""
+            timeValue = globalPlayerEntityDB:GetFloatOrDefault(parameterTimeName, 0)
+        end
     end
+
+
+
+    if ( lowName == "" ) then
+
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            lowName = selectorDB:GetStringOrDefault(parameterName, "") or ""
+            timeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
+        end
+    end
+
+
 
     if ( lowName == "" ) then
 
         if ( CampaignService.GetCampaignData ) then
         
             local campaignDatabase = CampaignService:GetCampaignData()
+
             if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+
                 lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
                 timeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
             end
@@ -2659,21 +2683,27 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
     local parameterName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint"
     local parameterTimeName = "$picker_tool_last_" .. resourceId .. "_extractor_blueprint_time"
 
+
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB ) then
+
+            globalPlayerEntityDB:SetString(parameterName, lowName)
+            globalPlayerEntityDB:SetFloat(parameterTimeName, timeValue)
+        end
+    end
+
+
     local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
 
         selectorDB:SetString(parameterName, lowName)
         selectorDB:SetFloat(parameterTimeName, timeValue)
-    end
-
-    if ( CampaignService.GetCampaignData ) then
-    
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase ) then
-            campaignDatabase:SetString( parameterName, lowName )
-            campaignDatabase:SetFloat( parameterTimeName, timeValue )
-        end
     end
 end
 
@@ -2844,25 +2874,52 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
     local lastTimeValue = 0
     local lastEntityId = INVALID_ID
 
-    if ( selectorDB and selectorDB:HasString(parameterName) ) then
 
-        lastValue = selectorDB:GetStringOrDefault(parameterName, "") or ""
-        lastTimeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
-        lastEntityId = selectorDB:GetIntOrDefault(parameterEntityName, INVALID_ID)
+
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            lastValue = globalPlayerEntityDB:GetStringOrDefault(parameterName, "") or ""
+            lastTimeValue = globalPlayerEntityDB:GetFloatOrDefault(parameterTimeName, 0)
+            lastEntityId = globalPlayerEntityDB:GetIntOrDefault(parameterEntityName, INVALID_ID)
+        end
     end
+
+
+
+    if ( lastValue == "" ) then
+
+        if ( selectorDB and selectorDB:HasString(parameterName) ) then
+
+            lastValue = selectorDB:GetStringOrDefault(parameterName, "") or ""
+            lastTimeValue = selectorDB:GetFloatOrDefault(parameterTimeName, 0)
+            lastEntityId = selectorDB:GetIntOrDefault(parameterEntityName, INVALID_ID)
+        end
+    end
+
+
 
     if ( lastValue == "" ) then
 
         if ( CampaignService.GetCampaignData ) then
         
             local campaignDatabase = CampaignService:GetCampaignData()
+
             if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+
                 lastValue = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
                 lastTimeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
                 lastEntityId = campaignDatabase:GetIntOrDefault(parameterEntityName, INVALID_ID)
             end
         end
     end
+
+
 
     lastTimeValue = lastTimeValue or 0
 
@@ -2890,6 +2947,24 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
     local parameterTimeName = "$picker_tool_last_" .. suffix .. "_blueprint_time"
     local parameterEntityName = "$picker_tool_last_" .. suffix .. "_blueprint_entity"
 
+
+
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB ) then
+
+            globalPlayerEntityDB:SetString( parameterName, blueprintName )
+            globalPlayerEntityDB:SetFloat( parameterTimeName, timeValue )
+            globalPlayerEntityDB:SetInt( parameterEntityName, entityId )
+        end
+    end
+
+
+
     local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     if ( selectorDB ) then
@@ -2897,16 +2972,6 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
         selectorDB:SetString(parameterName, blueprintName)
         selectorDB:SetFloat(parameterTimeName, timeValue)
         selectorDB:SetInt(parameterEntityName, entityId)
-    end
-
-    if ( CampaignService.GetCampaignData ) then
-    
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase ) then
-            campaignDatabase:SetString( parameterName, blueprintName )
-            campaignDatabase:SetFloat( parameterTimeName, timeValue )
-            campaignDatabase:SetInt( parameterEntityName, entityId )
-        end
     end
 end
 
