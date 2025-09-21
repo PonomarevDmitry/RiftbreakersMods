@@ -7,13 +7,16 @@ class 'wall_energy' (wall)
 --Hard-coded here because otherwise there will be 12 copies. Static because they will never change.
 --Search diameter
 local diameter = 2.9 --Slighty smaller than the actual display diameter due to finicky detection near the edge
+--Maximum initial start-up delay in seconds
+local initial_delay = 5.0 --Shorter than the search period, but long enough to effecively stagger start times
 --Search interval in seconds
-local period = 3 --Long interval to reduce the number of computations since there will be massive numbers of walls
+local period = 10.0 --Long interval to reduce the number of computations since there will be massive numbers of walls
 --How many times faster the shield should decay than regenerate
 --first value is before shield separation, second is after
 local decay_multipliers = {-2.0, -0.75}
 --Cut-off point for shield sharing if power is lost
 local decay_threshold = 0.5
+
 
 --Standard __init() function to make sure the parent class gets called.
 function wall_energy:__init()
@@ -30,6 +33,7 @@ function wall_energy:OnInit()
 	self.regen_rate = 0 --Shield Recharge Rate when powered
 	self.decay_rate = {} --Shield Drain rate when unpowered
 	self.regen_cooldown = 0 --Shield recharge delay after damage
+	self.active = false --Power status of this building 
 
 	--Records which entities are currently affected by the shield. DO NOT TOUCH.
 	--Syntax is different for efficiency reasons, and to store relational data.
@@ -41,9 +45,9 @@ function wall_energy:OnInit()
 
 	--Create the state machine to periodically search for objects that need added to or removed from the shield.
 	self.fsm = self:CreateStateMachine()
-	self.fsm:AddState("working", {execute="OnWorkInProgress", exit="OnWorkExit", interval=period})
+	self.fsm:AddState("delay", {enter="OnDelayStart", exit="OnDelayEnd"})
+	self.fsm:AddState("working", {enter="OnWorkInProgress", execute="OnWorkInProgress", exit="OnWorkExit", interval=period})
 	self.fsm:AddState("shutdown", {execute="OnShutdown", interval=0.1})
-
 end
 
 --Runs when the building turns on, including initial power on.
@@ -63,7 +67,7 @@ function wall_energy:OnActivate()
 	self:ChargeShield()
 
 	--Start up shield scan loop
-	self.fsm:ChangeState("working")
+	self.fsm:ChangeState("delay")
 end
 
 --Runs when the building turns off, loses power, or is removed.
@@ -71,12 +75,13 @@ function wall_energy:OnDeactivate()
 	self.active = false
 
 	--Shut down Shield
-	--Shut down Shield
-	local state = self.fsm:GetState("working")
+	local state = self.fsm:GetState(self.fsm:GetCurrentState())
 	if (state ~= nil) then
 		state:Exit()
 	end
 
+	--Disable Damage Reflection and Drain the Shield HP, BUT ONLY IF THEY EXIST
+	if (not EntityService:HasComponent(self.entity, "ReflectDamageComponent")) then return end
 	self:DisableDamage()
 	self:DrainShield(1)
 end
@@ -93,7 +98,31 @@ function wall_energy:OnSell()
 	self:UnlinkShield()
 end
 
---STATE MACHINE--
+--Runs when loading into an existing map
+function wall_energy:OnLoad()
+	--Reset the staggering of shield searches
+	if self.active then
+		self.fsm:ChangeState("delay")
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+--STATE MACHINE     STATE MACHINE     STATE MACHINE     STATE MACHINE     STATE MACHINE     STATE MACHINE
+-----------------------------------------------------------------------------------------------------------
+--This serves as a random-length delay before the main state machine actually starts.
+--Its purpose is to desynchronize shield detection updates for performance reasons.
+function wall_energy:OnDelayStart(state)
+	state:SetDurationLimit(RandFloat(0.1, initial_delay))
+end
+
+--If the wall is still on, continue to "working," otherwise shut down.
+function wall_energy:OnDelayEnd(state)
+	if self.active then
+	    self.fsm:ChangeState("working")
+	end
+end
+
+
 --State Machine Loop function
 function wall_energy:OnWorkInProgress(state)
 	--Check for the shield entity, and re-create it if it is missing.
@@ -186,36 +215,18 @@ function wall_energy:ChargeShield()
 		--Store value if not set
 		--Doing this here because onInit() is too early
 		self.regen_rate = Rcomponent.regeneration
-		self.regen_cooldown = Rcomponent.regeneration_cooldown
-
 		self.decay_rate = {}
 		for i=1, #decay_multipliers do
 			self.decay_rate[i] = decay_multipliers[i] * self.regen_rate
 		end
+		self.regen_cooldown = Rcomponent.regeneration_cooldown
 	end
 end
 
 --Sets Shield to Drain
 function wall_energy:DrainShield(mode)
-
-	local Rcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "RegenerationComponent"))
-
 	--Set Shield to decay
-
-	if self.regen_rate == 0 then
-		--Store value if not set
-		--Doing this here because onInit() is too early
-		self.regen_rate = Rcomponent.regeneration
-	end
-	if ( Rcomponent.regeneration_cooldown ~= 0 ) then
-		self.regen_cooldown = Rcomponent.regeneration_cooldown
-	end
-
-	self.decay_rate = {}
-	for i=1, #decay_multipliers do
-		self.decay_rate[i] = decay_multipliers[i] * self.regen_rate
-	end
-
+	local Rcomponent = reflection_helper(EntityService:GetComponent(self.healthChild, "RegenerationComponent"))
 	Rcomponent.regeneration = self.decay_rate[mode]
 	Rcomponent.regeneration_cooldown = 0
 

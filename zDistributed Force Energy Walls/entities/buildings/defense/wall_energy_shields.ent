@@ -15,7 +15,7 @@ EntityBlueprint
 
 	RegenerationComponent
 	{
-		regeneration				"14" //5% of Shield HP
+		regeneration				"14" //5% of Shield HP per second
 		regeneration_cooldown		"10" 
 	}
 
@@ -30,7 +30,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/jump_portal_exit"
+					blueprint "effects/distributed_force/shield_down"
 				}
 			}
 		}
@@ -59,7 +59,7 @@ EntityBlueprint
 
 	RegenerationComponent
 	{
-		regeneration				"28" // 5% of Shield HP
+		regeneration				"28" // 5% of Shield HP per second
 		regeneration_cooldown		"10"
 	}
 
@@ -74,7 +74,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/jump_portal_exit"
+					blueprint "effects/distributed_force/shield_down"
 				}
 			}
 		}
@@ -103,7 +103,7 @@ EntityBlueprint
 
 	RegenerationComponent
 	{
-		regeneration				"56" // 5% of Shield HP
+		regeneration				"56" // 5% of Shield HP per second
 		regeneration_cooldown		"10"
 	}
 
@@ -118,7 +118,139 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/jump_portal_exit"
+					blueprint "effects/distributed_force/shield_down"
+				}
+			}
+		}
+	}
+
+	ShieldComponent
+	{
+		owner	"custom"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/gate_energy/shield"
+
+	IdDesc
+	{
+		name "_shield_"
+	}
+
+	HealthDesc
+	{
+		max_health					"560"	// 80% of Base HP
+		health						"56"	// Shield Starts at 10%
+	}
+
+	RegenerationComponent
+	{
+		regeneration				"28" //5% of Shield HP per second
+		regeneration_cooldown		"10" 
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "shield_down"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/distributed_force/shield_down_gate"
+				}
+			}
+		}
+	}
+
+	ShieldComponent
+	{
+		owner	"custom"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/gate_energy/shield_lvl_2"
+
+	IdDesc
+	{
+		name "_shield_"
+	}
+
+	HealthDesc
+	{
+		max_health					"1120"	// 80% of Base HP
+		health						"112"	// Shield Starts at 10%
+	}
+
+	RegenerationComponent
+	{
+		regeneration				"56" // 5% of Shield HP per second
+		regeneration_cooldown		"10"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "shield_down"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/distributed_force/shield_down_gate"
+				}
+			}
+		}
+	}
+
+	ShieldComponent
+	{
+		owner	"custom"
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/gate_energy/shield_lvl_3"
+
+	IdDesc
+	{
+		name "_shield_"
+	}
+
+	HealthDesc
+	{
+		max_health					"2240"	// 80% of Base HP
+		health						"224"	// Shield Starts at 10%
+	}
+
+	RegenerationComponent
+	{
+		regeneration				"112" // 5% of Shield HP per second
+		regeneration_cooldown		"10"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "shield_down"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/distributed_force/shield_down_gate"
 				}
 			}
 		}
