@@ -612,6 +612,10 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         selectorDB:SetString( self.template_name, templateString )
     end
 
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( self.template_name, "" )
+    end
+
 
     self.currentTemplateString = templateString
 

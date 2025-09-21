@@ -230,6 +230,13 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
         selectorDB:SetString(templateNameTo, templateStringFrom)
     end
 
+    if ( campaignDatabase ) then
+
+        campaignDatabase:SetString(templateNameFrom, "")
+
+        campaignDatabase:SetString(templateNameTo, "")
+    end
+
     self:FillMarkerMessage()
 end
 

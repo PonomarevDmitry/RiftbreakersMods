@@ -550,6 +550,10 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
     if ( selectorDB ) then
         selectorDB:SetString( templateName, templateString )
     end
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( templateName, "" )
+    end
 end
 
 function buildings_database_importer_tool:IsTemplateEqualsToImport(templateString, persistentTemplateString)

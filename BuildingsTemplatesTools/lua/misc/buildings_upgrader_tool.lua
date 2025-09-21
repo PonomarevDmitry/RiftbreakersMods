@@ -400,6 +400,10 @@ function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(te
     if ( selectorDB ) then
         selectorDB:SetString( templateName, templateString )
     end
+
+    if ( campaignDatabase ) then
+        campaignDatabase:SetString( templateName, "" )
+    end
 end
 
 function buildings_upgrader_tool:OnRelease()
