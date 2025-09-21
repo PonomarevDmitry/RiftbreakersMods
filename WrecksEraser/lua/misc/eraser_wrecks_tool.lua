@@ -72,28 +72,16 @@ function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
 
     --local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
 
-    local aabb = {}
-    aabb.min = minVector
-    aabb.max = maxVector
+    local result = {}
 
-    local tempCollection = FindService:FindEntitiesByTeamInBox( "wreck", aabb )
 
-    local possibleSelectedEnts = {}
+    self:FillByTeam(result, "wreck", minVector, maxVector)
 
-    for entity in Iter( tempCollection ) do
+    self:FillByWreckTeamComponent(result, minVector, maxVector)
 
-        if ( entity == nil ) then
-            goto continue
-        end
+    self:FillByTypeComponent(result, minVector, maxVector)
 
-        if ( IndexOf( possibleSelectedEnts, entity ) ~= nil ) then
-            goto continue
-        end
-
-        Insert( possibleSelectedEnts, entity )
-
-        ::continue::
-    end
+    
 
     local selectorPosition = selectorComponent.position
 
@@ -105,11 +93,109 @@ function eraser_wrecks_tool:FindEntitiesToSelect( selectorComponent )
         return d1 < d2
     end
 
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
+    table.sort(result, function(a,b)
+        return sorter(result, a, b)
     end)
 
-    return possibleSelectedEnts
+    return result
+end
+
+function eraser_wrecks_tool:FillByTeam(result, teamName, minVector, maxVector)
+
+    local aabb = {}
+    aabb.min = minVector
+    aabb.max = maxVector
+
+    local tempCollection = FindService:FindEntitiesByTeamInBox( teamName, aabb )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+end
+
+function eraser_wrecks_tool:FillByWreckTeamComponent(result, minVector, maxVector)
+
+    self.predicateWreckTeamComponent = self.predicateWreckTeamComponent or {
+
+        signature = "WreckTeamComponent",
+    }
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateWreckTeamComponent )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+end
+
+function eraser_wrecks_tool:FillByTypeComponent(result, minVector, maxVector)
+
+    self.predicateType = self.predicateType or {
+
+        signature = "TypeComponent",
+
+        filter = function(entity)
+    
+            if ( EntityService:HasComponent( entity, "TypeComponent" ) ) then
+            
+                if ( EntityService:CompareType( entity, "wreck" ) ) then
+                    return true
+                end
+    
+                if ( EntityService:CompareType( entity, "wreck_small" ) ) then
+                    return true
+                end
+    
+                if ( EntityService:CompareType( entity, "wreck_medium" ) ) then
+                    return true
+                end
+    
+                if ( EntityService:CompareType( entity, "wreck_large" ) ) then
+                    return true
+                end
+            end
+    
+            return false
+        end
+    }
+
+    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, self.predicateType )
+
+    for entity in Iter( tempCollection ) do
+
+        if ( entity == nil ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
 end
 
 function eraser_wrecks_tool:AddedToSelection( entity )
