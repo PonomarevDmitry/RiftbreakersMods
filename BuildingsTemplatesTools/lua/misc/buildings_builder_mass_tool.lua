@@ -132,9 +132,9 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.markerEntity )
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return

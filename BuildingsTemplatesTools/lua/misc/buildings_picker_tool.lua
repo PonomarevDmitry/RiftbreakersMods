@@ -45,9 +45,9 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -448,10 +448,10 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         self.currentTemplateString = ""
 
-        local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+        local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-        if ( campaignDatabase ) then
-            campaignDatabase:SetString( self.template_name, "" )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString( self.template_name, "" )
         end
 
         if ( selectorDB ) then
@@ -505,9 +505,9 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         return
     end
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         return
     end
 

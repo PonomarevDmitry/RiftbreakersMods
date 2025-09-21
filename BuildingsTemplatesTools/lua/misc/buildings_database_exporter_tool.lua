@@ -126,9 +126,9 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -344,11 +344,11 @@ end
 
 function buildings_database_exporter_tool:GetTemplatesArray()
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     local result = { self.allTemplatesName }
 
-    if ( ( campaignDatabase ~= nil or selectorDB ~= nil ) and self.persistentDatabase ~= nil ) then
+    if ( ( globalPlayerEntityDB ~= nil or selectorDB ~= nil or campaignDatabase ~= nil ) and self.persistentDatabase ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -380,9 +380,9 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
         return
     end
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         return
     end
 
@@ -495,7 +495,7 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventAllTemplates( evt
         return
     end
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     self:ExportAllTemplatesToToDatabase(campaignDatabase, selectorDB)
 end
@@ -532,7 +532,7 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( e
         return
     end
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     self:ExportTemplateToToDatabase(self.templateNameForExport, campaignDatabase, selectorDB, self.persistentDatabase)
 

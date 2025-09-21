@@ -6,19 +6,37 @@ local BuildingsTemplatesUtils = {}
 
 function BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
+    local globalPlayerEntityDB = nil
+    local selectorDB = nil
+
+    if (selector and selector ~= INVALID_ID) then
+
+        selectorDB = EntityService:GetOrCreateDatabase( selector )
+
+        local playerId = PlayerService:GetPlayerForEntity( selector )
+
+        if ( playerId ~= nil and playerId ~= -1 ) then
+
+            local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
+
+            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+                globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+            end
+        end
+    end
+
+
+
     local campaignDatabase = nil
 
     if ( CampaignService.GetCampaignData ~= nil ) then
         campaignDatabase = CampaignService:GetCampaignData()
     end
 
-    local selectorDB = nil
 
-    if ( selector ~= nil and selector ~= INVALID_ID ) then
-        selectorDB = EntityService:GetOrCreateDatabase( selector )
-    end
 
-    return campaignDatabase, selectorDB
+    return globalPlayerEntityDB, selectorDB, campaignDatabase
 end
 
 function BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
@@ -81,22 +99,34 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
     local result = nil
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
-    if ( result == nil and campaignDatabase and campaignDatabase:HasInt( configName ) ) then
-        result = campaignDatabase:GetIntOrDefault( configName, 1 )
+
+
+    if ( result == nil and globalPlayerEntityDB and globalPlayerEntityDB:HasInt( configName ) ) then
+        result = globalPlayerEntityDB:GetIntOrDefault( configName, 1 )
     end
+
+
 
     if ( result == nil and selectorDB and selectorDB:HasInt( configName ) ) then
         result = selectorDB:GetIntOrDefault( configName, 1 )
     end
 
+
+
+    if ( result == nil and campaignDatabase and campaignDatabase:HasInt( configName ) ) then
+        result = campaignDatabase:GetIntOrDefault( configName, 1 )
+    end
+
+
+
     result = result or 1
 
 
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetInt( configName, result )
+    if ( globalPlayerEntityDB ) then
+        globalPlayerEntityDB:SetInt( configName, result )
     end
 
     if ( selectorDB ) then
@@ -112,10 +142,10 @@ function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selected
 
     local configName = "$buildings_database_select_config"
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetInt( configName, selectedDatabaseNumber )
+    if ( globalPlayerEntityDB ) then
+        globalPlayerEntityDB:SetInt( configName, selectedDatabaseNumber )
     end
 
     if ( selectorDB ) then

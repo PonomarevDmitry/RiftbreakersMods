@@ -34,9 +34,9 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -201,8 +201,8 @@ end
 
 function buildings_swap_templates_tool:OnActivateSelectorRequest()
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
-    if ( campaignDatabase == nil and selectorDB == nil ) then
+    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
         return
     end
 
