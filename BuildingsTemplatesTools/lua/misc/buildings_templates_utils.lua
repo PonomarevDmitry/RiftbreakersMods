@@ -81,7 +81,7 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
     local result = nil
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
     if ( result == nil and campaignDatabase and campaignDatabase:HasInt( configName ) ) then
         result = campaignDatabase:GetIntOrDefault( configName, 1 )
@@ -112,7 +112,7 @@ function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selected
 
     local configName = "$buildings_database_select_config"
 
-    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local campaignDatabase, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
     if ( campaignDatabase ) then
         campaignDatabase:SetInt( configName, selectedDatabaseNumber )
