@@ -53,7 +53,7 @@ function buildings_picker_tool:FillMarkerMessage()
         return
     end
 
-    self.currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, campaignDatabase, selectorDB)
+    self.currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     if ( self.currentTemplateString == "" ) then
 
@@ -457,6 +457,10 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
         if ( selectorDB ) then
             selectorDB:SetString( self.template_name, "" )
         end
+
+        if ( campaignDatabase ) then
+            campaignDatabase:SetString( self.template_name, "" )
+        end
     end
 end
 
@@ -600,8 +604,8 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     local templateString = table.concat( templateStringArray )
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( self.template_name, templateString )
+    if ( globalPlayerEntityDB ) then
+        globalPlayerEntityDB:SetString( self.template_name, templateString )
     end
 
     if ( selectorDB ) then

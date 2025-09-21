@@ -39,16 +39,33 @@ function BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
     return globalPlayerEntityDB, selectorDB, campaignDatabase
 end
 
-function BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     local result = ""
 
-    if ( result == "" and campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-        result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    if ( result == "" and globalPlayerEntityDB and globalPlayerEntityDB:HasString( templateName ) ) then
+        result = globalPlayerEntityDB:GetStringOrDefault( templateName, "" ) or ""
     end
 
     if ( result == "" and selectorDB and selectorDB:HasString( templateName ) ) then
         result = selectorDB:GetStringOrDefault( templateName, "" ) or ""
+    end
+
+    if ( result == "" and campaignDatabase and campaignDatabase:HasString( templateName ) ) then
+        result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+        result = result or ""
+
+        if ( result ~= "" ) then
+
+            if ( globalPlayerEntityDB ) then
+                globalPlayerEntityDB:SetString( templateName, result )
+            end
+
+            if ( selectorDB ) then
+                selectorDB:SetString( templateName, result )
+            end
+        end
     end
 
     result = result or ""

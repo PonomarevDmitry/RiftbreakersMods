@@ -58,7 +58,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         markerText = markerText .. "${" .. templateCaption .. "}:"
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
         if ( templateString == "" ) then
 
@@ -76,7 +76,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplateTo
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, campaignDatabase, selectorDB)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
         markerText = markerText .. "\n${" .. templateCaption .. "}:"
 
@@ -211,16 +211,16 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
     end
 
     local templateNameFrom = self.templateFormat .. self.selectedTemplateFrom
-    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, campaignDatabase, selectorDB)
+    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     local templateNameTo = self.templateFormat .. self.selectedTemplateTo
-    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, campaignDatabase, selectorDB)
+    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
-    if ( campaignDatabase ) then
+    if ( globalPlayerEntityDB ) then
 
-        campaignDatabase:SetString(templateNameFrom, templateStringTo)
+        globalPlayerEntityDB:SetString(templateNameFrom, templateStringTo)
 
-        campaignDatabase:SetString(templateNameTo, templateStringFrom)
+        globalPlayerEntityDB:SetString(templateNameTo, templateStringFrom)
     end
 
     if ( selectorDB ) then

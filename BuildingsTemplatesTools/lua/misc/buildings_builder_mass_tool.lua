@@ -140,7 +140,7 @@ function buildings_builder_mass_tool:SpawnBuildinsTemplates()
         return
     end
 
-    local templateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, campaignDatabase, selectorDB)
+    local templateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, globalPlayerEntityDB, selectorDB, campaignDatabase)
 
     if ( templateString == "" ) then
 
