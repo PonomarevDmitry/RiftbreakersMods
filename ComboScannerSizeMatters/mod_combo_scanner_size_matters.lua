@@ -1,6 +1,6 @@
-mod_scanner_size_matters = 1
+mod_combo_scanner_size_matters = 1
 
-function ScannerSizeMattersGetScansCount( entity )
+function ComboScannerSizeMattersGetScansCount( entity )
 
     local scansCount = 1
 

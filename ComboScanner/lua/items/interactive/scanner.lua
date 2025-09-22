@@ -144,8 +144,8 @@ function scanner:OnExecuteScaning()
 				if ( self.scanningTime >= maxScanTime ) then
 
 					local scansCount = 1
-					if ( mod_scanner_size_matters and mod_scanner_size_matters == 1 ) then
-						scansCount = ScannerSizeMattersGetScansCount(currentTarget)
+					if ( mod_combo_scanner_size_matters and mod_combo_scanner_size_matters == 1 ) then
+						scansCount = ComboScannerSizeMattersGetScansCount(currentTarget)
 					end
 
 					for i=1,scansCount do
