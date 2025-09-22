@@ -14,10 +14,53 @@ function scanner:OnInit()
 	self.effect 	= INVALID_ID
 	self.scanningTime = 0.0
 	self.lastItemEnt = nil
+
+
+	-- Detector Part Start
+
+	local blueprintDatabase = EntityService:GetBlueprintDatabase( "items/interactive/detector_item" )
+
+	self.radiusDetector   = blueprintDatabase:GetFloat( "radius" )
+	self.enemyRadiusDetector   = blueprintDatabase:GetFloat( "enemy_radius" )
+	self.levelDetector    = blueprintDatabase:GetInt( "lvl" )
+	self.effectDetector = INVALID_ID
+	self.effectScannerDetector = INVALID_ID
+	self.lastFactor = 0
+
+	-- Detector Part End
+end
+
+function scanner:OnLoad()
+
+	if ( item.OnLoad ) then
+		item.OnLoad( self )
+	end
+
+	-- Detector Part Start
+
+	local blueprintDatabase = EntityService:GetBlueprintDatabase( "items/interactive/detector_item" )
+
+	self.radiusDetector   = blueprintDatabase:GetFloat( "radius" )
+	self.enemyRadiusDetector   = blueprintDatabase:GetFloat( "enemy_radius" )
+	self.levelDetector    = blueprintDatabase:GetInt( "lvl" )
+	self.lastFactor = self.lastFactor or 0
+
+	-- Detector Part End
 end
 
 function scanner:OnEquipped()
 	item.OnEquipped( self ) 
+
+	-- Detector Part Start
+
+	if ( self.effectScannerDetector == nil or self.effectScannerDetector == INVALID_ID ) then
+		self.effectScannerDetector =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_muzzle_1", "" )
+	end
+	EntityService:SetScale( self.effectScannerDetector, 15.0, 15.0, 15.0 )
+	EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+
+	-- Detector Part End
+
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
@@ -30,6 +73,32 @@ function scanner:OnActivate( activation_id )
 	self:OnExecuteScaning()
 
 	QueueEvent("ShowScannableRequest", self.owner, true )
+
+	-- Detector Part Start
+
+	local isPlayerDetectorBlocked = false
+
+	if ( MissionService.IsPlayerDetectorBlocked ) then
+		isPlayerDetectorBlocked = MissionService:IsPlayerDetectorBlocked()
+	end
+
+	if ( isPlayerDetectorBlocked ) then
+
+		if ( self.effectDetector ~= nil and self.effectDetector ~= INVALID_ID )  then
+			EntityService:RemoveEntity( self.effectDetector )
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+		end
+		self.effectDetector = INVALID_ID
+
+	else
+
+		local playerId = PlayerService:GetPlayerForEntity(self.owner )
+		PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+
+		self:OnExecuteDetecting()
+	end
+
+	-- Detector Part End
 
 	local ownerData = EntityService:GetDatabase( self.owner );
 	if ( not self:IsActivated() ) then
@@ -55,6 +124,16 @@ function scanner:OnDeactivate( forced )
 		EntityService:RemoveEntity( self.effect )
 		self.effect = INVALID_ID
 	end
+
+	-- Detector Part Start
+	
+	if ( self.effectDetector ~= INVALID_ID )  then
+		EntityService:RemoveEntity( self.effectDetector )
+		EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+	end
+	self.effectDetector = INVALID_ID
+
+	-- Detector Part End
 
 	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)
 
@@ -95,7 +174,9 @@ function scanner:OnExecuteScaning()
 	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	self.ammoEnt = EntityService:GetChildByName( self.item, "##ammo##" )
 	if ( self.ammoEnt == nil or self.ammoEnt == INVALID_ID ) then
-		PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+		-- Detector Part
+		-- No BioScanner Sound
+		--PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 		return	
 	end
 	
@@ -109,22 +190,28 @@ function scanner:OnExecuteScaning()
 			self.effect = INVALID_ID
 			self.lastTarget = INVALID_ID
 			self.scanningTime = 0.0
-
-			PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+			
+			-- Detector Part
+			-- No BioScanner Sound
+			--PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 			EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 		end
 		
 		if ( currentTarget ~= INVALID_ID ) then		
 			local scannableComponent = EntityService:GetComponent( currentTarget, "ScannableComponent")
 			if ( scannableComponent == nil ) then
-				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
+				-- Detector Part
+				-- No BioScanner Sound
+				--PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_idle.wav", true, 5 )
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_idle")
 				return
 			end
 			local scannableComponentHelper = reflection_helper(scannableComponent)
 			if ( self.effect == INVALID_ID ) then
 				EntityService:ChangeMaterial( self.ammoEnt, "projectiles/bioscanner_active")
-				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
+				-- Detector Part
+				-- No BioScanner Sound
+				--PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_bioscanner_scanning.wav", true, 5 )
 				self.scanningTime = 0.0
 				self:SpawnSpecifcEffect( currentTarget )
 				QueueEvent( "EntityScanningStartEvent", currentTarget )
@@ -144,7 +231,10 @@ function scanner:OnExecuteScaning()
 				if ( self.scanningTime >= maxScanTime ) then
 
 					local scansCount = 1
-					if ( mod_combo_scanner_size_matters and mod_combo_scanner_size_matters == 1 ) then
+					if ( mod_combo_scanner_size_matters and mod_combo_scanner_size_matters == 1 and ComboScannerSizeMattersGetScansCount ) then
+
+						LogService:Log("mod_combo_scanner_size_matters ")
+
 						scansCount = ComboScannerSizeMattersGetScansCount(currentTarget)
 					end
 
@@ -167,6 +257,198 @@ function scanner:OnExecuteScaning()
 		self.lastTarget = currentTarget;
 	end
 end
+
+-- Detector Part Start
+
+function scanner:GetModeFromFactor( factor )
+
+	if ( factor == nil ) then
+		factor = 0
+	end
+
+	if ( factor > 2.0 ) then
+		return 1
+	elseif( factor > 1.0 ) then
+		return 2
+	else
+		return 3
+	end
+end
+
+function scanner:CheckAndSpawnEffect( ent, type, factor)
+	local mode = self:GetModeFromFactor( factor )
+	local oldMode = self:GetModeFromFactor( self.lastFactor )
+	if ( type ~= self.type ) then
+		-- LogService:Log(tostring(mode) .. ":" .. tostring(oldMode))
+		-- LogService:Log(type  .. ":" .. self.type)
+		if ( self.effectDetector ~= nil and self.effectDetector ~= INVALID_ID )  then
+			EntityService:RemoveEntity( self.effectDetector )
+		end
+		self.effectDetector  = INVALID_ID
+		self.type = ""
+	end
+
+	self.oldEnt = ent
+	--LogService:Log("Will spawn? " .. tostring(self.effectDetector) )
+	
+	if( self.effectDetector == nil or self.effectDetector == INVALID_ID ) then
+		self.type = type
+
+		if ( type == "enemy" ) then
+			--LogService:Log("enemy")
+			self.effectDetector = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite_red",  self.item, "att_muzzle_1", "" )
+			return 3
+		else
+			--LogService:Log("normal")
+			self.effectDetector = EntityService:SpawnAndAttachEntity( "effects/mech/treasure_finder_beep_infinite",  self.item, "att_muzzle_1", "" )
+		end
+	end
+	return mode
+end
+
+function scanner:SetSynthParam( entity, synthParam, paramValue )
+	--legacy: SoundService:SetSynthParam( self.effectDetector, synthParam, paramValue )
+	if ( entity == nil or entity == INVALID_ID ) then
+		return
+	end
+
+	local db = EntityService:GetOrCreateDatabase( entity )
+	if ( db ~= nil ) then
+		db:SetFloat( synthParam, paramValue );
+	end
+end
+
+function scanner:OnExecuteDetecting()
+
+	self.predicate = self.predicate or {
+
+		signature = "TreasureComponent",
+		filter = function( entity ) 
+			local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
+			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
+				return false
+			end
+			
+			if (  tonumber(treasureComponent:GetField("lvl"):GetValue()) > self.levelDetector ) then
+				return false
+			end
+
+			local db = EntityService:GetDatabase( entity )
+			if ( db == nil ) then
+				return false
+			end
+
+			local type = db:GetStringOrDefault("type","")
+			if ( type ~= "enemy") then
+				return false
+			end
+
+			return true
+		end
+	}
+
+	local enemyEntities = FindService:FindEntitiesByPredicateInRadius( self.item, self.enemyRadiusDetector, self.predicate );
+
+	local foundNormal = ItemService:FindClosestTreasureInRadius( self.item, self.levelDetector, "", "enemy" )
+	local ent = foundNormal.first
+	local distance = foundNormal.second
+
+	local foundEnemy = FindClosestEntityWithDistance(self.item, enemyEntities)
+	local entEnemy = foundEnemy.entity
+	local distanceEnemy = foundEnemy.distance
+
+	local defaultDiscoverDistance = 10
+
+	if ( mod_default_discover_distance and type(mod_default_discover_distance) == "number" and mod_default_discover_distance > 0 ) then
+
+		defaultDiscoverDistance = mod_default_discover_distance
+	end
+
+	--LogService:Log( "EnemyEntitiesCount: ".. tostring(#enemyEntities) .. " EnemyEnt: "  .. tostring(entEnemy) .. ":" .. tostring(distanceEnemy))
+	--LogService:Log( "NormalEnt: " .. tostring(ent) .. ":" .. tostring(distance))
+
+	if ( (ent ~= INVALID_ID ) or (entEnemy ~= INVALID_ID and self.enemyRadiusDetector > distanceEnemy) ) then
+		local type = ""
+
+		local radius = self.radiusDetector
+		if ( distanceEnemy ~= nil and distanceEnemy < distance and  self.enemyRadiusDetector > distanceEnemy ) then
+			ent = entEnemy
+			distance = distanceEnemy
+			type = "enemy"
+			--LogService:Log("enemy!")
+			radius = self.enemyRadiusDetector
+		end
+
+		local db = EntityService:GetDatabase( ent )
+		local discoverDistance = defaultDiscoverDistance
+		if ( db ~= nil and db:HasFloat("discovery_distance") ) then
+			discoverDistance = db:GetFloat("discovery_distance")
+		end
+
+		local factor = (distance - discoverDistance)  / ( radius - discoverDistance )
+		--LogService:Log("Factor: " .. tostring(factor) )
+		--LogService:Log("DiscoverDistance: " .. tostring(discoverDistance) )
+
+		if ( distance > discoverDistance or type == "enemy" ) then
+			local mode = self:CheckAndSpawnEffect( ent, type, factor)
+			self.lastFactor = factor;
+
+			local itemPos = EntityService:GetPosition( self.effectScannerDetector )
+			local targetPos = EntityService:GetPosition( ent )
+
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 1 )
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cTargetPos", targetPos.x, targetPos.y, targetPos.z )
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cCenterPos", itemPos.x, itemPos.y, itemPos.z )
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cRadius", radius )
+			local playerId = PlayerService:GetPlayerForEntity(self.owner )
+			if type == "enemy" then
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_trap.wav", true, 5 )
+				EntityService:SetGraphicsUniform( self.effectScannerDetector, "cIsEnemy", 1 )
+			else
+				PlayerService:SetPadHapticFeedback( playerId, "sound/samples/haptic/interactive_geoscanner_treasure.wav", true, 5 )
+				EntityService:SetGraphicsUniform( self.effectScannerDetector, "cIsEnemy", 0 )
+			end
+
+			if ( mode > 2 ) then
+				factor = Clamp(factor, 0.0, 0.999)
+				self:SetSynthParam( self.effectDetector, "latency", 1.0 / ( 1.0 - factor ) / 25.0 )
+			else
+				self:SetSynthParam( self.effectDetector, "latency", 1.0 )
+			end
+			if ( type ~= "enemy") then
+				return
+			end
+		end
+		
+		if ( type == "enemy") then
+			for eEnt in Iter(enemyEntities ) do
+				local eDistance = EntityService:GetDistanceBetween(eEnt, self.item)
+				local db = EntityService:GetDatabase( eEnt )
+				local discoverDistance = defaultDiscoverDistance
+				if ( db ~= nil and db:HasFloat("discovery_distance") ) then
+					discoverDistance = db:GetFloat("discovery_distance")
+				end
+		
+				if ( eDistance <= discoverDistance ) then
+					ItemService:RevealHiddenEntity( eEnt )
+				end
+			end
+		else
+			ItemService:RevealHiddenEntity( ent )
+		end
+	
+	elseif ( self.effectDetector ~= nil and self.effectDetector ~= INVALID_ID ) then
+		EntityService:RemoveEntity( self.effectDetector )
+		self.effectDetector  = INVALID_ID
+
+		EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+
+		self.type = ""
+		self.lastFactor = -1;
+	end
+end
+
+-- Detector Part End
 
 function scanner:DissolveShow()
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
