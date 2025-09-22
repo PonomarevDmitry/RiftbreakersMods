@@ -18,7 +18,7 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
         return
     end
 
-    LogService:Log("InventoryItemCreatedEvent is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
+    --LogService:Log("InventoryItemCreatedEvent is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
 
     if (evt == nil) then
         return
