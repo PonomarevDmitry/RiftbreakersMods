@@ -86,9 +86,12 @@ function scanner:OnActivate( activation_id )
 
 		if ( self.effectDetector ~= nil and self.effectDetector ~= INVALID_ID )  then
 			EntityService:RemoveEntity( self.effectDetector )
-			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
 		end
 		self.effectDetector = INVALID_ID
+
+		if ( self.effectScannerDetector ~= nil and self.effectScannerDetector ~= INVALID_ID ) then
+			EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+		end
 
 	else
 
@@ -127,11 +130,14 @@ function scanner:OnDeactivate( forced )
 
 	-- Detector Part Start
 	
-	if ( self.effectDetector ~= INVALID_ID )  then
+	if ( self.effectDetector ~= nil and self.effectDetector ~= INVALID_ID )  then
 		EntityService:RemoveEntity( self.effectDetector )
-		EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
 	end
 	self.effectDetector = INVALID_ID
+
+	if ( self.effectScannerDetector ~= nil and self.effectScannerDetector ~= INVALID_ID ) then
+		EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
+	end
 
 	-- Detector Part End
 
