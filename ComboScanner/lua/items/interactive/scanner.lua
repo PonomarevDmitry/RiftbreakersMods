@@ -137,7 +137,7 @@ function scanner:OnExecuteScaning()
 
 				local maxScanTime = self.maxScanTime
 
-				if ( mod_scanner_instant_scan and mod_scanner_instant_scan == 1 ) then
+				if ( mod_combo_scanner_instant_scan and mod_combo_scanner_instant_scan == 1 ) then
 					maxScanTime = 0
 				end
 

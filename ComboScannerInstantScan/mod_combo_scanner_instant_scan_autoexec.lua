@@ -1,1 +1,1 @@
-mod_scanner_instant_scan = 1
+mod_combo_scanner_instant_scan = 1
