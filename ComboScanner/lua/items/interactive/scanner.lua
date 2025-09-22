@@ -238,9 +238,6 @@ function scanner:OnExecuteScaning()
 
 					local scansCount = 1
 					if ( mod_combo_scanner_size_matters and mod_combo_scanner_size_matters == 1 and ComboScannerSizeMattersGetScansCount ) then
-
-						LogService:Log("mod_combo_scanner_size_matters ")
-
 						scansCount = ComboScannerSizeMattersGetScansCount(currentTarget)
 					end
 
