@@ -119,7 +119,7 @@ function scanner:OnDeactivate( forced )
 	local playerId = PlayerService:GetPlayerForEntity(self.owner )
 	PlayerService:StopPadHapticFeedback( playerId )
 
-	if not ( mod_scanner_not_hide_scannable and mod_scanner_not_hide_scannable == 1 ) then
+	if not ( mod_combo_scanner_not_hide_scannable and mod_combo_scanner_not_hide_scannable == 1 ) then
 		QueueEvent("ShowScannableRequest", self.owner, false )
 	end
 	
