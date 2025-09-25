@@ -131,6 +131,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -143,6 +144,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -155,6 +157,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -167,6 +170,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -179,6 +183,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -191,6 +196,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -203,6 +209,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -215,6 +222,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -227,6 +235,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -239,6 +248,7 @@ local new_equipment_slots = {
             "consumable",
             "dash_skill",
             "movement_skill",
+            "invisible_skill",
         },
     },
 
@@ -353,8 +363,6 @@ local new_equipment_slots = {
             "upgrade",
         },
     },
-
-    
 }
 
 InjectChangePlayerBlueprintEquipmentItemComponent(new_equipment_slots)
