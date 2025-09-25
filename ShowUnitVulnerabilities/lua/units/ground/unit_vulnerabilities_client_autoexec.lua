@@ -4,6 +4,7 @@ end
 
 require("lua/units/units_utils.lua")
 require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
 
 globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
 
