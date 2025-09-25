@@ -17,17 +17,9 @@ function artificial_spawner:OnInit()
 
     self:RegisterEventHandlers()
 
-    self:CreateMenuEntity()
-
-    local playerId = PlayerService:GetPlayerForEntity( self.entity )
-
-    if ( PlayerService:IsInFighterMode( playerId ) ) then
-        self.showMenu = 0
-    else
-        self.showMenu = 1
+    if ( is_server and is_client ) then
+        self:CreateMenuEntity()
     end
-
-    self:PopulateSpecialActionInfo()
 
     self.timeoutTime = nil
 end
@@ -40,11 +32,9 @@ function artificial_spawner:OnLoad()
 
     self:RegisterEventHandlers()
 
-    self:CreateMenuEntity()
-
-    self.showMenu = self.showMenu or 0
-
-    self:PopulateSpecialActionInfo()
+    if ( is_server and is_client ) then
+        self:CreateMenuEntity()
+    end
 
     self.timeoutTime = nil
 end
@@ -59,8 +49,8 @@ function artificial_spawner:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
 
-    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
-    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
+    self:UnregisterHandlers( "EnterBuildMenuEvent" )
+    self:UnregisterHandlers( "EnterFighterModeEvent" )
 end
 
 function artificial_spawner:OnInteractWithEntityRequest( event )
@@ -190,8 +180,6 @@ function artificial_spawner:OnItemEquippedEvent( evt )
 
     local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, itemBlueprintName)
-
-    self:PopulateSpecialActionInfo()
 end
 
 function artificial_spawner:OnItemUnequippedEvent( evt )
@@ -205,8 +193,6 @@ function artificial_spawner:OnItemUnequippedEvent( evt )
 
     local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, "")
-
-    self:PopulateSpecialActionInfo()
 end
 
 function artificial_spawner:GetWavesTemplatesArray()
@@ -264,24 +250,6 @@ function artificial_spawner:GetDefaultBiomeBlueprint()
     return result
 end
 
-function artificial_spawner:_OnBuildingModifiedEvent()
-
-    if ( building._OnBuildingModifiedEvent ) then
-        building._OnBuildingModifiedEvent(self)
-    end
-
-    self:PopulateSpecialActionInfo()
-end
-
-function artificial_spawner:OnBuildingStart()
-
-    if ( building.OnBuildingStart ) then
-        building.OnBuildingStart(self)
-    end
-
-    self:PopulateSpecialActionInfo()
-end
-
 function artificial_spawner:OnBuildingEnd()
 
     if ( building.OnBuildingEnd ) then
@@ -323,196 +291,65 @@ function artificial_spawner:OnBuildingEnd()
             end
         end
     end
-
-    self:PopulateSpecialActionInfo()
 end
 
 function artificial_spawner:OnEnterBuildMenuEvent( evt )
-
-    self.showMenu = 1
-
-    self:SetMenuVisible(self.menuEntity)
 end
 
 function artificial_spawner:OnEnterFighterModeEvent( evt )
-
-    self.showMenu = 0
-
-    self:SetMenuVisible(self.menuEntity)
-end
-
-function artificial_spawner:SetMenuVisible(menuEntity)
-
-    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
-        return
-    end
-
-    local visible = 0
-
-    self.showMenu = self.showMenu or 0
-
-    if ( BuildingService:IsBuildingFinished( self.entity ) ) then
-        visible = self.showMenu
-    end
-
-    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
-    if ( menuDB ) then
-        menuDB:SetInt("menu_visible", visible)
-    end
 end
 
 function artificial_spawner:CreateMenuEntity()
 
     local menuBlueprintName = "misc/artificial_spawner_slots_menu"
 
-    if ( self.menuEntity ~= nil and not EntityService:IsAlive(self.menuEntity) ) then
-        self.menuEntity = nil
-    end
+    local menuEntity = nil
 
-    if ( self.menuEntity ~= nil ) then
+    local children = EntityService:GetChildren( self.entity, true )
+    for child in Iter(children) do
 
-        local menuParent = EntityService:GetParent( self.menuEntity )
+        local blueprintName = EntityService:GetBlueprintName( child )
+        if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
-        if ( menuParent == nil or menuParent == INVALID_ID or menuParent ~= self.entity ) then
-            self.menuEntity = nil
+            menuEntity = child
+
+            break
         end
     end
 
-    if ( self.menuEntity == nil ) then
-
-        local children = EntityService:GetChildren( self.entity, true )
-        for child in Iter(children) do
-            local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
-
-                self.menuEntity = child
-
-                break
-            end
-        end
-    end
-
-    if ( self.menuEntity == nil ) then
+    if ( menuEntity == nil ) then
 
         local team = EntityService:GetTeam( self.entity )
-        self.menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+        menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
     end
 
-    if ( self.menuEntity ~= nil ) then
+    if ( menuEntity ~= nil ) then
 
         local children = EntityService:GetChildren( self.entity, true )
         for child in Iter(children) do
             local blueprintName = EntityService:GetBlueprintName( child )
-            if ( blueprintName == menuBlueprintName and child ~= self.menuEntity ) then
+            if ( blueprintName == menuBlueprintName and child ~= menuEntity ) then
                 EntityService:RemoveEntity( child )
             end
         end
     end
 
-    if ( self.menuEntity == nil or self.menuEntity == INVALID_ID or not EntityService:IsAlive( self.menuEntity ) ) then
-        self.menuEntity = nil
-        return
-    end
-
-    local sizeSelf = EntityService:GetBoundsSize( self.entity )
-    EntityService:SetPosition( self.menuEntity, 0, sizeSelf.y + 3, 0 )
-
-    local menuDB = EntityService:GetOrCreateDatabase( self.menuEntity )
-    if ( menuDB ) then
-        menuDB:SetInt("menu_visible", 0)
-    end
-end
-
-function artificial_spawner:PopulateSpecialActionInfo()
-
-    local menuEntity = self.menuEntity
     if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
         return
     end
 
+    if ( not EntityService:HasComponent( menuEntity, "LuaComponent" ) ) then
+
+        QueueEvent( "RecreateComponentFromBlueprintRequest", menuEntity, "LuaComponent" )
+    end
+
+    local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    EntityService:SetPosition( menuEntity, 0, sizeSelf.y + 3, 0 )
+
     local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
-    if ( menuDB == nil ) then
-        return
-    end
-
-    menuDB:SetInt("slot_visible_1", 0)
-    menuDB:SetInt("slot_visible_2", 0)
-    menuDB:SetInt("slot_visible_3", 0)
-
-    menuDB:SetString("slot_icon_1", "")
-    menuDB:SetString("slot_icon_2", "")
-    menuDB:SetString("slot_icon_3", "")
-
-    menuDB:SetString("slot_name_1", "")
-    menuDB:SetString("slot_name_2", "")
-    menuDB:SetString("slot_name_3", "")
-
-    menuDB:SetInt("slot_rarity_1", 0)
-    menuDB:SetInt("slot_rarity_2", 0)
-    menuDB:SetInt("slot_rarity_3", 0)
-
-    local equipmentComponent = EntityService:GetComponent(self.entity, "EquipmentComponent")
-    if ( equipmentComponent == nil ) then
+    if ( menuDB ) then
         menuDB:SetInt("menu_visible", 0)
-        return
     end
-
-    local equipment = reflection_helper( equipmentComponent ).equipment[1]
-
-    local slotsCount = 1
-
-    local slots = equipment.slots
-    for i=1,slots.count do
-
-        local slot = slots[i]
-
-        local modItem = ItemService:GetEquippedItem( self.entity, slot.name )
-        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
-
-            local blueprintName = EntityService:GetBlueprintName( modItem )
-
-            local blueprint = ResourceManager:GetBlueprint( blueprintName )
-            if ( blueprint ~= nil ) then
-
-                local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
-                if ( inventoryItemComponent ~= nil ) then
-
-                    local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
-
-                    menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
-                    menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
-                    menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
-                    menuDB:SetInt("slot_rarity_" .. tostring(slotsCount), inventoryItemComponentRef.rarity)
-
-                    slotsCount = slotsCount + 1
-                end
-            end
-        end
-    end
-
-    if ( slotsCount == 1 ) then
-
-        local defaultBiomeBlueprint = self:GetDefaultBiomeBlueprint();
-
-        local blueprint = ResourceManager:GetBlueprint( defaultBiomeBlueprint )
-        if ( blueprint ~= nil ) then
-
-            local inventoryItemComponent = blueprint:GetComponent("InventoryItemComponent")
-            if ( inventoryItemComponent ~= nil ) then
-
-                local inventoryItemComponentRef = reflection_helper(inventoryItemComponent)
-
-                menuDB:SetInt("slot_visible_" .. tostring(slotsCount), 1)
-                menuDB:SetString("slot_icon_" .. tostring(slotsCount), inventoryItemComponentRef.icon)
-                menuDB:SetString("slot_name_" .. tostring(slotsCount), inventoryItemComponentRef.name)
-                menuDB:SetInt("slot_rarity_" .. tostring(slotsCount), inventoryItemComponentRef.rarity)
-
-                slotsCount = slotsCount + 1
-            end
-        end
-    end
-
-    self:SetMenuVisible(menuEntity)
 end
 
 function artificial_spawner:OnBuildingStartEventGettingInfo(evt)
