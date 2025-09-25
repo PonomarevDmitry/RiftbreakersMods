@@ -373,7 +373,7 @@ local player_equipment_autoexec = function(evt)
 
     local playerId = evt:GetPlayerId()
 
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
+    local player = PlayerService:GetGlobalPlayerEntity( playerId )
     if ( player == nil or player == INVALID_ID ) then
         return
     end
@@ -400,55 +400,9 @@ local player_equipment_autoexec = function(evt)
 
     local slotsField = equipmentItem:GetField("slots")
     if ( slotsField == nil ) then
-
-        local idField = equipmentItem:GetField("id")
-        if ( idField ~= nil ) then
-
-            local refEntity = tonumber( idField:GetValueAsNumber() )
-
-            if ( refEntity ~= nil ) then
-
-                --LogService:Log("player_equipment_autoexec Entity refEntity = " .. tostring(refEntity) .. " " .. idField:GetTypeName() .. " " .. type(refEntity))
-
-                equipmentComponent = EntityService:GetComponent(refEntity, "EquipmentComponent")
-                if ( equipmentComponent == nil ) then
-                    LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' EquipmentComponent NOT EXISTS.")
-                    return
-                end
-
-                --LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' EquipmentComponent " .. tostring(reflection_helper( equipmentComponent )))
-
-                equipment = equipmentComponent:GetField("equipment"):ToContainer()
-                if ( equipment == nil ) then
-                    LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' equipmentComponent:GetField('equipment'):ToContainer() NOT EXISTS.")
-                    return
-                end
-
-                equipmentItem = equipment:GetItem(0)
-                if ( equipmentItem == nil ) then
-                    LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' equipment:GetItem(0) NOT EXISTS.")
-                    return
-                end
-
-                slotsField = equipmentItem:GetField("slots")
-                if ( slotsField == nil ) then
-            
-                    LogService:Log("player_equipment_autoexec Entity '" .. tostring(refEntity) .. "' equipmentItem:GetField('slots') NOT EXISTS.")
-                    return
-                end
-
-                goto continueSlotsArray
-            end
-            
-            LogService:Log("player_equipment_autoexec Entity '" .. tostring(player) .. "' equipmentItem:GetField('slots') and equipmentItem:GetField('id') NOT EXISTS.")
-            return
-        end
-        
         LogService:Log("player_equipment_autoexec Entity '" .. tostring(player) .. "' equipmentItem:GetField('slots') and equipmentItem:GetField('id') NOT EXISTS.")
         return
     end
-
-    ::continueSlotsArray::
 
     local slotsArray = slotsField:ToContainer()
     if ( slotsArray == nil ) then
