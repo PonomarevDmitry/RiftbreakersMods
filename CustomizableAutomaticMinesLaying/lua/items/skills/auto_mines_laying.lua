@@ -362,6 +362,12 @@ end
 
 function auto_mines_laying:SpawnMine(mineBlueprintName)
 
+    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
+
+    local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
+
+
+
     local spot = EntityService:GetPosition( self.owner )
 
     spot.y = EnvironmentService:GetTerrainHeight(spot)
@@ -370,20 +376,15 @@ function auto_mines_laying:SpawnMine(mineBlueprintName)
 
     local spawned = EntityService:SpawnEntity( mineBlueprintName, spot, EntityService:GetTeam( self.owner ))
 
-    EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
-
-    ItemService:SetItemCreator( spawned, mineBlueprintName )
-    EntityService:PropagateEntityOwner( spawned, self.owner )
-
-    
-    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
-
-    local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data
-
-    local dissolveTime = database:GetFloatOrDefault( "dissolve", 0.3 )
+    --EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
 
     --QueueEvent( "FadeEntityInRequest", spawned, dissolveTime )
     EntityService:FadeEntity( spawned, DD_FADE_IN, dissolveTime )
+
+    ItemService:SetItemCreator( spawned, mineBlueprintName )
+    EntityService:PropagateEntityOwner( spawned, self.owner )
+    
+    EntityService:SpawnEntity( "effects/auto_mines_laying/mine_created", spawned, "" )
 end
 
 return auto_mines_laying
