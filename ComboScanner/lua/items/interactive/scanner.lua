@@ -27,10 +27,6 @@ function scanner:OnInit()
 	self.effectScannerDetector = INVALID_ID
 	self.lastFactor = 0
 
-	if ( self.effectScannerDetector == nil or self.effectScannerDetector == INVALID_ID or not EntityService:IsAlive( self.effectScannerDetector ) ) then
-		self.effectScannerDetector =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_muzzle_1", "" )
-	end
-
 	-- Detector Part End
 end
 
@@ -49,10 +45,6 @@ function scanner:OnLoad()
 	self.levelDetector    = blueprintDatabase:GetInt( "lvl" )
 	self.lastFactor = self.lastFactor or 0
 
-	if ( self.effectScannerDetector == nil or self.effectScannerDetector == INVALID_ID or not EntityService:IsAlive( self.effectScannerDetector ) ) then
-		self.effectScannerDetector =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_muzzle_1", "" )
-	end
-
 	-- Detector Part End
 end
 
@@ -61,9 +53,7 @@ function scanner:OnEquipped()
 
 	-- Detector Part Start
 
-	if ( self.effectScannerDetector == nil or self.effectScannerDetector == INVALID_ID or not EntityService:IsAlive( self.effectScannerDetector ) ) then
-		self.effectScannerDetector =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_muzzle_1", "" )
-	end
+	self.effectScannerDetector =  EntityService:SpawnAndAttachEntity( "items/interactive/detector_scanner",  self.item, "att_muzzle_1", "" )
 	EntityService:SetScale( self.effectScannerDetector, 15.0, 15.0, 15.0 )
 	EntityService:SetGraphicsUniform( self.effectScannerDetector, "cAlpha", 0 )
 
