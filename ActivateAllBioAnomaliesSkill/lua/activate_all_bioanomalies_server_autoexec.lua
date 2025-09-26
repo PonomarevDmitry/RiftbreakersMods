@@ -80,6 +80,24 @@ local activate_all_bioanomalies_autoexec = function(evt, eventName)
                 end
             end
 
+            local items_by_blueprint = inventoryComponentRef.inventory.items_by_blueprint
+
+            for i=1,items_by_blueprint.count do
+
+                local keyCollection = items_by_blueprint[i]
+
+                if ( keyCollection and keyCollection.key ~= nil and keyCollection.value and keyCollection.value.count > 0 ) then
+
+                    if ( keyCollection.key == skillName ) then
+
+                        LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
+
+                        isItemExists = true
+                        break
+                    end
+                end
+            end
+
             if (isItemExists == false) then
 
                 LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")

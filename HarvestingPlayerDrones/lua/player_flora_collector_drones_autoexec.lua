@@ -87,6 +87,23 @@ local player_flora_collector_drones_autoexec = function(evt, eventName)
                 end
             end
 
+            local items_by_blueprint = inventoryComponentRef.inventory.items_by_blueprint
+
+            for i=1,items_by_blueprint.count do
+
+                local keyCollection = items_by_blueprint[i]
+
+                if ( keyCollection and keyCollection.key ~= nil and keyCollection.value and keyCollection.value.count > 0 ) then
+
+                    if ( IndexOf( skillList, keyCollection.key ) ~= nil ) then
+
+                        LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
+
+                        hashItemInInventory[keyCollection.key] = true
+                    end
+                end
+            end
+
             for skillName in Iter( skillList ) do
 
                 if (hashItemInInventory[skillName] == nil) then
