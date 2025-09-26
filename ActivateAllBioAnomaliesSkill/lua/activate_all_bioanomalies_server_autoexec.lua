@@ -5,7 +5,7 @@ end
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
-local activate_all_bioanomalies_autoexec = function(evt)
+local activate_all_bioanomalies_autoexec = function(evt, eventName)
 
     if ( not is_server ) then
         return
@@ -13,7 +13,7 @@ local activate_all_bioanomalies_autoexec = function(evt)
 
     local playerId = evt:GetPlayerId()
 
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
+    local player = PlayerService:GetGlobalPlayerEntity( playerId )
 
     if ( player == nil or player == INVALID_ID ) then
         return
@@ -49,24 +49,60 @@ local activate_all_bioanomalies_autoexec = function(evt)
         end
     end
 
-    --local itemCount = PlayerService:GetItemNumber( playerId, skillName )
-    --
-    --if ( itemCount == 0 ) then
-    --    PlayerService:AddItemToInventory( playerId, skillName )
-    --end
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
+
+        local inventoryComponentRef = reflection_helper( inventoryComponent )
+
+        --LogService:Log(eventName .. " inventoryComponentRef " .. tostring(inventoryComponentRef))
+
+        if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil and inventoryComponentRef.inventory.items.count > 0 ) then
+
+            local isItemExists = false
+
+            local items = inventoryComponentRef.inventory.items
+
+            for i=1,items.count do
+
+                local item = items[i]
+
+                if ( item and item.id ~= nil ) then
+
+                    local blueprintName = EntityService:GetBlueprintName(item.id)
+
+                    if ( blueprintName == skillName ) then
+
+                        LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
+
+                        isItemExists = true
+                        break
+                    end
+                end
+            end
+
+            if (isItemExists == false) then
+
+                LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
+    
+                PlayerService:AddItemToInventory( playerId, skillName )
+            end
+        end
+    end
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    activate_all_bioanomalies_autoexec(evt)
---end)
+
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    activate_all_bioanomalies_autoexec(evt, "PlayerCreatedEvent")
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    activate_all_bioanomalies_autoexec(evt)
+    activate_all_bioanomalies_autoexec(evt, "PlayerInitializedEvent")
 end)
 
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    activate_all_bioanomalies_autoexec(evt)
+    activate_all_bioanomalies_autoexec(evt, "PlayerControlledEntityChangeEvent")
 end)

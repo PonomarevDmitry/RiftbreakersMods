@@ -5,7 +5,7 @@ end
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
-local customizable_movement_skill_autoexec = function(evt)
+local customizable_movement_skill_autoexec = function(evt, eventName)
 
     if ( not is_server ) then
         return
@@ -13,7 +13,7 @@ local customizable_movement_skill_autoexec = function(evt)
 
     local playerId = evt:GetPlayerId()
 
-    local player = PlayerService:GetPlayerControlledEnt( playerId )
+    local player = PlayerService:GetGlobalPlayerEntity( playerId )
 
     if ( player == nil or player == INVALID_ID ) then
         return
@@ -45,38 +45,73 @@ local customizable_movement_skill_autoexec = function(evt)
             end
         end
 
+        local team = EntityService:GetTeam( player )
+
         for skillName in Iter( skillList ) do
 
             if (hashItemUnlocked[skillName] == nil) then
-
-                local team = EntityService:GetTeam( player )
 
                 QueueEvent( "NewAwardEvent", INVALID_ID, skillName, true, team )
             end
         end
     end
 
-    for skillName in Iter( skillList ) do
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
+
+        local inventoryComponentRef = reflection_helper( inventoryComponent )
+
+        --LogService:Log(eventName .. " inventoryComponentRef " .. tostring(inventoryComponentRef))
+
+        if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil and inventoryComponentRef.inventory.items.count > 0 ) then
+
+            local hashItemInInventory = {}
+
+            local items = inventoryComponentRef.inventory.items
+
+            for i=1,items.count do
+
+                local item = items[i]
+
+                if ( item and item.id ~= nil ) then
+
+                    local blueprintName = EntityService:GetBlueprintName(item.id)
+
+                    if ( IndexOf( skillList, blueprintName ) ~= nil ) then
+
+                        LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
+
+                        hashItemInInventory[blueprintName] = true
+                    end
+                end
+            end
+
+            for skillName in Iter( skillList ) do
+
+                if (hashItemInInventory[skillName] == nil) then
+
+                    LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
     
-        local itemCount = PlayerService:GetItemNumber( playerId, skillName )
-    
-        if ( itemCount == 0 ) then
-            PlayerService:AddItemToInventory( playerId, skillName )
+                    PlayerService:AddItemToInventory( playerId, skillName )
+                end
+            end
         end
     end
 end
 
---RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
---
---    customizable_movement_skill_autoexec(evt)
---end)
+
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
+
+    customizable_movement_skill_autoexec(evt, "PlayerCreatedEvent")
+end)
 
 RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
 
-    customizable_movement_skill_autoexec(evt)
+    customizable_movement_skill_autoexec(evt, "PlayerInitializedEvent")
 end)
 
 RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
 
-    customizable_movement_skill_autoexec(evt)
+    customizable_movement_skill_autoexec(evt, "PlayerControlledEntityChangeEvent")
 end)
