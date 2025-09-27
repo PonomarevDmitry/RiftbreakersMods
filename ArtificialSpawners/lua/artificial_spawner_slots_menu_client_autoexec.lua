@@ -94,3 +94,29 @@ RegisterGlobalEventHandler("StartBuildingEvent", eventHandler)
 RegisterGlobalEventHandler("BuildingBuildEndEvent", eventHandler)
 
 RegisterGlobalEventHandler("BuildingModifiedEvent", eventHandler)
+
+
+
+local attachMenuToAll = function(evt)
+
+    if ( is_server and is_client ) then
+        return
+    end
+
+    if ( not is_client ) then
+        return
+    end
+
+    local entities = FindService:FindEntitiesByBlueprint( "buildings/main/artificial_spawner" )
+
+    for entity in Iter( entities ) do
+
+        CreateMenuEntity(entity)
+    end
+end
+
+RegisterGlobalEventHandler("PlayerCreatedEvent", attachMenuToAll)
+
+RegisterGlobalEventHandler("PlayerInitializedEvent", attachMenuToAll)
+
+RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", attachMenuToAll)
