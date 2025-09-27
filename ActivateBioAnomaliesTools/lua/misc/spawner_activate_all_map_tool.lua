@@ -8,6 +8,7 @@ function spawner_activate_all_map_tool:__init()
 end
 
 function spawner_activate_all_map_tool:OnInit()
+
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_spawner_activate_all_map_tool", self.entity)
 
     self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
@@ -71,6 +72,7 @@ function spawner_activate_all_map_tool:OnInit()
     end
 
     self.popupShown = false
+    self.timeoutTime = nil
 end
 
 function spawner_activate_all_map_tool:GetScaleFromDatabase()
@@ -131,11 +133,16 @@ function spawner_activate_all_map_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+        return
+    end
+
     if( self.popupShown == false ) then
+
+        self.popupShown = true
 
         GuiService:OpenPopup(self.entity, "gui/popup/popup_ingame_2buttons", "gui/hud/spawner_activate_tools/activate_all_spawners")
 
-        self.popupShown = true
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
     end
 end
@@ -143,25 +150,26 @@ end
 
 function spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt )
 
-    local buttonResult = evt:GetResult()
+    local cooldown = 1
 
-    if ( buttonResult == "button_yes" ) then
+    self.timeoutTime = GetLogicTime() + cooldown
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+    if ( evt:GetResult() == "button_yes" ) then
 
         local mapperName = "ActivateBioAnomaliesToolsAllRequest|" .. tostring(self.playerId)
 
         QueueEvent("OperateActionMapperRequest", event_sink, mapperName, false )
-    end
-
-    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
-    self.popupShown = false
 
 
-    if ( buttonResult == "button_yes" ) then
 
         QueueEvent( "LeaveBuildModeRequest", self.selector, false )
 
         EntityService:RemoveEntity( self.entity )
     end
+
+    self.popupShown = false
 end
 
 return spawner_activate_all_map_tool
