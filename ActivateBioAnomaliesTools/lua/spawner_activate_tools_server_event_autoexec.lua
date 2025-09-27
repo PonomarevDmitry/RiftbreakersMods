@@ -18,6 +18,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         local entity = evt:GetEntity()
 
+        if ( not EntityService:IsAlive(entity) ) then
+            return
+        end
+
         local minimapItemComponent = EntityService:GetComponent( entity, "MinimapItemComponent" )
         if ( minimapItemComponent ~= nil ) then
             local minimapItemComponentRef = reflection_helper( minimapItemComponent )
