@@ -10,6 +10,7 @@ end
 function upgrade_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_upgrade", self.entity)
     self.popupShown = false
+    self.timeoutTime = nil
 
     -- List of buildings highlighted for upgrade
     self.previousMarkedBuildings = {}
@@ -223,6 +224,10 @@ function upgrade_tool:OnActivateEntity( entity )
 
         if ( CampaignService:GetCurrentCampaignType() == "story" ) then
 
+            if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+                return
+            end
+
             if( self.popupShown == false ) then
 
                 GuiService:OpenPopup(entity, "gui/popup/popup_ingame_2buttons", "gui/hud/tutorial/hq_upgrade_confirm")
@@ -239,6 +244,10 @@ function upgrade_tool:OnActivateEntity( entity )
 end
 
 function upgrade_tool:OnGuiPopupResultEvent( evt )
+
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
 
     if ( evt:GetResult() == "button_yes" ) then
         QueueEvent( "UpgradeBuildingRequest", evt:GetEntity(), self.playerId )
