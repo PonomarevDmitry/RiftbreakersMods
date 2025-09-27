@@ -25,6 +25,7 @@ function artificial_spawner_activate_all_map_tool:OnInit()
     self.allSpawners = FindService:FindEntitiesByBlueprintInBox("buildings/main/artificial_spawner", world_min, world_max )
 
     self.popupShown = false
+    self.timeoutTime = nil
 end
 
 function artificial_spawner_activate_all_map_tool:GetScaleFromDatabase()
@@ -70,7 +71,9 @@ function artificial_spawner_activate_all_map_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -80,6 +83,10 @@ end
 function artificial_spawner_activate_all_map_tool:OnActivateSelectorRequest()
 
     if ( #self.allSpawners == 0 ) then
+        return
+    end
+
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
         return
     end
 
@@ -95,19 +102,23 @@ end
 
 function artificial_spawner_activate_all_map_tool:OnGuiPopupResultEvent( evt)
 
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
+
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+    if ( evt:GetResult() == "button_yes" ) then
+
+        EffectService:SpawnEffect( self.player, "effects/enemies_generic/wave_start" )
+
+        for entity in Iter( self.allSpawners ) do
+
+            QueueEvent( "InteractWithEntityRequest", entity, self.player )
+        end
+    end
+
     self.popupShown = false
-
-    if ( evt:GetResult() ~= "button_yes" ) then
-        return
-    end
-
-    EffectService:SpawnEffect( self.player, "effects/enemies_generic/wave_start" )
-
-    for entity in Iter( self.allSpawners ) do
-
-        QueueEvent( "InteractWithEntityRequest", entity, self.player )
-    end
 end
 
 return artificial_spawner_activate_all_map_tool

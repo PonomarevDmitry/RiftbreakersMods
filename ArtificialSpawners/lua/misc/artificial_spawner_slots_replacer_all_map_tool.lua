@@ -26,6 +26,7 @@ function artificial_spawner_slots_replacer_all_map_tool:OnInit()
     self.allSpawners = FindService:FindEntitiesByBlueprintInBox("buildings/main/artificial_spawner", world_min, world_max )
 
     self.popupShown = false
+    self.timeoutTime = nil
 
     self.configName = self.data:GetString("config_name")
     self.configNameList = self.data:GetString("config_list_name")
@@ -382,6 +383,10 @@ function artificial_spawner_slots_replacer_all_map_tool:OnActivateSelectorReques
         return
     end
 
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+        return
+    end
+
     if( self.popupShown == false ) then
 
         self.popupShown = true
@@ -391,63 +396,67 @@ function artificial_spawner_slots_replacer_all_map_tool:OnActivateSelectorReques
     end
 end
 
-function artificial_spawner_slots_replacer_all_map_tool:OnGuiPopupResultEvent( evt)
+function artificial_spawner_slots_replacer_all_map_tool:OnGuiPopupResultEvent( evt )
+
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
+
+    if ( evt:GetResult() == "button_yes" ) then
+
+        for entity in Iter( self.selectedEntities ) do
+
+            local equipmentComponent = EntityService:GetComponent(entity, "EquipmentComponent")
+            if ( equipmentComponent == nil ) then
+                goto continueEntity
+            end
+
+            local equipment = reflection_helper( equipmentComponent ).equipment[1]
+
+            local slots = equipment.slots
+            for i=1,slots.count do
+
+                local slot = slots[i]
+
+                local selectedModItemBlueprintName = self.SelectedSlotsBlueprints[i] or ""
+
+                if ( selectedModItemBlueprintName == nil or selectedModItemBlueprintName == "" or not ResourceManager:ResourceExists( "EntityBlueprint", selectedModItemBlueprintName ) ) then
+                    goto continueSlot
+                end
+
+                local modItem = ItemService:GetEquippedItem( entity, slot.name )
+                if ( modItem == nil or modItem == INVALID_ID ) then
+                    goto replaceItem
+                end
+
+                if ( EntityService:GetBlueprintName( modItem ) == selectedModItemBlueprintName ) then
+                    goto continueSlot
+                end
+
+                ::replaceItem::
+
+                local item = ItemService:GetFirstItemForBlueprint( entity, selectedModItemBlueprintName )
+
+                if ( item == INVALID_ID ) then
+                    item = ItemService:AddItemToInventory( entity, selectedModItemBlueprintName )
+                end
+
+                if ( item ~= INVALID_ID ) then
+                    ItemService:EquipItemInSlot( entity, item, slot.name )
+                end
+
+                ::continueSlot::
+            end
+
+            BuildingService:BlinkBuilding(entity)
+
+            ::continueEntity::
+        end
+    end
+
     self.popupShown = false
-
-    if ( evt:GetResult() ~= "button_yes" ) then
-        return
-    end
-
-    for entity in Iter( self.selectedEntities ) do
-
-        local equipmentComponent = EntityService:GetComponent(entity, "EquipmentComponent")
-        if ( equipmentComponent == nil ) then
-            goto continueEntity
-        end
-
-        local equipment = reflection_helper( equipmentComponent ).equipment[1]
-
-        local slots = equipment.slots
-        for i=1,slots.count do
-
-            local slot = slots[i]
-
-            local selectedModItemBlueprintName = self.SelectedSlotsBlueprints[i] or ""
-
-            if ( selectedModItemBlueprintName == nil or selectedModItemBlueprintName == "" or not ResourceManager:ResourceExists( "EntityBlueprint", selectedModItemBlueprintName ) ) then
-                goto continueSlot
-            end
-
-            local modItem = ItemService:GetEquippedItem( entity, slot.name )
-            if ( modItem == nil or modItem == INVALID_ID ) then
-                goto replaceItem
-            end
-
-            if ( EntityService:GetBlueprintName( modItem ) == selectedModItemBlueprintName ) then
-                goto continueSlot
-            end
-
-            ::replaceItem::
-
-            local item = ItemService:GetFirstItemForBlueprint( entity, selectedModItemBlueprintName )
-
-            if ( item == INVALID_ID ) then
-                item = ItemService:AddItemToInventory( entity, selectedModItemBlueprintName )
-            end
-
-            if ( item ~= INVALID_ID ) then
-                ItemService:EquipItemInSlot( entity, item, slot.name )
-            end
-
-            ::continueSlot::
-        end
-
-        BuildingService:BlinkBuilding(entity)
-
-        ::continueEntity::
-    end
 end
 
 function artificial_spawner_slots_replacer_all_map_tool:ChangeSelector(slotsValues)
