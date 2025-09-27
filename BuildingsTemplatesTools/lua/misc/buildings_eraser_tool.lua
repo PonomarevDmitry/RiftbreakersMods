@@ -15,6 +15,7 @@ function buildings_eraser_tool:OnInit()
     }
 
     self.popupShown = false
+    self.timeoutTime = nil
 
     self.allTemplatesName = "all"
 
@@ -329,6 +330,10 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+        return
+    end
+
     local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
@@ -382,13 +387,21 @@ function buildings_eraser_tool:DatabaseHasTemplate(globalPlayerEntityDB, selecto
     return false
 end
 
+function buildings_eraser_tool:SaveTimeout()
+
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
+end
+
 function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
+
+    self:SaveTimeout()
 
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate" )
 
-    self.popupShown = false
-
     if ( evt:GetResult() ~= "button_yes" ) then
+        self.popupShown = false
         return
     end
 
@@ -413,15 +426,18 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
     self:UpdateMarker()
 
     self:FillMarkerMessage()
+
+    self.popupShown = false
 end
 
 function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
 
+    self:SaveTimeout()
+
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates" )
 
-    self.popupShown = false
-
     if ( evt:GetResult() ~= "button_yes" ) then
+        self.popupShown = false
         return
     end
 
@@ -451,6 +467,8 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
     self:UpdateMarker()
 
     self:FillMarkerMessage()
+
+    self.popupShown = false
 end
 
 function buildings_eraser_tool:OnRelease()

@@ -15,6 +15,7 @@ function buildings_database_exporter_tool:OnInit()
     }
 
     self.popupShown = false
+    self.timeoutTime = nil
 
     self.allTemplatesName = "all"
 
@@ -380,6 +381,10 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+        return
+    end
+
     local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
@@ -406,6 +411,8 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
         else
 
+            self:SaveTimeout()
+
             self:ExportAllTemplatesToToDatabase(globalPlayerEntityDB, selectorDB, campaignDatabase)
         end
     else
@@ -420,6 +427,8 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
         local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
         if ( persistentTemplateString == "" ) then
+
+            self:SaveTimeout()
 
             self:ExportTemplateToToDatabase(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase, self.persistentDatabase)
 
@@ -481,13 +490,21 @@ function buildings_database_exporter_tool:DatabaseHasOverrideTemplate(globalPlay
     return false
 end
 
+function buildings_database_exporter_tool:SaveTimeout()
+
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
+end
+
 function buildings_database_exporter_tool:OnGuiPopupResultEventAllTemplates( evt )
+
+    self:SaveTimeout()
 
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventAllTemplates" )
 
-    self.popupShown = false
-
     if ( evt:GetResult() ~= "button_yes" ) then
+        self.popupShown = false
         return
     end
 
@@ -498,6 +515,8 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventAllTemplates( evt
     local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     self:ExportAllTemplatesToToDatabase(globalPlayerEntityDB, selectorDB, campaignDatabase)
+
+    self.popupShown = false
 end
 
 function buildings_database_exporter_tool:ExportAllTemplatesToToDatabase(globalPlayerEntityDB, selectorDB, campaignDatabase)
@@ -520,11 +539,12 @@ end
 
 function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( evt )
 
+    self:SaveTimeout()
+
     self:UnregisterHandler( evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventSingleTemplate" )
 
-    self.popupShown = false
-
     if ( evt:GetResult() ~= "button_yes" ) then
+        self.popupShown = false
         return
     end
 
@@ -539,6 +559,8 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( e
     self:UpdateMarker()
 
     self:FillMarkerMessage()
+
+    self.popupShown = false
 end
 
 function buildings_database_exporter_tool:ExportTemplateToToDatabase(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase, persistentDatabase)
