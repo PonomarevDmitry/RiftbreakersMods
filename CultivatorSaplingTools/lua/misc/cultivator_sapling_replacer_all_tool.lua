@@ -261,14 +261,23 @@ function cultivator_sapling_replacer_all_tool:OnGuiPopupResultEvent( evt)
 
             if ( EntityService:IsAlive( entity ) ) then
 
-                local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
+                if ( is_server and is_client ) then
 
-                if item == INVALID_ID then
+                    local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
 
-                    item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
+                    if item == INVALID_ID then
+
+                        item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
+                    end
+
+                    ItemService:EquipItemInSlot( entity, item, "MOD_1" )
+
+                else
+
+                    local mapperName = "CultivatorSaplingToolsReplaceRequest|" .. self.SelectedItemBlueprint
+
+                    QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
                 end
-
-                ItemService:EquipItemInSlot( entity, item, "MOD_1" )
 
                 BuildingService:BlinkBuilding(entity)
             end
