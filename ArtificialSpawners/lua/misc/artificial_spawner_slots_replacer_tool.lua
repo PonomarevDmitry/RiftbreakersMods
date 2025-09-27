@@ -131,7 +131,9 @@ function artificial_spawner_slots_replacer_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial(entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -260,8 +262,6 @@ function artificial_spawner_slots_replacer_tool:OnActivateEntity( entity )
 
     local equipment = reflection_helper( equipmentComponent ).equipment[1]
 
-    local blueprintName = ""
-
     local slots = equipment.slots
     for i=1,slots.count do
 
@@ -270,32 +270,40 @@ function artificial_spawner_slots_replacer_tool:OnActivateEntity( entity )
         local modItemBlueprintName = self.SelectedSlotsBlueprints[i] or ""
 
         if ( modItemBlueprintName == nil or modItemBlueprintName == "" or not ResourceManager:ResourceExists( "EntityBlueprint", modItemBlueprintName ) ) then
-            goto continue
+            goto labelContinue
         end
 
         local modItem = ItemService:GetEquippedItem( entity, slot.name )
-        if ( modItem == nil or modItem == INVALID_ID ) then
-            goto replaceItem
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+            if ( EntityService:GetBlueprintName( modItem ) == modItemBlueprintName ) then
+                goto labelContinue
+            end
         end
 
-        blueprintName = EntityService:GetBlueprintName( modItem )
-        if ( blueprintName == modItemBlueprintName ) then
-            goto continue
+
+
+        if ( is_server and is_client ) then
+
+            local item = ItemService:GetFirstItemForBlueprint( entity, modItemBlueprintName )
+
+            if ( item == INVALID_ID ) then
+                item = ItemService:AddItemToInventory( entity, modItemBlueprintName )
+            end
+
+            if ( item ~= INVALID_ID ) then
+                ItemService:EquipItemInSlot( entity, item, slot.name )
+            end
+
+        else
+
+            local mapperName = "ArtificialSpawnersReplaceRequest|" .. slot.name .. "|" .. modItemBlueprintName
+
+            QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
         end
 
-        ::replaceItem::
 
-        local item = ItemService:GetFirstItemForBlueprint( entity, modItemBlueprintName )
-
-        if ( item == INVALID_ID ) then
-            item = ItemService:AddItemToInventory( entity, modItemBlueprintName )
-        end
-
-        if ( item ~= INVALID_ID ) then
-            ItemService:EquipItemInSlot( entity, item, slot.name )
-        end
-
-        ::continue::
+        ::labelContinue::
     end
 
     BuildingService:BlinkBuilding(entity)

@@ -65,7 +65,9 @@ function artificial_spawner_activate_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -90,7 +92,20 @@ function artificial_spawner_activate_tool:OnActivateEntity( entity )
         return
     end
 
-    QueueEvent( "InteractWithEntityRequest", entity, self.player )
+
+
+    if ( is_server and is_client ) then
+
+        QueueEvent( "InteractWithEntityRequest", entity, self.player )
+
+    else
+
+        local mapperName = "ArtificialSpawnersActivateSingleRequest|" .. tostring(self.playerId)
+
+        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+    end
+
+    
 
     Insert(self.activatedEntities, entity)
 end

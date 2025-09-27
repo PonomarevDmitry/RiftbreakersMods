@@ -357,7 +357,9 @@ function artificial_spawner_slots_replacer_all_map_tool:RemovedFromSelection( en
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
-        EntityService:RemoveMaterial( child, "selected" )
+        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
+            EntityService:RemoveMaterial( child, "selected" )
+        end
     end
 end
 
@@ -427,25 +429,35 @@ function artificial_spawner_slots_replacer_all_map_tool:OnGuiPopupResultEvent( e
                 end
 
                 local modItem = ItemService:GetEquippedItem( entity, slot.name )
-                if ( modItem == nil or modItem == INVALID_ID ) then
-                    goto replaceItem
+                if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+                    if ( EntityService:GetBlueprintName( modItem ) == selectedModItemBlueprintName ) then
+                        goto continueSlot
+                    end
                 end
 
-                if ( EntityService:GetBlueprintName( modItem ) == selectedModItemBlueprintName ) then
-                    goto continueSlot
+
+
+                if ( is_server and is_client ) then
+
+                    local item = ItemService:GetFirstItemForBlueprint( entity, selectedModItemBlueprintName )
+
+                    if ( item == INVALID_ID ) then
+                        item = ItemService:AddItemToInventory( entity, selectedModItemBlueprintName )
+                    end
+
+                    if ( item ~= INVALID_ID ) then
+                        ItemService:EquipItemInSlot( entity, item, slot.name )
+                    end
+
+                else
+
+                    local mapperName = "ArtificialSpawnersReplaceRequest|" .. slot.name .. "|" .. selectedModItemBlueprintName
+
+                    QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
                 end
 
-                ::replaceItem::
-
-                local item = ItemService:GetFirstItemForBlueprint( entity, selectedModItemBlueprintName )
-
-                if ( item == INVALID_ID ) then
-                    item = ItemService:AddItemToInventory( entity, selectedModItemBlueprintName )
-                end
-
-                if ( item ~= INVALID_ID ) then
-                    ItemService:EquipItemInSlot( entity, item, slot.name )
-                end
+                
 
                 ::continueSlot::
             end
