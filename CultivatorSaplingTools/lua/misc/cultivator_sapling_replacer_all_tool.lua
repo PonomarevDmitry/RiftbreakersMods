@@ -23,6 +23,7 @@ function cultivator_sapling_replacer_all_tool:OnInit()
 
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_cultivator_sapling_replacer_all_tool", self.entity)
     self.popupShown = false
+    self.timeoutTime = nil
 
     self.configName = "cultivator_sapling_picker_tool.selecteditem"
     self.configNameList = "cultivator_sapling_picker_tool.last_selected_saplings"
@@ -233,6 +234,10 @@ function cultivator_sapling_replacer_all_tool:OnActivateSelectorRequest()
         return
     end
 
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
+        return
+    end
+
     if( self.popupShown == false ) then
 
         self.popupShown = true
@@ -244,29 +249,33 @@ end
 
 function cultivator_sapling_replacer_all_tool:OnGuiPopupResultEvent( evt)
 
+    local cooldown = 1
+
+    self.timeoutTime = GetLogicTime() + cooldown
+
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
-    self.popupShown = false
 
-    if ( evt:GetResult() ~= "button_yes" ) then
-        return
-    end
+    if ( evt:GetResult() == "button_yes" ) then
 
-    for entity in Iter( self.selectedEntities ) do
+        for entity in Iter( self.selectedEntities ) do
 
-        if ( EntityService:IsAlive( entity ) ) then
+            if ( EntityService:IsAlive( entity ) ) then
 
-            local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
+                local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
 
-            if item == INVALID_ID then
+                if item == INVALID_ID then
 
-                item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
+                    item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
+                end
+
+                ItemService:EquipItemInSlot( entity, item, "MOD_1" )
+
+                BuildingService:BlinkBuilding(entity)
             end
-
-            ItemService:EquipItemInSlot( entity, item, "MOD_1" )
-
-            BuildingService:BlinkBuilding(entity)
         end
     end
+
+    self.popupShown = false
 end
 
 function cultivator_sapling_replacer_all_tool:ChangeSelector(modItemBlueprintName)
