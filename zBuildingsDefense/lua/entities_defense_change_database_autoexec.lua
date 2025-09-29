@@ -128,7 +128,7 @@ InjectChangeDefenseBuildingBlueprintDatabaseComponent(supported_item_blueprints)
 
 
 
-local InjectChangeDefenseBuildingGhostValues = function(blueprintName, rangeMax, aimingRange)
+local InjectChangeDefenseBuildingGhostValues = function(blueprintName, rangeMax)
 
     blueprintName = blueprintName .. "_ghost"
 
