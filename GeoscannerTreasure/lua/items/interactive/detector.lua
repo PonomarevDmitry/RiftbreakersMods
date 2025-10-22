@@ -23,7 +23,7 @@ function detector:OnInit()
 end
 
 function detector:OnEquipped()
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 
@@ -34,7 +34,7 @@ function detector:OnEquipped()
 end
 
 function detector:OnActivate()
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 	local playerId = PlayerService:GetPlayerForEntity(self.owner )
@@ -55,7 +55,7 @@ function detector:OnActivate()
 end
 
 function detector:OnDeactivate( forced )
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return true
 	end
 	local playerId = PlayerService:GetPlayerForEntity(self.owner )
