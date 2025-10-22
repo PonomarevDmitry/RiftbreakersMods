@@ -26,12 +26,8 @@ function liquid_decompressor:OnInit()
 
     self.decompressorVersion = 1
 
-    local playerId = PlayerService:GetPlayerForEntity( self.entity )
-
-    if ( PlayerService:IsInFighterMode( playerId ) ) then
-        self.showLiquidIcon = 0
-    else
-        self.showLiquidIcon = 1
+    if ( is_server and is_client ) then
+        self:CreateMenuEntity()
     end
 
     self:registerBuildMenuTracker()
@@ -46,6 +42,10 @@ function liquid_decompressor:OnLoad()
     self.decompressorVersion = 1
 
     self.showLiquidIcon = self.showLiquidIcon or 0
+    if ( is_server and is_client ) then
+        self:CreateMenuEntity()
+    end
+
     self:registerBuildMenuTracker()
 end
 
@@ -66,52 +66,77 @@ end
 
 function liquid_decompressor:CreateMenuEntity()
 
-    if ( self.compressorLiquidMenu == nil ) then
+    local menuBlueprintName = "misc/decompressor_liquid_menu"
 
-        self.compressorLiquidMenu = EntityService:SpawnAndAttachEntity("misc/compressor_liquid_menu", self.entity)
+    local menuEntity = nil
 
-        local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
+    local children = EntityService:GetChildren( self.entity, true )
+    for child in Iter(children) do
 
-        self.showLiquidIcon = self.showLiquidIcon or 1
+        local blueprintName = EntityService:GetBlueprintName( child )
+        if ( blueprintName == menuBlueprintName and EntityService:GetParent( child ) == self.entity ) then
 
-        local visible = 0
+            menuEntity = child
 
-        local playerId = PlayerService:GetPlayerForEntity( self.entity )
+            break
+        end
+    end
 
-        if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
-            visible = self.showLiquidIcon
+    if ( menuEntity == nil ) then
+
+        local team = EntityService:GetTeam( self.entity )
+        menuEntity = EntityService:SpawnAndAttachEntity(menuBlueprintName, self.entity, team)
+    end
+
+    if ( menuEntity ~= nil ) then
+
+        local children = EntityService:GetChildren( self.entity, true )
+        for child in Iter(children) do
+            local blueprintName = EntityService:GetBlueprintName( child )
+            if ( blueprintName == menuBlueprintName and child ~= menuEntity ) then
+                EntityService:RemoveEntity( child )
+            end
+        end
         end
 
-        menuDB:SetInt("liquid_visible", visible)
+    if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
+        return
+    end
+
+    if ( not EntityService:HasComponent( menuEntity, "LuaComponent" ) ) then
+
+        QueueEvent( "RecreateComponentFromBlueprintRequest", menuEntity, "LuaComponent" )
+end
+
+    --local sizeSelf = EntityService:GetBoundsSize( self.entity )
+    --EntityService:SetPosition( menuEntity, 0, sizeSelf.y + 3, 0 )
+
+    local menuDB = EntityService:GetOrCreateDatabase( menuEntity )
+    if ( menuDB ) then
+        menuDB:SetInt("liquid_visible", 0)
     end
 end
 
 function liquid_decompressor:PopulateSpecialActionInfo()
 
-    self:CreateMenuEntity()
-
-    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
-
-    if ( self:IsCompressedResourceFilled( menuDB ) ) then
+    if ( self:IsCompressedResourceFilled() ) then
 
         if ( self.compressorNonWorking ~= nil ) then
             EntityService:RemoveEntity(self.compressorNonWorking)
             self.compressorNonWorking = nil
         end
+
         return
     end
 
     self.data:SetString("action_icon", "gui/hud/resource_icons/compressed_resources_bigger" )
-
-    menuDB:SetString("liquid_icon", "gui/hud/resource_icons/compressed_resources_bigger")
-    menuDB:SetString("liquid_name", "gui/hud/messages/compressors_with_liquid_icon/select_compressed_resource")
 
     if ( self.compressorNonWorking == nil ) then
         self.compressorNonWorking = EntityService:SpawnAndAttachEntity("misc/compressor_minimap_icon_non_working_blue", self.entity)
     end
 end
 
-function liquid_decompressor:IsCompressedResourceFilled( menuDB )
+function liquid_decompressor:IsCompressedResourceFilled()
 
     if ( self.item == INVALID_ID or self.item == nil ) then
         return false
@@ -143,16 +168,15 @@ function liquid_decompressor:IsCompressedResourceFilled( menuDB )
 
     self.data:SetString("action_icon", itemBiggerIcon )
 
-    menuDB:SetString("liquid_icon", itemBiggerIcon)
-    menuDB:SetString("liquid_name", "")
-
     return true
 end
 
 function liquid_decompressor:registerBuildMenuTracker()
 
-    self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
-    self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
+    self:UnregisterHandlers( "LuaGlobalEvent" )
+
+    self:UnregisterHandlers( "EnterBuildMenuEvent" )
+    self:UnregisterHandlers( "EnterFighterModeEvent" )
 end
 
 function liquid_decompressor:OnLuaGlobalEventCompressorsShowHideIcon()
@@ -160,33 +184,11 @@ function liquid_decompressor:OnLuaGlobalEventCompressorsShowHideIcon()
 end
 
 function liquid_decompressor:OnEnterBuildMenuEvent( evt )
-
-    self.showLiquidIcon = 1
-
-    self:SetCompressorLiquidMenuVisible()
+    -- Legacy Empty function
 end
 
 function liquid_decompressor:OnEnterFighterModeEvent( evt )
-
-    self.showLiquidIcon = 0
-
-    self:SetCompressorLiquidMenuVisible()
-end
-
-function liquid_decompressor:SetCompressorLiquidMenuVisible()
-
-    self:CreateMenuEntity()
-
-    local visible = 0
-
-    local playerId = PlayerService:GetPlayerForEntity( self.entity )
-
-    if ( BuildingService:IsBuildingFinished( self.entity ) and not PlayerService:IsInFighterMode( playerId ) ) then
-        visible = self.showLiquidIcon
-    end
-
-    local menuDB = EntityService:GetOrCreateDatabase( self.compressorLiquidMenu )
-    menuDB:SetInt("liquid_visible", visible)
+    -- Legacy Empty function
 end
 
 function liquid_decompressor:Refresh()
@@ -227,11 +229,6 @@ function liquid_decompressor:OnRemove()
 end
 
 function liquid_decompressor:OnRelease()
-
-    if ( self.compressorLiquidMenu ~= nil and self.compressorLiquidMenu ~= INVALID_ID ) then
-        EntityService:RemoveEntity( self.compressorLiquidMenu )
-        self.compressorLiquidMenu = nil
-    end
 
     if ( self.compressorNonWorking ~= nil and self.compressorNonWorking ~= INVALID_ID ) then
         EntityService:RemoveEntity( self.compressorNonWorking )
