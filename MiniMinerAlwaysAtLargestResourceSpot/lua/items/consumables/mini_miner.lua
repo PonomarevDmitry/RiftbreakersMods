@@ -19,7 +19,7 @@ end
 function mini_miner:OnActivate()
     local playerId = PlayerService:GetPlayerForEntity(self.owner)
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "", playerId )
-   	
+    
     if ( pos.first == false ) then
         return
     end
@@ -167,7 +167,10 @@ function mini_miner:GetResourceChilds(resourceVolume)
 end
 
 function mini_miner:CanActivate()
-    item.CanActivate( self )
+    if ( not item.CanActivate( self ) ) then
+        self:SetCanActivate( false )
+        return false
+    end
 
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
         self:SetCanActivate( false )
@@ -178,9 +181,8 @@ function mini_miner:CanActivate()
     local playerId = PlayerService:GetPlayerForEntity(self.owner)
     local pos = FindService:FindEmptySpotForBuildingRadius( self.owner, 6.0, self.bp, "", "", playerId )
 
-   	self:SetCanActivate( pos.first )
+    self:SetCanActivate( pos.first )
     return pos.first
-        
 end
 
 function mini_miner:OnLoad()
