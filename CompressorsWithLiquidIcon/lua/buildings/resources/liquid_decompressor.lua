@@ -21,10 +21,11 @@ function liquid_decompressor:OnInit()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "UnequipItemRequest", "OnUnequipItemRequest" )
+    self:RegisterHandler( self.entity, "SellBuildingRequest", "OnSellBuildingRequest" )
     self.postfix = self.data:GetStringOrDefault( "postfix", "_storage")
     EntityService:SetSubMeshMaterial( self.entity, "resources/resource_empty_fresnel", 1, "default" )
 
-    self.decompressorVersion = 1
+    self.decompressorVersion = 2
 
     if ( is_server and is_client ) then
         self:CreateMenuEntity()
@@ -39,9 +40,12 @@ function liquid_decompressor:OnLoad()
     if ( version < 1) then
         self:RegisterHandler( self.entity, "UnequipItemRequest", "OnUnequipItemRequest" )
     end
-    self.decompressorVersion = 1
 
-    self.showLiquidIcon = self.showLiquidIcon or 0
+    if ( version < 2 ) then
+        self:RegisterHandler( self.entity, "SellBuildingRequest", "OnSellBuildingRequest" )
+    end
+    self.decompressorVersion = 2
+
     if ( is_server and is_client ) then
         self:CreateMenuEntity()
     end
@@ -97,7 +101,7 @@ function liquid_decompressor:CreateMenuEntity()
                 EntityService:RemoveEntity( child )
             end
         end
-        end
+    end
 
     if ( menuEntity == nil or menuEntity == INVALID_ID or not EntityService:IsAlive( menuEntity ) ) then
         return
@@ -106,7 +110,7 @@ function liquid_decompressor:CreateMenuEntity()
     if ( not EntityService:HasComponent( menuEntity, "LuaComponent" ) ) then
 
         QueueEvent( "RecreateComponentFromBlueprintRequest", menuEntity, "LuaComponent" )
-end
+    end
 
     --local sizeSelf = EntityService:GetBoundsSize( self.entity )
     --EntityService:SetPosition( menuEntity, 0, sizeSelf.y + 3, 0 )
@@ -221,7 +225,12 @@ function liquid_decompressor:OnDestroyRequest()
     building.OnDestroyRequest(self)
     BuildingService:ClearDecompressor(self.entity, false)
 end
+
 function liquid_decompressor:OnSellStart()
+    BuildingService:ClearDecompressor(self.entity, false)
+end
+
+function liquid_decompressor:OnSellBuildingRequest()
     BuildingService:ClearDecompressor(self.entity, false)
 end
 
