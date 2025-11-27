@@ -15,14 +15,10 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
 
 
-    local campaignDatabase = nil
 
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
 
-    local globalPlayerEntityDB = nil
     local selectorDB = nil
+    local globalPlayerEntity = nil
 
     if (selector and selector ~= INVALID_ID) then
 
@@ -32,17 +28,12 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
 
         if ( playerId ~= nil and playerId ~= -1 ) then
 
-            local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
-
-            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-                globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
-            end
+            globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
         end
     end
 
 
-    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntity, selectorDB)
 
     local firstLevelBlueprint = LastSelectedBlueprintsListUtils:GetFirstLevelBuilding(blueprintName)
 
@@ -56,19 +47,13 @@ function LastSelectedBlueprintsListUtils:AddBlueprintToList(parameterName, selec
         table.remove( currentListArray, 1 )
     end
 
-    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntityDB, selectorDB, currentListArray)
+    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntity, selectorDB, currentListArray)
 end
 
 function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selector)
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-    local globalPlayerEntityDB = nil
     local selectorDB = nil
+    local globalPlayerEntity = nil
 
     if (selector and selector ~= INVALID_ID) then
 
@@ -78,37 +63,39 @@ function LastSelectedBlueprintsListUtils:GetCurrentList(parameterName, selector)
 
         if ( playerId ~= nil and playerId ~= -1 ) then
 
-            local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
-
-            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-                globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
-            end
+            globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
         end
     end
 
 
 
-    return LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    return LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntity, selectorDB)
 end
 
-function LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+function LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntity, selectorDB)
 
-    local currentListString = LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local currentListString = LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globalPlayerEntity, selectorDB)
 
     local currentListArray = Split( currentListString, "|" )
 
     return currentListArray
 end
 
-function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globalPlayerEntity, selectorDB)
 
     local currentList = ""
 
-    if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        currentList = globalPlayerEntityDB:GetString( parameterName ) or ""
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+
+        if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
+
+            currentList = globalPlayerEntityDB:GetString( parameterName ) or ""
+        end
     end
+
+    
 
     if ( currentList ~= nil and currentList ~= "" ) then
 
@@ -126,15 +113,33 @@ function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globa
 
     if ( currentList ~= nil and currentList ~= "" ) then
 
-        if ( globalPlayerEntityDB ) then
-            globalPlayerEntityDB:SetString(parameterName, currentList)
+        if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+            if ( is_server and is_client ) then
+
+                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString(parameterName, currentList)
+                end
+            else
+
+                local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. currentList
+
+                QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+            end
         end
 
         return currentList
     end
 
-    if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-        currentList = campaignDatabase:GetString( parameterName ) or ""
+    if ( CampaignService.GetCampaignData ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+
+        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
+            currentList = campaignDatabase:GetString( parameterName ) or ""
+        end
     end
 
     if ( currentList ~= nil and currentList ~= "" ) then
@@ -143,8 +148,21 @@ function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globa
             selectorDB:SetString(parameterName, currentList)
         end
 
-        if ( globalPlayerEntityDB ) then
-            globalPlayerEntityDB:SetString(parameterName, currentList)
+        if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+            if ( is_server and is_client ) then
+
+                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString(parameterName, currentList)
+                end
+            else
+
+                local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. currentList
+
+                QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+            end
         end
 
         return currentList
@@ -153,12 +171,25 @@ function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globa
     return currentList
 end
 
-function LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntityDB, selectorDB, currentListArray)
+function LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntity, selectorDB, currentListArray)
 
     local currentListString = table.concat( currentListArray, "|" )
 
-    if ( globalPlayerEntityDB ) then
-        globalPlayerEntityDB:SetString(parameterName, currentListString)
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        if ( is_server and is_client ) then
+
+            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+            if ( globalPlayerEntityDB ) then
+                globalPlayerEntityDB:SetString(parameterName, currentListString)
+            end
+        else
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. currentListString
+
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+        end
     end
 
     if ( selectorDB ) then
@@ -285,14 +316,10 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
 
 
 
-    local campaignDatabase = nil
 
-    if ( CampaignService.GetCampaignData ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
 
-    local globalPlayerEntityDB = nil
     local selectorDB = nil
+    local globalPlayerEntity = nil
 
     if (selector and selector ~= INVALID_ID) then
 
@@ -302,17 +329,12 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
 
         if ( playerId ~= nil and playerId ~= -1 ) then
 
-            local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
-
-            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-                globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
-            end
+            globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
         end
     end
 
 
-    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local currentListArray = LastSelectedBlueprintsListUtils:GetCurrentListInternal(parameterName, globalPlayerEntity, selectorDB)
 
     if ( IndexOf( currentListArray, stringValue ) ~= nil ) then
         Remove( currentListArray, stringValue )
@@ -322,7 +344,7 @@ function LastSelectedBlueprintsListUtils:AddStringToList(parameterName, selector
 
 
 
-    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntityDB, selectorDB, currentListArray)
+    LastSelectedBlueprintsListUtils:SaveCurrentList(parameterName, globalPlayerEntity, selectorDB, currentListArray)
 end
 
 return LastSelectedBlueprintsListUtils
