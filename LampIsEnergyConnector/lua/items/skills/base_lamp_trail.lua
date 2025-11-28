@@ -55,7 +55,7 @@ function base_lamp_trail:GetLampBlueprint()
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
         if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
 

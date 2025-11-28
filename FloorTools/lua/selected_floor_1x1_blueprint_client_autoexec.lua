@@ -37,10 +37,18 @@ RegisterGlobalEventHandler("ChangeSelectorRequest", function(evt)
 
             if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+                if ( is_server and is_client ) then
 
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( parameterName, blueprintName )
+                    local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+                    if ( globalPlayerEntityDB ) then
+                        globalPlayerEntityDB:SetString( parameterName, blueprintName )
+                    end
+                else
+
+                    local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. blueprintName
+
+                    QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
                 end
             end
         end
