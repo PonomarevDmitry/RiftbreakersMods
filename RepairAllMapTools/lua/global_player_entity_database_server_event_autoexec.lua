@@ -24,7 +24,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return
         end
 
-        LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " mapperName " .. tostring(mapperName))
+        --LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " mapperName " .. tostring(mapperName))
 
         local splitArray = Split( mapperName, "|" )
         if ( #splitArray < 2 ) then
@@ -33,7 +33,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         local parameterName = splitArray[2]
 
-        LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName))
+        --LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName))
 
         if ( parameterName == nil or parameterName == "" ) then
             return
@@ -41,11 +41,11 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         
         local subString = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|"
 
-        LogService:Log("SetGlobalPlayerEntityDatabaseString subString " .. tostring(subString))
+        --LogService:Log("SetGlobalPlayerEntityDatabaseString subString " .. tostring(subString))
 
         local newValue = string.sub( mapperName, string.len(subString) + 1, string.len(mapperName) )
 
-        LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName) .. " newValue " .. tostring(newValue))
+        --LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName) .. " newValue " .. tostring(newValue))
 
         -- ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
         
