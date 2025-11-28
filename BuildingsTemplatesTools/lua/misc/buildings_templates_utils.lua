@@ -61,14 +61,13 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEnt
 
             if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-                if ( is_server and is_client ) then
+                local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-                    local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString( templateName, result )
+                end
 
-                    if ( globalPlayerEntityDB ) then
-                        globalPlayerEntityDB:SetString( templateName, result )
-                    end
-                else
+                if not ( is_server and is_client ) then
 
                     local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. result
 
@@ -89,14 +88,13 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEnt
 
             if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-                if ( is_server and is_client ) then
+                local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-                    local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString( templateName, result )
+                end
 
-                    if ( globalPlayerEntityDB ) then
-                        globalPlayerEntityDB:SetString( templateName, result )
-                    end
-                else
+                if not ( is_server and is_client ) then
 
                     local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. result
 
@@ -194,14 +192,13 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetInt( configName, result )
+        end
 
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetInt( configName, result )
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseInt|" .. configName .. "|" .. tostring(result)
 
@@ -228,14 +225,13 @@ function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selected
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetInt( configName, selectedDatabaseNumber )
+        end
 
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetInt( configName, selectedDatabaseNumber )
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseInt|" .. configName .. "|" .. tostring(selectedDatabaseNumber)
 

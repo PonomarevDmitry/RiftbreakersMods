@@ -567,14 +567,13 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString( templateName, templateString )
+        end
 
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetString( templateName, templateString )
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. templateString
 

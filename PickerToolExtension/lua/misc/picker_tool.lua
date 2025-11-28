@@ -2688,16 +2688,15 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
 
-            if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString(parameterName, lowName)
+            globalPlayerEntityDB:SetFloat(parameterTimeName, timeValue)
+        end
 
-                globalPlayerEntityDB:SetString(parameterName, lowName)
-                globalPlayerEntityDB:SetFloat(parameterTimeName, timeValue)
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. lowName
             QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
@@ -2963,17 +2962,16 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
 
-            if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString( parameterName, blueprintName )
+            globalPlayerEntityDB:SetFloat( parameterTimeName, timeValue )
+            globalPlayerEntityDB:SetInt( parameterEntityName, entityId )
+        end
 
-                globalPlayerEntityDB:SetString( parameterName, blueprintName )
-                globalPlayerEntityDB:SetFloat( parameterTimeName, timeValue )
-                globalPlayerEntityDB:SetInt( parameterEntityName, entityId )
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. blueprintName
             QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )

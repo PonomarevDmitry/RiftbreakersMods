@@ -218,17 +218,16 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
 
-            if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString(templateNameFrom, templateStringTo)
 
-                globalPlayerEntityDB:SetString(templateNameFrom, templateStringTo)
+            globalPlayerEntityDB:SetString(templateNameTo, templateStringFrom)
+        end
 
-                globalPlayerEntityDB:SetString(templateNameTo, templateStringFrom)
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateNameFrom .. "|" .. templateStringTo
 

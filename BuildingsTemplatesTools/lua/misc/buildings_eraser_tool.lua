@@ -413,20 +413,13 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString( self.templateNameForErase, "" )
+        end
 
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetString( self.templateNameForErase, "" )
-            end
-        else
-
-            local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
-
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetString( self.templateNameForErase, "" )
-            end
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. self.templateNameForErase .. "|"
 
@@ -472,20 +465,13 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
 
         if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-            if ( is_server and is_client ) then
+            local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+            if ( globalPlayerEntityDB ) then
+                globalPlayerEntityDB:SetString( templateName, "" )
+            end
 
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( templateName, "" )
-                end
-            else
-
-                local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
-
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( templateName, "" )
-                end
+            if not ( is_server and is_client ) then
 
                 local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|"
 

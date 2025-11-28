@@ -452,14 +452,13 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-            if ( is_server and is_client ) then
+            local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+            if ( globalPlayerEntityDB ) then
+                globalPlayerEntityDB:SetString( self.template_name, "" )
+            end
 
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( self.template_name, "" )
-                end
-            else
+            if not ( is_server and is_client ) then
 
                 local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. self.template_name .. "|"
 
@@ -619,14 +618,13 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        if ( is_server and is_client ) then
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
-            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetString( self.template_name, templateString )
+        end
 
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetString( self.template_name, templateString )
-            end
-        else
+        if not ( is_server and is_client ) then
 
             local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. self.template_name .. "|" .. templateString
 
