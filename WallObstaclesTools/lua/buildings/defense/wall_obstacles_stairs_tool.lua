@@ -50,7 +50,7 @@ function wall_obstacles_stairs_tool:GetStairsBlueprintName( selectorDB )
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
         if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
 

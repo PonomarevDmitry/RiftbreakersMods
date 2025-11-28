@@ -335,7 +335,7 @@ function floor_center_tool:GetFloorBlueprintName( selectorDB, parameterName, def
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
         if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
 
