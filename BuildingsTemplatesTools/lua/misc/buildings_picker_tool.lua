@@ -45,15 +45,15 @@ function buildings_picker_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
-    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
     end
 
-    self.currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    self.currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(self.template_name, globalPlayerEntity, selectorDB, campaignDatabase)
 
     if ( self.currentTemplateString == "" ) then
 
@@ -448,10 +448,23 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
 
         self.currentTemplateString = ""
 
-        local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+        local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-        if ( globalPlayerEntityDB ) then
-            globalPlayerEntityDB:SetString( self.template_name, "" )
+        if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+            if ( is_server and is_client ) then
+
+                local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString( self.template_name, "" )
+                end
+            else
+
+                local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. self.template_name .. "|"
+
+                QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+            end
         end
 
         if ( selectorDB ) then
@@ -509,9 +522,9 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
         return
     end
 
-    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
     
-    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
         return
     end
 
@@ -604,8 +617,21 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     local templateString = table.concat( templateStringArray )
 
-    if ( globalPlayerEntityDB ) then
-        globalPlayerEntityDB:SetString( self.template_name, templateString )
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        if ( is_server and is_client ) then
+
+            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+            if ( globalPlayerEntityDB ) then
+                globalPlayerEntityDB:SetString( self.template_name, templateString )
+            end
+        else
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. self.template_name .. "|" .. templateString
+
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+        end
     end
 
     if ( selectorDB ) then

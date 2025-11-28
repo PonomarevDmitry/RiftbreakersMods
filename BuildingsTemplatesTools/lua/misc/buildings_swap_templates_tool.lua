@@ -34,9 +34,9 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -58,7 +58,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         markerText = markerText .. "${" .. templateCaption .. "}:"
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
 
         if ( templateString == "" ) then
 
@@ -76,7 +76,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplateTo
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntityDB, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
 
         markerText = markerText .. "\n${" .. templateCaption .. "}:"
 
@@ -201,8 +201,8 @@ end
 
 function buildings_swap_templates_tool:OnActivateSelectorRequest()
 
-    local globalPlayerEntityDB, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
-    if ( globalPlayerEntityDB == nil and selectorDB == nil and campaignDatabase == nil ) then
+    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
         return
     end
 
@@ -211,16 +211,33 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
     end
 
     local templateNameFrom = self.templateFormat .. self.selectedTemplateFrom
-    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, globalPlayerEntity, selectorDB, campaignDatabase)
 
     local templateNameTo = self.templateFormat .. self.selectedTemplateTo
-    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, globalPlayerEntityDB, selectorDB, campaignDatabase)
+    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, globalPlayerEntity, selectorDB, campaignDatabase)
 
-    if ( globalPlayerEntityDB ) then
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        globalPlayerEntityDB:SetString(templateNameFrom, templateStringTo)
+        if ( is_server and is_client ) then
 
-        globalPlayerEntityDB:SetString(templateNameTo, templateStringFrom)
+            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+
+            if ( globalPlayerEntityDB ) then
+
+                globalPlayerEntityDB:SetString(templateNameFrom, templateStringTo)
+
+                globalPlayerEntityDB:SetString(templateNameTo, templateStringFrom)
+            end
+        else
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateNameFrom .. "|" .. templateStringTo
+
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateNameTo .. "|" .. templateStringFrom
+
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+        end
     end
 
     if ( selectorDB ) then
