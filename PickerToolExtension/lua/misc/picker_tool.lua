@@ -2637,7 +2637,7 @@ function picker_tool:GetLastVeinExtractor(resourceId)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
         if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
 
@@ -2688,12 +2688,22 @@ function picker_tool:SetLastVeinExtractor(resourceId, lowName, timeValue)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( is_server and is_client ) then
 
-        if ( globalPlayerEntityDB ) then
+            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
 
-            globalPlayerEntityDB:SetString(parameterName, lowName)
-            globalPlayerEntityDB:SetFloat(parameterTimeName, timeValue)
+            if ( globalPlayerEntityDB ) then
+
+                globalPlayerEntityDB:SetString(parameterName, lowName)
+                globalPlayerEntityDB:SetFloat(parameterTimeName, timeValue)
+            end
+        else
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. lowName
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseFloat|" .. parameterTimeName .. "|" .. tostring(timeValue)
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
         end
     end
 
@@ -2880,7 +2890,7 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
 
         if ( globalPlayerEntityDB and globalPlayerEntityDB:HasString(parameterName) ) then
 
@@ -2953,13 +2963,26 @@ function picker_tool:SetLastBlueprint(suffix, timeValue, blueprintName, entityId
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
-        local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
+        if ( is_server and is_client ) then
 
-        if ( globalPlayerEntityDB ) then
+            local globalPlayerEntityDB = EntityService:GetOrCreateDatabase( globalPlayerEntity )
 
-            globalPlayerEntityDB:SetString( parameterName, blueprintName )
-            globalPlayerEntityDB:SetFloat( parameterTimeName, timeValue )
-            globalPlayerEntityDB:SetInt( parameterEntityName, entityId )
+            if ( globalPlayerEntityDB ) then
+
+                globalPlayerEntityDB:SetString( parameterName, blueprintName )
+                globalPlayerEntityDB:SetFloat( parameterTimeName, timeValue )
+                globalPlayerEntityDB:SetInt( parameterEntityName, entityId )
+            end
+        else
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. blueprintName
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseFloat|" .. parameterTimeName .. "|" .. tostring(timeValue)
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+
+            local mapperName = "SetGlobalPlayerEntityDatabaseInt|" .. parameterEntityName .. "|" .. tostring(entityId)
+            QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
         end
     end
 
