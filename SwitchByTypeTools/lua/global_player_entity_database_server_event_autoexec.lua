@@ -12,17 +12,17 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
+    local entity = evt:GetEntity()
+
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
+
     local mapperName = evt:GetMapperName()
 
     local stringNumber = string.find( mapperName, "SetGlobalPlayerEntityDatabaseString" )
 
     if ( stringNumber == 1 ) then
-
-        local entity = evt:GetEntity()
-
-        if ( not EntityService:IsAlive( entity ) ) then
-            return
-        end
 
         --LogService:Log("SetGlobalPlayerEntityDatabaseString entity " .. tostring(entity) .. " mapperName " .. tostring(mapperName))
 
@@ -53,6 +53,98 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         if ( globalPlayerEntityDB ) then
             globalPlayerEntityDB:SetString( parameterName, newValue )
+        end
+
+        return
+    end
+
+
+
+    local stringNumber = string.find( mapperName, "SetGlobalPlayerEntityDatabaseInt" )
+
+    if ( stringNumber == 1 ) then
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseInt entity " .. tostring(entity) .. " mapperName " .. tostring(mapperName))
+
+        local splitArray = Split( mapperName, "|" )
+        if ( #splitArray < 2 ) then
+            return
+        end
+
+        local parameterName = splitArray[2]
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseInt entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName))
+
+        if ( parameterName == nil or parameterName == "" ) then
+            return
+        end
+        
+        local subString = "SetGlobalPlayerEntityDatabaseInt|" .. parameterName .. "|"
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseInt subString " .. tostring(subString))
+
+        local newValue = string.sub( mapperName, string.len(subString) + 1, string.len(mapperName) )
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseInt entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName) .. " newValue " .. tostring(newValue))
+
+        -- ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
+
+        local newValueNumber = tonumber(newValue)
+
+        if ( newValueNumber == nil ) then
+            return
+        end
+        
+        local globalPlayerEntityDB = EntityService:GetDatabase( entity )
+
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetInt( parameterName, newValueNumber )
+        end
+
+        return
+    end
+
+
+
+    local stringNumber = string.find( mapperName, "SetGlobalPlayerEntityDatabaseFloat" )
+
+    if ( stringNumber == 1 ) then
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseFloat entity " .. tostring(entity) .. " mapperName " .. tostring(mapperName))
+
+        local splitArray = Split( mapperName, "|" )
+        if ( #splitArray < 2 ) then
+            return
+        end
+
+        local parameterName = splitArray[2]
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseFloat entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName))
+
+        if ( parameterName == nil or parameterName == "" ) then
+            return
+        end
+        
+        local subString = "SetGlobalPlayerEntityDatabaseFloat|" .. parameterName .. "|"
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseFloat subString " .. tostring(subString))
+
+        local newValue = string.sub( mapperName, string.len(subString) + 1, string.len(mapperName) )
+
+        --LogService:Log("SetGlobalPlayerEntityDatabaseFloat entity " .. tostring(entity) .. " parameterName " .. tostring(parameterName) .. " newValue " .. tostring(newValue))
+
+        -- ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
+
+        local newValueNumber = tonumber(newValue)
+
+        if ( newValueNumber == nil ) then
+            return
+        end
+        
+        local globalPlayerEntityDB = EntityService:GetDatabase( entity )
+
+        if ( globalPlayerEntityDB ) then
+            globalPlayerEntityDB:SetFloat( parameterName, newValueNumber )
         end
 
         return
