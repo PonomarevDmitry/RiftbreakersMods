@@ -4,8 +4,9 @@ EntityBlueprint
 
 	SpecialMovementDataComponent
 	{
-		max_speed   	"75"
-		max_time    	"0.5"
+		angle_speed 	"90"  																////// Dodge Roll Params : angle speed for turning
+		max_speed   	"27"  																////// Dodge Roll Params : max movement speed
+
 		acceleration_function
 		{
 			type "0"
@@ -19,22 +20,19 @@ EntityBlueprint
                 
 				Vector2
 				{	
-					x "0.6"
+					x "10"
 					y "1000"
 				}
-                
-				Vector2
-				{
-					x "1"
-					y "-1000"
-				}
+
 			}
 		}
 
+		max_time    				"50.0"
 		//start_effect 				"dash_start_long"
 		//continuous_effect 		"dash_trail_long"
 		param_name					"is_rolling"
 		block_aiming_dir			"1"
+		block_move_dir  			"0"
 		disable_unit_collision		"1"
 	}
 
@@ -42,14 +40,14 @@ EntityBlueprint
 	//{
 	//	EffectGroup
 	//	{
-	//		group "item_equipped"
+	//		group "item_activated"
 	//		enabled "0"
-    //
+	//
 	//		Effects
 	//		{
 	//			Effect
 	//			{
-	//				blueprint "effects/items/equipped_default"
+	//				blueprint "effects/items/dodge_roll_smoke"
 	//			}
 	//		}
 	//	}
@@ -62,15 +60,15 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 		"movement_skill"
-		subtype		"movement"
-		name 		"gui/menu/inventory/skill_name/dodge_roll"
-		cooldown	"2"
-		item_bp		"items/skills/dodge_roll_effects"
-		icon		"gui/hud/items_icons/skills/dodge_roll"
-        bigger_icon "gui/menu/items_icons/skills/dodge_roll"		
+		type 			"movement_skill"
+		subtype			"movement"
+		name 			"gui/menu/inventory/skill_name/dodge_roll"
+		item_bp			"items/skills/dodge_roll_effects"
+		icon			"gui/hud/items_icons/skills/dodge_roll"
+        bigger_icon 	"gui/menu/items_icons/skills/dodge_roll"		
 		description 	"gui/menu/inventory/skill_description/dodge_roll"	
-		add_quality "0"
+		rarity					"STANDARD"	
+		replace_lower_quality	"1"	
 	}
 
 	LuaDesc
@@ -79,16 +77,235 @@ EntityBlueprint
 
 		database
 		{
-			roll_speed	 float:"2.5"
+			roll_animation_start_speed			float:"4.0"									////// Dodge Roll Params 
+			roll_animation_end_speed			float:"4.0"									////// Dodge Roll Params
+			roll_animation_acceleration_time 	float:"0.5"									////// Dodge Roll Params
+			roll_duration						float:"1.85"									////// Dodge Roll Params
+			roll_cooldown						float:"3.5"									////// Dodge Roll Params
+			stat_bp			 					string:"effects/items/dodge_roll_explosion_standard"
+			damage_bp							string:"items/skills/dodge_roll_weapon"
+			splash_bp							string:"effects/items/dodge_roll_explosion_standard"
 		}		
 	}
 
 	CostDesc
 	{
 		is_unique "1"
-	}
-
-	
-		
+	}		
 }
 
+EntityBlueprint
+{ 
+	name "items/skills/dodge_roll_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"movement_skill"
+		subtype			"movement"
+		name 			"gui/menu/inventory/skill_name/dodge_roll"
+		item_bp			"items/skills/dodge_roll_effects"
+		icon			"gui/hud/items_icons/skills/dodge_roll"
+        bigger_icon 	"gui/menu/items_icons/skills/dodge_roll"		
+		description 	"gui/menu/inventory/skill_description/dodge_roll"	
+		rarity					"ADVANCED"	
+		replace_lower_quality	"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/dodge_roll.lua"
+
+		database
+		{
+			roll_animation_start_speed			float:"4.0"									////// Dodge Roll Params 
+			roll_animation_end_speed			float:"4.0"									////// Dodge Roll Params
+			roll_animation_acceleration_time 	float:"0.5"									////// Dodge Roll Params
+			roll_duration						float:"1.85"									////// Dodge Roll Params
+			roll_cooldown						float:"3.5"									////// Dodge Roll Params
+			stat_bp			 					string:"effects/items/dodge_roll_explosion_advanced"
+			damage_bp							string:"items/skills/dodge_roll_weapon"
+			splash_bp							string:"effects/items/dodge_roll_explosion_advanced"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dodge_roll_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"movement_skill"
+		subtype			"movement"
+		name 			"gui/menu/inventory/skill_name/dodge_roll"
+		item_bp			"items/skills/dodge_roll_effects"
+		icon			"gui/hud/items_icons/skills/dodge_roll"
+        bigger_icon 	"gui/menu/items_icons/skills/dodge_roll"		
+		description 	"gui/menu/inventory/skill_description/dodge_roll"	
+		rarity					"SUPERIOR"	
+		replace_lower_quality	"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/dodge_roll.lua"
+
+		database
+		{
+			roll_animation_start_speed			float:"4.0"									////// Dodge Roll Params 
+			roll_animation_end_speed			float:"4.0"									////// Dodge Roll Params
+			roll_animation_acceleration_time 	float:"0.5"									////// Dodge Roll Params
+			roll_duration						float:"1.85"									////// Dodge Roll Params
+			roll_cooldown						float:"3.5"									////// Dodge Roll Params
+			stat_bp			 					string:"effects/items/dodge_roll_explosion_superior"
+			damage_bp							string:"items/skills/dodge_roll_weapon"
+			splash_bp							string:"effects/items/dodge_roll_explosion_superior"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/dodge_roll_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"movement_skill"
+		subtype			"movement"
+		name 			"gui/menu/inventory/skill_name/dodge_roll"
+		item_bp			"items/skills/dodge_roll_effects"
+		icon			"gui/hud/items_icons/skills/dodge_roll"
+        bigger_icon 	"gui/menu/items_icons/skills/dodge_roll"		
+		description 	"gui/menu/inventory/skill_description/dodge_roll"	
+		rarity					"EXTREME"	
+		replace_lower_quality	"1"	
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/dodge_roll.lua"
+
+		database
+		{
+			roll_animation_start_speed			float:"4.0"									////// Dodge Roll Params 
+			roll_animation_end_speed			float:"4.0"									////// Dodge Roll Params
+			roll_animation_acceleration_time 	float:"0.5"									////// Dodge Roll Params
+			roll_duration						float:"1.85"									////// Dodge Roll Params
+			roll_cooldown						float:"3.5"									////// Dodge Roll Params
+			stat_bp			 					string:"effects/items/dodge_roll_explosion_extreme"
+			damage_bp							string:"items/skills/dodge_roll_weapon"
+			splash_bp							string:"effects/items/dodge_roll_explosion_extreme"
+		}		
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{
+    name "items/skills/dodge_roll_weapon"
+	
+	base_blueprints 
+	{
+		lights/point/flare
+	}	
+
+	MeleeWeaponDesc
+	{
+		MeleeAttacks
+		{
+			MeleeAttack 
+			{
+				type 						"simple"
+				attack_name 				"attack_1"
+				attack_speed_param_name  	"attack_speed"
+				melee_damage_name 			"attack_1"
+				attack_start_effect 		"effects/items/dodge_roll_start"
+				attack_start_time			"0.0"											  ////// Dodge Roll Params : damage deley
+				attack_end_time			    "50"
+				attack_duration 			"50"
+				damage_multiple  			"1"
+			}				
+		}
+
+		MeleeDamages
+		{
+			MeleeDamage
+			{
+				name 						"attack_1"
+
+				ammo_definition
+				{
+					friendly_fire			"pass"
+					hit_effect_direction	"up"  //inverse, normal, up
+					on_enemy_hit_effect 	"effects/items/dodge_roll_hit"
+					on_shield_hit_effect	"effects/items/dodge_roll_hit"
+
+					collision_3d 			"building|building_small|ground_unit|hitbox|shield|destructible|vegetation"
+
+					DamagePattern
+					{
+						damage_stun_chance  "0.75"
+						damage_stun_duration "4"
+
+						Damages
+						{
+							Damage
+							{
+								value 	"25"
+								type 	"area"
+
+							}
+						}
+					}
+				}
+			}
+		}
+
+		MeleeShapes
+		{
+			PhysicsBoxShape
+			{
+				x "5.0"
+				y "10.0"
+				z "5.0"	
+				
+				position
+				{
+					x "0"
+					y "5"
+					z "0"
+				}	
+			}	
+		}
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			ParticleDesc
+			{
+				name    "rift/dodge_roll_smoke"
+			}
+		
+			SoundDesc
+			{
+				name items/skills/dodge_roll_loop
+			}
+		}	
+	}	
+}
