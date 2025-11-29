@@ -1,19 +1,24 @@
 GuiRootGroupDef
 {
 	full_screen "0"
+	navigation
+	{
+		default_node "missions_stackpanel"
+	}
+
 	priority "50"
 	shortcuts
 	{
 		Pair_GuiInputCode_String
 		{
-			key "8"
-			value "categories.scroll_button_1"
+			key "7"
+			value "open_rift"
 		}
 
 		Pair_GuiInputCode_String
 		{
-			key "9"
-			value "categories.scroll_button_2"
+			key "6"
+			value "scan"
 		}
 
 	}
@@ -619,14 +624,14 @@ GuiRootGroupDef
 											stack_type "1"
 											template_reference
 											{
-												path "templates.objective_row"
+												path "templates.global_objective_row"
 												ref_gui_id "gui/menu/planetary_scanner"
 												container_type "2"
 												margin
 												{
 													w "1"
-													x "5"
-													z "6"
+													x "-1"
+													z "-3"
 												}
 
 												size_mode_x "2"
@@ -666,7 +671,9 @@ GuiRootGroupDef
 								anchor "top_right"
 								margin
 								{
-									x "6"
+									w "-5"
+									x "5"
+									y "-8"
 								}
 
 								size
@@ -1122,7 +1129,7 @@ GuiRootGroupDef
 																			{
 																				capitals "1"
 																				content "${gui/menu/statistics/buildings}:"
-																				style_name "active_20"
+																				style_name "active_25"
 																				translate "1"
 																				alignment "left"
 																				anchor "left"
@@ -1327,7 +1334,7 @@ GuiRootGroupDef
 																			{
 																				capitals "1"
 																				content "${gui/menu/planetary_scanner/frame_header_local_objectives}"
-																				style_name "active_20"
+																				style_name "active_25"
 																				translate "1"
 																				alignment "left"
 																				anchor "left"
@@ -1387,7 +1394,6 @@ GuiRootGroupDef
 																		{
 																			w "1"
 																			x "9"
-																			z "12"
 																		}
 
 																		size_mode_x "2"
@@ -1409,6 +1415,11 @@ GuiRootGroupDef
 																	}
 
 																	id "stackpanel"
+																	margin
+																	{
+																		z "10"
+																	}
+
 																	model_source "objectives"
 																	size_mode_x "2"
 																	size_mode_y "1"
@@ -1437,7 +1448,6 @@ GuiRootGroupDef
 														margin
 														{
 															y "2"
-															z "-4"
 														}
 
 														size_mode_x "2"
@@ -1501,7 +1511,7 @@ GuiRootGroupDef
 																			{
 																				capitals "1"
 																				content "gui/hud/build_menu/info.production_name"
-																				style_name "active_20"
+																				style_name "active_25"
 																				translate "1"
 																				alignment "left"
 																				anchor "left"
@@ -1659,7 +1669,7 @@ GuiRootGroupDef
 																			{
 																				capitals "1"
 																				content "${gui/menu/category/resources}:"
-																				style_name "active_20"
+																				style_name "active_25"
 																				translate "1"
 																				alignment "left"
 																				anchor "left"
@@ -1717,7 +1727,7 @@ GuiRootGroupDef
 																		margin
 																		{
 																			x "9"
-																			z "12"
+																			z "13"
 																		}
 
 																		size_mode_x "2"
@@ -1778,8 +1788,8 @@ GuiRootGroupDef
 											anchor "top_right"
 											margin
 											{
-												w "-7"
-												x "14"
+												w "-6"
+												x "5"
 											}
 
 											size
@@ -2035,6 +2045,13 @@ GuiRootGroupDef
 													}
 
 													id "image"
+													size
+													{
+														x "476"
+														y "165"
+													}
+
+													size_mode_x "0"
 												}
 
 											}
@@ -2264,6 +2281,11 @@ GuiRootGroupDef
 													}
 
 													id "threat"
+													margin
+													{
+														z "10"
+													}
+
 													z_order "200"
 												}
 
@@ -2590,6 +2612,29 @@ GuiRootGroupDef
 
 											}
 
+											Pair_String_GuiDef2
+											{
+												key "quad1"
+												value "GuiQuadDef"
+												{
+													material_mode "stencil"
+													id "quad1"
+													margin
+													{
+														x "620"
+														y "-3"
+													}
+
+													size
+													{
+														x "20"
+														y "480"
+													}
+
+												}
+
+											}
+
 										}
 
 										id "#MASK#"
@@ -2806,7 +2851,7 @@ GuiRootGroupDef
 											{
 												Pair_String_GuiDef2
 												{
-													key "stackpanel"
+													key "missions_stackpanel"
 													value "GuiStackPanelDef"
 													{
 														stack_type "1"
@@ -2855,7 +2900,7 @@ GuiRootGroupDef
 															size_mode_x "2"
 														}
 
-														id "stackpanel"
+														id "missions_stackpanel"
 														margin
 														{
 															w "20"
@@ -2867,6 +2912,7 @@ GuiRootGroupDef
 														model_source "missions"
 														size_mode_x "2"
 														size_mode_y "1"
+														z_order "0.5"
 													}
 
 												}
@@ -2891,9 +2937,8 @@ GuiRootGroupDef
 											anchor "top_right"
 											margin
 											{
-												w "5"
 												x "5"
-												y "5"
+												y "-2"
 											}
 
 											size
@@ -4466,6 +4511,128 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "pad"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "open_rift"
+						value "GuiReferenceDef"
+						{
+							path "labeled_icon"
+							ref_gui_id "gui/template/shortcuts"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "shortcut_label"
+											value "BUTTON_open_rift"
+										}
+
+										StringData
+										{
+											key "shortcut_material"
+											value "gui/hud/keys/key_264"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							container_type "1"
+							id "open_rift"
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "10"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "scan"
+						value "GuiReferenceDef"
+						{
+							path "labeled_icon"
+							ref_gui_id "gui/template/shortcuts"
+							ref_model
+							{
+								database
+								{
+									Strings
+									{
+										StringData
+										{
+											key "shortcut_label"
+											value "BUTTON_Scan"
+										}
+
+										StringData
+										{
+											key "shortcut_material"
+											value "gui/hud/keys/key_263"
+										}
+
+									}
+
+									Floats
+									Vectors
+									Integers
+								}
+
+							}
+
+							container_type "1"
+							id "scan"
+							size_mode_x "1"
+							size_mode_y "1"
+							z_order "20"
+						}
+
+					}
+
+				}
+
+				container_type "1"
+				alignment "top_right"
+				id "pad"
+				offset
+				{
+					x "1900"
+					y "1038"
+				}
+
+				scale
+				{
+					x "0.85"
+					y "0.85"
+				}
+
+				size
+				{
+					x "200"
+					y "40"
+				}
+
+				size_mode_x "1"
+				z_order "353"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "rename"
 			value "GuiReferenceDef"
 			{
@@ -5381,7 +5548,7 @@ GuiRootGroupDef
 										id "icon"
 										margin
 										{
-											x "10"
+											x "5"
 										}
 
 										scale
@@ -5444,7 +5611,7 @@ GuiRootGroupDef
 										id "label"
 										margin
 										{
-											x "60"
+											x "50"
 											z "10"
 										}
 
@@ -7800,6 +7967,227 @@ GuiRootGroupDef
 
 					Pair_String_GuiDef2
 					{
+						key "global_objective_row"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "icon"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/planetary_scanner_quest_to_complete"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														material
+														{
+															model_field "icon"
+														}
+
+													}
+
+													id "icon"
+													margin
+													{
+														x "10"
+													}
+
+													scale
+													{
+														x "0.95"
+														y "0.95"
+													}
+
+													z_order "178"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "image"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/building_info_box_subheader"
+													id "image"
+													size_mode_x "2"
+													size_mode_y "2"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextDef"
+												{
+													content "Destroy all biofactories in the area, Destroy all biofactories in the area, Destroy all biofactories in the area, Destroy all biofactories in the area, Destroy all biofactories in the area, Destroy all biofactories in the area, "
+													style
+													{
+														char_height "23"
+														df "1"
+														font "Exo2_Bold_sdf"
+														glow_color
+														{
+															w "0"
+														}
+
+														glow_size "0"
+														glow_spread "0"
+														shadow_angle "135"
+														shadow_color
+														{
+															w "0.913"
+														}
+
+														shadow_distance "2"
+														shadow_enabled "1"
+														shadow_size "0"
+														shadow_spread "0"
+														space_size "7"
+														stroke_position "0"
+														stroke_size "0"
+													}
+
+													style_name "resource_white"
+													translate "1"
+													alignment "left"
+													anchor "left"
+													bindings
+													{
+														content
+														{
+															model_field "postfix"
+															converter "GuiModelPostfixConverter"
+															{
+																prefix "${label}"
+															}
+
+														}
+
+													}
+
+													id "label"
+													margin
+													{
+														w "5"
+														x "50"
+														y "5"
+														z "10"
+													}
+
+													max_size
+													{
+														x "540"
+													}
+
+													model_source "database"
+													size_mode_x "2"
+													tooltip_def
+													z_order "179"
+												}
+
+											}
+
+										}
+
+										id "header"
+										margin
+										{
+											w "1"
+										}
+
+										size_mode_x "2"
+										size_mode_y "1"
+										z_order "1"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "subobjectives"
+									value "GuiStackPanelDef"
+									{
+										stack_type "1"
+										template_reference
+										{
+											path "templates.subobjective_row"
+											ref_gui_id "gui/menu/planetary_scanner"
+											ref_model
+											{
+												database
+												{
+													Strings
+													{
+														StringData
+														{
+															key "id"
+															value "0"
+														}
+
+													}
+
+													Floats
+													Vectors
+													Integers
+												}
+
+											}
+
+											margin
+											{
+												w "1"
+											}
+
+											size_mode_x "2"
+											size_mode_y "1"
+										}
+
+										id "subobjectives"
+										margin
+										{
+											x "8"
+											z "12"
+										}
+
+										model_source "children"
+										size_mode_x "2"
+										size_mode_y "1"
+									}
+
+								}
+
+							}
+
+							container_type "2"
+							id "global_objective_row"
+							offset
+							{
+								y "500"
+							}
+
+							size_mode_x "2"
+							size_mode_y "1"
+							z_order "175"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
 						key "mission"
 						value "GuiRadioButtonItemDef"
 						{
@@ -8931,6 +9319,7 @@ GuiRootGroupDef
 													}
 
 													model_source "database"
+													size_mode_x "2"
 													tooltip_def
 													z_order "179"
 												}
@@ -9068,7 +9457,7 @@ GuiRootGroupDef
 										id "icon"
 										margin
 										{
-											x "10"
+											x "5"
 										}
 
 										scale
@@ -9131,7 +9520,7 @@ GuiRootGroupDef
 										id "label"
 										margin
 										{
-											x "60"
+											x "50"
 											z "10"
 										}
 
@@ -9247,6 +9636,11 @@ GuiRootGroupDef
 										}
 
 										id "bar"
+										margin
+										{
+											z "10"
+										}
+
 										z_order "200"
 									}
 
@@ -9319,7 +9713,7 @@ GuiRootGroupDef
 										id "icon"
 										margin
 										{
-											x "10"
+											x "5"
 										}
 
 										scale
@@ -9382,7 +9776,7 @@ GuiRootGroupDef
 										id "label"
 										margin
 										{
-											x "60"
+											x "50"
 											z "10"
 										}
 
@@ -9560,6 +9954,7 @@ GuiRootGroupDef
 										}
 
 										model_source "database"
+										size_mode_x "2"
 										tooltip_def
 										z_order "179"
 									}
@@ -9846,7 +10241,7 @@ GuiDataDefinitions
 
 									[B26C4DD7-BC26-4B77-93C2-B747156661C5]/subobjective
 									{
-										id "1"
+										id "0"
 										label "tccccccccccccccccccccccccc"
 										icon "gui/menu/planetary_scanner_quest_to_complete"
 									}
@@ -10477,7 +10872,7 @@ GuiDataDefinitions
 					default_value
 					{
 						typehash "3365180733"
-						bool "0"
+						bool "1"
 					}
 
 				}
@@ -10551,7 +10946,8 @@ GuiDataDefinitions
 								float "0"
 								float "0"
 								float "0"
-								float "5"
+								float "0"
+								float "4"
 								float "5"
 							}
 
@@ -10566,6 +10962,7 @@ GuiDataDefinitions
 										float "0"
 										float "0"
 										float "0.8"
+										float "0"
 									}
 
 									id "0"
@@ -10582,6 +10979,7 @@ GuiDataDefinitions
 										float "0"
 										float "0.5"
 										float "0.5"
+										float "0"
 									}
 
 									id "1"
@@ -10598,6 +10996,7 @@ GuiDataDefinitions
 										float "0"
 										float "0.5"
 										float "0.5"
+										float "0"
 									}
 
 									id "0"
@@ -10614,6 +11013,7 @@ GuiDataDefinitions
 										float "0"
 										float "0.5"
 										float "0.5"
+										float "0"
 									}
 
 									id "1"

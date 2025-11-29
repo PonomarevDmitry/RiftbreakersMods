@@ -71,6 +71,7 @@ end
 
 function spreader_acid:OnDestroyRequest( evt )
     spreader.OnDestroyRequest( self, evt )
+	EntityService:RevealVegetation( self.entity )
     EntityService:SetName(self.entity, "")
 end
 

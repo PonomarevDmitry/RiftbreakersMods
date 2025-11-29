@@ -109,7 +109,7 @@ function item:_OnEquipped( evt, forced )
 end
 
 function item:_OnActivate(evt)
-	if ( self.data:HasFloat( "client" ) and self.item == nil ) then 
+	if ( not is_server and self.item == nil ) then 
 		local invItemComponent = EntityService:GetComponent( self.entity, "InventoryItemRuntimeDataComponent")
 		self.owner = tonumber(invItemComponent:GetField( "owner" ):GetField("id"):GetValue())
 		self.slot = ItemService:GetItemSlot( self.entity )

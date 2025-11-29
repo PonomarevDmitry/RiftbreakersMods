@@ -1,13 +1,13 @@
-//editor "scroll(-2734.92,157.50)|zoom(0.33)"
+//editor "scroll(-3391.14,-196.36)|zoom(0.27)"
 FlowGraphTemplate
 {
-	version "86"
-	editor "5998"
+	version "88"
+	editor "6627"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-7515,1100)"
+			//editor "layout(event_start.xml)|pos(-7635,1091)"
 			database
 			{
 				Integers
@@ -49,7 +49,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_add_item.xml)|pos(-7002,1253)"
+			//editor "layout(entity_add_item.xml)|pos(-7031,1857)"
 			database
 			{
 				Integers
@@ -68,6 +68,12 @@ FlowGraphTemplate
 					{
 						key "item"
 						value "items/awards/campaign_caverns_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
 					}
 
 				}
@@ -145,7 +151,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-5609,1283)"
+			//editor "layout(condition_true.xml)|pos(-5609,1270)"
 			key "true"
 			self_id "logic_if_global_variable_4###true"
 			value "logic_if_global_variable_2###true"
@@ -506,7 +512,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(-3227,1433)"
+			//editor "layout(condition_true.xml)|pos(-3227,1420)"
 			key "true"
 			self_id "logic_if_global_variable_5###true"
 			value "logic_if_global_variable_2###true"
@@ -572,6 +578,12 @@ FlowGraphTemplate
 					{
 						key "generate_type"
 						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "0"
 					}
 
 				}
@@ -658,11 +670,106 @@ FlowGraphTemplate
 			self_id "objective_finish_6"
 		}
 
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(-6513,1795)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "true"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.caverns_infestation_start"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-6513,2049)"
+			key "true"
+			self_id "logic_if_global_variable_6###true"
+			value "logic_if_global_variable_2###true"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(-5949,2025)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_1"
+		}
+
 	}
 
 	GraphConnections
 	{
 		default "campaign_mission_remove_1|logic_wait_18|mission_time_rewind_1"
+		entity_add_item_5 "logic_if_global_variable_6"
 		interface_dialogue_show_group_13 "logic_wait_19"
 		interface_dialogue_show_group_14 "objective_generic_5"
 		interface_minimap_show_zone_objective_3 "logic_if_global_variable_5"
@@ -670,6 +777,8 @@ FlowGraphTemplate
 		logic_if_global_variable_4###true "interface_dialogue_show_group_14"
 		logic_if_global_variable_5 "logic_if_global_variable_5###true"
 		logic_if_global_variable_5###true "interface_minimap_hide_zone_2|objective_finish_6"
+		logic_if_global_variable_6 "logic_if_global_variable_6###true"
+		logic_if_global_variable_6###true "mission_end_1"
 		logic_wait_13 "interface_dialogue_show_group_13"
 		logic_wait_18 "entity_add_item_5|logic_wait_13"
 		logic_wait_19 "logic_if_global_variable_4"

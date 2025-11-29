@@ -91,6 +91,7 @@ function multiplayer_boost:OnChargingInProgress( state )
     if ( currentTime >self.cooldownDeadline ) then
         mechs = FindService:FindEntitiesByPredicateInRadius(self.owner, self.dischargeRadius, self.predicate)
     end
+
     local additionalCount = 0
     for mech in Iter(mechs) do
         if ( mech == self.owner or EntityService:GetTeam(mech) ~= self.team ) then
@@ -139,10 +140,16 @@ function multiplayer_boost:OnChargingInProgress( state )
         Insert(mechsUsed, mech )
 
         local position = ownerPosition
-        local lightningComponent = reflection_helper(EntityService:GetComponent(lightning, "LightningComponent"))
+        local lightningComponent = reflection_helper(EntityService:GetComponent(lightning, "LightningDataComponent"))
         local container = rawget(lightningComponent.lighning_vec, "__ptr");
-        local instance =  reflection_helper(container:CreateItem())
-    
+
+        local instance = nil
+        if ( container:GetItemCount() == 0 ) then
+            instance = reflection_helper(container:CreateItem())
+        else 
+            instance = reflection_helper(container:GetItem(0))
+        end
+
         local direction = VectorMulByNumber( Normalize( VectorSub( target_position, ownerPosition ) ), 2.0 )
         position = VectorAdd(position, direction)
     
@@ -154,7 +161,7 @@ function multiplayer_boost:OnChargingInProgress( state )
         instance.end_point.y = target_position.y  + (ownerSize.y / 2.0)
         instance.end_point.z = target_position.z
 
-        lightningComponent.beam_max_width = Lerp( 0.01, 0.1, factor )
+        lightningComponent.beam_scale = Lerp( 1, 5, factor )
 
         local effectPosition = ownerPosition
         effectPosition.y = effectPosition.y + (ownerSize.y / 2.0)

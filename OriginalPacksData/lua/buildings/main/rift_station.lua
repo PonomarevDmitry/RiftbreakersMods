@@ -51,7 +51,7 @@ function rift_station:OnInit()
 	self.chargingSpeed = self.data:GetFloatOrDefault("charging_work_speed",  1.0)
 	self.chargingEndSpeed = self.data:GetFloatOrDefault("charging_end_speed", 0.5)
 
-	self.riftVersion = 2
+	self.riftVersion = 3
 end
 
 function rift_station:OnBuildingEnd()
@@ -85,6 +85,11 @@ function rift_station:OnAnimation( state, dt)
 	local isWorking = (BuildingService:IsWorking( self.entity ) or self.workingProtectionTimer > 0) and self.charging ~= 3
 	local specialActionEnabled = self:CanEnableSpecialAction();
 	self.data:SetInt("is_special_action_enabled", specialActionEnabled and 1 or 0 )
+	if (specialActionEnabled ) then
+			EntityService:EnableComponent( self.entity, "InteractiveComponent")
+	else
+			EntityService:DisableComponent( self.entity, "InteractiveComponent")
+	end
 
 	local working 		= 0
 	if ( portalPowered == true ) then
@@ -271,9 +276,13 @@ function rift_station:OnLoad()
 		self.activationTime		= blueprintDatabase:GetFloatOrDefault("activation_time", 60 )
 		self.disableTime		= blueprintDatabase:GetFloatOrDefault("disable_time", 150 )
 	end
+
+	if ( self.riftVersion == nil or self.riftVersion < 3 ) then
+		EntityService:RemoveComponent( self.entity, "SoundComponent")
+	end
 	
 	self.resourceAmount 	= self.data:GetFloatOrDefault("resource_amount", 5000)
-	self.riftVersion = 2
+	self.riftVersion = 3
 end
 
 function rift_station:OnWorking( state , dt)	
@@ -342,12 +351,13 @@ end
 
 function rift_station:_OnActivate()
 	if ( self.workingProtectionTimer <= 0 ) then
+		self.resetCounter = 0
 		building._OnActivate( self )
 	end
 end
 
 function rift_station:_OnDeactivate()
-	if ( self.workingProtectionTimer <= 0 ) then
+	if ( self.workingProtectionTimer <= 0 and self.resetCounter > 1 ) then
 		building._OnDeactivate( self )
 	end
 end

@@ -33,12 +33,12 @@ function template_universal:Prepare()
 	}
 	self.missionLiquidResource = 
 	{
-		acid = "sludge",
+		acid = "sludge_vein",
 		caverns = "",
 		desert = "",
-		jungle = "sludge",
-		magma = "magma",
-		metallic = "morphium",
+		jungle = "sludge_vein",
+		magma = "magma_vein",
+		metallic = "morphium_vein",
 		swamp = "resin"
 	}
 	
@@ -1205,6 +1205,21 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	1
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_canyons_05/magma_canyons_05.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_06/magma_canyons_06.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_07/magma_canyons_07.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_lakes_01/magma_lakes_01.tile",					
 					random_weight =	1
 				},
@@ -1227,16 +1242,41 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	1
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_lakes_06/magma_lakes_06.tile",					
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_07/magma_lakes_07.tile",					
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_08/magma_lakes_08.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_plains_01/magma_plains_01.tile",							
 					random_weight =	1
 				},
 				{
 					tile_name = "biomes/magma/tiles/magma_plains_02/magma_plains_02.tile",		
-					min_instances =	4,
+					min_instances =	2,
 					random_weight =	2
 				},
 				{
 					tile_name = "biomes/magma/tiles/magma_plains_03/magma_plains_03.tile",		
+					min_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_04/magma_plains_04.tile",		
+					min_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_05/magma_plains_05.tile",		
 					min_instances =	2,
 					random_weight =	2
 				},
@@ -1262,6 +1302,21 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	1
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_canyons_05/magma_canyons_05.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_06/magma_canyons_06.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_07/magma_canyons_07.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_lakes_01/magma_lakes_01.tile",					
 					random_weight =	1
 				},
@@ -1285,6 +1340,21 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	1
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_lakes_06/magma_lakes_06.tile",					
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_07/magma_lakes_07.tile",					
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_08/magma_lakes_08.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_plains_01/magma_plains_01.tile",							
 					random_weight =	1
 				},
@@ -1298,7 +1368,16 @@ function template_universal:PrepareMissionTilesPool()
 					max_instances =	2,
 					random_weight =	1
 				},
-				
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_04/magma_plains_04.tile",		
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_05/magma_plains_05.tile",		
+					max_instances =	2,
+					random_weight =	1
+				},				
 			},
 			
 			["lakesTilePool"] = 
@@ -1324,6 +1403,21 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	1
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_canyons_05/magma_canyons_05.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_06/magma_canyons_06.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_canyons_07/magma_canyons_07.tile",
+					max_instances =	1,
+					random_weight =	1
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_lakes_01/magma_lakes_01.tile",					
 					random_weight =	1.5
 				},
@@ -1347,6 +1441,21 @@ function template_universal:PrepareMissionTilesPool()
 					random_weight =	2
 				},
 				{
+					tile_name = "biomes/magma/tiles/magma_lakes_06/magma_lakes_06.tile",					
+					max_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_07/magma_lakes_07.tile",					
+					max_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_lakes_08/magma_lakes_08.tile",
+					max_instances =	2,
+					random_weight =	2
+				},
+				{
 					tile_name = "biomes/magma/tiles/magma_plains_01/magma_plains_01.tile",							
 					random_weight =	1
 				},
@@ -1358,7 +1467,17 @@ function template_universal:PrepareMissionTilesPool()
 					tile_name = "biomes/magma/tiles/magma_plains_03/magma_plains_03.tile",		
 					min_instances =	2,
 					random_weight =	2
-				},				
+				},	
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_04/magma_plains_04.tile",		
+					min_instances =	1,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/magma/tiles/magma_plains_05/magma_plains_05.tile",		
+					min_instances =	1,
+					random_weight =	1
+				},
 			}
 		},
 		
@@ -1393,6 +1512,16 @@ function template_universal:PrepareMissionTilesPool()
 				},
 				{
 					tile_name = "biomes/metallic/tiles/metallic_lakes_02/metallic_lakes_02.tile",							
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_03/metallic_lakes_03.tile",							
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_04/metallic_lakes_04.tile",							
 					max_instances =	2,
 					random_weight =	1
 				},
@@ -1452,6 +1581,16 @@ function template_universal:PrepareMissionTilesPool()
 				},
 				{
 					tile_name = "biomes/metallic/tiles/metallic_lakes_02/metallic_lakes_02.tile",							
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_03/metallic_lakes_03.tile",							
+					max_instances =	2,
+					random_weight =	1
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_04/metallic_lakes_04.tile",							
 					max_instances =	2,
 					random_weight =	1
 				},
@@ -1502,13 +1641,23 @@ function template_universal:PrepareMissionTilesPool()
 				},
 				{
 					tile_name = "biomes/metallic/tiles/metallic_lakes_01/metallic_lakes_01.tile",							
-					min_instances =	3,
-					random_weight =	3
+					min_instances = 2,
+					random_weight =	2
 				},
 				{
 					tile_name = "biomes/metallic/tiles/metallic_lakes_02/metallic_lakes_02.tile",							
-					min_instances =	3,
-					random_weight =	3
+					min_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_03/metallic_lakes_03.tile",							
+					min_instances =	2,
+					random_weight =	2
+				},
+				{
+					tile_name = "biomes/metallic/tiles/metallic_lakes_04/metallic_lakes_04.tile",							
+					min_instances =	2,
+					random_weight =	1
 				},
 				{
 					tile_name = "biomes/metallic/tiles/metallic_plains_01/metallic_plains_01.tile",												
@@ -3789,21 +3938,23 @@ function template_universal:PrepareMissionObjects()
 	
 	-- CREATE BASE MISSION OBJECT SPAWNERS TABLE
 	table.insert(mission_object_spawners, 1, mission_objective_marker )
-	table.insert(mission_object_spawners, 2, bioanomaly )
-	table.insert(mission_object_spawners, 3, biocache )
-	table.insert(mission_object_spawners, 4, power_well )
-	table.insert(mission_object_spawners, 5, underground_treasure )
+	if self.missionBioanomaliesMultiplier ~= 0 then
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, bioanomaly )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, biocache )		
+	end
+	
+	table.insert(mission_object_spawners, #mission_object_spawners + 1, underground_treasure )
 	
 	if self.mission_params.biome_name == "magma" then
-		table.insert(mission_object_spawners, 3, cryoPlants )
-		table.insert(mission_object_spawners, 4, magneticRocks )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, cryoPlants )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, magneticRocks )
 	elseif self.mission_params.biome_name == "acid" then
-		table.insert(mission_object_spawners, 3, yeast_colony_large )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, yeast_colony_large )
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, yeast_colony_small )
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, underground_mushrooms )
 	elseif self.mission_params.biome_name == "caverns" then
-		table.insert(mission_object_spawners, 3, wind_tunnels_starting )
-		table.insert(mission_object_spawners, 4, wind_tunnels )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, wind_tunnels_starting )
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, wind_tunnels )
 	elseif self.mission_params.biome_name == "metallic" then
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, tower_plasma )		
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, tower_artillery )		
@@ -3815,6 +3966,9 @@ function template_universal:PrepareMissionObjects()
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, carnicinth_alpha )			
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, drexolian )			
 		table.insert(mission_object_spawners, #mission_object_spawners + 1, drexolian_alpha )		
+	end
+	if self.missionBioanomaliesMultiplier ~= 0 then		
+		table.insert(mission_object_spawners, #mission_object_spawners + 1, power_well )
 	end
 	
 	--======= LUCKY ENCOUNTER RANDOMIZER
@@ -3828,11 +3982,11 @@ function template_universal:PrepareMissionObjects()
 	self.luckyEncounter = self.luckyEncounterPool[RandInt( 1, #self.luckyEncounterPool )]
 	LogService:Log("Lucky Encounter Name = ".. self.luckyEncounter )
 		
-	if self.luckyEncounter == "bioanomaly" then
+	if self.luckyEncounter == "bioanomaly" and self.missionBioanomaliesMultiplier ~= 0 then
 		table.insert(mission_object_spawners, 2, bioanomalyClusterPrimary )
 		table.insert(mission_object_spawners, 3, bioanomalyClusterSecondary )
 		table.insert(mission_object_spawners, 4, biocacheCluster )
-	elseif self.luckyEncounter == "biocache" then		
+	elseif self.luckyEncounter == "biocache" and self.missionBioanomaliesMultiplier ~= 0 then		
 		table.insert(mission_object_spawners, 2, biocacheClusterPrimary )		
 		table.insert(mission_object_spawners, 3, biocacheCluster )
 	elseif self.luckyEncounter == "underground_treasure" then

@@ -1,6 +1,11 @@
 GuiRootGroupDef
 {
 	full_screen "5"
+	navigation
+	{
+		default_node "items"
+	}
+
 	priority "60"
 	children
 	{
@@ -517,7 +522,7 @@ GuiRootGroupDef
 										id "selected_frame"
 										size_mode_x "2"
 										size_mode_y "2"
-										tooltip_def
+
 									}
 
 								}
@@ -529,7 +534,7 @@ GuiRootGroupDef
 							id "buttons"
 							size_mode_x "2"
 							size_mode_y "1"
-							tooltip_def
+							z_order "1"
 						}
 
 					}
@@ -577,6 +582,7 @@ GuiRootGroupDef
 															value "GuiTextDef"
 															{
 																style_name "resource_value"
+																translate "1"
 																bindings
 																{
 																	content
@@ -584,7 +590,7 @@ GuiRootGroupDef
 																		model_field "value"
 																		converter "GuiModelPostfixConverter"
 																		{
-																			postfix "${gui/menu/inventory/units_per_second}"
+																			postfix "<style='resource_max'>${gui/menu/inventory/units_per_second} </style>"
 																		}
 
 																	}
@@ -1315,56 +1321,6 @@ GuiRootGroupDef
 									{
 										capitals "1"
 										content "gui/hud/building_name/liquid_decompressor"
-										style
-										{
-											char_height "27"
-											df "1"
-											font "Exo2_Bold_sdf"
-											glow_color
-											{
-												y "0.576"
-												z "1"
-											}
-
-											glow_size "7.831"
-											glow_spread "10"
-											gradient_enabled "1"
-											gradient_end
-											{
-												x "0.667"
-												y "0.667"
-												z "0.667"
-											}
-
-											gradient_start
-											{
-												x "1"
-												y "1"
-												z "1"
-											}
-
-											shadow_angle "132"
-											shadow_color
-											{
-												w "0.9"
-											}
-
-											shadow_distance "1.939"
-											shadow_enabled "1"
-											shadow_size "3.3"
-											shadow_spread "2.268"
-											stroke_color
-											{
-												w "0.289"
-												x "0.349"
-												y "1"
-												z "1"
-											}
-
-											stroke_position "1"
-											stroke_size "1.4"
-										}
-
 										style_name "build_info_header"
 										translate "1"
 										alignment "left"
@@ -1404,7 +1360,20 @@ GuiRootGroupDef
 							id "header"
 							size_mode_x "2"
 							size_mode_y "1"
-							z_order "1"
+							z_order "3"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "pointereventblocker"
+						value "GuiPointerEventBlockerDef"
+						{
+							id "pointereventblocker"
+							size_mode_x "2"
+							size_mode_y "2"
+							synchronization_mode "never"
 						}
 
 					}
@@ -1424,6 +1393,7 @@ GuiRootGroupDef
 
 							border_width "1"
 							inner_alpha "0"
+							hitbox_visible "0"
 							id "quad"
 							margin
 							{
@@ -1435,7 +1405,7 @@ GuiRootGroupDef
 
 							size_mode_x "2"
 							size_mode_y "2"
-							z_order "1"
+							z_order "2"
 						}
 
 					}
@@ -1455,6 +1425,7 @@ GuiRootGroupDef
 								z "0.103"
 							}
 
+							hitbox_visible "0"
 							id "selected_frame"
 							margin
 							{
@@ -2578,11 +2549,6 @@ GuiRootGroupDef
 													id "bg"
 													size_mode_x "2"
 													size_mode_y "2"
-													tooltip_def
-													{
-														tooltip_def
-													}
-
 												}
 
 											}
@@ -2720,6 +2686,16 @@ GuiRootGroupDef
 
 							bindings
 							{
+								is_default_checked
+								{
+									model_field "equipped"
+								}
+
+								is_default_selected
+								{
+									model_field "equipped"
+								}
+
 								is_enabled
 								{
 									model_field "enabled"
@@ -2746,15 +2722,6 @@ GuiRootGroupDef
 
 							size_mode_x "1"
 							size_mode_y "1"
-							tooltip_def
-							{
-								tooltip_def
-								{
-									tooltip_def
-								}
-
-							}
-
 						}
 
 					}

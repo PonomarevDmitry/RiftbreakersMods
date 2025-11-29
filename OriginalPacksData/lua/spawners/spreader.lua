@@ -281,6 +281,8 @@ function spreader:OnDestroyRequest( evt )
 		data:SetInt( "branch_" .. tostring(i), self.branches[i])
 	end
 	data:SetFloat( "collapse_interval" , self.collapse_interval )
+	
+	EntityService:RevealVegetation( self.entity )
 	EntityService:DissolveEntity(self.entity, 1)
 end
 
@@ -305,6 +307,8 @@ function spreader:OnChildDestroyRequest( evt )
 	if ( EntityService:GetComponent( child, "VegetationComponent") == nil) then
 		EntityService:RequestDestroyPattern( child, "default")
 	end
+
+	EntityService:RevealVegetation( child )
 	self:UnregisterHandler( child, "DestroyRequest", "OnChildDestroyRequest" )
 end
 

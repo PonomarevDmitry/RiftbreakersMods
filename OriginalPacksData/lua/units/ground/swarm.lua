@@ -250,10 +250,15 @@ function swarm:CreateStorm( fromOrigin, toOrigin )
 	end
 
     local lightning = EntityService:SpawnEntity( self.stormEffect, self.entity, "" )
-    local component = reflection_helper( EntityService:GetComponent( lightning, "LightningComponent" ) )
+    local component = reflection_helper( EntityService:GetComponent( lightning, "LightningDataComponent" ) )
 
     local container = rawget( component.lighning_vec, "__ptr" );
-    local instance =  reflection_helper( container:CreateItem() )
+    local instance = nil
+    if ( container:GetItemCount() == 0 ) then
+        instance = reflection_helper(container:CreateItem())
+    else 
+        instance = reflection_helper(container:GetItem(0))
+    end
 
     instance.start_point.x = fromOrigin.x
     instance.start_point.y = fromOrigin.y

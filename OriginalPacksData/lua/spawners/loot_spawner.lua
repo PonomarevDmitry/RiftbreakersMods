@@ -24,7 +24,6 @@ function loot_spawner:init()
 		self.lootSpawn:AddState( "spawn", { from="*", enter="OnSpawnEnter", exit="OnSpawnExit", execute="OnSpawnExecute" } )
 		self.lootSpawn:ChangeState("spawn")
 	else
-		LogService:Log( "Loot spawner: force add " .. self.data:GetIntOrDefault( "force_add", 0 ) )
 		if ( self.data:GetIntOrDefault( "force_add", 0 ) == 1 ) then
 			self.playerId  = PlayerService:GetPlayerForEntity( self.entity )
 			self.playerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
@@ -64,7 +63,6 @@ function loot_spawner:SpawnLoot()
 		
 		local lifeTime =  0
 		if ( EntityService:HasComponent( self.entity, "LifeTimeComponent") ) then
-			LogService:Log( "Loot spawner: has lifetime component" )
 			lifeTime = EntityService:GetLifeTime( self.entity )
 		end
 

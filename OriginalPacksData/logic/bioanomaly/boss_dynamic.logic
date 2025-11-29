@@ -1,8 +1,8 @@
-//editor "scroll(2485.00,2645.66)|zoom(0.60)"
+//editor "scroll(1772.79,1770.77)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "7"
-	editor "6222"
+	version "8"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -121,6 +121,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -131,7 +134,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(5626,1565)"
+			//editor "layout(event_end.xml)|pos(5903,1578)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -305,6 +308,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -445,6 +451,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -585,6 +594,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -725,6 +737,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -865,6 +880,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -912,7 +930,7 @@ FlowGraphTemplate
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(3687,3565)"
+			//editor "layout(wave_ground.xml)|pos(4861,3620)"
 			database
 			{
 				Floats
@@ -1005,6 +1023,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -1015,7 +1036,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_biome.xml)|pos(3726,4276)"
+			//editor "layout(logic_if_biome.xml)|pos(3728,4926)"
 			database
 			{
 				Strings
@@ -1036,7 +1057,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(3726,4381)"
+			//editor "layout(condition_true.xml)|pos(3728,5031)"
 			key "true"
 			self_id "logic_if_biome_8###true"
 			value
@@ -1044,7 +1065,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(3726,4409)"
+			//editor "layout(condition_false.xml)|pos(3728,5059)"
 			key "false"
 			self_id "logic_if_biome_8###false"
 			value
@@ -1052,14 +1073,228 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(5392,1565)"
+			//editor "layout(logic_or.xml)|pos(5669,1578)"
 			self_id "logic_or_1"
 		}
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(4358,4247)"
+			//editor "layout(logic_or.xml)|pos(5297,5017)"
 			self_id "logic_or_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_campaign_type.xml)|pos(3651,3823)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "campaign_type"
+						value "story"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_campaign_type.lua"
+			self_id "logic_if_campaign_type_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3651,3923)"
+			key "true"
+			self_id "logic_if_campaign_type_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3651,3951)"
+			key "false"
+			self_id "logic_if_campaign_type_1###false"
+			value
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(4864,4293)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_7"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_swamp_random_canceroth"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(4205,3839)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+					StringData
+					{
+						key "comparison_familiarity_name"
+						value "canceroth"
+					}
+
+					StringData
+					{
+						key "comparison_subspecies_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4205,4039)"
+			key "true"
+			self_id "logic_if_familiarity_level_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(4205,4067)"
+			key "false"
+			self_id "logic_if_familiarity_level_1###false"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4675,4587)"
+			self_id "logic_or_3"
 		}
 
 	}
@@ -1087,12 +1322,19 @@ FlowGraphTemplate
 		logic_if_biome_6###true "wave_ground_5"
 		logic_if_biome_7 "logic_if_biome_7###false|logic_if_biome_7###true"
 		logic_if_biome_7###false "logic_if_biome_8"
-		logic_if_biome_7###true "wave_ground_6"
+		logic_if_biome_7###true "logic_if_campaign_type_1"
 		logic_if_biome_8 "logic_if_biome_8###false|logic_if_biome_8###true"
 		logic_if_biome_8###false "logic_or_2"
 		logic_if_biome_8###true "logic_or_2"
+		logic_if_campaign_type_1 "logic_if_campaign_type_1###false|logic_if_campaign_type_1###true"
+		logic_if_campaign_type_1###false "logic_or_3"
+		logic_if_campaign_type_1###true "logic_if_familiarity_level_1"
+		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###false|logic_if_familiarity_level_1###true"
+		logic_if_familiarity_level_1###false "wave_ground_6"
+		logic_if_familiarity_level_1###true "logic_or_3"
 		logic_or_1 "event_end_0"
 		logic_or_2 "logic_or_1"
+		logic_or_3 "wave_ground_7"
 		wave_ground_0 "logic_or_1"
 		wave_ground_1 "logic_or_1"
 		wave_ground_2 "logic_or_1"
@@ -1100,6 +1342,7 @@ FlowGraphTemplate
 		wave_ground_4 "logic_or_1"
 		wave_ground_5 "logic_or_1"
 		wave_ground_6 "logic_or_1"
+		wave_ground_7 "logic_or_1"
 	}
 
 	GraphComments

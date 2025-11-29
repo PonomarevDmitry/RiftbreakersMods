@@ -48,7 +48,7 @@ end
 function teleport_machine:OnDisappearEnter( state)
     EntityService:FadeEntity( self.parent, DD_FADE_OUT, self.disappearTime, false )
     QueueEvent("RiftTeleportStartEvent", self.parent )
-    QueueEvent("AttachEffectGroupRequest", self.parent, "portal_enter", 0 )
+    QueueEvent("SpawnEffectGroupRequest", self.parent, "portal_enter", 0 )
 
     self.hiddenChildren = {}
     local children = EntityService:GetChildren( self.parent, true )
@@ -143,7 +143,7 @@ end
 
 function teleport_machine:OnAppearEnter( state)
     EntityService:FadeEntity( self.parent, DD_FADE_IN, self.appearTime, false )
-    QueueEvent("AttachEffectGroupRequest", self.parent, "portal_exit", 0 )
+    QueueEvent("SpawnEffectGroupRequest", self.parent, "portal_exit", 0 )
     QueueEvent("TeleportAppearEnter", self.portalEntity )
 
 	for child in Iter(self.hiddenChildren) do

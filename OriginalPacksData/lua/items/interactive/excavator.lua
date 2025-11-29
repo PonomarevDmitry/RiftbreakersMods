@@ -9,7 +9,7 @@ function excavator:__init()
 end
 
 function excavator:OnEquipped()
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
     end
 	BuildingService:DisablePhysics(self.item)
@@ -17,7 +17,7 @@ function excavator:OnEquipped()
 end
 
 function excavator:OnActivate()
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
     end
 	local database = EntityService:GetDatabase( self.owner )
@@ -64,7 +64,7 @@ function excavator:OnActivate()
 end
 
 function excavator:OnDeactivate()
-	if ( self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return true
     end
 

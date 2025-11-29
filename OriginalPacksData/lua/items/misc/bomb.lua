@@ -9,18 +9,17 @@ function bomb:init()
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "rotation", { enter="OnRotationEnter", execute="OnRotationExecute" } )
 
-	local height = self.data:GetFloatOrDefault( "height_increase", 0.0 )
+	local height = self.data:GetFloatOrDefault( "height_increase", 2.0 )
 	if height > 0.0 then
 		local pos = EntityService:GetPosition( self.entity )
 		pos.y = pos.y + height
 		EntityService:SetPosition( self.entity, pos.x, pos.y, pos.z )
-		MoveService:MoveInDirection( self.entity, 0, 30, 30, { x=0, y=-1, z=0 } )
 		self.fsm:ChangeState( "rotation" )
 	end
 
 	AnimationService:StartAnim( self.entity, "show", false )
 	local animTime = AnimationService:GetAnimDuration( self.entity, "show" );
-	EntityService:FadeEntity( self.entity, DD_FADE_IN, animTime )
+	EntityService:FadeEntity( self.entity, DD_FADE_IN, animTime / 2.0 )
 end
 
 function bomb:OnRotationEnter( state, dt )

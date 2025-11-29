@@ -28,11 +28,15 @@ end
 
 function harvester:OnHarvestStartEnter( state )
 	state:SetDurationLimit( 0.75 )
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
-	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
+
+	if self.lastItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
+	end
+
 	QueueEvent( "HarvestStartEvent", GetInteractiveEntity( self.owner ) )
 end
 
@@ -44,11 +48,15 @@ end
 
 function harvester:OnHarvestStopEnter( state )
 	state:SetDurationLimit( 0.75 )
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
+
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
-	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
+
+	if self.lastItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
+	end
 end
 
 function harvester:OnHarvestStopExecute( state )
@@ -63,7 +71,7 @@ function harvester:OnEquipped()
 end
 
 function harvester:OnActivate()
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 	if ( self.harvestering == true ) then
@@ -87,7 +95,7 @@ function harvester:OnActivate()
 end
 
 function harvester:OnDeactivate()
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return true
 	end
 	self:RestoreSlotTypeAndPose("RIGHT_HAND", 0.0)

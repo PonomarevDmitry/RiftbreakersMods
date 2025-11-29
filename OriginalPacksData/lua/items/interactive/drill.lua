@@ -22,11 +22,15 @@ end
 
 function drill:OnDrillStartEnter( state )
 	state:SetDurationLimit( 0.75 )
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
+
 	EntityService:FadeEntity( self.item, DD_FADE_IN, 0.75)
-	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
+
+	if self.lastItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_OUT, 0.75)
+	end
 end
 
 function drill:OnDrillStartExecute( state )
@@ -37,11 +41,15 @@ end
 
 function drill:OnDrillStopEnter( state )
 	state:SetDurationLimit( 0.75 )
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
+	
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.75)
-	EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
+	
+	if self.lastItemEnt ~= nil then
+		EntityService:FadeEntity( self.lastItemEnt, DD_FADE_IN, 0.75)
+	end
 end
 
 function drill:OnDrillStopExecute( state )
@@ -52,14 +60,14 @@ end
 
 function drill:OnEquipped()
 	self.duration = 0.0
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 	EntityService:FadeEntity( self.item, DD_FADE_OUT, 0.0)
 end
 
 function drill:OnActivate()
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 	if ( self.drilling == true ) then
@@ -80,7 +88,7 @@ function drill:OnActivate()
 end
 
 function drill:OnDeactivate()
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return true
 	end
     local playerId = PlayerService:GetPlayerForEntity(self.owner )
@@ -106,7 +114,7 @@ local function GetInteractiveEntity( owner )
 end
 
 function drill:OnExecuteDrilling()
-	if ( self.data:HasFloat( "client" ) and self.data:HasFloat( "predicted" ) ) then
+	if not is_server then
 		return
 	end
 

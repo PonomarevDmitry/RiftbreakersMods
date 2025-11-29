@@ -1,8 +1,8 @@
-//editor "scroll(260.00,-47.00)|zoom(0.40)"
+//editor "scroll(1934.63,-151.15)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "19"
-	editor "6180"
+	version "21"
+	editor "6627"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -94,7 +94,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_set_global_variable.xml)|pos(3960,446)"
+			//editor "layout(logic_set_global_variable.xml)|pos(3736,752)"
 			script "lua/graph/logic/logic_set_global_variable.lua"
 			self_id "logic_set_global_variable_0"
 			database
@@ -366,7 +366,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_end.xml)|pos(4534,231)"
+			//editor "layout(mission_end.xml)|pos(4338,545)"
 			database
 			{
 				Strings
@@ -387,7 +387,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_change_creature_difficulty.xml)|pos(3966,219)"
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(3738,530)"
 			database
 			{
 				Floats
@@ -418,7 +418,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_dom_resume.xml)|pos(3966,66)"
+			//editor "layout(mission_dom_resume.xml)|pos(3565,256)"
 			database
 			{
 				Integers
@@ -448,7 +448,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(3647,251)"
+			//editor "layout(logic_and.xml)|pos(3423,557)"
 			script "lua/graph/logic/logic_and.lua"
 			self_id "logic_and_1"
 		}
@@ -542,7 +542,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(campaign_mission_remove.xml)|pos(2180,505)"
+			//editor "layout(campaign_mission_remove.xml)|pos(2175,1647)"
 			database
 			{
 				Strings
@@ -632,7 +632,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_add_item.xml)|pos(2167,1773)"
+			//editor "layout(entity_add_item.xml)|pos(2172,1809)"
 			database
 			{
 				Integers
@@ -653,6 +653,12 @@ FlowGraphTemplate
 						value "items/awards/campaign_swamp_award_giver_item"
 					}
 
+					StringData
+					{
+						key "all_players"
+						value "1"
+					}
+
 				}
 
 			}
@@ -669,7 +675,7 @@ FlowGraphTemplate
 		entity_spawn_player_0 "event_graph_0|logic_wait_on_event_0"
 		interface_dialogue_show_group_1 "logic_or_1"
 		interface_dialogue_show_group_2 "logic_or_1"
-		logic_and_1 "logic_set_global_variable_0|mission_change_creature_difficulty_1|mission_dom_resume_0"
+		logic_and_1 "logic_set_global_variable_0|mission_change_creature_difficulty_1"
 		logic_and_2 "campaign_mission_remove_1|interface_dialogue_show_group_2"
 		logic_and_3 "logic_or_1"
 		logic_if_global_variable_1 "logic_if_global_variable_1###false|logic_if_global_variable_1###true"
@@ -678,13 +684,12 @@ FlowGraphTemplate
 		logic_if_global_variable_2 "logic_if_global_variable_2###false|logic_if_global_variable_2###true"
 		logic_if_global_variable_2###false "logic_and_3"
 		logic_if_global_variable_2###true "entity_add_item_1|logic_and_2"
-		logic_or_1 "logic_wait_3|logic_wait_9"
+		logic_or_1 "logic_and_1|logic_wait_3|logic_wait_9"
 		logic_set_global_variable_0 "mission_end_1"
-		logic_wait_3 "logic_and_1"
+		logic_wait_3 "mission_dom_resume_0"
 		logic_wait_9 "event_graph_31"
 		logic_wait_on_event_0 "logic_if_global_variable_1|logic_if_global_variable_2"
 		mission_change_creature_difficulty_1 "mission_end_1"
-		mission_dom_resume_0 "mission_end_1"
 	}
 
 	GraphComments

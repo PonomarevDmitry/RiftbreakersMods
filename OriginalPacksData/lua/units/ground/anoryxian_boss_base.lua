@@ -413,10 +413,15 @@ end
 
 function anoryxian_base:CreateBeam( fromEntity, toEntity )
     self.bossInteractBeam = EntityService:SpawnEntity( "units/ground/anoryxian_boss/interactive_beam", self.entity, "" )
-    local component = reflection_helper( EntityService:GetComponent( self.bossInteractBeam, "LightningComponent" ) )
+    local component = reflection_helper( EntityService:GetComponent( self.bossInteractBeam, "LightningDataComponent" ) )
 
     local container = rawget( component.lighning_vec, "__ptr" );
-    local instance =  reflection_helper( container:CreateItem() )
+    local instance = nil
+    if ( container:GetItemCount() == 0 ) then
+        instance = reflection_helper(container:CreateItem())
+    else 
+        instance = reflection_helper(container:GetItem(0))
+    end
 
 	local fromOrigin = EntityService:GetPosition( fromEntity )
 	local toOrigin = EntityService:GetPosition( toEntity )

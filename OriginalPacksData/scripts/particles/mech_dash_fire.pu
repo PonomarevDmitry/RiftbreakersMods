@@ -4,12 +4,11 @@ system rift/mech_dash_fire
     scale_velocity                              0.03
     scale                                       0.03 0.03 0.03
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 40
     technique fire_alpha2
     {
-        visual_particle_quota                   12
+        visual_particle_quota                   40
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -17,34 +16,34 @@ system rift/mech_dash_fire
         material                                particles/fire_anim_01
         renderer                                Billboard
         {
+            render_queue_group                  61
             texture_coords_rows                 8
             texture_coords_columns              4
             billboard_rotation_type             vertex
         }
         emitter                                 Box fire_alpha1
         {
-            emission_rate                       6
             angle                               dyn_random
             {
-                min                             5
-                max                             30
+                min                             20
+                max                             60
             }
             time_to_live                        dyn_random
             {
-                min                             1
+                min                             0.5
                 max                             1.2
             }
             velocity                            dyn_random
             {
-                min                             10
-                max                             40
+                min                             20
+                max                             80
             }
             all_particle_dimensions             dyn_random
             {
-                min                             10
-                max                             20
+                min                             40
+                max                             80
             }
-            position                            0 5 0
+            position                            0 40 0
             box_width                           40
             box_height                          1
             box_depth                           40
@@ -52,8 +51,8 @@ system rift/mech_dash_fire
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.102174  0.3 0.3 0.3 1
-            time_colour                         0.806522  0.3 0.3 0.3 1
+            time_colour                         0.251223  0.3 0.3 0.3 0.44484
+            time_colour                         0.806522  0.3 0.3 0.3 0.494662
             time_colour                         1    0 0 0 0
         }
         affector                                TextureRotator Affector15
@@ -61,8 +60,8 @@ system rift/mech_dash_fire
             use_own_rotation                    true
             rotation                            dyn_random
             {
-                min                             -0.5
-                max                             0.5
+                min                             -3
+                max                             3
             }
             rotation_speed                      dyn_random
             {
@@ -126,8 +125,8 @@ system rift/mech_dash_fire
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.11087  0.294118 0.294118 0.294118 1
-            time_colour                         0.708696  0.294118 0.294118 0.294118 1
+            time_colour                         0.11087  1 1 1 1
+            time_colour                         0.708696  1 1 1 1
             time_colour                         1    0 0 0 0
         }
         affector                                LinearForce Affector23
@@ -137,7 +136,7 @@ system rift/mech_dash_fire
     }
     technique fire_alpha2
     {
-        visual_particle_quota                   15
+        visual_particle_quota                   40
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -154,25 +153,25 @@ system rift/mech_dash_fire
         {
             angle                               dyn_random
             {
-                min                             5
-                max                             30
+                min                             20
+                max                             60
             }
             time_to_live                        dyn_random
             {
-                min                             1
+                min                             0.5
                 max                             1.2
             }
             velocity                            dyn_random
             {
-                min                             10
-                max                             40
+                min                             20
+                max                             80
             }
             all_particle_dimensions             dyn_random
             {
-                min                             5
-                max                             10
+                min                             20
+                max                             40
             }
-            position                            0 5 0
+            position                            0 20 0
             box_width                           75
             box_height                          1
             box_depth                           75
@@ -180,8 +179,8 @@ system rift/mech_dash_fire
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.102174  0.3 0.3 0.3 1
-            time_colour                         0.806522  0.3 0.3 0.3 1
+            time_colour                         0.246928  0.3 0.3 0.3 0.47331
+            time_colour                         0.806522  0.3 0.3 0.3 0.476868
             time_colour                         1    0 0 0 0
         }
         affector                                TextureRotator Affector15
@@ -189,8 +188,8 @@ system rift/mech_dash_fire
             use_own_rotation                    true
             rotation                            dyn_random
             {
-                min                             -0.5
-                max                             0.5
+                min                             -3
+                max                             3
             }
             rotation_speed                      dyn_random
             {

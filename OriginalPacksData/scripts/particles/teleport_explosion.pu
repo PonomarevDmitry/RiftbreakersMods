@@ -1,0 +1,626 @@
+system rift/teleport_explosion
+{
+    fixed_timeout                               1
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.02
+    scale                                       0.02 0.02 0.02
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 4
+    technique lightning_space
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x2_blue_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle DebrisEmitter
+        {
+            emission_rate                       75
+            angle                               1
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             1000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            position                            0 25 0
+            end_texture_coords_range            3
+            start_colour_range                  1 1 1 1
+            auto_direction                      true
+            force_emission                      true
+            radius                              5
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.498039 0.498039 0.498039 0
+            time_colour                         0.204348  1 1 1 1
+            time_colour                         0.81087  1 1 1 1
+            time_colour                         1    0.498039 0.498039 0.498039 0
+        }
+        affector                                ScaleVelocity Affector36
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0.00184502 72.5508
+                control_point                   1 -1183.16
+            }
+            stop_at_flip                        true
+        }
+        affector                                TextureRotator Affector31
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.4
+                max                             0.4
+            }
+            rotation_speed                      0
+        }
+        affector                                TextureAnimator Affector32
+        {
+            time_step                           0.08
+            end_texture_coords_range            4
+        }
+    }
+    technique lightning_directional_1
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box add_flame_blue
+        {
+            emission_rate                       200
+            angle                               180
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.4
+            }
+            velocity                            0.1
+            duration                            0.4
+            all_particle_dimensions             dyn_random
+            {
+                min                             75
+                max                             150
+            }
+            position                            0 25 0
+            end_texture_coords_range            3
+            colour                              0 1 1 1
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                TextureRotator Affector168
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             -3.2
+            }
+            rotation_speed                      0
+        }
+        affector                                Colour Affector197
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0.498039 0.498039 0.498039 0
+        }
+    }
+    technique lightning_field
+    {
+        visual_particle_quota                   650
+        emitted_emitter_quota                   100
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_2x2_blue_04
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              2
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle circleemitter
+        {
+            emission_rate                       100
+            angle                               1
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.5
+            }
+            velocity                            dyn_random
+            {
+                min                             800
+                max                             1000
+            }
+            all_particle_dimensions             1
+            position                            0 50 0
+            emits                               emitter_particle lightningemitter
+            end_texture_coords_range            3
+            colour                              0 0 0 0
+            auto_direction                      true
+            force_emission                      true
+            radius                              1
+        }
+        emitter                                 Box lightningemitter
+        {
+            emission_rate                       15
+            angle                               180
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            dyn_random
+            {
+                min                             15
+                max                             25
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             75
+            }
+            keep_local                          true
+            end_texture_coords_range            3
+            colour                              0 0 0 0
+            auto_direction                      true
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    0.498039 0.498039 0.498039 0
+        }
+        affector                                TextureRotator Affector126
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -1
+                max                             1
+            }
+        }
+        affector                                Scale Affector36
+        {
+            xyz_scale                           dyn_random
+            {
+                min                             -50
+                max                             -100
+            }
+        }
+    }
+    technique lightning_directional_ring
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x2_blue_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 2
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle lightning777
+        {
+            emission_rate                       100
+            angle                               1
+            time_to_live                        0.5
+            velocity                            dyn_random
+            {
+                min                             800
+                max                             1000
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             25
+                max                             75
+            }
+            position                            0 50 0
+            direction                           1 0 0
+            end_texture_coords_range            7
+            start_colour_range                  1 1 1 1
+            auto_direction                      true
+            force_emission                      true
+            radius                              1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.498039 0.498039 0.498039 0
+            time_colour                         0.206522  1 1 1 1
+            time_colour                         0.808696  1 1 1 1
+            time_colour                         1    0.498039 0.498039 0.498039 0
+        }
+        affector                                Scale Affector36
+        {
+        }
+        affector                                TextureAnimator Affector165
+        {
+            time_step                           0.08
+            end_texture_coords_range            7
+        }
+        affector                                TextureRotator Affector168
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -2.6
+                max                             -3.4
+            }
+            rotation_speed                      0
+        }
+    }
+    technique lightning_small
+    {
+        visual_particle_quota                   300
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/lightning_bolt_4x4_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_rows                 4
+            texture_coords_columns              4
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface 
+        {
+            emission_rate                       600
+            angle                               360
+            time_to_live                        dyn_random
+            {
+                min                             0.2
+                max                             0.3
+            }
+            velocity                            0
+            duration                            0.5
+            all_particle_dimensions             dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            position                            0 100 0
+            end_texture_coords_range            3
+            radius                              200
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.5  1 1 1 1
+            time_colour                         1    0.494118 0.494118 0.494118 0
+            colour_operation                    multiply
+        }
+        affector                                TextureRotator Affector18
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      0
+        }
+    }
+    technique sparks
+    {
+        visual_particle_quota                   100
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  63
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point DebrisEmitter
+        {
+            emission_rate                       100
+            angle                               85
+            time_to_live                        dyn_random
+            {
+                min                             0.6
+                max                             0.9
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             800
+            }
+            particle_width                      dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            particle_height                     dyn_random
+            {
+                min                             5
+                max                             25
+            }
+            position                            0 25 0
+            start_colour_range                  1 1 1 1
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.5  0.501961 0.501961 0.501961 1
+            time_colour                         1    0.501961 0.501961 0.501961 0
+        }
+        affector                                ScaleVelocity Affector36
+        {
+            velocity_scale                      dyn_curved_linear
+            {
+                control_point                   0.00184502 72.5508
+                control_point                   1 -1183.16
+            }
+            stop_at_flip                        true
+        }
+    }
+    technique debris
+    {
+        visual_particle_quota                   30
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/metal_scrap_blue_anim
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            texture_coords_rows                 2
+            texture_coords_columns              8
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point debris
+        {
+            emission_rate                       100
+            angle                               60
+            time_to_live                        dyn_random
+            {
+                min                             0.8
+                max                             1
+            }
+            velocity                            dyn_random
+            {
+                min                             500
+                max                             750
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             10
+                max                             50
+            }
+            position                            0 25 0
+            colour                              0.313726 0.313726 0.313726 1
+            force_emission                      true
+        }
+        affector                                TextureAnimator Affector49
+        {
+            time_step                           0.04
+            end_texture_coords_range            15
+        }
+        affector                                LinearForce Affector50
+        {
+            force_vector                        0 -800 0
+        }
+        affector                                TextureRotator Affector192
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -0.9
+                max                             0.9
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             -10
+                max                             10
+            }
+        }
+        affector                                Colour Affector358
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.502174  1 1 1 1
+            time_colour                         1    1 1 1 0
+            colour_operation                    multiply
+        }
+    }
+    technique lines
+    {
+        visual_particle_quota                   20
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/rep_explosion2_blue
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_rows                 7
+            texture_coords_columns              12
+            billboard_type                      oriented_self
+            billboard_origin                    center_left
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point LinesEmitter
+        {
+            emission_rate                       100
+            angle                               100
+            time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.6
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            particle_width                      dyn_random
+            {
+                min                             150
+                max                             250
+            }
+            particle_height                     dyn_random
+            {
+                min                             20
+                max                             60
+            }
+            position                            0 25 0
+            end_texture_coords_range            84
+            start_colour_range                  1 1 1 1
+            force_emission                      true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 0
+        }
+        affector                                TextureAnimator Affector45
+        {
+            end_texture_coords_range            83
+            texture_start_random                false
+        }
+        affector                                TextureRotator Affector46
+        {
+            rotation                            -1.6
+            rotation_speed                      0
+        }
+    }
+    technique shockwave_single_anim1
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/bomb_shockwave_atlas_01
+        renderer                                Billboard
+        {
+            texture_coords_rows                 8
+            texture_coords_columns              8
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.5
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 70 0
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           3250
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         0.750858  1 1 1 1
+            time_colour                         1    0.74902 0.74902 0.74902 0
+        }
+        affector                                TextureAnimator Affector259
+        {
+            end_texture_coords_range            63
+            texture_start_random                false
+        }
+        affector                                TextureRotator Affector399
+        {
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3.6
+                max                             3.6
+            }
+            rotation_speed                      0
+        }
+    }
+    technique refract_shockwave
+    {
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_circle_02
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_type                      perpendicular_common
+            billboard_rotation_type             vertex
+            common_direction                    0 1 0
+            common_up_vector                    0 0 1
+        }
+        emitter                                 Point flash2
+        {
+            time_to_live                        0.5
+            velocity                            0
+            all_particle_dimensions             100
+            position                            0 70 0
+            force_emission                      true
+        }
+        affector                                Scale flash2
+        {
+            xyz_scale                           3000
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.05  1 1 1 1
+            time_colour                         0.954348  1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

@@ -7,6 +7,7 @@ GameplayResourceDef
 	icon			"gui/hud/resource_icons/consumable_icon"
 	bigger_icon		"gui/hud/resource_icons/consumable_icon_bigger"
 	allow_overflow 	"1"
+	order   		"30"
 }
 
 GameplayResourceDef
@@ -18,6 +19,7 @@ GameplayResourceDef
 	icon			"gui/hud/resource_icons/ammo_icon"
 	bigger_icon		"gui/hud/resource_icons/ammo_icon_bigger"
 	allow_overflow 	"1"
+	order   		"31"
 }
 
 
@@ -30,5 +32,6 @@ GameplayResourceDef
 	icon			"gui/hud/resource_icons/player_ammo_icon"
 	bigger_icon		"gui/hud/resource_icons/player_ammo_icon_bigger"
 	allow_overflow 	"1"
+	order   		"32"
 }
 

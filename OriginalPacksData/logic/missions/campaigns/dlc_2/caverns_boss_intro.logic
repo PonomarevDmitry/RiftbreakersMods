@@ -1,8 +1,8 @@
-//editor "scroll(-2405.00,-104.84)|zoom(1.00)"
+//editor "scroll(1357.05,-788.72)|zoom(0.60)"
 FlowGraphTemplate
 {
-	version "36"
-	editor "6595"
+	version "37"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -28,7 +28,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(3146,373)"
+			//editor "layout(event_end.xml)|pos(3647,400)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_1"
 		}
@@ -131,7 +131,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2709,-88)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(3209,-61)"
 			database
 			{
 				Strings
@@ -139,7 +139,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "music_list"
-						value "music/fighting_metallic"
+						value "music/fighting_metallic_only"
 					}
 
 				}
@@ -310,7 +310,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_adaptive_music_system.xml)|pos(2408,-85)"
+			//editor "layout(audio_adaptive_music_system.xml)|pos(2909,-57)"
 			database
 			{
 				Strings
@@ -532,7 +532,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_event_send.xml)|pos(2437,-787)"
+			//editor "layout(logic_event_send.xml)|pos(2435,-777)"
 			database
 			{
 				Integers
@@ -1035,6 +1035,27 @@ FlowGraphTemplate
 			self_id "mission_block_respawn_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2625,-49)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "0.5"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
 	}
 
 	GraphConnections
@@ -1055,10 +1076,11 @@ FlowGraphTemplate
 		logic_and_9 "df_entity_find_2"
 		logic_set_team_spawn_point_1 "logic_and_9"
 		logic_wait_1 "interface_hud_visible_2"
+		logic_wait_2 "audio_adaptive_music_system_1"
 		logic_wait_4 "event_end_1"
 		logic_wait_6 "interface_dialogue_show_group_1"
 		logic_wait_7 "entity_spawn_single_3"
-		logic_wait_8 "audio_adaptive_music_system_1|audio_ears_attach_to_mech_1|interface_hud_visible_2|logic_block_players_action_mappers_2|logic_event_send_2"
+		logic_wait_8 "audio_ears_attach_to_mech_1|interface_hud_visible_2|logic_block_players_action_mappers_2|logic_event_send_2|logic_wait_2"
 		mission_block_respawn_1 "logic_and_1|logic_event_send_3"
 	}
 

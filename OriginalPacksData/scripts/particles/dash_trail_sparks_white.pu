@@ -1,0 +1,54 @@
+system rift/dash_trail_sparks_white
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.06
+    scale                                       0.06 0.06 0.06
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 1
+    technique sparks
+    {
+        visual_particle_quota                   400
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/light_white_01
+        renderer                                Billboard
+        {
+            render_queue_group                  62
+            billboard_rotation_type             vertex
+        }
+        emitter                                 SphereSurface 
+        {
+            emission_rate                       200
+            angle                               30
+            time_to_live                        dyn_random
+            {
+                min                             1
+                max                             1.5
+            }
+            velocity                            dyn_random
+            {
+                min                             1
+                max                             2
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             2
+                max                             4
+            }
+            direction                           0 -1 0
+            radius                              25
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                Scale Affector21
+        {
+            xyz_scale                           -2
+        }
+    }
+}

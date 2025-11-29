@@ -4,7 +4,6 @@ system rift/mech_dash_acid
     scale_velocity                              0.015
     scale                                       0.015 0.015 0.015
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 40
     technique fire_alpha2
@@ -14,11 +13,11 @@ system rift/mech_dash_acid
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/green_explosion_and_smoke_anim
+        material                                particles_noatlas/green_bomb_shockwave_atlas_01
         renderer                                Billboard
         {
-            texture_coords_rows                 4
-            texture_coords_columns              16
+            texture_coords_rows                 8
+            texture_coords_columns              8
             billboard_type                      perpendicular_common
             billboard_rotation_type             vertex
             common_direction                    0 1 0
@@ -40,8 +39,8 @@ system rift/mech_dash_acid
             }
             all_particle_dimensions             dyn_random
             {
-                min                             50
-                max                             100
+                min                             100
+                max                             200
             }
             position                            0 1 0
             direction                           0.5 1 0
@@ -52,7 +51,7 @@ system rift/mech_dash_acid
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.2  0.121569 0.121569 0.121569 0.647059
+            time_colour                         0.2  0 0 0 0.943061
             time_colour                         1    0 0 0 0
         }
         affector                                TextureRotator Affector15
@@ -76,7 +75,7 @@ system rift/mech_dash_acid
         }
         affector                                Scale Affector25
         {
-            xyz_scale                           100
+            xyz_scale                           150
         }
     }
     technique fire_alpha3
@@ -96,8 +95,7 @@ system rift/mech_dash_acid
         }
         emitter                                 Box fire_alpha
         {
-            emission_rate                       5
-            angle                               5
+            angle                               60
             time_to_live                        dyn_random
             {
                 min                             1
@@ -121,7 +119,7 @@ system rift/mech_dash_acid
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.141304  0.294118 0.294118 0.294118 0.74902
+            time_colour                         0.498845  0.483986 0.483986 0.483986 0.786477
             time_colour                         1    0 0 0 0
         }
         affector                                TextureRotator Affector15
@@ -159,6 +157,7 @@ system rift/mech_dash_acid
         }
         emitter                                 Box sparks
         {
+            angle                               30
             time_to_live                        dyn_random
             {
                 min                             0.7
@@ -183,7 +182,7 @@ system rift/mech_dash_acid
         }
         affector                                Colour 
         {
-            time_colour                         0    0.752941 0.752941 0.752941 1
+            time_colour                         0    1 1 1 1
             time_colour                         1    0 0 0 0
         }
     }

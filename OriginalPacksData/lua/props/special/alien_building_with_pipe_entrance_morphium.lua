@@ -10,7 +10,8 @@ end
 function alien_building_with_pipe_entrance_morphium:init()
 	building_base.init(self)	
 	self:RegisterHandler( event_sink, "LuaGlobalEvent", "OnLuaGlobalEvent" )
-	BuildingService:DisableBuilding( self.entity )
+	EntityService:DisableComponent(self.entity, "ResourceConverterComponent")
+	self.alienVersion = 1
 end
 
 function alien_building_with_pipe_entrance_morphium:OnBuild()
@@ -21,6 +22,10 @@ function alien_building_with_pipe_entrance_morphium:OnDeactivate()
 end
 
 function alien_building_with_pipe_entrance_morphium:OnActivate()
+	if ( EntityService:GetComponent(self.entity, "ResourceConverterComponent") == nil ) then
+		return
+	end
+
 	if ( EntityService:GetComponent(self.entity, "InfluenceComponent") == nil ) then
 		self:CreateInfluence()
 	end
@@ -37,12 +42,25 @@ end
 
 function alien_building_with_pipe_entrance_morphium:OnLuaGlobalEvent( event )
 	if "AlienBuildingScannedEvent" == event:GetEvent() then
-		BuildingService:EnableBuilding( self.entity )
+		EntityService:EnableComponent(self.entity, "ResourceConverterComponent")
 	elseif "InfluenceDeployFromAlienBuildingRequest" == event:GetEvent() then
 		if ( self.working and EntityService:GetComponent(self.entity, "InfluenceComponent") == nil ) then
 			self:CreateInfluence()
 		end
 	end
+end
+
+
+function alien_building_with_pipe_entrance_morphium:OnLoad()
+	if (self.alienVersion == nil) then
+		if ( not BuildingService:IsBuildingEnabled( self.entity ) ) then
+			BuildingService:EnableBuilding( self.entity )
+			EntityService:DisableComponent(self.entity, "ResourceConverterComponent")
+		end
+		self.alienVersion = 1
+	end
+	
+
 end
 
 return alien_building_with_pipe_entrance_morphium

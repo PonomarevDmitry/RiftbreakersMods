@@ -48,10 +48,12 @@ function vegetation:UpdateState( target )
 
 	if db:GetIntOrDefault( "target_aiming", 0 ) ~= 0 then 
 		if self.target ~= INVALID_ID then
-			self.fsm = self:CreateStateMachine()
-			self.fsm:AddState( "aiming", { from="*", execute="OnAimingExecute" } )
-			self.fsm:ChangeState( "aiming" )
-			db:SetInt( "is_aiming", 1 )
+			if ( self.fsm == nil ) then
+				self.fsm = self:CreateStateMachine()
+				self.fsm:AddState( "aiming", { from="*", execute="OnAimingExecute" } )
+				self.fsm:ChangeState( "aiming" )
+				db:SetInt( "is_aiming", 1 )
+			end
 		else
 			self:DisableStateMachine()
 		end

@@ -1,8 +1,8 @@
-//editor "scroll(3109.42,2282.16)|zoom(0.67)"
+//editor "scroll(1843.87,-74.23)|zoom(0.60)"
 FlowGraphTemplate
 {
-	version "4"
-	editor "6570"
+	version "5"
+	editor "6627"
 	GraphNodes
 	{
 		DialogGroupNode
@@ -345,7 +345,7 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(3301,517)"
+			//editor "layout(logic_or.xml)|pos(3492,521)"
 			self_id "logic_or_1"
 		}
 
@@ -492,7 +492,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_highlight_build_menu.xml)|pos(3531,499)"
+			//editor "layout(interface_highlight_build_menu.xml)|pos(3722,503)"
 			database
 			{
 				Strings
@@ -1391,6 +1391,37 @@ FlowGraphTemplate
 			self_id "mission_change_creature_difficulty_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(3064,219)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "GoToNextMapEvent"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_1"
+		}
+
 	}
 
 	GraphConnections
@@ -1399,7 +1430,7 @@ FlowGraphTemplate
 		campaign_interface_dialogue_show_group_3 "objective_status_change_9"
 		campaign_objective_generic_3 "logic_if_exist_building_1"
 		default "campaign_objective_generic_3|mission_unhide_research_1"
-		interface_highlight_build_menu_0 "logic_wait_1"
+		interface_highlight_build_menu_0 "logic_wait_1|logic_wait_on_event_1"
 		logic_if_exist_building_1 "logic_if_exist_building_1###true"
 		//editor "logic_or_1(2379,717:3223,715)"
 		logic_if_exist_building_1###true "campaign_interface_dialogue_show_group_2|logic_if_exist_building_23|logic_or_1"
@@ -1423,6 +1454,7 @@ FlowGraphTemplate
 		logic_if_exist_building_9###true "campaign_interface_dialogue_show_group_11|logic_if_exist_building_8"
 		logic_or_1 "interface_highlight_build_menu_1"
 		logic_wait_1 "logic_or_1"
+		logic_wait_on_event_1 "logic_or_1"
 		mission_enable_research_1 "mission_unlock_research_1"
 		mission_unhide_research_1 "mission_enable_research_1"
 		mission_unlock_research_1 "interface_highlight_build_menu_0"

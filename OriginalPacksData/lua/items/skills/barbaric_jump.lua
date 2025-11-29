@@ -11,6 +11,11 @@ end
 function barbaric_jump:OnInit()
 	self.machine = self:CreateStateMachine()
 	self.machine:AddState( "jump", { enter="OnJumpEnter", execute="OnJumpExecute", exit="OnJumpExit" } )
+
+	self.markerMachine = self:CreateStateMachine()
+	self.markerMachine:AddState( "marker", { from="*", execute= "OnMarkerExecute", exit="OnMarkerExit"} )
+	self.marker = INVALID_ID
+
 	self:InitalizeValues()
 end
 
@@ -26,12 +31,15 @@ function barbaric_jump:InitalizeValues()
 	self.slowdownFactor   = database:GetFloatOrDefault( "slowdown_factor", 4)-- slowdown multiplier betwean peak points
  	self.minTime   		  = database:GetFloatOrDefault( "min_time", 0.375)    -- min jump time + slowdown
 	self.maxTime   		  = database:GetFloatOrDefault( "max_time", 0.75)     -- max jump time + slowdown
-	self.triggerBp = database:GetString( "trigger" )
-	self.radiusBp = database:GetStringOrDefault( "radius_bp", "")
-	self.autoamingLeft = nil
-	self.autoamingRight = nil
-	self.enabled = 0
-	self.trigger = INVALID_ID
+	self.triggerBp 	      = database:GetString( "trigger" )
+	self.radiusBp 		  = database:GetStringOrDefault( "radius_bp", "")
+	self.dashStartLong 	  = database:GetStringOrDefault( "dash_start", "effects/items/power_jump_start")
+	self.dashTrailLong 	  = database:GetStringOrDefault( "dash_trail", "effects/projectiles_and_trails/mech_dash_trail_short")
+	self.dangerMarkerBp   = database:GetStringOrDefault( "danger_marker_bp", "")
+	self.autoamingLeft 	  = nil
+	self.autoamingRight   = nil
+	self.enabled 		  = 0
+	self.trigger 	      = INVALID_ID
 end
 
 function barbaric_jump:OnEquipped()
@@ -39,13 +47,16 @@ function barbaric_jump:OnEquipped()
 	if ( data ~= nil )  then
 		data:SetInt("is_jumping", 0 )
 	end
+
+	self.markerMachine:ChangeState("marker")
 end
 
 function barbaric_jump:OnActivate()
 	if ( self.enabled == 0 ) then
 		self.machine:ChangeState("jump")
-		QueueEvent("SpawnEffectGroupRequest", self.owner, "dash_start_long", 0 )
-		QueueEvent("AttachEffectGroupRequest", self.owner, "dash_trail_long", 0 )
+		EffectService:SpawnEffect( self.owner, self.dashStartLong, "att_ribbon_horizontal" )
+		EffectService:AttachEffect( self.owner, self.dashTrailLong, "att_ribbon_vertical" )
+		EffectService:AttachEffect( self.owner, self.dashTrailLong, "att_ribbon_horizontal" )
 	end
 end
 
@@ -53,11 +64,46 @@ function barbaric_jump:OnUnequipped()
 	if( self.enabled ~= 0 ) then
 		self:OnJumpExit( self.machine:GetCurrentState())
 		self.machine:Deactivate()
-		QueueEvent("RemoveEffectsByGroupRequest", self.owner, "dash_trail_long", 0 )
+		EffectService:DestroyEffect( self.owner, self.dashTrailLong, "att_ribbon_vertical" )
+		EffectService:DestroyEffect( self.owner, self.dashTrailLong, "att_ribbon_horizontal" )
+	end
+
+	local state  = self.markerMachine:GetState(self.markerMachine:GetCurrentState())
+	if( state ~= nil ) then
+		state:Exit()
 	end
 end
 
+function barbaric_jump:OnMarkerExecute( state )
+	local pos = PlayerService:GetWeaponLookPoint( self.owner )
+	self.foundPos = PlayerService:FindPositionForJump( self.owner, pos ,self.jumpDistance, self.maxHeight)
+	if ( self.foundPos.first == false and self.marker ~= INVALID_ID ) then
+		if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+			EntityService:RemoveEntity( self.marker )
+		end
+		self.marker = INVALID_ID 
+	elseif ( self.foundPos.first and ( self.marker == INVALID_ID or EntityService:IsAlive( self.marker ) == false ) ) then
+		self.marker = EntityService:SpawnEntity("effects/mech/teleport_marker", self.foundPos.second, EntityService:GetTeam(INVALID_ID) )
+		ItemService:SetItemReference( self.marker, self.entity, EntityService:GetBlueprintName( self.entity ) )
+	elseif ( self.foundPos.first and self.marker ~= INVALID_ID ) then
+		EntityService:SetPosition( self.marker, self.foundPos.second )
+		EntityService:CreateOrSetLifetime( self.marker, 2.0 / 33.0, "normal" )
+		EntityService:SetVisible( self.marker, PlayerService:IsInFighterMode( self.owner ) )
+	end
+end
+
+function barbaric_jump:OnMarkerExit()
+	if ( ItemService:IsItemReference( self.marker, self.entity ) ) then
+		EntityService:RemoveEntity( self.marker )
+	end
+	self.marker = INVALID_ID
+end
+
 function barbaric_jump:OnJumpEnter( state )
+
+	EntityService:DisableCollisions( self.owner )
+	EntityService:DisableCharacterController( self.owner )
+
 	self.jumpPoint = PlayerService:GetWeaponLookPoint( self.owner )
 	local foundPos = PlayerService:FindPositionForJump( self.owner, self.jumpPoint ,self.jumpDistance, self.maxHeight)
 
@@ -104,6 +150,16 @@ function barbaric_jump:OnJumpEnter( state )
 	self.lastHeight = self.startPosition.y
 	QueueEvent( "HideComponentRequest", self.owner, "TerrainAffectedComponent" )
 	self.timer =  0
+
+	WeaponService:SpawnDangerMarker( self.dangerMarkerBp, self.jumpPoint, 3.0, 0.5 )
+
+	local component = EntityService:GetComponent( self.owner, "MechPredictionComponent")
+    if component ~= nil then
+		local mechPredictionComponent = reflection_helper( component )
+	    if mechPredictionComponent ~= nil then
+	    	mechPredictionComponent.block_prediction = true
+	    end
+	end
 end
 
 function barbaric_jump:OnJumpExecute( state, dt )
@@ -113,7 +169,11 @@ function barbaric_jump:OnJumpExecute( state, dt )
 	end
 
 	if( self.enabled == 2 and  EntityService:GetComponent( self.owner ,"SimpleMovementComponent") == nil ) then
-		local entity = EntityService:SpawnEntity( self.bp, self.owner, self.att, EntityService:GetTeam( self.owner ))
+
+		EntityService:EnableCollisions( self.owner )
+		EntityService:EnableCharacterController( self.owner )
+
+		local entity = EntityService:SpawnEntity( self.bp, self.jumpPoint, EntityService:GetTeam( self.owner ))
 		ItemService:SetItemCreator( entity, self.entity_blueprint );
 		EntityService:PropagateEntityOwner( entity, self.owner )
 
@@ -127,13 +187,13 @@ function barbaric_jump:OnJumpExecute( state, dt )
 			end
 		end
 		self.enabled = 1
+		self:FinalizePostJump()
 	end
-
-
 end
 
-function barbaric_jump:OnJumpExit( state )
-	QueueEvent("RemoveEffectsByGroupRequest", self.owner, "dash_trail_long", 0 )
+function barbaric_jump:FinalizePostJump()
+	EffectService:DestroyEffect( self.owner, self.dashTrailLong, "att_ribbon_vertical" )
+	EffectService:DestroyEffect( self.owner, self.dashTrailLong, "att_ribbon_horizontal" )
 	EntityService:ChangeGravityAffected( self.owner, true )
 
 	if ( self.trigger ~= INVALID_ID ) then
@@ -161,11 +221,28 @@ function barbaric_jump:OnJumpExit( state )
 
 	self.enabled = 0
 	QueueEvent( "RevealComponentRequest", self.owner, "TerrainAffectedComponent" )
+
+    local mechPredictionComponent = reflection_helper( EntityService:GetComponent( self.owner, "MechPredictionComponent"))
+    if mechPredictionComponent ~= nil then
+    	mechPredictionComponent.block_prediction = false
+    end
+end
+
+function barbaric_jump:OnJumpExit( state )
+	EntityService:EnableCollisions( self.owner )
+	EntityService:EnableCharacterController( self.owner )
+	self:FinalizePostJump()
 end
 
 function barbaric_jump:OnLoad()
 	item.OnLoad( self )
 	self:InitalizeValues()
+
+	if self.markerMachine == nil then
+		self.markerMachine = self:CreateStateMachine()
+		self.markerMachine:AddState( "marker", { from="*", execute= "OnMarkerExecute", exit="OnMarkerExit"} )
+		self.marker = INVALID_ID
+	end
 end
 
 return barbaric_jump

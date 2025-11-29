@@ -1,8 +1,8 @@
-//editor "scroll(-962.05,-210.63)|zoom(0.53)"
+//editor "scroll(1803.38,-349.66)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "25"
-	editor "6569"
+	version "26"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -119,7 +119,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_end.xml)|pos(9283,476)"
+			//editor "layout(mission_end.xml)|pos(10565,493)"
 			database
 			{
 				Strings
@@ -313,13 +313,13 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(8080,662)"
+			//editor "layout(logic_or.xml)|pos(9362,679)"
 			self_id "logic_or_0"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait_on_event.xml)|pos(7864,1749)"
+			//editor "layout(logic_wait_on_event.xml)|pos(7828,1749)"
 			database
 			{
 				Integers
@@ -350,7 +350,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_minimap_hide_zone.xml)|pos(8450,1871)"
+			//editor "layout(interface_minimap_hide_zone.xml)|pos(8768,1913)"
 			database
 			{
 				Integers
@@ -381,7 +381,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(8455,1705)"
+			//editor "layout(objective_finish.xml)|pos(8773,1747)"
 			database
 			{
 				Integers
@@ -418,7 +418,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(8339,540)"
+			//editor "layout(logic_wait.xml)|pos(9621,557)"
 			database
 			{
 				Floats
@@ -445,7 +445,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(8344,281)"
+			//editor "layout(logic_wait.xml)|pos(9626,297)"
 			database
 			{
 				Floats
@@ -487,7 +487,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_change_creature_difficulty.xml)|pos(8942,461)"
+			//editor "layout(mission_change_creature_difficulty.xml)|pos(10224,477)"
 			database
 			{
 				Floats
@@ -560,7 +560,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_generic.xml)|pos(8945,136)"
+			//editor "layout(objective_generic.xml)|pos(10227,153)"
 			database
 			{
 				Integers
@@ -851,7 +851,7 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(8171,-387)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(9453,-370)"
 			global "0"
 			interrupt "0"
 			priority "1.00"
@@ -1085,7 +1085,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(8628,413)"
+			//editor "layout(logic_wait.xml)|pos(9910,429)"
 			database
 			{
 				Floats
@@ -1281,7 +1281,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_status_change.xml)|pos(9636,162)"
+			//editor "layout(objective_status_change.xml)|pos(10918,179)"
 			database
 			{
 				Integers
@@ -1318,7 +1318,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(10469,161)"
+			//editor "layout(objective_finish.xml)|pos(11751,177)"
 			database
 			{
 				Integers
@@ -1355,7 +1355,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait_on_event.xml)|pos(10121,165)"
+			//editor "layout(logic_wait_on_event.xml)|pos(11403,181)"
 			database
 			{
 				Integers
@@ -1530,7 +1530,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(7865,1482)"
+			//editor "layout(interface_minimap_show_zone_objective.xml)|pos(7831,1491)"
 			database
 			{
 				Floats
@@ -2001,6 +2001,77 @@ FlowGraphTemplate
 			self_id "df_logic_player_to_entity_2"
 		}
 
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(7832,1942)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "true"
+					}
+
+					StringData
+					{
+						key "comparison_familiarity_name"
+						value "stregaros"
+					}
+
+					StringData
+					{
+						key "comparison_subspecies_name"
+						value "monster_name/stregaros"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(7832,2143)"
+			key "true"
+			self_id "logic_if_familiarity_level_2###true"
+			value "logic_if_familiarity_level_1###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(7832,2171)"
+			key "false"
+			self_id "logic_if_familiarity_level_2###false"
+			value "logic_if_familiarity_level_1###false"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(8393,1850)"
+			self_id "logic_or_5"
+		}
+
 	}
 
 	GraphConnections
@@ -2023,13 +2094,17 @@ FlowGraphTemplate
 		entity_spawn_player_0 "logic_wait_on_event_2"
 		interface_dialogue_show_group_0 "logic_set_global_variable_0|logic_wait_1"
 		interface_dialogue_show_group_1 "objective_generic_1"
+		//editor "interface_minimap_hide_zone_0(8643,1576)"
 		interface_minimap_show_zone_objective_1 "interface_minimap_hide_zone_0"
 		logic_and_1 "interface_dialogue_show_group_1|logic_or_1|logic_wait_3|mission_enable_research_0|mission_enable_research_1"
 		logic_if_familiarity_level_0 "logic_if_familiarity_level_0###true"
 		logic_if_familiarity_level_0###true "logic_or_2"
 		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###false|logic_if_familiarity_level_1###true"
 		logic_if_familiarity_level_1###false "interface_dialogue_show_group_2|objective_generic_0"
+		//editor "logic_or_0(6517,1629:6747,1348:9027,1369)"
 		logic_if_familiarity_level_1###true "logic_or_0"
+		logic_if_familiarity_level_2 "logic_if_familiarity_level_2###false|logic_if_familiarity_level_2###true"
+		logic_if_familiarity_level_2###true "logic_or_5"
 		logic_if_global_variable_0 "logic_if_global_variable_0###true"
 		logic_if_global_variable_0###true "mission_dom_max_difficulty_level_1"
 		logic_or_0 "logic_wait_2"
@@ -2037,6 +2112,7 @@ FlowGraphTemplate
 		logic_or_2 "logic_event_send_1"
 		logic_or_3 "objective_reveal_map_0"
 		logic_or_4 "logic_and_1"
+		logic_or_5 "interface_minimap_hide_zone_0|objective_finish_0"
 		logic_wait_0 "df_logic_player_list_2"
 		logic_wait_1 "logic_or_1"
 		logic_wait_2 "logic_wait_4"
@@ -2045,7 +2121,7 @@ FlowGraphTemplate
 		logic_wait_5 "logic_or_1"
 		logic_wait_6 "logic_wait_on_trigger_0|logic_wait_on_trigger_1|logic_wait_on_trigger_2"
 		logic_wait_7 "mission_dom_resume_0"
-		logic_wait_on_event_0 "interface_minimap_hide_zone_0|objective_finish_0"
+		logic_wait_on_event_0 "logic_or_5"
 		logic_wait_on_event_1 "logic_wait_5"
 		logic_wait_on_event_2 "event_graph_1|interface_dialogue_show_group_0|logic_if_familiarity_level_0|logic_wait_0|logic_wait_6|logic_wait_7|logic_wait_on_event_1"
 		logic_wait_on_event_3 "objective_finish_1"
@@ -2059,7 +2135,7 @@ FlowGraphTemplate
 		objective_exist_0###false "logic_if_familiarity_level_1"
 		objective_exist_0###true "logic_or_0"
 		objective_finish_0 "logic_or_0"
-		objective_generic_0 "interface_minimap_show_zone_objective_1|logic_wait_on_event_0"
+		objective_generic_0 "interface_minimap_show_zone_objective_1|logic_if_familiarity_level_2|logic_wait_on_event_0"
 		objective_generic_1 "objective_status_change_0"
 		objective_reveal_map_0 "logic_or_4"
 		objective_reveal_map_1 "logic_or_4"

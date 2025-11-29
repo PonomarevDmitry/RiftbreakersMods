@@ -1,13 +1,13 @@
-//editor "offset(0.00,0.00)|zoom(1.00)"
+//editor "scroll(-21.77,-259.02)|zoom(0.13)"
 FlowGraphTemplate
 {
-	version "13"
-	editor "5091"
+	version "18"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-47,569)"
+			//editor "layout(event_start.xml)|pos(-3615,373)"
 			database
 			{
 				Integers
@@ -35,7 +35,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3913,1169)"
+			//editor "layout(logic_wait.xml)|pos(4187,144)"
 			database
 			{
 				Floats
@@ -56,11 +56,12 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(1207,-219)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(-1300,-367)"
 			global "0"
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_12"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -110,7 +111,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(3165,562)"
+			//editor "layout(logic_wait.xml)|pos(607,349)"
 			database
 			{
 				Floats
@@ -131,7 +132,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(2954,562)"
+			//editor "layout(logic_wait.xml)|pos(396,349)"
 			database
 			{
 				Floats
@@ -152,7 +153,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(weather_comet_silent.xml)|pos(3131,399)"
+			//editor "layout(weather_comet_silent.xml)|pos(573,185)"
 			database
 			{
 				Strings
@@ -225,7 +226,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(410,552)"
+			//editor "layout(logic_wait.xml)|pos(-2097,403)"
 			database
 			{
 				Floats
@@ -251,6 +252,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_13"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -292,14 +294,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(5113,540)"
-			script "lua/graph/logic/logic_and.lua"
-			self_id "logic_and_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(objective_generic.xml)|pos(1858,501)"
+			//editor "layout(objective_generic.xml)|pos(-649,352)"
 			database
 			{
 				Integers
@@ -325,6 +320,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -377,7 +378,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_finish.xml)|pos(685,543)"
+			//editor "layout(objective_finish.xml)|pos(-1822,394)"
 			database
 			{
 				Integers
@@ -441,9 +442,25 @@ FlowGraphTemplate
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(3593,269)"
+			//editor "layout(wave_ground.xml)|pos(3961,262)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
 				Integers
 				{
 					IntData
@@ -464,7 +481,12 @@ FlowGraphTemplate
 						value "30"
 					}
 
-					//editor "expanded(1)"
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -481,12 +503,18 @@ FlowGraphTemplate
 						value
 					}
 
-					//editor "expanded(1)"
-				}
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
 
-				Floats
-				{
-					//editor "expanded(1)"
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
 				}
 
 			}
@@ -507,7 +535,22 @@ FlowGraphTemplate
 					count "3"
 					delay "5.00"
 					delay_group "0"
+					spawn_type "blueprint"
 					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_flurian_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
 				}
 
 			}
@@ -565,6 +608,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -605,6 +654,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -615,7 +670,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(10224,-815)"
+			//editor "layout(condition_true.xml)|pos(10224,-798)"
 			key "true"
 			self_id "logic_if_exist_entity_new_1###true"
 			value "logic_if_exist_entity_new_1###true"
@@ -623,7 +678,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(1044,-499)"
+			//editor "layout(logic_and.xml)|pos(-1463,-647)"
 			script "lua/graph/logic/logic_and.lua"
 			self_id "logic_and_1"
 		}
@@ -664,6 +719,12 @@ FlowGraphTemplate
 					{
 						key "generate_type"
 						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "0"
 					}
 
 				}
@@ -728,6 +789,16 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -775,6 +846,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_4"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -811,6 +883,16 @@ FlowGraphTemplate
 			//editor "layout(logic_wait_on_dissolve.xml)|pos(10841,-830)"
 			database
 			{
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -853,12 +935,36 @@ FlowGraphTemplate
 					IntData
 					{
 						key "attach_entity"
-						value "0"
+						value "1"
 					}
 
 					IntData
 					{
 						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_circle"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_core"
 						value "1"
 					}
 
@@ -960,6 +1066,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_6"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -990,6 +1097,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_7"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1049,6 +1157,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_8"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1079,6 +1188,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_9"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1169,7 +1279,7 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(9466,3076)"
+			//editor "layout(logic_or.xml)|pos(9471,3146)"
 			self_id "logic_or_9"
 		}
 
@@ -1203,13 +1313,13 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(11882,2916)"
+			//editor "layout(logic_or.xml)|pos(11989,3329)"
 			self_id "logic_or_11"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_spawner_toggle.xml)|pos(9915,3064)"
+			//editor "layout(entity_spawner_toggle.xml)|pos(9919,3134)"
 			database
 			{
 				Strings
@@ -1230,7 +1340,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_exist_entity_new.xml)|pos(10179,2275)"
+			//editor "layout(logic_if_exist_entity_new.xml)|pos(10220,2210)"
 			database
 			{
 				Floats
@@ -1248,6 +1358,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "count"
+						value "0"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
 						value "0"
 					}
 
@@ -1291,6 +1407,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1301,7 +1423,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(10179,2580)"
+			//editor "layout(condition_true.xml)|pos(10220,2516)"
 			key "true"
 			self_id "logic_if_exist_entity_new_11###true"
 			value "logic_if_exist_entity_new_1###true"
@@ -1317,6 +1439,16 @@ FlowGraphTemplate
 					FloatData
 					{
 						key "dissolve_duration"
+						value "1"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
 						value "1"
 					}
 
@@ -1443,6 +1575,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -1483,6 +1621,12 @@ FlowGraphTemplate
 						value "false"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1493,7 +1637,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(8645,3304)"
+			//editor "layout(condition_true.xml)|pos(8645,3305)"
 			key "true"
 			self_id "logic_if_exist_entity_new_12###true"
 			value "logic_if_exist_entity_new_2###true"
@@ -1501,7 +1645,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(8645,3334)"
+			//editor "layout(condition_false.xml)|pos(8645,3333)"
 			key "false"
 			self_id "logic_if_exist_entity_new_12###false"
 			value
@@ -1536,6 +1680,12 @@ FlowGraphTemplate
 					{
 						key "generate_type"
 						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "0"
 					}
 
 				}
@@ -1596,6 +1746,22 @@ FlowGraphTemplate
 					{
 						key "search_radius"
 						value "50.00"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
 					}
 
 				}
@@ -1671,6 +1837,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -1720,7 +1892,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_spawner_toggle.xml)|pos(411,794)"
+			//editor "layout(entity_spawner_toggle.xml)|pos(4681,8377)"
 			database
 			{
 				Strings
@@ -1884,6 +2056,16 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -1920,7 +2102,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(7343,266)"
+			//editor "layout(condition_true.xml)|pos(7343,273)"
 			key "true"
 			self_id "logic_if_local_variable_1###true"
 			value
@@ -1928,7 +2110,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(7343,296)"
+			//editor "layout(condition_false.xml)|pos(7343,301)"
 			key "false"
 			self_id "logic_if_local_variable_1###false"
 			value
@@ -1966,6 +2148,30 @@ FlowGraphTemplate
 					IntData
 					{
 						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_circle"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_core"
 						value "1"
 					}
 
@@ -2121,17 +2327,1498 @@ FlowGraphTemplate
 			self_id "mission_dom_send_major_attack_0"
 		}
 
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(2784,5553)"
+			self_id "entity_grid_spawner_3"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "1,1"
+			spawn_min_free_cell_margin "5"
+			spawn_minmax_distance_from_edge "60"
+			spawn_pool "factory,objectives"
+			spawn_pool_local "nest"
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_octabit_elite"
+					spawn_chance "1"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "1,1"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives_primary"
+					value "200"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "30"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "100"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "10"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "influence_pylons"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "factory"
+					value "30"
+				}
+
+			}
+
+		}
+
+		MarkerBlueprintSpawnerNode
+		{
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(-691,6261)"
+			ignore_excluded_cells_check "0"
+			self_id "entity_marker_blueprint_spawner_1"
+			spawn_at_marker "logic/spawn_objective"
+			spawn_at_marker_name_is_global "1"
+			spawn_at_name
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "1,1"
+			spawn_minmax_distance_from_edge "64"
+			spawn_pool "factory,objectives"
+			spawn_pool_local "nest,objectives_primary"
+			spawn_preference "undiscovered"
+			spawn_required "1"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_octabit_elite"
+					spawn_chance "1"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "1,1"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "100"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "128"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "influence_pylons"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "factory"
+					value "50"
+				}
+
+			}
+
+		}
+
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(3957,7597)"
+			self_id "entity_grid_spawner_1"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "-1,-1"
+			spawn_min_free_cell_margin "3"
+			spawn_minmax_distance_from_edge "50"
+			spawn_pool "tower_alien,enemy"
+			spawn_pool_local
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/alien_tower_plasma_spawner"
+					spawn_chance "0.5"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "0,-1"
+					spawn_loot_event
+				}
+
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "logic/position_marker_temporary"
+					spawn_chance "0.5"
+					spawn_culls_entities_around "0"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "0,-1"
+					spawn_loot_event
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "nest"
+					value "30"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "25"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "tower_alien"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "enemy"
+					value "5"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_logic_player_list.xml)|pos(-50,6827)"
+			script "lua/graph/logic/df_logic_player_list.lua"
+			self_id "df_logic_player_list_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(682,6501)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'1'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(682,6653)"
+			key "true"
+			self_id "df_entity_array_compare_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(682,6681)"
+			key "false"
+			self_id "df_entity_array_compare_1###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(1159,7425)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'2'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1159,7578)"
+			key "true"
+			self_id "df_entity_array_compare_2###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1159,7606)"
+			key "false"
+			self_id "df_entity_array_compare_2###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(1645,8837)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'3'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1645,8990)"
+			key "true"
+			self_id "df_entity_array_compare_3###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1645,9018)"
+			key "false"
+			self_id "df_entity_array_compare_3###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(2103,10721)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'4'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2103,10874)"
+			key "true"
+			self_id "df_entity_array_compare_4###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2103,10902)"
+			key "false"
+			self_id "df_entity_array_compare_4###false"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2544,6645)"
+			self_id "logic_or_3"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3610,8393)"
+			self_id "logic_or_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_logic_player_to_entity.xml)|pos(240,6825)"
+			script "lua/graph/logic/df_logic_player_to_entity.lua"
+			self_id "df_logic_player_to_entity_2"
+		}
+
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(2776,6921)"
+			self_id "entity_grid_spawner_4"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "2,2"
+			spawn_min_free_cell_margin "5"
+			spawn_minmax_distance_from_edge "60"
+			spawn_pool "factory,objectives"
+			spawn_pool_local "nest"
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_octabit_elite"
+					spawn_chance "1"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "2,2"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives_primary"
+					value "200"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "30"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "100"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "10"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "influence_pylons"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "factory"
+					value "30"
+				}
+
+			}
+
+		}
+
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(2776,8327)"
+			self_id "entity_grid_spawner_5"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "3,3"
+			spawn_min_free_cell_margin "5"
+			spawn_minmax_distance_from_edge "60"
+			spawn_pool "factory,objectives"
+			spawn_pool_local "nest"
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_octabit_elite"
+					spawn_chance "1"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "3,3"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives_primary"
+					value "200"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "30"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "100"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "10"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "influence_pylons"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "factory"
+					value "30"
+				}
+
+			}
+
+		}
+
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(2770,9801)"
+			self_id "entity_grid_spawner_6"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "4,4"
+			spawn_min_free_cell_margin "5"
+			spawn_minmax_distance_from_edge "60"
+			spawn_pool "factory,objectives"
+			spawn_pool_local "nest"
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_destructible_volumes "1"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_species_spawn.xml)|pos(0,0)"
+					spawn_blueprint "spawner_octabit_elite"
+					spawn_chance "1"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name "objective"
+					spawn_entity_name_is_global "0"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "4,4"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives_primary"
+					value "200"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "30"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "20"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "64"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "100"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "10"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "influence_pylons"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "factory"
+					value "30"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_logic_player_list.xml)|pos(1149,781)"
+			script "lua/graph/logic/df_logic_player_list.lua"
+			self_id "df_logic_player_list_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(1881,455)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'1'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_5"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1881,607)"
+			key "true"
+			self_id "df_entity_array_compare_5###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1881,635)"
+			key "false"
+			self_id "df_entity_array_compare_5###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(2391,1202)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'2'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_6"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2391,1355)"
+			key "true"
+			self_id "df_entity_array_compare_6###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2391,1383)"
+			key "false"
+			self_id "df_entity_array_compare_6###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(2795,1946)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'3'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2795,2099)"
+			key "true"
+			self_id "df_entity_array_compare_7###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2795,2127)"
+			key "false"
+			self_id "df_entity_array_compare_7###false"
+			value
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(df_entity_array_compare.xml)|pos(3144,2677)"
+			database
+			{
+				compare_type "string:'equal'"
+				compare_value "int:'4'"
+			}
+
+			script "lua/graph/entity/df_entity_array_compare.lua"
+			self_id "df_entity_array_compare_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3144,2829)"
+			key "true"
+			self_id "df_entity_array_compare_8###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3144,2857)"
+			key "false"
+			self_id "df_entity_array_compare_8###false"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(3743,599)"
+			self_id "logic_or_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(df_logic_player_to_entity.xml)|pos(1439,779)"
+			script "lua/graph/logic/df_logic_player_to_entity.lua"
+			self_id "df_logic_player_to_entity_3"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(3960,1001)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value "spawn_direction_1"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "75"
+			self_id "wave_ground_8"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/flurian"
+					count "3"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "5"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_flurian_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(3958,1744)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value "spawn_direction_1"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "75"
+			self_id "wave_ground_9"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/flurian"
+					count "3"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "6"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_flurian_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(3955,2491)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value "spawn_direction_1"
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "75"
+			self_id "wave_ground_10"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/flurian"
+					count "3"
+					delay "5.00"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "9"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_flurian_random"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4746,1418)"
+			self_id "logic_or_7"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "entity_spawner_toggle_1|logic_and_1|logic_wait_19"
+		default "entity_marker_blueprint_spawner_1|logic_and_1|logic_wait_19"
+		df_entity_array_compare_1 "df_entity_array_compare_1###false|df_entity_array_compare_1###true"
+		df_entity_array_compare_1###false "df_entity_array_compare_2"
+		df_entity_array_compare_1###true "logic_or_3"
+		df_entity_array_compare_2 "df_entity_array_compare_2###false|df_entity_array_compare_2###true"
+		df_entity_array_compare_2###false "df_entity_array_compare_3"
+		df_entity_array_compare_2###true "entity_grid_spawner_4"
+		df_entity_array_compare_3 "df_entity_array_compare_3###false|df_entity_array_compare_3###true"
+		df_entity_array_compare_3###false "df_entity_array_compare_4"
+		df_entity_array_compare_3###true "entity_grid_spawner_5"
+		df_entity_array_compare_4 "df_entity_array_compare_4###false|df_entity_array_compare_4###true"
+		df_entity_array_compare_4###false "logic_or_3"
+		df_entity_array_compare_4###true "entity_grid_spawner_6"
+		df_entity_array_compare_5 "df_entity_array_compare_5###false|df_entity_array_compare_5###true"
+		df_entity_array_compare_5###false "df_entity_array_compare_6"
+		df_entity_array_compare_5###true "logic_or_5"
+		df_entity_array_compare_6 "df_entity_array_compare_6###false|df_entity_array_compare_6###true"
+		df_entity_array_compare_6###false "df_entity_array_compare_7"
+		df_entity_array_compare_6###true "wave_ground_8"
+		df_entity_array_compare_7 "df_entity_array_compare_7###false|df_entity_array_compare_7###true"
+		df_entity_array_compare_7###false "df_entity_array_compare_8"
+		df_entity_array_compare_7###true "wave_ground_9"
+		df_entity_array_compare_8 "df_entity_array_compare_8###false|df_entity_array_compare_8###true"
+		df_entity_array_compare_8###false "logic_or_5"
+		df_entity_array_compare_8###true "wave_ground_10"
+		df_logic_player_list_2 "df_logic_player_to_entity_2"
+		df_logic_player_list_3 "df_logic_player_to_entity_3"
+		df_logic_player_to_entity_2 "df_entity_array_compare_1"
+		df_logic_player_to_entity_3 "df_entity_array_compare_5"
 		enemies_change_ai_groups_to_aggressive_0 "logic_and_3"
 		entity_change_name_1 "entity_remove_1"
+		entity_grid_spawner_1 "entity_spawner_toggle_1"
+		entity_grid_spawner_3 "logic_or_4"
+		entity_grid_spawner_4 "logic_or_4"
+		entity_grid_spawner_5 "logic_or_4"
+		entity_grid_spawner_6 "logic_or_4"
+		entity_marker_blueprint_spawner_1 "df_logic_player_list_2"
 		entity_spawn_objective_marker_0 "entity_remove_0"
 		interface_dialogue_show_group_12 "objective_generic_3"
 		interface_dialogue_show_group_7 "logic_wait_13"
-		logic_and_0 "logic_or_6"
 		logic_and_1 "logic_and_2"
 		logic_and_2 "logic_if_exist_entity_new_1"
 		logic_and_3 "logic_wait_on_destroy_1"
@@ -2148,7 +3835,11 @@ FlowGraphTemplate
 		logic_if_local_variable_1###false "logic_and_4"
 		logic_or_10 "interface_dialogue_show_group_8|logic_or_9|logic_wait_8|logic_wait_on_destroy_1"
 		logic_or_11 "event_end_1"
+		logic_or_3 "entity_grid_spawner_3"
+		logic_or_4 "entity_grid_spawner_1"
+		logic_or_5 "wave_ground_7"
 		logic_or_6 "logic_and_5"
+		logic_or_7 "logic_or_6"
 		logic_or_9 "entity_spawner_toggle_2"
 		logic_wait_10 "logic_if_local_variable_1|logic_wait_11"
 		logic_wait_11 "logic_if_exist_entity_new_12"
@@ -2158,7 +3849,8 @@ FlowGraphTemplate
 		logic_wait_19 "objective_finish_10"
 		logic_wait_20 "logic_wait_3|weather_comet_silent_3"
 		logic_wait_22 "logic_or_6"
-		logic_wait_3 "logic_wait_22|wave_ground_7"
+		//editor "logic_wait_22(1154,199)"
+		logic_wait_3 "df_logic_player_list_3|logic_wait_22"
 		logic_wait_8 "objective_generic_6"
 		logic_wait_on_destroy_1 "enemies_change_ai_groups_to_aggressive_0"
 		logic_wait_on_dissolve_1 "entity_remove_0|objective_finish_4"
@@ -2170,9 +3862,13 @@ FlowGraphTemplate
 		objective_finish_7 "logic_or_11"
 		objective_generic_1 "entity_spawn_objective_marker_0|objective_finish_3"
 		objective_generic_2 "objective_finish_4"
+		//editor "mission_dom_send_major_attack_0(157,-34)"
 		objective_generic_3 "logic_wait_20|mission_dom_send_major_attack_0"
 		objective_generic_6 "entity_spawn_objective_marker_1|logic_if_exist_entity_new_11"
-		wave_ground_7 "logic_and_0"
+		wave_ground_10 "logic_or_7"
+		wave_ground_7 "logic_or_7"
+		wave_ground_8 "logic_or_7"
+		wave_ground_9 "logic_or_7"
 	}
 
 	GraphComments

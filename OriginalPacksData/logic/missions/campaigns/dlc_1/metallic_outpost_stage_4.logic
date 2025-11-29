@@ -1,8 +1,8 @@
-//editor "offset(0.00,0.00)|zoom(1.00)"
+//editor "scroll(740.58,101.88)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "2"
-	editor "5090"
+	version "4"
+	editor "6627"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -62,6 +62,22 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -98,7 +114,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(686,590)"
+			//editor "layout(condition_true.xml)|pos(686,626)"
 			key "true"
 			self_id "logic_if_global_variable_1###true"
 			value
@@ -106,7 +122,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(686,620)"
+			//editor "layout(condition_false.xml)|pos(686,654)"
 			key "false"
 			self_id "logic_if_global_variable_1###false"
 			value
@@ -152,6 +168,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "10.00"
 			self_id "interface_dialogue_show_group_20"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -306,6 +323,22 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -342,7 +375,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(684,905)"
+			//editor "layout(condition_true.xml)|pos(684,941)"
 			key "true"
 			self_id "logic_if_global_variable_2###true"
 			value
@@ -350,7 +383,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(684,935)"
+			//editor "layout(condition_false.xml)|pos(684,969)"
 			key "false"
 			self_id "logic_if_global_variable_2###false"
 			value
@@ -397,6 +430,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "10.00"
 			self_id "interface_dialogue_show_group_19"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -523,6 +557,12 @@ FlowGraphTemplate
 						value "items/awards/campaign_metallic_award_giver_item"
 					}
 
+					StringData
+					{
+						key "all_players"
+						value "1"
+					}
+
 				}
 
 			}
@@ -552,6 +592,27 @@ FlowGraphTemplate
 			self_id "logic_disable_node_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_end.xml)|pos(2096,1028)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "mission_result"
+						value "win"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_end.lua"
+			self_id "mission_end_1"
+		}
+
 	}
 
 	GraphConnections
@@ -566,7 +627,7 @@ FlowGraphTemplate
 		logic_if_global_variable_2###false "logic_or_2"
 		logic_if_global_variable_2###true "logic_or_4|logic_wait_27"
 		logic_or_2 "logic_and_2"
-		logic_or_4 "campaign_mission_remove_1|entity_add_item_1|logic_disable_node_1"
+		logic_or_4 "campaign_mission_remove_1|entity_add_item_1|logic_disable_node_1|mission_end_1"
 		logic_reactivate_or_1 "logic_wait_1"
 		logic_wait_1 "logic_and_1"
 		logic_wait_27 "interface_dialogue_show_group_19"

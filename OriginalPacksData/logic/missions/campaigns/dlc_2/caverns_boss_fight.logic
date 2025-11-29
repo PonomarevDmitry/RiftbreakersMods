@@ -1,8 +1,8 @@
-//editor "scroll(-738.01,-199.33)|zoom(0.80)"
+//editor "scroll(-716.01,-110.66)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "19"
-	editor "5571"
+	version "20"
+	editor "6469"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -94,12 +94,66 @@ FlowGraphTemplate
 			self_id "camera_follow_two_targets_by_distance_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_hud_visible.xml)|pos(42,567)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "visible"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "hud_mask"
+						value "HT_HUD_BOSS_HEALTH_BAR"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_hud_visible.lua"
+			self_id "interface_hud_visible_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(125,785)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
 	}
 
 	GraphConnections
 	{
 		camera_follow_two_targets_by_distance_2 "event_end_1"
-		default "camera_follow_two_targets_by_distance_2"
+		default "camera_follow_two_targets_by_distance_2|interface_hud_visible_2"
+		interface_hud_visible_2 "logic_wait_1"
+		logic_wait_1 "interface_hud_visible_2"
 	}
 
 	GraphComments

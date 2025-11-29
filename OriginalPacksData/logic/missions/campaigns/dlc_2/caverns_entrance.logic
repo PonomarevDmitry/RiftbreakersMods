@@ -1,8 +1,8 @@
-//editor "scroll(7495.48,-1449.09)|zoom(0.60)"
+//editor "scroll(-1658.67,-837.90)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "67"
-	editor "6578"
+	version "68"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -1382,7 +1382,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_adaptive_music_system.xml)|pos(-2836,-287)"
+			//editor "layout(audio_adaptive_music_system.xml)|pos(-2822,-959)"
 			database
 			{
 				Strings
@@ -1403,7 +1403,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(-2528,-288)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(-2514,-961)"
 			database
 			{
 				Strings
@@ -1424,7 +1424,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(-2195,-289)"
+			//editor "layout(logic_wait.xml)|pos(-2158,-951)"
 			database
 			{
 				Floats
@@ -1445,7 +1445,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_adaptive_music_system.xml)|pos(-1999,-289)"
+			//editor "layout(audio_adaptive_music_system.xml)|pos(-1387,-797)"
 			database
 			{
 				Strings
@@ -3128,6 +3128,168 @@ FlowGraphTemplate
 			self_id "mission_planetary_jump_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_event.xml)|pos(-2279,-1256)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_event_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "event_name"
+						value "BossIntroShieldDown"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_event.lua"
+			self_id "logic_wait_on_event_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_local_variable.xml)|pos(-1853,-1285)"
+			script "lua/graph/logic/logic_set_local_variable.lua"
+			self_id "logic_set_local_variable_1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "boss_fight_started"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_local_variable.xml)|pos(-1829,-1036)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "boss_fight_started"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_local_variable.lua"
+			self_id "logic_if_local_variable_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(-1829,-799)"
+			key "true"
+			self_id "logic_if_local_variable_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(-1829,-770)"
+			key "false"
+			self_id "logic_if_local_variable_1###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_local_variable.xml)|pos(-2863,-1287)"
+			script "lua/graph/logic/logic_set_local_variable.lua"
+			self_id "logic_set_local_variable_2"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "boss_fight_started"
+						value "false"
+					}
+
+				}
+
+			}
+
+		}
+
 	}
 
 	GraphConnections
@@ -3140,7 +3302,7 @@ FlowGraphTemplate
 		df_entity_find_2 "df_entity_find_1|df_entity_find_3"
 		df_entity_find_3 "df_entity_array_subtract_1"
 		entity_spawn_objective_marker_2 "entity_remove_1"
-		entity_spawn_player_1 "audio_adaptive_music_system_1|logic_wait_on_event_0"
+		entity_spawn_player_1 "audio_adaptive_music_system_1|logic_set_local_variable_2|logic_wait_on_event_0"
 		//editor "logic_and_8(10399,-707:9332,-701)"
 		entity_spawn_player_pawn_1 "logic_and_8"
 		interface_dialogue_show_group_1 "logic_and_1"
@@ -3173,10 +3335,13 @@ FlowGraphTemplate
 		logic_if_familiarity_level_1###true "logic_if_alive_advanced_0|logic_wait_1"
 		logic_if_familiarity_level_2 "logic_if_familiarity_level_2###true"
 		logic_if_familiarity_level_2###true "logic_if_alive_advanced_2|logic_wait_2"
+		logic_if_local_variable_1 "logic_if_local_variable_1###false|logic_if_local_variable_1###true"
+		logic_if_local_variable_1###false "audio_adaptive_music_system_0"
 		logic_or_0 "objective_generic_4"
 		logic_or_1 "interface_dialogue_show_group_2|logic_and_2|logic_wait_3|objective_exist_2"
 		logic_or_2 "objective_exist_4"
-		logic_wait_0 "audio_adaptive_music_system_0"
+		logic_set_local_variable_2 "logic_wait_on_event_4"
+		logic_wait_0 "logic_if_local_variable_1"
 		logic_wait_1 "logic_and_5"
 		logic_wait_2 "logic_and_6"
 		logic_wait_3 "save_game_1"
@@ -3187,6 +3352,7 @@ FlowGraphTemplate
 		logic_wait_on_event_1 "logic_event_send_2|mission_planetary_jump_2|mission_save_toggle_1|mission_unhide_research_0|objective_generic_2"
 		logic_wait_on_event_2 "logic_and_7"
 		logic_wait_on_event_3 "logic_and_9"
+		logic_wait_on_event_4 "logic_set_local_variable_1"
 		logic_wait_on_trigger_1 "entity_remove_2|logic_event_send_1|logic_if_alive_advanced_1|mission_block_respawn_1|mission_planetary_jump_1|mission_save_toggle_2|objective_generic_3"
 		mission_block_respawn_2 "mission_end_0"
 		mission_change_creature_difficulty_0 "mission_end_0"
@@ -3217,7 +3383,7 @@ FlowGraphTemplate
 		{
 			comment "We have to disable objective processing that could happen after a dialogue block finishes processing."
 			position "4480.00,-116.67"
-			size "1014.67,934.67"
+			size "1034.67,964.67"
 			color "0.50,0.50,0.50,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "1.00"

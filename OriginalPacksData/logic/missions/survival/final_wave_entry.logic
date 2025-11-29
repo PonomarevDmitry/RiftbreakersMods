@@ -1,8 +1,8 @@
-//editor "scroll(590.91,137.58)|zoom(0.67)"
+//editor "scroll(-285.13,-455.04)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "16"
-	editor "5433"
+	version "17"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -128,7 +128,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2777,618)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(2779,489)"
 			database
 			{
 				Strings
@@ -175,6 +175,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_0"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -225,6 +226,12 @@ FlowGraphTemplate
 					{
 						key "attach_entity"
 						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
 					}
 
 				}
@@ -360,6 +367,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -415,7 +428,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2773,331)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(2777,-39)"
 			database
 			{
 				Strings
@@ -436,7 +449,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_biome.xml)|pos(2077,243)"
+			//editor "layout(logic_if_biome.xml)|pos(2085,-121)"
 			database
 			{
 				Strings
@@ -457,7 +470,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(2077,353)"
+			//editor "layout(condition_true.xml)|pos(2085,-11)"
 			key "true"
 			self_id "logic_if_biome_1###true"
 			value
@@ -465,7 +478,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(2077,383)"
+			//editor "layout(condition_false.xml)|pos(2085,17)"
 			key "false"
 			self_id "logic_if_biome_1###false"
 			value
@@ -473,7 +486,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_biome.xml)|pos(2092,512)"
+			//editor "layout(logic_if_biome.xml)|pos(2101,148)"
 			database
 			{
 				Strings
@@ -494,7 +507,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(2092,622)"
+			//editor "layout(condition_true.xml)|pos(2101,253)"
 			key "true"
 			self_id "logic_if_biome_2###true"
 			value
@@ -502,7 +515,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(2092,651)"
+			//editor "layout(condition_false.xml)|pos(2101,281)"
 			key "false"
 			self_id "logic_if_biome_2###false"
 			value
@@ -510,14 +523,14 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(2611,636)"
+			//editor "layout(logic_and.xml)|pos(2599,503)"
 			script "lua/graph/logic/logic_and.lua"
 			self_id "logic_and_1"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(audio_music_change_playlist.xml)|pos(2765,486)"
+			//editor "layout(audio_music_change_playlist.xml)|pos(2775,226)"
 			database
 			{
 				Strings
@@ -538,7 +551,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_and.xml)|pos(1776,665)"
+			//editor "layout(logic_and.xml)|pos(1785,301)"
 			script "lua/graph/logic/logic_and.lua"
 			self_id "logic_and_2"
 		}
@@ -564,6 +577,64 @@ FlowGraphTemplate
 			self_id "audio_music_change_playlist_3"
 		}
 
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(2106,379)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2106,483)"
+			key "true"
+			self_id "logic_if_biome_3###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2106,511)"
+			key "false"
+			self_id "logic_if_biome_3###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2776,367)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fighting_swamp_only"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_4"
+		}
+
 	}
 
 	GraphConnections
@@ -572,13 +643,16 @@ FlowGraphTemplate
 		default "entity_spawn_single_0"
 		entity_spawn_single_0 "logic_wait_1"
 		logic_and_1 "audio_music_change_playlist_0"
-		logic_and_2 "logic_if_biome_1|logic_if_biome_2"
+		logic_and_2 "logic_if_biome_1|logic_if_biome_2|logic_if_biome_3"
 		logic_if_biome_1 "logic_if_biome_1###false|logic_if_biome_1###true"
 		logic_if_biome_1###false "logic_and_1"
 		logic_if_biome_1###true "audio_music_change_playlist_1"
 		logic_if_biome_2 "logic_if_biome_2###false|logic_if_biome_2###true"
 		logic_if_biome_2###false "logic_and_1"
 		logic_if_biome_2###true "audio_music_change_playlist_2"
+		logic_if_biome_3 "logic_if_biome_3###false|logic_if_biome_3###true"
+		logic_if_biome_3###false "logic_and_1"
+		logic_if_biome_3###true "audio_music_change_playlist_4"
 		logic_wait_0 "event_end_0"
 		logic_wait_1 "audio_adaptive_music_system_0|interface_dialogue_show_1|objective_generic_timer_0"
 		objective_generic_timer_0 "interface_dialogue_show_group_0|logic_and_2|logic_wait_0"

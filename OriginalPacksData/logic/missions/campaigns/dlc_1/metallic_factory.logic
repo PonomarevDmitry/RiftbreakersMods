@@ -1,8 +1,8 @@
-//editor "offset(1813.23,1042.73)|zoom(1.00)"
+//editor "scroll(445.33,-271.05)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "30"
-	editor "5110"
+	version "33"
+	editor "6415"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -99,6 +99,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_0"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -168,7 +169,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(1530,501)"
+			//editor "layout(condition_false.xml)|pos(1530,493)"
 			key "false"
 			self_id "objective_exist_0###false"
 			value "objective_exist_0###false"
@@ -176,7 +177,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(1530,531)"
+			//editor "layout(condition_true.xml)|pos(1530,521)"
 			key "true"
 			self_id "objective_exist_0###true"
 			value "objective_exist_0###true"
@@ -248,7 +249,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(objective_gather_resource.xml)|pos(3551,359)"
+			//editor "layout(objective_gather_resource.xml)|pos(3649,-78)"
 			database
 			{
 				Integers
@@ -289,6 +290,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "finish_objective"
+						value "1"
+					}
+
 				}
 
 				Strings
@@ -325,13 +332,13 @@ FlowGraphTemplate
 					StringData
 					{
 						key "resource_name"
-						value "specimen_flurian"
+						value "specimen_flurian|specimen_flurian_alpha|specimen_flurian_ultra"
 					}
 
 					StringData
 					{
 						key "wait"
-						value "false"
+						value "true"
 					}
 
 				}
@@ -350,7 +357,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_hud_show_text.xml)|pos(3564,-304)"
+			//editor "layout(interface_hud_show_text.xml)|pos(3579,-687)"
 			database
 			{
 				Strings
@@ -377,7 +384,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(4139,-292)"
+			//editor "layout(logic_wait.xml)|pos(4154,-675)"
 			database
 			{
 				Floats
@@ -398,7 +405,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_hud_hide_text.xml)|pos(4862,-292)"
+			//editor "layout(interface_hud_hide_text.xml)|pos(4877,-675)"
 			database
 			{
 				Strings
@@ -419,65 +426,8 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(4655,-275)"
+			//editor "layout(logic_or.xml)|pos(4670,-658)"
 			self_id "logic_or_2"
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_familiarity_level.xml)|pos(4138,374)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "comparison_familiarity_level"
-						value "2"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "comparison_type"
-						value "greater_or_equal"
-					}
-
-					StringData
-					{
-						key "wait_until_time"
-						value "true"
-					}
-
-					StringData
-					{
-						key "comparison_familiarity_name"
-						value "flurian"
-					}
-
-					StringData
-					{
-						key "comparison_subspecies_name"
-						value
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_if_familiarity_level.lua"
-			self_id "logic_if_familiarity_level_0"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(4138,591)"
-			key "true"
-			self_id "logic_if_familiarity_level_0###true"
-			value "logic_if_familiarity_level_0###true"
 		}
 
 		NodeSelectorNode
@@ -531,7 +481,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(3093,627)"
+			//editor "layout(condition_false.xml)|pos(3093,611)"
 			key "false"
 			self_id "logic_if_familiarity_level_1###false"
 			value "logic_if_familiarity_level_1###false"
@@ -539,7 +489,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(3093,657)"
+			//editor "layout(condition_true.xml)|pos(3093,639)"
 			key "true"
 			self_id "logic_if_familiarity_level_1###true"
 			value "logic_if_familiarity_level_1###true"
@@ -552,6 +502,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_1"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -756,6 +707,16 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -880,6 +841,22 @@ FlowGraphTemplate
 
 				}
 
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -950,6 +927,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -990,6 +973,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1000,7 +989,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(6602,817)"
+			//editor "layout(condition_true.xml)|pos(6602,818)"
 			key "true"
 			self_id "logic_if_exist_entity_new_0###true"
 			value "logic_if_exist_entity_new_0###true"
@@ -1095,106 +1084,6 @@ FlowGraphTemplate
 			self_id "mission_change_creature_difficulty_0"
 		}
 
-		LuaBehaviourNode
-		{
-			//editor "layout(entity_spawn_single.xml)|pos(6610,862)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-				}
-
-				Integers
-				{
-					IntData
-					{
-						key "target_single"
-						value "0"
-					}
-
-					IntData
-					{
-						key "attach_entity"
-						value "1"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "blueprint"
-						value "effects/messages_and_markers/objective_marker_spawner_red"
-					}
-
-					StringData
-					{
-						key "team"
-						value
-					}
-
-					StringData
-					{
-						key "entity_name"
-						value
-					}
-
-					StringData
-					{
-						key "entity_group"
-						value
-					}
-
-					StringData
-					{
-						key "target_attachment"
-						value
-					}
-
-					StringData
-					{
-						key "find_type"
-						value "Blueprint"
-					}
-
-					StringData
-					{
-						key "find_value"
-						value "units/ground/spawner_flurian"
-					}
-
-					StringData
-					{
-						key "search_target_type"
-						value
-					}
-
-					StringData
-					{
-						key "search_target_value"
-						value
-					}
-
-					StringData
-					{
-						key "search_target"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/entity/entity_spawn_single.lua"
-			self_id "entity_spawn_single_0"
-		}
-
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_exist_entity_new.xml)|pos(3145,2007)"
@@ -1216,6 +1105,12 @@ FlowGraphTemplate
 					{
 						key "count"
 						value "1"
+					}
+
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
 					}
 
 				}
@@ -1258,6 +1153,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1268,7 +1169,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(3145,2312)"
+			//editor "layout(condition_true.xml)|pos(3145,2313)"
 			key "true"
 			self_id "logic_if_exist_entity_new_1###true"
 			value "logic_if_exist_entity_new_1###true"
@@ -1508,6 +1409,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -1548,6 +1455,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1558,7 +1471,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(1300,2897)"
+			//editor "layout(condition_true.xml)|pos(1300,2898)"
 			key "true"
 			self_id "logic_if_exist_entity_new_2###true"
 			value "logic_if_exist_entity_new_2###true"
@@ -1656,6 +1569,12 @@ FlowGraphTemplate
 						value "2"
 					}
 
+					IntData
+					{
+						key "inverse_relationship"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -1696,6 +1615,12 @@ FlowGraphTemplate
 						value "true"
 					}
 
+					StringData
+					{
+						key "find_relationship"
+						value
+					}
+
 				}
 
 			}
@@ -1706,7 +1631,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(1297,3262)"
+			//editor "layout(condition_true.xml)|pos(1297,3263)"
 			key "true"
 			self_id "logic_if_exist_entity_new_3###true"
 			value "logic_if_exist_entity_new_3###true"
@@ -1714,11 +1639,12 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(3559,-39)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(3628,-448)"
 			global "0"
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_3"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1736,11 +1662,12 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(4747,355)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(4687,-317)"
 			global "0"
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_4"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1784,6 +1711,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_5"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1827,6 +1755,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_6"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1878,6 +1807,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_7"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1900,6 +1830,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_8"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -1932,7 +1863,7 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(4853,-16)"
+			//editor "layout(logic_or.xml)|pos(4698,-25)"
 			self_id "logic_or_5"
 		}
 
@@ -1943,6 +1874,7 @@ FlowGraphTemplate
 			interrupt "0"
 			priority "0"
 			self_id "interface_dialogue_show_group_9"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
@@ -2200,6 +2132,123 @@ FlowGraphTemplate
 			self_id "logic_wait_7"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_spawn_objective_marker.xml)|pos(6598,916)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "target_single"
+						value "0"
+					}
+
+					IntData
+					{
+						key "attach_entity"
+						value "1"
+					}
+
+					IntData
+					{
+						key "is_objective_local"
+						value "1"
+					}
+
+					IntData
+					{
+						key "name_is_global"
+						value "1"
+					}
+
+					IntData
+					{
+						key "display_marker_arrow"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "destroy_factories"
+					}
+
+					StringData
+					{
+						key "team"
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "target_attachment"
+						value
+					}
+
+					StringData
+					{
+						key "find_type"
+						value "Blueprint"
+					}
+
+					StringData
+					{
+						key "find_value"
+						value "units/ground/spawner_flurian"
+					}
+
+					StringData
+					{
+						key "search_target_type"
+						value
+					}
+
+					StringData
+					{
+						key "search_target_value"
+						value
+					}
+
+					StringData
+					{
+						key "search_target"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_spawn_objective_marker.lua"
+			self_id "entity_spawn_objective_marker_1"
+		}
+
 	}
 
 	GraphConnections
@@ -2224,8 +2273,6 @@ FlowGraphTemplate
 		logic_if_exist_entity_new_2###true "logic_wait_5"
 		logic_if_exist_entity_new_3 "logic_if_exist_entity_new_3###true"
 		logic_if_exist_entity_new_3###true "logic_or_4"
-		logic_if_familiarity_level_0 "logic_if_familiarity_level_0###true"
-		logic_if_familiarity_level_0###true "interface_dialogue_show_group_4|logic_or_1|logic_or_2|logic_or_5"
 		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###false|logic_if_familiarity_level_1###true"
 		logic_if_familiarity_level_1###false "interface_dialogue_show_group_3|interface_hud_show_text_0|objective_gather_resource_0"
 		logic_if_familiarity_level_1###true "logic_or_1|logic_or_5"
@@ -2256,8 +2303,8 @@ FlowGraphTemplate
 		objective_exist_0###true "objective_finish_0"
 		objective_finish_0 "logic_wait_1"
 		objective_finish_1 "logic_and_2"
-		objective_gather_resource_0 "logic_if_familiarity_level_0"
-		objective_generic_0 "entity_spawn_single_0|logic_if_exist_entity_new_0"
+		objective_gather_resource_0 "interface_dialogue_show_group_4|logic_or_1|logic_or_2|logic_or_5"
+		objective_generic_0 "entity_spawn_objective_marker_1|logic_if_exist_entity_new_0"
 		objective_generic_5 "objective_status_change_0"
 		objective_status_change_0 "logic_wait_on_event_1"
 	}

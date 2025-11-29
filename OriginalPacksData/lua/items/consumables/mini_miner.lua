@@ -28,7 +28,10 @@ function mini_miner:OnActivate()
 end
 
 function  mini_miner:CanActivate()
-	item.CanActivate( self )
+	if ( not item.CanActivate( self ) ) then
+        return false
+    end
+    
     if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
     	self:SetCanActivate( false )
 

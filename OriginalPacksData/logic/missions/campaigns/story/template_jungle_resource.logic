@@ -1,13 +1,13 @@
-//editor "scroll(6.96,-97.91)|zoom(0.27)"
+//editor "scroll(-263.29,-401.68)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "17"
-	editor "6565"
+	version "22"
+	editor "6627"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-98,451)"
+			//editor "layout(event_start.xml)|pos(-108,447)"
 			database
 			{
 				Integers
@@ -115,7 +115,7 @@ FlowGraphTemplate
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(1345,-3)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1363,-309)"
 			global "0"
 			interrupt "0"
 			priority "0"
@@ -581,11 +581,39 @@ FlowGraphTemplate
 			self_id "logic_wait_4"
 		}
 
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(272,-341)"
+			graph "logic/encounters/encounter_manager.logic"
+			self_id "event_graph_1"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "entity_spawn_player_0|mission_end_0"
+		default "entity_spawn_player_0|event_graph_1|mission_end_0"
 		entity_spawn_player_0 "event_graph_0|logic_wait_on_event_0"
 		interface_dialogue_show_group_1 "mission_dom_resume_0"
 		logic_and_1 "interface_dialogue_show_group_0|logic_if_exist_entity_new_6|logic_wait_3"

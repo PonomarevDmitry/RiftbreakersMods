@@ -19,8 +19,6 @@ EntityBlueprint
 			}
 		}
 
-		start_effect 				"dash_start_long"
-		continuous_effect 		"dash_trail_long"
 		param_name					"is_jumping"
 		//block_aiming_dir			"1"
 	}
@@ -53,13 +51,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				100
+				value 				150
 				damage_type			"cryo"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				6
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -67,18 +65,18 @@ EntityBlueprint
 
 	BombAmmoComponent
 	{
-		explosion_effect 		"effects/items/power_jump_explosion"
+		explosion_effect 		"effects/items/power_jump_explosion_cryo"
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"6"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"100"
+					value 			"150"
 					type			"cryo"
 				}
 			}
@@ -96,13 +94,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				150
+				value 				300
 				damage_type			"cryo"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				6.5
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -110,18 +108,18 @@ EntityBlueprint
 
 	BombAmmoComponent
 	{
-		explosion_effect 		"effects/items/power_jump_explosion"
+		explosion_effect 		"effects/items/power_jump_explosion_cryo"
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"6.5"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"150"
+					value 			"300"
 					type			"cryo"
 				}
 			}
@@ -139,13 +137,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				200
+				value 				600
 				damage_type			"cryo"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				7
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -153,18 +151,18 @@ EntityBlueprint
 
 	BombAmmoComponent
 	{
-		explosion_effect 		"effects/items/power_jump_explosion"
+		explosion_effect 		"effects/items/power_jump_explosion_cryo"
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"7"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"200"
+					value 			"600"
 					type			"cryo"
 				}
 			}
@@ -182,13 +180,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				250
+				value 				1000
 				damage_type			"cryo"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				7.5
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -196,18 +194,18 @@ EntityBlueprint
 
 	BombAmmoComponent
 	{
-		explosion_effect 		"effects/items/power_jump_explosion"
+		explosion_effect 		"effects/items/power_jump_explosion_cryo"
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"7.5"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"250"
+					value 			"1000"
 					type			"cryo"
 				}
 			}
@@ -224,7 +222,7 @@ EntityBlueprint
 		type 					"movement_skill"
 		subtype					"jump"
 		name 					"gui/menu/inventory/skill_name/jump_cryo"
-		cooldown				"3"
+		cooldown				"5.5"
 		item_bp					"items/skills/jump_cryo_effects"
 		icon					"gui/hud/items_icons/skills/jump_splash"
         bigger_icon 			"gui/menu/items_icons/skills/jump_splash"		
@@ -240,16 +238,19 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cryo_explosion"
-			stat_bp		string:"items/skills/jump_cryo_explosion"
-            trigger     string:"items/skills/jump_cryo_trigger"
-            radius_bp   string:"items/skills/jump_cryo_trail"
-            radius_size float:"5"
-            radius_lifetime float:"2"
-			att			string:"be_body_lower"
-			jump_speed 	float:"2"
-			jump_distance float:"20"
-			min_distance  float:"5"
+			bp					string:"items/skills/jump_cryo_explosion"
+			stat_bp				string:"items/skills/jump_cryo_explosion"
+            trigger     		string:"items/skills/jump_cryo_trigger"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+            radius_bp   		string:"items/skills/jump_cryo_trail"
+            radius_size 		float:"6"
+            radius_lifetime 	float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"2"
+			jump_distance 		float:"45"
+			min_distance  		float:"5"
+			dash_start			string:"effects/items/power_jump_start_cryo"
+			dash_trail			string:"effects/projectiles_and_trails/mech_dash_ribbon_blue"				
 		}
 	}
 
@@ -268,7 +269,7 @@ EntityBlueprint
 		type 					"movement_skill"
 		subtype					"jump"
 		name 					"gui/menu/inventory/skill_name/jump_cryo"
-		cooldown				"3"
+		cooldown				"5.25"
 		item_bp					"items/skills/jump_cryo_effects"
 		icon					"gui/hud/items_icons/skills/jump_splash"
         bigger_icon 			"gui/menu/items_icons/skills/jump_splash"		
@@ -284,16 +285,19 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cryo_explosion_advanced"
-			stat_bp		string:"items/skills/jump_cryo_explosion_advanced"
-            trigger     string:"items/skills/jump_cryo_trigger"
-            radius_bp   string:"items/skills/jump_cryo_trail"
-            radius_size float:"5"
-            radius_lifetime float:"2"
-			att			string:"be_body_lower"
-			jump_speed 	float:"2"
-			jump_distance float:"20"
-			min_distance  float:"5"
+			bp					string:"items/skills/jump_cryo_explosion_advanced"
+			stat_bp				string:"items/skills/jump_cryo_explosion_advanced"
+            trigger     		string:"items/skills/jump_cryo_trigger"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+            radius_bp   		string:"items/skills/jump_cryo_trail"
+            radius_size 		float:"5"
+            radius_lifetime 	float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"2"
+			jump_distance 		float:"45"
+			min_distance  		float:"5"
+			dash_start			string:"effects/items/power_jump_start_cryo"
+			dash_trail			string:"effects/projectiles_and_trails/mech_dash_ribbon_blue"				
 		}
 	}
 
@@ -312,7 +316,7 @@ EntityBlueprint
 		type 					"movement_skill"
 		subtype					"jump"
 		name 					"gui/menu/inventory/skill_name/jump_cryo"
-		cooldown				"3"
+		cooldown				"5"
 		item_bp					"items/skills/jump_cryo_effects"
 		icon					"gui/hud/items_icons/skills/jump_splash"
         bigger_icon 			"gui/menu/items_icons/skills/jump_splash"		
@@ -328,16 +332,19 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cryo_explosion_superior"
-			stat_bp		string:"items/skills/jump_cryo_explosion_superior"
-            trigger     string:"items/skills/jump_cryo_trigger"
-            radius_bp   string:"items/skills/jump_cryo_trail"
-            radius_size float:"5"
-            radius_lifetime float:"2"
-			att			string:"be_body_lower"
-			jump_speed 	float:"2"
-			jump_distance float:"20"
-			min_distance  float:"5"
+			bp					string:"items/skills/jump_cryo_explosion_superior"
+			stat_bp				string:"items/skills/jump_cryo_explosion_superior"
+            trigger     		string:"items/skills/jump_cryo_trigger"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+            radius_bp   		string:"items/skills/jump_cryo_trail"
+            radius_size 		float:"6"
+            radius_lifetime 	float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"2"
+			jump_distance 		float:"45"
+			min_distance  		float:"5"
+			dash_start			string:"effects/items/power_jump_start_cryo"
+			dash_trail			string:"effects/projectiles_and_trails/mech_dash_ribbon_blue"				
 		}
 	}
 
@@ -356,7 +363,7 @@ EntityBlueprint
 		type 					"movement_skill"
 		subtype					"jump"
 		name 					"gui/menu/inventory/skill_name/jump_cryo"
-		cooldown				"3"
+		cooldown				"4.75"
 		item_bp					"items/skills/jump_cryo_effects"
 		icon					"gui/hud/items_icons/skills/jump_splash"
         bigger_icon 			"gui/menu/items_icons/skills/jump_splash"		
@@ -372,16 +379,19 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cryo_explosion_extreme"
-			stat_bp		string:"items/skills/jump_cryo_explosion_extreme"
-            trigger     string:"items/skills/jump_cryo_trigger"
-            radius_bp   string:"items/skills/jump_cryo_trail"
-            radius_size float:"5"
-            radius_lifetime float:"2"
-			att			string:"be_body_lower"
-			jump_speed 	float:"2"
-			jump_distance float:"20"
-			min_distance  float:"5"
+			bp					string:"items/skills/jump_cryo_explosion_extreme"
+			stat_bp				string:"items/skills/jump_cryo_explosion_extreme"
+            trigger     		string:"items/skills/jump_cryo_trigger"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+            radius_bp   		string:"items/skills/jump_cryo_trail"
+            radius_size 		float:"6"
+            radius_lifetime 	float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"2"
+			jump_distance 		float:"45"
+			min_distance  		float:"5"
+			dash_start			string:"effects/items/power_jump_start_cryo"
+			dash_trail			string:"effects/projectiles_and_trails/mech_dash_ribbon_blue"				
 		}
 	}
 
@@ -397,7 +407,7 @@ EntityBlueprint
 
 	base_blueprints 
 	{
-		lights/point/fire_blue_small
+		lights/point/fire_blue_medium
 		effects/no_lifetime
 	}
 

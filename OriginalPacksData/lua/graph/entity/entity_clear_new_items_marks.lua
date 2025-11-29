@@ -8,7 +8,8 @@ function entity_clear_new_items_marks:init()
 end
 
 function entity_clear_new_items_marks:Activated()
-    self.mech = PlayerService:GetPlayerControlledEnt(0) --#TODO: fix player id
+    local playerId = self.parent:GetDatabase():GetIntOrDefault("player_id", 0 )
+    self.mech = PlayerService:GetPlayerControlledEnt(playerId) 
     ItemService:ClearNewItemsMarks( self.mech )
     self:SetFinished()
 end

@@ -48,6 +48,8 @@ function spreader_cleaner:OnChildDestroyRequest( evt )
 	self.currentIdx = 1;
 	local child = evt:GetEntity();
 	Remove(self.branches, child)
+	EntityService:RevealVegetation( child )
+
 	if ( EntityService:IsAlive( child ) and EntityService:GetType(child) == "ground_unit" ) then
 		EntityService:RemoveComponent( child, "TypeComponent" )
 		EntityService:ChangeType( child, "prop" )

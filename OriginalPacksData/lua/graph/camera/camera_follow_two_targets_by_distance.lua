@@ -13,6 +13,7 @@ function camera_follow_two_targets_by_distance:init()
 	self.playerDataVec = {}
 
 	self:RegisterHandler( event_sink, "PlayerControlledEntityChangeEvent",  "OnPlayerControlledEntityChangeEvent" )
+	self:RegisterHandler( event_sink, "PlayerReactivatedEvent",  "OnPlayerReactivatedEvent" )
 end
 
 function camera_follow_two_targets_by_distance:InitPlayer( player )
@@ -39,6 +40,17 @@ function camera_follow_two_targets_by_distance:InitPlayer( player )
 	CameraService:SetFollowTarget( camera, currentTarget )
 	MoveService:FollowTarget( currentTarget, destinationTarget, self.speed, self.acceleration )
 
+	local mech = PlayerService:GetPlayerControlledEnt( player )
+ 	local database = EntityService:GetDatabase( mech )
+    if ( database ~= nil) then
+		database:SetInt( "block_camera_teleport", 1 )
+    end
+
+	for data in Iter( self.playerDataVec ) do
+		if ( data[1] == player) then
+			data = nil
+		end
+	end
 	table.insert( self.playerDataVec, { player, currentTarget, destinationTarget, minDistanceTargetPos, maxDistanceTargetPos, minCameraTargetPos, maxCameraTargetPos } )
 end
 
@@ -50,7 +62,11 @@ function camera_follow_two_targets_by_distance:Activated()
 end
 
 function camera_follow_two_targets_by_distance:OnPlayerControlledEntityChangeEvent( event )
-    self:InitPlayer( event:GetPlayerId() )
+	self:InitPlayer( event:GetPlayerId() )
+end
+
+function camera_follow_two_targets_by_distance:OnPlayerReactivatedEvent( event )
+	self:InitPlayer( event:GetPlayerId() )
 end
 
 function camera_follow_two_targets_by_distance:Update()
@@ -95,8 +111,13 @@ function camera_follow_two_targets_by_distance:Interrupted()
 	for i = 1, #self.playerDataVec do	
 		EntityService:RemoveEntity( self.playerDataVec[i][2] )
 		EntityService:RemoveEntity( self.playerDataVec[i][3] )
-	end
 
+		local mech = PlayerService:GetPlayerControlledEnt( self.playerDataVec[i][1] )
+	 	local database = EntityService:GetDatabase( mech )
+	    if ( database ~= nil) then
+			database:SetInt( "block_camera_teleport", 0 )
+	    end
+	end
 	self:SetFinished()
 end
 

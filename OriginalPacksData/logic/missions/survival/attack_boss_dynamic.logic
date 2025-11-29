@@ -1,8 +1,8 @@
-//editor "scroll(304.95,263.19)|zoom(0.60)"
+//editor "scroll(1425.72,1363.24)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "6"
-	editor "6247"
+	version "7"
+	editor "6660"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -121,6 +121,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -131,7 +134,7 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(5626,1565)"
+			//editor "layout(event_end.xml)|pos(5991,1561)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -305,6 +308,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -316,6 +322,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "10"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -456,6 +465,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -596,6 +608,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -736,6 +751,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -876,6 +894,9 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -886,7 +907,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_biome.xml)|pos(3157,3753)"
+			//editor "layout(logic_if_biome.xml)|pos(3741,5153)"
 			database
 			{
 				Strings
@@ -894,7 +915,7 @@ FlowGraphTemplate
 					StringData
 					{
 						key "biome"
-						value "swamp"
+						value "legacy_maps"
 					}
 
 				}
@@ -902,28 +923,105 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/logic/logic_if_biome.lua"
-			self_id "logic_if_biome_7"
+			self_id "logic_if_biome_8"
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(3157,3857)"
+			//editor "layout(condition_true.xml)|pos(3741,5257)"
 			key "true"
-			self_id "logic_if_biome_7###true"
+			self_id "logic_if_biome_8###true"
 			value
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(3157,3885)"
+			//editor "layout(condition_false.xml)|pos(3741,5285)"
 			key "false"
-			self_id "logic_if_biome_7###false"
+			self_id "logic_if_biome_8###false"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(5757,1561)"
+			self_id "logic_or_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(5189,5275)"
+			self_id "logic_or_2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_familiarity_level.xml)|pos(4229,3872)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "comparison_familiarity_level"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "greater_or_equal"
+					}
+
+					StringData
+					{
+						key "wait_until_time"
+						value "false"
+					}
+
+					StringData
+					{
+						key "comparison_familiarity_name"
+						value "canceroth"
+					}
+
+					StringData
+					{
+						key "comparison_subspecies_name"
+						value
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_familiarity_level.lua"
+			self_id "logic_if_familiarity_level_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(4229,4073)"
+			key "true"
+			self_id "logic_if_familiarity_level_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(4229,4101)"
+			key "false"
+			self_id "logic_if_familiarity_level_1###false"
 			value
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(3687,3565)"
+			//editor "layout(wave_ground.xml)|pos(4887,4327)"
 			database
 			{
 				Floats
@@ -953,7 +1051,7 @@ FlowGraphTemplate
 					IntData
 					{
 						key "spawn_indicator"
-						value "1"
+						value "0"
 					}
 
 					IntData
@@ -1003,7 +1101,193 @@ FlowGraphTemplate
 			delay "0"
 			group_name "universal"
 			percentage_units_to_end_wave "100"
-			self_id "wave_ground_6"
+			self_id "wave_ground_7"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_species.xml)|pos(0,0)"
+					blueprint "boss_swamp_random_canceroth"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
+					spawn_type "creature_species"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_campaign_type.xml)|pos(3674,3857)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "campaign_type"
+						value "story"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_campaign_type.lua"
+			self_id "logic_if_campaign_type_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3674,3957)"
+			key "true"
+			self_id "logic_if_campaign_type_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3674,3985)"
+			key "false"
+			self_id "logic_if_campaign_type_1###false"
+			value
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(4698,4621)"
+			self_id "logic_or_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(3180,3786)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(3180,3891)"
+			key "true"
+			self_id "logic_if_biome_9###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(3180,3919)"
+			key "false"
+			self_id "logic_if_biome_9###false"
+			value
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(4885,3653)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_8"
 			spawn_group
 			spawn_point
 			Enemies
@@ -1016,61 +1300,15 @@ FlowGraphTemplate
 					count "1"
 					delay "1"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
 
 			}
 
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_if_biome.xml)|pos(3726,4276)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "biome"
-						value "legacy_maps"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_if_biome.lua"
-			self_id "logic_if_biome_8"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_true.xml)|pos(3726,4381)"
-			key "true"
-			self_id "logic_if_biome_8###true"
-			value
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_false.xml)|pos(3726,4409)"
-			key "false"
-			self_id "logic_if_biome_8###false"
-			value
-		}
-
-		OrBehaviourNode
-		{
-			//editor "layout(logic_or.xml)|pos(5392,1565)"
-			self_id "logic_or_1"
-		}
-
-		OrBehaviourNode
-		{
-			//editor "layout(logic_or.xml)|pos(4358,4247)"
-			self_id "logic_or_2"
 		}
 
 	}
@@ -1094,23 +1332,31 @@ FlowGraphTemplate
 		logic_if_biome_5###false "logic_if_biome_6"
 		logic_if_biome_5###true "wave_ground_4"
 		logic_if_biome_6 "logic_if_biome_6###false|logic_if_biome_6###true"
-		logic_if_biome_6###false "logic_if_biome_7"
+		logic_if_biome_6###false "logic_if_biome_9"
 		logic_if_biome_6###true "wave_ground_5"
-		logic_if_biome_7 "logic_if_biome_7###false|logic_if_biome_7###true"
-		logic_if_biome_7###false "logic_if_biome_8"
-		logic_if_biome_7###true "wave_ground_6"
 		logic_if_biome_8 "logic_if_biome_8###false|logic_if_biome_8###true"
 		logic_if_biome_8###false "logic_or_2"
 		logic_if_biome_8###true "logic_or_2"
+		logic_if_biome_9 "logic_if_biome_9###false|logic_if_biome_9###true"
+		logic_if_biome_9###false "logic_if_biome_8"
+		logic_if_biome_9###true "logic_if_campaign_type_1"
+		logic_if_campaign_type_1 "logic_if_campaign_type_1###false|logic_if_campaign_type_1###true"
+		logic_if_campaign_type_1###false "logic_or_3"
+		logic_if_campaign_type_1###true "logic_if_familiarity_level_1"
+		logic_if_familiarity_level_1 "logic_if_familiarity_level_1###false|logic_if_familiarity_level_1###true"
+		logic_if_familiarity_level_1###false "wave_ground_8"
+		logic_if_familiarity_level_1###true "logic_or_3"
 		logic_or_1 "event_end_0"
 		logic_or_2 "logic_or_1"
+		logic_or_3 "wave_ground_7"
 		wave_ground_0 "logic_or_1"
 		wave_ground_1 "logic_or_1"
 		wave_ground_2 "logic_or_1"
 		wave_ground_3 "logic_or_1"
 		wave_ground_4 "logic_or_1"
 		wave_ground_5 "logic_or_1"
-		wave_ground_6 "logic_or_1"
+		wave_ground_7 "logic_or_1"
+		wave_ground_8 "logic_or_1"
 	}
 
 	GraphComments

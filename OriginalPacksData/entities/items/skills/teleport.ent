@@ -26,28 +26,336 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 		"movement_skill"
-		subtype		"movement"
-		name 		"gui/menu/inventory/skill_name/teleport"
-		cooldown	"3"
-		//item_bp		"items/skills/teleport_effects"
-		icon		"gui/hud/items_icons/skills/dash"
-        bigger_icon "gui/menu/items_icons/skills/teleport"		
-		description 	"gui/menu/inventory/skill_description/teleport"	
-		add_quality "0"		
+		type 					"movement_skill"
+		subtype					"movement"
+		name 					"gui/menu/inventory/skill_name/teleport"
+		cooldown				"6.25"
+		//item_bp				"items/skills/teleport_effects"
+		icon					"gui/hud/items_icons/skills/dash"
+        bigger_icon 			"gui/menu/items_icons/skills/teleport"		
+		description 			"gui/menu/inventory/skill_description/teleport"	
+		rarity					"STANDARD"	
+		replace_lower_quality	"1"	
 	}
 
 	LuaDesc
 	{
-		script "lua/items/skills/teleport.lua"		
+		script "lua/items/skills/teleport.lua"
+
+		database
+		{
+			bp				 string:"items/skills/teleport_explosion"
+			stat_bp			 string:"items/skills/teleport_explosion"
+            danger_marker_bp string:"effects/messages_and_markers/danger_marker_blue"
+            lightning_bp     string:"items/skills/teleport_lightning"
+		}
 	}
 
 	CostDesc
 	{
 		is_unique "1"
-	}
-
-	
-		
+	}		
 }
 
+EntityBlueprint
+{ 
+	name "items/skills/teleport_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 					"movement_skill"
+		subtype					"movement"
+		name 					"gui/menu/inventory/skill_name/teleport"
+		cooldown				"6"
+		//item_bp				"items/skills/teleport_effects"
+		icon					"gui/hud/items_icons/skills/dash"
+        bigger_icon 			"gui/menu/items_icons/skills/teleport"		
+		description 			"gui/menu/inventory/skill_description/teleport"	
+		rarity					"ADVANCED"	
+		replace_lower_quality	"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/teleport.lua"
+
+		database
+		{
+			bp				 string:"items/skills/teleport_explosion_advanced"
+			stat_bp			 string:"items/skills/teleport_explosion_advanced"
+            danger_marker_bp string:"effects/messages_and_markers/danger_marker_blue"
+            lightning_bp     string:"items/skills/teleport_lightning"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_superior_item"
+
+	InventoryItemDesc
+	{
+		type 					"movement_skill"
+		subtype					"movement"
+		name 					"gui/menu/inventory/skill_name/teleport"
+		cooldown				"5.75"
+		//item_bp				"items/skills/teleport_effects"
+		icon					"gui/hud/items_icons/skills/dash"
+        bigger_icon 			"gui/menu/items_icons/skills/teleport"		
+		description 			"gui/menu/inventory/skill_description/teleport"	
+		rarity					"SUPERIOR"	
+		replace_lower_quality	"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/teleport.lua"
+
+		database
+		{
+			bp				 string:"items/skills/teleport_explosion_superior"
+			stat_bp			 string:"items/skills/teleport_explosion_superior"
+            danger_marker_bp string:"effects/messages_and_markers/danger_marker_blue"
+            lightning_bp     string:"items/skills/teleport_lightning"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 					"movement_skill"
+		subtype					"movement"
+		name 					"gui/menu/inventory/skill_name/teleport"
+		cooldown				"5.5"
+		//item_bp				"items/skills/teleport_effects"
+		icon					"gui/hud/items_icons/skills/dash"
+        bigger_icon 			"gui/menu/items_icons/skills/teleport"		
+		description 			"gui/menu/inventory/skill_description/teleport"	
+		rarity					"EXTREME"	
+		replace_lower_quality	"1"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/teleport.lua"
+
+		database
+		{
+			bp				 string:"items/skills/teleport_explosion_extreme"
+			stat_bp			 string:"items/skills/teleport_explosion_extreme"
+            danger_marker_bp string:"effects/messages_and_markers/danger_marker_blue"
+            lightning_bp     string:"items/skills/teleport_lightning"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique "1"
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_lightning"
+
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_gun_beam"
+		tesselation_step 		"0.35"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.05"
+		beam_count 				"1"
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_explosion"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				100
+				damage_type			"energy"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				5
+				type	 			DAMAGE_SPLASH
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/teleport_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"60"
+			area_damage_radius	"5"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_explosion_advanced"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				200
+				damage_type			"energy"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				5.5
+				type	 			DAMAGE_SPLASH
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/teleport_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"60"
+			area_damage_radius	"5.5"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"200"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_explosion_superior"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				400
+				damage_type			"energy"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				6
+				type	 			DAMAGE_SPLASH
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/teleport_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"60"
+			area_damage_radius	"6"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"400"
+					type			"energy"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{ 
+	name "items/skills/teleport_explosion_extreme"
+
+	WeaponItemComponent
+	{
+		stat_vec
+		{
+			WeaponStatData
+			{
+				value 				600
+				damage_type			"energy"
+				type	 			DAMAGE_VALUE
+			}
+			
+			WeaponStatData
+			{
+				value 				6.5
+				type	 			DAMAGE_SPLASH
+			}
+		}
+	}
+
+	BombAmmoComponent
+	{
+		explosion_effect 		"effects/items/teleport_explosion"
+
+		DamagePattern
+		{
+			area_damage_speed	"60"
+			area_damage_radius	"6.5"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"600"
+					type			"energy"
+				}
+			}
+		}
+	}
+}

@@ -8,17 +8,8 @@ function melee_weapon:__init()
 end
 
 function melee_weapon:OnInit()
-	-- if ( self.data:HasFloat( "predicted" ) ) then
-	-- 	LogService:Log( "predicted " .. tostring( self.data:GetFloat( "predicted" ) ) ) 
-	-- end
-
-	-- if ( self.data:HasFloat( "client" ) ) then
-	-- 	LogService:Log( "client " .. tostring( self.data:GetFloat( "client" ) ) )
-	-- end
-
 	self.fsm = self:CreateStateMachine()
 	self.fsm:AddState( "update", { execute="OnUpdate"} )
-
 end
 
 function melee_weapon:GetWeaponEntity()
@@ -153,11 +144,6 @@ function melee_weapon:OnUpdate()
 end
 
 function melee_weapon:OnActivate( activation_id )
-	-- if ( self.data:HasFloat( "client" ) ) then
-	-- 	LogService:Log( "OnActivate, client " .. tostring( self.entity ) .. "activation_id " .. tostring( activation_id ) )
-	-- else
-	-- 	LogService:Log( "OnActivate, server " .. tostring( self.entity ) .. "activation_id " .. tostring( activation_id ) )
-	-- end
 	local database = EntityService:GetDatabase(self.owner)
 	if database == nil then 
 		return
@@ -181,9 +167,6 @@ end
 
 function melee_weapon:OnDeactivate( forced )
 	local is_attacking = self:IsAnyAttacking();
-	if ( self.data:HasFloat( "client" ) ) then
-		--LogService:Log( "OnDeactivate, client" .. tostring( self.data:GetFloat( "client" ) ) )
-	end
 	if is_attacking == 1 then
 		self:OnMeleeAttackButtonReleased()
 		--LogService:Log( "OnDeactivate, set is_attacking == 0 " )
