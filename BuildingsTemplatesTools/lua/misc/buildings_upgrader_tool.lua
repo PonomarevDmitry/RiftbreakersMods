@@ -124,9 +124,9 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -142,7 +142,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -185,7 +185,7 @@ function buildings_upgrader_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString == "" ) then
 
@@ -331,11 +331,11 @@ end
 
 function buildings_upgrader_tool:GetTemplatesArray()
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     local result = { self.allTemplatesName }
 
-    if ( globalPlayerEntity ~= nil or selectorDB ~= nil or campaignDatabase ~= nil ) then
+    if ( globalPlayerEntity ~= nil or selectorDB ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -343,7 +343,7 @@ function buildings_upgrader_tool:GetTemplatesArray()
 
             local templateName = self.templateFormat .. templateSuffix
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -360,9 +360,9 @@ end
 
 function buildings_upgrader_tool:OnActivateSelectorRequest()
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
@@ -372,21 +372,21 @@ function buildings_upgrader_tool:OnActivateSelectorRequest()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        self:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB)
     end
 
     self:FillMarkerMessage()
 end
 
-function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(templateName, globalPlayerEntity, selectorDB)
 
-    local currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+    local currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
     if ( currentTemplateString == "" ) then
         return
     end
@@ -413,8 +413,14 @@ function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(te
         selectorDB:SetString( templateName, templateString )
     end
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( templateName, "" )
+    if ( CampaignService.GetCampaignData ~= nil ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+
+        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
+
+            campaignDatabase:RemoveKey( templateName )
+        end
     end
 end
 

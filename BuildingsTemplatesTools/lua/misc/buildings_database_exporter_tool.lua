@@ -127,9 +127,9 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -151,7 +151,7 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             local persistentTemplateString = self.persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
 
@@ -195,7 +195,7 @@ function buildings_database_exporter_tool:FillMarkerMessage()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         local markerText = ""
 
@@ -345,11 +345,11 @@ end
 
 function buildings_database_exporter_tool:GetTemplatesArray()
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     local result = { self.allTemplatesName }
 
-    if ( ( globalPlayerEntity ~= nil or selectorDB ~= nil or campaignDatabase ~= nil ) and self.persistentDatabase ~= nil ) then
+    if ( ( globalPlayerEntity ~= nil or selectorDB ~= nil ) and self.persistentDatabase ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -357,7 +357,7 @@ function buildings_database_exporter_tool:GetTemplatesArray()
 
             local templateName = self.templateFormat .. templateSuffix
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -385,9 +385,9 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
@@ -397,11 +397,11 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
-        if ( not self:DatabaseHasTemplate(globalPlayerEntity, selectorDB, campaignDatabase) ) then
+        if ( not self:DatabaseHasTemplate(globalPlayerEntity, selectorDB) ) then
             return
         end
 
-        if ( self:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB, campaignDatabase) ) then
+        if ( self:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB) ) then
 
             self.popupShown = true
 
@@ -413,13 +413,13 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
             self:SaveTimeout()
 
-            self:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+            self:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
         end
     else
 
         local templateName = self.templateFormat .. self.selectedTemplate
         
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
         if ( templateString == "" ) then
             return
         end
@@ -430,7 +430,7 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
 
             self:SaveTimeout()
 
-            self:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+            self:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, self.persistentDatabase)
 
             self:UpdateMarker()
 
@@ -448,13 +448,13 @@ function buildings_database_exporter_tool:OnActivateSelectorRequest()
     end
 end
 
-function buildings_database_exporter_tool:DatabaseHasTemplate(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_database_exporter_tool:DatabaseHasTemplate(globalPlayerEntity, selectorDB)
 
     for number=self.numberFrom,self.numberTo do
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -465,13 +465,13 @@ function buildings_database_exporter_tool:DatabaseHasTemplate(globalPlayerEntity
     return false
 end
 
-function buildings_database_exporter_tool:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_database_exporter_tool:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB)
 
     for number=self.numberFrom,self.numberTo do
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString ~= nil and templateString ~= "" ) then
         
@@ -512,14 +512,14 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventAllTemplates( evt
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    self:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+    self:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
 
     self.popupShown = false
 end
 
-function buildings_database_exporter_tool:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_database_exporter_tool:ExportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
 
     if ( self.persistentDatabase == nil ) then
         return
@@ -529,7 +529,7 @@ function buildings_database_exporter_tool:ExportAllTemplatesToToDatabase(globalP
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        self:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+        self:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, self.persistentDatabase)
     end
 
     self:UpdateMarker()
@@ -552,9 +552,9 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( e
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    self:ExportTemplateToToDatabase(self.templateNameForExport, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+    self:ExportTemplateToToDatabase(self.templateNameForExport, globalPlayerEntity, selectorDB, self.persistentDatabase)
 
     self:UpdateMarker()
 
@@ -563,9 +563,9 @@ function buildings_database_exporter_tool:OnGuiPopupResultEventSingleTemplate( e
     self.popupShown = false
 end
 
-function buildings_database_exporter_tool:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, persistentDatabase)
+function buildings_database_exporter_tool:ExportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, persistentDatabase)
 
-    local currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+    local currentTemplateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
     if ( currentTemplateString == "" ) then
         return
     end

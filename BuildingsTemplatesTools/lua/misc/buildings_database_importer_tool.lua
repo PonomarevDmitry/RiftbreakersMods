@@ -127,9 +127,9 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -159,7 +159,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
                 allIsEmpty = false
 
-                local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+                local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
                 if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
 
@@ -210,7 +210,7 @@ function buildings_database_importer_tool:FillMarkerMessage()
 
             markerText = markerText .. "\n${" .. templateImportCaption .. "}:\n" .. persistentBuildingsIcons
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
             if ( templateString ~= "" ) then
 
                 if ( self:IsTemplateEqualsToImport(templateString, persistentTemplateString) ) then
@@ -339,11 +339,11 @@ end
 
 function buildings_database_importer_tool:GetTemplatesArray()
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
     local result = { self.allTemplatesName }
 
-    if ( ( globalPlayerEntity ~= nil or selectorDB ~= nil or campaignDatabase ~= nil ) and self.persistentDatabase ~= nil ) then
+    if ( ( globalPlayerEntity ~= nil or selectorDB ~= nil ) and self.persistentDatabase ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -355,7 +355,7 @@ function buildings_database_importer_tool:GetTemplatesArray()
 
             if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
 
-                local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+                local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
                 if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
 
@@ -379,9 +379,9 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
@@ -395,7 +395,7 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
             return
         end
 
-        if ( self:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB, campaignDatabase) ) then
+        if ( self:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB) ) then
 
             self.popupShown = true
 
@@ -407,7 +407,7 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
 
             self:SaveTimeout()
 
-            self:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+            self:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
         end
     else
 
@@ -418,13 +418,13 @@ function buildings_database_importer_tool:OnActivateSelectorRequest()
             return
         end
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString == "" ) then
 
             self:SaveTimeout()
 
-            self:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+            self:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, self.persistentDatabase)
 
             self:UpdateMarker()
 
@@ -459,7 +459,7 @@ function buildings_database_importer_tool:DatabaseHasTemplate()
     return false
 end
 
-function buildings_database_importer_tool:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_database_importer_tool:DatabaseHasOverrideTemplate(globalPlayerEntity, selectorDB)
 
     for number=self.numberFrom,self.numberTo do
 
@@ -469,7 +469,7 @@ function buildings_database_importer_tool:DatabaseHasOverrideTemplate(globalPlay
 
         if ( persistentTemplateString ~= nil and persistentTemplateString ~= "" ) then
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
             if ( templateString ~= "" ) then
 
                 if ( not BuildingsTemplatesUtils:IsTemplateEquals(templateString, persistentTemplateString) ) then
@@ -505,9 +505,9 @@ function buildings_database_importer_tool:OnGuiPopupResultEventAllTemplates( evt
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    self:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+    self:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
 
     self.popupShown = false
 end
@@ -527,9 +527,9 @@ function buildings_database_importer_tool:OnGuiPopupResultEventSingleTemplate( e
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    self:ImportTemplateToToDatabase(self.templateNameForImport, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+    self:ImportTemplateToToDatabase(self.templateNameForImport, globalPlayerEntity, selectorDB, self.persistentDatabase)
 
     self:UpdateMarker()
 
@@ -538,7 +538,7 @@ function buildings_database_importer_tool:OnGuiPopupResultEventSingleTemplate( e
     self.popupShown = false
 end
 
-function buildings_database_importer_tool:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_database_importer_tool:ImportAllTemplatesToToDatabase(globalPlayerEntity, selectorDB)
 
     if ( self.persistentDatabase == nil ) then
         return
@@ -548,7 +548,7 @@ function buildings_database_importer_tool:ImportAllTemplatesToToDatabase(globalP
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        self:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, self.persistentDatabase)
+        self:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, self.persistentDatabase)
     end
 
     self:UpdateMarker()
@@ -556,7 +556,7 @@ function buildings_database_importer_tool:ImportAllTemplatesToToDatabase(globalP
     self:FillMarkerMessage()
 end
 
-function buildings_database_importer_tool:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, campaignDatabase, persistentDatabase)
+function buildings_database_importer_tool:ImportTemplateToToDatabase(templateName, globalPlayerEntity, selectorDB, persistentDatabase)
 
     local persistentTemplateString = persistentDatabase:GetStringOrDefault( templateName, "" ) or ""
     if ( persistentTemplateString == "" ) then
@@ -585,8 +585,14 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
         selectorDB:SetString( templateName, templateString )
     end
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( templateName, "" )
+    if ( CampaignService.GetCampaignData ~= nil ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+
+        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
+
+            campaignDatabase:RemoveKey( templateName )
+        end
     end
 end
 

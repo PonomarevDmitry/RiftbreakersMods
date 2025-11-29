@@ -34,9 +34,9 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -58,7 +58,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         markerText = markerText .. "${" .. templateCaption .. "}:"
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString == "" ) then
 
@@ -76,7 +76,7 @@ function buildings_swap_templates_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplateTo
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         markerText = markerText .. "\n${" .. templateCaption .. "}:"
 
@@ -201,8 +201,8 @@ end
 
 function buildings_swap_templates_tool:OnActivateSelectorRequest()
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
@@ -211,10 +211,10 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
     end
 
     local templateNameFrom = self.templateFormat .. self.selectedTemplateFrom
-    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, globalPlayerEntity, selectorDB, campaignDatabase)
+    local templateStringFrom = BuildingsTemplatesUtils:GetTemplateString(templateNameFrom, globalPlayerEntity, selectorDB)
 
     local templateNameTo = self.templateFormat .. self.selectedTemplateTo
-    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, globalPlayerEntity, selectorDB, campaignDatabase)
+    local templateStringTo = BuildingsTemplatesUtils:GetTemplateString(templateNameTo, globalPlayerEntity, selectorDB)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
@@ -246,11 +246,19 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
         selectorDB:SetString(templateNameTo, templateStringFrom)
     end
 
-    if ( campaignDatabase ) then
+    if ( CampaignService.GetCampaignData ~= nil ) then
 
-        campaignDatabase:SetString(templateNameFrom, "")
+        local campaignDatabase = CampaignService:GetCampaignData()
 
-        campaignDatabase:SetString(templateNameTo, "")
+        if ( campaignDatabase and campaignDatabase:HasString( templateNameFrom ) ) then
+
+            campaignDatabase:RemoveKey( templateNameFrom )
+        end
+
+        if ( campaignDatabase and campaignDatabase:HasString( templateNameTo ) ) then
+
+            campaignDatabase:RemoveKey( templateNameTo )
+        end
     end
 
     self:FillMarkerMessage()

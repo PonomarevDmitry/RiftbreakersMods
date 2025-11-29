@@ -122,9 +122,9 @@ function buildings_eraser_tool:FillMarkerMessage()
 
     local markerDB = EntityService:GetOrCreateDatabase( self.childEntity )
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         markerDB:SetString("message_text", "gui/hud/messages/building_templates/database_unavailable")
         markerDB:SetInt("menu_visible", 1)
         return
@@ -140,7 +140,7 @@ function buildings_eraser_tool:FillMarkerMessage()
 
             local templateName = self.templateFormat .. string.format( "%02d", number )
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -173,7 +173,7 @@ function buildings_eraser_tool:FillMarkerMessage()
 
         local templateCaption = "gui/hud/building_templates/template_" .. self.selectedTemplate
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString == "" ) then
 
@@ -301,9 +301,9 @@ function buildings_eraser_tool:GetTemplatesArray()
 
     local result = { self.allTemplatesName }
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity ~= nil or selectorDB ~= nil or campaignDatabase ~= nil ) then
+    if ( globalPlayerEntity ~= nil or selectorDB ~= nil ) then
 
         for number=self.numberFrom,self.numberTo do
 
@@ -311,7 +311,7 @@ function buildings_eraser_tool:GetTemplatesArray()
 
             local templateName = self.templateFormat .. templateSuffix
 
-            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+            local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
             if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -334,15 +334,15 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
     if ( self.selectedTemplate == self.allTemplatesName ) then
 
-        if ( not self:DatabaseHasTemplate(globalPlayerEntity, selectorDB, campaignDatabase) ) then
+        if ( not self:DatabaseHasTemplate(globalPlayerEntity, selectorDB) ) then
             return
         end
 
@@ -355,7 +355,7 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
 
         local templateName = self.templateFormat .. self.selectedTemplate
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
         if ( templateString == "" ) then
             return
         end
@@ -370,13 +370,13 @@ function buildings_eraser_tool:OnActivateSelectorRequest()
     end
 end
 
-function buildings_eraser_tool:DatabaseHasTemplate(globalPlayerEntity, selectorDB, campaignDatabase)
+function buildings_eraser_tool:DatabaseHasTemplate(globalPlayerEntity, selectorDB)
 
     for number=self.numberFrom,self.numberTo do
 
         local templateName = self.templateFormat .. string.format( "%02d", number )
 
-        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+        local templateString = BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
         if ( templateString ~= nil and templateString ~= "" ) then
 
@@ -405,9 +405,9 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
     end
 
@@ -431,8 +431,14 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
         selectorDB:SetString( self.templateNameForErase, "" )
     end
 
-    if ( campaignDatabase ) then
-        campaignDatabase:SetString( self.templateNameForErase, "" )
+    if ( CampaignService.GetCampaignData ~= nil ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+
+        if ( campaignDatabase and campaignDatabase:HasString( self.templateNameForErase ) ) then
+
+            campaignDatabase:RemoveKey( self.templateNameForErase )
+        end
     end
 
     self:UpdateMarker()
@@ -453,10 +459,18 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
         return
     end
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(self.selector)
 
-    if ( globalPlayerEntity == nil and selectorDB == nil and campaignDatabase == nil ) then
+    if ( globalPlayerEntity == nil and selectorDB == nil ) then
         return
+    end
+
+
+    local campaignDatabase = nil
+
+    if ( CampaignService.GetCampaignData ~= nil ) then
+
+        campaignDatabase = CampaignService:GetCampaignData()
     end
 
     for number=self.numberFrom,self.numberTo do
@@ -483,8 +497,9 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
             selectorDB:SetString( templateName, "" )
         end
 
-        if ( campaignDatabase ) then
-            campaignDatabase:SetString( templateName, "" )
+        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
+
+            campaignDatabase:RemoveKey( templateName )
         end
     end
 

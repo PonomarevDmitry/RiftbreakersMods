@@ -26,20 +26,10 @@ function BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
         end
     end
 
-
-
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
-
-
-
-    return globalPlayerEntity, selectorDB, campaignDatabase
+    return globalPlayerEntity, selectorDB
 end
 
-function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB, campaignDatabase)
+function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
 
     local result = ""
 
@@ -79,31 +69,35 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEnt
 
 
 
-    if ( result == "" and campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-        result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+    if ( result == "" and CampaignService.GetCampaignData ~= nil ) then
 
-        result = result or ""
+        local campaignDatabase = CampaignService:GetCampaignData()
 
-        if ( result ~= "" ) then
+        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
 
-            if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+            result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
 
-                local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+            if ( result ~= "" ) then
 
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( templateName, result )
+                if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+                    local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+
+                    if ( globalPlayerEntityDB ) then
+                        globalPlayerEntityDB:SetString( templateName, result )
+                    end
+
+                    if not ( is_server and is_client ) then
+
+                        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. result
+
+                        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+                    end
                 end
 
-                if not ( is_server and is_client ) then
-
-                    local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. result
-
-                    QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+                if ( selectorDB ) then
+                    selectorDB:SetString( templateName, result )
                 end
-            end
-
-            if ( selectorDB ) then
-                selectorDB:SetString( templateName, result )
             end
         end
     end
@@ -156,7 +150,7 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
     local result = nil
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
 
 
@@ -180,8 +174,15 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
 
 
-    if ( result == nil and campaignDatabase and campaignDatabase:HasInt( configName ) ) then
-        result = campaignDatabase:GetIntOrDefault( configName, 1 )
+
+
+    if ( result == nil and CampaignService.GetCampaignData ~= nil ) then
+
+        local campaignDatabase = CampaignService:GetCampaignData()
+
+        if ( campaignDatabase and campaignDatabase:HasInt( configName ) ) then
+            result = campaignDatabase:GetIntOrDefault( configName, 1 )
+        end
     end
 
 
@@ -221,7 +222,7 @@ function BuildingsTemplatesUtils:SetCurrentPersistentDatabase(selector, selected
 
     local configName = "$buildings_database_select_config"
 
-    local globalPlayerEntity, selectorDB, campaignDatabase = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
+    local globalPlayerEntity, selectorDB = BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
 
     if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
 
