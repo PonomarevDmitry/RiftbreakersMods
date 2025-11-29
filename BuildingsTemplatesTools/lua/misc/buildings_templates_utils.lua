@@ -26,7 +26,117 @@ function BuildingsTemplatesUtils:GetTemplatesDatabases(selector)
         end
     end
 
+    BuildingsTemplatesUtils:TransferData(globalPlayerEntity, selectorDB)
+
     return globalPlayerEntity, selectorDB
+end
+
+function BuildingsTemplatesUtils:TransferData(globalPlayerEntity, selectorDB)
+
+    local globalPlayerEntityDB = nil
+
+    if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+        globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+    end
+
+
+
+    local campaignDatabase = nil
+    
+    if ( CampaignService.GetCampaignData ~= nil ) then
+
+        campaignDatabase = CampaignService:GetCampaignData()
+    end
+
+
+    local numberFrom = 1
+    local numberTo = BuildingsTemplatesUtils:GetMaxAvailableTemplate()
+
+    local templateFormat = "$buildings_picker.BuildingsTemplate_"
+
+    for number=numberFrom,numberTo do
+
+        local templateName = templateFormat .. string.format( "%02d", number )
+        
+        local hasGlobalPlayerTemplate = ( globalPlayerEntityDB ~= nil and globalPlayerEntityDB:HasString( templateName ) and globalPlayerEntityDB:GetString( templateName ) ~= "" )
+
+        local hasSelectorTemplate = ( selectorDB ~= nil and selectorDB:HasString( templateName ) and selectorDB:GetString( templateName ) ~= "" )
+
+        local hasCampaignTemplate = ( campaignDatabase ~= nil and campaignDatabase:HasString( templateName ) and campaignDatabase:GetString( templateName ) ~= "" )
+
+        --LogService:Log("Transfering templateName " .. tostring(templateName) .. " hasGlobalPlayerTemplate " .. tostring(hasGlobalPlayerTemplate) .. " hasSelectorTemplate " .. tostring(hasSelectorTemplate) .. " hasCampaignTemplate " .. tostring(hasCampaignTemplate))
+
+        if ( hasGlobalPlayerTemplate ) then
+
+            goto labelContinue
+        end
+
+        if ( hasSelectorTemplate ) then
+
+            local templateValue = selectorDB:GetStringOrDefault( templateName, "" ) or ""
+
+            if ( templateValue ~= "" ) then
+
+                --LogService:Log("Transfering from Selector templateName " .. tostring(templateName) .. " templateValue " .. tostring(templateValue))
+
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString( templateName, templateValue )
+                end
+                
+                if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+                    if not ( is_server and is_client ) then
+
+                        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. templateValue
+
+                        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+                    end
+                end
+
+                goto labelContinue
+            end
+        end
+
+        if ( hasCampaignTemplate ) then
+
+            local templateValue = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
+
+            if ( templateValue ~= "" ) then
+
+                --LogService:Log("Transfering from CampaignDatabase templateName " .. tostring(templateName) .. " templateValue " .. tostring(templateValue))
+
+                if ( selectorDB ) then
+                    selectorDB:SetString( templateName, templateValue )
+                end
+
+                if ( globalPlayerEntityDB ) then
+                    globalPlayerEntityDB:SetString( templateName, templateValue )
+                end
+                
+                if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
+
+                    if not ( is_server and is_client ) then
+
+                        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. templateValue
+
+                        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
+                    end
+                end
+
+                goto labelContinue
+            end
+        end
+
+        ::labelContinue::
+
+        if ( campaignDatabase ~= nil and hasCampaignTemplate ) then
+
+            campaignDatabase:RemoveKey( templateName )
+        end
+    end
+
+    --LogService:Log(" ")
 end
 
 function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEntity, selectorDB)
