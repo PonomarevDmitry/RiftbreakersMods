@@ -42,11 +42,18 @@ local supported_item_blueprints = {
     "items/skills/invisibility_short_item",
 
     "items/skills/teleport_item",
+    "items/skills/teleport_advanced_item",
+    "items/skills/teleport_superior_item",
+    "items/skills/teleport_extreme_item",
+
     "items/skills/teleport_short_item",
 
     "items/skills/dash",
 
     "items/skills/dodge_roll_item",
+    "items/skills/dodge_roll_advanced_item",
+    "items/skills/dodge_roll_superior_item",
+    "items/skills/dodge_roll_extreme_item",
 
     "items/skills/dash_acid_item",
     "items/skills/dash_acid_advanced_item",
