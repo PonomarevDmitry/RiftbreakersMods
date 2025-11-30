@@ -1,6 +1,7 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
+require("lua/utils/reflection.lua")
 
 local building = require("lua/buildings/building.lua")
 
@@ -44,18 +45,31 @@ function grenades_pack_panel:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
---function grenades_pack_panel:OnBuildingEnd()
---
---    if ( building.OnBuildingEnd ) then
---        building.OnBuildingEnd(self)
---    end
---
---    self:OnOperateActionMenuEvent()
---end
+function grenades_pack_panel:OnBuildingEnd()
+
+    if ( building.OnBuildingEnd ) then
+        building.OnBuildingEnd(self)
+    end
+
+    local playerReferenceComponent = EntityService:GetComponent(self.entity, "PlayerReferenceComponent")
+    if ( playerReferenceComponent ) then
+
+        local playerReferenceComponentRef = reflection_helper( playerReferenceComponent )
+
+        self:OperatePlayerItemConfiguration( playerReferenceComponentRef.player_id )
+    end
+end
 
 function grenades_pack_panel:OnOperateActionMenuEvent( evt )
 
     local player_id = evt:GetPlayer()
+
+    self:OperatePlayerItemConfiguration( player_id )
+end
+
+function grenades_pack_panel:OperatePlayerItemConfiguration( player_id )
+
+    self.data:SetInt("$current_player_id", player_id)
 
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
@@ -132,7 +146,7 @@ function grenades_pack_panel:OnItemEquippedEvent( evt )
         itemBlueprintName = EntityService:GetBlueprintName(item)
     end
 
-    local player_id = 0
+    local player_id = self.data:GetIntOrDefault("$current_player_id", 0)
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
         return
@@ -158,15 +172,19 @@ function grenades_pack_panel:OnItemEquippedEvent( evt )
             local keyName = "grenades_pack_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, itemBlueprintName)
+
+            EntityService:CreateComponent( turretsClusterItem, "NetReplicateNextFrameComponent")
         end
     end
+
+    EntityService:CreateComponent( self.entity, "NetReplicateNextFrameComponent")
 end
 
 function grenades_pack_panel:OnItemUnequippedEvent( evt )
 
     local slotName = evt:GetSlot()
 
-    local player_id = 0
+    local player_id = self.data:GetIntOrDefault("$current_player_id", 0)
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
         return
@@ -193,8 +211,12 @@ function grenades_pack_panel:OnItemUnequippedEvent( evt )
             local keyName = "grenades_pack_MOD_" .. tostring(slotNumber + modDelta)
 
             database:SetString(keyName, "")
+
+            EntityService:CreateComponent( turretsClusterItem, "NetReplicateNextFrameComponent")
         end
     end
+
+    EntityService:CreateComponent( self.entity, "NetReplicateNextFrameComponent")
 end
 
 function grenades_pack_panel:GetSlotNumber( slotName )
