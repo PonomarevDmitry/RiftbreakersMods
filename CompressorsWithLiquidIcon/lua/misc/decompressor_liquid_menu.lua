@@ -134,32 +134,32 @@ function decompressor_liquid_menu:IsCompressedResourceFilled()
 
     if ( modItem == INVALID_ID or modItem == nil ) then
 
-        LogService:Log("modItem == INVALID_ID or modItem == nil ")
+        --LogService:Log("modItem == INVALID_ID or modItem == nil ")
         return false
     end
 
     local blueprintName = EntityService:GetBlueprintName( modItem )
     blueprintName = blueprintName or ""
 
-    LogService:Log("blueprintName " .. tostring(blueprintName))
+    --LogService:Log("blueprintName " .. tostring(blueprintName))
 
     if ( blueprintName == "" ) then
 
-        LogService:Log("blueprintName == nil ")
+        --LogService:Log("blueprintName == nil ")
         return false
     end
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
 
-        LogService:Log("blueprint == nil ")
+        --LogService:Log("blueprint == nil ")
         return false
     end
 
     local inventoryComp = blueprint:GetComponent("InventoryItemComponent")
     if ( inventoryComp == nil ) then
 
-        LogService:Log("inventoryComp == nil ")
+        --LogService:Log("inventoryComp == nil ")
         return false
     end
 

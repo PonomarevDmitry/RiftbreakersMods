@@ -147,11 +147,11 @@ function compressor_liquid_menu:IsCompressedResourceFilled()
 
     resource = resource:gsub( "_compressed", "" )
 
-    LogService:Log("resource " .. tostring(resource))
+    --LogService:Log("resource " .. tostring(resource))
 
     local isMissingResources = self:HasMissingResources( resource )
     if ( isMissingResources ) then
-        LogService:Log("isMissingResources")
+        --LogService:Log("isMissingResources")
         return false
     end
 
@@ -161,7 +161,7 @@ function compressor_liquid_menu:IsCompressedResourceFilled()
 
     local resourceDef = ResourceManager:GetResource("GameplayResourceDef", resource)
     if ( resourceDef == nil ) then
-        LogService:Log("resourceDef == nil")
+        --LogService:Log("resourceDef == nil")
         return false
     end
 
@@ -184,7 +184,7 @@ function compressor_liquid_menu:HasMissingResources( resource )
 
     local buildingStatusComponentRef = reflection_helper( buildingStatusComponent )
 
-    LogService:Log("buildingStatusComponentRef " .. tostring(buildingStatusComponentRef))
+    --LogService:Log("buildingStatusComponentRef " .. tostring(buildingStatusComponentRef))
 
     if ( buildingStatusComponentRef ~= nil and buildingStatusComponentRef.status and buildingStatusComponentRef.status.missing_resources and buildingStatusComponentRef.status.missing_resources.count > 0 ) then
 
