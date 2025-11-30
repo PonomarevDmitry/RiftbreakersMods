@@ -67,7 +67,7 @@ function auto_mines_laying_panel:OnOperateActionMenuEvent( evt )
     self:OperatePlayerItemConfiguration( player_id )
 end
 
-function grenades_pack_panel:OperatePlayerItemConfiguration( player_id )
+function auto_mines_laying_panel:OperatePlayerItemConfiguration( player_id )
 
     self.data:SetInt("$current_player_id", player_id)
 
