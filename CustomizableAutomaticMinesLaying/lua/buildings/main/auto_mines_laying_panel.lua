@@ -44,18 +44,31 @@ function auto_mines_laying_panel:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
 
---function auto_mines_laying_panel:OnBuildingEnd()
---
---    if ( building.OnBuildingEnd ) then
---        building.OnBuildingEnd(self)
---    end
---
---    self:OnOperateActionMenuEvent()
---end
+function auto_mines_laying_panel:OnBuildingEnd()
+
+    if ( building.OnBuildingEnd ) then
+        building.OnBuildingEnd(self)
+    end
+
+    local playerReferenceComponent = EntityService:GetComponent(self.entity, "PlayerReferenceComponent")
+    if ( playerReferenceComponent ) then
+
+        local playerReferenceComponentRef = reflection_helper( playerReferenceComponent )
+
+        self:OperatePlayerItemConfiguration( playerReferenceComponentRef.player_id )
+    end
+end
 
 function auto_mines_laying_panel:OnOperateActionMenuEvent( evt )
 
     local player_id = evt:GetPlayer()
+
+    self:OperatePlayerItemConfiguration( player_id )
+end
+
+function grenades_pack_panel:OperatePlayerItemConfiguration( player_id )
+
+    self.data:SetInt("$current_player_id", player_id)
 
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
@@ -132,7 +145,7 @@ function auto_mines_laying_panel:OnItemEquippedEvent( evt )
         itemBlueprintName = EntityService:GetBlueprintName(item)
     end
 
-    local player_id = 0
+    local player_id = self.data:GetIntOrDefault("$current_player_id", 0)
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
         return
@@ -161,14 +174,18 @@ function auto_mines_laying_panel:OnItemEquippedEvent( evt )
 
             database:SetInt("auto_mines_laying_current_number", 1)
         end
+
+        EntityService:CreateComponent( turretsClusterItem, "NetReplicateNextFrameComponent")
     end
+
+    EntityService:CreateComponent( self.entity, "NetReplicateNextFrameComponent")
 end
 
 function auto_mines_laying_panel:OnItemUnequippedEvent( evt )
 
     local slotName = evt:GetSlot()
 
-    local player_id = 0
+    local player_id = self.data:GetIntOrDefault("$current_player_id", 0)
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if ( player == INVALID_ID or player == nil ) then
         return
@@ -198,7 +215,11 @@ function auto_mines_laying_panel:OnItemUnequippedEvent( evt )
 
             database:SetInt("auto_mines_laying_current_number", 1)
         end
+
+        EntityService:CreateComponent( turretsClusterItem, "NetReplicateNextFrameComponent")
     end
+
+    EntityService:CreateComponent( self.entity, "NetReplicateNextFrameComponent")
 end
 
 function auto_mines_laying_panel:GetSlotNumber( slotName )
