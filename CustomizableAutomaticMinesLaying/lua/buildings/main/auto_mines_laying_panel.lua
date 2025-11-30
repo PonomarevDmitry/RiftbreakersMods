@@ -1,6 +1,7 @@
 require("lua/utils/string_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/numeric_utils.lua")
+require("lua/utils/reflection.lua")
 
 local building = require("lua/buildings/building.lua")
 
