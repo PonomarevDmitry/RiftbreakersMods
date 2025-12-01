@@ -80,6 +80,27 @@
 --    LogService:Log(text)
 --end)
 --
+--RegisterGlobalEventHandler("ItemUnequippedEvent", function(evt)
+--
+--    local text = "ItemUnequippedEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local slot = evt:GetSlot()
+--
+--        text = text .. "\n" .. "slot " .. tostring(slot)
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+--
 --RegisterGlobalEventHandler("UnequipItemRequest", function(evt)
 --
 --    local text = "UnequipItemRequest " .. tostring(evt)
