@@ -404,8 +404,6 @@ end
 
 function customizable_movement_skill:SpawnMine(modMineBlueprint)
 
-    local selfBlueprint = EntityService:GetBlueprintName( self.entity )
-
     local team = EntityService:GetTeam( self.owner )
 
     local database = EntityService:GetBlueprintDatabase( modMineBlueprint )
@@ -419,7 +417,7 @@ function customizable_movement_skill:SpawnMine(modMineBlueprint)
 
     local spawned = EntityService:SpawnEntity( mineBlueprintName, spot, team)
 
-    EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
+    --EntityService:SetGraphicsUniform( spawned, "cDissolveAmount", 1 )
 
     ItemService:SetItemCreator( spawned, mineBlueprintName )
     EntityService:PropagateEntityOwner( spawned, self.owner )
