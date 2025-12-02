@@ -41,6 +41,8 @@ function grenades_pack_panel:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipedItemEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipItemRequest", "OnItemUnequippedEvent" )
 
     self:RegisterHandler( self.entity, "OperateActionMenuEvent", "OnOperateActionMenuEvent")
 end
