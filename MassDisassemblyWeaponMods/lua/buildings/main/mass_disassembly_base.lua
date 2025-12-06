@@ -52,6 +52,10 @@ function mass_disassembly_base:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipedItemEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipItemRequest", "OnItemUnequippedEvent" )
+
+    self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
 
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
@@ -84,6 +88,15 @@ function mass_disassembly_base:OnItemEquippedEvent( evt )
 end
 
 function mass_disassembly_base:OnItemUnequippedEvent( evt )
+
+    self:PopulateSpecialActionInfo()
+
+    EntityService:CreateComponent( self.entity, "TimerComponent")
+
+    QueueEvent( "SetTimerRequest", self.entity, "RefreshIcons", 3 )
+end
+
+function mass_disassembly_base:OnTimerElapsedEvent( evt )
 
     self:PopulateSpecialActionInfo()
 end
