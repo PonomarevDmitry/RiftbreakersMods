@@ -48,6 +48,8 @@ function artificial_spawner:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipedItemEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipItemRequest", "OnItemUnequippedEvent" )
 
     self:UnregisterHandlers( "EnterBuildMenuEvent" )
     self:UnregisterHandlers( "EnterFighterModeEvent" )

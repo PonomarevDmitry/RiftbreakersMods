@@ -47,6 +47,8 @@ function artificial_spawner_slots_menu:RegisterEventHandlers()
 
     self:RegisterHandler( self.parentBuilding, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.parentBuilding, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.parentBuilding, "UnequipedItemEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.parentBuilding, "UnequipItemRequest", "OnItemUnequippedEvent" )
 
 	self:RegisterHandler( self.parentBuilding, "StartBuildingEvent",  "OnStartBuildingEvent" )
 	self:RegisterHandler( self.parentBuilding, "BuildingBuildEndEvent", "OnBuildingBuildEndEvent" )
