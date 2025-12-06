@@ -66,6 +66,8 @@ function tower_drone_attack_with_slots:RegisterEventHandlers()
 
     self:RegisterHandler( self.entity, "ItemEquippedEvent", "OnItemEquippedEvent" )
     self:RegisterHandler( self.entity, "ItemUnequippedEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipedItemEvent", "OnItemUnequippedEvent" )
+    self:RegisterHandler( self.entity, "UnequipItemRequest", "OnItemUnequippedEvent" )
 
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
