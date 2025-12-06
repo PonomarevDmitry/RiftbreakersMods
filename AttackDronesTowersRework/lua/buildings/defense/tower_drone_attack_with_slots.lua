@@ -69,6 +69,8 @@ function tower_drone_attack_with_slots:RegisterEventHandlers()
     self:RegisterHandler( self.entity, "UnequipedItemEvent", "OnItemUnequippedEvent" )
     self:RegisterHandler( self.entity, "UnequipItemRequest", "OnItemUnequippedEvent" )
 
+    self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
+
     self:RegisterHandler( event_sink, "EnterBuildMenuEvent", "OnEnterBuildMenuEvent" )
     self:RegisterHandler( event_sink, "EnterFighterModeEvent", "OnEnterFighterModeEvent" )
 end
@@ -213,6 +215,15 @@ function tower_drone_attack_with_slots:OnItemUnequippedEvent( evt )
 
     local database = EntityService:GetOrCreateDatabase( self.entity )
     database:SetString(key, "")
+
+    self:PopulateSpecialActionInfo()
+
+    EntityService:CreateComponent( self.entity, "TimerComponent")
+
+    QueueEvent( "SetTimerRequest", self.entity, "RefreshIcons", 3 )
+end
+
+function tower_drone_attack_with_slots:OnTimerElapsedEvent( evt )
 
     self:PopulateSpecialActionInfo()
 end
