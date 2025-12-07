@@ -658,14 +658,26 @@ function selector:OnRotateSelectorRequest( evt )
 
             local transform = EntityService:GetWorldTransform( self.entity )
 
-            local params = {
-                point_x = transform.position.x,
-                point_z = transform.position.z
-            }
+            if ( is_server and is_client ) then
 
-            for entity in Iter( self.activatedEntities ) do
+                local params = {
+                    point_x = transform.position.x,
+                    point_z = transform.position.z
+                }
 
-                QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointChangeEvent", params )
+                for entity in Iter( self.activatedEntities ) do
+
+                    QueueEvent( "LuaGlobalEvent", entity, "AreaCenterPointChangeEvent", params )
+                end
+
+            else
+
+                local mapperName = "AreaCenterPointChangeRequest|" .. tostring(transform.position.x) .. "|" .. tostring(transform.position.z)
+
+                for entity in Iter( self.activatedEntities ) do
+
+                    QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+                end
             end
         end
 
