@@ -35,22 +35,59 @@ function shield_generator:OnWorkInProgress( state )
 		self.healthChild = EntityService:SpawnAndAttachEntity( self.shieldBp, self.entity )
 		return
 	end
+
+    local hashSelected = {}
+	for entity in Iter(self.selected) do
+        hashSelected[entity] = false
+    end
+
 	local objects = FindService:FindEntitiesByTypeInRadius( self.pointEntity, "building", self.radius )
 
 	for i = 1, #objects do
-		if( IndexOf( self.selected, objects[i] ) == nil and BuildingService:IsBuildingFinished( objects[i] ) )
-		then
-			ItemService:AddHealthLink( objects[i], self.healthChild )
-			Insert( self.selected, objects[i] )
+		
+		local entity = objects[i]
+
+		if ( hashSelected[entity] ~= nil ) then
+
+			hashSelected[entity] = true
+
+		elseif ( BuildingService:IsBuildingFinished( entity ) ) then
+
+			ItemService:AddHealthLink( entity, self.healthChild )
+			Insert( self.selected, entity )
+
+			hashSelected[entity] = true
 		end
 	end
 
 	for i = #self.selected,1,-1  do
-		if( IndexOf( objects, self.selected[i] ) == nil ) then
-			ItemService:RemoveHealthLink( self.selected[i], self.healthChild )
-			Remove( self.selected, self.selected[i] )
+
+		local entity = self.selected[i]
+
+		if( hashSelected[entity] == false ) then
+
+			ItemService:RemoveHealthLink( entity, self.healthChild )
+
+            local last = #self.selected
+            self.selected[i] = self.selected[last]
+            self.selected[last] = nil
 		end
 	end
+
+	--for i = 1, #objects do
+	--	if( IndexOf( self.selected, objects[i] ) == nil and BuildingService:IsBuildingFinished( objects[i] ) )
+	--	then
+	--		ItemService:AddHealthLink( objects[i], self.healthChild )
+	--		Insert( self.selected, objects[i] )
+	--	end
+	--end
+	--
+	--for i = #self.selected,1,-1  do
+	--	if( IndexOf( objects, self.selected[i] ) == nil ) then
+	--		ItemService:RemoveHealthLink( self.selected[i], self.healthChild )
+	--		Remove( self.selected, self.selected[i] )
+	--	end
+	--end
 end
 
 function shield_generator:OnWorkExit( state )
