@@ -23,7 +23,11 @@ local turrets_cluster_autoexec = function(evt, eventName)
 
         "items/skills/turrets_cluster_1_item",
         "items/skills/turrets_cluster_2_item",
-        "items/skills/turrets_cluster_3_item"
+        "items/skills/turrets_cluster_3_item",
+
+        "items/skills/turrets_auto_laying_1_item",
+        "items/skills/turrets_auto_laying_2_item",
+        "items/skills/turrets_auto_laying_3_item"
     }
 
     local inventorySystemDataComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
