@@ -1,5 +1,44 @@
--- For GetPodValue
-require( "lua/utils/reflection.lua" )
+g_reflection_types = {
+    [CalcHash( "bool" )] = "GetValueAsBool",
+
+    [CalcHash( "String" )] = "GetValue",
+    [CalcHash( "IdString" )] = "GetValue",
+    [CalcHash( "NarrowString" )] = "GetValue",
+    [CalcHash( "WideString" )] = "GetValue",
+    [CalcHash( "char" )] = "GetValue",
+    [CalcHash( "wchar" )] = "GetValue",
+
+    [CalcHash( "int8" )] = "GetValueAsNumber",
+    [CalcHash( "uchar" )] = "GetValueAsNumber",
+    [CalcHash( "short" )] = "GetValueAsNumber",
+    [CalcHash( "ushort" )] = "GetValueAsNumber",
+    [CalcHash( "int" )] = "GetValueAsNumber",
+    [CalcHash( "uint" )] = "GetValueAsNumber",
+    [CalcHash( "float" )] = "GetValueAsNumber",
+    [CalcHash( "double" )] = "GetValueAsNumber",
+    [CalcHash( "int64" )] = "GetValueAsNumber",
+    [CalcHash( "uint64" )] = "GetValueAsNumber"
+}
+
+local function DivergentGetPodValue( FoI )
+    local invoke = g_reflection_types[CalcHash( FoI:GetTypeName() )]
+
+    if invoke then
+        local value = FoI[invoke]( FoI )
+        if value ~= nil then
+            return value
+        end
+
+        local error = "ERROR: failed to convert to %s from: %s"
+        local type_name = FoI:GetTypeName()
+        Assert( invoke ~= "GetValue", error:format( "string", type_name ) )
+        Assert( invoke ~= "GetValueAsBool", error:format( "bool", type_name ) )
+        Assert( invoke ~= "GetValueAsNumber", error:format( "numeric", type_name ) )
+
+    end
+
+    return divergent_helper( FoI )
+end
 
 local TypeContainerHelper = {};
 TypeContainerHelper.mt = {
@@ -7,6 +46,7 @@ TypeContainerHelper.mt = {
         if TypeContainerHelper.mt[key] ~= nil then
             return TypeContainerHelper.mt[key]
         end
+
         local ptr = rawget( self, "__ptr" );
         if type( key ) == 'number' then
             local item = ptr:GetItem( key - 1 )
@@ -14,25 +54,12 @@ TypeContainerHelper.mt = {
                 return nil
             end
 
-            local value = GetPodValue( item )
-            if value ~= nil then
-                return value
-            end
-
-            return divergent_helper( item )
+            return DivergentGetPodValue( item )
         elseif key == "count" then
             return ptr:GetItemCount()
         end
 
         return nil
-    end,
-    get_item = function( self, key )
-        local ptr = rawget( self, "__ptr" )
-        local item = ptr:GetItem( key - 1 )
-        if item == nil then
-            return nil
-        end
-        return divergent_helper( item )
     end,
     create_item = function( self, type )
         local ptr = rawget( self, "__ptr" );
@@ -45,43 +72,42 @@ TypeContainerHelper.mt = {
     end,
     pair_create_item = function( self, key, value )
         local ptr = rawget( self, "__ptr" )
+
         local item = ptr:ReserveItem()
         item:GetField( "key" ):SetValue( tostring( key ) )
-        if value then
-            item:GetField( "value" ):SetValue( tostring( value ) )
-        end
+        item:GetField( "value" ):SetValue( tostring( value ) )
         ptr:InsertItem( item )
     end,
     map_get_item = function( self, key )
-        if not Assert( type( key ) == 'number' or type( key ) == 'string', "ERROR: key must be a number or string, got: " .. type( key ) ) then
+        local key_type = type( key )
+        if key ~= "string" and key ~= "number" then
+            Assert( false, "ERROR: key must be a number or string, got: " .. key_type )
             return nil
         end
 
         local ptr = rawget( self, "__ptr" );
+        for item in IterItems( ptr ) do
 
-        local count = ptr:GetItemCount()
-        for i = 1, count do
-            local item = ptr:GetItem( i - 1 )
-
-            local k = GetPodValue( item:GetField( "key" ) )
+            local k = DivergentGetPodValue( item:GetField( "key" ) )
             if k == key then
-                local v = item:GetField( "value" )
-                return GetPodValue( v ) or divergent_helper( v )
+                return divergent_helper( item )
             end
         end
 
-        local item = ptr:ReserveItem();
-        item:GetField( "key" ):SetValue( tostring( key ) )
-        ptr:InsertItem( item );
+        local new_item = ptr:ReserveItem();
+        new_item:GetField( "key" ):SetValue( tostring( key ) )
+        ptr:InsertItem( new_item );
 
-        return divergent_helper( item:GetField( "value" ) )
+        return divergent_helper( new_item )
     end,
     insert_item = function( self, item )
         local ptr = rawget( self, "__ptr" )
+        -- local ptr_item = rawget(item, "__ptr")
         ptr:InsertItem( item )
     end,
     reserve_item = function( self )
         local ptr = rawget( self, "__ptr" )
+        -- return divergent_helper(ptr:ReserveItem())
         return ptr:ReserveItem()
     end,
     type_name = function( self, key )
@@ -146,12 +172,7 @@ TypeValueHelper.mt = {
             return nil
         end
 
-        local value = GetPodValue( field )
-        if value ~= nil then
-            return value
-        end
-
-        return divergent_helper( field )
+        return DivergentGetPodValue( field )
     end,
     type_name = function( self, key )
         if key then
@@ -206,7 +227,7 @@ TypeValueHelper.mt = {
 
             local field = ptr:GetField( field_name )
             if field ~= nil then
-                local field_value = GetPodValue( field )
+                local field_value = DivergentGetPodValue( field )
                 if field_value ~= nil then
                     value = value .. tostring( field_value )
                 else
@@ -274,3 +295,4 @@ function IterItems( container, count )
     Assert( false, "ERROR: Calling IterItems in non container." )
     return nil, nil
 end
+

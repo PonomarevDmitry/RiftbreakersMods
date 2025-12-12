@@ -213,7 +213,7 @@ local function WriteKey( name )
     return "$" .. SnakeMode( name ) .. "" .. info.name
 end
 
--- TODO Remove next update
+-- TODO Remove next update 1
 function GetOrCreateLocker( name, bp_name )
     bp_name = bp_name or "buildings/main/weather_controller"
     local bp_data = EntityService:GetBlueprintDatabase( bp_name )

@@ -1,3 +1,5 @@
+require( "lua/utils/patcher_find_utils.lua" )
+
 local M = {}
 
 M.effects = require( "lua/components/effectdesc.lua" )

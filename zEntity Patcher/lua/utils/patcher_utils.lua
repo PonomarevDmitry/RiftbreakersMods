@@ -63,25 +63,16 @@ function M:AddComponent( t1, check )
     end
 end
 
-local simple_type = {
-    String = true,
-    StringHash = true,
-    TypeId = true,
-    Integer = true,
-    hash = true
-}
-
 local function LogContainer( container, level, godeep )
-    local count = container:GetItemCount()
-    for i = 0, count - 1 do
-        local item = container:GetItem( i )
+    for item, i in IterItems( container ) do
         local tabs = string.rep( "\t", level )
         local type_name = item:GetTypeName()
-        if simple_type[type_name] then
+        if g_reflection_types[CalcHash( type_name )] then
             LogService:Log( ("%s[%d] %s = %s"):format( tabs, i, type_name, item:GetValue() ) )
         else
             LogService:Log( ("%s[%d] %s"):format( tabs, i, type_name ) )
         end
+
         for item_field_name in Iter( item:GetFieldNames() ) do
             local field = item:GetField( item_field_name )
             if field:IsContainer() and godeep then
@@ -100,6 +91,28 @@ local function LogContainer( container, level, godeep )
 
             ::continue::
         end
+    end
+end
+
+function M:LogComponent( component, godeep, component_name )
+    LogService:Log( "*" .. component_name )
+
+    for field_name in Iter( component:GetFieldNames() ) do
+        local field = component:GetField( field_name )
+        if field:IsContainer() then
+            LogService:Log( (" \t%s: %s = {...}"):format( field_name, field:GetTypeName() ) )
+            LogContainer( field:ToContainer(), 3, godeep )
+            goto continue
+        end
+
+        local field_value = field:GetValue()
+        if field_value then
+            LogService:Log( (" \t%s: %s = %s"):format( field_name, field:GetTypeName(), field_value ) )
+            goto continue
+        end
+
+        LogService:Log( (" \t%s: %s"):format( field_name, field:GetTypeName() ) )
+        ::continue::
     end
 end
 
@@ -130,25 +143,9 @@ function M:LogBlueprintComponents( bp_name, component, godeep, ghost, ghost_filt
         if t and not t[component_name] then
             goto continue
         end
-        LogService:Log( "*" .. component_name )
         local bp_component = bp:GetComponent( component_name )
-        for field_name in Iter( bp_component:GetFieldNames() ) do
-            local field = bp_component:GetField( field_name )
-            if field:IsContainer() then
-                LogService:Log( (" \t%s: %s = {...}"):format( field_name, field:GetTypeName() ) )
-                LogContainer( field:ToContainer(), 3, godeep )
-                goto next
-            end
+        self:LogComponent( bp_component, godeep, component_name )
 
-            local field_value = field:GetValue()
-            if field_value then
-                LogService:Log( (" \t%s: %s = %s"):format( field_name, field:GetTypeName(), field_value ) )
-                goto next
-            end
-
-            LogService:Log( (" \t%s: %s"):format( field_name, field:GetTypeName() ) )
-            ::next::
-        end
         ::continue::
     end
 

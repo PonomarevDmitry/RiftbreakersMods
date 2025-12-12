@@ -1,5 +1,4 @@
 require( "lua/utils/type_utils.lua" )
-require( "lua/utils/table_utils.lua" )
 require( "lua/utils/divergent.lua" )
 
 local M = {}
@@ -75,7 +74,7 @@ local function SetTarget( self, component, field, str )
     end
 
     local value = 0
-    local seen = {}
+    -- local seen = {}
     for it in str:gmatch( "([^|]+)" ) do
         local key = type_to_number[it]
         if key ~= nil then
@@ -87,7 +86,7 @@ local function SetTarget( self, component, field, str )
             end
             map:pair_create_item( key, value )
             ::next::
-            seen[key] = true
+            -- seen[key] = true
             self:MarkChanges()
             value = value + 1
         else
@@ -105,12 +104,11 @@ local function SetTarget( self, component, field, str )
     -- end
 
     local rank = {}
-    for i = 1, count do
-        local item = map[i]
-        Insert( rank, {
+    for item in IterItems( map, count ) do
+        rank[#rank + 1] = {
             key = tostring( item.key ),
             value = item.value
-        } )
+        }
     end
 
     table.sort( rank, function( a, b )

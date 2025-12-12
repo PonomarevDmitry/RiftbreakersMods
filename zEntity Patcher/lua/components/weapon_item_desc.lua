@@ -1,17 +1,7 @@
-require( "lua/utils/table_utils.lua" )
+-- require( "lua/utils/table_utils.lua" )
 require( "lua/utils/divergent.lua" )
 
-local M = {}
-
-local features_to_enum = {
-    ["BASE_DEFAULT"] = 1,
-    ["BASE_MINMAX"] = 2,
-    ["MODABLE"] = 4,
-    ["STATISTIC"] = 8,
-    ["HIDDEN"] = 16,
-    ["INITIAL_RANDOMIZABLE"] = 32
-}
-local stat_type_enum = {
+g_stat_type_enum = {
     [1] = "FIRE_RATE",
     [2] = "FIRE_PER_BURST",
     [3] = "FIRE_PER_SHOT",
@@ -39,13 +29,23 @@ local stat_type_enum = {
     [25] = "WEAPON_ANIMATION_SPEED"
 }
 
+local M = {}
+
+local features_to_enum = {
+    ["BASE_DEFAULT"] = 1,
+    ["BASE_MINMAX"] = 2,
+    ["MODABLE"] = 4,
+    ["STATISTIC"] = 8,
+    ["HIDDEN"] = 16,
+    ["INITIAL_RANDOMIZABLE"] = 32
+}
+
 local rarity = 0
 
 local function HasFeature( features, feature )
     local value = features_to_enum[feature]
     if not value then
-        Assert( false, ("Unknow feature: '%s'"):format( feature ) )
-        return false
+        return Assert( false, ("Unknow feature: '%s'"):format( feature ) )
     end
     return (features % (value * 2)) >= value
 end
@@ -133,7 +133,7 @@ local vec_switch = {
         end
         local t = {}
         for value in str:gmatch( "([^|]+)" ) do
-            Insert( t, value )
+            t[#t + 1] = value
         end
         if #t == 0 then
             return
@@ -152,15 +152,6 @@ local vec_switch = {
             if HasFeature( features, feature ) then
                 features = features - features_to_enum[feature]
             end
-            -- local value = features_to_enum[feature]
-            -- if value then
-            --     if features % (value * 2) >= value then
-            --         features = features - value
-            --     end
-            -- else
-            --     LogService:Log( ("%s  Unknow feature: |%s| ignoring %s"):format( self.mod_name, feature, self.bp_name ) )
-            --     self:MarkFails()
-            -- end
         end
         item.stat_features = features
         self:MarkChanges()
@@ -197,7 +188,7 @@ local vec_switch = {
         if not self:IsType( "string", str, field ) then
             return
         end
-        for k, v in pairs( stat_type_enum ) do
+        for k, v in pairs( g_stat_type_enum ) do
             if v == str then
                 item[field] = k
                 self:MarkChanges()
@@ -208,7 +199,7 @@ local vec_switch = {
         self:MarkFails()
     end,
     __default = function( self, item, value, field )
-        if item[field] ~= nil then
+        if item[field] ~= nil then -- Assert Error if nil
             item[field] = value
             self:MarkChanges()
         end
@@ -240,7 +231,7 @@ function M:WeaponItemDescHandler( bp_component, t )
         local vector = component_ref[field]
         local seen = {}
         for item in IterItems( vector ) do
-            local stat_id = stat_type_enum[item.stat_type]
+            local stat_id = g_stat_type_enum[item.stat_type]
             local fields = value[stat_id]
             if fields ~= nil then
                 StatDefVec( self, item, fields )
