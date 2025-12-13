@@ -57,9 +57,9 @@ function turrets_auto_laying:OnActivate()
             self.skillWorking = nil
         end
 
-        self.skillWorking = EntityService:SpawnAndAttachEntity( "effects/items/mech_mine_beacon_activated", self.owner, "att_grenade", EntityService:GetTeam( self.owner ) )
+        self.skillWorking = EntityService:SpawnAndAttachEntity( "effects/items/mech_mine_beacon_gravity_armed", self.owner, "att_grenade", EntityService:GetTeam( self.owner ) )
 
-        ItemService:SetItemCreator( self.skillWorking, "effects/items/mech_mine_beacon_activated" )
+        ItemService:SetItemCreator( self.skillWorking, "effects/items/mech_mine_beacon_gravity_armed" )
         EntityService:PropagateEntityOwner( self.skillWorking, self.owner )
 
         ItemService:SetItemReference( self.skillWorking, self.entity, EntityService:GetBlueprintName( self.entity ))
