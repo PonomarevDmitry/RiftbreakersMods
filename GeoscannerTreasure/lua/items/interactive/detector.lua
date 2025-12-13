@@ -314,6 +314,13 @@ function detector:spawnReplacement()
 
 	local treasureList = detector:GetTreasureList()
 
+	--LogService:Log("treasureListString " .. table.concat( treasureList, ", " ) )
+
+	if ( #treasureList == 0 ) then
+
+		return
+	end
+
 	local newEnt = ResourceService:FindEmptySpace(0, 0)
 	EntityService:SetPosition(newEnt, 0, 0, 0)
 
@@ -327,7 +334,9 @@ function detector:spawnReplacement()
 
 		local randomNumber = RandInt( 1, #treasureList )
 
-		EntityService:SpawnEntity(treasureList[randomNumber], treasureSpot.x, treasureSpot.y, treasureSpot.z, "")
+		local blueprintName = treasureList[randomNumber]
+
+		EntityService:SpawnEntity(blueprintName, treasureSpot.x, treasureSpot.y, treasureSpot.z, "")
 
 		local dialogs =
 		{
@@ -366,7 +375,7 @@ end
 
 function detector:IsResourceValidForBiome( resourceName, veinName, isCampaignBiome, biomeName, veinsList )
 
-	if ( not PlayerService:IsResourceUnlocked( resourceName ) ) then
+	if ( resourceName ~= "" and not PlayerService:IsResourceUnlocked( resourceName ) ) then
 		return false
 	end
 
@@ -422,13 +431,16 @@ function detector:GetTreasureList()
 	local veinsList = {}
 
 	local missionDef = ResourceManager:GetResource("MissionDef", missionDefName)
+
 	if ( missionDef ~= nil )then
 		
 		local missionDefRef = reflection_helper( missionDef )
 
-		if ( missionDefRef.random_resources ~= nil ) then
+		--LogService:Log("biomeName " .. biomeName .. " missionDefName " .. missionDefName .. " missionDefRef " .. tostring(missionDefRef) )
 
-			local random_resources = missionDefRef.random_resources
+		if ( missionDefRef.object_spawners ~= nil and missionDefRef.object_spawners.random_resources ~= nil ) then
+
+			local random_resources = missionDefRef.object_spawners.random_resources
 
 			for i=1,random_resources.count do
 
@@ -444,9 +456,9 @@ function detector:GetTreasureList()
 			end
 		end
 
-		if ( missionDefRef.starting_resources ~= nil ) then
+		if ( missionDefRef.object_spawners ~= nil and missionDefRef.object_spawners.starting_resources ~= nil ) then
 
-			local starting_resources = missionDefRef.starting_resources
+			local starting_resources = missionDefRef.object_spawners.starting_resources
 
 			for i=1,starting_resources.count do
 
@@ -463,8 +475,7 @@ function detector:GetTreasureList()
 		end
 	end
 
-	local currentListString = table.concat( veinsList, ", " )
-
+	--local currentListString = table.concat( veinsList, ", " )
 	--LogService:Log("biomeName " .. biomeName .. " missionDefName " .. missionDefName .. " currentListString " .. currentListString )
 
 	local treasureList = {}
@@ -585,9 +596,37 @@ function detector:GetTreasureList()
 		end
 	end
 
-	local treasureListString = table.concat( treasureList, ", " )
+	local ventBlueprints =
+	{
+		["geothermal_vent"] = "items/loot/treasures/treasure_geothermal_vent_replenish_ore",
 
-	--LogService:Log("treasureListString " .. treasureListString )
+		["flammable_gas_vent"] = "items/loot/treasures/treasure_flammable_gas_vent_replenish_ore",
+
+
+
+		["acid_vent"] = "items/loot/treasures/treasure_acid_vent_replenish_ore",
+
+		["magma_vent"] = "items/loot/treasures/treasure_magma_vent_replenish_ore",
+
+		["supercoolant_vent"] = "items/loot/treasures/treasure_supercoolant_vent_replenish_ore",
+
+		["morphium_vent"] = "items/loot/treasures/treasure_morphium_vent_replenish_ore",
+
+
+
+		["cosmic_vent"] = "items/loot/treasures/treasure_cosmic_vent_replenish_ore",
+	}
+
+	for resourceName, treasureBlueprint in pairs( ventBlueprints ) do
+
+		if ( ResourceManager:ResourceExists( "GameplayResourceDef", resourceName ) ) then
+
+			if ( IndexOf( veinsList, resourceName ) ~= nil ) then
+
+				Insert(treasureList, treasureBlueprint)
+			end
+		end
+	end
 
 	return treasureList
 end
