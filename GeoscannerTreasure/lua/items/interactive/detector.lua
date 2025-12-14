@@ -480,121 +480,139 @@ function detector:GetTreasureList()
 
 	local treasureList = {}
 
-	if ( self:IsResourceValidForBiome( "carbonium", "carbon_vein", isCampaignBiome, biomeName, veinsList ) ) then
+	local resourcesTreasures = {
 
-		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish_ore")
-		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
-		Insert(treasureList, "items/loot/treasures/treasure_carbonium_replenish")
-	end
+		{
+			["resource"] = "carbonium",
+			["vein"] = "carbon_vein",
 
-	if ( self:IsResourceValidForBiome( "steel", "iron_vein", isCampaignBiome, biomeName, veinsList ) ) then
+			["research"] = "",
 
-		Insert(treasureList, "items/loot/treasures/treasure_steel_replenish_ore")
-		Insert(treasureList, "items/loot/treasures/treasure_steel_replenish")
-		Insert(treasureList, "items/loot/treasures/treasure_steel_replenish")
-	end
+			["ores"] = "items/loot/treasures/treasure_carbonium_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_carbonium_replenish",
+		},
+
+		{
+			["resource"] = "steel",
+			["vein"] = "iron_vein",
+
+			["research"] = "",
+
+			["ores"] = "items/loot/treasures/treasure_steel_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_steel_replenish",
+		},
 
 
 
+		{
+			["resource"] = "cobalt",
+			["vein"] = "cobalt_vein",
 
+			["research"] = "gui/menu/research/name/resource_handling_cobalt",
+
+			["ores"] = "items/loot/treasures/treasure_cobalt_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_cobalt_replenish",
+		},
+
+		{
+			["resource"] = "titanium",
+			["vein"] = "titanium_vein",
+
+			["research"] = "gui/menu/research/name/resource_handling_titanium",
+
+			["ores"] = "items/loot/treasures/treasure_titanium_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_titanium_replenish",
+		},
+
+		{
+			["resource"] = "palladium",
+			["vein"] = "palladium_vein",
+
+			["research"] = "gui/menu/research/name/resource_handling_palladium",
+
+			["ores"] = "items/loot/treasures/treasure_palladium_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_palladium_replenish",
+		},
+
+		{
+			["resource"] = "uranium",
+			["vein"] = "uranium_ore_vein",
+
+			["research"] = "gui/menu/research/name/resource_handling_uranium",
+
+			["ores"] = "items/loot/treasures/treasure_uranium_ore_replenish_ore",
+			["items"] = "items/loot/treasures/treasure_uranium_ore_replenish",
+		},
+
+
+
+		{
+			["resource"] = "rhodonite",
+			["vein"] = "",
+
+			["research"] = "gui/menu/research/name/resource_handling_rhodonite",
+
+			["ores"] = "",
+			["items"] = "items/loot/treasures/treasure_rhodonite_replenish",
+		},
+
+		{
+			["resource"] = "tanzanite",
+			["vein"] = "",
+
+			["research"] = "gui/menu/research/name/resource_handling_tanzanite",
+
+			["ores"] = "",
+			["items"] = "items/loot/treasures/treasure_tanzanite_replenish",
+		},
+
+		{
+			["resource"] = "ferdonite",
+			["vein"] = "",
+
+			["research"] = "gui/menu/research/name/resource_handling_ferdonite",
+
+			["ores"] = "",
+			["items"] = "items/loot/treasures/treasure_ferdonite_replenish",
+		},
+
+		{
+			["resource"] = "hazenite",
+			["vein"] = "",
+
+			["research"] = "gui/menu/research/name/resource_handling_hazenite",
+
+			["ores"] = "",
+			["items"] = "items/loot/treasures/treasure_hazenite_replenish",
+		},
+	}
 
 	local leadingPlayer = PlayerService:GetLeadingPlayer()
 
-	if ( self:IsResourceValidForBiome( "cobalt", "cobalt_vein", isCampaignBiome, biomeName, veinsList ) ) then
+	for _, configObject in ipairs(resourcesTreasures) do
 
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_cobalt" )
+		if ( self:IsResourceValidForBiome( configObject.resource, configObject.vein, isCampaignBiome, biomeName, veinsList ) ) then
 
-		if ( finished ) then
+			local finished = true
 
-			Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish_ore")
-			Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_cobalt_replenish")
-		end
-	end
+			if ( configObject.research ~= "" ) then
 
-	if ( self:IsResourceValidForBiome( "titanium", "titanium_vein", isCampaignBiome, biomeName, veinsList ) ) then
+				finished = PlayerService:IsResearchUnlocked( leadingPlayer, configObject.research )
+			end
 
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_titanium" )
+			if ( finished ) then
 
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish_ore")
-			Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_titanium_replenish")
-		end
-	end
-
-	if ( self:IsResourceValidForBiome( "palladium", "palladium_vein", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_palladium" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish_ore")
-			Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_palladium_replenish")
-		end
-	end
-
-	if ( self:IsResourceValidForBiome( "uranium", "uranium_ore_vein", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_uranium" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish_ore")
-			Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_uranium_ore_replenish")
+				if ( configObject.ores and configObject.ores ~= "" ) then
+					Insert(treasureList, configObject.ores)
+				end
+				
+				Insert(treasureList, configObject.items)
+				Insert(treasureList, configObject.items)
+			end
 		end
 	end
 
 
-
-
-
-	if ( self:IsResourceValidForBiome( "rhodonite", "", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_rhodonite" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_rhodonite_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_rhodonite_replenish")
-		end
-	end
-
-	if ( self:IsResourceValidForBiome( "tanzanite", "", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_tanzanite" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_tanzanite_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_tanzanite_replenish")
-		end
-	end
-
-	if ( self:IsResourceValidForBiome( "ferdonite", "", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_ferdonite" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_ferdonite_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_ferdonite_replenish")
-		end
-	end
-
-	if ( self:IsResourceValidForBiome( "hazenite", "", isCampaignBiome, biomeName, veinsList ) ) then
-
-		local finished = PlayerService:IsResearchUnlocked( leadingPlayer, "gui/menu/research/name/resource_handling_hazenite" )
-
-		if ( finished ) then
-
-			Insert(treasureList, "items/loot/treasures/treasure_hazenite_replenish")
-			Insert(treasureList, "items/loot/treasures/treasure_hazenite_replenish")
-		end
-	end
 
 	local ventBlueprints =
 	{
