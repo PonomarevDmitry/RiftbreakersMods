@@ -1,0 +1,149 @@
+//editor "scroll(-541.05,338.10)|zoom(0.80)"
+FlowGraphTemplate
+{
+	version "10"
+	editor "6643"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(-365,1316)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(540,1134)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "45"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "100"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/drillgor_alpha"
+					count "1"
+					delay "1"
+					delay_group "0"
+					spawn_type "blueprint"
+					units_in_one_spawn "1"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1438,1479)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "wave_ground_0"
+		wave_ground_0 "event_end_0"
+	}
+
+	GraphComments
+}
+
