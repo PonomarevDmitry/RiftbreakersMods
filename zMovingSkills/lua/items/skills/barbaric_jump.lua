@@ -222,10 +222,13 @@ function barbaric_jump:FinalizePostJump()
 	self.enabled = 0
 	QueueEvent( "RevealComponentRequest", self.owner, "TerrainAffectedComponent" )
 
-    local mechPredictionComponent = reflection_helper( EntityService:GetComponent( self.owner, "MechPredictionComponent"))
-    if mechPredictionComponent ~= nil then
-    	mechPredictionComponent.block_prediction = false
-    end
+	local component = EntityService:GetComponent( self.owner, "MechPredictionComponent")
+    if component ~= nil then
+		local mechPredictionComponent = reflection_helper( component )
+	    if mechPredictionComponent ~= nil then
+	    	mechPredictionComponent.block_prediction = false
+	    end
+	end
 end
 
 function barbaric_jump:OnJumpExit( state )
