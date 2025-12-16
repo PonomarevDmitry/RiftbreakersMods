@@ -60,197 +60,6 @@ function ghost_building_floor:FindBlueprint()
     return self.blueprint
 end
 
-function ghost_building_floor:FillWithFloors( blueprint, indexes )
-    local toReplace = 1
-    if string.find( blueprint, "4" ) then
-        toReplace = 4
-    elseif string.find( blueprint, "3" ) then
-        toReplace = 3
-    elseif string.find( blueprint, "2" ) then
-        toReplace = 2
-    end
-
-    local idxToPos = {}
-    local storage = {}
-    local indexesCount = #indexes
-    if ( indexesCount == 0 ) then
-        indexesCount = indexes.count
-    end
-
-    indexesCount = indexesCount or 0
-    if ( indexesCount == 0 ) then
-        return
-    end
-
-    for i = 1,indexesCount do
-        local idx = indexes[i]
-
-        local pos = FindService:GetCellOrigin(idx)
-
-        idxToPos[idx] = pos
-        storage[idx] = pos
-    end
-
-    local sorter = function(k1,k2)
-        local p1 = idxToPos[k1]
-        local p2 = idxToPos[k2]
-        if ( p1.z < p2.z ) then
-            return true
-        elseif( p1.z == p2.z and p1.x < p2.x ) then
-            return true
-        end
-        return false
-    end
-
-    table.sort( indexes, sorter )
-
-    local right = {x=2,y=0,z=0}
-    local down = {x=0,y=0,z=2}
-
-    local toCreate = {{}}
-
-    for s=toReplace,0,-1 do
-        local i = 1
-        while i <= indexesCount do
-            local idx = indexes[i]
-            if ( idxToPos[idx] == nil ) then i = i + 1 goto continue end
-
-            toUse = {}
-
-            local pos = idxToPos[ idx ];
-            for x=0,s-1 do
-                local currentPos = VectorAdd( pos, VectorMulByNumber(right, x) )
-                for y=0,s-1 do
-
-                    local checkPos =  VectorAdd( currentPos, VectorMulByNumber(down, y) )
-                    for testIdx,testPos in pairs(idxToPos) do
-                        if ( testPos.x == checkPos.x and testPos.z == checkPos.z ) then
-                            Insert(toUse, testIdx)
-                            break
-                        end
-                    end
-                end
-            end
-            if ( #toUse == s * s ) then
-                if( toCreate[s] == nil ) then toCreate[s] = {} end
-
-                table.insert(toCreate[s], toUse)
-                for idx in Iter(toUse) do
-                    idxToPos[idx] = nil
-                end
-                i = 1
-            else
-                i = i + 1
-            end
-            ::continue::
-        end
-    end
-
-    for replaced = 1,toReplace do
-        local data = toCreate[replaced]
-        if ( data == nil ) then goto continue2 end
-        local currentBlueprint = string.gsub( blueprint, tostring(toReplace), tostring(replaced) )
-        for vIdx = 1,#data do
-            local v = data[vIdx]
-            local transform = self.buildPosition
-            transform.orientation = {x=0,y=0,z=0,w=1}
-            local infoPos = storage[v[1]]
-
-            if ( replaced == 1 ) then
-                transform.position = infoPos
-            elseif( replaced == 2 ) then
-                local position = infoPos
-                position = VectorAdd(position, {x=1,y=0,z=1})
-                transform.position = position
-            elseif ( replaced == 3 ) then
-                transform.position = storage[v[5]]
-            else
-                local position = infoPos
-                position = VectorAdd(position, {x=3,y=0,z=3})
-                transform.position = position
-            end
-            transform.scale = {x=1,y=1,z=1}
-            QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
-        end
-        ::continue2::
-    end
-end
-
-function ghost_building_floor:BuildFloor(currentPosition, testBuildable, hashAllFreeGrids, listSelledEntities)
-
-    local toRecreate = {}
-
-    local removedCount = 0
-
-    local buildingToSellCount = testBuildable.entities_to_sell.count
-
-    for i = 1,buildingToSellCount do
-
-        local entityToSell = testBuildable.entities_to_sell[i]
-
-        if ( entityToSell == nil ) then
-            goto continue
-        end
-        if ( not EntityService:IsAlive( entityToSell ) ) then
-            goto continue
-        end
-        local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
-
-        if ( buildingComponent ~= nil ) then
-            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= BM_SELLING ) then
-                goto continue
-             end
-        end
-
-        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent" )
-        local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
-        if( gridCullerComponent == nil or entityBlueprint == "" ) then
-            goto continue
-        end
-
-        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-
-        local freeGrids = {}
-
-        local indexes = gridCullerComponentHelper.terrain_cell_entities
-        for i=indexes.count,1,-1 do
-
-            local idx = indexes[i].id
-
-            if ( hashAllFreeGrids[idx] == nil ) then
-
-                Insert( freeGrids, idx )
-            end
-        end
-
-        if ( #freeGrids > 0 ) then
-            Insert( toRecreate, { ["bp"] = entityBlueprint, ["indexes"] = freeGrids } )
-        end
-
-        if ( IndexOf( listSelledEntities, entityToSell ) == nil ) then
-
-            removedCount = removedCount + 1
-
-            QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
-
-            Insert( listSelledEntities, entityToSell )
-        end
-
-        ::continue::
-    end
-
-    Assert( removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
-
-    self:FillWithFloors( self:FindBlueprint(), testBuildable.free_grids )
-
-    for recreateRequest in Iter( toRecreate ) do
-        self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
-    end
-
-    self.buildPosition = currentPosition
-end
-
 function ghost_building_floor:OnUpdate()
 
     self.buildCost = {}
@@ -546,7 +355,7 @@ function ghost_building_floor:FinishLineBuild()
         return
     end
 
-    EntityService:SetVisible( self.entity , true )
+    EntityService:SetVisible( self.entity, true )
 
     local allEntities = self:GetAllEntities()
 
@@ -581,66 +390,23 @@ function ghost_building_floor:GetAllEntities()
     return result
 end
 
-function ghost_building_floor:GetAllFreeGrids(floorEntities)
-
-    local hashAllFreeGrids = {}
-
-    local count = #floorEntities
-
-    for i=1,count do
-
-        local ghostEntity = floorEntities[i]
-
-        local ghostTransform = EntityService:GetWorldTransform( ghostEntity )
-
-        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.blueprint )
-
-        if ( test ) then
-
-            local testBuildable = reflection_helper(test:ToTypeInstance())
-
-            local indexesCount = testBuildable.free_grids.count
-
-            for i = 1,indexesCount do
-
-                local idx = testBuildable.free_grids[i]
-
-                hashAllFreeGrids[idx] = true
-            end
-        end
-    end
-
-    return hashAllFreeGrids
-end
-
 function ghost_building_floor:BuildFloorEntites(floorEntities)
-
-    local hashAllFreeGrids = self:GetAllFreeGrids(floorEntities)
 
     local count = #floorEntities
 
     self.buildPosition = EntityService:GetWorldTransform( self.selector )
 
-    local entityTransform = EntityService:GetWorldTransform( self.entity )
-
-    local listSelledEntities = {}
+    local blueprintName = self:FindBlueprint()
 
     for i=1,count do
 
         local ghostEntity = floorEntities[i]
 
-        local ghostTransform = EntityService:GetWorldTransform( ghostEntity )
+        local currentPosition = EntityService:GetWorldTransform( ghostEntity )
 
-        local test = BuildingService:CheckGhostFloorStatus( self.playerId, ghostEntity, ghostTransform, self.blueprint )
+        QueueEvent( "BuildFloorRequest", self.entity, self.playerId, blueprintName, currentPosition )
 
-        if ( test ) then
-
-            local testBuildable = reflection_helper(test:ToTypeInstance())
-
-            self:BuildFloor( entityTransform, testBuildable, hashAllFreeGrids, listSelledEntities )
-
-            EntityService:RemoveEntity(ghostEntity)
-        end
+        EntityService:RemoveEntity(ghostEntity)
     end
 end
 
