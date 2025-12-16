@@ -122,6 +122,7 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
 
             if ( replaced == 1 ) then
                 transform.position = infoPos
+                transform.scale = {x=1,y=1,z=1}
             elseif( replaced == 2 ) then
                 local position = infoPos
                 position = VectorAdd(position, {x=1,y=0,z=1})
