@@ -281,7 +281,8 @@ function rift_station:OnLoad()
 		EntityService:RemoveComponent( self.entity, "SoundComponent")
 	end
 	
-	self.resourceAmount 	= self.data:GetFloatOrDefault("resource_amount", 5000)
+	self.resetCounter = self.resetCounter or 0
+	self.resourceAmount = self.data:GetFloatOrDefault("resource_amount", 5000)
 	self.riftVersion = 3
 end
 
