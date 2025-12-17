@@ -151,7 +151,7 @@ function drone_spawner:SpawnDrones(respawn)
             end
 
             if drone_count > 0 then
-                local drone_blueprint = GetDroneBlueprint( drone_type, rarity )
+                local drone_blueprint = GetDroneBlueprint( drone_type, drone_rarity )
                 self:SpawnDroneBlueprint(drone_blueprint, drone_count)
             end
         end

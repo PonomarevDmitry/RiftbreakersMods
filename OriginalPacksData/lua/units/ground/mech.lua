@@ -497,6 +497,12 @@ function mech:OnDeactivateEnter(state)
 end
 
 function mech:DestroyMech()
+	if self.destroyed then
+		return
+	end
+
+	self.destroyed = true
+
 	if self.data:GetIntOrDefault("disable_drop", 0) == 0 then
 		DestroyPlayerItems(self.entity, self.player_id)
 		DropPlayerItems(self.entity, self.player_id)

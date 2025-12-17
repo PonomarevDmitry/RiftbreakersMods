@@ -12,7 +12,7 @@ end
 
 function skin:OnEquipped()
 	if ( EntityService:IsAlive( self.owner) ) then
-		EntityService:SetMaterial( self.owner, self.material, "default" )
+		EntityService:ChangeMaterial( self.owner, self.material )
 	end
 end
 

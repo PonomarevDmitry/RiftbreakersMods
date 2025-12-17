@@ -171,9 +171,7 @@ function teleport:OnActivate()
 			WeaponService:SpawnDangerMarker( self.dangerMarkerBp, self.foundPos.second, 3.0, 0.3 )
 		end
 
-		if self.teleportMachine:GetCurrentState() ~= "teleport" then
-			self.teleportMachine:ChangeState("teleport")
-		end
+		self.teleportMachine:ChangeState("teleport")
 	else
 		ItemService:ResetCooldown( self.entity, 0.0 )
 	end

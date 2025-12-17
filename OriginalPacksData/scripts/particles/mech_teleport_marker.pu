@@ -2,86 +2,93 @@ system rift/mech_teleport_marker
 {
     keep_local                                  true
     nonvisible_update_timeout                   1
-    scale_velocity                              0.015
-    scale                                       0.015 0.015 0.015
+    scale_velocity                              0.03
+    scale                                       0.03 0.03 0.03
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 10
-    technique glow
+    technique ring_radius2
     {
-        visual_particle_quota                   4
+        visual_particle_quota                   3
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/light_blue_01
+        material                                particles_noatlas/alien_marker_ring_01
         renderer                                Billboard
         {
-            render_queue_group                  61
-            billboard_type                      perpendicular_common
+            billboard_type                      perpendicular_self
             billboard_rotation_type             vertex
-            common_direction                    0 1 0
             common_up_vector                    0 0 1
         }
-        emitter                                 Point Emitter7
+        emitter                                 Point 
         {
-            emission_rate                       3
+            emission_rate                       40
+            angle                               0
+            time_to_live                        360
+            velocity                            0.0001
+            all_particle_dimensions             20
+            position                            0 50 0
+        }
+    }
+    technique falling_sparks_1
+    {
+        visual_particle_quota                   60
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blue_01
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box Emitter7
+        {
+            emission_rate                       100
             angle                               0
             time_to_live                        dyn_random
+            {
+                min                             0.5
+                max                             0.9
+            }
+            velocity                            dyn_random
             {
                 min                             1
                 max                             2
             }
-            velocity                            0
             all_particle_dimensions             dyn_random
             {
-                min                             100
-                max                             200
+                min                             2
+                max                             3
             }
-            position                            0 15 0
+            position                            0 50 0
             colour                              1 0.501961 0 1
+            box_width                           2
+            box_height                          2
+            box_depth                           2
         }
         affector                                Colour 
         {
             time_colour                         0    0 0 0 0
-            time_colour                         0.5  1 1 1 1
+            time_colour                         0.252174  0.74902 0.74902 0.74902 1
+            time_colour                         0.804348  0.74902 0.74902 0.74902 1
             time_colour                         1    0 0 0 0
         }
-    }
-    technique refract_shockwave
-    {
-        visual_particle_quota                   10
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles_noatlas/distortion_circle_02
-        renderer                                Billboard
+        affector                                TextureRotator Affector10
         {
-            render_queue_group                  160
-            billboard_type                      perpendicular_common
-            billboard_rotation_type             vertex
-            common_direction                    0 1 0
-            common_up_vector                    0 0 1
-        }
-        emitter                                 Point flash2
-        {
-            emission_rate                       4
-            angle                               1
-            time_to_live                        2
-            velocity                            0
-            all_particle_dimensions             100
-            position                            0 15 0
-        }
-        affector                                Scale flash2
-        {
-            xyz_scale                           200
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0 0 0
-            time_colour                         0.5  1 1 1 1
-            time_colour                         1    0 0 0 0
+            mass_affector                       0
+            use_own_rotation                    true
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
         }
     }
 }

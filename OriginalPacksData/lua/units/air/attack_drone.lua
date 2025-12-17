@@ -7,6 +7,8 @@ function attack_drone:__init()
 	base_drone.__init(self,self)
 end
 
+local DRONE_MIN_ATTACK_DURATION = 1.0
+
 function attack_drone:FillInitialParams()
     self.team = EntityService:GetTeam( self.entity );
 
@@ -21,11 +23,12 @@ function attack_drone:FillInitialParams()
 
     self.target_aggresive_only = self.data:GetIntOrDefault("target_aggresive_only", 0)
     self.drone_target = self.drone_target or INVALID_ID
+    self.found_drone_target = self.found_drone_target or INVALID_ID
 
     self.attack_start_timer = nil
     self.attack_stop_timer = nil
 
-    self.non_action_timeout = RandFloat(2.0,5.0)
+    self.non_action_timeout = RandFloat(1.5,4.5)
 
     --if EntityService:GetComponent( self.entity, "TurretComponent") ~= nil then
     --    self.weapon_controller = {
@@ -44,10 +47,10 @@ function attack_drone:OnInit()
     self:FillInitialParams();
 
     self.fsm = self:CreateStateMachine();
-    self.fsm:AddState("attack", { execute="OnAttackExecute" });
+    self.fsm:AddState("attack", { execute="OnAttackExecute", interval=0.033 });
     self.fsm:ChangeState("attack")
 
-	WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
+    WeaponService:UpdateWeaponStatComponent( self.entity, self.entity )
 end
 
 function attack_drone:OnLoad()
@@ -56,17 +59,19 @@ function attack_drone:OnLoad()
     base_drone.OnLoad( self )
 end
 
-function attack_drone:IsTargetValid(target)
+function attack_drone:IsTargetValid(target, alert_mode)
     if target == INVALID_ID then
         return false
     end
 
-    if self.target_resisted_damage[ target ] ~= nil then
-        return self.target_resisted_damage[ target ] < GetLogicTime()
-    end
+    if not alert_mode then
+        if self.target_resisted_damage[ target ] ~= nil then
+            return self.target_resisted_damage[ target ] < GetLogicTime()
+        end
 
-    if EntityService:GetDistance2DBetween( target, self.target_finder.entity ) > self.search_radius then
-        return false
+        if EntityService:GetDistance2DBetween( target, self.target_finder.entity ) > self.search_radius then
+            return false
+        end
     end
 
     return HealthService:IsAlive( target )
@@ -74,6 +79,10 @@ end
 
 function attack_drone:OnTargetDamageResistedEvent(evt)
     if evt:GetOwner() ~= self.entity and evt:GetCreator() ~= self.entity then
+        return
+    end
+
+    if evt:GetPartialResist() then
         return
     end
 
@@ -104,8 +113,7 @@ function attack_drone:OnTargetHasChangedEvent(evt)
         return
     end
 
-    local target = evt:GetTarget()
-    self:SetCurrentTarget(target)
+    self.found_drone_target = evt:GetTarget()
 end
 
 function attack_drone:FindActionTarget()
@@ -115,32 +123,39 @@ function attack_drone:FindActionTarget()
 end
 
 function attack_drone:OnAttackExecute(state, dt)
-    local attack_duration = state:GetDuration() - ( self.attack_start_timer or state:GetDuration())
+    local is_current_target_valid = self:IsTargetValid( self.drone_target );
+    local is_next_target_valid = self:IsTargetValid( self.found_drone_target );
 
+    local attack_duration = GetLogicTime() - (self.attack_start_timer or 0)
+    if is_next_target_valid and attack_duration > DRONE_MIN_ATTACK_DURATION then
+        self:SetCurrentTarget(self.found_drone_target)
 
-    if self:IsTargetValid( self.drone_target ) and ( attack_duration < 1.0 or self.weapon_controller.ShootAtTarget( self, self.drone_target ) ) then
-        UnitService:SetCurrentTarget(self.entity, "action", self.drone_target )
-
+        self.attack_start_timer = GetLogicTime()
         self.attack_stop_timer = nil
-        if self.attack_start_timer == nil then
-            self.attack_start_timer = state:GetDuration()
-        end
-    elseif self.attack_start_timer then
-        UnitService:SetCurrentTarget(self.entity, "action", self:GetDroneOwnerTarget() )
-        self.attack_start_timer = nil;
-        self.attack_stop_timer = state:GetDuration()
+        is_current_target_valid = true
     end
 
-    EntityService:LookAt( self.entity, self:GetDroneActionTarget(), true )
+    if is_current_target_valid then
+        UnitService:SetCurrentTarget(self.entity, "action", self.drone_target )
+    elseif self:IsTargetValid( self.drone_target, true ) or self:IsTargetValid( self.found_drone_target, true ) then
+        UnitService:SetCurrentTarget(self.entity, "action", self:GetDroneOwnerTarget() )
+    end
 
-    if self.attack_stop_timer then
-        local non_attack_duration = state:GetDuration() - ( self.attack_stop_timer or state:GetDuration())
-        if non_attack_duration > 0.5 then
-            self.weapon_controller.StopShooting( self )
-        end
-
-        if non_attack_duration > self.non_action_timeout then
-            self:SetTargetActionFinished()
+    if is_current_target_valid then
+        self.weapon_controller.ShootAtTarget( self, self.drone_target )
+    elseif self:GetDroneActionTarget() ~= INVALID_ID then
+        self.weapon_controller.StopShooting( self )
+        self.drone_target = INVALID_ID
+    
+        self.attack_start_timer = nil
+        if self.attack_stop_timer == nil then
+            self.attack_stop_timer = GetLogicTime()
+        else
+            local idle_duration = GetLogicTime() - (self.attack_stop_timer or 0)
+            if idle_duration > self.non_action_timeout then
+                self.attack_stop_timer = nil
+                self:SetTargetActionFinished();
+            end
         end
     end
 end
@@ -163,9 +178,9 @@ function attack_drone:EnsureTargetFinder()
         self.target_finder = { name = "attack_drone##" .. tostring( self.entity ), entity = owner }
 
         if self.target_aggresive_only then
-            UnitService:CreateCustomFindTargetRequest( owner, self.target_finder.name, self.search_radius, "hostility", "ground_unit", "AggressiveTargetFinder" );
+            UnitService:CreateCustomFindTargetRequest( owner, self.target_finder.name, self.search_radius * 2.0, "hostility", "ground_unit", "AggressiveTargetFinder" );
         else
-            UnitService:CreateFindTargetRequest( owner, self.target_finder.name, self.search_radius, "hostility", "ground_unit" );
+            UnitService:CreateFindTargetRequest( owner, self.target_finder.name, self.search_radiu * 2.0, "hostility", "ground_unit" );
         end
     end
 end
@@ -183,7 +198,9 @@ function attack_drone:DefaultWeaponControllerShootAtTarget( target )
         return true
     end
 
-    if not is_shooting then
+    EntityService:LookAt( self.entity, self.drone_target, true )
+
+    if not is_shooting and EntityService:HasInArc( self.entity, self.drone_target, -45.0, 45.0 ) then
         WeaponService:StartShoot( self.entity );
     end
 

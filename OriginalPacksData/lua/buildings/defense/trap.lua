@@ -12,7 +12,9 @@ function trap:OnInit()
 	self:RegisterHandler( self.entity, "LeftTriggerEvent",  "OnLeftTriggerEvent" )
     self:RegisterHandler( self.entity, "TimerElapsedEvent", "OnTimerElapsedEvent")
 
-    self.numberOfActivations = self.data:GetInt("number_of_activations")
+    local database = EntityService:GetBlueprintDatabase( self.entity)
+    self.numberOfActivations = database:GetInt("number_of_activations")
+    self.data:SetInt("number_of_activations", self.numberOfActivations)
     self.damageBlueprint = self.data:GetString("damage_blueprint")
     if ( self.data:HasFloat( "reset_timer")) then
         self.resetTimer = self.data:GetFloat("reset_timer")

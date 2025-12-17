@@ -1,7 +1,6 @@
 material tornado/fire_base
 {
 	render_group 61
-	feature "upscale_mask"
 
 	technique
 	{
@@ -184,7 +183,6 @@ material tornado/fire_ribbon_inner : tornado/fire_base
 material tornado/acid_base
 {
 	render_group 61
-	feature "upscale_mask"
 
 	technique
 	{
@@ -367,7 +365,6 @@ material tornado/acid_ribbon_inner : tornado/acid_base
 material tornado/wind_base
 {
 	render_group 61
-	feature "upscale_mask"
 
 	technique
 	{
@@ -518,6 +515,189 @@ material tornado/wind_ribbon_inner : tornado/wind_base
 		pass
 		{
 			glow 5
+			depth_check on
+			depth_write off
+			cull_hardware clockwise
+
+			vertex_program_ref tornado_vp 
+			{
+				param_named 	 cBump 					    float 0.25
+		        param_named      cConstBump                 float 1.0
+		        param_named      cFadePower                 float 2.0
+        		param_named      cUVScale                   float 6.0
+			}
+
+			fragment_program_ref tornado_fp
+			{		
+        		param_named      cDiscardThreshold  		float 0.3
+			}
+
+			texture_unit emissive
+			{	
+				texture materials/textures/noise_tiled_03.dds
+                tex_address_mode wrap
+				filtering bilinear
+			}	
+		}
+	}
+}
+
+
+
+
+material tornado/boss_base
+{
+	render_group 61
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			glow 20
+            emissive 16.0 12.6 10.0 1.0
+			
+			depth_check on
+			depth_write on
+			//cull_hardware none
+
+			vertex_program_ref tornado_vp 
+			{
+				param_named cBump float 0.2
+			}
+
+			fragment_program_ref tornado_fp
+			{	
+			    param_named      cFresnelScale      float       0
+        		param_named      cAlpha 			float 		0.75
+        		param_named      cBaseColor         float3 		0.2 0.2 0.2
+			}
+			
+			texture_unit emissive
+			{	
+				texture materials/textures/noise_tiled_01.dds
+                tex_address_mode wrap
+				filtering bilinear
+			}		
+			
+			texture_unit gradient
+			{	
+				anim_texture materials/textures/gradient/cloudy_gradient.dds 174 5
+                tex_address_mode wrap
+				filtering bilinear
+			}
+
+			texture_unit volumetric_fog
+			{
+				texture 			materials/textures/black_volume.dds
+				texture_type 		3d
+				content_type 		shared volumetric_fog
+				tex_address_mode 	clamp
+				filtering 			bilinear
+			}
+		}
+	}
+}
+
+material tornado/boss_wind : tornado/boss_base
+{
+	render_group 64
+	
+	technique
+	{
+		pass
+		{		
+			glow 40
+			depth_check on
+			depth_write off
+			cull_hardware clockwise
+
+			vertex_program_ref tornado_vp 
+			{
+				param_named 	 cBump 					    float 0.25
+		        param_named      cConstBump                 float 0.0
+		        param_named      cFadePower                 float 2.0
+        		param_named      cUVScale                   float 1.0
+			}
+
+			fragment_program_ref tornado_fp
+			{		
+        		param_named      cDiscardThreshold  		float 0.2
+			    param_named      cFresnelScale       		float          0.5
+        		param_named      cFresnelPower       		float          10
+        		param_named      cFresnelColor       		float4         1.6 1.2 1.0 0
+			}
+		}
+	}
+}
+
+material tornado/boss_wind_inner : tornado/boss_base
+{
+	render_group 62
+	
+	technique
+	{
+		pass
+		{		
+			glow 40
+			depth_check on
+			depth_write off
+			cull_hardware anticlockwise
+			
+			vertex_program_ref tornado_vp 
+			{
+				param_named 	 cBump 					    float 0.25
+		        param_named      cConstBump                 float 0.0
+		        param_named      cFadePower                 float 1.0
+		        param_named      cUVScale                   float 2.0
+			}
+
+			fragment_program_ref tornado_fp
+			{		
+        		param_named      cDiscardThreshold  		float 0.2
+			}
+		}
+	}
+}
+
+material tornado/boss_wind_ribbon : tornado/boss_base
+{
+	render_group 66
+	
+	technique
+	{
+		pass
+		{
+			glow 20
+			depth_check on
+			depth_write off
+			cull_hardware none
+
+			vertex_program_ref tornado_vp 
+			{
+				param_named 	 cBump 					    float 0.25
+		        param_named      cConstBump                 float 0.7
+		        param_named      cFadePower                 float 1.0
+		        param_named      cUVScale                   float 1.0
+			}
+
+			fragment_program_ref tornado_fp
+			{		
+        		param_named      cDiscardThreshold  		float 0.3
+			}
+		}
+	}
+}
+
+material tornado/boss_wind_ribbon_inner : tornado/boss_base
+{
+	render_group 66
+	
+	technique
+	{
+		pass
+		{
+			glow 20
 			depth_check on
 			depth_write off
 			cull_hardware clockwise

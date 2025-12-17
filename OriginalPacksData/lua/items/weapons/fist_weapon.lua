@@ -65,7 +65,7 @@ function fist_weapon:CreateMirrorFist( attachment )
 	EntityService:CreateComponent( self.mirrorItem, "MeshComponent" )
 	EntityService:CreateComponent( self.mirrorItem, "BoundsComponent" )
 	EntityService:ChangeMesh( self.mirrorItem, WeaponService:GetMirrorMeshName( meshId ) )
-	EntityService:SetMaterial( self.mirrorItem, materialId, "default" )
+	EntityService:ChangeMaterial( self.mirrorItem, materialId )
 	EntityService:FadeEntity( self.mirrorItem, DD_FADE_IN, 0.0 )
 
 end

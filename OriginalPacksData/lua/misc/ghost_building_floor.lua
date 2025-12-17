@@ -160,68 +160,69 @@ function ghost_building_floor:FillWithFloors( blueprint, indexes )
 end
 
 function ghost_building_floor:BuildFloor(currentPosition, testBuildable)
-    local toRecreate ={}
-
-    local removedCount =0
-    local buildingToSellCount = testBuildable.entities_to_sell.count
-    for i = 1,buildingToSellCount do
-        local entityToSell = testBuildable.entities_to_sell[i]
-        --LogService:Log("Test: " .. tostring(i) .. "/" .. tostring(testBuildable.entities_to_sell.count ) .. ":" ..tostring(entityToSell))
-        if (entityToSell == nil  ) then 
-            --LogService:Log("Entity to sell nil!  do not remove! " ..tostring(entityToSell)  )
-            goto continue 
-        end
-        if (not EntityService:IsAlive( entityToSell) ) then 
-            --LogService:Log("Entity to sell not alive!  do not remove! " )
-            goto continue 
-        end
-        local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
-        
-        if ( buildingComponent ~= nil ) then
-            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
-            if ( mode >= BM_SELLING ) then 
-            --    LogService:Log("Mode: " .. tostring( mode ) .. ", do not remove!" )
-                goto continue
-             end 
-        end
-
-        local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
-        local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
-        if( gridCullerComponent == nil or entityBlueprint == "" ) then 
-           -- LogService:Log("No grid culler or entity blueprint! Do not remove!" )
-            goto continue 
-        end
-
-        local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
-        local indexes = gridCullerComponentHelper.terrain_cell_entities
-        local freeGrids = {}
-        for i=indexes.count,1,-1 do 
-            local add = true
-            for j=1,testBuildable.free_grids.count do
-                if ( testBuildable.free_grids[j] == indexes[i].id) then
-                    add = false
-                    break
-                end
-            end
-            if (add ) then
-                Insert(freeGrids, indexes[i].id )
-            end
-        end
-        if ( #freeGrids > 0 ) then
-            Insert(toRecreate, {["bp"]=entityBlueprint,["indexes"] = freeGrids })
-        end
-
-        removedCount = removedCount + 1
-        QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
-        ::continue::
-    end
-    Assert(removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
-    self:FillWithFloors(self:FindBlueprint(), testBuildable.free_grids )
-
-    for recreateRequest in Iter( toRecreate ) do
-        self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
-    end 
-
+    --local toRecreate ={}
+--
+    --local removedCount =0
+    --local buildingToSellCount = testBuildable.entities_to_sell.count
+    --for i = 1,buildingToSellCount do
+    --    local entityToSell = testBuildable.entities_to_sell[i]
+    --    --LogService:Log("Test: " .. tostring(i) .. "/" .. tostring(testBuildable.entities_to_sell.count ) .. ":" ..tostring(entityToSell))
+    --    if (entityToSell == nil  ) then 
+    --        --LogService:Log("Entity to sell nil!  do not remove! " ..tostring(entityToSell)  )
+    --        goto continue 
+    --    end
+    --    if (not EntityService:IsAlive( entityToSell) ) then 
+    --        --LogService:Log("Entity to sell not alive!  do not remove! " )
+    --        goto continue 
+    --    end
+    --    local buildingComponent = EntityService:GetComponent( entityToSell, "BuildingComponent" )
+    --    
+    --    if ( buildingComponent ~= nil ) then
+    --        local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+    --        if ( mode >= BM_SELLING ) then 
+    --        --    LogService:Log("Mode: " .. tostring( mode ) .. ", do not remove!" )
+    --            goto continue
+    --         end 
+    --    end
+--
+    --    local gridCullerComponent = EntityService:GetComponent( entityToSell, "GridCullerComponent")
+    --    local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
+    --    if( gridCullerComponent == nil or entityBlueprint == "" ) then 
+    --       -- LogService:Log("No grid culler or entity blueprint! Do not remove!" )
+    --        goto continue 
+    --    end
+--
+    --    local gridCullerComponentHelper = reflection_helper(gridCullerComponent)
+    --    local indexes = gridCullerComponentHelper.terrain_cell_entities
+    --    local freeGrids = {}
+    --    for i=indexes.count,1,-1 do 
+    --        local add = true
+    --        for j=1,testBuildable.free_grids.count do
+    --            if ( testBuildable.free_grids[j] == indexes[i].id) then
+    --                add = false
+    --                break
+    --            end
+    --        end
+    --        if (add ) then
+    --            Insert(freeGrids, indexes[i].id )
+    --        end
+    --    end
+    --    if ( #freeGrids > 0 ) then
+    --        Insert(toRecreate, {["bp"]=entityBlueprint,["indexes"] = freeGrids })
+    --    end
+--
+    --    removedCount = removedCount + 1
+    --    QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+    --    ::continue::
+    --end
+    --Assert(removedCount == testBuildable.entities_to_sell.count, "Error: not all floors selled: " .. tostring( removedCount ) .. "/" .. tostring(buildingToSellCount ) )
+    --self:FillWithFloors(self:FindBlueprint(), testBuildable.free_grids )
+--
+    --for recreateRequest in Iter( toRecreate ) do
+    --    self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
+    --end 
+    local currentPosition = EntityService:GetWorldTransform( self.entity )
+    QueueEvent("BuildFloorRequest", self.entity, self.playerId,  self:FindBlueprint(), currentPosition )
     self.buildPosition = currentPosition
 end
 
