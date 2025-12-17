@@ -122,21 +122,19 @@ function floor_eraser:FillWithFloors( blueprint, indexes )
 
             if ( replaced == 1 ) then
                 transform.position = infoPos
-                transform.scale = {x=1,y=1,z=1}
             elseif( replaced == 2 ) then
                 local position = infoPos
                 position = VectorAdd(position, {x=1,y=0,z=1})
                 transform.position = position
-                transform.scale = {x=2,y=2,z=2}
             elseif ( replaced == 3 ) then
                 transform.position = storage[v[5]]
-                transform.scale = {x=3,y=3,z=3}
             else
                 local position = infoPos
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position
-                transform.scale = {x=4,y=4,z=4}
             end
+
+            transform.scale = {x=replaced, y=replaced, z=replaced}
 
             QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
