@@ -177,6 +177,8 @@ function floor_rebuilder_tool:FillWithFloors( blueprint, indexes )
                 transform.position = position
             end
 
+            transform.scale = {x=replaced,y=replaced,z=replaced}
+
             QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue::
