@@ -1345,7 +1345,7 @@ function ghost_building_portal_construction:FillWithFloors( blueprint, indexes )
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position           
             end
-            transform.scale = {x=1,y=1,z=1}
+            transform.scale = {x=replaced,y=replaced,z=replaced}
             QueueEvent("BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue2::

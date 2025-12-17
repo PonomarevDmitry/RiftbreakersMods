@@ -729,7 +729,7 @@ function portal_base_tool:FillWithFloors( blueprint, indexes )
             elseif( replaced == 2 ) then
                 local position = infoPos
                 position = VectorAdd(position, {x=1,y=0,z=1})
-                transform.position = position                
+                transform.position = position
             elseif ( replaced == 3 ) then
                 transform.position = storage[v[5]]
             else
@@ -737,7 +737,7 @@ function portal_base_tool:FillWithFloors( blueprint, indexes )
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position           
             end
-            transform.scale = {x=1,y=1,z=1}
+            transform.scale = {x=replaced,y=replaced,z=replaced}
             QueueEvent("BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue2::
