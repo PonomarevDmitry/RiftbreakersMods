@@ -150,6 +150,9 @@ function floor_desert_on_quicksand_tool:FillWithFloors( blueprint, indexes )
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position
             end
+
+            transform.scale = {x=replaced,y=replaced,z=replaced}
+
             QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue2::
