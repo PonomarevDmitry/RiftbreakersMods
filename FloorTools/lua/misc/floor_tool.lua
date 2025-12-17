@@ -672,7 +672,7 @@ function floor_tool:FillWithFloors( blueprint, indexes )
                 position = VectorAdd(position, {x=3,y=0,z=3})
                 transform.position = position
             end
-            transform.scale = {x=replaced,y=replaced,z=replaced}
+            transform.scale = {x=replaced,y=1,z=replaced}
             QueueEvent( "BuildFloorRequest", self.entity, self.playerId, currentBlueprint, transform )
         end
         ::continue2::
