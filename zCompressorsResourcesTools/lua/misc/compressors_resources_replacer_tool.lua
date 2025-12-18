@@ -130,18 +130,47 @@ function compressors_resources_replacer_tool:OnActivateEntity( entity )
 
     if ( is_server and is_client ) then
 
-        local item = ItemService:GetFirstItemForBlueprint( entity, self.SelectedItemBlueprint )
+        LogService:Log("OnActivateEntity entity " .. tostring(entity))
 
-        LogService:Log("OnActivateEntity GetFirstItemForBlueprint item " .. tostring(item))
+        local modItem = ItemService:GetEquippedItem( entity, "MOD_1" )
+
+        if ( modItem ~= nil and modItem ~= INVALID_ID ) then
+
+            LogService:Log("OnActivateEntity RemoveEntity modItem " .. tostring(modItem))
+
+            EntityService:RemoveEntity( modItem )
+
+            QueueEvent( "EquipmentChangeRequest", entity, "MOD_1", 0, INVALID_ID )
+        end
+
+        local item = INVALID_ID
+
+        local children = EntityService:GetChildren( entity, true )
+
+        for child in Iter(children) do
+
+            local blueprintName = EntityService:GetBlueprintName( child )
+
+            if ( blueprintName == self.SelectedItemBlueprint and EntityService:GetParent( child ) == entity ) then
+
+                item = child
+
+                break
+            end
+        end
 
         if ( item == INVALID_ID ) then
 
-            item = ItemService:AddItemToInventory( entity, self.SelectedItemBlueprint )
+            item = EntityService:SpawnAndAttachEntity(self.SelectedItemBlueprint, entity )
 
-            LogService:Log("OnActivateEntity AddItemToInventory item " .. tostring(item))
+            ItemService:SetInvisible(item, false)
+
+            LogService:Log("OnActivateEntity EntityService:SpawnAndAttachEntity item " .. tostring(item))
         end
 
         if ( item ~= nil and item ~= INVALID_ID ) then
+
+            LogService:Log("OnActivateEntity EquipItemInSlot item " .. tostring(item))
 
             ItemService:EquipItemInSlot( entity, item, "MOD_1" )
         end
@@ -150,7 +179,7 @@ function compressors_resources_replacer_tool:OnActivateEntity( entity )
 
         local mapperName = "CultivatorResourceToolsReplaceRequest|" .. self.SelectedItemBlueprint
 
-        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+        QueueEvent( "OperateActionMapperRequest", entity, mapperName, false )
     end
 
     BuildingService:BlinkBuilding(entity)
