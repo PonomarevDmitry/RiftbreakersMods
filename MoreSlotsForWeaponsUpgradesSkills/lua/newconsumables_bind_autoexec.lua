@@ -13,7 +13,14 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
         return
     end
 
-    local player = PlayerService:GetPlayerControlledEnt(0)
+    local playerId = PlayerService:GetCurrentPlayer()
+
+    if ( playerId == nil or playerId == -1 ) then
+        LogService:Log("activate_slot_request " .. tostring(slotName) .. " playerId == nil or playerId == -1" )
+        return
+    end
+
+    local player = PlayerService:GetPlayerControlledEnt(playerId)
 
     if ( player == nil or player == INVALID_ID ) then
         LogService:Log("activate_slot_request " .. tostring(slotName) .. " player == nil or player == INVALID_ID" )
