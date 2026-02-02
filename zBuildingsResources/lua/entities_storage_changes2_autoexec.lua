@@ -244,6 +244,10 @@ local new_storage_values = {
             "buildings/energy/energy_storage_lvl_2",
             "buildings/energy/energy_storage_lvl_3",
 
+            "buildings/energy/large_energy_storage",
+            "buildings/energy/large_energy_storage_lvl_2",
+            "buildings/energy/large_energy_storage_lvl_3",
+
             "buildings/energy/animal_biomass_powerplant",
             "buildings/energy/animal_biomass_powerplant_lvl_2",
             "buildings/energy/animal_biomass_powerplant_lvl_3",
@@ -293,6 +297,10 @@ local new_storage_values = {
             "buildings/resources/solid_material_storage",
             "buildings/resources/solid_material_storage_lvl_2",
             "buildings/resources/solid_material_storage_lvl_3",
+
+            "buildings/resources/large_solid_material_storage",
+            "buildings/resources/large_solid_material_storage_lvl_2",
+            "buildings/resources/large_solid_material_storage_lvl_3",
         },
     },
 
