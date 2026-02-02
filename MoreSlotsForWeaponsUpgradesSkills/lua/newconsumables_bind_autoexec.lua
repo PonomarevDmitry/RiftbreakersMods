@@ -20,6 +20,15 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
         return
     end
 
+    if not ( is_server and is_client ) then
+
+        local mapperName = "ActivateAdditionalSlotRequest|" .. tostring(playerId) .. "|" .. tostring(slotName)
+
+        QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
+
+        return
+    end
+
     local player = PlayerService:GetPlayerControlledEnt(playerId)
 
     if ( player == nil or player == INVALID_ID ) then
