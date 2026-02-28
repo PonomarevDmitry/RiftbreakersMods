@@ -4,7 +4,7 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 10
+		time 5
 	}
 
 	EffectDesc
@@ -19,26 +19,50 @@ EntityBlueprint
 				{
 					blueprint "effects/items/radar_pulse"								
 				}
+				Effect
+				{
+					blueprint "effects/loot/power_well_buff_on_mech"
+				}
 			}
 		}			
 	}
 
 	TimeWarpDesc
 	{
-		desaturation	"0.4"
-		contrast   		"1.0"
-		brightness		"1.0"
+		desaturation	"0.8"
+		contrast   		"1.25"
+		brightness		"0.95"
 		bloom_scale		"1.0"
-		time_factor		"0.3"
+		time_factor		"1.0"
 		
 		delay			"0.1"
 		fade_in_time	"0.3"
-		fade_out_time	"1.9"
-		duration		"10"
+		fade_out_time	"0.5"
+		duration		"5"
 	}
 
-	
-	
+	LuaDesc
+	{
+		script 			"lua/misc/player_modificator.lua"
+	}
+
+	IdDesc
+	{
+		group 			"time_warp"
+	}
+
+	DatabaseComponent
+	{
+		movement_speed				string:"135%"
+		weapon_fire_rate 			string:"150%"	
+		weapon_ammo_cost 			string:"-20%"
+	}
+
+	//SkillLinkUnitComponent
+	//{
+	//	name 			"gui/hud/power_well_name/speed"
+	//	icon			"gui/hud/power_well_speed"
+	//}
 }
 
 EntityBlueprint
@@ -47,35 +71,29 @@ EntityBlueprint
 
 	InventoryItemDesc
 	{
-		type 		"movement_skill"
-		subtype		"movement"
-		name 		"gui/menu/inventory/skill_name/time_warp"	
-		cooldown	"10"
-		icon		"gui/hud/items_icons/skills/time_warp"
-		bigger_icon "gui/menu/items_icons/skills/time_warp"		
+		type 			"movement_skill"
+		subtype			"movement"
+		name 			"gui/menu/inventory/skill_name/time_warp"	
+		cooldown		"15"
+		icon			"gui/hud/items_icons/skills/time_warp"
+		bigger_icon 	"gui/menu/items_icons/skills/time_warp"		
 		description 	"gui/menu/inventory/skill_description/time_warp"	
-		add_quality "0"
+		add_quality 	"0"
 	}
 
 	LuaDesc
 	{
-		script "lua/items/consumables/item_creator.lua"
+		script "lua/misc/player_modificator_item.lua"
 		
 		database
 		{
-			bp		string:"items/skills/time_warp"
-			att		string:"be_body_upper"
-			check_empty_spot int:"0"
+			blueprint string:"items/skills/time_warp"
 		}
-	
 	}
 
 	CostDesc
 	{
 		is_unique "1"
 	}
-
-	
-		
 }
 

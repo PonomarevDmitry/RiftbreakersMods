@@ -35,6 +35,187 @@ GuiRootGroupDef
 
 		Pair_String_GuiDef2
 		{
+			key "campaign_name"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "campaign"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "campaign_name"
+									value "GuiReferenceDef"
+									{
+										path "simple"
+										ref_gui_id "gui/template/text_input"
+										ref_model
+										{
+											bindings_proxy
+											{
+												content
+												{
+													model_field "campaign_name"
+												}
+
+											}
+
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "max_char_count"
+														value "60"
+													}
+
+													StringData
+													{
+														key "is_enabled"
+														value "1"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										allow_overflow "0"
+										id "campaign_name"
+										margin
+										{
+											y "50"
+											z "32"
+										}
+
+										size
+										{
+											x "575"
+											y "32"
+										}
+
+										tooltip_def
+										z_order "94"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "header"
+									value "GuiReferenceDef"
+									{
+										path "templates.subheader"
+										ref_gui_id "gui/menu/new_campaign"
+										ref_model
+										{
+											database
+											{
+												Strings
+												{
+													StringData
+													{
+														key "subheader"
+														value "gui/menu/difficulty/campaign_name_header"
+													}
+
+												}
+
+												Floats
+												Vectors
+												Integers
+											}
+
+										}
+
+										id "header"
+										margin
+										{
+											x "2"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+										z_order "100"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "campaign_type"
+									converter "GuiModelCompareConverter"
+									{
+										ref_value "story"
+									}
+
+								}
+
+							}
+
+							id "campaign"
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "campaign"
+								}
+
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+						}
+
+					}
+
+				}
+
+				id "campaign_name"
+				margin
+				{
+					w "40"
+					x "958"
+					y "320"
+					z "40"
+				}
+
+				model_source_solver
+				{
+					GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+					{
+						field_name "selected_mission"
+					}
+
+				}
+
+				size
+				{
+					y "120"
+				}
+
+				size_mode_x "2"
+				z_order "90"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
 			key "difficulty"
 			value "GuiGroupDef"
 			{
@@ -918,6 +1099,16 @@ GuiRootGroupDef
 
 						}
 
+						title
+						{
+							model_field "title"
+							converter "GuiModelEmptyStringFallbackConverter"
+							{
+								fallback_value "BUTTON_survival"
+							}
+
+						}
+
 					}
 
 					database
@@ -928,12 +1119,6 @@ GuiRootGroupDef
 							{
 								key "footer_visible"
 								value "1"
-							}
-
-							StringData
-							{
-								key "title"
-								value "BUTTON_survival"
 							}
 
 							StringData
@@ -1013,6 +1198,26 @@ GuiRootGroupDef
 							ref_gui_id "gui/menu/new_survival"
 							ref_model
 							{
+								bindings_proxy
+								{
+									subheader
+									{
+										model_field "is_open_campaign"
+										converter "GuiModelMapConverter"
+										{
+											fallback_value "gui/menu/load_menu.mission"
+											map
+											{
+												0	"gui/menu/load_menu.mission"
+												1	"gui/menu/open_campaign/starting_biome"	
+											}
+
+										}
+
+									}
+
+								}
+
 								database
 								{
 									Strings
@@ -3008,6 +3213,22 @@ GuiDataDefinitions
 			{
 				value
 				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "campaign_type"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
 					type_name "bool"
 					default_value
 					{
@@ -3466,6 +3687,22 @@ GuiDataDefinitions
 				}
 
 				key "selected_mission"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String
+					}
+
+				}
+
+				key "title"
 			}
 
 		}

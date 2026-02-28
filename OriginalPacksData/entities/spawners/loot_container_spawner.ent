@@ -1168,6 +1168,119 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name "spawners/ice_spawner_standard"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_standard
+		props/special/loot_containers/loot_container_swamp_standard
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"60"
+			wave_logic_file		string:"logic/bioanomaly/ice_standard.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/ice_spawner_advanced"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_advanced	
+		props/special/loot_containers/loot_container_swamp_advanced
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"70"
+			wave_logic_file		string:"logic/bioanomaly/ice_advanced.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+			water_override		int:"1"
+			boss_logic_file		string:"logic/bioanomaly/boss_dynamic.logic"
+			boss_logic_file_mul int:"1"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/ice_spawner_superior"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_superior
+		props/special/loot_containers/loot_container_swamp_superior
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"80"
+			wave_logic_file		string:"logic/bioanomaly/ice_superior.logic"
+			wave_logic_file_mul int:"2"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+			water_override		int:"1"
+			boss_logic_file		string:"logic/bioanomaly/boss_dynamic.logic"
+			boss_logic_file_mul int:"1"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name "spawners/ice_spawner_extreme"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_extreme
+		props/special/loot_containers/loot_container_swamp_extreme
+	}
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay				float:"0.2"
+			aggressive_radius   float:"90"
+			wave_logic_file		string:"logic/bioanomaly/ice_extreme.logic"
+			wave_logic_file_mul int:"3"
+			wave_spawn_distance int:"80"
+			wave_started_effect string:"effects/enemies_generic/wave_start"
+			water_override		int:"1"
+			boss_logic_file		string:"logic/bioanomaly/boss_dynamic.logic"
+			boss_logic_file_mul int:"1"
+		}
+	}
+}
+
 ////////////  - SMALL LOOT CONTAINERS  -  ////////////////////////////////////////////////////////////////////////////////////
 EntityBlueprint
 { 
@@ -2054,6 +2167,129 @@ EntityBlueprint
 		harvest_duration 	float:"3"	
 		min_scale			float:"1.25"
 		max_scale			float:"1.25"		
+	}	
+
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/loot_container_small_red"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+		layer_group				"exploration"
+		condition				"SMALL_BIOANOMALY"	
+	}	
+}
+
+EntityBlueprint
+{
+	name "spawners/loot_container_small_ice_standard"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_small
+		props/special/loot_containers/loot_container_ice_small_bulb
+	}
+
+	DatabaseComponent
+	{
+		//forced_group 		string:"resource"
+		rarity 				int:"0"
+		harvest_duration 	float:"3"	
+		min_scale			float:"1"
+		max_scale			float:"1.1"	
+	}	
+
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/loot_container_small_white"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+		layer_group				"exploration"
+		condition				"SMALL_BIOANOMALY"	
+	}	
+}
+
+EntityBlueprint
+{
+	name "spawners/loot_container_small_ice_advanced"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_small
+		props/special/loot_containers/loot_container_ice_small_bulb_advanced
+	}
+	
+	DatabaseComponent
+	{
+		//forced_group 		string:"resource"
+		rarity 				int:"1"
+		harvest_duration 	float:"3"	
+		min_scale			float:"1"
+		max_scale			float:"1.1"	
+	}	
+
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/loot_container_small_blue"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+		layer_group				"exploration"
+		condition				"SMALL_BIOANOMALY"	
+	}	
+}
+
+EntityBlueprint
+{
+	name "spawners/loot_container_small_ice_superior"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_small
+		props/special/loot_containers/loot_container_ice_small_bulb_superior
+	}
+	
+	DatabaseComponent
+	{
+		//forced_group 		string:"resource"
+		rarity 				int:"2"
+		harvest_duration 	float:"3"	
+		min_scale			float:"1"
+		max_scale			float:"1.1"		
+	}		
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/loot_container_small_violet"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+		layer_group				"exploration"
+		condition				"SMALL_BIOANOMALY"	
+	}	
+}
+
+EntityBlueprint
+{
+	name "spawners/loot_container_small_ice_extreme"
+
+	base_blueprints 
+	{
+		spawners/loot_container_spawner_small
+		props/special/loot_containers/loot_container_ice_small_bulb_extreme
+	}
+	
+	DatabaseComponent
+	{
+		//forced_group 		string:"resource"
+		rarity 				int:"3"
+		harvest_duration 	float:"3"	
+		min_scale			float:"1"
+		max_scale			float:"1.1"	
 	}	
 
 	MinimapItemDesc

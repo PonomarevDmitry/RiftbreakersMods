@@ -40,8 +40,8 @@ return function()
 
 	rules.addResourcesOnRunOut = 
 	{
-		{ name = "carbon_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
-		{ name = "iron_vein", runOutPercentageOnMap = 45, minToSpawn = 10000, maxToSpawn = 20000 },
+		{ name = "carbon_vein", runOutPercentageOnMap = 45, minToSpawn = 30000, maxToSpawn = 45000 },
+		{ name = "iron_vein", runOutPercentageOnMap = 45, minToSpawn = 30000, maxToSpawn = 45000 },
 	}
 	
 	rules.creatureDifficultyIncrementPerDOMDifficulty =

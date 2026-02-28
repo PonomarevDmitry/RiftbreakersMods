@@ -2075,10 +2075,10 @@ EntityBlueprint
 		group			"explosion_medium"
 	}	
 
-	//ParticleDesc
-	//{
-	//	name    "rift/mech_plasma_gun_muzzle"
-	//}
+	ParticleDesc
+	{
+		name    "rift/tower_portal_muzzle"
+	}
 
 	SoundDesc
 	{
@@ -2342,6 +2342,128 @@ EntityBlueprint
 			}
 		}			
 	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/tower_inferno_projectile_explosion
+
+	base_blueprints
+	{
+		lights/point/explosion_orange_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"3000"
+		speed 	"20"
+		radius 	"20"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/hcm_projectile_explosion"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/hcm_projectile_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_fire_random"
+		scale
+		{
+			x		6
+			y		6
+			z		6
+		}
+	}	
+	BurningComponent
+	{
+		spread_radius 			"7.0"			// radius to spread fire
+		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	
+		spread_timer
+		{
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+	
+		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
+		burning_time			"3"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"mech_fire_trail"	
+		extend  		"8"
+	}	
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "10 10 10"
+				}
+			}
+		}			
+	}		
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/tower_inferno_projectile_explosion_lvl_2
+
+	base_blueprints
+	{
+		effects/weapon_hit/tower_inferno_projectile_explosion
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"mech_fire_trail_advanced"	
+		extend  		"7"
+	}			
+}
+
+EntityBlueprint
+{
+	name effects/weapon_hit/tower_inferno_projectile_explosion_lvl_3
+
+	base_blueprints
+	{
+		effects/weapon_hit/tower_inferno_projectile_explosion
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"mech_fire_trail_superior"	
+		extend  		"7"
+	}			
 }
 
 EntityBlueprint

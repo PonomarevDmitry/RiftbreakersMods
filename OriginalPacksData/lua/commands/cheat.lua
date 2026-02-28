@@ -38,6 +38,7 @@ ConsoleService:RegisterCommand( "cheat_unlock_all_biomes_to_scan", function( arg
     CampaignService:UnlockBiome("desert")
     CampaignService:UnlockBiome("acid")
     CampaignService:UnlockBiome("magma")
+    CampaignService:UnlockBiome("ice")
     CampaignService:UnlockBiome("metallic")
     CampaignService:UnlockBiome("caverns")
     CampaignService:UnlockBiome("swamp")

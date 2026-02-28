@@ -24,7 +24,9 @@ function tower_alien_influence_spikes:init()
 		EffectService:SpawnEffects( self.entity, "default" )
 	end
 
-    EntityService:SetOrientation( self.entity, 0, 1, 0, RandFloat( 0.0, 360.0 ) )
+	if self.data:GetIntOrDefault( "random_orientation", 1 ) == 1 then
+    	EntityService:SetOrientation( self.entity, 0, 1, 0, RandFloat( 0.0, 360.0 ) )
+	end
 
 	self.spikeTime = self.data:GetFloatOrDefault( "duration", 1.0 )
 	self.fsm = self:CreateStateMachine()

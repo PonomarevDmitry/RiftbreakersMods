@@ -1,0 +1,101 @@
+EntityBlueprint 
+{	
+	name "weather/ice_rock_very_big"
+	base_blueprint "weather/stalactite_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/crystals/edgy_big_01.mesh"
+		material "props/rocks/solid_crystal/solid_crystal_big_07"
+	}	
+
+	ArtilleryAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weather/ice_meteor_explosion_big"
+		on_world_hit_effect 	"effects/weather/ice_meteor_explosion_big"		
+		collision_3d 			"world_blocker|world|ground_unit|hitbox|building|destructible"
+		hit_effect_direction 	"up"		
+		//delay_update_time		"0.3"
+		diameter				"13.0"
+		manual_remove			"1"
+		
+		DamagePattern
+		{
+			area_damage_radius 	"12"
+
+			Damages
+			{
+				Damage
+				{
+					value 	"35.0"
+					type 	"meteor"
+				}
+			}
+		}
+	}
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"12000"
+					explosion_min_power 	"6000"
+					explosion_effect 		"effects/weather/ice_meteor_explosion_big"	
+					explosion_effect_scale 	"1"
+					part_material	 		"props/rocks/solid_crystal/solid_crystal_big_07"
+					part_prefix 			"meshes/props/crystals/edgy_big_01"
+					//part_effect 			"effects/destructibles/crystal_blue_big_part_trail"
+					part_physics_material   "gibs_light"
+					part_lifetime			"5"
+				}
+			}	
+		}		
+	}
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weather/ice_meteor_trail"
+					scale "2 2 2"
+				}
+			}
+		}
+	}		
+}
+
+EntityBlueprint
+{
+	name  "weather/ice_falling_rocks"
+
+	LuaDesc
+	{
+		script "lua/weather/meteor_shower.lua"
+		database
+		{
+			speed				float:"99"
+			spread				float:"1"
+		}
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"global"
+		time_of_day 							"scripts/scene_params/heavy_snow.td"
+		max_health_percentage_damage_threshold	"0"
+	}
+
+	DatabaseDesc
+	{
+		meteor_blueprint		string:"weather/ice_rock_very_big"
+	}
+}

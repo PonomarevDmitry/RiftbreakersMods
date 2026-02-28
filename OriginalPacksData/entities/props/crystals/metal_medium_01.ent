@@ -193,3 +193,59 @@ EntityBlueprint
         }
 	}
 }
+
+
+EntityBlueprint
+{
+	name "props/crystals/metal_medium_01_skin3"
+
+	base_blueprints
+	{
+		 props/base/resistant_medium
+		 props/crystals/metal_medium_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/crystals/metal_medium_01.mesh"
+		material "props/crystals/metal_medium_skin3"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/crystal_big_gold"
+					explosion_effect_scale 	"0.5"
+					part_material	 		"props/crystals/metal_medium_skin3"
+					part_prefix 			"meshes/props/crystals/metal_medium_01"
+					part_effect 			"effects/destructibles/crystal_gold_big_part_trail"
+					part_physics_material   "debris_heavy"
+				}
+			}
+		}
+	}
+	EffectDesc
+	{
+        EffectGroup
+        {
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/props/metal_crystal_medium_skin3"
+                    offset "0 2 0"
+                }
+            }
+        }
+	}
+}

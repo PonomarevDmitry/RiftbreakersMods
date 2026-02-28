@@ -587,3 +587,110 @@ EntityBlueprint
 		unit_state_spawn		"state_not_aggressive" // do not touch
 	}
 }
+
+//////////////////////// ICE /////////////////
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan_ice"
+	base_blueprint 	"units/ground/egg_elite_canoptrix"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"1.6"
+			max_scale	float:"1.7"
+			grow_speed	float:"1.0"
+			grow		int:"1"
+		}
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan_ice"
+		time_to_hatch			"3"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+	
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/spawner_morirot_eggs_01.mesh"
+		material 	"units/ground/spawner_morirot"
+		flags    	"4"											//this flag set to 4 prevents animation poping when eggs are growing
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_morirot/death"
+					part_prefix 			"meshes/units/ground/spawner_morirot_eggs_01"
+					part_material 			"units/ground/spawner_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material	"gibs_light"					
+				}
+				key "default"
+			}					
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan_ice_alpha"
+	base_blueprint 	"units/ground/egg_elite_ice"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"1.7"
+			max_scale	float:"1.8"
+			grow_speed	float:"1.0"
+			grow		int:"1"
+		}
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan_ice_alpha"
+		time_to_hatch			"2.5"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_granan_ice_ultra"
+	base_blueprint 	"units/ground/egg_elite_ice"
+	
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"1.8"
+			max_scale	float:"1.9"
+			grow_speed	float:"1.0"
+			grow		int:"1"
+		}
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/granan_ice_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}

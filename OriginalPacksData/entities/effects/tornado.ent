@@ -544,3 +544,147 @@ EntityBlueprint
 		}
 	}
 }
+
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_ice"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/world/tornado_big_ice"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/tornado_shadow_caster_blue"
+					offset "0 10 0"
+				}	
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/ice_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/ice"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/ice_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/ice_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{	
+	name  "effects/tornado/tornado_marker_ice"
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_tornado_ice_circle"
+	}
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"300"
+			}
+		}
+	}
+}

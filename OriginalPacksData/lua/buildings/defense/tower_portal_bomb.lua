@@ -22,7 +22,7 @@ function tower_portal_bomb:OnEnter( state )
 	self.portalEnergy = EntityService:SpawnAndAttachEntity( "buildings/defense/tower_portal_triangle", self.entity )
     EntityService:SetPosition( self.portalEnergy, 0, -1, 0 )
     EntityService:SetScale( self.portalEnergy, 0.33, 0.33, 0.33 )
-	AnimationService:StartAnim( self.portalEnergy, "show_portal", false, 1.5 )
+	AnimationService:StartAnim( self.portalEnergy, "show_portal", false, 1.0 )
 	self.randomDir = { x=RandFloat( 0.0, 1.0 ), y=0, z=RandFloat( 0.0, 1.0 ) }
 	self.randomDir = Normalize( self.randomDir )
 end
@@ -36,9 +36,9 @@ function tower_portal_bomb:OnExecute( state, dt )
 end
 
 function tower_portal_bomb:OnExit( state )
-	AnimationService:StartAnim( self.portalEnergy, "hide_portal", false, 4.0 )
+	AnimationService:StartAnim( self.portalEnergy, "hide_portal", false, 2.0 )
 	local animTime = AnimationService:GetAnimDuration( self.portalEnergy, "hide_portal" );
-	EntityService:DissolveEntity( self.portalEnergy, animTime / 4.0 )
+	EntityService:DissolveEntity( self.portalEnergy, animTime / 2.0 )
 end
 
 function tower_portal_bomb:OnFallingExecute( state, dt )

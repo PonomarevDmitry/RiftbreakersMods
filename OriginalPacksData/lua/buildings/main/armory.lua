@@ -13,6 +13,12 @@ end
 
 function armory:OnBuildingStart()
     local player = PlayerService:GetPlayerForEntity( self.entity )
+    PlayerService:UnlockLoot( player,"range_weapon")
+    PlayerService:UnlockLoot( player,"melee_weapon")
+    PlayerService:UnlockLoot( player,"skill")
+    PlayerService:UnlockLoot( player,"movement_skill")
+    PlayerService:UnlockLoot( player,"consumable")
+    PlayerService:UnlockLoot( player,"upgrade")
     --local enabled = PlayerService:IsCraftingEnabled(player)
     --if ( enabled == false ) then
     --    QueueEvent("ForceLootContainerTypeRequest", event_sink, "crafting")
@@ -30,5 +36,13 @@ function armory:OnLoad()
 		self:RegisterHandler( self.entity, "InteractWithEntityRequest", "OnInteractWithEntityRequest" )
 		self.armoryVersion = 1
 	end
+    
+    local player = PlayerService:GetPlayerForEntity( self.entity )
+    PlayerService:UnlockLoot( player,"range_weapon")
+    PlayerService:UnlockLoot( player,"melee_weapon")
+    PlayerService:UnlockLoot( player,"skill")
+    PlayerService:UnlockLoot( player,"movement_skill")
+    PlayerService:UnlockLoot( player,"consumable")
+    PlayerService:UnlockLoot( player,"upgrade")
 end
 return armory

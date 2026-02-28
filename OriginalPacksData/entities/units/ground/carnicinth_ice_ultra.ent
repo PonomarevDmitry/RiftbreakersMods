@@ -1,0 +1,108 @@
+EntityBlueprint
+{
+	name "units/ground/carnicinth_ice_ultra"
+
+	base_blueprint "units/ground/carnicinth_ice"
+
+	LuaDesc
+	{
+		script "lua/units/ground/carnicinth.lua"
+		database
+		{
+			min_scale	float:"1.35"
+			max_scale	float:"1.45"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1250"
+		health 						"1250"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	RegenerationComponent
+	{
+		regeneration 				"400"
+		regeneration_cooldown 		"2"
+		regeneration_effect			"effects/enemies_carnicinth/healing"
+		regeneration_end_effect     "effects/enemies_carnicinth/healing_finished"
+	}
+	
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|sludge_vein"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/carnicinth_ice.mesh"
+				SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "units/ground/carnicinth_ice_ultra"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "props/bush/metallic_leafy_skin1"
+			}
+		}	
+		flags		"4"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/carnicinth_ice_ultra"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		ammo_blueprint 				"units/ground/carnicinth_projectile_cryo"
+
+		muzzle_flash_effect 		"effects/enemies_carnicinth/muzzle_cryo"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"15"
+	}
+}
+

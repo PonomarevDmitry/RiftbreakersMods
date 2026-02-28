@@ -46,7 +46,7 @@ end
 
 function item_creator:FillInitialParams()
 	local database = EntityService:GetBlueprintDatabase( self.entity ) or self.data;
-    self.bp = database:GetString( "bp" )
+    self.bp = database:GetStringOrDefault( "bp", "" )
     self.ghostBp = database:GetStringOrDefault( "ghost_bp", "" )
 	self.att = database:GetStringOrDefault( "att", "" )
 	self.dissolveTime = database:GetFloatOrDefault( "dissolve", 0.5 )

@@ -48,7 +48,7 @@ function tower_portal:OnWorkingExecute( state )
 	if self.readyBomb ~= nil then 
 		if progress < 1.0 then 
 			local downDir = { x=0, y=-1, z=0 }
-			AnimationService:StartAnim( self.readyBomb, "hide_bomb", false, 1.5 )
+			AnimationService:StartAnim( self.readyBomb, "hide_bomb", false, 1.0 )
 			EntityService:SetGraphicsUniform( self.readyBomb, "cDissolveAmount", 0 )
 			MoveService:MoveInDirection( self.readyBomb, 0, 2, 2, downDir )
 			EntityService:DissolveEntity( self.readyBomb, 0.5 )
@@ -131,7 +131,7 @@ function tower_portal:OnShootingDelayExit( state )
 end
 
 function tower_portal:OnShootingEndEnter( state )
-	AnimationService:StartAnim( self.portalTriangle, "hide_portal", false, 3 )
+	AnimationService:StartAnim( self.portalTriangle, "hide_portal", false, 2 )
 	EffectService:AttachEffects( self.entity, "portal_pending" )
 end
 
@@ -152,7 +152,7 @@ end
 function tower_portal:OnShootingDisabledEnter( state )
 	if self.portalTriangle ~= nil then
 		EntityService:DissolveEntity( self.portalTriangle, 0.2 )	
-		AnimationService:StartAnim( self.portalTriangle, "hide_portal", false, 5.0 )
+		AnimationService:StartAnim( self.portalTriangle, "hide_portal", false, 2.0 )
 		self.portalTriangle = nil 
 	end
 end

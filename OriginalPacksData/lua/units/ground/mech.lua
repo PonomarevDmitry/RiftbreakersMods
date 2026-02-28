@@ -522,6 +522,13 @@ function mech:DestroyMech()
 
 	EffectService:DestroyEffectsByGroup( self.entity, "reviving" )
 
+	if (self.player_id == INVALID_ID ) then
+		self.player_id = PlayerService:GetPlayerForEntity( self.entity )
+		if (self.player_id == INVALID_ID ) then
+			return
+		end
+	end
+
 	QueueEvent( "PlayerPawnDestroyedEvent", self.entity, self.player_id )
 	QueueEvent( "PlayerDiedEvent", self.entity, self.player_id, self.killer_id or INVALID_ID, self.killer_damage or "physical" )
 end

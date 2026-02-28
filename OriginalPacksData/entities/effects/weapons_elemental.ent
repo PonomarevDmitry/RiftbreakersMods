@@ -2,6 +2,52 @@ EntityBlueprint
 {
 	base_blueprints
 	{
+		lights/point/explosion_blue_small
+		effects/default
+	}	
+
+	name "effects/weapons_elemental/icicle_thrower_projectile_explosion"
+
+	ParticleDesc
+	{
+		name    "rift/icicle_thrower_projectile_explosion"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/cryo_stain"
+		scale
+		{
+			x		3
+			y		3
+			z		3
+		}
+	}
+	
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"100"
+		radius 	"6"
+	}	
+	
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"cryo_stain"	
+		extend  		"4"
+	}	
+	
+	SoundDesc
+	{
+		name "items/weapons/fluid/cryo_spitter_hit"
+	}	
+}
+
+EntityBlueprint
+{
+	base_blueprints
+	{
 		lights/point/explosion_blue_medium
 		effects/default
 	}	
@@ -11,11 +57,6 @@ EntityBlueprint
 	ParticleDesc
 	{
 		name    "rift/cryo_sentry_projectile_explosion"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_medium"
 	}
 
 	DecalDesc

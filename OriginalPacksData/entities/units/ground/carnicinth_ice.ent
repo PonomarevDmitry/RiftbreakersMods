@@ -1,0 +1,277 @@
+EntityBlueprint
+{
+	name "units/ground/carnicinth_ice"
+
+	base_blueprint "units/ground/carnicinth_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/carnicinth.lua"
+		database
+		{
+			min_scale	float:"1.15"
+			max_scale	float:"1.25"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+	
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"3.0"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"0.1"
+		area			"1.0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"750"
+		health 						"750"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	RegenerationComponent
+	{
+		regeneration 				"200"
+		regeneration_cooldown 		"2"
+		regeneration_effect			"effects/enemies_carnicinth/healing"
+		regeneration_end_effect     "effects/enemies_carnicinth/healing_finished"
+	}
+
+	NavMeshMovementComponent
+	{
+		current_speed					"0"
+		max_speed						"0"
+		angle_turn_speed				"240"
+		unit_soft_radius				"1.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|sludge_vein"
+		dominance_group				    "0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/carnicinth_ice.mesh"	
+
+			SubMeshes
+		{
+			
+			SubMesh
+			{
+				id "0"
+				material "units/ground/carnicinth_ice"
+			}
+
+			SubMesh
+			{
+				id "1"
+				material "props/bush/metallic_leafy_skin1"
+			}
+		}		
+	
+
+		flags		"4"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/carnicinth_ice"
+		can_activate 0
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		ammo_blueprint 				"units/ground/carnicinth_projectile_cryo"
+
+		muzzle_flash_effect 		"effects/enemies_carnicinth/muzzle_cryo"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"15"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_carnicinth/death_cryo"	
+					part_prefix 			"meshes/units/ground/carnicinth_ice"
+					part_material 			"units/ground/carnicinth_ice"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/carnicinth_base"
+		}	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_carnicinth/death_long_cryo"	
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "hide"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_carnicinth/hide_cryo"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "unhide"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_carnicinth/unhide_cryo"
+					always_up "1"
+				}
+			}
+		}
+
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+				}
+			}
+		}			
+		
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_blue"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/carnicinth_projectile_cryo"
+	
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/arachnoid_boss_projectile.mesh"
+		material    "projectiles/magmoth_projectile_cryo"
+	}	
+
+	ProjectileAmmoComponent
+	{
+		diameter					"0.2"
+
+		on_enemy_hit_effect 	"effects/enemies_carnicinth/cryo_hit"
+		on_world_hit_effect 	"effects/enemies_carnicinth/cryo_hit"		
+		on_shield_hit_effect	"effects/enemies_carnicinth/cryo_hit"	
+
+
+		friendly_fire				"pass"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		//collision_2d 				"ground_unit|hitbox"
+	}	
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_magmoth/projectile_cryo"
+				}
+			}
+		}
+	}	
+	
+	LifeTimeDesc
+	{
+		time "4.0"
+	}		
+}
