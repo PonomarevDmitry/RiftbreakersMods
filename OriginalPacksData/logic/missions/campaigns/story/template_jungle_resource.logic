@@ -1,8 +1,8 @@
-//editor "scroll(-263.29,-401.68)|zoom(0.53)"
+//editor "scroll(1319.32,-571.38)|zoom(0.47)"
 FlowGraphTemplate
 {
-	version "22"
-	editor "6627"
+	version "27"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -609,15 +609,788 @@ FlowGraphTemplate
 
 		}
 
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(806,-621)"
+			graph "logic/missions/campaigns/open/template_biome_difficulty_manager.logic"
+			self_id "event_graph_2"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(265,-829)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "campaign_mode_open"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_7"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(265,-562)"
+			key "true"
+			self_id "logic_if_global_variable_7###true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(265,-533)"
+			key "false"
+			self_id "logic_if_global_variable_7###false"
+			value "logic_if_global_variable_0###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(262,-1823)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "campaign_mode"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_8"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(262,-1556)"
+			key "true"
+			self_id "logic_if_global_variable_8###true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(262,-1527)"
+			key "false"
+			self_id "logic_if_global_variable_8###false"
+			value "logic_if_global_variable_0###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1473,-1737)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ice"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1473,-1627)"
+			key "true"
+			self_id "logic_if_biome_1###true"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(2594,-1739)"
+			global "0"
+			interrupt "1"
+			priority "20"
+			self_id "interface_dialogue_show_group_3"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/story/ice/mech_first_mission_landing_01"
+				}
+
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/ashley"
+					sound_name "voice_over/story/ice/ashley_first_mission_landing_01"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(2588,-1255)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.ice_biome_visited"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(1920,-1745)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "global.ice_biome_visited"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1920,-1478)"
+			key "true"
+			self_id "logic_if_global_variable_1###true"
+			value
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1920,-1449)"
+			key "false"
+			self_id "logic_if_global_variable_1###false"
+			value
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(entity_add_item.xml)|pos(3309,-1431)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "items/awards/campaign_ice_award_giver_item"
+					}
+
+					StringData
+					{
+						key "all_players"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/entity/entity_add_item.lua"
+			self_id "entity_add_item_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(877,-1820)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "campaign_mode_open"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_9"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(877,-1553)"
+			key "true"
+			self_id "logic_if_global_variable_9###true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(877,-1524)"
+			key "false"
+			self_id "logic_if_global_variable_9###false"
+			value "logic_if_global_variable_0###false"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(2799,129)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_24"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2799,234)"
+			key "true"
+			self_id "logic_if_biome_24###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2799,262)"
+			key "false"
+			self_id "logic_if_biome_24###false"
+			value "logic_if_biome_17###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3651,179)"
+			graph "logic/event/spline_attack_swamp.logic"
+			self_id "event_graph_31"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3360,217)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_9"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(2803,-212)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ice"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_26"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2803,-101)"
+			key "true"
+			self_id "logic_if_biome_26###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2803,-72)"
+			key "false"
+			self_id "logic_if_biome_26###false"
+			value "logic_if_biome_17###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3655,-163)"
+			graph "logic/event/spline_attack_ice.logic"
+			self_id "event_graph_35"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3365,-123)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_12"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(2505,-152)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_8"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(2807,-496)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_27"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(2806,-385)"
+			key "true"
+			self_id "logic_if_biome_27###true"
+			value "logic_if_biome_17###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(2806,-356)"
+			key "false"
+			self_id "logic_if_biome_27###false"
+			value "logic_if_biome_17###false"
+		}
+
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(3659,-447)"
+			graph "logic/event/spline_attack_caverns.logic"
+			self_id "event_graph_36"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3368,-407)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_14"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2122,204)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "120"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_5"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "entity_spawn_player_0|event_graph_1|mission_end_0"
+		default "entity_spawn_player_0|event_graph_1|logic_if_global_variable_7|logic_if_global_variable_8|mission_end_0"
 		entity_spawn_player_0 "event_graph_0|logic_wait_on_event_0"
 		interface_dialogue_show_group_1 "mission_dom_resume_0"
-		logic_and_1 "interface_dialogue_show_group_0|logic_if_exist_entity_new_6|logic_wait_3"
+		interface_dialogue_show_group_3 "entity_add_item_5"
+		logic_and_1 "interface_dialogue_show_group_0|logic_if_exist_entity_new_6|logic_wait_3|logic_wait_5"
 		logic_and_6 "logic_or_3"
+		logic_and_8 "logic_if_biome_24|logic_if_biome_26|logic_if_biome_27"
+		logic_if_biome_1 "logic_if_biome_1###true"
+		logic_if_biome_1###true "logic_if_global_variable_1"
+		logic_if_biome_24 "logic_if_biome_24###false|logic_if_biome_24###true"
+		logic_if_biome_24###true "logic_wait_9"
+		logic_if_biome_26 "logic_if_biome_26###false|logic_if_biome_26###true"
+		logic_if_biome_26###true "logic_wait_12"
+		logic_if_biome_27 "logic_if_biome_27###false|logic_if_biome_27###true"
+		logic_if_biome_27###true "logic_wait_14"
 		logic_if_exist_entity_new_11 "logic_if_exist_entity_new_11###false|logic_if_exist_entity_new_11###true"
 		logic_if_exist_entity_new_11###true "logic_or_3"
 		logic_if_exist_entity_new_14 "logic_if_exist_entity_new_14###false|logic_if_exist_entity_new_14###true"
@@ -625,12 +1398,27 @@ FlowGraphTemplate
 		logic_if_exist_entity_new_6 "logic_if_exist_entity_new_6###false|logic_if_exist_entity_new_6###true"
 		logic_if_exist_entity_new_6###false "logic_or_2"
 		logic_if_exist_entity_new_6###true "logic_if_exist_entity_new_11|logic_wait_15"
+		logic_if_global_variable_1 "logic_if_global_variable_1###false|logic_if_global_variable_1###true"
+		logic_if_global_variable_1###false "interface_dialogue_show_group_3|logic_set_global_variable_1"
+		logic_if_global_variable_7 "logic_if_global_variable_7###false|logic_if_global_variable_7###true"
+		logic_if_global_variable_7###true "event_graph_2"
+		logic_if_global_variable_8 "logic_if_global_variable_8###false|logic_if_global_variable_8###true"
+		//editor "logic_if_global_variable_9(751,-1541)"
+		logic_if_global_variable_8###true "logic_if_global_variable_9"
+		logic_if_global_variable_9 "logic_if_global_variable_9###false|logic_if_global_variable_9###true"
+		//editor "logic_if_biome_1(1365,-1510)"
+		logic_if_global_variable_9###false "logic_if_biome_1"
 		logic_or_1 "logic_wait_4"
 		logic_or_2 "logic_or_3"
 		logic_or_3 "logic_or_1"
+		logic_set_global_variable_1 "entity_add_item_5"
+		logic_wait_12 "event_graph_35"
+		logic_wait_14 "event_graph_36"
 		logic_wait_15 "logic_if_exist_entity_new_14"
 		logic_wait_3 "logic_or_1"
 		logic_wait_4 "interface_dialogue_show_group_1"
+		logic_wait_5 "logic_and_8"
+		logic_wait_9 "event_graph_31"
 		logic_wait_on_event_0 "logic_and_1"
 	}
 

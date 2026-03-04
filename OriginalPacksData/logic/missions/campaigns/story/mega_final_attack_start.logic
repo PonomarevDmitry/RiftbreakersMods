@@ -1,8 +1,8 @@
-//editor "scroll(2680.07,-214.33)|zoom(0.33)"
+//editor "scroll(4945.22,5.53)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "39"
-	editor "6576"
+	version "40"
+	editor "6723"
 	GraphNodes
 	{
 		BehaviourGraphNode
@@ -380,6 +380,73 @@ FlowGraphTemplate
 
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(enemies_change_ai_groups_to_aggressive.xml)|pos(7165,289)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "aggressive_radius"
+						value "10000"
+					}
+
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "search_target"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "entity_type"
+						value "player"
+					}
+
+					StringData
+					{
+						key "entity_bp"
+						value
+					}
+
+					StringData
+					{
+						key "disband_group"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/enemies/enemies_change_ai_groups_to_aggressive.lua"
+			self_id "enemies_change_ai_groups_to_aggressive_1"
+		}
+
 	}
 
 	GraphConnections
@@ -400,7 +467,7 @@ FlowGraphTemplate
 		//editor "logic_or_3(5548,998:5637,731)"
 		logic_if_global_variable_1###true "logic_or_3"
 		logic_or_2 "event_end_0"
-		logic_or_3 "logic_if_difficulty_wave_1"
+		logic_or_3 "enemies_change_ai_groups_to_aggressive_1|logic_if_difficulty_wave_1"
 		logic_set_global_variable_1 "logic_or_3"
 	}
 

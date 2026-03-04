@@ -1,8 +1,8 @@
-//editor "scroll(249.66,-342.33)|zoom(0.07)"
+//editor "scroll(10508.10,-973.85)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "29"
-	editor "6660"
+	version "30"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -3228,7 +3228,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(12815,5012)"
+			//editor "layout(condition_false.xml)|pos(12815,5011)"
 			key "false"
 			self_id "objective_exist_4###false"
 			value "objective_exist_4###false"
@@ -3236,7 +3236,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(12815,5040)"
+			//editor "layout(condition_true.xml)|pos(12815,5039)"
 			key "true"
 			self_id "objective_exist_4###true"
 			value "objective_exist_4###true"
@@ -3560,7 +3560,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(12831,5244)"
+			//editor "layout(condition_false.xml)|pos(12831,5243)"
 			key "false"
 			self_id "objective_exist_5###false"
 			value "objective_exist_5###false"
@@ -3568,7 +3568,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(12831,5272)"
+			//editor "layout(condition_true.xml)|pos(12831,5271)"
 			key "true"
 			self_id "objective_exist_5###true"
 			value "objective_exist_5###true"
@@ -6940,6 +6940,96 @@ FlowGraphTemplate
 			value "objective_exist_7###true"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(17774,-1095)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(18082,-1097)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fear_metallic_only"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_3"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(18438,-1087)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "232.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_17"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(20064,-1085)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_7"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(19889,-1073)"
+			self_id "logic_or_8"
+		}
+
 	}
 
 	GraphConnections
@@ -6947,6 +7037,8 @@ FlowGraphTemplate
 		audio_adaptive_music_system_0 "audio_music_change_playlist_0"
 		audio_adaptive_music_system_2 "audio_music_change_playlist_1"
 		audio_adaptive_music_system_3 "audio_music_change_playlist_2"
+		audio_adaptive_music_system_6 "audio_music_change_playlist_3"
+		audio_music_change_playlist_3 "logic_wait_17"
 		default "interface_dialogue_show_group_5|logic_wait_12"
 		entity_remove_6 "logic_wait_15"
 		entity_spawn_objective_marker_2 "entity_remove_2"
@@ -6957,7 +7049,7 @@ FlowGraphTemplate
 		logic_and_0 "logic_event_send_0|logic_if_exist_entity_new_10|logic_if_exist_entity_new_11|objective_finish_0"
 		logic_and_1 "objective_exist_0|objective_exist_1"
 		logic_and_2 "logic_and_1"
-		logic_and_3 "interface_dialogue_show_group_11|objective_generic_4"
+		logic_and_3 "audio_adaptive_music_system_6|interface_dialogue_show_group_11|objective_generic_4"
 		logic_and_4 "logic_wait_13|logic_wait_16|objective_connect_local_resource_to_building_0"
 		logic_and_5 "objective_exist_6|objective_exist_8"
 		//editor "logic_reactivate_or_2(15521,4179:14959,4185)"
@@ -6999,6 +7091,7 @@ FlowGraphTemplate
 		logic_or_5 "logic_wait_1|logic_wait_8|weather_comet_silent_1"
 		logic_or_6 "logic_wait_0|logic_wait_9|weather_comet_silent_5"
 		logic_or_7 "entity_spawn_single_5|logic_if_exist_entity_new_5"
+		logic_or_8 "audio_adaptive_music_system_7"
 		logic_reactivate_or_1 "logic_repeat_until_objective_status_1"
 		//editor "logic_wait_10(15393,3812:11996,3829)"
 		logic_reactivate_or_2 "logic_wait_10"
@@ -7014,9 +7107,10 @@ FlowGraphTemplate
 		logic_wait_11 "weather_comet_silent_0"
 		logic_wait_12 "objective_generic_3"
 		logic_wait_13 "interface_dialogue_show_group_10"
-		logic_wait_14 "mission_unhide_research_0"
+		logic_wait_14 "logic_or_8|mission_unhide_research_0"
 		logic_wait_15 "logic_reactivate_or_1"
 		logic_wait_16 "entity_spawn_objective_marker_1|entity_spawn_objective_marker_2|interface_minimap_show_zone_objective_1"
+		logic_wait_17 "logic_or_8"
 		logic_wait_2 "logic_repeat_until_objective_status_0"
 		logic_wait_3 "logic_repeat_until_objective_status_0"
 		logic_wait_4 "audio_adaptive_music_system_2|wave_ground_2"
@@ -7096,7 +7190,7 @@ FlowGraphTemplate
 		{
 			comment "OBJECTIVE PROGRESS LOOP"
 			position "5496.00,264.00"
-			size "3132.00,1162.67"
+			size "3152.00,1192.67"
 			color "0.34,0.65,0.67,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"
@@ -7106,7 +7200,7 @@ FlowGraphTemplate
 		{
 			comment "MARKER MANAGEMENT"
 			position "5484.67,1594.67"
-			size "4156.00,2416.00"
+			size "4176.00,2446.00"
 			color "0.34,0.45,0.53,1.0"
 			font_color "1.00,1.00,1.00,1.0"
 			font_scale "4.00"

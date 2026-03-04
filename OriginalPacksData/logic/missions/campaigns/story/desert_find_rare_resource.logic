@@ -1,8 +1,8 @@
-//editor "scroll(20523.20,3444.69)|zoom(0.73)"
+//editor "scroll(1741.66,-403.09)|zoom(0.20)"
 FlowGraphTemplate
 {
-	version "36"
-	editor "6326"
+	version "37"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -356,6 +356,12 @@ FlowGraphTemplate
 						value "1"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -437,6 +443,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -634,6 +646,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -1183,6 +1201,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -2269,6 +2293,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -2531,6 +2561,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -2778,6 +2814,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -2984,6 +3026,9 @@ FlowGraphTemplate
 					count "6"
 					delay "3"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "100"
 				}
@@ -3087,6 +3132,9 @@ FlowGraphTemplate
 					count "4"
 					delay "3"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "100"
 				}
@@ -3536,6 +3584,9 @@ FlowGraphTemplate
 					count "5"
 					delay "3"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "100"
 				}
@@ -3660,6 +3711,9 @@ FlowGraphTemplate
 					count "5"
 					delay "3"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "100"
 				}
@@ -3763,6 +3817,9 @@ FlowGraphTemplate
 					count "3"
 					delay "3"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "100"
 				}
@@ -3818,6 +3875,12 @@ FlowGraphTemplate
 					{
 						key "finish_objective"
 						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "0"
 					}
 
 				}
@@ -4006,6 +4069,12 @@ FlowGraphTemplate
 					IntData
 					{
 						key "generate_type"
+						value "0"
+					}
+
+					IntData
+					{
+						key "always_visible"
 						value "0"
 					}
 
@@ -4508,6 +4577,60 @@ FlowGraphTemplate
 			self_id "objective_status_change_0"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(8493,711)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "resources|flora_cultivator"
+					}
+
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			self_id "interface_highlight_build_menu_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_highlight_build_menu.xml)|pos(9204,704)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "item"
+						value "resources|flora_cultivator"
+					}
+
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/interface/interface_highlight_build_menu.lua"
+			self_id "interface_highlight_build_menu_1"
+		}
+
 	}
 
 	GraphConnections
@@ -4525,6 +4648,7 @@ FlowGraphTemplate
 		interface_dialogue_show_group_4 "logic_wait_8"
 		interface_dialogue_show_group_5 "logic_if_research_finished_0|objective_generic_3"
 		interface_dialogue_show_group_6 "objective_exist_1"
+		interface_highlight_build_menu_0 "interface_highlight_build_menu_1"
 		interface_hud_show_text_0 "logic_wait_0"
 		interface_minimap_show_zone_1 "interface_minimap_hide_zone_1"
 		interface_minimap_show_zone_2 "interface_minimap_hide_zone_2"
@@ -4573,7 +4697,7 @@ FlowGraphTemplate
 		logic_wait_on_reseach_finished_0 "mission_highlight_research_1|objective_finish_3"
 		mission_change_creature_difficulty_1 "mission_end_0"
 		objective_connect_local_resource_to_building_0 "objective_wait_on_status_1"
-		objective_construct_building_0 "entity_remove_0"
+		objective_construct_building_0 "entity_remove_0|interface_highlight_build_menu_1"
 		objective_exist_0 "objective_exist_0###false|objective_exist_0###true"
 		objective_exist_0###false "logic_or_4"
 		objective_exist_0###true "objective_finish_6"
@@ -4590,7 +4714,7 @@ FlowGraphTemplate
 		objective_gather_resource_2 "interface_dialogue_show_group_10|logic_or_0"
 		objective_generic_1 "logic_if_local_variable_1"
 		objective_generic_2 "logic_if_local_variable_2"
-		objective_generic_3 "objective_construct_building_0"
+		objective_generic_3 "interface_highlight_build_menu_0|objective_construct_building_0"
 		objective_generic_4 "logic_wait_on_reseach_finished_0|mission_highlight_research_0"
 		objective_generic_5 "logic_if_building_power_1"
 		objective_generic_6 "objective_status_change_0"

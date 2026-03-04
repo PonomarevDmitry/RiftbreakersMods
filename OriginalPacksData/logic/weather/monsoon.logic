@@ -1,8 +1,8 @@
-//editor "scroll(4771.79,4.81)|zoom(0.67)"
+//editor "scroll(2350.73,-104.53)|zoom(0.47)"
 FlowGraphTemplate
 {
-	version "12"
-	editor "6180"
+	version "13"
+	editor "6701"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -75,7 +75,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4699,761)"
+			//editor "layout(condition_int.xml)|pos(4699,760)"
 			key "0"
 			self_id "logic_random_output_0###0"
 			value "logic_random_output_0###0"
@@ -83,7 +83,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4699,789)"
+			//editor "layout(condition_int.xml)|pos(4699,788)"
 			key "1"
 			self_id "logic_random_output_0###1"
 			value "logic_random_output_0###1"
@@ -281,7 +281,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3495,-126)"
+			//editor "layout(condition_int.xml)|pos(3495,-53)"
 			key "0"
 			self_id "logic_random_output_1###0"
 			value "logic_random_output_1###0"
@@ -289,7 +289,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3495,-97)"
+			//editor "layout(condition_int.xml)|pos(3495,-23)"
 			key "1"
 			self_id "logic_random_output_1###1"
 			value "logic_random_output_1###1"
@@ -553,7 +553,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(weather_generic.xml)|pos(3413,631)"
+			//editor "layout(weather_generic.xml)|pos(3465,949)"
 			database
 			{
 				Integers
@@ -578,6 +578,12 @@ FlowGraphTemplate
 					{
 						key "weather_blueprint"
 						value "weather/monsoon"
+					}
+
+					StringData
+					{
+						key "new_name"
+						value
 					}
 
 				}
@@ -681,7 +687,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_false.xml)|pos(4047,-248)"
+			//editor "layout(condition_false.xml)|pos(4047,-247)"
 			key "false"
 			self_id "logic_if_exist_entity_new_14###false"
 			value "logic_if_exist_entity_new_6###false"
@@ -1074,6 +1080,27 @@ FlowGraphTemplate
 			self_id "interface_dialogue_show_10"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3473,613)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
 	}
 
 	GraphConnections
@@ -1093,7 +1120,7 @@ FlowGraphTemplate
 		logic_if_exist_entity_new_15###false "interface_dialogue_show_8"
 		logic_if_exist_entity_new_15###true "interface_dialogue_show_5"
 		logic_or_0 "event_end_0"
-		logic_or_1 "logic_random_output_1|weather_generic_0"
+		logic_or_1 "logic_random_output_1|logic_wait_1|weather_generic_0"
 		logic_or_2 "logic_wait_0"
 		logic_random_output_0 "logic_random_output_0###0|logic_random_output_0###1"
 		logic_random_output_0###0 "interface_dialogue_show_10"
@@ -1105,7 +1132,7 @@ FlowGraphTemplate
 		logic_random_output_2###0 "interface_dialogue_show_6"
 		logic_random_output_2###1 "interface_dialogue_show_7"
 		logic_wait_0 "logic_or_1"
-		weather_generic_0 "logic_random_output_0"
+		logic_wait_1 "logic_random_output_0"
 	}
 
 	GraphComments

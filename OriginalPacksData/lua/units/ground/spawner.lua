@@ -33,6 +33,15 @@ function spawner:init()
 	self.fsm = self:CreateStateMachine()
     self.fsm:AddState( "check_skills", { enter="OnCheckSkills" } )
 	self.fsm:ChangeState( "check_skills" )
+	
+	if ( self.data:HasString("ambient_spawner") == true ) then
+		--LogService:Log("AMBIENT SPAWNER DISABLED:")
+		UnitSpawnerService:DisableUnitSpawner( self.entity )
+		self.checkSpawnerState = self:CreateStateMachine()
+		self.checkSpawnerState:AddState( "check_state", { execute="OnExecuteCheckSpawnerState", interval=1 } )
+		self.checkSpawnerState:ChangeState( "check_state" )
+	end
+	
 end
 
 function spawner:OnCheckSkills( state )
@@ -44,6 +53,16 @@ function spawner:OnCheckSkills( state )
 			EntityService:SetTeam( child, "wave_enemy" )
 			QueueEvent( "UnitAggressiveStateEvent", child )
 		end
+	end
+end
+
+function spawner:OnExecuteCheckSpawnerState( state )
+	local players = FindEntitiesInDinstance( "Type", "player", self.entity, 0, 100 )
+	--LogService:Log( "Players Found:" .. tostring(#players) )
+    if #players > 0 then
+		--LogService:Log("AMBIENT SPAWNER ENABLED:")
+		UnitSpawnerService:EnableUnitSpawner( self.entity )
+		state:Exit()
 	end
 end
 

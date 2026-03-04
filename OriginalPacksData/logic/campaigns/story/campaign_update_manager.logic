@@ -1,8 +1,8 @@
-//editor "scroll(-154.61,-306.68)|zoom(0.40)"
+//editor "scroll(-207.61,-727.89)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "16"
-	editor "6546"
+	version "17"
+	editor "6701"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -554,7 +554,7 @@ FlowGraphTemplate
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(843,-197)"
+			//editor "layout(event_graph.xml)|pos(1137,-196)"
 			graph "logic/campaigns/story/campaign_mission_generator_manager.logic"
 			self_id "event_graph_18"
 			start_point "default"
@@ -582,7 +582,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_if_global_variable.xml)|pos(543,-694)"
+			//editor "layout(logic_if_global_variable.xml)|pos(533,-936)"
 			database
 			{
 				Floats
@@ -647,7 +647,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(543,-427)"
+			//editor "layout(condition_true.xml)|pos(533,-669)"
 			key "true"
 			self_id "logic_if_global_variable_6###true"
 			value "logic_if_global_variable_2###true"
@@ -655,7 +655,7 @@ FlowGraphTemplate
 
 		BehaviourGraphNode
 		{
-			//editor "layout(event_graph.xml)|pos(1153,-487)"
+			//editor "layout(event_graph.xml)|pos(1143,-729)"
 			graph "logic/campaigns/story/campaign_endgame_manager.logic"
 			self_id "event_graph_19"
 			start_point "default"
@@ -681,12 +681,48 @@ FlowGraphTemplate
 
 		}
 
+		BehaviourGraphNode
+		{
+			//editor "layout(event_graph.xml)|pos(1138,-397)"
+			graph "logic/campaigns/story/campaign_ice_biome_start.logic"
+			self_id "event_graph_20"
+			start_point "default"
+			validate_graph_resource "1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Integers
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(557,-353)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_2"
+		}
+
 	}
 
 	GraphConnections
 	{
-		default "logic_and_1|logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3|logic_if_global_variable_4|logic_if_global_variable_5|logic_if_global_variable_6"
+		default "logic_and_1|logic_and_2|logic_if_global_variable_1|logic_if_global_variable_2|logic_if_global_variable_3|logic_if_global_variable_4|logic_if_global_variable_5|logic_if_global_variable_6"
 		logic_and_1 "event_graph_18"
+		logic_and_2 "event_graph_20"
 		logic_if_global_variable_1 "logic_if_global_variable_1###true"
 		logic_if_global_variable_1###true "entity_add_item_5"
 		logic_if_global_variable_2 "logic_if_global_variable_2###true"

@@ -1,8 +1,8 @@
-//editor "scroll(535.65,-412.59)|zoom(0.53)"
+//editor "scroll(239.36,-472.28)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "11"
-	editor "6191"
+	version "12"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -121,6 +121,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -132,6 +135,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -143,6 +149,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -154,6 +163,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -165,6 +177,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -176,6 +191,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -187,6 +205,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -198,6 +219,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -209,6 +233,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -220,6 +247,9 @@ FlowGraphTemplate
 					count "10"
 					delay "0.7"
 					delay_group "0"
+					spawn_species_difficulty_max "0"
+					spawn_species_difficulty_min "0"
+					spawn_species_difficulty_offset "0"
 					spawn_type "creature_species"
 					units_in_one_spawn "1"
 				}
@@ -496,7 +526,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(entity_spawn_single.xml)|pos(1819,-475)"
+			//editor "layout(entity_spawn_single.xml)|pos(1822,-661)"
 			database
 			{
 				Floats
@@ -614,12 +644,33 @@ FlowGraphTemplate
 			self_id "logic_and_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_sound_play_global.xml)|pos(1826,-117)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "sound_name"
+						value "enemies/generic/wave_start"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_sound_play_global.lua"
+			self_id "audio_sound_play_global_4"
+		}
+
 	}
 
 	GraphConnections
 	{
 		default "logic_and_9"
-		logic_and_1 "wave_ground_2"
+		logic_and_1 "audio_sound_play_global_4|wave_ground_2"
 		logic_and_10 "logic_and_7"
 		logic_and_14 "logic_or_4"
 		logic_and_7 "logic_and_8"

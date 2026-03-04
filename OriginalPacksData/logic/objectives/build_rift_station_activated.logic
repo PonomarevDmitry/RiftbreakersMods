@@ -1,8 +1,8 @@
-//editor "scroll(6638.31,966.70)|zoom(0.80)"
+//editor "scroll(4787.88,-1290.15)|zoom(0.53)"
 FlowGraphTemplate
 {
-	version "34"
-	editor "6570"
+	version "35"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -1548,6 +1548,73 @@ FlowGraphTemplate
 
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(enemies_change_ai_groups_to_aggressive.xml)|pos(7267,-1693)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "aggressive_radius"
+						value "10000"
+					}
+
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "search_target"
+						value
+					}
+
+					StringData
+					{
+						key "entity_name"
+						value
+					}
+
+					StringData
+					{
+						key "entity_group"
+						value
+					}
+
+					StringData
+					{
+						key "entity_type"
+						value "player"
+					}
+
+					StringData
+					{
+						key "entity_bp"
+						value
+					}
+
+					StringData
+					{
+						key "disband_group"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/enemies/enemies_change_ai_groups_to_aggressive.lua"
+			self_id "enemies_change_ai_groups_to_aggressive_1"
+		}
+
 	}
 
 	GraphConnections
@@ -1568,7 +1635,7 @@ FlowGraphTemplate
 		logic_wait_on_event_1 "objective_finish_0"
 		logic_wait_on_event_2 "event_graph_2"
 		//editor "logic_wait_4(6341,-1248:5614,-1246)"
-		logic_wait_on_event_3 "logic_if_difficulty_wave_1|logic_wait_4"
+		logic_wait_on_event_3 "enemies_change_ai_groups_to_aggressive_1|logic_if_difficulty_wave_1|logic_wait_4"
 		objective_finish_0 "logic_wait_2|objective_generic_progress_2"
 		objective_generic_progress_0 "generic_increase|logic_wait_on_event_0|objective_if_progress_status_0|objective_if_progress_status_1|objective_if_progress_status_2"
 		objective_generic_progress_1 "logic_wait_1"

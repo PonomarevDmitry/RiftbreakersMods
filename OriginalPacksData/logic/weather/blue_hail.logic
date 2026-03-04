@@ -1,14 +1,13 @@
-//editor "offset(-2762.347,-48.145)|zoom(0.953)"
+//editor "scroll(2034.82,-107.62)|zoom(0.47)"
 FlowGraphTemplate
 {
-	version "5"
-	editor "3227"
+	version "6"
+	editor "6701"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(171,528)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,15 +22,37 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4229,427)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
+			//editor "layout(interface_dialogue_show.xml)|pos(4376,862)"
 			database
 			{
+				Floats
+				{
+					FloatData
+					{
+						key "extended_duration"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "timeout"
+						value "5.00"
+					}
+
+					FloatData
+					{
+						key "priority"
+						value "-1.00"
+					}
+
+				}
+
 				Strings
 				{
 					StringData
@@ -71,6 +92,23 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_0"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2941,609)"
+			self_id "logic_or_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(3860,140)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -93,23 +131,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_0"
-		}
-
-		OrBehaviourNode
-		{
-			//editor "layout(logic_or.xml)|pos(2941,609)"
-			self_id "logic_or_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(3860,140)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -149,6 +170,166 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(3388,17)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "3"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "0"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "1"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "2"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_random_output.lua"
+			self_id "logic_random_output_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3388,227)"
+			key "0"
+			self_id "logic_random_output_0###0"
+			value "logic_random_output_0###0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3388,255)"
+			key "1"
+			self_id "logic_random_output_0###1"
+			value "logic_random_output_0###1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3388,283)"
+			key "2"
+			self_id "logic_random_output_0###2"
+			value "logic_random_output_0###2"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_random_output.xml)|pos(3854,982)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "outputs"
+						value "3"
+					}
+
+				}
+
+				Floats
+				{
+					//editor "expanded(1)"
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "0"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "1"
+						value "1"
+					}
+
+					FloatData
+					{
+						//editor "layout(condition_weight.xml)|pos(0,0)"
+						key "2"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_random_output.lua"
+			self_id "logic_random_output_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3854,1193)"
+			key "0"
+			self_id "logic_random_output_1###0"
+			value "logic_random_output_1###0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3854,1221)"
+			key "1"
+			self_id "logic_random_output_1###1"
+			value "logic_random_output_1###1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(3854,1249)"
+			key "2"
+			self_id "logic_random_output_1###2"
+			value "logic_random_output_1###2"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(5379,1164)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(4374,1037)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -171,170 +352,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_1"
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_random_output.xml)|pos(3388,17)"
-			script "lua/graph/logic/logic_random_output.lua"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "outputs"
-						value "3"
-					}
-
-				}
-
-				Floats
-				{
-					//editor "expanded(1)"
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "0"
-						value "1"
-					}
-
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "1"
-						value "1"
-					}
-
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "2"
-						value "1"
-					}
-
-				}
-
-			}
-
-			self_id "logic_random_output_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_0###0"
-					key "0"
-				}
-
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_0###1"
-					key "1"
-				}
-
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_0###2"
-					key "2"
-				}
-
-			}
-
-		}
-
-		NodeSelectorNode
-		{
-			//editor "layout(logic_random_output.xml)|pos(3707,547)"
-			script "lua/graph/logic/logic_random_output.lua"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "outputs"
-						value "3"
-					}
-
-				}
-
-				Floats
-				{
-					//editor "expanded(1)"
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "0"
-						value "1"
-					}
-
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "1"
-						value "1"
-					}
-
-					FloatData
-					{
-						//editor "layout(condition_weight.xml)"
-						key "2"
-						value "1"
-					}
-
-				}
-
-			}
-
-			self_id "logic_random_output_1"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_1###0"
-					key "0"
-				}
-
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_1###1"
-					key "1"
-				}
-
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_1###2"
-					key "2"
-				}
-
-			}
-
-		}
-
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(5232,729)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4227,602)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -374,6 +391,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(4371,1214)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -396,17 +424,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_2"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4224,779)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -446,6 +463,23 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_3"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(5050,1163)"
+			self_id "logic_or_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1503,-275)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -468,23 +502,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_3"
-		}
-
-		OrBehaviourNode
-		{
-			//editor "layout(logic_or.xml)|pos(4903,728)"
-			self_id "logic_or_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(1503,-275)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -524,6 +541,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1500,-81)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -546,17 +574,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_4"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(1500,-81)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -596,6 +613,23 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_5"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2331,-61)"
+			self_id "logic_or_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(1503,-461)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -618,23 +652,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_5"
-		}
-
-		OrBehaviourNode
-		{
-			//editor "layout(logic_or.xml)|pos(2331,-61)"
-			self_id "logic_or_2"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(1503,-461)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -674,6 +691,38 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_6"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2612,-77)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "10.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(3865,-88)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -696,38 +745,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_6"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(2612,-77)"
-			script "lua/graph/logic/logic_wait.lua"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "10.00"
-					}
-
-				}
-
-			}
-
-			self_id "logic_wait_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(3865,-88)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -767,6 +784,17 @@ FlowGraphTemplate
 
 				}
 
+			}
+
+			script "lua/graph/interface/interface_dialogue_show.lua"
+			self_id "interface_dialogue_show_7"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(interface_dialogue_show.xml)|pos(3859,-279)"
+			database
+			{
 				Floats
 				{
 					FloatData
@@ -789,17 +817,6 @@ FlowGraphTemplate
 
 				}
 
-			}
-
-			self_id "interface_dialogue_show_7"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(interface_dialogue_show.xml)|pos(3859,-279)"
-			script "lua/graph/interface/interface_dialogue_show.lua"
-			database
-			{
 				Strings
 				{
 					StringData
@@ -839,37 +856,15 @@ FlowGraphTemplate
 
 				}
 
-				Floats
-				{
-					FloatData
-					{
-						key "extended_duration"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "timeout"
-						value "5.00"
-					}
-
-					FloatData
-					{
-						key "priority"
-						value "-1.00"
-					}
-
-				}
-
 			}
 
+			script "lua/graph/interface/interface_dialogue_show.lua"
 			self_id "interface_dialogue_show_8"
 		}
 
 		NodeSelectorNode
 		{
 			//editor "layout(logic_random_output.xml)|pos(944,0)"
-			script "lua/graph/logic/logic_random_output.lua"
 			database
 			{
 				Integers
@@ -887,21 +882,21 @@ FlowGraphTemplate
 					//editor "expanded(1)"
 					FloatData
 					{
-						//editor "layout(condition_weight.xml)"
+						//editor "layout(condition_weight.xml)|pos(0,0)"
 						key "0"
 						value "1"
 					}
 
 					FloatData
 					{
-						//editor "layout(condition_weight.xml)"
+						//editor "layout(condition_weight.xml)|pos(0,0)"
 						key "1"
 						value "1"
 					}
 
 					FloatData
 					{
-						//editor "layout(condition_weight.xml)"
+						//editor "layout(condition_weight.xml)|pos(0,0)"
 						key "2"
 						value "1"
 					}
@@ -910,33 +905,32 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/logic/logic_random_output.lua"
 			self_id "logic_random_output_2"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_2###0"
-					key "0"
-				}
+		}
 
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_2###1"
-					key "1"
-				}
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(944,103)"
+			key "0"
+			self_id "logic_random_output_2###0"
+			value "logic_random_output_2###0"
+		}
 
-				ConditionData
-				{
-					//editor "layout(condition_int.xml)"
-					value "logic_random_output_2###2"
-					key "2"
-				}
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(944,131)"
+			key "1"
+			self_id "logic_random_output_2###1"
+			value "logic_random_output_2###1"
+		}
 
-			}
-
+		FlowGraphNode
+		{
+			//editor "layout(condition_int.xml)|pos(944,159)"
+			key "2"
+			self_id "logic_random_output_2###2"
+			value "logic_random_output_2###2"
 		}
 
 		NodeSelectorNode
@@ -944,143 +938,29 @@ FlowGraphTemplate
 			//editor "layout(logic_check_streaming_session.xml)|pos(489,503)"
 			script "lua/graph/logic/logic_check_streaming_session.lua"
 			self_id "logic_check_streaming_session_0"
-			conditions
-			{
-				//editor "expanded(1)"
-				ConditionData
-				{
-					//editor "layout(condition_false.xml)"
-					key "false"
-					value "logic_check_streaming_session_0###false"
-				}
-
-				ConditionData
-				{
-					//editor "layout(condition_true.xml)"
-					key "true"
-					value "logic_check_streaming_session_0###true"
-				}
-
-			}
-
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(3403,217)"
-			self_id "logic_random_output_0###0"
-			value "logic_random_output_0###0"
-			key "0"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(3403,244)"
-			self_id "logic_random_output_0###1"
-			value "logic_random_output_0###1"
-			key "1"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(3403,271)"
-			self_id "logic_random_output_0###2"
-			value "logic_random_output_0###2"
-			key "2"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(3722,747)"
-			self_id "logic_random_output_1###0"
-			value "logic_random_output_1###0"
-			key "0"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(3722,774)"
-			self_id "logic_random_output_1###1"
-			value "logic_random_output_1###1"
-			key "1"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(3722,801)"
-			self_id "logic_random_output_1###2"
-			value "logic_random_output_1###2"
-			key "2"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(959,100)"
-			self_id "logic_random_output_2###0"
-			value "logic_random_output_2###0"
-			key "0"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(959,200)"
-			self_id "logic_random_output_2###1"
-			value "logic_random_output_2###1"
-			key "1"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_int.xml)|pos(959,300)"
-			self_id "logic_random_output_2###2"
-			value "logic_random_output_2###2"
-			key "2"
-		}
-
-		FlowGraphNode
-		{
-			//editor "layout(condition_false.xml)|pos(504,603)"
-			self_id "logic_check_streaming_session_0###false"
+			//editor "layout(condition_false.xml)|pos(489,583)"
 			key "false"
+			self_id "logic_check_streaming_session_0###false"
 			value "logic_check_streaming_session_0###false"
 		}
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_true.xml)|pos(504,703)"
-			self_id "logic_check_streaming_session_0###true"
+			//editor "layout(condition_true.xml)|pos(489,611)"
 			key "true"
+			self_id "logic_check_streaming_session_0###true"
 			value "logic_check_streaming_session_0###true"
 		}
 
 		LuaBehaviourNode
 		{
 			//editor "layout(weather_generic_local.xml)|pos(3218,570)"
-			script "lua/graph/weather/weather_generic_local.lua"
 			database
 			{
-				Strings
-				{
-					StringData
-					{
-						key "weather_generic_blueprint"
-						value "weather/generic_local"
-					}
-
-					StringData
-					{
-						key "time_of_day_preset"
-						value "scripts/scene_params/blue_hail.td"
-					}
-
-					StringData
-					{
-						key "damage_type"
-						value "blue_hail"
-					}
-
-				}
-
 				Floats
 				{
 					FloatData
@@ -1132,48 +1012,92 @@ FlowGraphTemplate
 					IntData
 					{
 						key "marker_color_a"
-						value "50"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "weather_generic_blueprint"
+						value "weather/generic_local"
+					}
+
+					StringData
+					{
+						key "time_of_day_preset"
+						value "scripts/scene_params/blue_hail.td"
+					}
+
+					StringData
+					{
+						key "damage_type"
+						value "blue_hail"
 					}
 
 				}
 
 			}
 
+			script "lua/graph/weather/weather_generic_local.lua"
 			self_id "weather_generic_local_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3541,1063)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
 		}
 
 	}
 
 	GraphConnections
 	{
-		logic_random_output_2###1 "interface_dialogue_show_4"
-		logic_random_output_1###1 "interface_dialogue_show_2"
-		logic_random_output_1###0 "interface_dialogue_show_0"
-		logic_random_output_0###2 "interface_dialogue_show_1"
-		logic_random_output_0###1 "interface_dialogue_show_7"
-		logic_check_streaming_session_0###true "logic_or_0"
-		logic_check_streaming_session_0 "logic_check_streaming_session_0###false|logic_check_streaming_session_0###true"
-		logic_random_output_2 "logic_random_output_2###0|logic_random_output_2###1|logic_random_output_2###2"
-		weather_generic_local_0 "logic_random_output_1"
-		logic_check_streaming_session_0###false "logic_random_output_2"
-		interface_dialogue_show_6 "logic_or_2"
-		logic_or_2 "logic_wait_0"
-		logic_or_1 "event_end_0"
-		interface_dialogue_show_4 "logic_or_2"
-		interface_dialogue_show_3 "logic_or_1"
-		interface_dialogue_show_2 "logic_or_1"
-		logic_random_output_0 "logic_random_output_0###0|logic_random_output_0###1|logic_random_output_0###2"
-		logic_random_output_2###0 "interface_dialogue_show_6"
-		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1|logic_random_output_1###2"
-		logic_random_output_0###0 "interface_dialogue_show_8"
-		logic_random_output_2###2 "interface_dialogue_show_5"
-		logic_or_0 "logic_random_output_0|weather_generic_local_0"
-		logic_random_output_1###2 "interface_dialogue_show_3"
-		logic_wait_0 "logic_or_0"
-		interface_dialogue_show_0 "logic_or_1"
 		default "logic_check_streaming_session_0"
+		interface_dialogue_show_0 "logic_or_1"
+		interface_dialogue_show_2 "logic_or_1"
+		interface_dialogue_show_3 "logic_or_1"
+		interface_dialogue_show_4 "logic_or_2"
 		interface_dialogue_show_5 "logic_or_2"
+		interface_dialogue_show_6 "logic_or_2"
+		logic_check_streaming_session_0 "logic_check_streaming_session_0###false|logic_check_streaming_session_0###true"
+		logic_check_streaming_session_0###false "logic_random_output_2"
+		logic_check_streaming_session_0###true "logic_or_0"
+		logic_or_0 "logic_random_output_0|logic_wait_1|weather_generic_local_0"
+		logic_or_1 "event_end_0"
+		logic_or_2 "logic_wait_0"
+		logic_random_output_0 "logic_random_output_0###0|logic_random_output_0###1|logic_random_output_0###2"
+		logic_random_output_0###0 "interface_dialogue_show_8"
+		logic_random_output_0###1 "interface_dialogue_show_7"
+		logic_random_output_0###2 "interface_dialogue_show_1"
+		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1|logic_random_output_1###2"
+		logic_random_output_1###0 "interface_dialogue_show_0"
+		logic_random_output_1###1 "interface_dialogue_show_2"
+		logic_random_output_1###2 "interface_dialogue_show_3"
+		logic_random_output_2 "logic_random_output_2###0|logic_random_output_2###1|logic_random_output_2###2"
+		logic_random_output_2###0 "interface_dialogue_show_6"
+		logic_random_output_2###1 "interface_dialogue_show_4"
+		logic_random_output_2###2 "interface_dialogue_show_5"
+		logic_wait_0 "logic_or_0"
+		logic_wait_1 "logic_random_output_1"
 	}
 
+	GraphComments
 }
 

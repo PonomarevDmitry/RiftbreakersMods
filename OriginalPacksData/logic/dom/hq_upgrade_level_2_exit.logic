@@ -1,14 +1,13 @@
-//editor "offset(-202.510,109.470)|zoom(0.905)"
+//editor "scroll(790.61,104.15)|zoom(0.87)"
 FlowGraphTemplate
 {
-	version "10"
-	editor "3151"
+	version "11"
+	editor "6670"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
 			//editor "layout(event_start.xml)|pos(84,447)"
-			script "lua/graph/mission_state/event_start.lua"
 			database
 			{
 				Integers
@@ -23,12 +22,13 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/mission_state/event_start.lua"
 			self_id "default"
 		}
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(1278,445)"
+			//editor "layout(event_end.xml)|pos(2205,681)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
@@ -36,7 +36,6 @@ FlowGraphTemplate
 		LuaBehaviourNode
 		{
 			//editor "layout(audio_adaptive_music_system.xml)|pos(320,439)"
-			script "lua/graph/audio/audio_adaptive_music_system.lua"
 			database
 			{
 				Strings
@@ -51,55 +50,173 @@ FlowGraphTemplate
 
 			}
 
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
 			self_id "audio_adaptive_music_system_0"
 		}
 
 		DialogGroupNode
 		{
-			//editor "layout(interface_dialogue_show_group.xml)|pos(643,287)"
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1341,735)"
 			global "0"
-			self_id "interface_dialogue_show_group_0"
 			interrupt "0"
 			priority "0"
+			self_id "interface_dialogue_show_group_0"
+			timeout "0"
 			dialogs
 			{
 				//editor "expanded(1)"
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/objective/mech_upgrade_hq_04"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/ashley"
 					sound_name "voice_over/objective/ashley_upgrade_hq_04"
-					extended_duration "0"
 				}
 
 				DialogInfo
 				{
-					//editor "layout(dialog_info.xml)"
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
 					gui_id "gui/hud/dialogs/mech"
 					sound_name "voice_over/objective/mech_build_comm_hub_03"
-					extended_duration "0"
 				}
 
 			}
 
 		}
 
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_global_variable.xml)|pos(753,353)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "float_value"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "empty_string_value"
+						value "0"
+					}
+
+					IntData
+					{
+						key "campaign_data_source"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "comparison_type"
+						value "equal"
+					}
+
+					StringData
+					{
+						key "string_value"
+						value "true"
+					}
+
+					StringData
+					{
+						key "wait_until_true"
+						value "false"
+					}
+
+					StringData
+					{
+						key "variable_name"
+						value "campaign_mode_open"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_global_variable.lua"
+			self_id "logic_if_global_variable_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(753,607)"
+			key "true"
+			self_id "logic_if_global_variable_1###true"
+			value "logic_if_global_variable_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(753,635)"
+			key "false"
+			self_id "logic_if_global_variable_1###false"
+			value
+		}
+
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1364,273)"
+			global "0"
+			interrupt "0"
+			priority "0"
+			self_id "interface_dialogue_show_group_1"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/objective/mech_upgrade_hq_04"
+				}
+
+			}
+
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2023,678)"
+			self_id "logic_or_1"
+		}
+
 	}
 
 	GraphConnections
 	{
-		interface_dialogue_show_group_0 "event_end_0"
-		audio_adaptive_music_system_0 "interface_dialogue_show_group_0"
+		audio_adaptive_music_system_0 "logic_if_global_variable_1"
 		default "audio_adaptive_music_system_0"
+		interface_dialogue_show_group_0 "logic_or_1"
+		interface_dialogue_show_group_1 "logic_or_1"
+		logic_if_global_variable_1 "logic_if_global_variable_1###false|logic_if_global_variable_1###true"
+		logic_if_global_variable_1###false "interface_dialogue_show_group_0"
+		logic_if_global_variable_1###true "interface_dialogue_show_group_1"
+		logic_or_1 "event_end_0"
 	}
 
+	GraphComments
 }
 

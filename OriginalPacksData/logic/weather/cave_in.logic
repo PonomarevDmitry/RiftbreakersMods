@@ -1,8 +1,8 @@
-//editor "scroll(-408.80,-688.59)|zoom(0.13)"
+//editor "scroll(1778.77,83.74)|zoom(0.47)"
 FlowGraphTemplate
 {
-	version "4"
-	editor "6247"
+	version "5"
+	editor "6701"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -199,14 +199,14 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(5752,780)"
+			//editor "layout(event_end.xml)|pos(5661,1285)"
 			script "lua/graph/mission_state/event_end.lua"
 			self_id "event_end_0"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4731,805)"
+			//editor "layout(interface_dialogue_show.xml)|pos(4639,1310)"
 			database
 			{
 				Floats
@@ -278,13 +278,13 @@ FlowGraphTemplate
 
 		OrBehaviourNode
 		{
-			//editor "layout(logic_or.xml)|pos(5422,778)"
+			//editor "layout(logic_or.xml)|pos(5331,1283)"
 			self_id "logic_or_1"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4725,277)"
+			//editor "layout(interface_dialogue_show.xml)|pos(4633,782)"
 			database
 			{
 				Floats
@@ -513,27 +513,6 @@ FlowGraphTemplate
 			self_id "weather_earthquake_0"
 		}
 
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(3735,631)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "5"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_1"
-		}
-
 		NodeSelectorNode
 		{
 			//editor "layout(logic_random_output.xml)|pos(937,-303)"
@@ -576,7 +555,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(937,-123)"
+			//editor "layout(condition_int.xml)|pos(937,-196)"
 			key "0"
 			self_id "logic_random_output_3###0"
 			value
@@ -584,7 +563,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(937,-94)"
+			//editor "layout(condition_int.xml)|pos(937,-167)"
 			key "1"
 			self_id "logic_random_output_3###1"
 			value
@@ -592,7 +571,7 @@ FlowGraphTemplate
 
 		NodeSelectorNode
 		{
-			//editor "layout(logic_random_output.xml)|pos(4020,538)"
+			//editor "layout(logic_random_output.xml)|pos(3929,1043)"
 			database
 			{
 				Integers
@@ -646,7 +625,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4020,786)"
+			//editor "layout(condition_int.xml)|pos(3929,1291)"
 			key "0"
 			self_id "logic_random_output_1###0"
 			value
@@ -654,7 +633,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4020,814)"
+			//editor "layout(condition_int.xml)|pos(3929,1319)"
 			key "1"
 			self_id "logic_random_output_1###1"
 			value
@@ -662,7 +641,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4020,842)"
+			//editor "layout(condition_int.xml)|pos(3929,1347)"
 			key "2"
 			self_id "logic_random_output_1###2"
 			value
@@ -670,7 +649,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(4020,870)"
+			//editor "layout(condition_int.xml)|pos(3929,1375)"
 			key "3"
 			self_id "logic_random_output_1###3"
 			value
@@ -678,7 +657,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4730,469)"
+			//editor "layout(interface_dialogue_show.xml)|pos(4639,974)"
 			database
 			{
 				Floats
@@ -750,7 +729,7 @@ FlowGraphTemplate
 
 		LuaBehaviourNode
 		{
-			//editor "layout(interface_dialogue_show.xml)|pos(4728,994)"
+			//editor "layout(interface_dialogue_show.xml)|pos(4637,1499)"
 			database
 			{
 				Floats
@@ -820,6 +799,27 @@ FlowGraphTemplate
 			self_id "interface_dialogue_show_10"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(3281,1137)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "60"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
 	}
 
 	GraphConnections
@@ -836,7 +836,7 @@ FlowGraphTemplate
 		logic_check_streaming_session_0###true "logic_or_2"
 		logic_or_0 "logic_wait_0"
 		logic_or_1 "event_end_0"
-		logic_or_2 "weather_earthquake_0"
+		logic_or_2 "logic_wait_2|weather_earthquake_0"
 		logic_random_output_1 "logic_random_output_1###0|logic_random_output_1###1|logic_random_output_1###2|logic_random_output_1###3"
 		logic_random_output_1###0 "interface_dialogue_show_8"
 		logic_random_output_1###1 "interface_dialogue_show_9"
@@ -846,8 +846,7 @@ FlowGraphTemplate
 		logic_random_output_3###0 "interface_dialogue_show_3"
 		logic_random_output_3###1 "interface_dialogue_show_1"
 		logic_wait_0 "logic_or_2"
-		logic_wait_1 "logic_random_output_1"
-		weather_earthquake_0 "logic_wait_1"
+		logic_wait_2 "logic_random_output_1"
 	}
 
 	GraphComments

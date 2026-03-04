@@ -125,16 +125,16 @@ EntityBlueprint
 
 	UnitsSpawnerDesc
 	{
-		blueprint				"units/ground/wingmite"
-		amount_on_single_spawn	"3"
+		blueprint				"units/ground/egg_wingmite"
+		amount_on_single_spawn	"5"
 		max_spawn				"75"
 		time_to_spawn			"8"
 		unit_state_spawn		"1"  // do not touch
 		max_spawn_distance		"30"
-		spawn_type				"normal"	//normal|egg
+		spawn_type				"egg"	//normal|egg
 		spawn_marker_bp			"effects/messages_and_markers/wave_marker_nest"
 		spawn_marker_life_time	"30"
-		can_spawn_when_visible	"0"
+		can_spawn_when_visible	"1"
 		defend_radius			"40"
 	}	
 
@@ -242,7 +242,7 @@ EntityBlueprint
 
 	SelectableDesc
 	{
-		content "monster_name/spawner_canoptrix"
+		content "monster_name/spawner_alien"
 		can_activate 0
 	}
 
@@ -519,6 +519,19 @@ EntityBlueprint
 			}
 		}		
 ////////////////////////MISC/////////////////////////	
+		EffectGroup
+		{
+			group "idle"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_spawner/spawner_idle"					
+				}
+			}
+		}	
 		EffectGroup
 		{						
 			group "damage_generic"

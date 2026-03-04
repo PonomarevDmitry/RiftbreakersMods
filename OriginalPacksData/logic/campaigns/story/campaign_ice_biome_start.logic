@@ -1,0 +1,88 @@
+//editor "scroll(-63.17,226.50)|zoom(0.60)"
+FlowGraphTemplate
+{
+	version "20"
+	editor "6701"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(152,1076)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(473,1062)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/resource_handling_palladium"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			self_id "logic_wait_on_reseach_finished_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_set_global_variable.xml)|pos(1005,1022)"
+			script "lua/graph/logic/logic_set_global_variable.lua"
+			self_id "logic_set_global_variable_1"
+			database
+			{
+				Floats
+				{
+					//editor "expanded(1)"
+				}
+
+				Strings
+				{
+					//editor "expanded(1)"
+					StringData
+					{
+						//editor "layout(data_block_string.xml)|pos(0,0)"
+						key "global.ice_biome_start"
+						value "true"
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	GraphConnections
+	{
+		default "logic_wait_on_reseach_finished_2"
+		logic_wait_on_reseach_finished_2 "logic_set_global_variable_1"
+	}
+
+	GraphComments
+}
+

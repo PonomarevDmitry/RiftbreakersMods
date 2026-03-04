@@ -1,8 +1,8 @@
-//editor "scroll(-1298.53,-373.19)|zoom(0.13)"
+//editor "scroll(-1739.94,1150.28)|zoom(0.60)"
 FlowGraphTemplate
 {
-	version "58"
-	editor "6627"
+	version "59"
+	editor "6723"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -31,34 +31,6 @@ FlowGraphTemplate
 			//editor "layout(entity_spawn_player.xml)|pos(-2337,1219)"
 			script "lua/graph/entity/entity_spawn_player.lua"
 			self_id "entity_spawn_player_0"
-		}
-
-		BehaviourGraphNode
-		{
-			//editor "layout(event_graph.xml)|pos(-1878,671)"
-			graph "logic/utility/music_adventure.logic"
-			self_id "event_graph_0"
-			start_point "default"
-			validate_graph_resource "1"
-			database
-			{
-				Floats
-				{
-					//editor "expanded(1)"
-				}
-
-				Integers
-				{
-					//editor "expanded(1)"
-				}
-
-				Strings
-				{
-					//editor "expanded(1)"
-				}
-
-			}
-
 		}
 
 		LuaBehaviourNode
@@ -1413,48 +1385,6 @@ FlowGraphTemplate
 
 		}
 
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(-1125,1678)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "3.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_6"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(5977,1842)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "3.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_8"
-		}
-
 		NodeSelectorNode
 		{
 			//editor "layout(logic_if_familiarity_level.xml)|pos(-1170,-1140)"
@@ -1781,12 +1711,98 @@ FlowGraphTemplate
 			self_id "mission_change_creature_difficulty_2"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(-1727,1880)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(-1419,1878)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/fear_metallic_only"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(-1063,1888)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "232.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(-866,1879)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_0"
+		}
+
 	}
 
 	GraphConnections
 	{
+		audio_adaptive_music_system_1 "audio_music_change_playlist_1"
+		audio_music_change_playlist_1 "logic_wait_0"
 		default "entity_spawn_player_0"
-		entity_spawn_player_0 "event_graph_0|logic_wait_on_event_0"
+		entity_spawn_player_0 "audio_adaptive_music_system_1|logic_wait_on_event_0"
 		event_graph_1 "logic_wait_15"
 		event_graph_2 "logic_and_4"
 		event_graph_3 "logic_wait_23"
@@ -1806,6 +1822,7 @@ FlowGraphTemplate
 		logic_set_global_variable_0 "objective_exist_7"
 		logic_set_global_variable_1 "objective_exist_8"
 		logic_set_global_variable_2 "event_graph_5"
+		logic_wait_0 "audio_adaptive_music_system_0"
 		logic_wait_15 "event_graph_2"
 		logic_wait_18 "objective_exist_7"
 		logic_wait_23 "logic_set_global_variable_1|mission_change_creature_difficulty_1"
@@ -1814,7 +1831,6 @@ FlowGraphTemplate
 		logic_wait_26 "logic_set_global_variable_2|mission_change_creature_difficulty_2"
 		logic_wait_4 "objective_exist_0"
 		logic_wait_5 "logic_or_0"
-		logic_wait_6 "logic_wait_8"
 		logic_wait_7 "objective_exist_2"
 		logic_wait_on_event_0 "interface_dialogue_show_group_0|logic_if_familiarity_level_1|logic_if_familiarity_level_2|logic_if_familiarity_level_3|logic_wait_4"
 		mission_change_creature_difficulty_0 "logic_set_global_variable_0"

@@ -54,15 +54,15 @@ return function()
 	
 	rules.objectivesLogic = 
 	{
+		rules.objectivesLogic = 
+	{
 		{ name = "logic/objectives/kill_elite_dynamic.logic", minDifficultyLevel = 4 },
-		{ name = "logic/objectives/destroy_nest_wingmite_single.logic", minDifficultyLevel = 4, maxDifficultyLevel = 6 }, 
-		{ name = "logic/objectives/destroy_nest_wingmite_multiple.logic", minDifficultyLevel = 6 },
-		{ name = "logic/objectives/destroy_nest_bradron_single.logic", minDifficultyLevel = 5, maxDifficultyLevel = 7 }, 
-		{ name = "logic/objectives/destroy_nest_bradron_multiple.logic", minDifficultyLevel = 7 },
-		{ name = "logic/objectives/destroy_nest_octabit_single.logic", minDifficultyLevel = 6, maxDifficultyLevel = 8 }, 
-		{ name = "logic/objectives/destroy_nest_octabit_multiple.logic", minDifficultyLevel = 8 },
-		{ name = "logic/objectives/destroy_nest_flurian_single.logic", minDifficultyLevel = 7, maxDifficultyLevel = 9 }, 
-		{ name = "logic/objectives/destroy_nest_flurian_multiple.logic", minDifficultyLevel = 9 }
+		{ name = "logic/objectives/destroy_nest_granan_ice_single.logic", minDifficultyLevel = 4, maxDifficultyLevel = 6 }, 
+		{ name = "logic/objectives/destroy_nest_granan_ice_multiple.logic", minDifficultyLevel = 6 },		
+		{ name = "logic/objectives/destroy_nest_kermon_ice_single.logic", minDifficultyLevel = 5, maxDifficultyLevel = 7 }, 
+		{ name = "logic/objectives/destroy_nest_kermon_ice_multiple.logic", minDifficultyLevel = 7 },		
+		{ name = "logic/objectives/destroy_nest_plutrodon_ice_single.logic", minDifficultyLevel = 6, maxDifficultyLevel = 8 }, 
+		{ name = "logic/objectives/destroy_nest_plutrodon_ice_multiple.logic", minDifficultyLevel = 8 },		
 	}
 
     return rules;
