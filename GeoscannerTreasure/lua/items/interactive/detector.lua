@@ -321,7 +321,7 @@ function detector:spawnReplacement()
 		return
 	end
 
-	local newEnt = ResourceService:FindEmptySpace(0, 0)
+	local newEnt = ResourceService:FindEmptySpace(50, 500)
 	EntityService:SetPosition(newEnt, 0, 0, 0)
 
 	local treasureSpotFind = FindService:FindEmptySpotInRadius( newEnt, 0, 9999999.0, "", "", 50.0, 9999999.0 )
