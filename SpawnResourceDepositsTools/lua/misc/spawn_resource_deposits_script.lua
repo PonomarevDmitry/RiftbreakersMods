@@ -63,7 +63,7 @@ function spawn_resource_deposits_script:init()
 
 
 
-    self.entityEmptySpace = ResourceService:FindEmptySpace(0, 0)
+    self.entityEmptySpace = ResourceService:FindEmptySpace(50, 500)
 
     EntityService:CreateOrSetLifetime( self.entityEmptySpace, 30.0, "normal" )
 
