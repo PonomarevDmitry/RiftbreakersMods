@@ -86,7 +86,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.attack_drone] = "4",
+            [EntityModType.attack_drone] = "3",
         },
     },
 
@@ -97,7 +97,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.attack_drone] = "8",
+            [EntityModType.attack_drone] = "4",
         },
     },
 
@@ -121,7 +121,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.defense_drone] = "4",
+            [EntityModType.defense_drone] = "3",
         },
     },
 
@@ -132,7 +132,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.defense_drone] = "8",
+            [EntityModType.defense_drone] = "4",
         },
     },
 
@@ -156,7 +156,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_drone] = "4",
+            [EntityModType.loot_drone] = "3",
         },
     },
 
@@ -167,7 +167,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.loot_drone] = "8",
+            [EntityModType.loot_drone] = "4",
         },
     },
 
@@ -191,7 +191,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.repair_drone] = "4",
+            [EntityModType.repair_drone] = "3",
         },
     },
 
@@ -202,7 +202,7 @@ local new_values = {
         },
 
         ["changes"] = {
-            [EntityModType.repair_drone] = "8",
+            [EntityModType.repair_drone] = "4",
         },
     },
 
