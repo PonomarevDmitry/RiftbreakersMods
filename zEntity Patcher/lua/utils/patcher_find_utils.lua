@@ -1,6 +1,68 @@
 require( "lua/utils/find_utils.lua" )
 require( "lua/utils/table_utils.lua" )
 
+function FindEntity( searchRadius, searchTargetName, targetName, targetGroup, targetType, targetBlueprint )
+    -- LogService:Log("FindEntity: " .. tostring(searchRadius) .. ", " .. tostring(searchTarget) .. ", " .. tostring(targetName) .. ", " .. tostring(targetGroup) .. ", " .. tostring(targetType) .. ", " .. tostring(targetBlueprint) )   
+
+    if searchRadius == 0 then
+        if targetName ~= "" then
+            return FindService:FindEntitiesByName( targetName )
+        elseif targetGroup ~= "" then
+            return FindService:FindEntitiesByGroup( targetGroup )
+        elseif targetType ~= "" then
+            return FindService:FindEntitiesByType( targetType )
+        elseif targetBlueprint ~= "" then
+            return FindService:FindEntitiesByBlueprint( targetBlueprint )
+        end
+
+        Assert( false,
+                ("ERROR: When SearchRadius is 0, is expected targetName, targetGroup, targetType or targetBlueprint, got: Name: '%s', Group: '%s', Type: '%s', Blueprint: '%s'"):format(
+                    tostring( targetName ), tostring( targetGroup ), tostring( targetType ), tostring( targetBlueprint ) ) )
+        return {}
+    end
+
+    -- Assert(searchTargetName ~= nil, "ERROR: searchTargetName is required when searchRadius > 0")
+    local entities = searchTargetName ~= nil and FindService:FindEntitiesByName( searchTargetName )
+
+    local found = {}
+
+    if targetName ~= "" then
+        for entity in Iter( entities ) do
+            local ent = FindService:FindEntityByNameInDistance( entity, targetName, searchRadius )
+            if (ent ~= INVALID_ID) then
+                if (IndexOf( found, ent ) == nil) then
+                    Insert( found, ent )
+                end
+            end
+        end
+
+        return found
+    end
+
+    local Searcher, target_by
+    if targetGroup ~= "" then
+        Searcher = FindService.FindEntitiesByGroupInRadius
+        target_by = targetGroup
+    elseif targetType ~= "" then
+        Searcher = FindService.FindEntitiesByTypeInRadius
+        target_by = targetType
+    elseif targetBlueprint ~= "" then
+        Searcher = FindService.FindEntitiesByBlueprintInRadius
+        target_by = targetBlueprint
+    else
+        Assert( false,
+                ("ERROR: Expected targetName, targetGroup, targetType or targetBlueprint, got: Name: '%s', Group: '%s', Type: '%s', Blueprint: '%s'"):format(
+                    tostring( targetName ), tostring( targetGroup ), tostring( targetType ), tostring( targetBlueprint ) ) )
+        return found
+    end
+
+    for entity in Iter( entities ) do
+        ConcatUnique( found, Searcher( FindService, entity, target_by, searchRadius ) )
+    end
+
+    return found
+end
+
 -- function FindFarthestEntity( source, entities )
 --     local farthest_entity = INVALID_ID
 --     local farthest_distance = -1

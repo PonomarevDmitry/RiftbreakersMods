@@ -63,15 +63,16 @@ local function SetType( self, component, field, str )
 end
 
 local function SetTarget( self, component, field, str )
-    local target = component[field]
-    local map = target.type_map
-    local vec = target.type_vec
 
     if type( str ) ~= "string" then
         self:Log( ("Expected string format for target, instead got '%s' "):format( type( str ) ) )
         self:MarkFails()
         return
     end
+
+    local target = component[field]
+    local map = target.type_map
+    local vec = target.type_vec
 
     local value = 0
     -- local seen = {}

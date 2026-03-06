@@ -1,7 +1,7 @@
 function IndexOf( t, key )
     if type( key ) == "function" then
         for index, value in ipairs( t ) do
-            if key( t[index] ) then
+            if key( value ) then
                 return index
             end
         end
@@ -89,7 +89,9 @@ function Iter( t, count )
     end
 
     local index = 0
-    count = count or #t
+    if not count then
+        count = #t
+    end
 
     return function()
         index = index + 1
@@ -173,8 +175,8 @@ function RemoveWithTail( t, index )
     t[count] = nil
 end
 
-function IterTail( t, count )
-    if not Assert( type( t ) == "table", "ERROR: calling Iter on non table type: `" .. type( t ) .. "`" ) then
+function IterReverse( t, count )
+    if not Assert( type( t ) == "table", "ERROR: calling IterReverse on non table type: `" .. type( t ) .. "`" ) then
         return nil
     end
 
@@ -189,5 +191,4 @@ function IterTail( t, count )
         end
 
     end
-
 end

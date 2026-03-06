@@ -87,6 +87,20 @@ local function LogContainer( container, level, godeep )
                 goto continue
             end
 
+            -- local field_ref = divergent_helper( field )
+            -- if field_ref ~= nil then
+
+            --     for name in Iter( field_ref:field_names() ) do
+            --         if type( field_ref[name] ) == "table" then
+
+            --         else
+            --             LogService:Log( ("%s\t%s: %s = %s"):format( tabs, name, field_ref:type_name( name ), field_ref[name] ) )
+            --         end
+
+            --     end
+            --     goto continue
+            -- end
+
             LogService:Log( ("%s\t%s: %s"):format( tabs, item_field_name, field:GetTypeName() ) )
 
             ::continue::
@@ -94,6 +108,7 @@ local function LogContainer( container, level, godeep )
     end
 end
 
+-- ==== based on lukaasm snip code ==== --
 function M:LogComponent( component, godeep, component_name )
     LogService:Log( "*" .. component_name )
 
@@ -116,7 +131,6 @@ function M:LogComponent( component, godeep, component_name )
     end
 end
 
--- ==== based on lukaasm snip code ==== --
 function M:LogBlueprintComponents( bp_name, component, godeep, ghost, ghost_filter, t_ )
     local t = component and {} or t_
     if component and t_ == nil then
@@ -143,6 +157,7 @@ function M:LogBlueprintComponents( bp_name, component, godeep, ghost, ghost_filt
         if t and not t[component_name] then
             goto continue
         end
+
         local bp_component = bp:GetComponent( component_name )
         self:LogComponent( bp_component, godeep, component_name )
 

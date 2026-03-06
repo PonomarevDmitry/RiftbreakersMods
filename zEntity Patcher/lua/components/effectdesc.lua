@@ -61,7 +61,6 @@ function switch:Effect( component, t, effect )
 
         local container, count = component.Effects:to_container()
         for item in IterItems( container, count ) do
-            -- local item = container:GetItem( i )
             if item:GetTypeName() ~= effect then
                 goto next
             end
@@ -91,7 +90,6 @@ function switch:EffectGroup( component, t, effect )
         local container, count = component.Effects:to_container()
         if content.look == "group" then
             for item in IterItems( container, count ) do
-                -- local item = container:GetItem( i )
                 if item:GetTypeName() ~= effect then
                     goto next
                 end
@@ -110,14 +108,12 @@ function switch:EffectGroup( component, t, effect )
             end
         elseif content.look == "blueprint" then
             for item in IterItems( container, count ) do
-                -- local item = container:GetItem( i )
                 if item:GetTypeName() ~= effect then
                     goto next
                 end
                 local item_effects = item:GetField( "Effects" ):ToContainer()
                 local count_effects = item_effects:GetItemCount()
                 for item_effect in IterItems( item_effects, count ) do
-                    -- local item_effect = item_effects:GetItem( j )
                     if item_effect:GetField( "blueprint" ):GetValue() == content.name then
                         if count_effects < #content.data.Effects then
                             local size = #content.data.Effects
@@ -151,14 +147,12 @@ function switch:EffectRandom( component, t, effect )
 
         local container, count = component.Effects:to_container()
         for item in IterItems( container, count ) do
-            -- local item = container:GetItem( i )
             if item:GetTypeName() ~= effect then
                 goto next
             end
             local item_effects = item:GetField( "Effects" ):ToContainer()
             local count_effects = item_effects:GetItemCount()
             for item_effect in IterItems( item_effects, count_effects ) do
-                -- local item_effect = item_effects:GetItem( j )
                 if item_effect:GetField( "blueprint" ):GetValue() == content.name then
                     if count_effects < #content.data.Effects then
                         local size = #content.data.Effects

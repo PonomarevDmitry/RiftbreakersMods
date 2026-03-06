@@ -28,19 +28,20 @@ local function PatchBlueprintComponents( self, bp_name, t, sc )
     if not bp then
         if self.show_bp_log then
             self:Log( "Blueprint NOT FOUND -->" )
+            self:MarkFails()
         end
-        self:MarkFails()
         return
     end
     for component, fields in pairs( t ) do
         local bp_component = bp:GetComponent( component )
         if not bp_component then
-            if sc then
+            if sc == true then
                 bp_component = self:CreateComponent( bp, component )
                 if bp_component then
                     goto invoke
                 end
             end
+
             if self.show_bp_log then
                 self:Log( ("Unable to get component '%s' from"):format( component ) )
             end
@@ -211,25 +212,6 @@ end
 local function WriteKey( name )
     local info = debug.getinfo( 3, "n" )
     return "$" .. SnakeMode( name ) .. "" .. info.name
-end
-
--- TODO Remove next update 1
-function GetOrCreateLocker( name, bp_name )
-    bp_name = bp_name or "buildings/main/weather_controller"
-    local bp_data = EntityService:GetBlueprintDatabase( bp_name )
-    if bp_data == nil then
-        LogService:Log( ("Failed to get data on '%s' locker will be open %s"):format( bp_name, name ) )
-        return false
-    end
-    local info = debug.getinfo( 2, "n" )
-    local key = "$" .. SnakeMode( name ) .. "" .. info.name
-    if bp_data:HasInt( key ) then
-        LogService:Log( "Already applied " .. name )
-        return true
-    else
-        bp_data:SetInt( key, 1 )
-        return false
-    end
 end
 
 local function GetData( bp_name )

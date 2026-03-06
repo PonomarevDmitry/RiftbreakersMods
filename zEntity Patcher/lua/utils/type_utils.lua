@@ -44,8 +44,7 @@ end
 function VectorString( self, component, field, t )
     local container, count = component[field]:to_container()
     for k in Iter( t ) do
-        for i = 0, count - 1 do
-            local item = container:GetItem( i )
+        for item in IterItems( container, count ) do
             if item:GetValue() == k then
                 goto continue
             end
@@ -64,8 +63,7 @@ function ResourceBasket( self, component, field, t )
     for k, v in pairs( t ) do
         local hash = CalcHash( k )
         local value = v * 1000000
-        for i = 1, container.count do
-            local item = container[i]
+        for item in IterItems( container ) do
             if item.key.hash == hash then
                 item.value.value = value
                 goto continue

@@ -20,11 +20,11 @@ local function AssignSlots( self, out_item, t )
                     goto next
                 end
             end
+
             local new_item = container:CreateItem()
             new_item:SetValue( name )
             self:MarkChanges()
             ::next::
-
         end
 
         ::continue::

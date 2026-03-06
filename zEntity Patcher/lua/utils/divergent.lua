@@ -168,7 +168,7 @@ TypeValueHelper.mt = {
 
         local ptr = rawget( self, "__ptr" )
         local field = ptr:GetField( key )
-        if not Assert( field ~= nil, "ERROR: there is no field '" .. tostring( key ) .. "'" ) then
+        if not Assert( field ~= nil, "ERROR: there is no field '" .. key .. "'" ) then
             return nil
         end
 
@@ -206,11 +206,7 @@ TypeValueHelper.mt = {
         end
 
         if type( value ) == 'boolean' then
-            if value == false then
-                value = "0"
-            else
-                value = "1"
-            end
+            value = value and "1" or "0"
         end
 
         local res = field:SetValue( tostring( value ) )
@@ -267,9 +263,9 @@ function divergent_helper( ptr, userdata )
 end
 
 function IterItems( container, count )
-    local type_container = type( container )
+    -- local type_container = type( container )
     local index = -1
-    if type_container == "userdata" and container.GetItemCount then
+    if container.GetItemCount then
         count = (count or container:GetItemCount()) - 1
 
         return function()
@@ -279,7 +275,7 @@ function IterItems( container, count )
                 return container:GetItem( index ), index
             end
         end
-    elseif type_container == "table" and container:is_container() then
+    elseif type( container ) == "table" and container:is_container() then
         local ptr = rawget( container, "__ptr" )
         count = (count or ptr:GetItemCount()) - 1
 

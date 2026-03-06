@@ -32,7 +32,7 @@ end
 function M:DroneSpot( amount, visible, blueprint )
     return {
         database = {
-            int = amount and {
+            int = (amount or visible) and {
                 drone_per_spot = amount,
                 drone_visible_on_spot = visible
             } or nil,
@@ -46,7 +46,7 @@ end
 function M:Regeneration( regeneration, regeneration_cooldown )
     return {
         regeneration = regeneration,
-        regeneration_cooldown = regeneration_cooldown or 10
+        regeneration_cooldown = regeneration_cooldown
     }
 end
 
@@ -84,7 +84,6 @@ function M:MechInventory( name, subslots_count, allow_types )
         subslots_count = subslots_count or 1,
         allow_types = allow_types
     }
-
 end
 
 return M
