@@ -20,14 +20,14 @@ local mega_autoexec = function()
     end
 
     local patch = {
-        {
-            name = "buildings/megastructures/quantum_cortex_laboratory",
-            data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
-        },
-        {
-            name = "buildings/megastructures/hydroponic_lab",
-            data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
-        },
+        -- {
+        --     name = "buildings/megastructures/quantum_cortex_laboratory",
+        --     data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
+        -- },
+        -- {
+        --     name = "buildings/megastructures/hydroponic_lab",
+        --     data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
+        -- },
 
         {
             name = "buildings/megastructures/hydroponic_lab_10",
@@ -77,10 +77,10 @@ local mega_autoexec = function()
                 }
             }
         },
-        {
-            name = "buildings/megastructures/gravitational_hyper_lens",
-            data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
-        },
+        -- {
+        --     name = "buildings/megastructures/gravitational_hyper_lens",
+        --     data = ep.t:PipeComponent( "att_in_1,att_in_2,att_in_3,att_in_4" )
+        -- },
         {
             name = "buildings/megastructures/nanobot_center_4",
             data = {
