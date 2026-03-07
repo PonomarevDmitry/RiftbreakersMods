@@ -1,20 +1,18 @@
 ---
 layout: default
-title: OperateType
+title: GuiSynchronizationMode
 has_children: false
 parent: Enum
 grand_parent: Game Reflection
 ---
-# OperateType
+# GuiSynchronizationMode
 Description 
 
 ## Enum values
 
 | Name | Value |
 |:----------|:--------------|
-| INIT | 0 |
-| INIT_STORAGE | 1 |
-| INIT_PIPES | 2 |
-| REMOVE | 3 |
-| REMOVE_CONVERTER | 4 |
+| always | 0 |
+| once | 1 |
+| never | 2 |
 

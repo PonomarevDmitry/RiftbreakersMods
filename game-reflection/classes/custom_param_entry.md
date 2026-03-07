@@ -14,5 +14,7 @@ Description
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | name |
 | [int8](/riftbreaker-wiki/docs/game-reflection/components/int8/) | user_data |
+| [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | data_type |
 | Container< [float](/riftbreaker-wiki/docs/game-reflection/components/float/) > | data |
+| Container< [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) > | int_data |
 

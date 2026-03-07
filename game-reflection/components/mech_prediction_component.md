@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | teleport_sync_idx |
 | [Vector3](/riftbreaker-wiki/docs/game-reflection/classes/vector3/) | velocity |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | block_prediction |
 

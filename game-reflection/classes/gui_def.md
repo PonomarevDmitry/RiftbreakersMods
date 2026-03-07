@@ -28,6 +28,7 @@ Description
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | size_mode_y |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | visible |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hitbox_visible |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_draggable |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | alignment |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | anchor |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | synchronization_mode |

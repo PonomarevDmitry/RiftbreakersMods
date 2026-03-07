@@ -13,5 +13,6 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | current_controller |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | current_action |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | has_changes |
 

@@ -12,7 +12,7 @@ Description
 
 | Name | Value |
 |:----------|:--------------|
-| health_ratio | 0 |
-| damage_ratio | 1 |
-| flat_damage | 2 |
+| full | 0 |
+| day | 1 |
+| night | 2 |
 

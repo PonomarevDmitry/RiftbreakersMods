@@ -23,4 +23,5 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | particle_velocity_scale |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | particle_reference_range |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | burning_chance_override |
+| [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | burning_damage_type |
 

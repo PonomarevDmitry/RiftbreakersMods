@@ -48,6 +48,7 @@ Description
 | resistance_heat | 33 |
 | resistance_tornado | 34 |
 | resistance_radiation | 35 |
+| resistance_quicksand | 36 |
 | loot_drone | 52 |
 | weapon_fire_rate | 53 |
 | weapon_damage | 54 |

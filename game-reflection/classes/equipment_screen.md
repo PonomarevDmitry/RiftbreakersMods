@@ -13,7 +13,7 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | compare |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | compare_disabled |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | compare_enabled |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | filter_active |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | shortcuts_visible |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | augments_display |

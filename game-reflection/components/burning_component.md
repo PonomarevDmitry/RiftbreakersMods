@@ -25,4 +25,5 @@ Description
 | [Timer](/riftbreaker-wiki/docs/game-reflection/classes/timer/) | burning_interval |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | state |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | disable_light_fade_out |
+| [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | damage_type |
 

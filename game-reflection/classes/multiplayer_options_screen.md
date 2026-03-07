@@ -12,11 +12,15 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | public_game |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_paused |
-| Container< [MultiplayerPlayerInfo](/riftbreaker-wiki/docs/game-reflection/classes/multiplayer_player_info/) > | players |
-| [CampaignCustomOption](/riftbreaker-wiki/docs/game-reflection/classes/campaign_custom_option/) | max_players_option |
-| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | mission_name |
-| [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | pause_type |
-| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | owner_id |
+| [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | server_password |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | load_game_mode |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | host_mode |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | server_mode |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | lobby_initialized |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_invite_players |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | can_start_game |
+| [LobbyGameMode2](/riftbreaker-wiki/docs/game-reflection/components/lobby_game_mode2/) | selected_game_mode |
+| Container< [LobbyPlayerInfo](/riftbreaker-wiki/docs/game-reflection/classes/lobby_player_info/) > | lobby_slots |
+| [GameServerOptions1](/riftbreaker-wiki/docs/game-reflection/components/game_server_options1/) | server_options |
+| [GameChat2](/riftbreaker-wiki/docs/game-reflection/components/game_chat2/) | chat |
 

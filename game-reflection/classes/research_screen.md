@@ -21,5 +21,6 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | filter_active |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | research_content_visible |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | resources |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | have_analysis |
 | Container< [ResearchScreenResourceInfo](/riftbreaker-wiki/docs/game-reflection/classes/research_screen_resource_info/) > | resources_list |
 

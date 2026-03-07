@@ -15,4 +15,5 @@ Description
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | type |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | value |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | duration |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_burning |
 

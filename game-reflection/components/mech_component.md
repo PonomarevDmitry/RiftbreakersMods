@@ -22,6 +22,7 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | attack_timer |
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | current_damage_resisted_stun_time |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | prevent_from_one_hit_kill |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_under_inrerference |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | nearest_energy_graph_is_global |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | mode |
 | [uchar](/riftbreaker-wiki/docs/game-reflection/enums/uchar/) | pending_mode |

@@ -28,6 +28,7 @@ Description
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | lost |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | finished |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | selected |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_user_input_name |
 | Container< [float](/riftbreaker-wiki/docs/game-reflection/components/float/) > | threat |
 | Container< [PlanetaryProductionInfo](/riftbreaker-wiki/docs/game-reflection/classes/planetary_production_info/) > | production |
 | Container< [PlanetaryProductionInfo](/riftbreaker-wiki/docs/game-reflection/classes/planetary_production_info/) > | buildings |

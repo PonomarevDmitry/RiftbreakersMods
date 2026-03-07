@@ -20,5 +20,6 @@ Description
 | [float](/riftbreaker-wiki/docs/game-reflection/components/float/) | damage_stun |
 | [IdString](/riftbreaker-wiki/docs/game-reflection/components/id_string/) | damage_type |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_primary |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_burning |
 | Container< [UnitPlayerDamageData](/riftbreaker-wiki/docs/game-reflection/classes/unit_player_damage_data/) > | player_damage_event_data |
 

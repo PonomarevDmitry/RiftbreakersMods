@@ -12,8 +12,9 @@ Description
 
 | Type | Name |
 |:----------|:--------------|
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | client |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | win |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | load |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | reconstruct_enable |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | continue |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | reconstruct |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | return |
 

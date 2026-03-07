@@ -15,5 +15,6 @@ Description
 | [EventObserver_DestroyPatternRequestEventPhysicsSleepEventTreeFallEvent](/riftbreaker-wiki/docs/game-reflection/classes/event_observer__destroy_pattern_request_event_physics_sleep_event_tree_fall_event/) | events |
 | Container< [DebrisDelayedRequest](/riftbreaker-wiki/docs/game-reflection/classes/debris_delayed_request/) > | debris_off_screen_request_vec |
 | Container< [DebrisAffectorStruct](/riftbreaker-wiki/docs/game-reflection/classes/debris_affector_struct/) > | debris_to_clean_up_vec |
+| Container< [DebrisAffectorStruct](/riftbreaker-wiki/docs/game-reflection/classes/debris_affector_struct/) > | debris_in_dissolve_vec |
 | Container< [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) > | parts_ordered_list |
 

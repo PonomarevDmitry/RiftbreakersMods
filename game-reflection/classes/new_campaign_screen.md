@@ -16,5 +16,5 @@ Description
 | [MissionDifficulty2](/riftbreaker-wiki/docs/game-reflection/components/mission_difficulty2/) | selected_difficulty |
 | [MissionDifficulty2](/riftbreaker-wiki/docs/game-reflection/components/mission_difficulty2/) | hovered_difficulty |
 | Container< [MissionDifficulty](/riftbreaker-wiki/docs/game-reflection/classes/mission_difficulty/) > | difficulties |
-| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hardcode_mode |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | hardcore_mode |
 

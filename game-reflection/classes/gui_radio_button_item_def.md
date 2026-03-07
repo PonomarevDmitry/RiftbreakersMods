@@ -13,4 +13,5 @@ Description
 | Type | Name |
 |:----------|:--------------|
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | radio_group |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | is_default_checked |
 

@@ -14,4 +14,5 @@ Description
 |:----------|:--------------|
 | [int](/riftbreaker-wiki/docs/game-reflection/enums/int/) | status |
 | [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | save_blocked |
+| [uint](/riftbreaker-wiki/docs/game-reflection/components/uint/) | server_owner |
 

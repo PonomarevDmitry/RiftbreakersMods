@@ -1,11 +1,11 @@
 ---
 layout: default
-title: ClientChatContext
+title: GameChat
 has_children: false
 parent: Class
 grand_parent: Game Reflection
 ---
-# ClientChatContext
+# GameChat
 Description 
 
 ## Fields

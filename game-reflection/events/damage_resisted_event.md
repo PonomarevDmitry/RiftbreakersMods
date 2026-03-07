@@ -16,4 +16,5 @@ Description
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Owner |
 | [Entity](/riftbreaker-wiki/docs/game-reflection/classes/entity/) | Creator |
 | [String](/riftbreaker-wiki/docs/game-reflection/components/string/) | DamageType |
+| [bool](/riftbreaker-wiki/docs/game-reflection/components/bool/) | PartialResist |
 
