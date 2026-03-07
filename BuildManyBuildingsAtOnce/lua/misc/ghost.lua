@@ -150,19 +150,7 @@ function  ghost:CheckEntityBuildable( entity, transform, floor, id, checkActive,
     end
 
     EntityService:ChangeMaterial( entity, materialToSet)
-
-    if ( self.childrenToUpdate == nil ) then
-        self.childrenToUpdate = {}
-        local children = EntityService:GetChildren( self.selector, true )
-        for child in Iter( children ) do
-            local hasMesh = EntityService:HasComponent( child, "MeshComponent")
-            local isEffect = EntityService:HasComponent( child, "EffectReferenceComponent" )
-            if ( hasMesh and not isEffect ) then
-                Insert( self.childrenToUpdate, child )
-            end
-        end
-    end
-    for child in Iter( self.childrenToUpdate ) do
+    for child in Iter( self:GetChildren() ) do
         EntityService:ChangeMaterial( child, materialToSet)
     end
 
