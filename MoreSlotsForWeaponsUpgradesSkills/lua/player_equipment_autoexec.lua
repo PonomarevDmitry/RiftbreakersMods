@@ -35,62 +35,66 @@ local InjectChangePlayerBlueprintEquipmentItemComponent = function(newEquipmentS
     
     for _,configObj in ipairs(newEquipmentSlots) do
 
-        local name = configObj.name
         local subslotsCount = configObj.subslots_count
         
         local allowTypes = configObj.allow_types
 
-        local slotItem = nil
+        local slotlist = configObj.slotlist
+
+        for _,name in ipairs(slotlist) do
+
+            local slotItem = nil
         
-        for i=0,slotsArray:GetItemCount()-1 do
+            for i=0,slotsArray:GetItemCount()-1 do
 
-            local tempObject = slotsArray:GetItem(i)
+                local tempObject = slotsArray:GetItem(i)
             
-            if ( tempObject:GetField("name"):GetValue() == name ) then
+                if ( tempObject:GetField("name"):GetValue() == name ) then
 
-                slotItem = tempObject
-                break
-            end
-        end
-
-        if ( slotItem == nil ) then
-
-            slotItem = slotsArray:CreateItem()
-
-            slotItem:GetField("name"):SetValue(name)
-            slotItem:GetField("subslots_count"):SetValue(subslotsCount)
-
-            local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
-
-            for _,typeName in ipairs(allowTypes) do
-
-                local allowTypesObject = allowTypesArray:CreateItem()
-
-                allowTypesObject:SetValue(typeName)
-            end
-        else
-
-            slotItem:GetField("subslots_count"):SetValue(subslotsCount)
-
-            local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
-
-            for _,typeName in ipairs(allowTypes) do
-
-                for j=0,allowTypesArray:GetItemCount()-1 do
-
-                    local tempObject = allowTypesArray:GetItem(j)
-            
-                    if ( tempObject:GetValue() == typeName ) then
-
-                        goto continue
-                    end
+                    slotItem = tempObject
+                    break
                 end
+            end
 
-                local allowTypesObject = allowTypesArray:CreateItem()
+            if ( slotItem == nil ) then
 
-                allowTypesObject:SetValue(typeName)
+                slotItem = slotsArray:CreateItem()
 
-                ::continue::
+                slotItem:GetField("name"):SetValue(name)
+                slotItem:GetField("subslots_count"):SetValue(subslotsCount)
+
+                local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
+
+                for _,typeName in ipairs(allowTypes) do
+
+                    local allowTypesObject = allowTypesArray:CreateItem()
+
+                    allowTypesObject:SetValue(typeName)
+                end
+            else
+
+                slotItem:GetField("subslots_count"):SetValue(subslotsCount)
+
+                local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
+
+                for _,typeName in ipairs(allowTypes) do
+
+                    for j=0,allowTypesArray:GetItemCount()-1 do
+
+                        local tempObject = allowTypesArray:GetItem(j)
+            
+                        if ( tempObject:GetValue() == typeName ) then
+
+                            goto continue
+                        end
+                    end
+
+                    local allowTypesObject = allowTypesArray:CreateItem()
+
+                    allowTypesObject:SetValue(typeName)
+
+                    ::continue::
+                end
             end
         end
     end
@@ -99,7 +103,10 @@ end
 local new_equipment_slots = {
 
     {
-        ["name"] = "LEFT_HAND",
+        ["slotlist"] = {
+            "LEFT_HAND",
+            "RIGHT_HAND"
+        },
         ["subslots_count"] = "6",
         ["allow_types"] = {
 
@@ -111,19 +118,18 @@ local new_equipment_slots = {
     },
 
     {
-        ["name"] = "RIGHT_HAND",
-        ["subslots_count"] = "6",
-        ["allow_types"] = {
-
-            "range_weapon",
-            "melee_weapon",
-            "shield",
-            "enemy_range_weapon",
+        ["slotlist"] = {
+            "USABLE_1",
+            "USABLE_2",
+            "USABLE_3",
+            "USABLE_4",
+            "USABLE_5",
+            "USABLE_6",
+            "USABLE_7",
+            "USABLE_8",
+            "USABLE_9",
+            "USABLE_10",
         },
-    },
-
-    {
-        ["name"] = "USABLE_1",
         ["subslots_count"] = "1",
         ["allow_types"] = {
 
@@ -136,227 +142,20 @@ local new_equipment_slots = {
     },
 
     {
-        ["name"] = "USABLE_2",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
+        ["slotlist"] = {
+            "UPGRADE_5",
+            "UPGRADE_6",
+            "UPGRADE_7",
+            "UPGRADE_8",
+            "UPGRADE_9",
+            "UPGRADE_10",
+            "UPGRADE_11",
+            "UPGRADE_12",
+            "UPGRADE_13",
+            "UPGRADE_14",
+            "UPGRADE_15",
+            "UPGRADE_16",
         },
-    },
-
-    {
-        ["name"] = "USABLE_3",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_4",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_5",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_6",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_7",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_8",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_9",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-    {
-        ["name"] = "USABLE_10",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "skill",
-            "consumable",
-            "dash_skill",
-            "movement_skill",
-            "invisible_skill",
-        },
-    },
-
-
-
-
-
-    {
-        ["name"] = "UPGRADE_5",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_6",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_7",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_8",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_9",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_10",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_11",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_12",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_13",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_14",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_15",
-        ["subslots_count"] = "1",
-        ["allow_types"] = {
-
-            "upgrade",
-        },
-    },
-
-    {
-        ["name"] = "UPGRADE_16",
         ["subslots_count"] = "1",
         ["allow_types"] = {
 
@@ -412,62 +211,66 @@ local player_equipment_autoexec = function(evt)
     
     for _,configObj in ipairs(new_equipment_slots) do
 
-        local name = configObj.name
         local subslotsCount = configObj.subslots_count
         
         local allowTypes = configObj.allow_types
 
-        local slotItem = nil
+        local slotlist = configObj.slotlist
+
+        for _,name in ipairs(slotlist) do
+
+            local slotItem = nil
         
-        for i=0,slotsArray:GetItemCount()-1 do
+            for i=0,slotsArray:GetItemCount()-1 do
 
-            local tempObject = slotsArray:GetItem(i)
+                local tempObject = slotsArray:GetItem(i)
             
-            if ( tempObject:GetField("name"):GetValue() == name ) then
+                if ( tempObject:GetField("name"):GetValue() == name ) then
 
-                slotItem = tempObject
-                break
-            end
-        end
-
-        if ( slotItem == nil ) then
-
-            slotItem = slotsArray:CreateItem()
-
-            slotItem:GetField("name"):SetValue(name)
-            slotItem:GetField("subslots_count"):SetValue(subslotsCount)
-
-            local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
-
-            for _,typeName in ipairs(allowTypes) do
-
-                local allowTypesObject = allowTypesArray:CreateItem()
-
-                allowTypesObject:SetValue(typeName)
-            end
-        else
-
-            slotItem:GetField("subslots_count"):SetValue(subslotsCount)
-
-            local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
-
-            for _,typeName in ipairs(allowTypes) do
-
-                for j=0,allowTypesArray:GetItemCount()-1 do
-
-                    local tempObject = allowTypesArray:GetItem(j)
-            
-                    if ( tempObject:GetValue() == typeName ) then
-
-                        goto continue
-                    end
+                    slotItem = tempObject
+                    break
                 end
+            end
 
-                local allowTypesObject = allowTypesArray:CreateItem()
+            if ( slotItem == nil ) then
 
-                allowTypesObject:SetValue(typeName)
+                slotItem = slotsArray:CreateItem()
 
-                ::continue::
+                slotItem:GetField("name"):SetValue(name)
+                slotItem:GetField("subslots_count"):SetValue(subslotsCount)
+
+                local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
+
+                for _,typeName in ipairs(allowTypes) do
+
+                    local allowTypesObject = allowTypesArray:CreateItem()
+
+                    allowTypesObject:SetValue(typeName)
+                end
+            else
+
+                slotItem:GetField("subslots_count"):SetValue(subslotsCount)
+
+                local allowTypesArray = slotItem:GetField("allow_types"):ToContainer()
+
+                for _,typeName in ipairs(allowTypes) do
+
+                    for j=0,allowTypesArray:GetItemCount()-1 do
+
+                        local tempObject = allowTypesArray:GetItem(j)
+            
+                        if ( tempObject:GetValue() == typeName ) then
+
+                            goto continue
+                        end
+                    end
+
+                    local allowTypesObject = allowTypesArray:CreateItem()
+
+                    allowTypesObject:SetValue(typeName)
+
+                    ::continue::
+                end
             end
         end
     end 
