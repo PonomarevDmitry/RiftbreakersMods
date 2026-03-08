@@ -283,10 +283,10 @@ function detector:spawnReplacement()
 		filter = function( entity )
 			local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
 			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
-				return true
+				return false
 			end
 
-			return false
+			return true
 		end
 	}
 
