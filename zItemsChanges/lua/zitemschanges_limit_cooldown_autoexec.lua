@@ -56,7 +56,7 @@ local InjectChangeBlueprintInventoryItemComponentCooldown = function(blueprintsL
     end
 end
 
-local supported_item_blueprints = {
+local supported_item_blueprintsLimit = {
 
     "items/consumables/cluster_grenade_acid_standard_item",
     "items/consumables/cluster_grenade_acid_advanced_item",
@@ -151,9 +151,11 @@ local supported_item_blueprints = {
     "items/consumables/tesla_turret_extreme_item",
 }
 
-InjectChangeBlueprintInventoryItemComponentStorageLimit(supported_item_blueprints, "100")
+local newLimitValue = "100"
 
-local supported_item_blueprints = {
+InjectChangeBlueprintInventoryItemComponentStorageLimit(supported_item_blueprintsLimit, newLimitValue)
+
+local supported_item_blueprintsCooldown = {
 
     ["items/consumables/cluster_grenade_acid_standard_item"] = "0.05",
     ["items/consumables/cluster_grenade_acid_advanced_item"] = "0.05",
@@ -265,9 +267,17 @@ local supported_item_blueprints = {
     ["items/skills/tornado_acid_extreme_item"] = "10",
 }
 
-InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprints)
+InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprintsCooldown)
 
 
+
+
+local supported_item_blueprintsLimitDict = {}
+
+for _,blueprintName in ipairs(supported_item_blueprintsLimit) do
+
+    supported_item_blueprintsLimitDict[blueprintName] = true
+end
 
 RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
 
@@ -286,29 +296,43 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
     end
 
     local entityBlueprintName = EntityService:GetBlueprintName(entity)
-    if ( supported_item_blueprints[entityBlueprintName] == nil ) then
-        return
-    end
 
+    if ( supported_item_blueprintsCooldown[entityBlueprintName] ~= nil ) then
 
+        local cooldownValue = supported_item_blueprintsCooldown[entityBlueprintName]
 
-    local cooldownValue = supported_item_blueprints[entityBlueprintName]
-
-    local inventoryItemComponent = EntityService:GetComponent(entity, "InventoryItemComponent")
-    if ( inventoryItemComponent ~= nil ) then
+        local inventoryItemComponent = EntityService:GetComponent(entity, "InventoryItemComponent")
+        if ( inventoryItemComponent ~= nil ) then
     
-        inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+            inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+        end
+
+        local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
+        if ( inventoryItemComponent ~= nil ) then
+
+            inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+        end
+
+        local inventoryItemRuntimeDataComponent = EntityService:GetComponent(entity, "InventoryItemRuntimeDataComponent")
+        if ( inventoryItemRuntimeDataComponent ~= nil ) then
+
+            inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue(cooldownValue)
+        end
     end
 
-    local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
-    if ( inventoryItemComponent ~= nil ) then
+    if ( supported_item_blueprintsLimitDict[entityBlueprintName] ~= nil ) then
 
-        inventoryItemComponent:GetField("cooldown"):SetValue(cooldownValue)
+        local inventoryItemComponent = EntityService:GetComponent(entity, "InventoryItemComponent")
+        if ( inventoryItemComponent ~= nil ) then
+    
+            inventoryItemComponent:GetField("storage_limit"):SetValue(newLimitValue)
+        end
+
+        local inventoryItemComponent = EntityService:GetConstComponent( entity, "InventoryItemComponent" )
+        if ( inventoryItemComponent ~= nil ) then
+
+            inventoryItemComponent:GetField("storage_limit"):SetValue(newLimitValue)
+        end
     end
-
-    local inventoryItemRuntimeDataComponent = EntityService:GetComponent(entity, "InventoryItemRuntimeDataComponent")
-    if ( inventoryItemRuntimeDataComponent ~= nil ) then
-
-        inventoryItemRuntimeDataComponent:GetField("cooldown"):SetValue(cooldownValue)
-    end
+    
 end)
