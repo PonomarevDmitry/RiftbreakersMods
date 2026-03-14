@@ -114,6 +114,11 @@ function turrets_auto_laying:CanActivate()
         return false
     end
 
+    if not HealthService:IsAlive( self.owner ) then
+        self:SetCanActivate( false )
+        return false
+    end
+
     if ( self.isWorking ) then
         self:SetCanActivate( true )
         return true
@@ -214,6 +219,20 @@ end
 
 function turrets_auto_laying:OnDelayExecute( state )
 
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+
+        state:Exit()
+        self:StopWorking()
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+
+        state:Exit()
+        self:StopWorking()
+        return
+    end
+
     local minDistanceBetweenLast = 5
 
     if ( self.lastSpawnedPosition ~= nil ) then
@@ -232,6 +251,20 @@ function turrets_auto_laying:OnDelayExecute( state )
 end
 
 function turrets_auto_laying:OnPlaceTurretExecute( state )
+
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+
+        state:Exit()
+        self:StopWorking()
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+
+        state:Exit()
+        self:StopWorking()
+        return
+    end
 
     local minDistanceBetweenLast = 5
 
