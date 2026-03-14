@@ -178,31 +178,27 @@ function repair_drone:FindActionTarget()
         end
     end
 
+    if ( EntityService:HasComponent( owner, "BuildingComponent" ) and EntityService:HasComponent( owner, "HealthComponent" ) ) then
+    
+        local mode = BuildingService:GetBuildingMode(owner)
+        if ( mode == BM_COMPLETED ) then
+    
+            local healthPct = HealthService:GetHealthInPercentage( owner )
+    
+            if ( healthPct < 1.0 ) then
+    
+                self.target_last_position = EntityService:GetPosition(owner)
+    
+                self.fsm:ChangeState("follow")
+    
+                return owner
+            end
+        end
+    end
+    
     if IsRequestThrottled(LOCK_TYPE_REPAIR) then
         return INVALID_ID
     end
-
-    --if ( EntityService:HasComponent( owner, "BuildingComponent" ) and EntityService:HasComponent( owner, "HealthComponent" ) ) then
-    --
-    --    local mode = BuildingService:GetBuildingMode(owner)
-    --    if ( mode == BM_COMPLETED ) then
-    --
-    --        local healthPct = HealthService:GetHealthInPercentage( owner )
-    --
-    --        if ( healthPct < 1.0 ) then
-    --
-    --            self.target_last_position = EntityService:GetPosition(owner)
-    --
-    --            self.fsm:ChangeState("repair")
-    --
-    --            return owner
-    --        end
-    --    end
-    --end
-    --
-    --if IsRequestThrottled(LOCK_TYPE_REPAIR) then
-    --    return INVALID_ID
-    --end
 
     local pointEntity = self:GetDroneFindCenterPoint()
 
@@ -292,8 +288,10 @@ function repair_drone:OnRepairExecute( state )
 
     local pointEntity = self:GetDroneFindCenterPoint()
 
-    if EntityService:GetDistance2DBetween( pointEntity, target ) > ( self.search_radius * 1.1 ) then
-        return self:FinishTargetAction(state)
+    if ( owner ~= target ) then
+        if EntityService:GetDistance2DBetween( pointEntity, target ) > ( self.search_radius * 1.1 ) then
+            return self:FinishTargetAction(state)
+        end
     end
 
     if not EffectService:HasEffectByGroup(self.entity, "work") then
