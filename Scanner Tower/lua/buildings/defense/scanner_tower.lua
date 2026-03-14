@@ -1,42 +1,93 @@
---local building = require("lua/buildings/defense/tower.lua")
 local building = require("lua/buildings/building.lua")
+require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
---require("lua/utils/reflection.lua")
---require("lua/utils/find_utils.lua")
+require("lua/utils/find_utils.lua")
 
 class 'scanner_tower' ( building )
 
 function scanner_tower:__init()
-    building.__init(self,self)
+	building.__init(self,self)
 end
 
 function scanner_tower:OnInit()
     building.OnInit(self)
-
-    self.fsm = self:CreateStateMachine()
-    self.fsm:AddState( "working", {execute="OnWorkInProgress"} )
+	--scanner.lua v
+	self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 0.5 )
+	self.lastTarget = INVALID_ID
+	self.effect 	= INVALID_ID
+	self.scanningTime = 1.0
+	self.fsm = self:CreateStateMachine()
+	self.fsm:AddState( "working", {execute="OnWorkInProgress"} )
     self.shooting = false
-    self.lastTarget = INVALID_ID
-    self.effect 	= INVALID_ID
-    self.scanningTime = 1.0
-    self.maxScanTime = self.data:GetFloatOrDefault( "scanning_time", 0.5 )
+	self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
+	--scanner.lua ^
 
-    -- tower.lua v
-    self:RegisterHandler( event_sink , "DayStartedEvent", "_OnDayCycleDayStartedEvent")	
-    self:RegisterHandler( event_sink , "NightStartedEvent", "_OnDayCycleNightStartedEvent")	
-    self:RegisterHandler( event_sink , "SunriseStartedEvent", "_OnDayCycleSunriseStartedEvent")	
-    self:RegisterHandler( event_sink , "SunsetStartedEvent", "_OnDayCycleSunsetStartedEvent")	
-    self:RegisterHandler( self.entity, "ResourceMissingEvent", "OnResourceMissingEvent" ) 
-    self:RegisterHandler( self.entity, "TurretEvent", "OnTurretEvent" )
-    self.lightStatus = false
-    
-    self.data:SetFloat( "shooting", 0 )
-    local timeOfDay = EnvironmentService:GetTimeOfDay()
-    -- tower.lua ^
+	-- tower.lua v
+	self:RegisterHandler( event_sink , "DayStartedEvent", "_OnDayCycleDayStartedEvent")	
+	self:RegisterHandler( event_sink , "NightStartedEvent", "_OnDayCycleNightStartedEvent")	
+	self:RegisterHandler( event_sink , "SunriseStartedEvent", "_OnDayCycleSunriseStartedEvent")	
+	self:RegisterHandler( event_sink , "SunsetStartedEvent", "_OnDayCycleSunsetStartedEvent")	
+	self:RegisterHandler( self.entity, "ResourceMissingEvent", "OnResourceMissingEvent" ) 
+	self.lightStatus = false
+	
+	self.data:SetFloat( "shooting", 0 )
+	local timeOfDay = EnvironmentService:GetTimeOfDay()
+	-- tower.lua ^
 end
 
+-- tower.lua v
+function scanner_tower:OnDestroy()
+	return true
+end
+
+function scanner_tower:_OnDayCycleDayStartedEvent( )
+	self:OperateLight("day")
+end
+
+function scanner_tower:_OnDayCycleNightStartedEvent( )
+	self:OperateLight("night")
+end
+
+function scanner_tower:_OnDayCycleSunriseStartedEvent( )
+	self:OperateLight("sunrise")
+end
+
+function scanner_tower:_OnDayCycleSunsetStartedEvent( )
+	self:OperateLight("sunset")
+end
+
+function scanner_tower:OnActivate()
+	self:OperateLight(EnvironmentService:GetTimeOfDay())
+end
+
+function scanner_tower:OnDeactivate()
+	self:OperateLight(EnvironmentService:GetTimeOfDay())
+end
+
+function scanner_tower:OperateLight( time )
+	if self.working == true and time ~= "day" and self.lightStatus == false then
+		EffectService:AttachEffects(self.entity, "lamp")	
+		self.lightStatus = true
+	elseif self.working == false and self.lightStatus == true then 
+		EffectService:DestroyEffectsByGroup(self.entity, "lamp")	
+		self.lightStatus = false
+	elseif time == "day" and self.lightStatus == true then
+		EffectService:DestroyEffectsByGroup(self.entity, "lamp")	
+		self.lightStatus = false
+	end
+end
+
+function scanner_tower:OnResourceMissingEvent( evt )
+	local resource = evt:GetResource()
+	if ( resource ~= "energy" and resource ~= "ai" ) then
+		EntityService:ShowTimeoutSoundEvent( INVALID_ID, 30.0, "voice_over/announcement/not_enough_ammo_tower", false )
+	end
+end
+-- tower.lua ^
+
+
 function scanner_tower:OnBuild()
-    self.fsm:ChangeState("working")
+	self.fsm:ChangeState("working")
 end
 
 function scanner_tower:SelectEntity( target )
@@ -63,8 +114,8 @@ function scanner_tower:SpawnSpecifcEffect( currentTarget )
 end
 
 function scanner_tower:ExecuteScanning()
-    self.ammoEnt = EntityService:GetChildByName( self.entity, "##ammo##" )
-
+	self.ammoEnt = EntityService:GetChildByName( self.entity, "##ammo##" )
+	
     if ( self.lastTarget ~= INVALID_ID and self.lastTarget ~= self.selectedEntity ) then
         EntityService:RemoveEntity( self.effect )
         QueueEvent( "EntityScanningEndEvent", self.lastTarget )
@@ -97,15 +148,29 @@ function scanner_tower:ExecuteScanning()
             factor = math.min(factor, 1.0 )
             EffectService:SetParticleEmmissionUniform( self.effect, factor )
             if ( self.scanningTime >= self.maxScanTime ) then
-                ItemService:ScanEntityByPlayer( self.selectedEntity, self.data:GetIntOrDefault( "owner", 0) )
-                EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" ) 
-                EntityService:RemoveEntity( self.effect )
-                EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
-                QueueEvent( "EntityScanningEndEvent", self.lastTarget )
-                EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted")
-                self.effect = INVALID_ID
+            	local size = EntityService:GetBoundsSize( self.selectedEntity )
+            	local size_gift
+            	if ( size.x <= 2.5 ) then
+            		size_gift = 2
+            	elseif ( size.x <= 4.5 ) then
+            		size_gift = 3		
+            	elseif ( size.x <= 9.5 ) then
+            		size_gift = 4
+            	else
+            		size_gift = 6
+            	end
+				for count = 1, size_gift do
+					ItemService:ScanEntityByPlayer( self.selectedEntity, self.data:GetIntOrDefault( "owner", 0) )
+				end
+				EntityService:RemoveComponent( self.selectedEntity, "ScannableComponent" ) 
+				EntityService:RemoveEntity( self.effect )
+				EffectService:DestroyEffectsByGroup( self.selectedEntity, "scannable" )
+				QueueEvent( "EntityScanningEndEvent", self.lastTarget )
+				EffectService:SpawnEffect( self.selectedEntity, "effects/loot/specimen_extracted")
+				self.effect = INVALID_ID
+				currentTarget = INVALID_ID
                 self:SelectEntity(INVALID_ID)
-                self.scanningTime = 0.0
+				self.scanningTime = 0.0
             end
         end
     end
@@ -115,9 +180,11 @@ end
 
 function scanner_tower:OnWorkInProgress()
     
-    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), {
+	self.predicate = self.predicate or {
         signature = "ScannableComponent"
-    } )
+    }
+
+    local entities = FindService:FindEntitiesByPredicateInRadius( self.entity, WeaponService:GetTurretMaxRange( self.entity ), self.predicate )
     local target = FindClosestEntity( self.entity, entities );
     if ( self.selectedEntity == nil or IndexOf( entities, self.selectedEntity ) == nil ) and target ~= INVALID_ID then
         self:SelectEntity( target )
@@ -127,8 +194,7 @@ function scanner_tower:OnWorkInProgress()
         self:SelectEntity( INVALID_ID )
         WeaponService:StopShoot( self.entity )
         self.selectedEntity = nil        
-    end
-    
+    end    
 end
 
 function scanner_tower:OnTurretEvent( evt )
@@ -158,56 +224,5 @@ function scanner_tower:OnRelease()
     
     building.OnRelease(self)
 end
-
--- tower.lua v
-function scanner_tower:OnDestroy()
-    return true
-end
-
-function scanner_tower:_OnDayCycleDayStartedEvent( )
-    self:OperateLight("day")
-end
-
-function scanner_tower:_OnDayCycleNightStartedEvent( )
-    self:OperateLight("night")
-end
-
-function scanner_tower:_OnDayCycleSunriseStartedEvent( )
-    self:OperateLight("sunrise")
-end
-
-function scanner_tower:_OnDayCycleSunsetStartedEvent( )
-    self:OperateLight("sunset")
-end
-
-function scanner_tower:OnActivate()
-    self:OperateLight(EnvironmentService:GetTimeOfDay())
-end
-
-function scanner_tower:OnDeactivate()
-    self:OperateLight(EnvironmentService:GetTimeOfDay())
-end
-
-function scanner_tower:OperateLight( time )
-    if self.working == true and time ~= "day" and self.lightStatus == false then
-        EffectService:AttachEffects(self.entity, "lamp")	
-        self.lightStatus = true
-    elseif self.working == false and self.lightStatus == true then 
-        EffectService:DestroyEffectsByGroup(self.entity, "lamp")	
-        self.lightStatus = false
-    elseif time == "day" and self.lightStatus == true then
-        EffectService:DestroyEffectsByGroup(self.entity, "lamp")	
-        self.lightStatus = false
-    end
-end
-
-
-function scanner_tower:OnResourceMissingEvent( evt )
-    local resource = evt:GetResource()
-    if ( resource ~= "energy" and resource ~= "ai" and ConsoleService:GetConfig("g_tower_ammo_missing_annoucements") == "1" ) then
-        EntityService:ShowTimeoutSoundEvent( INVALID_ID, 30.0, "voice_over/announcement/not_enough_ammo_tower", false )
-    end
-end
--- tower.lua ^
 
 return scanner_tower
