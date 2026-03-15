@@ -436,6 +436,15 @@ end
 
 function player_resource_harvester_drone:OnHarvestExit()
 
+    if self.current_storage == nil then
+
+        self.current_storage = {}
+
+        for resource, _ in pairs( self.storage ) do
+            self.current_storage[ resource ] = 0.0
+        end
+    end
+
     local target = self:GetDroneActionTarget();
     if EntityService:IsAlive( target ) then
 
