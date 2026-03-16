@@ -32,18 +32,27 @@ local InjectChangeTowersValues = function(blueprintName, rangeMax, aimingRange)
     --LogService:Log("InjectChangeTowersValues Blueprint '" .. blueprintName .. "' turretDesc:GetField('aim_volume') " .. tostring(reflection_helper(aim_volumeField)))
 end
 
-local InjectChangeListTowersValues = function(blueprintStorageValues)
+local InjectChangeListTowersValues = function(blueprintRangeValues)
 
-    for _, configObject in ipairs(blueprintStorageValues) do
+    for _, configObject in ipairs(blueprintRangeValues) do
 
-        InjectChangeTowersValues(configObject.name, configObject.range_max, configObject.aiming_range)
+        local list = configObject.list
+
+        for _, blueprintName in ipairs(list) do
+
+            InjectChangeTowersValues(blueprintName, configObject.range_max, configObject.aiming_range)
+        end
     end
 end
 
 local new_values = {
 
     {
-        ["name"] = "buildings/defense/tower_gatling_laser",
+        ["list"] = {
+            "buildings/defense/tower_gatling_laser",
+
+            "buildings/defense/tower_icicle_thrower",
+        },
 
         ["range_max"] = "60",
         ["aiming_range"] = "70",
@@ -82,10 +91,14 @@ end
 local new_ghost_values = {
 
     {
-        ["list"] = { 
+        ["list"] = {
             "buildings/defense/tower_gatling_laser",
             "buildings/defense/tower_gatling_laser_lvl_2",
-            "buildings/defense/tower_gatling_laser_lvl_3"
+            "buildings/defense/tower_gatling_laser_lvl_3",
+
+            "buildings/defense/tower_icicle_thrower",
+            "buildings/defense/tower_icicle_thrower_lvl_2",
+            "buildings/defense/tower_icicle_thrower_lvl_3",
         },
 
         ["range_max"] = "60",
