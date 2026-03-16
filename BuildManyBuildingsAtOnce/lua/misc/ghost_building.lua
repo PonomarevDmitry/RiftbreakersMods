@@ -62,6 +62,11 @@ function ghost_building:OnInit()
         typeName = "tower"
     end
 
+    self.ignoreCheckConnect = false
+    if ( lowName == "liquid_pump" ) then
+        self.ignoreCheckConnect = true
+    end
+
     self.isBuildingWithGaps = false
 
     local buildWithGaps = ( typeName == "tower" and mod_build_towers_with_gaps ~= nil and mod_build_towers_with_gaps == 1 ) or ( typeName == "trap" and mod_build_traps_with_gaps ~= nil and mod_build_traps_with_gaps == 1 )
@@ -325,7 +330,9 @@ function ghost_building:OnUpdate()
                     end
                 end
 
-                BuildingService:CheckAndFixBuildingConnection(lineEnt)
+                if ( self.ignoreCheckConnect == false ) then
+                    BuildingService:CheckAndFixBuildingConnection(lineEnt)
+                end
             end
         end
 
@@ -352,7 +359,9 @@ function ghost_building:OnUpdate()
             self:AddToEntitiesToSellList(testBuildable)
         end
 
-        BuildingService:CheckAndFixBuildingConnection(self.entity)
+        if ( self.ignoreCheckConnect == false ) then
+            BuildingService:CheckAndFixBuildingConnection(self.entity)
+        end
 
         self:UpdateBuildingCount( 0, 0 )
     end
