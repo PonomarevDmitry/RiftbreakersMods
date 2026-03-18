@@ -15,9 +15,10 @@ ConsoleService:RegisterCommand( "activate_slot_request", function( args )
 
     local playerId = PlayerService:GetCurrentPlayer()
 
-    if ( playerId == nil or playerId == -1 ) then
-        LogService:Log("activate_slot_request " .. tostring(slotName) .. " playerId == nil or playerId == -1" )
-        return
+    if ( playerId == nil or playerId == INVALID_ID ) then
+        LogService:Log("activate_slot_request " .. tostring(slotName) .. " playerId == nil or playerId == INVALID_ID playerId " .. tostring(playerId) )
+
+        playerId = 0
     end
 
     if not ( is_server and is_client ) then
