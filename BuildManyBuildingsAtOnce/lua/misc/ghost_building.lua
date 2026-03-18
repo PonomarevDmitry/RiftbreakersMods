@@ -51,10 +51,9 @@ function ghost_building:OnInit()
 
         local maxSize = math.max(gridSize.x, gridSize.z)
 
-        while ((maxSize + self.cellsMinRadius) * 2 < self.desc.min_radius) do
+        local minRadius = self.desc.min_radius - maxSize
 
-            self.cellsMinRadius = self.cellsMinRadius + 1
-        end
+        self.cellsMinRadius = math.floor(minRadius / 2)
     end
 
     local lowName = BuildingService:FindLowUpgrade( self.blueprint )
