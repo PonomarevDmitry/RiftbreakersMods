@@ -151,7 +151,7 @@ local supported_item_blueprintsLimit = {
     "items/consumables/tesla_turret_extreme_item",
 }
 
-local newLimitValue = "100"
+local newLimitValue = "500"
 
 InjectChangeBlueprintInventoryItemComponentStorageLimit(supported_item_blueprintsLimit, newLimitValue)
 
