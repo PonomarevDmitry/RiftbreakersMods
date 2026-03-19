@@ -48,6 +48,8 @@ function turrets_auto_laying:OnActivate()
 
         self.isWorking = true
 
+        self:SetIconWorking(true)
+
         self:OnPlaceTurretExecute()
 
         self.machine:ChangeState("delay")
@@ -77,6 +79,8 @@ end
 
 function turrets_auto_laying:StopWorking()
 
+    self:SetIconWorking(false)
+
     self.lastSpawnedPosition = nil
 
     self.isWorking = false
@@ -90,6 +94,27 @@ function turrets_auto_laying:StopWorking()
         EntityService:RemoveEntity( self.skillWorking )
         self.skillWorking = nil
     end
+end
+
+function turrets_auto_laying:SetIconWorking(isWorking)
+
+    local inventoryItemComponent = EntityService:GetConstComponent( self.entity, "InventoryItemComponent" )
+    if ( inventoryItemComponent == nil ) then
+        return
+    end
+
+    local inventoryItemComponentRef = reflection_helper( inventoryItemComponent )
+
+    local iconName = tostring( inventoryItemComponentRef.icon )
+
+    iconName = string.gsub( iconName, "_working", "" )
+
+    if ( isWorking ) then
+
+        iconName = iconName .. "_working"
+    end
+
+    inventoryItemComponentRef.icon = iconName
 end
 
 function turrets_auto_laying:OnRelease()
