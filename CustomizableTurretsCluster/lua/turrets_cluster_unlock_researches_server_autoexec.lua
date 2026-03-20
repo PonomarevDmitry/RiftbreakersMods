@@ -9,12 +9,6 @@ require("lua/utils/table_utils.lua")
 
 local supported_research_list = {
 
-    {
-        ["name"] = "gui/menu/research/name/turrets_cluster_mods_scanner_turret_standard_item",
-        ["research_category"] = "gui/menu/research/category_weapons_equipment",
-        ["research_name"] = "gui/menu/research/name/consumable_scanner_turret_standard",
-    },
-
     -- Expanded Arsenal Turrets
 
     {
