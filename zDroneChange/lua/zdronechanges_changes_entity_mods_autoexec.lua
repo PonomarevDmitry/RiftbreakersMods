@@ -1,7 +1,7 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
-local InjectChangeDronesEntityModDescValues = function(blueprintName, hashChanges)
+local InjectChangeDronesEntityModDescValues = function(blueprintName, hashChanges, boostValues)
 
     local blueprint = ResourceManager:GetBlueprint( blueprintName )
     if ( blueprint == nil ) then
@@ -16,39 +16,79 @@ local InjectChangeDronesEntityModDescValues = function(blueprintName, hashChange
     end
 
     local entity_modsContainer = entityModDesc:GetField("entity_mods"):ToContainer()
-    if ( entity_modsContainer == nil ) then
+    if ( entity_modsContainer ~= nil ) then
+
+        for i=0,entity_modsContainer:GetItemCount()-1 do
+
+            local entityModTypeEntityMod = entity_modsContainer:GetItem(i)
+
+            if ( entityModTypeEntityMod == nil ) then
+                LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod == nil")
+
+                goto continueEntityModsContainer
+            end
+
+            local entityModTypeEntityModRef = reflection_helper(entityModTypeEntityMod)
+            if ( entityModTypeEntityModRef.key == nil or entityModTypeEntityModRef.value == nil ) then
+
+                goto continueEntityModsContainer
+            end
+
+            local keyValue = tonumber(entityModTypeEntityModRef.key)
+
+            if ( hashChanges[keyValue] == nil ) then
+
+                goto continueEntityModsContainer
+            end
+
+            entityModTypeEntityModRef.value.mod_value = hashChanges[keyValue]
+
+            --LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod " .. tostring(entityModTypeEntityModRef))
+
+            ::continueEntityModsContainer::
+        end
+    else
         LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModDesc:GetField('entity_mods'):ToContainer() NOT EXISTS.")
-        return
     end
 
-    for i=0,entity_modsContainer:GetItemCount()-1 do
+    if ( boostValues ~= nil ) then
 
-        local entityModTypeEntityMod = entity_modsContainer:GetItem(i)
+        local boost_valuesContainer = entityModDesc:GetField("boost_values"):ToContainer()
+        if ( boost_valuesContainer ~= nil ) then
 
-        if ( entityModTypeEntityMod == nil ) then
-            LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod == nil")
+            for i=0,boost_valuesContainer:GetItemCount()-1 do
 
-            goto continue
+                local boostValueMod = boost_valuesContainer:GetItem(i)
+
+                if ( boostValueMod == nil ) then
+                    LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' boostValueMod == nil")
+
+                    goto continueBoostValuesContainer
+                end
+
+                local boostValueModRef = reflection_helper(boostValueMod)
+                if ( boostValueModRef.key == nil or boostValueModRef.value == nil ) then
+
+                    goto continueBoostValuesContainer
+                end
+
+                local keyValue = tonumber(boostValueModRef.key)
+
+                if ( boostValues[keyValue] == nil ) then
+
+                    goto continueBoostValuesContainer
+                end
+
+                boostValueModRef.value.x = tostring(boostValues[keyValue].x)
+                boostValueModRef.value.y = tostring(boostValues[keyValue].y)
+
+                --LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' boostValueMod " .. tostring(boostValueModRef))
+
+                ::continueBoostValuesContainer::
+            end
+        else
+            LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModDesc:GetField('boost_values'):ToContainer() NOT EXISTS.")
         end
-
-        local entityModTypeEntityModRef = reflection_helper(entityModTypeEntityMod)
-        if ( entityModTypeEntityModRef.key == nil or entityModTypeEntityModRef.value == nil ) then
-
-            goto continue
-        end
-
-        local keyValue = tonumber(entityModTypeEntityModRef.key)
-
-        if ( hashChanges[keyValue] == nil ) then
-
-            goto continue
-        end
-
-        entityModTypeEntityModRef.value.mod_value = hashChanges[keyValue]
-
-        --LogService:Log("InjectChangeDronesEntityModDescValues Blueprint '" .. blueprintName .. "' entityModTypeEntityMod " .. tostring(entityModTypeEntityModRef))
-
-        ::continue::
     end
 end
 
@@ -58,10 +98,11 @@ local InjectChangeListDronesEntityModDescValues = function(blueprintStorageValue
 
         local list = configObject.list
         local hashChanges = configObject.changes
+        local boostValues = configObject.boost_values
 
         for _, blueprintName in ipairs(list) do
 
-            InjectChangeDronesEntityModDescValues(blueprintName, hashChanges)
+            InjectChangeDronesEntityModDescValues(blueprintName, hashChanges, boostValues)
         end
     end
 end
@@ -225,6 +266,17 @@ local new_values = {
             [EntityModType.loot_mods_chance] = "1.6",
             [EntityModType.loot_resources_chance] = "1.6",
         },
+
+        ["boost_values"] = {
+            [EntityModType.loot_mods_chance] = {
+                x = 65,
+                y = 72,
+            },
+            [EntityModType.loot_resources_chance] = {
+                x = 65,
+                y = 72,
+            },
+        },
     },
 
     {
@@ -241,6 +293,17 @@ local new_values = {
         ["changes"] = {
             [EntityModType.loot_mods_chance] = "1.9",
             [EntityModType.loot_resources_chance] = "1.9",
+        },
+
+        ["boost_values"] = {
+            [EntityModType.loot_mods_chance] = {
+                x = 95,
+                y = 102,
+            },
+            [EntityModType.loot_resources_chance] = {
+                x = 95,
+                y = 102,
+            },
         },
     },
 
@@ -259,6 +322,17 @@ local new_values = {
             [EntityModType.loot_mods_chance] = "2.2",
             [EntityModType.loot_resources_chance] = "2.2",
         },
+
+        ["boost_values"] = {
+            [EntityModType.loot_mods_chance] = {
+                x = 125,
+                y = 132,
+            },
+            [EntityModType.loot_resources_chance] = {
+                x = 125,
+                y = 132,
+            },
+        },
     },
 
     {
@@ -275,6 +349,17 @@ local new_values = {
         ["changes"] = {
             [EntityModType.loot_mods_chance] = "2.5",
             [EntityModType.loot_resources_chance] = "2.5",
+        },
+
+        ["boost_values"] = {
+            [EntityModType.loot_mods_chance] = {
+                x = 155,
+                y = 162,
+            },
+            [EntityModType.loot_resources_chance] = {
+                x = 155,
+                y = 162,
+            },
         },
     },
 }
