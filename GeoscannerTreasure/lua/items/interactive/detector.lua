@@ -278,28 +278,9 @@ end
 
 function detector:spawnReplacement()
 
-	local predicate = {
-		signature = "TreasureComponent",
-		filter = function( entity )
-			local treasureComponent = EntityService:GetComponent( entity, "TreasureComponent")
-			if ( treasureComponent:GetField("is_discovered"):GetValue() == "1" ) then
-				return false
-			end
-
-			return true
-		end
-	}
-
-	local discoveredTresures = FindService:FindEntitiesByPredicateInRadius( self.item, 9999999.0, predicate );
-
-	if ( #discoveredTresures > 0 ) then
-		self.targetTimeToSpawn = nil
-		return
-	end
-
 	if ( self.targetTimeToSpawn == nil ) then
 
-		self.targetTimeToSpawn = GetLogicTime() + 3
+		self.targetTimeToSpawn = GetLogicTime() + 5
 		return
 	end
 
