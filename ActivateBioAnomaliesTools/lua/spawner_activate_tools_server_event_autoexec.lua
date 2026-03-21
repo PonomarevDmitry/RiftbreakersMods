@@ -12,6 +12,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
+
+
+
+
     local mapperName = evt:GetMapperName()
 
     if ( mapperName == "ActivateBioAnomaliesToolsSingleRequest" ) then
@@ -39,6 +43,62 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         return
     end
+
+
+
+
+
+    local stringNumber = string.find( mapperName, "RespawnBioAnomaliesToolsSingleRequest" )
+
+    if ( stringNumber == 1 ) then
+
+        local entity = evt:GetEntity()
+
+        if ( not EntityService:IsAlive(entity) ) then
+            return
+        end
+
+        local splitArray = Split( mapperName, "|" )
+
+        if ( #splitArray ~= 2 ) then
+            return
+        end
+
+        local newBlueprintName = splitArray[2]
+
+
+
+        local team = EntityService:GetTeam( entity )
+
+        local transform = EntityService:GetWorldTransform( entity )
+
+        local position = transform.position
+
+        local newEntity = EntityService:SpawnEntity( newBlueprintName, position, team )
+
+        EntityService:SpawnEntity( "items/consumables/radar_pulse", newEntity, "" )
+
+        local minimapItemComponent = EntityService:GetComponent( newEntity, "MinimapItemComponent" )
+        if ( minimapItemComponent ~= nil ) then
+            local minimapItemComponentRef = reflection_helper( minimapItemComponent )
+            minimapItemComponentRef.unknown_until_visible = false
+        end
+
+        local databaseEntity = EntityService:GetOrCreateDatabase( newEntity )
+        if ( databaseEntity ~= nil ) then
+            databaseEntity:SetFloat( "harvest_duration", 2.5 )
+        end
+
+
+
+        EntityService:DissolveEntity( entity, 0.5 )
+
+        return
+    end
+
+
+
+
 
     local stringNumber = string.find( mapperName, "ActivateBioAnomaliesToolsAllRequest" )
 

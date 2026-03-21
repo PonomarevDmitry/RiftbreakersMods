@@ -15,6 +15,9 @@ local spawners_autoexec = function(evt)
 
     BuildingService:UnlockBuilding("buildings/tools/spawner_activate")
     BuildingService:UnlockBuilding("buildings/tools/spawner_activate_all_map")
+
+    BuildingService:UnlockBuilding("buildings/tools/spawner_respawn")
+    BuildingService:UnlockBuilding("buildings/tools/spawner_respawn_all_map")
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
