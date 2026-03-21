@@ -9,8 +9,6 @@ end
 
 function spawner_activate_tool:OnInit()
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_spawner_activate_tool", self.entity)
-
-    self.player = PlayerService:GetPlayerControlledEnt(self.playerId)
 end
 
 function spawner_activate_tool:OnPreInit()
