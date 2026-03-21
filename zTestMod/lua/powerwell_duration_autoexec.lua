@@ -46,7 +46,6 @@ local supported_item_blueprintsLimit = {
     "props/special/power_wells/power_well_ammo",
     "props/special/power_wells/power_well_firerate",
     "props/special/power_wells/power_well_damage",
-    ,
 }
 
 local newLifeTimeValue = "600"
