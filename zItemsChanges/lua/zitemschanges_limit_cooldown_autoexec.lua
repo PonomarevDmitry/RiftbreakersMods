@@ -265,6 +265,10 @@ local supported_item_blueprintsCooldown = {
     ["items/skills/tornado_acid_advanced_item"] = "10",
     ["items/skills/tornado_acid_superior_item"] = "10",
     ["items/skills/tornado_acid_extreme_item"] = "10",
+
+    ["items/skills/grenades_pack_1_item"] = "0.05",
+    ["items/skills/grenades_pack_2_item"] = "0.05",
+    ["items/skills/grenades_pack_3_item"] = "0.05",
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprintsCooldown)
