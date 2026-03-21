@@ -77,6 +77,14 @@ function spawner_respawn_all_map_tool:OnInit()
         ["props/special/loot_container_swamp_extreme"] = "spawners/metallic_swamp_extreme",
     }
 
+    self:FindAllSpawners()
+
+    self.popupShown = false
+    self.timeoutTime = nil
+end
+
+function spawner_respawn_all_map_tool:FindAllSpawners()
+
     self.allSpawners = {}
 
     local world_min = MissionService:GetWorldBoundsMin();
@@ -138,9 +146,6 @@ function spawner_respawn_all_map_tool:OnInit()
 
         ::labelContinue::
     end
-
-    self.popupShown = false
-    self.timeoutTime = nil
 end
 
 function spawner_respawn_all_map_tool:GetScaleFromDatabase()
@@ -180,6 +185,8 @@ function spawner_respawn_all_map_tool:AddedToSelection( entity )
             EntityService:SetMaterial( child, "hologram/current", "selected" )
         end
     end
+
+    self:CreateMarkEntity(entity)
 end
 
 function spawner_respawn_all_map_tool:RemovedFromSelection( entity )
@@ -188,6 +195,43 @@ function spawner_respawn_all_map_tool:RemovedFromSelection( entity )
     for child in Iter( children ) do
         if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
             EntityService:RemoveMaterial( child, "selected" )
+        end
+    end
+
+    self:RemoveMarkEntity(entity)
+end
+
+function spawner_respawn_all_map_tool:CreateMarkEntity( building )
+
+    local markerBlueprintName = "misc/marked_spawner_to_respawn_minimap_icon"
+
+    local childreen = EntityService:GetChildren(building, true)
+
+    for entity in Iter( childreen ) do
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        if ( blueprintName == markerBlueprintName ) then
+            return
+        end
+    end
+
+    local markEntity = EntityService:SpawnAndAttachEntity( markerBlueprintName, building )
+end
+
+function spawner_respawn_all_map_tool:RemoveMarkEntity( building )
+
+    local markerBlueprintName = "misc/marked_spawner_to_respawn_minimap_icon"
+
+    local childreen = EntityService:GetChildren(building, true)
+
+    for entity in Iter( childreen ) do
+
+        local blueprintName = EntityService:GetBlueprintName(entity)
+
+        if ( blueprintName == markerBlueprintName ) then
+
+            EntityService:RemoveEntity( entity )
         end
     end
 end
@@ -231,7 +275,11 @@ function spawner_respawn_all_map_tool:OnGuiPopupResultEvent( evt )
         for entity in Iter( self.allSpawners ) do
 
             self:RespawnEntity( entity )
+
+            self:RemoveMarkEntity(entity)
         end
+
+        self:FindAllSpawners()
     end
 
     self.popupShown = false
