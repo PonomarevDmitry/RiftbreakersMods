@@ -1,23 +1,45 @@
+require("lua/utils/reflection.lua")
+require("lua/utils/table_utils.lua")
+
 local InjectChangeBlueprintLifeTimeDescStorageLimit = function(blueprintsList, newLifeTimeValue)
 
     for _,blueprintName in ipairs(blueprintsList) do
 
         local blueprint = ResourceManager:GetBlueprint( blueprintName )
 
-        if ( blueprint ~= nil ) then
-
-            local lifeTimeDesc = blueprint:GetComponent("LifeTimeDesc")
-
-            if lifeTimeDesc ~= nil then
-    
-                lifeTimeDesc:GetField("time"):SetValue(newLifeTimeValue)
-            else
-                
-                LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeDesc NOT EXISTS.")
-            end
-        else
+        if ( blueprint == nil ) then
 
             LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " NOT EXISTS.")
+            return
+        end
+
+        local lifeTimeDesc = blueprint:GetComponent("LifeTimeDesc")
+
+        if lifeTimeDesc ~= nil then
+    
+            lifeTimeDesc:GetField("time"):SetValue(newLifeTimeValue)
+        else
+                
+            LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeDesc NOT EXISTS.")
+        end
+
+        local lifeTimeComponent = blueprint:GetComponent("LifeTimeComponent")
+
+        if lifeTimeComponent ~= nil then
+    
+            local timeValue = lifeTimeComponent:GetField("time")
+
+            if timeValue ~= nil then
+    
+                timeValue:GetField("timeLimit"):SetValue(newLifeTimeValue)
+
+            else
+                
+                LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeComponent timeValue == nil.")
+            end
+        else
+                
+            LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeComponent NOT EXISTS.")
         end
     end
 end
