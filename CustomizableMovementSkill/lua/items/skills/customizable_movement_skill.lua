@@ -174,7 +174,15 @@ end
 
 function customizable_movement_skill:OnDashExecute( state )
 
-    if ( EntityService:IsAlive( self.owner ) == false ) then
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+
+        self.set = true
+        state:Exit()
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+
         self.set = true
         state:Exit()
         return
@@ -229,7 +237,15 @@ end
 
 function customizable_movement_skill:OnRollExecute( state )
 
-    if ( EntityService:IsAlive( self.owner ) == false ) then
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+
+        self.set = true
+        state:Exit()
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+
         self.set = true
         state:Exit()
         return
@@ -294,6 +310,14 @@ end
 
 function customizable_movement_skill:SpawnTrailEffect()
 
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+        return
+    end
+
     self.trailEffect = self.trailEffect or ""
 
     if ( self.trailEffect == "" ) then
@@ -334,6 +358,14 @@ function customizable_movement_skill:SpawnEndExplosion()
 end
 
 function customizable_movement_skill:SpawnExplosion(modExplosionBlueprint)
+
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+        return
+    end
 
     local selfBlueprint = EntityService:GetBlueprintName( self.entity )
 
@@ -403,6 +435,14 @@ function customizable_movement_skill:SpawnEndMine()
 end
 
 function customizable_movement_skill:SpawnMine(modMineBlueprint)
+
+    if ( self.owner == nil or EntityService:IsAlive( self.owner ) == false ) then
+        return
+    end
+
+    if not HealthService:IsAlive( self.owner ) then
+        return
+    end
 
     local team = EntityService:GetTeam( self.owner )
 
