@@ -104,6 +104,9 @@ parent: Lua services
 ### GetConnectedPlayersFromTeam
  * ([struct TeamId](riftbreaker-wiki/docs/reflection/struct TeamId)): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
   
+### GetCurrentPlayer
+ * (): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
+  
 ### GetEnergyLvl
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
   
@@ -253,6 +256,9 @@ parent: Lua services
   
 ### IsResearchEnabled
  * (): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
+### IsResearchManuallyUnlocked
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
 ### IsResearchUnlocked
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)

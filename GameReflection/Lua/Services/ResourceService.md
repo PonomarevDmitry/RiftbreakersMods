@@ -11,6 +11,9 @@ parent: Lua services
 ### FindEmptySpacesFromEntity
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [int](riftbreaker-wiki/docs/reflection/int)): [Vector<Entity,StlAllocatorProxy<Entity> >](riftbreaker-wiki/docs/reflection/Vector<Entity,StlAllocatorProxy<Entity> >)
   
+### FindEmptySpacesNearPlayer
+ * ([float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [int](riftbreaker-wiki/docs/reflection/int)): [Vector<Entity,StlAllocatorProxy<Entity> >](riftbreaker-wiki/docs/reflection/Vector<Entity,StlAllocatorProxy<Entity> >)
+  
 ### GetOreBlueprintFromVein
  * ([string](riftbreaker-wiki/docs/reflection/string)): [string](riftbreaker-wiki/docs/reflection/string)
   

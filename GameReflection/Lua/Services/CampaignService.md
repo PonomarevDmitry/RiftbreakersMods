@@ -41,6 +41,9 @@ parent: Lua services
 ### GetMissionStatus
  * ([string](riftbreaker-wiki/docs/reflection/string), [bool](riftbreaker-wiki/docs/reflection/bool)): [enum MissionStatus](riftbreaker-wiki/docs/reflection/enum MissionStatus)
   
+### HasOutpostOnMission
+ * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
 ### IncreaseCreaturesBaseDifficulty
  * ([float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
   

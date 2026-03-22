@@ -272,6 +272,9 @@ parent: Lua services
 ### IsBuildingAvailable
  * ([string](riftbreaker-wiki/docs/reflection/string)): [bool](riftbreaker-wiki/docs/reflection/bool)
   
+### IsBuildingEnabled
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [bool](riftbreaker-wiki/docs/reflection/bool)
+  
 ### IsBuildingFinished
  * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [bool](riftbreaker-wiki/docs/reflection/bool)
   

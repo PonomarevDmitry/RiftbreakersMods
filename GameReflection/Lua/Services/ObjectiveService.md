@@ -8,6 +8,9 @@ parent: Lua services
 ### CreateObjective
  * ([string](riftbreaker-wiki/docs/reflection/string), [Database](riftbreaker-wiki/docs/reflection/Database), [bool](riftbreaker-wiki/docs/reflection/bool), [string](riftbreaker-wiki/docs/reflection/string)): [unsigned int](riftbreaker-wiki/docs/reflection/unsigned int)
   
+### FindMatchingLocalObjectiveIdsFromUniqueName
+ * ([string](riftbreaker-wiki/docs/reflection/string), [string](riftbreaker-wiki/docs/reflection/string)): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
+  
 ### FindMatchingObjectiveIdsFromUniqueName
  * ([string](riftbreaker-wiki/docs/reflection/string)): [Vector<unsigned int,StlAllocatorProxy<unsigned int> >](riftbreaker-wiki/docs/reflection/Vector<unsigned int,StlAllocatorProxy<unsigned int> >)
   

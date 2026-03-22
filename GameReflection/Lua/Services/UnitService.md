@@ -135,6 +135,9 @@ parent: Lua services
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string), [float](riftbreaker-wiki/docs/reflection/float), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
 ### SpawnUnitFromSpecies
+ * ([Math::Transform<float>](riftbreaker-wiki/docs/reflection/Math::Transform<float>), [string](riftbreaker-wiki/docs/reflection/string)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
+  
+### SpawnUnitFromSpecies
  * ([Math::Vector3<float>](riftbreaker-wiki/docs/reflection/Math::Vector3<float>), [string](riftbreaker-wiki/docs/reflection/string)): [Entity](riftbreaker-wiki/docs/reflection/Entity)
   
 ### SpawnUnitFromSpecies

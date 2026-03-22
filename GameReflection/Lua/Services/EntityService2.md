@@ -413,6 +413,9 @@ parent: Lua services
 ### RequestDestroyPattern
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [string](riftbreaker-wiki/docs/reflection/string)): [void](riftbreaker-wiki/docs/reflection/void)
   
+### RevealVegetation
+ * ([Entity](riftbreaker-wiki/docs/reflection/Entity)): [void](riftbreaker-wiki/docs/reflection/void)
+  
 ### Rotate
  * ([unsigned int](riftbreaker-wiki/docs/reflection/unsigned int), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float), [float](riftbreaker-wiki/docs/reflection/float)): [void](riftbreaker-wiki/docs/reflection/void)
   
