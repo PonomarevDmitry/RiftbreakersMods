@@ -28,13 +28,14 @@ GameplayResourceDef
 	volume_unpack_blueprint "resources/volume_resource_plasmatic"
 	volume_repeat_effect	"effects/world/magma_resource_ambient"
 	volume_ambient_effect  	"effects/world/magma_resource_ambient_sound"
-	volume_splash_effect	"effects/magma_splash_small"	
+	volume_splash_effect	"effects/the_abyss_splash_small"	
+
 	volume_minimap_color
 	{
-		r "0.5"
+		r "0.2"
 		g "0.0"
-		b "0.5"
-		a "0.2"
+		b "0.8"
+		a "0.3"
 	}
 }
 

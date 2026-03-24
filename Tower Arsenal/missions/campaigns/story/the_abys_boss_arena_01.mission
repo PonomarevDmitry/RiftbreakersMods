@@ -1,0 +1,198 @@
+MissionDef
+{
+    script          	"lua/missions/campaigns/story/the_abys_boss_arena_01.lua"
+	localization_id		"gui/menu/planetary_scanner/mission_the_abys_boss_arena_01"
+	description			"gui/menu/planetary_scanner/mission_the_abys_boss_arena_01_description"
+	detector_disabled	"1"
+	
+	script_database
+    {
+		spawn_near_position string:"-300,0,0"    
+    }
+
+	light_mask_materials
+    {
+        logic/caverns_light_mask_none
+    }
+
+    destructible_volume_texture_patterns
+    {
+        materials/textures/logic/caverns_destructible_rocks_mask_edge_0_empty.png
+    }
+
+	tile_spawn_rules
+	{	
+		biomes/the_abys/tiles/the_abys_encounter_boss_arena_01/the_abys_encounter_boss_arena_01.tile
+		{
+			min_instances	1			
+			max_instances	1	
+			tile_coord
+			{		
+				1,-1										
+			}	
+		}
+		//biomes/caverns/tiles/caverns_plains_rocks_01/caverns_plains_rocks_01.tile
+		//{					
+		//	max_instances	0			
+		//}
+		//biomes/caverns/tiles/caverns_canyons_01/caverns_canyons_01.tile
+		//{					
+		//	max_instances	0			
+		//}
+	}
+    
+    biomes          	"the_abys"
+
+	failed_action   "remain"
+	success_action  "remove"
+
+	creature_volumes_min_distance   "160.0"
+	creature_volumes_density        "0.35"
+
+    threat  "0.5"    
+
+    ambient_creature_species
+    {
+        ground
+        {     
+			max_count 50
+			spawn_rate 6
+			search_to_spawn_radius "2"
+			
+            species
+            {
+                CreatureVolume
+                {
+                    creature_species    "crysder"
+                }
+            }
+        }        
+    }
+
+    creature_volumes_species
+    {
+        neutral_units
+        {         
+			CreatureVolume
+            {
+                creature_species    "moltug_crystal"
+            }
+        }
+
+        regular_units
+        {
+            CreatureVolume
+            {
+                creature_species    "cosmic_crawlog"
+                volume_spawn_ratio  "1"
+            }  
+			
+			CreatureVolume
+            {
+                creature_species    "cosmic_gulgor"
+                volume_spawn_ratio  "1"
+            }  
+        }
+    }
+	
+	mission_object_spawners
+	{	
+	
+		//MISSION AREA SAFE ZONE MARKERS
+		MarkerBlueprintSpawner
+        {
+            spawn_pool					"mission_objective"
+
+            // find all entities on map with this blueprint as possible spawn point
+            spawn_at_marker				"logic/position_marker" 
+			spawn_at_marker_name		"logic/boss_arena_entrance_1" 
+			ignore_excluded_cells_check	"1"
+
+            spawn_blueprints
+            {
+                logic/position_marker                
+            }
+        }
+		MarkerBlueprintSpawner
+        {
+            spawn_pool					"mission_objective"
+
+            // find all entities on map with this blueprint as possible spawn point
+            spawn_at_marker				"logic/position_marker" 
+			spawn_at_marker_name		"logic/position_marker_arena_blocker" 
+			ignore_excluded_cells_check	"1"
+
+            spawn_blueprints
+            {
+                logic/position_marker                
+            }
+        }
+	
+		MarkerBlueprintSpawner
+        {
+            spawn_pool               "loot_containers"
+
+            // find all entities on map with this blueprint as possible spawn point
+            spawn_at_marker          "logic/spawn_objective"
+
+            // min distance from objects in other pools
+            spawn_min_distance_from_pools
+            {
+				mission_objective	100
+                player_spawn_point  200.0				
+                loot_containers     150.0
+            }
+
+            // range of spawned blueprints by this pool <min,max>, max can be 0 for unbounded upper limit
+            spawn_instances_minmax    3,5
+
+            spawn_blueprints
+            {
+                spawners/the_abys_spawner_standard
+                {
+                    // make a roll to check if blueprint can be spawned
+                    spawn_chance           1
+                }
+            }
+        }
+		GridSpawner
+		{
+			spawn_pool                  "loot_containers_small"
+			spawn_min_free_cell_margin	3
+			spawn_within_destructible_volumes "0"
+	
+			//terrain_types               "mud,floor"
+	
+			spawn_min_distance_from_pools
+			{
+				mission_objective	100
+				player_spawn_point      150
+				loot_containers         70
+				loot_containers_small   100
+				underground_treasures   10
+				resource_volumes		10
+				enemy					5
+			}
+	
+			spawn_blueprints
+			{
+				spawners/loot_container_small_caverns_standard
+				{                    
+					spawn_chance           0.4				
+				}				
+				spawners/loot_container_small_caverns_advanced
+				{                    
+					spawn_chance           0.3
+				}				
+				spawners/loot_container_small_caverns_superior
+				{                   
+					spawn_chance           0.2
+				}				
+				spawners/loot_container_small_caverns_extreme
+				{                    
+					spawn_chance           0.1
+				}				
+			}
+		}
+	}
+}

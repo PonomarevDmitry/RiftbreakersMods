@@ -1,14 +1,47 @@
 //----------------------SHIELDS START----------------------\\
 
+// shield_generator_cryo
+
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_cryogenic_down
+
+	base_blueprints
+	{
+		 lights/point/ta_white_shield_spark
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "exor/shield_cryo_down"
+	}
+}
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_generator_cryogenic_energy
+
+	base_blueprints
+	{
+		 lights/point/ta_white_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/comms_hub_energy"
+	}
+}
+
 // shield_generator_acidic
 
 EntityBlueprint
 {
-	name  "effects/buildings_and_machines/shield_acidic_down"
+	name  effects/buildings_and_machines/shield_acidic_down
 
 	base_blueprints
 	{
-		 lights/point/green_small
+		 lights/point/ta_green_shield_spark
 		 effects/default
 	}
 
@@ -17,14 +50,113 @@ EntityBlueprint
 		name    "exor/shield_acidic_down"
 	}
 }
-
 EntityBlueprint
 {
-	name  "effects/buildings_and_machines/shield_generator_acidic_energy"
+	name  effects/buildings_and_machines/shield_generator_acidic_energy
 
 	base_blueprints
 	{
 		 lights/point/green_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/comms_hub_energy"
+	}
+}
+
+// shield_generator_flame
+
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_flame_down
+
+	base_blueprints
+	{
+		 lights/point/ta_red_shield_spark
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "exor/shield_flame_down"
+	}
+}
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_generator_flame_energy
+
+	base_blueprints
+	{
+		 lights/point/ta_red_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/comms_hub_energy"
+	}
+}
+
+// shield_generator_cosmic
+
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_cosmic_down
+
+	base_blueprints
+	{
+		 lights/point/ta_violet_shield_spark
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "exor/shield_cosmic_down"
+	}
+}
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_generator_cosmic_energy
+
+	base_blueprints
+	{
+		 lights/point/ta_violet_medium
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/comms_hub_energy"
+	}
+}
+
+// shield_generator_acidic
+
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_plasmoid_down
+
+	base_blueprints
+	{
+		 lights/point/ta_blue_shield_spark
+		 effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "exor/shield_plasmoid_down"
+	}
+}
+
+EntityBlueprint
+{
+	name  effects/buildings_and_machines/shield_generator_plasmoid_energy
+
+	base_blueprints
+	{
+		 lights/point/ta_dark-blue_medium
 		 effects/no_lifetime
 	}
 
@@ -732,11 +864,86 @@ EntityBlueprint
 
 	LightningComponent
 	{
-		material 				"items/weapons/telsa_gun_beam"
+		material 				"items/weapons/ta_defense_drone_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"1"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_defensive_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/drone_defensive_advanced_mod_lightning
+	base_blueprint  effects/buildings_and_machines/drone_defensive_mod_lightning_base
+
+	LightningComponent
+	{
+		material 				"items/weapons/ta_defense_drone_advanced_beam"
 		tesselation_step 		"0.75"
 		beam_min_width 			"0.01"
 		beam_max_width 			"0.10"
 		beam_count 				"2"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_defensive_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/drone_defensive_superior_mod_lightning
+	base_blueprint  effects/buildings_and_machines/drone_defensive_mod_lightning_base
+
+	LightningComponent
+	{
+		material 				"items/weapons/ta_defense_drone_superior_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"3"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/mech_defensive_drone_muzzle"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/energy/lightning_gun_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name 			effects/buildings_and_machines/drone_defensive_extreme_mod_lightning
+	base_blueprint  effects/buildings_and_machines/drone_defensive_mod_lightning_base
+
+	LightningComponent
+	{
+		material 				"items/weapons/ta_defense_drone_extreme_beam"
+		tesselation_step 		"0.75"
+		beam_min_width 			"0.01"
+		beam_max_width 			"0.10"
+		beam_count 				"4"
 	}
 
 	ParticleDesc
@@ -771,3 +978,19 @@ EntityBlueprint
 }
 
 
+
+EntityBlueprint
+{
+	name effects/buildings_and_machines/bio_lab_energy
+
+	base_blueprints
+	{
+		lights/point/violet_small
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/ta_bio_lab_energy"
+	}
+}

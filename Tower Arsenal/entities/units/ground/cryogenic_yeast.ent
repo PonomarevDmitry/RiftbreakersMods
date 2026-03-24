@@ -1,0 +1,976 @@
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_branch"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_branch_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_branch_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_branch_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_branch_01"
+
+	base_blueprint "units/ground/cryogenic_yeast_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_branch_02"
+
+	base_blueprint "units/ground/cryogenic_yeast_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_02.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_branch_03"
+
+	base_blueprint "units/ground/cryogenic_yeast_branch_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_03.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_branch_base"
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"30"
+		health 					"30"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+
+		acid			"1.5"
+		energy			"1.0"
+		area			"1.0"
+		plasmoid		"1.0"
+
+		fire			"0.1"
+		cosmic			"0.5"
+		physical		"0.6"
+		cryo			"0.1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_small_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position 
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cryogenic_creeper_area"
+		extend  			"2"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0"
+			y "1"
+			z "1"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+			
+		visibility		"radar" 
+		layer_group		"enemies"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/enemies/death_cryogenic"	
+					
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_white_medium"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+	{
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemies_yeast/idle"
+                    offset "0 0 0"
+                    scale "1.0 1.0 1.0"
+                }
+            }
+        }			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
+					//scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/arctic_grass_medium"
+					offset "0 0.1 0"
+					//scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_yeast/cryo_spawn"
+					offset "0 1 0"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_01"
+
+	base_blueprint "units/ground/cryogenic_yeast_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_02"
+
+	base_blueprint "units/ground/cryogenic_yeast_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_02.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_03"
+
+	base_blueprint "units/ground/cryogenic_yeast_root_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_03.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_base"
+
+	base_blueprint "units/ground/cryogenic_yeast_root_origin_base"
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"250"
+		health 					"250"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+
+		acid			"1.5"
+		energy			"1.0"
+		area			"1.0"
+		plasmoid		"1.0"
+
+		fire			"0.1"
+		cosmic			"0.5"
+		physical		"0.6"
+		cryo			"0.1"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0"
+			y "1"
+			z "1"
+			w "6"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		
+		additional_z_order	"2"
+		visibility			"radar"
+		layer_group			"enemies"
+	}
+
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cryogenic_creeper_area"
+		extend  			"3"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}	
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_big_01_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.02"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.02"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/enemies/death_cryogenic"	
+					
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_white_medium"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemies_yeast/idle"
+					offset "0 2 0"
+					scale "1.5 2.0 1.5"
+                }
+            }
+        }		
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/spot/spikybulb_blue_medium"
+                    offset "0 15 0"
+                    orientation "0 -90 0"
+                }
+            }
+        }
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
+					//scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/arctic_grass_medium"
+					offset "0 0.1 0"
+					//scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_yeast/cryo_spawn"
+					offset "0 1 0"
+				}
+			}
+		}	
+        EffectGroup
+        {           
+            enabled "0"
+			group 	"scanning"			
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/mech/scanner"
+                }
+            }
+        }			
+    }
+
+
+	
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_origin"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_origin_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_origin_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cryogenic_yeast_root_origin_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_origin_01"
+
+	base_blueprints
+	{ 
+		units/ground/cryogenic_yeast_root_origin_base
+	}
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_big_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_origin_02"
+
+	base_blueprints
+	{ 
+		units/ground/cryogenic_yeast_root_origin_base
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_big_02.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_origin_03"
+
+	base_blueprints
+	{ 
+		units/ground/cryogenic_yeast_root_origin_base
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_big_03.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cryogenic_yeast_root_origin_base"
+
+
+    //base_blueprint "props/base/flammable_small"
+	
+    LuaDesc
+	{
+		script "lua/spawners/spreader.lua"
+				
+		database
+		{
+			blueprint			string:"units/ground/cryogenic_yeast_branch"
+			root_blueprint			string:"units/ground/cryogenic_yeast_root"
+			collision_detection	string:""
+			stop_component   	string:"BurningComponent"
+			spread_interval		float:              "0.25"// 0.5
+			spread_root_interval float:             "10"//  30
+			spread_child_interval_multiplier float: "0.9"//   2
+			spread_radius		float:              "15"/// 15
+			initial_spread		float:              "15"//  10
+			max_branch_interval float:              "1.5"// 1.5
+		}
+	}
+
+	HealthDesc
+	{ 
+		is_manual				"1"
+		max_health 				"2500"
+		health 					"2500"
+	}
+
+	ResistanceComponent
+	{
+		//min_damage_threshold 	"5"
+
+		acid			"1.5"
+		energy			"1.0"
+		area			"1.0"
+		plasmoid		"1.0"
+
+		fire			"0.1"
+		cosmic			"0.5"
+		physical		"0.6"
+		cryo			"0.1"
+
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_big_01.mesh"
+		material "props/mushrooms/cosmic_yeast"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
+	TeamDesc
+	{
+		team "enemy"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+   			PhysicsBoxShape
+   			{
+    				x	2
+    				y	2
+    				z	2
+   			}			
+		}
+	}
+
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cryogenic_creeper_area"
+		extend  			"4"
+	}
+
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/cosmic_creeper_root_1"
+		visibility 				"radar"		
+		//additional_z_order	"2"
+		layer_group				"enemies"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"12000"
+		explosion_min_power 	"6000"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_big_01_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.01"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.01"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"11000"
+					explosion_min_power 	"4000"
+					explosion_effect 		"effects/enemies/death_cryogenic"	
+					explosion_effect_scale	"1.5"
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_big_01"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_white_medium"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/cosmic_yeast_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_big_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/enemies_yeast/idle"
+                    offset "0 3 0"
+                    scale "3.5 4.5 3.5"
+                }
+            }
+        }			
+        EffectGroup
+        {           
+            enabled "1"
+			group 	"light"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/spot/spikybulb_blue_medium"
+                    offset "0 15 0"
+                    orientation "0 -90 0"
+                }
+            }
+        }
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_green"	
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_fire"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/grass_medium_fire"
+					offset "0 1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/ta_destructibles/arctic_grass_medium"
+					offset "0 0.1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"spawn"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_yeast/cryo_spawn"
+					offset "0 1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}	
+        EffectGroup
+        {           
+            enabled "0"
+			group 	"scanning"			
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/buildings_main/research_station_scanning"
+                }
+            }
+        }			
+    }
+}

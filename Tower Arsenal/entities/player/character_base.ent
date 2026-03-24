@@ -6,6 +6,11 @@ EntityBlueprint
 	LuaDesc
 	{
 		script "lua/units/ground/mech.lua"
+		database
+		{
+			death_explosion_timer  float:"30"
+			reactivate_health_pct  float:"0.5"
+		}
 	}
 
 	ShadowCheckerComponent
@@ -102,7 +107,6 @@ EntityBlueprint
 	}
 
 	PlayerPawnComponent
-	{}
 
 	TypeDesc
 	{
@@ -213,15 +217,17 @@ EntityBlueprint
 
 	MechDesc
 	{
-		upper_body_bone 			"be_body_upper"
-		respawn_place				"headquarters"
-		respawn_delay				"3"
-		max_torso_twist 			"45"
-		permission_matrix 			"mech"
-		slow_movement_factor 		"0.4"
-		pickup_radius				"8"
-		damage_resisted_stun_time 	"0.80"
-		default_weapon 				"items/weapons/power_fist_basic_item"
+
+	}
+
+	MechMovementComponent
+	{
+
+	}
+
+	MechPredictionComponent
+	{
+	
 	}
 
 	VegetationBendingComponentDesc
@@ -347,6 +353,17 @@ EntityBlueprint
 					part_prefix 			"meshes/misc/building_small_parts_generic"
 					part_effect 			"effects/projectiles_and_trails/fire_trail_small_random"
 					//part_prefix_center 		"meshes/units/ground/canoptrix"
+				}
+			}
+			Pair
+			{
+				key "deactivated"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"1000"
+					explosion_min_power 	"500"
+					explosion_effect		"effects/mech/deactivtion_shockwave"
 				}
 			}
 			Pair
@@ -651,6 +668,17 @@ EntityBlueprint
 					blueprint "effects/mech/fire_trail_03"
 					bone "att_smoke_10"
 				}
+			}
+		}
+		EffectGroup
+		{
+			group "deactivated"
+			enabled "0"
+			delay "0"
+
+			Effects
+			{
+
 			}
 		}
 		////////////////////////MISC/////////////////////////
@@ -1020,6 +1048,67 @@ EntityBlueprint
 			}
 		}
 
+		EffectGroup
+		{
+			group "footstep_snow_right"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/footstep_snow"
+					bone "att_foot_right"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "footstep_snow_left"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/footstep_snow"
+					bone "att_foot_left"
+				}
+			}
+		}
+		
+		//---------------ARCTIC------------------//						
+		EffectGroup
+		{
+			group "footstep_arctic_right"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/footstep_arctic"
+					bone "att_foot_right"
+				}
+			}
+		}
+		
+		EffectGroup
+		{
+			group "footstep_arctic_left"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/footstep_arctic"
+					bone "att_foot_left"
+				}
+			}
+		}
+		
 		//////////////////////// Servo effects /////////////////////////
 		EffectGroup
 		{
@@ -1093,11 +1182,11 @@ EntityBlueprint
 					blueprint "effects/mech/dash_start"
 					bone "att_foot_right"
 				}
-				Effect
-				{
-					blueprint "effects/mech/dash_start"
-					bone "att_foot_left"
-				}
+				//Effect
+				//{
+				//	blueprint "effects/mech/dash_start"
+				//	bone "att_foot_left"
+				//}
 			}
 		}
 		EffectGroup
@@ -1112,11 +1201,11 @@ EntityBlueprint
 					blueprint "effects/mech/dash_start_short"
 					bone "att_foot_right"
 				}
-				Effect
-				{
-					blueprint "effects/mech/dash_start_short"
-					bone "att_foot_left"
-				}
+				//Effect
+				//{
+				//	blueprint "effects/mech/dash_start_short"
+				//	bone "att_foot_left"
+				//}
 			}
 		}
 		EffectGroup
@@ -1131,11 +1220,11 @@ EntityBlueprint
 					blueprint "effects/projectiles_and_trails/mech_dash_trail_short"
 					bone "att_foot_right"
 				}
-				Effect
-				{
-					blueprint "effects/projectiles_and_trails/mech_dash_trail_short"
-					bone "att_foot_left"
-				}
+				//Effect
+				//{
+				//	blueprint "effects/projectiles_and_trails/mech_dash_trail_short"
+				//	bone "att_foot_left"
+				//}
 			}
 		}
 		EffectGroup
@@ -1150,11 +1239,11 @@ EntityBlueprint
 					blueprint "effects/projectiles_and_trails/mech_dash_trail"
 					bone "att_foot_right"
 				}
-				Effect
-				{
-					blueprint "effects/projectiles_and_trails/mech_dash_trail"
-					bone "att_foot_left"
-				}
+				//Effect
+				//{
+				//	blueprint "effects/projectiles_and_trails/mech_dash_trail"
+				//	bone "att_foot_left"
+				//}
 				Effect
 				{
 					blueprint "effects/projectiles_and_trails/mech_dash_ribbon"
@@ -1254,23 +1343,7 @@ EntityBlueprint
 					//bone "att_jump_light"
 				}
 			}
-		}			
-		EffectGroup
-		{
-			group "time_damage_cosmic_01"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/mech/mech_on_cosmic"	
-					offset "0.0 1.0 0.0"
-					scale "1.8 1.8 1.8"
-					//bone "att_jump_light"
-				}
-			}
-		}			
+		}	
 		EffectGroup
 		{
 			group 	"time_damage_cosmic"
@@ -1279,9 +1352,90 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0.0 1.0 0.0"
-					scale "1.8 1.8 1.8"
+					blueprint "effects/mech/mech_on_cosmic"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_abyss"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_abyss"
+					scale "1.5 1.5 1.5"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_plasmoid"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_bio"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_bioenergy"
+					//scale "2 2 2"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "sparkles"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/electric_energy"
+					//bone "att_omni_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "time_damage_cryogenic"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_cryogenic"	
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "time_damage_abyssium"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_abyssium"	
 					//bone "att_jump_light"
 				}
 			}
@@ -1376,10 +1530,23 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_generic/building_repair_medium"
+					blueprint "effects/mech/team_repair"
 				}
 			}
 		}		
+		EffectGroup
+		{
+			group "reactivated"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/reactivated_shockwave"
+					bone "be_body_upper"
+				}
+			}
+		}	
 	}
 
 	children
@@ -1416,7 +1583,7 @@ EntityBlueprint
 					{
 						Effect
 						{
-							blueprint "effects/mech/jump_portal_exit"
+							blueprint "effects/mech/shield_destroyed"
 						}
 					}
 				}
@@ -1444,150 +1611,38 @@ EntityBlueprint
 					}	
 				}
 			}
+
+			NetReplicationDisabledComponent
 		}
 
-		EntityBlueprint
-		{		
-			IdDesc
-			{
-				name "player_camera_culler"
-			}
-
-			children 
-			{			
-				EntityBlueprint
-				{						
-					MeshDesc
-					{
-						mesh "meshes/quad.mesh"
-						material "culling/camera_dithering"
-					}
-
-					LuaDesc
-					{
-						script "lua/misc/camera_culling.lua"
-
-						database
-						{
-							culler_distance	      		float:"0.1"
-							look_at_target		  		int:"1"
-							check_pivot           		int:"1"
-							check_pivot_threshold 		float:"5"
-						}	
-					}
-
-					TriggerDesc
-					{
-						owner 		"self"
-						collision 	"world|world_blocker"
-
-						Shapes
-						{
-							PhysicsMeshShape
-		                    {
-		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
-		                    }
-						}
-					}
-				}
-
-				EntityBlueprint
-				{		
-					LuaDesc
-					{
-						script "lua/misc/camera_culling.lua"
-
-						database
-						{
-							culler_distance	      		float:"0.1"
-							look_at_target		  		int:"1"
-							check_pivot           		int:"1"
-							check_pivot_threshold 		float:"10"
-						}	
-					}
-
-					TriggerDesc
-					{
-						owner 		"self"
-						collision 	"destructible|vegetation"
-
-						Shapes
-						{
-							PhysicsMeshShape
-		                    {
-		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
-		                    }
-						}
-					}
-				}
-
-				EntityBlueprint
-				{
-					LuaDesc
-					{
-						script "lua/misc/camera_culling.lua"
-
-						database
-						{
-							culler_distance	      		float:"-25.1"
-							look_at_target		  		int:"1"
-							mark_children		  		int:"1"
-							check_child_pivot     		int:"1"
-							check_child_pivot_threshold float:"4"
-						}	
-					}
-
-					TriggerDesc
-					{
-						owner 		"self"
-						collision 	"world_destructible"
-
-						Filters
-						{
-							TypeTriggerFilter
-							{
-								type		"cavern_wall"
-							}
-						}
-
-						Shapes
-						{
-							PhysicsMeshShape
-		                    {
-		                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
-		                    }
-						}
-					}
-				}
-			}
-		}
-
-
-		EntityBlueprint
-		{
-			AttachmentDesc
-			{
-				attachment "be_body_lower"
-			}
-
-			MinimapItemDesc
-			{
-				type			"image"
-				icon_material 	"gui/hud/minimap_icons/gui_map_icon_player"
-				rotation_mode 	"1"
-				additional_z_order "100"
-				visibility		"always"
-			}
-
-			RiftPointDesc
-			{
-				name 	"player"
-				type 	"main"
-				active 	"1"
-			}
-
-		}
 		//////////////////// MECH PARTS///////////
+		//EntityBlueprint
+		//{
+		//	AttachmentDesc
+		//	{
+		//		attachment 	"att_l_hand_item"
+		//	}
+		//
+		//	MeshDesc
+		//	{
+		//		mesh 		"meshes/items/weapons/sword.mesh"
+		//		material 	"items/weapons/sword_lvl_1"
+		//	}
+		//}
+//
+		//EntityBlueprint
+		//{
+		//	AttachmentDesc
+		//	{
+		//		attachment 	"att_r_hand_item"
+		//	}
+		//
+		//	MeshDesc
+		//	{
+		//		mesh 		"meshes/items/weapons/sword.mesh"
+		//		material 	"items/weapons/sword_lvl_1"
+		//	}
+		//}
 		//EntityBlueprint
 		//{
 		//	AttachmentDesc
@@ -1814,5 +1869,118 @@ EntityBlueprint
 		mesh "meshes/sphere.mesh"
 		material "water/collision"
 		render_group	215
+	}
+}
+
+EntityBlueprint
+{		
+	name  "player/camera_culler"
+
+	children 
+	{			
+		EntityBlueprint
+		{						
+			MeshDesc
+			{
+				mesh "meshes/quad.mesh"
+				material "culling/camera_dithering"
+			}
+
+			LuaDesc
+			{
+				script "lua/misc/camera_culling.lua"
+
+				database
+				{
+					culler_distance	      		float:"0.1"
+					look_at_target		  		int:"1"
+					check_pivot           		int:"1"
+					check_pivot_threshold 		float:"5"
+				}	
+			}
+
+			TriggerDesc
+			{
+				owner 		"self"
+				collision 	"world|world_blocker"
+
+				Shapes
+				{
+					PhysicsMeshShape
+                    {
+                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+                    }
+				}
+			}
+		}
+
+		EntityBlueprint
+		{		
+			LuaDesc
+			{
+				script "lua/misc/camera_culling.lua"
+
+				database
+				{
+					culler_distance	      		float:"0.1"
+					look_at_target		  		int:"1"
+					check_pivot           		int:"1"
+					check_pivot_threshold 		float:"10"
+				}	
+			}
+
+			TriggerDesc
+			{
+				owner 		"self"
+				collision 	"destructible|vegetation"
+
+				Shapes
+				{
+					PhysicsMeshShape
+                    {
+                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+                    }
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			LuaDesc
+			{
+				script "lua/misc/camera_culling.lua"
+
+				database
+				{
+					culler_distance	      		float:"-25.1"
+					look_at_target		  		int:"1"
+					mark_children		  		int:"1"
+					check_child_pivot     		int:"1"
+					check_child_pivot_threshold float:"4"
+				}	
+			}
+
+			TriggerDesc
+			{
+				owner 		"self"
+				collision 	"world_destructible"
+
+				Filters
+				{
+					TypeTriggerFilter
+					{
+						type		"cavern_wall"
+					}
+				}
+
+				Shapes
+				{
+					PhysicsMeshShape
+                    {
+                        mesh "meshes/logic/camera_culler_axis_c1.nxs"
+                    }
+				}
+			}
+		}
 	}
 }

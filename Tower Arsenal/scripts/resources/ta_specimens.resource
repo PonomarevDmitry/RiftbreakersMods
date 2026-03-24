@@ -1,8 +1,19 @@
-//////////////////////////////////// FAUNA ////////////////////////////////////////////////
 GameplayResourceDef
 {
-	id				"specimen_cosmic_arachnoid_boss"
-	localization_id "resource_name/specimen_cosmic_arachnoid_boss"
+	id				"specimen_cosmic_mech_bot"
+	localization_id "resource_name/specimen_cosmic_mech_bot"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+GameplayResourceDef
+{
+	id				"specimen_drexolian_arctic"
+	localization_id "resource_name/specimen_drexolian_arctic"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -14,8 +25,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_kafferroceros_boss"
-	localization_id "resource_name/specimen_cosmic_kafferroceros_boss"
+	id				"specimen_anoryxian_boss_ultra"
+	localization_id "resource_name/specimen_anoryxian_boss_ultra"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -27,47 +38,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_ceros"
-	localization_id "resource_name/specimen_cosmic_ceros"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_krocoon_boss"
-	localization_id "resource_name/specimen_cosmic_krocoon_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_bradron_boss"
-	localization_id "resource_name/specimen_cosmic_bradron_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_stregaros_boss"
-	localization_id "resource_name/specimen_cosmic_stregaros_boss"
+	id				"specimen_anoryxian_boss_omega"
+	localization_id "resource_name/specimen_anoryxian_boss_omega"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -92,8 +64,112 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_canceroth_boss"
-	localization_id "resource_name/specimen_cosmic_canceroth_boss"
+	id				"specimen_cosmic_mushbit_alpha"
+	localization_id "resource_name/specimen_cosmic_mushbit_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_mushbit_ultra"
+	localization_id "resource_name/specimen_cosmic_mushbit_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_crawlog"
+	localization_id "resource_name/specimen_cosmic_crawlog"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_crawlog_alpha"
+	localization_id "resource_name/specimen_cosmic_crawlog_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_crawlog_ultra"
+	localization_id "resource_name/specimen_cosmic_crawlog_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gulgor"
+	localization_id "resource_name/specimen_cosmic_gulgor"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gulgor_alpha"
+	localization_id "resource_name/specimen_cosmic_gulgor_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gulgor_ultra"
+	localization_id "resource_name/specimen_cosmic_gulgor_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_baxmoth"
+	localization_id "resource_name/specimen_cosmic_baxmoth"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -120,71 +196,6 @@ GameplayResourceDef
 {
 	id				"specimen_cosmic_baxmoth_ultra"
 	localization_id "resource_name/specimen_cosmic_baxmoth_ultra"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_baxmoth_boss"
-	localization_id "resource_name/specimen_cosmic_baxmoth_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_gulgor_boss"
-	localization_id "resource_name/specimen_cosmic_gulgor_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_drexolian_boss"
-	localization_id "resource_name/specimen_cosmic_drexolian_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_drillgor_boss"
-	localization_id "resource_name/specimen_cosmic_drillgor_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_flurian_boss"
-	localization_id "resource_name/specimen_cosmic_flurian_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -235,8 +246,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_magmoth_boss"
-	localization_id "resource_name/specimen_cosmic_magmoth_boss"
+	id				"specimen_arachnoid_arctic"
+	localization_id "resource_name/specimen_arachnoid_arctic"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -326,19 +337,6 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_nerilian_boss"
-	localization_id "resource_name/specimen_cosmic_nerilian_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
 	id				"specimen_cosmic_morirot"
 	localization_id "resource_name/specimen_cosmic_morirot"
 	bp  			""
@@ -378,19 +376,6 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_morirot_boss"
-	localization_id "resource_name/specimen_cosmic_morirot_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
 	id				"specimen_cosmic_necrodon"
 	localization_id "resource_name/specimen_cosmic_necrodon"
 	bp  			""
@@ -419,19 +404,6 @@ GameplayResourceDef
 {
 	id				"specimen_cosmic_necrodon_ultra"
 	localization_id "resource_name/specimen_cosmic_necrodon_ultra"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_necrodon_boss"
-	localization_id "resource_name/specimen_cosmic_necrodon_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -521,8 +493,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_phirian_boss"
-	localization_id "resource_name/specimen_cosmic_phirian_boss"
+	id				"specimen_cosmic_phirian_abyss"
+	localization_id "resource_name/specimen_cosmic_phirian_abyss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -562,19 +534,6 @@ GameplayResourceDef
 {
 	id				"specimen_cosmic_gnerot_ultra"
 	localization_id "resource_name/specimen_cosmic_gnerot_ultra"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_gnerot_boss"
-	localization_id "resource_name/specimen_cosmic_gnerot_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -703,19 +662,6 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_kermon_omega_boss"
-	localization_id "resource_name/specimen_ccosmic_kermon_omega_boss"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
 	id				"specimen_cosmic_hedroner"
 	localization_id "resource_name/specimen_cosmic_hedroner"
 	bp  			""
@@ -755,8 +701,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_cosmic_hedroner_boss"
-	localization_id "resource_name/specimen_cosmic_hedroner_boss"
+	id				"specimen_hedroner_arctic"
+	localization_id "resource_name/specimen_hedroner_arctic"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -807,6 +753,335 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"specimen_cosmic_stregaros_crystal"
+	localization_id "resource_name/specimen_cosmic_stregaros_crystal"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_stregaros_crystal_alpha"
+	localization_id "resource_name/specimen_cosmic_stregaros_crystal_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_stregaros_crystal_ultra"
+	localization_id "resource_name/specimen_cosmic_stregaros_crystal_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_artigian"
+	localization_id "resource_name/specimen_cosmic_artigian"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_artigian_alpha"
+	localization_id "resource_name/specimen_cosmic_artigian_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_artigian_ultra"
+	localization_id "resource_name/specimen_cosmic_artigian_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+///////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\
+////               FAUNA - BOSSES                \\\\
+///////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_arachnoid_boss"
+	localization_id "resource_name/specimen_cosmic_arachnoid_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_kafferroceros_boss"
+	localization_id "resource_name/specimen_cosmic_kafferroceros_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_krocoon_boss"
+	localization_id "resource_name/specimen_cosmic_krocoon_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_bradron_boss"
+	localization_id "resource_name/specimen_cosmic_bradron_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_stregaros_boss"
+	localization_id "resource_name/specimen_cosmic_stregaros_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_canceroth_boss"
+	localization_id "resource_name/specimen_cosmic_canceroth_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_baxmoth_boss"
+	localization_id "resource_name/specimen_cosmic_baxmoth_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gulgor_boss"
+	localization_id "resource_name/specimen_cosmic_gulgor_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_drexolian_boss"
+	localization_id "resource_name/specimen_cosmic_drexolian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_drillgor_boss"
+	localization_id "resource_name/specimen_cosmic_drillgor_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_flurian_boss"
+	localization_id "resource_name/specimen_cosmic_flurian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_magmoth_boss"
+	localization_id "resource_name/specimen_cosmic_magmoth_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_nerilian_boss"
+	localization_id "resource_name/specimen_cosmic_nerilian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_morirot_boss"
+	localization_id "resource_name/specimen_cosmic_morirot_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_necrodon_boss"
+	localization_id "resource_name/specimen_cosmic_necrodon_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_phirian_boss"
+	localization_id "resource_name/specimen_cosmic_phirian_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_gnerot_boss"
+	localization_id "resource_name/specimen_cosmic_gnerot_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_kermon_boss"
+	localization_id "resource_name/specimen_cosmic_kermon_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_hedroner_boss"
+	localization_id "resource_name/specimen_cosmic_hedroner_boss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
 	id				"specimen_cosmic_lesigian_boss"
 	localization_id "resource_name/specimen_cosmic_lesigian_boss"
 	bp  			""
@@ -818,10 +1093,14 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
+//===================\\
+//====== FLORA ======\\
+//===================\\
+
 GameplayResourceDef
 {
-	id				"specimen_cosmic_baxmoth"
-	localization_id "resource_name/specimen_cosmic_baxmoth"
+	id				"specimen_biomass_sapling_abyss"
+	localization_id "resource_name/specimen_biomass_sapling_abyss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -831,12 +1110,10 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
-//////////////////////////////////// OTHER ///////////////////////////////
-
 GameplayResourceDef
 {
-	id				"specimen_spawner_arctic_boss"
-	localization_id "resource_name/specimen_spawner_arctic_boss"
+	id				"specimen_biomass_sapling_arctic"
+	localization_id "resource_name/specimen_biomass_sapling_arctic"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -845,6 +1122,244 @@ GameplayResourceDef
 	hud_visible 	"never"
 	allow_overflow 	"1"
 }
+
+GameplayResourceDef
+{
+	id				"specimen_bush_ray_flower_abyss"
+	localization_id "resource_name/specimen_bush_ray_flower_abyss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_bush_ray_flower_arctic"
+	localization_id "resource_name/specimen_bush_ray_flower_arctic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bulb_cosmic"
+	localization_id "resource_name/specimen_mushroom_bulb_cosmic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bulb_acid_blue"
+	localization_id "resource_name/specimen_mushroom_bulb_acid_blue"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_bulb_acid_cyan"
+	localization_id "resource_name/specimen_mushroom_bulb_acid_cyan"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_exploding_prismatic"
+	localization_id "resource_name/specimen_mushroom_exploding_prismatic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_standard_prismatic"
+	localization_id "resource_name/specimen_mushroom_standard_prismatic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_standard_cyan"
+	localization_id "resource_name/specimen_mushroom_standard_cyan"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_standard_dark_blue"
+	localization_id "resource_name/specimen_mushroom_standard_dark_blue"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_leaky_abyss"
+	localization_id "resource_name/specimen_tree_leaky_abyss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_leaky_cyan"
+	localization_id "resource_name/specimen_tree_leaky_cyan"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_mallow_cosmic"
+	localization_id "resource_name/specimen_tree_mallow_cosmic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_exolian"
+	localization_id "resource_name/specimen_tree_exolian"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_exolian"
+	localization_id "resource_name/specimen_tree_exolian"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_floss_abyss"
+	localization_id "resource_name/specimen_tree_floss_abyss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_floss_arctic"
+	localization_id "resource_name/specimen_tree_floss_arctic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_wyginus_cyan"
+	localization_id "resource_name/specimen_tree_wyginus_cyan"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_tree_wyginus_cosmic"
+	localization_id "resource_name/specimen_tree_wyginus_cosmic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+//========================\\
+//======== OTHER =========\\
+//========================\\
 
 GameplayResourceDef
 {
@@ -874,8 +1389,113 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_spawner_cosmic_base"
-	localization_id "resource_name/specimen_spawner_cosmic_base"
+	id				"specimen_cosmic_crystal_creeper"
+	localization_id "resource_name/specimen_cosmic_crystal_creeper"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cryogenic_crystal_creeper"
+	localization_id "resource_name/specimen_cryogenic_crystal_creeper"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cosmic_yeast"
+	localization_id "resource_name/specimen_cosmic_yeast"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_cryogenic_yeast"
+	localization_id "resource_name/specimen_cryogenic_yeast"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_crystal_entwined_abyss"
+	localization_id "resource_name/specimen_crystal_entwined_abyss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_crystal_entwined_cosmic"
+	localization_id "resource_name/specimen_crystal_entwined_cosmic"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_crystal_pure_dark_blue"
+	localization_id "resource_name/specimen_crystal_pure_dark_blue"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+
+GameplayResourceDef
+{
+	id				"specimen_poogret_abyss"
+	localization_id "resource_name/specimen_poogret_abyss"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_spawner_arctic_boss"
+	localization_id "resource_name/specimen_spawner_arctic_boss"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"
@@ -913,100 +1533,8 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
-	id				"specimen_spawner_cosmic_kermon"
-	localization_id "resource_name/specimen_spawner_cosmic_kermon"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_spawner_cosmic_gnerot"
-	localization_id "resource_name/specimen_spawner_cosmic_gnerot"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-////////////////////////// OTHER/MINERALS ///////////////////////////
-GameplayResourceDef
-{
-	id				"specimen_cosmic_crystal_creeper"
-	localization_id "resource_name/specimen_cosmic_crystal_creeper"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_yeast"
-	localization_id "resource_name/specimen_cosmic_yeast"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_cosmic_crystal"
-	localization_id "resource_name/specimen_cosmic_crystal"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_mushroom_bulb_cosmic"
-	localization_id "resource_name/specimen_mushroom_bulb_cosmic"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_tree_mallow_cosmic"
-	localization_id "resource_name/specimen_tree_mallow_cosmic"
-	bp  			""
-	type 			"loot"
-	specific_type	"specimen"
-	icon			"gui/hud/resource_icons/specimen"
-	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
-	hud_visible 	"never"
-	allow_overflow 	"1"
-}
-
-GameplayResourceDef
-{
-	id				"specimen_tree_exolian"
-	localization_id "resource_name/specimen_tree_exolian"
+	id				"specimen_spawner_cosmic_base"
+	localization_id "resource_name/specimen_spawner_cosmic_base"
 	bp  			""
 	type 			"loot"
 	specific_type	"specimen"

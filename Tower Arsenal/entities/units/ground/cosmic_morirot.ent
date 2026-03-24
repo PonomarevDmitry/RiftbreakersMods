@@ -1,7 +1,6 @@
 EntityBlueprint
 {
-	name "units/ground/cosmic_morirot"
-
+	name            "units/ground/cosmic_morirot"
 	base_blueprint "units/ground/cosmic_morirot_base"
 
 	LuaDesc
@@ -43,14 +42,13 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"0.6"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "1"
 	}
 
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
-        //interpolation_speed  "0.5"
+		interpolation_speed  "0.55" //interpolation_speed  "0.5"
         water_offset         "-1.0"
 	}
 
@@ -292,7 +290,7 @@ EntityBlueprint
 		{
 			x "1"
 			y "0"
-			z "0"
+			z "2"
 			w "1"
 		}
 		size
@@ -300,8 +298,9 @@ EntityBlueprint
 			x "1"
 			y "1"
 		}
-		
 		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
 
 	HighlightComponent
@@ -311,7 +310,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
+		explosion_min_power 	"5000"
+		loot_award		"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -366,10 +366,11 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"10000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_cosmic_morirot/death"
+					explosion_effect_scale 	"1.5"	
+					explosion_effect 		"effects/enemies_small_explosion/violet"
 					part_prefix 			"meshes/units/ground/morirot"
 					part_material 			"units/ground/cosmic_morirot"
-					part_effect 			"effects/enemies_generic/blood_trail_violet_small"
+					part_effect 			"effects/enemies_generic/blood_trail_violet_glowing"
 					part_physics_material   "gibs_light"				
 				}
 
@@ -402,7 +403,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_cosmic_morirot/death_long"	
+					blueprint "effects/enemies_blood_splatter_dmg/glowing_stain"	
 					bone "att_death"
 				}
 			}
@@ -456,7 +457,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
+					blueprint "effects/enemies_generic/damage_generic_violet"	
 				}
 			}
 		}			
@@ -472,7 +473,20 @@ EntityBlueprint
 				}
 			}
 		}		
-
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"time_damage_cosmic"
@@ -481,13 +495,26 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/time_damage_cosmic"
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
 					bone "att_death"
-					scale "1.5 1.5 1.5"
+					scale "1 1 1"
 				}
 			}
 		}
-
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -501,7 +528,7 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}
+		}			
 		EffectGroup
 		{
 			group 	"time_damage_acid"
@@ -515,7 +542,7 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}	
+		}			
 		EffectGroup
 		{
 			group 	"time_damage_cryo"
@@ -529,8 +556,7 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}
-		
+		}			
 		EffectGroup
 		{
 			group 	"time_damage_energy"
@@ -544,23 +570,7 @@ EntityBlueprint
 					scale "1 1 1"
 				}
 			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		
+		}			
 		EffectGroup
 		{
 			group 	"time_damage_physical"
@@ -685,7 +695,36 @@ EntityBlueprint
 					bone "att_muzzle"
 				}
 			}
-		}			
+		}
+
+		//EffectGroup
+		//{
+		//	group 	"time_damage_bio"
+		//	enabled "0"				
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/mech/mech_on_bioenergy"
+		//			//scale "2 2 2"
+		//			//bone "att_jump_light"
+		//		}
+		//	}
+		//}			
+		//EffectGroup
+		//{
+		//	group "sparkles"
+		//	enabled "0"				
+		//	
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			blueprint "effects/mech/electric_energy"
+		//			//bone "att_omni_light"
+		//		}
+		//	}
+		//}	
 	}
 
 	FxComponent

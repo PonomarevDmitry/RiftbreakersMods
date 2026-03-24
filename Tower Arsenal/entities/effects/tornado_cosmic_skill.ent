@@ -1,0 +1,160 @@
+EntityBlueprint
+{
+	name  "effects/tornado/tornado_cosmic"
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/skills/tornado_big_cosmic"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "effects/world/tornado_big_stones"
+					bone "att_tornado"
+				}
+				Effect
+				{
+					blueprint "lights/point/ta_boss_shadow_caster_violet"
+					offset "0 10 0"
+				}	
+			}
+		}	
+	}
+
+  	children
+	{
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/cosmic_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/cosmic"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/cosmic_ribbon"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"-200"
+					}
+				}
+			}
+		}
+
+		EntityBlueprint
+		{
+			MeshDesc
+			{
+				mesh "meshes/misc/tornado.mesh"
+				material "tornado/cosmic_ribbon_inner"
+			}
+
+			AffectorDesc
+			{
+				AffectorLambdaDesc
+				{
+					affector_lambda TransformRotateAffector
+					{
+						angle_speed 	"200"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{	
+	name  "effects/tornado/tornado_marker_cosmic"
+
+	MeshDesc
+	{
+		mesh 					"meshes/cube.mesh"
+		material 				"markers/aura_tornado_cosmic"
+	}
+
+	AffectorDesc
+	{
+		AffectorLambdaDesc
+		{
+			affector_lambda TransformRotateAffector
+			{
+				angle_speed 	"300"
+			}
+		}
+	}
+}
+
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/skills/tornado_big_cosmic
+
+	ParticleDesc
+	{
+		name    "rift/tornado_cosmic_skill"
+	}
+
+	SoundDesc
+	{
+		name	"world/tornado_big_wind"
+	}
+}
+

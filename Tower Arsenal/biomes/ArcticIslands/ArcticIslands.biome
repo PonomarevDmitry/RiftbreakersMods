@@ -8,7 +8,10 @@ BiomeDef
 			value
 			{
 				String "ground/misc/biome_material_1"
-				String "ground/snow/snow_fresh_01"
+				String "ground/arctic/arctic_mud_01"
+				String "ground/arctic/arctic_mud_02"
+				String "ground/arctic/arctic_rough_01"
+				String "ground/arctic/arctic_windy_01"
 			}
 
 		}
@@ -19,7 +22,9 @@ BiomeDef
 			value
 			{
 				String "ground/misc/biome_material_0"
-				String "ground/snow/snow_rough_01"
+				String "ground/arctic/arctic_dunes_01"
+				String "ground/arctic/arctic_fresh_01"
+				String "ground/arctic/arctic_ground"
 			}
 
 		}
@@ -30,14 +35,15 @@ BiomeDef
 			value
 			{
 				String "ground/misc/biome_material_2"
-				String "ground/metallic/soil_rocks_02"
+				String "ground/arctic/arctic_ground_01"
+				String "ground/arctic/arctic_ground_02"
 			}
 
 		}
 
 	}
 
-	default_liquid_resource "sludge_vein"
+	default_liquid_resource "water_vein"
 	icon "gui/menu/biomes_prev/ArcticIslands"
 	icon_with_outpost "gui/menu/biomes_prev/ArcticIslands_base"
 	loading "gui/loading/ArcticIslands_bg"
@@ -62,16 +68,16 @@ BiomeDef
 						{
 							min
 							{
-								x "-5.100"
-								y "-5.100"
-								z "-5.100"
+								x "-5.1"
+								y "-5.1"
+								z "-5.1"
 							}
 
 							max
 							{
-								x "5.100"
-								y "5.100"
-								z "5.100"
+								x "5.1"
+								y "5.1"
+								z "5.1"
 							}
 
 						}
@@ -82,6 +88,15 @@ BiomeDef
 					{
 						material "pbr/skybox"
 						mesh "meshes/skybox.mesh"
+						renderable_custom_parameters
+						{
+							Params
+						}
+
+					}
+
+					UniformComponent
+					{
 						renderable_custom_parameters
 						{
 							Params
@@ -104,15 +119,18 @@ BiomeDef
 
 					LightDesc
 					{
-						is_shadow_caster "1"
 						light_color
 						{
-							w "3.150"
-							x "0.000"
-							z "0.516"
+							w "12.038"
+							x "0.907"
+							y "0.932"
 						}
 
-						light_size "0.071"
+					}
+
+					ShadowComponent
+					{
+						light_mask_texture
 					}
 
 				}
@@ -125,62 +143,57 @@ BiomeDef
 		{
 			BiomeModificatorComponent
 			{
-				vegetation_regrow_chance	"1.0"
-				vegetation_regrow_timer
-				{
-				time_interval			"2.0"
-				}
+				wind_power "1.5"
 			}
 
 			DirectionalWindComponent
 			{
+				factor "0"
 				position_frequency_factor "0.001"
-				power_frequency "0.200"
-				power_max "500.000"
-				power_min "100.000"
-				random_rotation_time_deviation "0.040"
-				rotation_frequency "0.100"
-				rotation_max "10.000"
+				power_frequency "0"
+				power_max "0"
+				power_min "0"
+				rotation_frequency "0"
+				rotation_max "0"
 			}
 
 			SceneParamsDesc
 			{
 				bloom_params
 				{
-					max_exposure "0.495"
+					max_exposure "0.833"
+					scale "1.03"
+					threshold "0.492"
 				}
 
 				fog_params
 				{
 					color
 					{
-						w "0.502"
-						y "1.000"
-						z "0.328"
+						x "0.521"
+						y "0.855"
+						z "0.92"
 					}
 
-					density "0.010"
-					end "1.000"
-					start "2.000"
+					density "0.283"
+					end "58.708"
+					start "46.177"
 				}
 
 				shadow_params
 				{
-					intensity "1.000"
+					intensity "1"
 				}
 
 				skybox_params
 				{
-					diffuse_intensity "0.600"
-					sun_roll "22.311"
-					sun_yaw "-180.000"
-				}
-
-				skybox_procedural_params
-				{
-					sun_convergence "0.496"
-					sun_size "1.002"
-					time "0.098"
+					diffuse "materials/textures/skybox/skybox_day_1_diffuse.dds"
+					diffuse_intensity "0.403"
+					environment "materials/textures/skybox/skybox_day_1_env.dds"
+					specular "materials/textures/skybox/skybox_day_1_specular.dds"
+					specular_intensity "0.588"
+					sun_roll "-19.225"
+					sun_yaw "-33.275"
 				}
 
 			}
@@ -191,7 +204,7 @@ BiomeDef
 				{
 					TimeOfDayPresetHolder
 					{
-						resource_name "scripts/scene_params/ArcticIslands_aurora.td"
+						resource_name "biomes/ArcticIslands/scene_params/arctic.td"
 					}
 
 				}

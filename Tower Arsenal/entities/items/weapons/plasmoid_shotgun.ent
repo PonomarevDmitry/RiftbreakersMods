@@ -1,0 +1,532 @@
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/semi_auto"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"1.00"
+	}
+	
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "10"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+		
+		ammo_blueprint 				"items/weapons/plasmoid_shotgun/projectile"
+
+		muzzles_per_fire 			"1"
+		//muzzle_flash_effect 		"effects/weapons_energy/plasma_gun_fire"
+		fire_effect 				"effects/weapons_shotguns/shotgun_fire"
+
+		burst_rate 							"0.2"
+		burst_column_angle 					"20"
+	}
+
+	ChargeWeaponComponent
+	{
+        ChargeLevels
+        {
+            ChargeLevel
+            {
+				name 						"charge_level_1"
+
+				charge_failed_effect		"effects/weapons_generic/weapon_charge_failed"
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        	"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_fire_effect          "effects/weapons_shotguns/shotgun_fire_charged"
+                charge_muzzle_flash_effect  "effects/weapons_shotguns/shotgun_muzzle_flash_charged"
+
+                charge_time_start           "0.5"
+                charge_time_end             "1"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/plasmoid_shotgun/projectile"
+
+				burst_rate_factor				"0.2"
+				//burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+
+            ChargeLevel
+            {
+				name 						"charge_level_2"
+
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        	"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_fire_effect          "effects/weapons_shotguns/shotgun_fire_charged"
+                charge_muzzle_flash_effect  "effects/weapons_shotguns/shotgun_muzzle_flash_charged"
+
+                charge_time_start           "1"
+                charge_time_end             "1.5"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/plasmoid_shotgun/projectile"
+
+				burst_rate_factor				"0.2"
+				//burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+
+            ChargeLevel
+            {
+				name 						"charge_level_3"
+
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                //charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_fire_effect          "effects/weapons_shotguns/shotgun_fire_charged"
+                charge_muzzle_flash_effect  "effects/weapons_shotguns/shotgun_muzzle_flash_charged"
+
+                charge_time_start           "1.5"
+                charge_time_end             "2"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/plasmoid_shotgun/projectile"
+
+				burst_rate_factor				"0.2"
+				//burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+
+            ChargeLevel
+            {
+				name 						"charge_level_4"
+
+                charging_effect          	"effects/weapons_generic/weapon_charging_lvl1"
+                charged_effect        		"effects/weapons_generic/weapon_charging_maximum"
+                charge_end_effect           "effects/weapons_generic/weapon_charged_lvl1"
+                charge_fire_effect          "effects/weapons_shotguns/shotgun_fire_charged"
+                charge_muzzle_flash_effect  "effects/weapons_shotguns/shotgun_muzzle_flash_charged"
+
+                charge_time_start           "2"
+                charge_time_end             "2.5"
+                charge_muzzle_idx           "0"
+
+                ammo_blueprint 				"items/weapons/plasmoid_shotgun/projectile"
+
+				burst_rate_factor				"0.2"
+				//burst_column_spacing_factor		"1"
+				burst_column_angle_factor		"1"
+            }
+        }
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"		
+					offset "1 0 0"						
+				}
+			}
+		}		
+		
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}			
+		
+		 EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_shotguns/shotgun_equipped"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_shotguns/empty_shotgun_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_bluee"
+					bone "att_muzzle"
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_shotgun_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/plasmoid_shotgun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasmoid_shotgun"
+		icon		"gui/hud/items_icons/weapons/semi_auto"
+		bigger_icon "gui/menu/items_icons/weapons/semi_auto"
+		description 	"gui/menu/inventory/weapon_description/debug_plasma_shotgun"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasmoid_shotgun_advanced"
+
+	base_blueprint "items/weapons/plasmoid_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_shotgun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 		"range_weapon"
+		subtype		"high_caliber"
+		name 		"gui/menu/inventory/weapon_name/plasmoid_shotgun"
+		holding_pose "range"
+		item_bp		"items/weapons/plasmoid_shotgun_advanced"
+		icon		"gui/hud/items_icons/weapons/semi_auto_advanced"
+		bigger_icon "gui/menu/items_icons/weapons/semi_auto_advanced"
+		description 	"gui/menu/inventory/weapon_description/debug_plasma_shotgun"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasmoid_shotgun_superior"
+
+	base_blueprint "items/weapons/plasmoid_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_shotgun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"gui/menu/inventory/weapon_name/plasmoid_shotgun"
+		holding_pose 	"range"
+		item_bp			"items/weapons/plasmoid_shotgun_superior"
+		icon			"gui/hud/items_icons/weapons/semi_auto_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/semi_auto_superior"
+		description 	"gui/menu/inventory/weapon_description/debug_plasma_shotgun"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasmoid_shotgun_extreme"
+
+	base_blueprint "items/weapons/plasmoid_shotgun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/semi_auto.mesh"
+		material 	"items/weapons/semi_auto_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_shotgun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"gui/menu/inventory/weapon_name/plasmoid_shotgun"
+		holding_pose 	"range"
+		item_bp			"items/weapons/plasmoid_shotgun_extreme"
+		icon			"gui/hud/items_icons/weapons/semi_auto_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/semi_auto_extreme"
+		description 	"gui/menu/inventory/weapon_description/debug_plasma_shotgun"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/charge_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 					string:"weapon,2,3,1"
+			pad_active_feedback 					string:"vibration,4,2,80"
+			pad_charge_acquired_feedback			string:"vibration,0,4,40"
+			pad_charge_released_feedback			string:"vibration,0,8,40"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+//--------PROJECTILE----------//
+///////////////////////////////
+EntityBlueprint
+{
+	name              "items/weapons/plasmoid_shotgun/projectile"
+	base_blueprint effects/tower_shotgun/plasmoid_shotgun_bullet
+
+	ProjectileAmmoComponent
+	{
+		diameter				"1"
+		distribution 			"dissipation"
+		//dissipation_count 		"10"
+
+		distribution 			"dissipation"
+		on_enemy_hit_effect 	"effects/plasma_shotgun_hit_enemy_flesh"//at bottom of the file in effects//
+		on_world_hit_effect 	"effects/plasma_shotgun_hit_world_rocks"//--------------------------------//
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_explosion_blue"
+		}			
+	}
+	//LifeTimeDesc
+	//{
+	//	time 		0.2
+	//	type 		"camera"
+	//}
+}
+
+EntityBlueprint
+{
+	name                 "mech/plasmoid_shotgun_projectile_charged"
+	base_blueprint "effects/tower_shotgun/plasmoid_shotgun_bullet"
+
+	ProjectileAmmoComponent
+	{
+		distribution 			"dissipation"
+		on_enemy_hit_effect 	"effects/plasma_shotgun_hit_enemy_flesh"//at bottom of the file in effects//
+		on_world_hit_effect 	"effects/plasma_shotgun_hit_world_rocks"//--------------------------------//
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_explosion_blue"
+		}			
+
+	}
+	//LifeTimeDesc
+	//{
+	//	time 		0.2
+	//	type 		"camera"
+	//}
+}
+
+
+///////////////////////////////
+/////-------EFFECTS------//////
+//?//////////////////////
+
+EntityBlueprint
+{
+	name effects/plasma_shotgun_hit_enemy_flesh
+
+
+	base_blueprints
+	{
+		lights/point/muzzle_dark_blue_very_small
+		effects/default
+	}
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"4"
+	}
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_hit_small"
+	}
+	SoundDesc
+	{
+		name "items/weapons/bullet/bullet_hit_enemy_flesh"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/plasma_shotgun_hit_world_rocks
+
+
+	base_blueprints
+	{
+		lights/point/muzzle_dark_blue_very_small
+		effects/default
+	}
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"100"
+		radius 	"4"
+	}
+	ParticleDesc
+	{
+		name    "rift/plasma_shotgun_hit_small"
+	}
+	SoundDesc
+	{
+		name "items/weapons/bullet/bullet_hit_world_rocks"
+	}
+}
+
+

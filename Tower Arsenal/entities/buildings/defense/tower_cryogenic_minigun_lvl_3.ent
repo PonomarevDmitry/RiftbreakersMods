@@ -1,8 +1,7 @@
 EntityBlueprint
 {
-	name 					"buildings/defense/tower_cryogenic_minigun_lvl_3"
-
-	base_blueprint 			"buildings/defense/tower_cryogenic_minigun_lvl_2"
+	name 			"buildings/defense/tower_cryogenic_minigun_lvl_3"
+	base_blueprint  buildings/defense/tower_cryogenic_minigun_lvl_2
 
 	BuildingDesc
 	{
@@ -19,6 +18,9 @@ EntityBlueprint
 		overrides			"tower,wall"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		//upgrade				"buildings/defense/tower_minigun_lvl_4"
+
+		building_group		"tower_minigun_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -120,17 +122,25 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/boss_trail_cryo"
-					bone "be_turret"
-					scale  "0.2 0.2 0.2"
-				}
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cryo"
 					bone "att_tipp_1"
 					scale "0.1 0.1 0.1"
 				}
 			}
-		}	
+		}
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/tower_minigun_fire_loop"
+					bone "att_muzzle"
+				}
+			}
+		}
 	}
 }
-

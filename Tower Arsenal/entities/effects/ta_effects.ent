@@ -1,6 +1,39 @@
 EntityBlueprint
 {
-	name effects/comsic_crystal_creeper1
+	name effects/enemies/death_cryogenic
+
+	base_blueprints
+	{
+			// lights/point/fire_violet_very_small
+			 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/death_blue_medium"
+	}
+
+	SoundDesc
+	{
+		name "enemies/generic/enemy_death_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_blue_random"
+		scale
+		{
+			x		2.5
+			y		2.5
+			z		2.5
+		}
+	}	
+}
+
+
+EntityBlueprint
+{
+	name 		effects/comsic_crystal_creeper1
 
 	base_blueprints
 	{
@@ -16,12 +49,19 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/comsic_crystal_creeper"
+	name 		effects/comsic_crystal_creeper
 
 	base_blueprints
 	{
 		effects/default
 	}	
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"violet_stain"	
+		extend  		"1"
+	}
 
 	SoundDesc
 	{
@@ -30,17 +70,17 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cosmic_hedroner_projectile_hit"
+		name    "rift/cosmic_yeast_spawn_explosion_small"
 	}	
 
 	DecalDesc
 	{	
-		blueprint "effects/decals/blood_splat_violet_random"
+		blueprint "ta_effects/decals/blood_splat_violet_glowing_random"
 		scale
 		{
-			x		5
-			y		5
-			z		5
+			x		2.5
+			y		2.5
+			z		2.5
 		}
 	}
 
@@ -53,29 +93,52 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name effects/weather/cosmicstorm
+	name ta_effects/decals/blood_splat_violet_glowing_random
 
-	base_blueprints
+	RandomBlueprintDesc
 	{
-		 lights/point/fire_violet_very_small
-		 effects/no_lifetime
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_1"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_2"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_3"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_4"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_5"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_6"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_7"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_8"
+		}
+		Blueprint
+		{
+			blueprint "effects/decals/blood_splat_violet_glowing_9"
+		}
 	}
-
-	BiomeModificatorComponent
-	{
-		solar_power "1.0"
-		wind_power "1.0"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/cosmicstorm"
-	}		
 }
 
 EntityBlueprint
 {
-	name effects/cosmo_projectile_effect
+	name 		effects/cosmo_projectile_effect
 
 	base_blueprints
 	{
@@ -91,7 +154,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/tower_cosmo_working"
+	name 		effects/tower_cosmo_working
 
 	base_blueprints
 	{
@@ -103,136 +166,5 @@ EntityBlueprint
 	{
 	name "rift/necrodon_resurrect_hands"
 	}
-}
-
-EntityBlueprint
-{
-	name "effects/blood/trail/violet"
-
-	base_blueprints
-	{
-	lights/point/fire_violet_very_small
-	effects/default
-	}
-
-	ParticleDesc
-	{
-	name "rift/blood_trail_animated_violet_glowing"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/destructibles/cosmic_yeast_explosion_blue_big
-
-	base_blueprints
-	{
-		 lights/point/explosion_blue_small
-		 effects/default
-	}
-
-	BombAmmoComponent
-	{		
-		DamagePattern
-		{
-			area_damage_radius	"8"
-			area_damage_speed 	"20"
-
-			Damages
-			{
-				Damage
-				{
-					value 			"99"
-					type			"cosmic"
-				}
-			}
-		}
-	}
-
-	ShockWaveDesc
-	{
-		power 	"2000"
-		speed 	"20"
-		radius 	"20"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/acid_bulb_explosion_blue_big"
-	}
-
-	CameraShakeDesc
-	{
-		duration 		"0.8"
-		power   		"1.5"
-		falloff_radius 	"40"
-		radius   		"60"
-		frequency 		"20"
-		group			"explosion_big"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_big"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_blue_random"
-		scale
-		{
-			x		4.0
-			y		4.0
-			z		4.0
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name effects/destructibles/cosmic_yeast_part_trail_medium
-
-	base_blueprints
-	{
-		 //lights/point/explosion_orange_very_small
-		 effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/acid_bulb_part_trail_blue_medium"
-	}
-}
-
-EntityBlueprint
-{
-	name effects/destructibles/cosmic_yeast_explosion_small
-
-	base_blueprints
-	{
-		 //lights/point/explosion_violet_small
-		 effects/default
-	}
-
-	ParticleDesc
-	{
-		name    "rift/cosmic_yeast_explosion_blue_small"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_big"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_blue_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		}
-	}	
 }
 

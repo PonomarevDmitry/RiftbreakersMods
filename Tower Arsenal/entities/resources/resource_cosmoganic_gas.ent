@@ -20,8 +20,15 @@ EntityBlueprint
 
 	GridMarkerComponent
 	{
-		terrain_type  	"resource"
+		terrain_type  	"cosmoganic_gas_area"
+		mode			"bounds"
+		extend  		"1.5"
 	}
+
+	//GridMarkerComponent
+	//{
+	//	terrain_type  	"resource"
+	//}
 
 	PhysicsDesc
  	{
@@ -71,21 +78,36 @@ EntityBlueprint
 		
 		}
 	}
-	
+
 	BurningComponent
 	{
-		spread_radius 			"3"			// radius to spread fire
-		spread_chance_override 	"1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-		//spread_target_mask 		"ground_unit"
+		spread_radius 			"2"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_target_mask 		"prop,ground_unit,ground_unit_small,ground_unit_medium,ground_unit_large,ground_unit_artillery"
 		spread_timer
 		{
-			limit "20" 						// how often e                    ntity will try to spread fire in microseconds ( 2s )
+			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
 		}
-	
-		burning_effect_group    ""			// effect group to be enabled on entity
-		burning_time			"10000000000"	// how long it will burn in seconds
+
+		effect_group            "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"10"	// how long it will burn in seconds
 		disable_light_fade_out "1"
-	}		
+	}	
+
+	//BurningComponent
+	//{
+	//	spread_radius 			"2"			// radius to spread fire
+	//	spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	//	spread_target_mask 		"ground_unit,ground_unit_small,ground_unit_medium,ground_unit_large,ground_unit_artillery"
+	//	spread_timer
+	//	{
+	//		limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+	//	}
+	//
+	//	burning_effect_group            "time_damage_cosmic"			// effect group to be enabled on entity
+	//	burning_time			"5"	// how long it will burn in seconds
+	//	disable_light_fade_out "1"
+	//}	
 
 	EffectDesc
 	{	

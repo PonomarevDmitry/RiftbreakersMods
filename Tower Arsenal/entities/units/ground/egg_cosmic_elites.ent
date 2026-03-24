@@ -1,0 +1,414 @@
+//////////////////////////////////////////////////
+//////////////////ARCTIC ISLANDS//////////////////
+//////////////////////////////////////////////////
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_canoptrix_elite"
+
+	HealthDesc
+	{
+		max_health 					"3"
+		health 						"3"
+	}
+
+	MeshDesc
+	{
+		mesh      "meshes/units/ground/anoryxian_egg.mesh"
+		material  "units/ground/anoryxian_egg"
+		flags     	"4" 	//this flag set to 4 prevents animation poping when eggs are growing
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+		database
+		{
+			min_scale	float:"1.0"
+			max_scale	float:"1.25"
+			grow_speed	float:"1.0"
+			grow		int:"1"
+		}
+	}
+
+	TypeDesc
+	{
+		type "ground_unit|ground_unit_small"
+	}
+
+	TeamDesc
+	{
+		team "canoptrix"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"shield"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color
+		{
+			x "1"
+			y "0"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		visibility 		"radar"
+		layer_group		"enemies"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_anoryxian/death_egg"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"					
+				}
+				
+				key "default"
+			}
+
+		}
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_canoptrix"
+	base_blueprint 	"units/ground/egg_cosmic_canoptrix_elite"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_canoptrix_crystal"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_canoptrix_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_canoptrix_elite"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_canoptrix_crystal_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_canoptrix_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_canoptrix_elite"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_canoptrix_crystal_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic crawlog ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_crawlog"
+	base_blueprint 	"units/ground/egg_cosmic_crawlog"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_crawlog"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_crawlog_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_crawlog"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_crawlog_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_crawlog_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_crawlog"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_crawlog_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic Baxmoth ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_baxmoth"
+	base_blueprint 	"units/ground/egg_cosmic_baxmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_baxmoth"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_baxmoth_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_baxmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_baxmoth_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_baxmoth_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_baxmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_baxmoth_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic Kafferroceros ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_kafferroceros"
+	base_blueprint 	"units/ground/egg_cosmic_kafferroceros"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_kafferroceros_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_kafferroceros"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_kafferroceros_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_kafferroceros"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic Morirot ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_morirot"
+	base_blueprint 	"units/ground/egg_cosmic_morirot"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_morirot"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_morirot_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_morirot"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_morirot_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_morirot_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_morirot"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_morirot_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic Magmoth ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_magmoth"
+	base_blueprint 	"units/ground/egg_cosmic_magmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_magmoth"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_magmoth_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_magmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_magmoth_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_magmoth_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_magmoth"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_magmoth_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+/////////////////////////////////////
+// Egg Elite Cosmic Phirian ///
+/////////////////////////////////////
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_phirian"
+	base_blueprint 	"units/ground/egg_cosmic_phirian"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_phirian"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_phirian_alpha"
+	base_blueprint 	"units/ground/egg_cosmic_phirian"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_phirian_alpha"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/ground/egg_elite_cosmic_phirian_ultra"
+	base_blueprint 	"units/ground/egg_cosmic_phirian"
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_phirian_ultra"
+		time_to_hatch			"2"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+

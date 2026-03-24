@@ -17,7 +17,7 @@ function ta_reflection_shield_generator:OnInit()
 	self.selected = {}
 	self.radius = self.data:GetFloatOrDefault("range", 6)
 	self.interval = self.data:GetFloatOrDefault("interval", 1)
-	self.shieldBp = self.data:GetStringOrDefault("shield_bp", "buildings/defense/shield_generator/shield")
+	self.shieldBp = self.data:GetStringOrDefault("shield_bp", "")
 
 	self.shield_ent = EntityService:SpawnAndAttachEntity(self.shieldBp, self.entity)
 

@@ -1,0 +1,89 @@
+EntityBlueprint 
+{	
+	name "weather/comet_boss_random_ta_impact_place"
+	//base_blueprint "units/volume_mudroner_boss_fire_spawner"
+		
+	WaveSpawnerComponent
+	{
+		delay_timer
+		{
+			timeLimit "1.0"
+		}
+
+		desc
+		{
+			percentage_units_to_end_wave "100"
+
+			Enemies
+			{
+				Enemy
+				{
+					blueprint "random_bosses"
+					spawn_type "creature_species"
+
+					units_in_one_spawn "1"
+					count "1"
+				}
+			}
+
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/building_destroyed_blue"
+		visibility			"always"
+		additional_z_order	"60"
+		layer_group			"warning"
+	}
+
+	WorldEffectComponent
+	{
+		damage_per_sec							"0"
+		type									"local"
+		effect_intesity_distance				"10"
+		size									"as_radius"
+		radius									"25"
+		local_effects							"effects/world/cosmic_resource_comet_impact_place"
+		local_effects_random_offset				"2"
+		minimum_distance_per_local_effect		"3"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-2"
+				y "0"
+				z "-2"
+			}
+			max
+			{
+				x "2"
+				y "2"
+				z "2"
+			}	
+		}
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/luna_crater_01"
+		scale
+		{
+			x		3.3
+			y		3.3
+			z		3.3
+		
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		"30"
+	}
+}
+

@@ -1,9 +1,8 @@
 EntityBlueprint
 {
 	name "buildings/defense/tower_cryogenic_mortar_lvl_2"
-	
 	base_blueprint "buildings/defense/tower_cryogenic_mortar"
-	
+
 	BuildingDesc
 	{
 		name 				"tower_cryogenic_mortar_lvl_2"
@@ -13,41 +12,32 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_cryogenic_mortar"
 		menu_icon			"gui/hud/building_icons/tower_cryogenic_mortar_lvl2"
 		require 			"headquarters"
-		order				"18"
-		buildable			"0"
+		order				"17"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cryogenic_mortar_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_mortors_dummy"
+		buildable			"0"
+		radius_name			"mortors"
+		min_radius			"10"
+		min_radius_effect   "voice_over/announcement/building_too_close"		
 
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 2.5
+				building_time 20
 				building_cost
 				{
-					carbonium 		"800"
-					steel 			"600"
-					ferdonite 		"500"
-					plasmanite 		"400"
+					carbonium 	"1000"
+					steel 		"500"
+					titanium	"400"
 				}
-			}
-			
-			BuildingCostInfo
-			{
-				name "survival"
-				building_time 1.5
-				building_cost
-				{
-					carbonium 		"250"
-					steel 			"150"
-					titanium		"150"
-					cosmonite_ore	"150"
-				}
-			}
-		}
+			}		
+		}	
 	}
 
 	ResourceConverterDesc // must be here for AI
@@ -57,7 +47,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"12"
+				value 		"25"
 			}
 		}
 
@@ -70,8 +60,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"750"
-		health 						"750"
+		max_health 					"1500"
+		health 						"1500"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -85,7 +75,6 @@ EntityBlueprint
 				health 								"66"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"66_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
 				destroyed_state_effect_group 		"66_state"
 			}
 			DestructionLevel
@@ -93,7 +82,6 @@ EntityBlueprint
 				health 								"33"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"33_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
 				destroyed_state_effect_group 		"33_state"
 			}
 		}
@@ -101,13 +89,13 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_2.mesh"
+		mesh "meshes/buildings/defense/tower_inferno_lvl_2.mesh"
 		material "buildings/defense/tower_cryogenic_mortar_lvl_2"
 	}
 
-	TypeDesc
+	SkeletonDesc
 	{
-		type "building|defense|tower"
+		name "meshes/buildings/defense/tower_inferno_lvl_2"
 	}
 
 	WeaponItemDesc
@@ -118,53 +106,55 @@ EntityBlueprint
 	{
 	}
 
-	SkeletonDesc
+	BurstWeaponComponent
 	{
-		name "meshes/buildings/defense/tower_rocket_launcher_lvl_2"
-	}
-
-	EffectDesc
-	{		
-		EffectBaseBlueprints
+		WeaponMuzzles
 		{
-			"buildings/effects_small_base"
-		}	
-		////////////////////////MISC/////////////////////////
-		EffectGroup
-		{
-			group "lamp"
-			enabled "0"
-
-			Effects
+			WeaponMuzzle
 			{
-				Effect
-				{
-					blueprint "effects/buildings_and_machines/tower_omni_light"
-					bone "att_muzzle_1"
-					random_delay "3"
-				}
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
 			}
 		}
 
-		EffectGroup
+		WeaponAffector
 		{
-			group 	"working"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cryo"
-					bone "att_tip_2"
-					scale "0.1 0.2 0.1"
-				}
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cryo"
-					bone "att_tip_1"
-					scale "0.1 0.2 0.1"
-				}
-			}
+			emissive_time "0.35"
+			emissive_factor "50"//60
+			submesh_idx "1"
 		}
+
+		ammo_blueprint 			"buildings/defense/tower_cryogenic_mortar_projectile_lvl_2"
+		muzzle_flash_effect 	"effects/weapons_explosive/tower_rocket_fire_medium"
+
+
+		use_accuracy			"0"
+		burst_column_spacing 	"0.10"
+		burst_rate 				"0.25"
+		burst_column_angle 		"0"
 	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_cryogenic_mortar_projectile_lvl_2"
+	base_blueprint "buildings/defense/tower_cryogenic_mortar_projectile"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/tower_mortars/cryo_explosion"
+		on_world_hit_effect 		"effects/tower_mortars/cryo_explosion"
+		on_resisted_hit_effect 		"effects/tower_mortars/cryo_explosion"
+		hit_effect_direction 		"up"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+	}		
 }

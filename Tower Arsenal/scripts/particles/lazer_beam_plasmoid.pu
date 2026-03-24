@@ -1,0 +1,179 @@
+system rift/lazer_beam_plasmoid
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.12
+    scale                                       0.03 0.03 0.03
+    tight_bounding_box                          true
+    fade_out                                    true
+    cache_count                                 30
+    technique 
+    {
+        position                                -5 0 0
+        visual_particle_quota                   1
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blu_01
+        renderer                                Billboard
+        {
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            common_up_vector                    0 0 0
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       0.5
+            angle                               0
+            time_to_live                        0.8
+            velocity                            40
+            all_particle_dimensions             15
+            particle_width                      20
+            particle_height                     15
+            keep_local                          true
+            direction                           1 0 0
+            box_width                           5
+            box_height                          5
+            box_depth                           5
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.754398 0.758841 0.77936 1
+            time_colour                         0.289773  0.8 0.8 0.8 1
+            time_colour                         0.399621  0.8 0.8 0.8 1
+            time_colour                         0.882132  0 0.178 1 1
+            time_colour                         1    0 0.178 1 1
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   60
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles_noatlas/distortion_noise_01
+        max_velocity                            100
+        renderer                                Billboard
+        {
+            render_queue_group                  160
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       30
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             1.5
+                max                             2.5
+            }
+            particle_width                      10
+            particle_height                     10
+            direction                           1 0 0
+            box_width                           20
+            box_height                          20
+            box_depth                           20
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.495968  0.8 0.8 0.8 1
+            time_colour                         1    0 0 0 0
+        }
+        affector                                TextureRotator 
+        {
+            use_own_rotation                    true
+            rotation_speed                      dyn_random
+            {
+                min                             1
+                max                             2
+            }
+        }
+    }
+    technique sparks
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/spark_rectangle_blu_01
+        default_particle_height                 10
+        renderer                                Billboard
+        {
+            render_queue_group                  64
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Circle sparks
+        {
+            emission_rate                       50
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.3
+                max                             0.6
+            }
+            velocity                            30
+            particle_width                      1
+            particle_height                     1
+            keep_local                          true
+            direction                           1 0 0
+            start_colour_range                  1 0.501961 0 1
+            end_colour_range                    1 1 0 1
+            radius                              6
+            normal                              0 0 1
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0.606522  0.501961 0.501961 0.501961 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+    technique trail0
+    {
+        visual_particle_quota                   10
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/md_muzzleflash_atlas_01
+        renderer                                Billboard
+        {
+            render_queue_group                  61
+            texture_coords_columns              4
+            billboard_type                      oriented_self
+            billboard_origin                    bottom_center
+            billboard_rotation_type             vertex
+        }
+        emitter                                 Point trail1
+        {
+            emission_rate                       0.5
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.4
+                max                             0.5
+            }
+            velocity                            10
+            particle_width                      25
+            particle_height                     1
+            keep_local                          true
+            direction                           1 0 0
+            end_texture_coords_range            3
+        }
+        affector                                Scale 
+        {
+            x_scale                             -150
+            y_scale                             750
+            since_start_system                  true
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0.2 0.2 0.2 0.74902
+            time_colour                         0.502174  0.2 0.2 0.2 0.494118
+            time_colour                         1    0.2 0.2 0.2 0
+        }
+    }
+}

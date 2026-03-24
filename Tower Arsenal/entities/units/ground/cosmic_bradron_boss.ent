@@ -9,10 +9,10 @@ EntityBlueprint
 		{
 			aggressive_speed					float:"10"
 			aggressive_acceleration				float:"30"
-			not_aggressive_speed				float:"6"
-			not_aggressive_acceleration			float:"6"
-			rotate_speed						float:"350"
-			shoot_rotate_speed					float:"80"			
+			not_aggressive_speed				float:"8"
+			not_aggressive_acceleration			float:"8"
+			rotate_speed						float:"390"
+			shoot_rotate_speed					float:"90"			
 			priority_target						string:"headquarters|player|energy|tower"
 			priority_target_distance			float:"55"
 			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
@@ -24,38 +24,41 @@ EntityBlueprint
 			eat_bp_name							string:"units/ground/cosmic_bradron_boss/eat"
 			eat_time							float:"6.0"
 			eat_start_distance					float:"8.0"
-			shockwave_attack_in_range			float:"30"
+			shockwave_attack_in_range			float:"15"
 			shockwave_bp						string:"units/ground/cosmic_bradron_boss/shockwave"
-			shockwave_attack_cooldown			float:"5"
+			shockwave_attack_cooldown			float:"2"
 		}
 	}
 
 	ResistanceComponent
 	{
-		physical		"1.0"
-		fire			"0.0"
-		acid			"0.0"
-		energy			"0.5"
-		cryo			"0.5"
-		area			"2.0"
-		cosmic			"0.5"
-		plasmoid		"1.0"
+	//Vulnerablities
+	
+		fire			"1.2"
+		acid			"1.5"
+		energy			"1.4"
+		plasmoid		"1.3"
 
-		reflect_damage_max_percent 		"0.025"
+	//Resistances
+	
+		physical		"0.4"
+		cryo			"0.2"
+		area			"0.5"
+		cosmic			"0.3"
 	}
 
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/egg_cosmic_kermon"
-		amount_on_single_spawn			"9"
-		max_spawn						"9"
+		blueprint						"units/ground/egg_elite_cosmic_crawlog"
+		amount_on_single_spawn			"25"
+		max_spawn						"25"
 		time_to_spawn					"20"
 		unit_state_spawn				"1"  // do not touch
 		max_spawn_distance				"20"
 		spawn_type						"egg"
 		spawn_marker_bp					"effects/messages_and_markers/objective_marker_violet"
-		spawn_marker_life_time			"30"
-		can_spawn_when_visible			"0"
+		spawn_marker_life_time			"2"
+		can_spawn_when_visible			"1"
 		defend_radius					"40"
 	}
 
@@ -116,33 +119,8 @@ EntityBlueprint
 		}
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-
-		visibility "radar"
-	}
-
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"
 	}
 
 	MovementDataComponent
@@ -197,17 +175,25 @@ EntityBlueprint
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "0"
-			range_max "24"
-			aiming_range "24"
+			range_max "26"
+			aiming_range "26"
 		}
 
 		aiming_cooldown "1"
 		aiming_target_time "2"
 		aiming_idle_angle "20"
-		pitch "att_muzzle"
-		yaw "att_muzzle"
+		pitch "att_shoot"
+		yaw "att_shoot"
 		check_target_visibility "1"
 		use_IK "0"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -221,10 +207,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_nurglax/death"
+					explosion_effect 		"effects/enemies_generic/damage_generic_violet_glowing"
 					part_prefix 			"meshes/units/ground/bradron"
 					part_material 			"units/ground/cosmic_bradron_boss"
-					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_effect 			"effects/enemies_generic/damage_generic_violet_glowing"
 					part_physics_material   "gibs_heavy"
 				}
 
@@ -573,9 +559,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthBarDesc
@@ -587,8 +575,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"8180"
-		health 						"8180"
+		max_health 					"6500"
+		health 						"6500"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -627,19 +615,18 @@ EntityBlueprint
 
 		WeaponAffector
 		{
-			emissive_time "0.7"
-			emissive_factor "4"
-			submesh_idx "1"
+			emissive_time "0.35"
+			emissive_factor  "3"
 		}
 
-		ammo_blueprint				"units/ground/cosmic_bradron_boss/laser"
+		ammo_blueprint 				"units/ground/cosmic_bradron_boss/laser"
 
-		muzzles_per_fire 			"1"
+		muzzles_per_fire 			"2"
 		fire_effect 				"effects/weapons_energy/luna_laser_muzzle"
 
-		burst_column_spacing 		"5"
-		burst_rate 					"0.5"
-		burst_column_angle 			"35"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
 	}
 }
 
@@ -735,9 +722,9 @@ EntityBlueprint
 
 		fire_effect 				"effects/weapons_energy/luna_laser_muzzle"
 
-		burst_column_spacing 		"0"
-		burst_rate 					"0"
-		burst_column_angle 			"0"
+		burst_column_spacing 		"1"
+		burst_rate 					"1"
+		burst_column_angle 			"1"
 	}
 }
 
@@ -753,24 +740,32 @@ EntityBlueprint
 
 	LaserBeamComponent
 	{
-		range 					"40"
+		range 					"28"
 
-		on_enemy_hit_effect 		"effects/weapons_energy/luna_laser_hit"
-		on_world_hit_effect 		"effects/weapons_energy/luna_laser_hit"
+		on_enemy_hit_effect 	"effects/enemies_bradron_boss/laser_hit"
+		on_world_hit_effect 	"effects/enemies_bradron_boss/laser_hit"
 		on_shield_hit_effect	"effects/enemies_bradron/projectile_hit"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 		friendly_fire			"pass"
 		collision_block 		"world|world_blocker"
 
-		damage_factor_max       "2.0"
-		damage_factor_increase  "3"
+		damage_factor_max       "1.0"
+		damage_factor_increase  "1"
 		damage_factor_decrease  "1.0"
-		damage_max_beam_scale 	"2.0"
+		damage_max_beam_scale 	"1.0"
 		damage_max_beam_glow 	"1.0"
 	}
 
-
+	LightningComponent
+	{
+		material 				"items/weapons/lightning_necrodon_ressurect_beam"
+		tesselation_step 		"1.0"
+		beam_min_width 			"0.05"
+		beam_max_width 			"0.1"
+		beam_count 				"6"
+	}
+	
 	SoundDesc
 	{
 		name 		"enemies/bradron/laser_muzzle"
@@ -839,3 +834,4 @@ EntityBlueprint
 
 	}	
 }
+

@@ -41,11 +41,11 @@ EntityBlueprint
 		ammo_blueprint 			"items/weapons/flame_plasma_projectile"
 		
 		muzzles_per_fire 		"1"
-		muzzle_flash_effect 	"effects/weapons_fluid/fire_spitter_muzzle"
+		muzzle_flash_effect 	"effects/weapons_fluid/fire_spitter_mod_muzzle"
 		
-		burst_rate 				"0.1"
-		burst_column_spacing 	"0.3"
-		//burst_column_angle 	"5"
+		burst_column_spacing 		"0.8"
+		burst_rate 					"0.08"
+		//burst_column_angle 			"0"
 	}
 	ChargeWeaponComponent
 	{
@@ -363,18 +363,21 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
+		diameter					"1"
 		on_enemy_hit_effect 		"effects/weapons_fluid/spitter_fire_hit"
 		on_world_hit_effect 		"effects/weapons_fluid/spitter_fire_hit"
 		on_resisted_hit_effect 		"effects/weapons_generic/projectile_hit_resisted"
+
 		//friendly_fire				"pass"
-		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
-		collision_2d 				"ground_unit|destructible"
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
+		collision_2d 			"ground_unit|destructible"
 	}
 
 	LifeTimeDesc
 	{
-		time 		1.3
-		//type 		"camera"
+		time 		1.0
+		type 		"camera"
 	}
 }
 

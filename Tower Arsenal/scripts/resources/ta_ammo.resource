@@ -1,83 +1,3 @@
-GameplayResourceDef
-{
-	id				"ammo_tower_cryogenic_cells"
-	localization_id "resource_name/ammo_tower_cryogenic_cells"
-	bp  			""
-	type 			"ammo_tower"
-	icon			"gui/hud/resource_icons/ammo_tower_cryogenic_cells_icon"
-	bigger_icon		"gui/hud/resource_icons/ammo_tower_cryogenic_cells_icon_bigger"
-	base_storage	"300"
-	production		"30"
-	hud_visible 	"build_menu"
-	order			"0.1"
-	
-	manufacture_cost "1"
-}
-
-GameplayResourceDef
-{
-	id				"ammo_tower_acidic_cells"
-	localization_id "resource_name/ammo_tower_acidic_cells"
-	bp  			""
-	type 			"ammo_tower"
-	icon			"gui/hud/resource_icons/ammo_tower_acidic_cells_icon"
-	bigger_icon		"gui/hud/resource_icons/ammo_tower_acidic_cells_icon_bigger"
-	base_storage	"300"
-	production		"30"
-	hud_visible 	"build_menu"
-	order			"0.2"
-	
-	manufacture_cost "1"
-}
-
-GameplayResourceDef
-{
-	id				"ammo_tower_magmatic_cells"
-	localization_id "resource_name/ammo_tower_magmatic_cells"
-	bp  			""
-	type 			"ammo_tower"
-	icon			"gui/hud/resource_icons/ammo_tower_magmatic_cells_icon"
-	bigger_icon		"gui/hud/resource_icons/ammo_tower_magmatic_cells_icon_bigger"
-	base_storage	"300"
-	production		"30"
-	hud_visible 	"build_menu"
-	order			"0.3"
-	
-	manufacture_cost "1"
-}
-
-GameplayResourceDef
-{
-	id				"ammo_tower_cosmic_cells"
-	localization_id "resource_name/ammo_tower_cosmic_cells"
-	bp  			""
-	type 			"ammo_tower"
-	icon			"gui/hud/resource_icons/ammo_tower_cosmic_cells_icon"
-	bigger_icon		"gui/hud/resource_icons/ammo_tower_cosmic_cells_icon_bigger"
-	base_storage	"300"
-	production		"30"
-	hud_visible 	"build_menu"
-	order			"0.4"
-	
-	manufacture_cost "1"
-}
-
-GameplayResourceDef
-{
-	id				"ammo_tower_plasmoid_cells"
-	localization_id "resource_name/ammo_tower_plasmoid_cells"
-	bp  			""
-	type 			"ammo_tower"
-	icon			"gui/hud/resource_icons/ammo_tower_plasmoid_cells_icon"
-	bigger_icon		"gui/hud/resource_icons/ammo_tower_plasmoid_cells_icon_bigger"
-	base_storage	"300"
-	production		"30"
-	hud_visible 	"build_menu"
-	order			"0.5"
-	
-	manufacture_cost "1"
-}
-
 ///////////////////////////////// MECH AMMO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 GameplayResourceDef
@@ -114,6 +34,22 @@ GameplayResourceDef
 
 GameplayResourceDef
 {
+	id				"ammo_mech_plasmoid_cells"
+	localization_id "resource_name/ammo_mech_plasmoid_cells"
+	bp  			""
+	type 			"ammo_mech"
+	icon			"gui/hud/resource_icons/ammo_mech_plasmoid_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_mech_plasmoid_cells_icon_bigger"
+	base_storage	"80"
+	production		"80"
+	hud_visible 	"never"
+	order			"14.5"
+	
+	manufacture_cost "1"
+}
+
+GameplayResourceDef
+{
 	id				"ammo_cosmic_explosive"
 	localization_id "resource_name/ammo_cosmic_explosive"
 	bp  			""
@@ -124,6 +60,90 @@ GameplayResourceDef
 	production		"6"
 	hud_visible 	"never"
 	order			"16.5"
+	
+	manufacture_cost "1"
+}
+
+//																			
+/////////////////////////////// TOWER AMMO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//																			
+
+GameplayResourceDef
+{
+	id				"ammo_tower_cryogenic_cells"
+	localization_id "resource_name/ammo_tower_cryogenic_cells"
+	bp  			""
+	type 			"ammo_tower"
+	icon			"gui/hud/resource_icons/ammo_tower_cryogenic_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_tower_cryogenic_cells_icon_bigger"
+	base_storage	"300"
+	production		"30"
+	hud_visible 	"build_menu"
+	order			"0.1"
+	
+	manufacture_cost "1"
+}
+
+GameplayResourceDef
+{
+	id				"ammo_tower_acidic_cells"
+	localization_id "resource_name/ammo_tower_acidic_cells"
+	bp  			""
+	type 			"ammo_tower"
+	icon			"gui/hud/resource_icons/ammo_tower_acidic_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_tower_acidic_cells_icon_bigger"
+	base_storage	"300"
+	production		"30"
+	hud_visible 	"build_menu"
+	order			"0.2"
+	
+	manufacture_cost "1"
+}
+
+GameplayResourceDef
+{
+	id				"ammo_tower_flame_cells"
+	localization_id "resource_name/ammo_tower_flame_cells"
+	bp  			""
+	type 			"ammo_tower"
+	icon			"gui/hud/resource_icons/ammo_tower_flame_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_tower_flame_cells_icon_bigger"
+	base_storage	"300"
+	production		"30"
+	hud_visible 	"build_menu"
+	order			"0.3"
+	
+	manufacture_cost "1"
+}
+
+GameplayResourceDef
+{
+	id				"ammo_tower_cosmic_cells"
+	localization_id "resource_name/ammo_tower_cosmic_cells"
+	bp  			""
+	type 			"ammo_tower"
+	icon			"gui/hud/resource_icons/ammo_tower_cosmic_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_tower_cosmic_cells_icon_bigger"
+	base_storage	"300"
+	production		"30"
+	hud_visible 	"build_menu"
+	order			"0.4"
+	
+	manufacture_cost "1"
+}
+
+GameplayResourceDef
+{
+	id				"ammo_tower_plasmoid_cells"
+	localization_id "resource_name/ammo_tower_plasmoid_cells"
+	bp  			""
+	type 			"ammo_tower"
+	icon			"gui/hud/resource_icons/ammo_tower_plasmoid_cells_icon"
+	bigger_icon		"gui/hud/resource_icons/ammo_tower_plasmoid_cells_icon_bigger"
+	base_storage	"300"
+	production		"30"
+	hud_visible 	"build_menu"
+	order			"0.5"
 	
 	manufacture_cost "1"
 }

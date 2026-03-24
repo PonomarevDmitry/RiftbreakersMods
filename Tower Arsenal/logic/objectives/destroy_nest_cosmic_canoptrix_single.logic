@@ -1,13 +1,13 @@
-//editor "scroll(244.66,-1713.81)|zoom(0.87)"
+//editor "scroll(-282.14,-1043.43)|zoom(0.33)"
 FlowGraphTemplate
 {
-	version "9"
+	version "10"
 	editor "6380"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(338,-1050)"
+			//editor "layout(event_start.xml)|pos(-647,-1002)"
 			database
 			{
 				Integers
@@ -1088,7 +1088,7 @@ FlowGraphTemplate
 
 		MarkerBlueprintSpawnerNode
 		{
-			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(887,-1657)"
+			//editor "layout(entity_marker_blueprint_spawner.xml)|pos(-348,-1847)"
 			ignore_excluded_cells_check "0"
 			self_id "entity_marker_blueprint_spawner_2"
 			spawn_at_marker "logic/spawn_objective"
@@ -1226,12 +1226,162 @@ FlowGraphTemplate
 			self_id "logic_wait_5"
 		}
 
+		GridSpawnerNode
+		{
+			//editor "layout(entity_grid_spawner.xml)|pos(517,-2075)"
+			self_id "entity_grid_spawner_2"
+			spawn_density "1"
+			spawn_group
+			spawn_instances_minmax "-1,-1"
+			spawn_min_free_cell_margin "3"
+			spawn_minmax_distance_from_edge "50"
+			spawn_pool "tower_alien,enemy"
+			spawn_pool_local
+			spawn_preference "random"
+			spawn_required "0"
+			spawn_team "enemy"
+			spawn_within_playable_bounds "1"
+			terrain_types
+			spawn_blueprints
+			{
+				//editor "expanded(1)"
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "units/ground/cosmic_artigian"
+					spawn_chance "0.3"
+					spawn_culls_entities_around "1"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "0,-1"
+					spawn_loot_event
+				}
+
+				ObjectSpawn
+				{
+					//editor "layout(object_spawn.xml)|pos(0,0)"
+					spawn_blueprint "logic/position_marker_temporary"
+					spawn_chance "0.7"
+					spawn_culls_entities_around "0"
+					spawn_culls_entities_radius "-1"
+					spawn_discoverable_level "0"
+					spawn_entity_group_name
+					spawn_entity_name
+					spawn_entity_name_is_global "1"
+					spawn_group_count "0"
+					spawn_group_object_distance "0"
+					spawn_group_radius "0.0"
+					spawn_instances_minmax "0,-1"
+					spawn_loot_event
+				}
+
+			}
+
+			spawn_max_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "nest"
+					value "20"
+				}
+
+			}
+
+			spawn_max_distance_from_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_local_pools
+			{
+				//editor "expanded(1)"
+			}
+
+			spawn_min_distance_from_pools
+			{
+				//editor "expanded(1)"
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "loot_containers_small"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "buildings"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "player"
+					value "25"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "objectives"
+					value "12"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "resource_volumes"
+					value "5"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "tower_alien"
+					value "15"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "power_well"
+					value "8"
+				}
+
+				Pair_String_float
+				{
+					//editor "layout(object_spawn_pool_distance.xml)|pos(0,0)"
+					key "enemy"
+					value "5"
+				}
+
+			}
+
+		}
+
 	}
 
 	GraphConnections
 	{
 		default "entity_marker_blueprint_spawner_2"
-		entity_marker_blueprint_spawner_2 "logic_wait_5"
+		entity_grid_spawner_2 "logic_wait_5"
+		entity_marker_blueprint_spawner_2 "entity_grid_spawner_2"
 		interface_dialogue_show_group_3 "objective_finish_5"
 		interface_minimap_show_zone_objective_1 "interface_minimap_hide_zone_1"
 		logic_if_alive_advanced_1 "logic_if_alive_advanced_1###true"

@@ -1,8 +1,8 @@
-//editor "scroll(357.99,676.18)|zoom(0.40)"
+//editor "scroll(2450.91,1247.32)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "2"
-	editor "6217"
+	version "3"
+	editor "6643"
 	GraphNodes
 	{
 		NodeSelectorNode
@@ -47,7 +47,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(976,2120)"
+			//editor "layout(condition_int.xml)|pos(976,2046)"
 			key "0"
 			self_id "logic_random_output_0###0"
 			value "logic_random_output_0###0"
@@ -55,7 +55,7 @@ FlowGraphTemplate
 
 		FlowGraphNode
 		{
-			//editor "layout(condition_int.xml)|pos(976,2148)"
+			//editor "layout(condition_int.xml)|pos(976,2074)"
 			key "1"
 			self_id "logic_random_output_0###1"
 			value "logic_random_output_0###1"
@@ -838,6 +838,160 @@ FlowGraphTemplate
 			self_id "weather_tornado_3"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_meteor_shower.xml)|pos(2941,1454)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "spawn_time"
+						value "0.66"
+					}
+
+					FloatData
+					{
+						key "delay"
+						value "2"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "duration"
+						value "40"
+					}
+
+					IntData
+					{
+						key "radius"
+						value "10"
+					}
+
+					IntData
+					{
+						key "meteors_in_one_spawn"
+						value "1"
+					}
+
+					IntData
+					{
+						key "duration_max"
+						value "40"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/cosmic_rock_rain"
+					}
+
+					StringData
+					{
+						key "type"
+						value "follow_player"
+					}
+
+					StringData
+					{
+						key "warning_bp"
+						value "effects/messages_and_markers/meteor_marker"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/meteor_shower.lua"
+			self_id "weather_meteor_shower_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(weather_meteor_shower.xml)|pos(2922,2710)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "spawn_time"
+						value "0.66"
+					}
+
+					FloatData
+					{
+						key "delay"
+						value "2"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "duration"
+						value "40"
+					}
+
+					IntData
+					{
+						key "radius"
+						value "10"
+					}
+
+					IntData
+					{
+						key "meteors_in_one_spawn"
+						value "1"
+					}
+
+					IntData
+					{
+						key "duration_max"
+						value "40"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "blueprint"
+						value "weather/cosmic_rock_rain"
+					}
+
+					StringData
+					{
+						key "type"
+						value "follow_player"
+					}
+
+					StringData
+					{
+						key "warning_bp"
+						value "effects/messages_and_markers/meteor_marker"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/weather/meteor_shower.lua"
+			self_id "weather_meteor_shower_1"
+		}
+
 	}
 
 	GraphConnections
@@ -849,7 +1003,7 @@ FlowGraphTemplate
 		interface_dialogue_show_7 "logic_or_0"
 		logic_check_streaming_session_1 "logic_check_streaming_session_1###false|logic_check_streaming_session_1###true"
 		logic_check_streaming_session_1###false "logic_random_output_0"
-		logic_check_streaming_session_1###true "logic_or_1|weather_tornado_3"
+		logic_check_streaming_session_1###true "logic_or_1|weather_meteor_shower_1|weather_tornado_3"
 		logic_or_0 "logic_wait_0"
 		logic_or_1 "logic_random_output_2|logic_wait_1"
 		logic_or_2 "event_end_2"
@@ -862,7 +1016,7 @@ FlowGraphTemplate
 		logic_random_output_2 "logic_random_output_2###0|logic_random_output_2###1"
 		logic_random_output_2###0 "interface_dialogue_show_5"
 		logic_random_output_2###1 "interface_dialogue_show_4"
-		logic_wait_0 "logic_or_1|weather_tornado_2"
+		logic_wait_0 "logic_or_1|weather_meteor_shower_0|weather_tornado_2"
 		logic_wait_1 "logic_random_output_1"
 	}
 

@@ -42,8 +42,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"300"
 		unit_soft_radius				"1.20"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"//interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	MeshDesc
@@ -271,6 +277,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"1000"
 		explosion_min_power 	"500"	
+		loot_award		"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -436,6 +443,48 @@ EntityBlueprint
 		}		
 		EffectGroup
 		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.1 1.1 1.1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.1 1.1 1.1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.1 1.1 1.1"
+				}
+			}
+		}	
+		EffectGroup
+		{
 			group 	"time_damage_fire"
 			enabled "0"
 			Effects
@@ -491,38 +540,6 @@ EntityBlueprint
 				}
 			}
 		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cosmic"
-					bone "att_death"
-					scale "1.2 1.2 1.2"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group "time_damage_cosmic_01"
-			enabled "0"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/mech/mech_on_cosmic"	
-					bone "att_death"
-					scale "1.2 1.2 1.2"
-				}
-			}
-		}
-		
 		EffectGroup
 		{
 			group 	"time_damage_physical"

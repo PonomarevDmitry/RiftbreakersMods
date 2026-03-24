@@ -17,6 +17,9 @@ EntityBlueprint
 		upgrade				"buildings/defense/tower_acidic_minigun_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 
+		building_group		"tower_minigun_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -247,7 +250,7 @@ EntityBlueprint
 		}
 
 		ammo_blueprint 				"buildings/defense/tower_acidic_minigun_projectile"
-		muzzle_flash_effect 		"effects/weapons_fluid/acid_muzzle"
+		muzzle_flash_effect 		"effects/weapons_bullet/acidic_minigun_muzzle"
 	}
 
 	DestroyDesc
@@ -336,12 +339,8 @@ EntityBlueprint
 			group "working"
 			enabled "0"
 
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_acid"
-					bone "be_turret"
-					scale  "0.2 0.2 0.2"
-				}
+			Effects
+			{
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/gas_chimney_big"
@@ -359,65 +358,14 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/laser_pointer"
+					blueprint "effects/weapons_bullet/tower_minigun_fire_loop"
 					bone "att_muzzle"
-					random_delay	"0.01"
 				}
 			}
 		}
 	}
 }
 
-EntityBlueprint
-{
-	name "buildings/defense/tower_acidic_minigun_ghost"
-
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/tower_minigun_lvl_1.mesh"
-		material "selector/hologram_blue"
-	}
-
-	PhysicsDesc
-	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ghost_building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsBoxShape
-					{
-						x	2
-						y	2
-						z	2
-					}
-				}
-			}
-		}
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-			PhysicsBoxShape
-			{
-				x	2
-				y	2
-				z	2
-			}
-		}
-	}
-
-	DisplayRadiusDesc
-	{
-		max_radius 34
-	}
-}
 EntityBlueprint
 {
 	name "buildings/defense/tower_acidic_minigun_projectile"
@@ -430,20 +378,6 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		//distribution 			"dissipation"
-		//dissipation_count 	"5"
-		cluster_enemy_spread    "160"
-		cluster_world_spread	"160"
-		cluster_life_time_min   "0.01"
-		cluster_life_time_max   "0.2"
-
-		cluster_scale
-		{
-			x "0.8"
-			y "0.5"
-			z "0.5"
-		}
-
 		on_enemy_hit_effect 	"effects/weapons_bullet/bullet_hit_enemy_flesh_small"
 		on_world_hit_effect 	"effects/weapons_bullet/bullet_hit_world_rocks_small"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
@@ -455,8 +389,8 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		2
-		//type 		"camera"
+		time 		0.2
+		type 		"camera"
 	}
 }
 

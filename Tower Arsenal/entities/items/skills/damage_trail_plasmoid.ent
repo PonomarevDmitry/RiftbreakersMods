@@ -1,0 +1,246 @@
+EntityBlueprint
+{
+	name							"items/skills/damage_trail_plasmoid_item"
+
+	InventoryItemDesc
+	{
+		type						"skill"
+		name						"gui/menu/inventory/skill_name/plasmoid_trial"
+		description					"gui/menu/inventory/skill_description/plasmoid_trial"
+		icon						"gui/hud/items_icons/skills/damage_trail_plasmoid"
+		bigger_icon					"gui/menu/items_icons/skills/damage_trail_plasmoid"
+		cooldown					"25"
+		rarity						"STANDARD"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/plasmoid_trial"
+			stat_bp			string:"effects/projectiles_and_trails/plasmoid_trial"
+			trail_extend_time float:"10"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique		"1"
+	}
+}
+
+EntityBlueprint
+{
+	name						"items/skills/damage_trail_plasmoid_advanced_item"
+
+	InventoryItemDesc
+	{
+		type					"skill"
+		name					"gui/menu/inventory/skill_name/plasmoid_trial"
+		description				"gui/menu/inventory/skill_description/plasmoid_trial"
+		icon					"gui/hud/items_icons/skills/damage_trail_plasmoid_advanced"
+		bigger_icon				"gui/menu/items_icons/skills/damage_trail_plasmoid"
+		cooldown				"25"
+		rarity					"ADVANCED"
+		replace_lower_quality	"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/plasmoid_trial_advanced"
+			stat_bp			string:"effects/projectiles_and_trails/plasmoid_trial_advanced"
+			trail_extend_time float:"11"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique		"1"
+	}
+}
+
+EntityBlueprint
+{
+	name							"items/skills/damage_trail_plasmoid_superior_item"
+
+	InventoryItemDesc
+	{
+		type						"skill"
+		name						"gui/menu/inventory/skill_name/plasmoid_trial"
+		description					"gui/menu/inventory/skill_description/plasmoid_trial"
+		icon						"gui/hud/items_icons/skills/damage_trail_plasmoid_superior"
+		bigger_icon					"gui/menu/items_icons/skills/damage_trail_plasmoid"
+		cooldown					"25"
+		rarity						"SUPERIOR"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/plasmoid_trial_superior"
+			stat_bp			string:"effects/projectiles_and_trails/plasmoid_trial_superior"
+			trail_extend_time float:"12"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique					"1"
+	}
+}
+
+EntityBlueprint
+{
+	name							"items/skills/damage_trail_plasmoid_extreme_item"
+
+	InventoryItemDesc
+	{
+		type						"skill"
+		name						"gui/menu/inventory/skill_name/plasmoid_trial"
+		description					"gui/menu/inventory/skill_description/plasmoid_trial"
+		icon						"gui/hud/items_icons/skills/damage_trail_plasmoid_extreme"
+		bigger_icon					"gui/menu/items_icons/skills/damage_trail_plasmoid"
+		cooldown					"25"
+		rarity						"EXTREME"
+		replace_lower_quality		"1"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/skills/damage_trail.lua"		
+		
+		database
+		{
+			trail_time 		float:"15"
+			trail_spacing 	float:"1"
+			trail_effect	string:"effects/projectiles_and_trails/plasmoid_trial_extreme"
+			stat_bp			string:"effects/projectiles_and_trails/plasmoid_trial_extreme"
+			trail_extend_time float:"13"
+		}
+	}
+
+	CostDesc
+	{
+		is_unique			"1"
+	}
+}
+
+													
+//------------------------------------------------\\
+//------------COSMIC TRIAL EFFECTS----------------\\
+//------------------------------------------------\\
+													
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/plasmoid_trial
+
+	base_blueprints
+	{
+		lights/point/fire_blue_very_small
+		effects/no_lifetime
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"mech_plasmoid_trail"
+		mode 			"1"
+		extend  		"3"
+	}
+
+	ParticleDesc
+	{
+		name	"rift/mech_dash_plasmoid"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dash_acid"
+	}
+
+	//BurningComponent
+	//{
+	//	spread_radius           "1.0"					// radius to spread fire
+	//	spread_chance_override  "1.0"					// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	//	spread_timer
+	//	{
+	//		end                 "200000" 				// how often entity will try to spread fire in microseconds ( 2s )
+	//	}
+	//	burning_effect_group    "time_damage_cosmic"	// effect group to be enabled on entity
+	//	burning_time            "10000000000"			// how long it will burn in seconds
+	//	disable_light_fade_out  "1"
+	//}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/plasmoid_trial_advanced
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/plasmoid_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"mech_plasmoid_trail_advanced"
+		mode 			"1"
+		extend  		"3"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/plasmoid_trial_extreme
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/plasmoid_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type				"mech_plasmoid_trail_extreme"
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/plasmoid_trial_superior
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/plasmoid_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type				"mech_plasmoid_trail_superior"
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+

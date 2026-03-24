@@ -7,6 +7,7 @@ EntityBlueprint
 		script "lua/units/ground/spawner.lua"
 	}
 
+
 	HealthDesc
 	{
 		max_health 					"2000"
@@ -116,14 +117,14 @@ EntityBlueprint
 
 	UnitsSpawnerDesc
 	{
-		blueprint				"units/ground/egg_cosmic_canoptrix"
-		amount_on_single_spawn	"5"
+		blueprint				"units/ground/egg_cosmic_canoptrix_crystal"
+		amount_on_single_spawn	"10"
 		max_spawn				"100"
 		time_to_spawn			"8"
 		unit_state_spawn		"1"  // do not touch
 		max_spawn_distance		"30"
 		spawn_type				"egg"
-		spawn_marker_bp			"effects/messages_and_markers/objective_marker_violet"
+		spawn_marker_bp			"effects/messages_and_markers/wave_marker_cosmic_nest"
 		spawn_marker_life_time	"30"
 		can_spawn_when_visible	"1"
 		defend_radius			"40"
@@ -133,6 +134,25 @@ EntityBlueprint
 	{
 		mesh "meshes/units/ground/spawner_canoptrix.mesh"
 		material "units/ground/spawner_cosmic_canoptrix"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-10.0"
+				y "-0.2"
+				z "-9.0"
+			}
+			max
+			{
+				x "10.0"
+				y "10.0"
+				z "10.0"
+			}	
+		}
 	}
 
 	SkeletonDesc
@@ -150,6 +170,8 @@ EntityBlueprint
 		team "canoptrix"
 	}
 
+
+
 	PhysicsDesc
  	{
 		objects
@@ -157,7 +179,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"world_destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
@@ -180,15 +202,23 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		icon_material 	"gui/hud/minimap_icons/spawner_nest_1"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		visibility 		"radar"
+		layer_group		"enemies"
+		priority 		"155"
+		z_order			"155"
 	}
 
 	HealthBarDesc
 	{
-		type "2"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		type 		"2"
+		mode 		"0" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material 	"gui/hud/bars/elite_boss_health_1x3"
 	}
 
 	HighlightComponent
@@ -198,7 +228,6 @@ EntityBlueprint
 
 	LootDesc
 	{
-		explosion_type 			"centered"	
 		explosion_max_power 	"12000"
 		explosion_min_power 	"6000"	
 	}

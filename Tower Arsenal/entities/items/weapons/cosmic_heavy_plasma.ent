@@ -69,6 +69,11 @@ EntityBlueprint
 {
 	name  "items/weapons/cosmic_heavy_plasma"
 
+	ShadowExcludeComponent
+	{
+
+	}		
+
 	MeshDesc
 	{
 	mesh 		"meshes/items/weapons/heavy_plasma_gun.mesh"
@@ -224,6 +229,11 @@ EntityBlueprint
 	name 						"items/weapons/cosmic_heavy_plasma_advanced"
 	base_blueprint 			"items/weapons/cosmic_heavy_plasma"
 
+	ShadowExcludeComponent
+	{
+
+	}		
+
 	MeshDesc
 	{
 		mesh 					"meshes/items/weapons/heavy_plasma_gun.mesh"
@@ -273,6 +283,11 @@ EntityBlueprint
 {
 	name 					"items/weapons/cosmic_heavy_plasma_extreme"
 	base_blueprint 		"items/weapons/cosmic_heavy_plasma"
+
+	ShadowExcludeComponent
+	{
+
+	}		
 
 	MeshDesc
 	{
@@ -362,6 +377,11 @@ EntityBlueprint
 	name 						"items/weapons/cosmic_heavy_plasma_superior"
 	base_blueprint 			"items/weapons/cosmic_heavy_plasma"
 
+	ShadowExcludeComponent
+	{
+
+	}		
+
 	MeshDesc
 	{
 		mesh 					"meshes/items/weapons/heavy_plasma_gun.mesh"
@@ -414,19 +434,15 @@ EntityBlueprint
 	base_blueprints
 	{
 		weapons/energy/cosmic_heavy_plasma_projectile
-		lights/point/violet_medium
+		//lights/point/ta_violet_medium
 		effects/no_lifetime
 	}
+
 
 	MeshDesc
 	{
 		mesh 				"meshes/projectiles/corrosive_gun_projectile.mesh"
 		material 			"projectiles/laser_violet"
-	}
-
-	SoundDesc
-	{
-		name 			"items/weapons/energy/heavy_plasma_fire"
 	}
 
 	ProjectileAmmoComponent
@@ -436,7 +452,7 @@ EntityBlueprint
 		on_resisted_hit_effect 		"effects/cosmo_heavy_plasma_explosion_hit"
 		on_shield_hit_effect		"effects/cosmo_heavy_plasma_explosion_hit"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 		collision_2d 			"ground_unit|destructible"
 	}
 
@@ -462,53 +478,6 @@ EntityBlueprint
 			y "2"
 		}
 		visibility		"discovered"
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-			RibbonComponent
-			{
-				material 			ribbon/cosmic_heavy_plasma_trail_violet
-				update_bounds 		1
-				fade_out_time		0.5
-				uv_scroll			"0 -2.5"
-				tiling_distance 	"0"
-				tesselation_step 	"0.25"
-				keep_local			"0"
-
-				Ribbons
-				{
-					Ribbon
-					{
-						offset "0 0 0.5"
-					}
-
-					Ribbon
-					{
-						offset "0 0 -0.5"
-				}
-			}
-		}	
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/weapons_explosive/grenade_projectile"
-				}
-				Effect
-				{
-					blueprint "effects/weapons_explosive/grenade_throw"
-				}
-			}			
-		}
 	}
 }
 

@@ -1,0 +1,227 @@
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_kafferroceros"
+
+	LuaDesc
+	{
+		script "lua/units/ground/egg.lua"
+
+		database
+		{
+			min_scale	float:"2.4"
+			max_scale	float:"2.8"
+			grow_speed	float:"5.0"
+			grow		int:"1"
+		}
+	}
+	
+	HealthBarDesc
+	{
+		type 		"2"
+		mode 		"0" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material 	"gui/hud/bars/big_monster_hp_1x2"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"1500"
+		health 						"1500"
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/anoryxian_egg.mesh"
+		material "units/ground/anoryxian_egg"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit_artillery|ground_unit|ground_unit_large"
+	}
+
+	TeamDesc
+	{
+		team "baxmoth"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"ground_unit"
+				physics_material 	"default"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "2"
+						y "2"
+						z "2"
+
+						position
+						{
+							x "0.0"
+							y "1"
+							z "0.0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1.0"
+			y "0.0"
+			z "0.8"
+			w "1.0"
+		}
+		size
+		{
+			x "2.0"
+			y "2.0"
+		}
+		visibility "radar"
+	}
+
+	HighlightComponent
+	{
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_hammeroceros/death"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"	
+					part_lifetime			"2"
+				}
+
+				key "default"
+			}					
+		}
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros"
+		time_to_hatch			"14"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_kafferroceros_alpha"
+
+	base_blueprint "units/ground/egg_cosmic_kafferroceros"
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/anoryxian_egg.mesh"
+		material "units/ground/anoryxian_egg"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_anoryxian/death_egg"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+	
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros_alpha"
+		time_to_hatch			"90"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/egg_cosmic_kafferroceros_ultra"
+
+	base_blueprint "units/ground/egg_cosmic_kafferroceros"
+
+		MeshDesc
+	{
+		mesh "meshes/units/ground/anoryxian_egg.mesh"
+		material "units/ground/anoryxian_egg"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"5000"
+					explosion_min_power 	"2500"
+					explosion_effect_scale 	"1.0"
+					explosion_effect 		"effects/enemies_anoryxian/death_egg"
+					part_prefix 			"meshes/units/ground/anoryxian_egg"
+					part_material 			"units/ground/anoryxian_egg"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material	"gibs_light"					
+				}
+
+				key "default"
+			}					
+		}
+		
+	}
+
+	EggDesc
+	{
+		blueprint				"units/ground/cosmic_kafferroceros_ultra"
+		time_to_hatch			"90"
+		unit_state_spawn		"state_not_aggressive" // do not touch
+	}
+}
+

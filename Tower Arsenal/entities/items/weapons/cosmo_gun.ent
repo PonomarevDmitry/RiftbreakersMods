@@ -46,11 +46,10 @@ EntityBlueprint
 
 		muzzles_per_fire 			"1"
 		muzzle_flash_effect 		"effects/weapons_energy/cosmo_gun_muzzle"
-		bone 						"att_muzzle"
 
-		burst_column_spacing 		"0.15"
-		burst_rate 					"0.6"
-		//burst_column_angle 		"5"
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
 	}
 
 	EffectDesc
@@ -311,7 +310,6 @@ EntityBlueprint
 	base_blueprints
 	{
 		effects/cosmo_gun_elemental
-		lights/point/violet_small
 		effects/no_lifetime
 	}
 
@@ -333,19 +331,20 @@ EntityBlueprint
 		visibility			"radar"
 	}
 
-	SoundDesc
-	{
-		name "items/weapons/energy/plasma_gun_fire"
-	}
-
 	ProjectileAmmoComponent
 	{
 		on_enemy_hit_effect 		"effects/weapons/energy/cosmo_gun_hit"
 		on_world_hit_effect 		"effects/weapons/energy/cosmo_gun_hit"
 		on_resisted_hit_effect		"effects/weapons/energy/cosmo_gun_hit"
 
-		collision_3d 			"world|world_blocker|world_destructible|destructible|building|ground_unit|shield"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
 		collision_2d 			"ground_unit|destructible"
+		
+		DamagePattern
+		{
+			area_damage_effect_scale	"splash"
+			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_violet"
+		}
 	}
 
 	LifeTimeDesc

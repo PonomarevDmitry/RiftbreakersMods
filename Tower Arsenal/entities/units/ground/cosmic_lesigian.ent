@@ -34,13 +34,13 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.5"
-		fire			"0.20"
+		physical		"0.9"
+		fire			"0.1"
 		acid			"2.0"
 		energy			"1.0"
-		cryo			"0.25"
+		cryo			"0.1"
 		area			"1.0"
-		cosmic			"0.5"
+		cosmic			"0.1"
 		plasmoid		"1.0"
 	}
 
@@ -102,31 +102,20 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_artillery"
 		size
 		{
-			x "3"
-			y "3"
+			x "1"
+			y "1"
 		}
-		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
+		additional_z_order "0"
 	}
 
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -189,6 +178,14 @@ EntityBlueprint
 		yaw 					"att_shoot"
 		check_target_visibility "1"
 		use_IK 					"0"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
 	}
 
 	DestroyDesc
@@ -349,6 +346,48 @@ EntityBlueprint
 				}
 			}
 		}			
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.4 1.4 1.4"
+				}
+			}
+		}	
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -631,7 +670,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"30.0"
-										type 	"cosmic"
+										type 	"physical"
 									}
 								}
 							}
@@ -669,17 +708,16 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		diameter				"0.2"
+		diameter				"1"
 
-		on_enemy_hit_effect 	"effects/enemies_generic/energy_hit_medium"
-		on_world_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_enemy_hit_effect 	"effects/enemies_generic/lesigian_hit"//-----cosmic lesigian effects ----//
+		on_world_hit_effect 	"effects/enemies_generic/lesigian_hit"//---------------------------------//
 		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
-
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-
 		friendly_fire			"pass"
-	}
 
+	}
+	
 	MinimapItemDesc
 	{
 		type	"quad"
@@ -729,8 +767,9 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 	"50"
-					type 	"cosmic"
+					interval 	"0.5"
+					value		"5"
+					//type 	"cosmic_energy"
 				}
 			}
 		}

@@ -5,13 +5,13 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.5"
-		fire			"0.25"
+		fire			"1.0"
 		acid			"2.0"
 		energy			"2.0"
-		cryo			"0.25"
+		cryo			"0.5"
 		area			"1.0"
 		cosmic			"0.5"
-		plasmoid		"2.0"
+		plasmoid		"1.0"
 	}
 
 	StunDataComponent
@@ -25,15 +25,15 @@ EntityBlueprint
 		stagger_long_cooldown			"3.5"
 		stun_cooldown					"15"
 	}
-	
+
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"360"
 		unit_soft_radius				"1.9"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein"
+		ignore_cost_mask				"building|path_blocker|mud_vein|water_vein|sludge_vein|magma_vein|morphium_vein|cavern_wall"
 		dominance_group				    "0"
 	}
-	
+
 	KeepHighNavigationComponent
 	{
 		interpolation_speed  "0.75"
@@ -86,28 +86,23 @@ EntityBlueprint
 		type	"quad"
 		color 
 		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
+			x "1.0"
+			y "0.0"
+			z "0.8"
+			w "1.0"
 		}
 		size
 		{
-			x "3"
-			y "3"
+			x "2.5"
+			y "2.5"
 		}
-		
 		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
 
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -151,6 +146,14 @@ EntityBlueprint
 		can_activate 0
 	}
 
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"1500"
+		explosion_min_power 	"700"	
+		loot_award				"enemy_generic"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -181,82 +184,7 @@ EntityBlueprint
 			float 						"5"
 		}
 	}	
-}
 
-EntityBlueprint
-{
-	name "units/ground/cosmic_phirian"
-
-	base_blueprint "units/ground/cosmic_phirian_base"
-
-	StateMachineDesc
-	{
-		template_name "phirian"
-		params
-		{
-			aggressive_speed					float:"10"
-			aggressive_acceleration				float:"20"
-			not_aggressive_speed				float:"4"
-			not_aggressive_acceleration			float:"4"
-			rotate_speed						float:"350"
-			priority_target						string:"headquarters|player|energy|tower"
-			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
-			melee_attack_name					string:"attack_1|attack_2|attack_3"
-			min_idle_time						float:"4.0"
-			max_idle_time						float:"8.0"
-			dash_min_distance					float:"10.0"
-			dash_max_distance					float:"25.0"
-			dash_cooldown						float:"3.0"
-			dash_ignore_type					string:"ground_unit_small"
-			dash_space_behind_target			float:"15"
-			dash_speed							float:"150"
-			dash_damage							float:"40"
-			dash_damage_size					float:"4.5"
-		}		
-	}
-
-	LuaDesc
-	{
-		script "lua/units/ground/phirian.lua"
-		database
-		{
-			min_scale	float:"0.95"
-			max_scale	float:"1.05"
-		}			
-	}
-
-	DatabaseComponent
-	{
-		version int:"1"	
-	}
-
-	HealthDesc
-	{
-		max_health 					"1200"
-		health 						"1200"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
-		is_manual					"1"
-		update_health_uniform 		"1"
-
-		DestructionLevels
-		{
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_comp_delay 					"0"
-				//destroyed_state_effect_group 		"0_state"
-			}
-		}		
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/units/ground/phirian.mesh"
-		material 	"units/ground/cosmic_phirian"
-	}
-	
 	EffectDesc
 	{
 		EffectGroup
@@ -291,7 +219,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_cosmic_phirian/death_long"	
+					blueprint "effects/enemies_cosmic_phirian/death"	
 					bone "att_death"
 				}
 			}
@@ -371,7 +299,7 @@ EntityBlueprint
 			}
 		}			
 		EffectGroup
-		{						
+		{
 			group "damage_generic"
 			enabled "0"				
 			Effects
@@ -384,7 +312,7 @@ EntityBlueprint
 			}
 		}		
 		EffectGroup
-		{						
+		{
 			group "hit_damage"
 			enabled "0"				
 			Effects
@@ -394,7 +322,49 @@ EntityBlueprint
 					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
 				}
 			}
-		}			
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -422,7 +392,7 @@ EntityBlueprint
 					scale "1.5 1.5 1.5"
 				}
 			}
-		}	
+		}
 		EffectGroup
 		{
 			group 	"time_damage_cryo"
@@ -437,7 +407,6 @@ EntityBlueprint
 				}
 			}
 		}
-		
 		EffectGroup
 		{
 			group 	"time_damage_energy"
@@ -452,22 +421,6 @@ EntityBlueprint
 				}
 			}
 		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		
 		EffectGroup
 		{
 			group 	"time_damage_physical"
@@ -608,6 +561,82 @@ EntityBlueprint
 				}
 			}
 		}		
+	}
+
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_phirian"
+
+	base_blueprint "units/ground/cosmic_phirian_base"
+
+	StateMachineDesc
+	{
+		template_name "phirian"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"20"
+			not_aggressive_speed				float:"4"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			dash_min_distance					float:"10.0"
+			dash_max_distance					float:"25.0"
+			dash_cooldown						float:"3.0"
+			dash_ignore_type					string:"ground_unit_small"
+			dash_space_behind_target			float:"15"
+			dash_speed							float:"150"
+			dash_damage							float:"40"
+			dash_damage_size					float:"4.5"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/phirian.lua"
+		database
+		{
+			min_scale	float:"0.95"
+			max_scale	float:"1.05"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"1200"
+		health 						"1200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/phirian.mesh"
+		material 	"units/ground/cosmic_phirian"
 	}
 
 	children

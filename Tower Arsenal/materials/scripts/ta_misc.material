@@ -1,0 +1,75 @@
+import * from "materials/scripts/pbr.material"
+
+material misc/cosmic_influence
+{  
+    render_group 50
+    feature "gbuffer|shadow"
+    
+    technique
+    {
+        pass
+        {
+            depth_write on
+            depth_check on
+
+            glow 15
+
+            vertex_program_ref deferred_gbuffer_vp 
+            {
+            }
+
+            fragment_program_ref deferred_influence_fp
+            {
+            }
+            
+            texture_unit albedo 
+            {
+                texture materials/textures/misc/cosmic_influence_area_albedo.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit normal 
+            {   
+                texture materials/textures/misc/influence_area_normal.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit packed
+            {   
+                texture materials/textures/misc/influence_area_packed.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit emissive 
+            {   
+                texture materials/textures/misc/cosmic_influence_area_emissive.dds
+                filtering anisotropic
+                tex_address_mode wrap
+                max_anisotropy 16
+            }
+            texture_unit gradient 
+            {   
+                anim_texture materials/textures/gradient/selector_gradient.dds 190 8
+                tex_address_mode wrap
+                filtering bilinear
+            }
+            texture_unit dissolve 
+            {   
+                texture materials/textures/noise.dds
+                tex_address_mode wrap
+                filtering bilinear
+            }
+        }
+    }
+}
+
+material misc/cosmic_waller : pbr/default
+{
+    set_texture_alias albedo            materials/textures/misc/cosmic_waller_albedo.dds
+    set_texture_alias normal            materials/textures/misc/waller_normal.dds
+    set_texture_alias packed            materials/textures/misc/waller_packed.dds
+}
+

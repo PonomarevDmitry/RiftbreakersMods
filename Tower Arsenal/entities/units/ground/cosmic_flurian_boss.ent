@@ -32,7 +32,6 @@ EntityBlueprint
 		area			"0.5"
 		cosmic			"0.5"
 		plasmoid		"0.7"
-		reflect_damage_max_percent 		"0.020"
 	}
 
 	StunDataComponent
@@ -98,33 +97,8 @@ EntityBlueprint
 		}
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "3"
-			y "3"
-		}
-		
-		visibility "radar"
-	}
-
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -183,7 +157,15 @@ EntityBlueprint
 		check_target_visibility "1"
 		use_IK "0"
 	}
-	
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -198,7 +180,7 @@ EntityBlueprint
 					explosion_effect 		"effects/enemies_flurian/death"	
 					part_prefix 			"meshes/units/ground/flurian"
 					part_material 			"units/ground/cosmic_flurian_boss"
-					part_effect 			"effects/enemies_generic/blood_trail_red"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material   "gibs_heavy"					
 				}
 
@@ -564,8 +546,8 @@ EntityBlueprint
 		script "lua/units/ground/flurian.lua"
 		database
 		{
-			min_scale	float:"1.3"
-			max_scale	float:"1.3"
+			min_scale	float:"1.6"
+			max_scale	float:"1.6"
 		}			
 	}
 
@@ -576,9 +558,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthBarDesc
@@ -731,6 +715,32 @@ EntityBlueprint
 				}
 			}
 		}
+
+		EntityBlueprint
+		{
+			name "units/ground/cosmic_flurian_boss/destructor"
+		
+			NetReplicationDisabledComponent
+			{
+			}	
+
+			DamageTriggerComponent
+			{
+				damage_amount	10
+				always_kill		1
+				collision 		"vegetation|destructible"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.2"
+						y "3.75"
+						z "3.0"
+					}	
+				}
+			}
+		}
 	}
 }
 
@@ -820,17 +830,17 @@ EntityBlueprint
 		on_resisted_hit_effect 		"effects/enemies_flurian/projectile_hit"
 		on_shield_hit_effect		"effects/enemies_flurian/projectile_hit"
 		hit_effect_direction		"up"  //inverse, normal, up
-		on_world_explosion_delay	 "1.5"
+		on_world_explosion_delay	 "1.0"
 		on_enemy_explosion_delay	 "0"
 
 		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
 
 		collision_3d 				"world|world_blocker|world_destructible|destructible|building|ground_unit|hitbox|shield"
 
-		diameter					"4"
+		diameter					"1"
 
 		artillery_min_angle 		"25"
-		artillery_max_angle 		"60"
+		artillery_max_angle 		"45"
 	}
 	
 	children
@@ -863,3 +873,4 @@ EntityBlueprint
 		}
 	}
 }
+

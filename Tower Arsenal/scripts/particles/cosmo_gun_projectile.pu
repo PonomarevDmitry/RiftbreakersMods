@@ -1,12 +1,12 @@
 system rift/cosmo_gun_projectile
 {
     scale_velocity                              0.007
-    scale                                       0.008 0.008 0.008
+    scale                                       0.007 0.007 0.007
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 40
     technique glow
     {
+        enabled                                 false
         keep_local                              true
         visual_particle_quota                   1
         emitted_emitter_quota                   0
@@ -22,25 +22,24 @@ system rift/cosmo_gun_projectile
         }
         emitter                                 Point trail1
         {
-            emission_rate                       0
+            emission_rate                       1500
             angle                               0
             time_to_live                        dyn_random
             {
-                min                             0
-                max                             0
+                min                             0.2
+                max                             0.3
             }
             velocity                            0.01
             particle_width                      1000
             particle_height                     2800
             position                            1000 0 0
             direction                           -1 0 0
-            colour                              0.501961 0 1 1
             auto_direction                      true
         }
         affector                                Colour 
         {
-            time_colour                         0    1 0.498 0.991 0.31
-            time_colour                         1    1 0.498 0.991 0.31
+            time_colour                         0    0.505338 0 1 0.294118
+            time_colour                         1    0.505338 0 1 0.294118
         }
     }
     technique trail0
@@ -50,7 +49,7 @@ system rift/cosmo_gun_projectile
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/cosmic_plasma_projectile
+        material                                particles/violet_plasma_hit_atlas
         renderer                                Billboard
         {
             render_queue_group                  61
@@ -82,7 +81,7 @@ system rift/cosmo_gun_projectile
         }
         affector                                Colour 
         {
-            time_colour                         0    0.2 0.2 0.2 0.74902
+            time_colour                         0    1 1 1 0.74902
             time_colour                         0.502174  0.2 0.2 0.2 0.494118
             time_colour                         1    0.2 0.2 0.2 0
         }
@@ -94,7 +93,7 @@ system rift/cosmo_gun_projectile
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/cosmic_plasma_projectile
+        material                                particles/violet_plasma_hit_atlas
         renderer                                Billboard
         {
             render_queue_group                  62
@@ -129,7 +128,7 @@ system rift/cosmo_gun_projectile
         }
         affector                                Colour 
         {
-            time_colour                         0    0.2 0.2 0.2 0.74902
+            time_colour                         0    1 1 1 0.74902
             time_colour                         0.502174  0.2 0.2 0.2 0.494118
             time_colour                         1    0.2 0.2 0.2 0
         }
@@ -141,7 +140,7 @@ system rift/cosmo_gun_projectile
         emitted_technique_quota                 0
         emitted_affector_quota                  0
         emitted_system_quota                    0
-        material                                particles/cosmic_plasma_projectile
+        material                                particles/violet_plasma_hit_atlas
         renderer                                Billboard
         {
             render_queue_group                  65
@@ -177,7 +176,7 @@ system rift/cosmo_gun_projectile
         }
         affector                                Colour 
         {
-            time_colour                         0    0.2 0.2 0.2 0.74902
+            time_colour                         0    1 1 1 0.74902
             time_colour                         0.508696  0.2 0.2 0.2 0.74902
             time_colour                         1    0.2 0.2 0.2 0
         }
@@ -201,8 +200,8 @@ system rift/cosmo_gun_projectile
             angle                               0
             time_to_live                        dyn_random
             {
-                min                             0.5
-                max                             0.7
+                min                             0.4
+                max                             0.5
             }
             velocity                            dyn_random
             {

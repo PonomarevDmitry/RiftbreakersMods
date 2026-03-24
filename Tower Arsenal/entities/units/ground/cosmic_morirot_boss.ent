@@ -9,8 +9,12 @@ EntityBlueprint
 		script "lua/units/ground/morirot.lua"
 		database
 		{
-			min_scale	float:"2.55"
-			max_scale	float:"2.65"
+			min_scale			float:"2.55"
+			max_scale			float:"2.65"
+			resurrect_bp		string:"units/ground/cosmic_morirot_boss_resurrect"
+			resurrect_min_time	float:"5"
+			resurrect_max_time	float:"10"
+			resurrect_chance	float:"100"
 		}			
 	}
 
@@ -23,7 +27,9 @@ EntityBlueprint
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		visibility 		"always"
+		additional_z_order "5"
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc
@@ -35,8 +41,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
+		max_health 					"5500"
+		health 						"5500"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -49,6 +55,13 @@ EntityBlueprint
 				//destroyed_state_effect_group 		"0_state"
 			}
 		}		
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"time_damage_cosmic"	
+		extend  		"3"
 	}
 
 	NavMeshMovementComponent
@@ -191,16 +204,14 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.2"
-		fire			"1.2"
-		acid			"1.0"
-		energy			"1.1"
+		physical		"0.5"
+		fire			"0.8"
+		acid			"2.0"
+		energy			"0.8"
 		cryo			"0.5"
-		area			"0.5"
+		area			"0.7"
 		cosmic			"0.5"
-		plasmoid		"1.3"
-
-		reflect_damage_max_percent 		"0.025"
+		plasmoid		"1.0"
 	}
 
 	StunDataComponent
@@ -281,12 +292,6 @@ EntityBlueprint
 	{
 	}
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
-	}
-
 	MovementDataComponent
 	{
 	}
@@ -305,6 +310,21 @@ EntityBlueprint
 		burning_time 					"6"
 		burned_recovery_time 			"0"		
 	}
+
+	BurningComponent
+	{
+		spread_radius 			"2"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_target_mask 		"prop"
+		spread_timer
+		{
+			limit "2" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		burning_effect_group            "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"5"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
 
 	EmissiveDayAndNightAffector
 	{
@@ -328,6 +348,14 @@ EntityBlueprint
 		can_activate 0
 	}
 
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -342,14 +370,32 @@ EntityBlueprint
 					explosion_effect 		"effects/enemies_cosmic_morirot/death"
 					part_prefix 			"meshes/units/ground/morirot"
 					part_material 			"units/ground/cosmic_morirot"
-					part_effect 			"effects/enemies_generic/blood_trail_violet_small"
-					part_physics_material   "gibs_light"				
+					part_effect 			"effects/enemies_generic/blood_trail_blue_medium"
+					part_physics_material   "gibs_medium"				
 				}
 
 				key "default"
 			}
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_cosmic_morirot/death"
+					part_prefix 			"meshes/units/ground/crawlog"
+					part_material 			"units/ground/cosmic_morirot"
+					part_effect 			"effects/enemies_generic/blood_trail_blue_medium"
+					part_physics_material   "gibs_medium"
+					bone					"att_death_resurect"
+				}
+
+				key "resurrect"
+			}
 		}		
 	}
+
 	EffectDesc
 	{		
 		EffectGroup
@@ -805,6 +851,192 @@ EntityBlueprint
 		threshold_vec
 		{
 			float 						"5"
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_morirot_boss_resurrect"
+
+	base_blueprint "units/ground/cosmic_morirot_boss_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/morirot.lua"
+		database
+		{
+			min_scale		float:"2.55"
+			max_scale		float:"2.65"
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}	
+
+	HealthDesc
+	{
+		max_health 					"5500"
+		health 						"5500"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"0.8"
+		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		dominance_group				    "1"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/morirot.mesh"
+		material 	"units/ground/cosmic_morirot_boss"
+	}
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/crawlog_base"
+		}
+		////////////////////////MISC/////////////////////////
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_crawlog/resurrected"
+					bone "att_death"
+					//random_delay "3"
+				}
+			}
+		}
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_morirot_boss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_morirot/attack_start"
+						//attack_start_time			"0.36"
+						//attack_end_time			"0.60"
+						//attack_duration 			"1.13"
+						attack_start_time			"0.27"
+						attack_end_time				"0.45"
+						attack_duration 			"0.85"
+					}
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_morirot/attack_start"
+						//attack_start_time			"0.36"
+						//attack_end_time			"0.60"
+						//attack_duration 			"1.13"
+						attack_start_time			"0.27"
+						attack_end_time				"0.45"
+						attack_duration 			"0.85"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"43.0"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "2.0"
+						y "2.0"
+						z "2.0"
+					}	
+				}
+			}
 		}
 	}
 }

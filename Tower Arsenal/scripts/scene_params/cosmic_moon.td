@@ -68,7 +68,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "0"
 		weather_haptic
-		weather_effect
+		weather_effect "effects/weather/cosmic_moon"
 		weather_wind
 		weather_type "0"
 	}
@@ -141,7 +141,7 @@ TimeOfDayPreset
 		weather_sound
 		time_of_day "2"
 		weather_haptic
-		weather_effect
+		weather_effect "effects/weather/cosmic_moon"
 		weather_wind
 		weather_type "0"
 	}

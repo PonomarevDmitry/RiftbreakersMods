@@ -33,16 +33,17 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_canceroth_boss"
-		visibility 		"radar"	
-		additional_z_order "1"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_canceroth_boss"
+		visibility 			"radar"	
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
+		max_health 					"7000"
+		health 						"7000"
 		is_manual					"0"
 		update_health_uniform 		"1"
 
@@ -123,8 +124,6 @@ EntityBlueprint
 		area			"1.0"
 		cosmic			"0.1"
 		plasmoid		"0.1"
-
-		reflect_damage_max_percent 		"0.005"
 	}
 
 	TypeDesc
@@ -181,12 +180,6 @@ EntityBlueprint
 	{
 	}
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
-	}
-
 	MovementDataComponent
 	{
 	}
@@ -226,6 +219,14 @@ EntityBlueprint
 		can_activate 0
 	}	
 
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -244,7 +245,6 @@ EntityBlueprint
 					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material   "gibs_heavy"
 				}
-
 				key "default"
 			}
 		}

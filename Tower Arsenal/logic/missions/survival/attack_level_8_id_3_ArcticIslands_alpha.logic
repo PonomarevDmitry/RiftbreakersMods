@@ -1,13 +1,13 @@
-//editor "scroll(34.76,979.23)|zoom(0.73)"
+//editor "scroll(296.59,435.98)|zoom(0.40)"
 FlowGraphTemplate
 {
-	version "19"
-	editor "6380"
+	version "3"
+	editor "6643"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(1088,2393)"
+			//editor "layout(logic_wait.xml)|pos(2355,2588)"
 			database
 			{
 				Floats
@@ -23,12 +23,33 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_2"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(842,1181)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(1458,1565)"
+			//editor "layout(wave_ground.xml)|pos(2850,2363)"
 			database
 			{
 				Floats
@@ -108,7 +129,220 @@ FlowGraphTemplate
 			delay "0"
 			group_name "universal"
 			percentage_units_to_end_wave "90"
-			self_id "wave_ground_6"
+			self_id "wave_ground_0"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_gnerot_alpha"
+					count "4"
+					delay "3.00"
+					delay_group "0.00"
+					spawn_type "blueprint"
+					units_in_one_spawn "2"
+				}
+
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(1768,1442)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_gnerot_alpha"
+					count "2"
+					delay "3.00"
+					delay_group "0.00"
+					spawn_type "blueprint"
+					units_in_one_spawn "2"
+				}
+
+			}
+
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3341,1494)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(2363,1879)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_2"
 			spawn_group
 			spawn_point
 			Enemies
@@ -119,90 +353,19 @@ FlowGraphTemplate
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/cosmic_gnerot_alpha"
 					count "3"
-					delay "2"
-					delay_group "0"
+					delay "3.00"
+					delay_group "0.00"
 					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_necrodon_alpha"
-					count "1"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_kafferroceros_alpha"
-					count "2"
-					delay "3"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "5"
+					units_in_one_spawn "2"
 				}
 
 			}
 
 		}
 
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(2116,1797)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
-		}
-
 		LuaBehaviourNode
 		{
-			//editor "layout(event_start.xml)|pos(-988,1362)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "rule_headquarters_survive"
-						value "1"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/event_start.lua"
-			self_id "default"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(76,1895)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "15.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(689,2113)"
+			//editor "layout(logic_wait.xml)|pos(1260,1655)"
 			database
 			{
 				Floats
@@ -221,9 +384,30 @@ FlowGraphTemplate
 			self_id "logic_wait_1"
 		}
 
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1757,2101)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_2"
+		}
+
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(9,771)"
+			//editor "layout(wave_ground.xml)|pos(1244,946)"
 			database
 			{
 				Floats
@@ -312,284 +496,12 @@ FlowGraphTemplate
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_gnerot_alpha"
-					count "3"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_necrodon_alpha"
-					count "1"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_kafferroceros_alpha"
+					blueprint "units/ground/cosmic_gnerot"
 					count "2"
-					delay "3"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "5"
-				}
-
-			}
-
-		}
-
-		WaveGround
-		{
-			//editor "layout(wave_ground.xml)|pos(490,1042)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "search_min_radius"
-						value "0"
-					}
-
-				}
-
-				Integers
-				{
-					IntData
-					{
-						key "random_spawn"
-						value "0"
-					}
-
-					IntData
-					{
-						key "spawn_indicator"
-						value "1"
-					}
-
-					IntData
-					{
-						key "spawn_indicator_duration"
-						value "30"
-					}
-
-					IntData
-					{
-						key "search_count"
-						value "1"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "spawn_direction"
-						value
-					}
-
-					StringData
-					{
-						key "target_name"
-						value
-					}
-
-					StringData
-					{
-						key "spawn_type"
-						value "Name"
-					}
-
-					StringData
-					{
-						key "target_type"
-						value "Name"
-					}
-
-				}
-
-			}
-
-			delay "0"
-			group_name "universal"
-			percentage_units_to_end_wave "90"
-			self_id "wave_ground_4"
-			spawn_group
-			spawn_point
-			Enemies
-			{
-				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_gnerot_alpha"
-					count "3"
-					delay "2"
+					delay "3.00"
 					delay_group "0"
 					spawn_type "blueprint"
 					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_necrodon_alpha"
-					count "1"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_kafferroceros_alpha"
-					count "2"
-					delay "3"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "5"
-				}
-
-			}
-
-		}
-
-		WaveGround
-		{
-			//editor "layout(wave_ground.xml)|pos(1017,1276)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "search_min_radius"
-						value "0"
-					}
-
-				}
-
-				Integers
-				{
-					IntData
-					{
-						key "random_spawn"
-						value "0"
-					}
-
-					IntData
-					{
-						key "spawn_indicator"
-						value "1"
-					}
-
-					IntData
-					{
-						key "spawn_indicator_duration"
-						value "30"
-					}
-
-					IntData
-					{
-						key "search_count"
-						value "1"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "spawn_direction"
-						value
-					}
-
-					StringData
-					{
-						key "target_name"
-						value
-					}
-
-					StringData
-					{
-						key "spawn_type"
-						value "Name"
-					}
-
-					StringData
-					{
-						key "target_type"
-						value "Name"
-					}
-
-				}
-
-			}
-
-			delay "0"
-			group_name "universal"
-			percentage_units_to_end_wave "90"
-			self_id "wave_ground_5"
-			spawn_group
-			spawn_point
-			Enemies
-			{
-				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_gnerot_alpha"
-					count "3"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_necrodon_alpha"
-					count "1"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_kafferroceros_alpha"
-					count "2"
-					delay "3"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "5"
 				}
 
 			}
@@ -600,14 +512,14 @@ FlowGraphTemplate
 
 	GraphConnections
 	{
-		default "logic_wait_0|wave_ground_3"
-		logic_wait_0 "logic_wait_1|wave_ground_4"
-		logic_wait_1 "logic_wait_2|wave_ground_5"
-		logic_wait_2 "wave_ground_6"
+		default "logic_wait_1|wave_ground_3"
+		logic_wait_0 "wave_ground_0"
+		logic_wait_1 "logic_wait_2|wave_ground_1"
+		logic_wait_2 "logic_wait_0|wave_ground_2"
+		wave_ground_0 "event_end_0"
+		wave_ground_1 "event_end_0"
+		wave_ground_2 "event_end_0"
 		wave_ground_3 "event_end_0"
-		wave_ground_4 "event_end_0"
-		wave_ground_5 "event_end_0"
-		wave_ground_6 "event_end_0"
 	}
 
 	GraphComments

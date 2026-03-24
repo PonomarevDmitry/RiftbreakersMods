@@ -18,10 +18,10 @@ EntityBlueprint
 			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
 			min_idle_time						float:"4.0"
 			max_idle_time						float:"8.0"
-			min_eat_time						float:"12.0"
-			max_eat_time						float:"20.0"
-			food_type							string:"spikybulb"
-			search_food_distance				float:"20.0"
+			min_eat_time						float:"15.0"
+			max_eat_time						float:"30.0"
+			food_type							string:"cosmic_crystals"
+			search_food_distance				float:"40.0"
 			drone_spawn_angle_tolerance			float:"40.0"
 			melee_attack_name					string:"attack_1"
 		}		
@@ -104,32 +104,20 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_artillery"
 		size
 		{
-			x "3"
-			y "3"
+			x "1"
+			y "1"
 		}
-		
-		visibility "radar"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}
 
 	HighlightComponent
 	{
 
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -176,6 +164,14 @@ EntityBlueprint
 
 	AIUnitGroupNonPackableComponent
 	{
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
 	}
 
 	DestroyDesc
@@ -301,6 +297,48 @@ EntityBlueprint
 		}	
 		EffectGroup
 		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}	
+		EffectGroup
+		{
 			group 	"time_damage_fire"
 			enabled "0"
 			Effects
@@ -341,7 +379,6 @@ EntityBlueprint
 				}
 			}
 		}
-		
 		EffectGroup
 		{
 			group 	"time_damage_energy"
@@ -353,21 +390,6 @@ EntityBlueprint
 					blueprint "effects/enemies_generic/time_damage_energy"
 					bone "att_death"
 					scale "2 2 2"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
 				}
 			}
 		}

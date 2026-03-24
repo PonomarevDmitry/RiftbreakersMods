@@ -1,0 +1,239 @@
+BiomeDef
+{
+	base_materials
+	{
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_1"
+			value
+			{
+				String "ground/misc/biome_material_1"
+				String "ground/abyss/abyss_ground_02"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_0"
+			value
+			{
+				String "ground/misc/biome_material_0"
+				String "ground/abyss/abyss_ground_01"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_2"
+			value
+			{
+				String "ground/misc/biome_material_2"
+				String "ground/abyss/abyss_ground_04"
+			}
+
+		}
+
+	}
+
+	default_liquid_resource "abyssium"
+	icon "gui/menu/biomes_prev/the_abys"
+	icon_with_outpost "gui/loading/the_abys_bg"
+	loading "gui/loading/the_abys_bg"
+	loading_with_outpost "gui/loading/the_abys_bg"
+	resources "carbon_vein,iron_vein,uranium_ore_vein,titanium_vein,palladium_vein,cobalt_vein,water_vein,sludge_vein,cosmonite_ore_vein,cosmic_vent,abyssium_vein"
+	root_template
+	{
+		children
+		{
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "main_light"
+					}
+
+					LightDesc
+					{
+						light_color
+						{
+							w "13.416"
+							y "0.779"
+							z "0.354"
+						}
+
+					}
+
+					ShadowComponent
+					{
+						light_mask_texture
+					}
+
+				}
+
+			}
+
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "skybox"
+					}
+
+					LocalAabbDesc
+					{
+						local_aabb
+						{
+							min
+							{
+								x "-5.1"
+								y "-5.1"
+								z "-5.1"
+							}
+
+							max
+							{
+								x "5.1"
+								y "5.1"
+								z "5.1"
+							}
+
+						}
+
+					}
+
+					MeshDesc
+					{
+						material "pbr/skybox"
+						mesh "meshes/skybox.mesh"
+						renderable_custom_parameters
+						{
+							Params
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		components
+		{
+			BiomeModificatorComponent
+			{
+				geothermal_power "2"
+				solar_power "0.5"
+			}
+
+			DirectionalWindComponent
+			{
+				factor "0"
+				position_frequency_factor "0.001"
+				power_frequency "0"
+				power_max "0"
+				power_min "0"
+				rotation_frequency "0"
+				rotation_max "0"
+			}
+
+			SceneParamsDesc
+			{
+				bloom_params
+				{
+					max_exposure "1.284"
+					scale "1.058"
+					threshold "0.203"
+				}
+
+				fog_params
+				{
+					color
+					{
+						x "0.42000002"
+						y "0.8550001"
+						z "1"
+					}
+
+					density "1.486"
+					end "54"
+					start "45"
+				}
+
+				shadow_params
+				{
+					intensity "1"
+				}
+
+				skybox_params
+				{
+					diffuse "materials/textures/skybox/skybox_metallic_diffuse.dds"
+					diffuse_intensity "0"
+					environment "materials/textures/skybox/skybox_metallic_env.dds"
+					specular "materials/textures/skybox/skybox_metallic_specular.dds"
+					specular_intensity "0.497"
+					sun_roll "34.23781"
+					sun_yaw "20.468"
+				}
+
+				skybox_procedural_params
+				{
+					atmosphere_thickness "1.094"
+					clouds "0.4"
+					sun_convergence "0.503"
+					sun_size "1.001"
+				}
+
+				ssao_params
+				{
+					angle_bias "0.397"
+					factor "7.497"
+					intensity "1.501"
+					sample_length "0.054"
+				}
+
+				volumetric_fog_params
+				{
+					albedo
+					{
+						x "0.42000002"
+						y "0.8550001"
+						z "1"
+					}
+
+					emissive
+					{
+						x "0.42000002"
+						y "0.8550001"
+						z "1"
+					}
+
+				}
+
+			}
+
+			TimeOfDayComponent
+			{
+				timeofday_presets
+				{
+					TimeOfDayPresetHolder
+					{
+						resource_name "biomes/the_abys/scene_params/the_abys.td"
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+

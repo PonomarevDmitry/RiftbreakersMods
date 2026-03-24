@@ -11,7 +11,7 @@ EntityBlueprint
 		{
 			min_scale	        float:	"2.0"
 			max_scale	        float:	"1.8"
-			crystal_grow_speed	float:	"1.5"
+			crystal_grow_speed	float:	"0.5"
 			crystal_grow_bp		string:	"units/ground/cosmic_gulgor_boss/grow_crystal"
 			crystal_bp		    string:	"units/ground/cosmic_gulgor_boss/crystal"
 		}			
@@ -24,9 +24,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthBarDesc
@@ -38,8 +40,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"9000"
-		health 						"9000"
+		max_health 					"4000"
+		health 						"4000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -58,7 +60,7 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.5"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein|abyssium_vein"
 		dominance_group				    "0"
 	}
 
@@ -251,8 +253,6 @@ EntityBlueprint
 		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.0"
-
-		reflect_damage_max_percent 		"0.025"
 	}
 
 	StunDataComponent
@@ -307,12 +307,6 @@ EntityBlueprint
 	{
 	} 
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
-	}
-
 	MovementDataComponent
 	{
 	}
@@ -356,16 +350,41 @@ EntityBlueprint
 			{
 				attachment "att_shoot"
 			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_1"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_2"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_3"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_4"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_5"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_shoot_6"
+			}
 		}
 
 
 		ammo_blueprint 				"units/ground/cosmic_gulgor_boss/projectile"
 		fire_effect 				"effects/enemies_gulgor/fire_effect"
 		muzzle_flash_effect 		"effects/enemies_gulgor/muzzle"
-		muzzles_per_fire 			"1"
+		muzzles_per_fire 			"6"
+
 		burst_column_spacing 		"0"
 		burst_rate 					"0"
-		burst_column_angle 			"35"
+		burst_column_angle 			"45"
 	}
 
 	TurretDesc
@@ -377,7 +396,8 @@ EntityBlueprint
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "7"
-			range_max "30"
+			range_max "35"
+			//aiming_range "35"
 		}
 
 		aiming_cooldown "0.5"
@@ -792,6 +812,14 @@ EntityBlueprint
 		type "wall"
 	}
 
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"6000"
+		explosion_min_power 	"2000"	
+		loot_award				"cosmic_elite"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -983,10 +1011,10 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		diameter				"1.5"
+		diameter				"1.0"
 
-		on_enemy_hit_effect 	"effects/enemies_gulgor/projectile_hit"
-		on_world_hit_effect 	"effects/enemies_gulgor/projectile_hit"
+		on_enemy_hit_effect 	"effects/cosmic_magmoth_explosion_ultra"
+		on_world_hit_effect 	"effects/cosmic_magmoth_explosion_ultra"
 		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
@@ -1006,6 +1034,6 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		2
+		time "5.0"
 	}
 }

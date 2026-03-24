@@ -1,8 +1,7 @@
 EntityBlueprint
 {
-	name "units/ground/cosmic_morirot_ultra"
-
-	base_blueprint "units/ground/cosmic_morirot_base"
+	name            "units/ground/cosmic_morirot_ultra"
+	base_blueprint units/ground/cosmic_morirot_base
 
 	LuaDesc
 	{
@@ -12,6 +11,26 @@ EntityBlueprint
 			min_scale	float:"1.55"
 			max_scale	float:"1.65"
 		}			
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "2"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
 
 	DatabaseComponent
@@ -43,14 +62,13 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"0.8"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "1"
 	}
 
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
-        //interpolation_speed  "0.5"
+		interpolation_speed  "0.55" //interpolation_speed  "0.5"
         water_offset         "-1.0"
 	}
 
@@ -162,6 +180,10 @@ EntityBlueprint
 
 	EffectDesc
 	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/cosmic_morirot_base"
+		}
 		EffectGroup
 		{
 			group 	"fireball"

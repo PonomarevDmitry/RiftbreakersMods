@@ -80,6 +80,14 @@ EntityBlueprint
 		material 	"units/ground/cosmic_bomogan"
 	}
 
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -93,8 +101,8 @@ EntityBlueprint
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies_bomogan/death"	
 					part_prefix 			"meshes/units/ground/bomogan"
-					part_material 			"units/ground/bomogan"
-					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_material 			"units/ground/cosmic_bomogan"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
 					part_physics_material   "gibs_heavy"					
 				}
 
@@ -107,7 +115,7 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/bomogan/attack"
+		    name "units/ground/cosmic_bomogan/attack"
 
 			NetReplicationDisabledComponent
 			{
@@ -221,10 +229,11 @@ EntityBlueprint
 		}
 		size
 		{
-			x "2"
-			y "2"
+			x "1"
+			y "1"
 		}
 		visibility		"radar"
+		layer_group		"enemies"
 	}
 
 	EffectDesc
@@ -284,7 +293,7 @@ EntityBlueprint
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies/nest_explosion"	
 					part_prefix 			"meshes/units/ground/bomogan_projectile"
-					part_material 			"units/ground/bomogan"
+					part_material 			"units/ground/cosmic_bomogan"
 					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material   "gibs_light"					
 				}
@@ -297,7 +306,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "units/ground/bomogan/trigger"
+	name  "units/ground/cosmic_bomogan/trigger"
 
 	NetReplicationDisabledComponent
 	{
@@ -349,12 +358,12 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.25"
-		acid			"0.25"
+		fire			"1.0"
+		acid			"1.5"
 		energy			"1.0"
-		cryo			"1.0"
+		cryo			"0.1"
 		area			"2.0"
-		cosmic			"0.25"
+		cosmic			"0.1"
 		plasmoid		"2.0"
 	}
 
@@ -410,18 +419,14 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/enemy_medium"
-		visibility "radar"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_artillery"
+		visibility 		"radar"
+		layer_group		"enemies"
+		additional_z_order "0"
 	}
 
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -496,7 +501,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_bomogan/idle"
+					blueprint "effects/enemies_cosmic_bomogan/idle"
 				}
 			}
 		}		
@@ -508,7 +513,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_bomogan/run"
+					blueprint "effects/enemies_cosmic_bomogan/run"
 				}
 			}
 		}		
@@ -520,7 +525,20 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_bomogan/death_long"		
+					blueprint "effects/enemies_cosmic_bomogan/death"		
+					bone "att_death"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "death_long"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_bomogan/death_long"		
 					bone "att_death"
 				}
 			}
@@ -593,6 +611,48 @@ EntityBlueprint
 
 		EffectGroup
 		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
 			group 	"time_damage_fire"
 			enabled "0"
 			Effects
@@ -643,21 +703,6 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_energy"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
 					bone "att_death"
 					scale "1.5 1.5 1.5"
 				}

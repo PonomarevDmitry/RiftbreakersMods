@@ -1,0 +1,417 @@
+EntityBlueprint
+{
+	name "units/ground/cosmic_phirian_abyss"
+
+	base_blueprint "units/ground/phirian_base"
+
+	StateMachineDesc
+	{
+		template_name "phirian"
+		params
+		{
+			aggressive_speed					float:"12"
+			aggressive_acceleration				float:"22"
+			not_aggressive_speed				float:"10"
+			not_aggressive_acceleration			float:"10"
+			rotate_speed						float:"350"
+			priority_target						string:"headquarters|player|energy|tower"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			dash_min_distance					float:"10.0"
+			dash_max_distance					float:"40.0"
+			dash_cooldown						float:"0.8"
+			dash_ignore_type					string:"ground_unit_small"
+			dash_space_behind_target			float:"15"
+			dash_speed							float:"150"
+			dash_damage							float:"60"
+			dash_damage_size					float:"8.5"
+		}		
+	}
+
+	VegetationBendingComponentDesc
+	{
+		bending_power	"4000.0"
+		bending_radius	"6.0"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/phirian.lua"
+		database
+		{
+			min_scale	float:"1.33"
+			max_scale	float:"1.40"
+		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"360"
+		unit_soft_radius				"2.0"
+		ignore_cost_mask				"building|path_blocker|abyssium_vein|cavern_wall"
+		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1.0"
+			y "0.0"
+			z "0.8"
+			w "1.0"
+		}
+		size
+		{
+			x "3.2"
+			y "3.2"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		additional_z_order "0"
+	}
+
+	//HealthBarDesc
+	//{
+	//	type "0"
+	//	mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+	//	material "gui/hud/bars/elite_boss_health_1x3"
+	//}	
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"3000"
+		health 						"3000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}		
+	}
+	
+	ResistanceComponent
+	{
+	//Vulnerablities
+	
+		physical		"0.8"
+		cryo			"0.6"
+		area			"0.9"
+		cosmic			"0.7"
+	
+	//-Resistance
+	
+		plasmoid		"1.5"
+		fire			"1.5"
+		acid			"2.0"
+		energy			"1.2"
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/phirian_boss.mesh"
+		material 	"units/ground/cosmic_phirian_abyss"
+	}
+
+	SelectableDesc
+	{
+		content "monster_name/cosmic_phirian_abyss"
+		can_activate 0
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_phirian/death"	
+					part_prefix 			"meshes/units/ground/phirian"
+					part_material 			"units/ground/cosmic_phirian_abyss"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	EffectDesc
+	{
+		EffectBaseBlueprints
+		{
+			"units/ground/phirian"
+		}	
+		EffectGroup
+		{
+			group "death_splash"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_phirian/death_splash_alpha"
+					bone "Hip_1"
+					always_up "1"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_necrodon/death_fire"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{
+			group "dash_charge"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_phirian/dash_charge"
+					bone "att_dash"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "dash_start"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_phirian/dash"
+					bone "att_dash"
+				}
+				Effect
+				{
+					blueprint "effects/enemies_cosmic_phirian/dash_ribbon"
+					bone "att_dash"
+				}
+			}
+		}
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_fire"	
+					bone "att_death"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_fire"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_physical"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_physical_fire"
+					bone "att_death"
+					scale "1.3 1.3 1.3"
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_phirian_abyss/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "Hand_R"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_cosmic_phirian/sword_slash"
+						attack_start_time			"0.49"
+						attack_end_time				"0.99"
+						attack_duration 			"1.60"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_cosmic_phirian/sword_slash"
+						attack_start_time			"0.42"
+						attack_end_time				"0.72"
+						attack_duration 			"1.43"
+						damage_multiple  			"1.5"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_3"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_phirian/attack_start"
+						slash_effect 				"effects/enemies_cosmic_phirian/sword_slash"
+						attack_start_time			"0.51"
+						attack_end_time				"0.95"
+						attack_duration 			"1.63"
+						damage_multiple  			"1.5"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_phirian/sword_hit_world"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|vegetation|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"120"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.75"
+						y "4.0"
+						z "2.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

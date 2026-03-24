@@ -27,6 +27,12 @@ EntityBlueprint
 		}		
 	}
 
+	VegetationBendingComponentDesc
+	{
+		bending_power	"4000.0"
+		bending_radius	"6.0"
+	}
+
 	ResistanceComponent
 	{
 		physical		"1.0"
@@ -37,7 +43,6 @@ EntityBlueprint
 		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.0"
-		reflect_damage_max_percent 		"0.001"
 	}
 
 	StunDataComponent
@@ -108,12 +113,6 @@ EntityBlueprint
 
 	}
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
-	}
-
 	MovementDataComponent
 	{
 
@@ -158,6 +157,14 @@ EntityBlueprint
 
 	AIUnitGroupNonPackableComponent
 	{
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -556,10 +563,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"always"
-		additional_z_order "1"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthDesc
@@ -609,7 +617,7 @@ EntityBlueprint
 
 	SwarmUnitControllerDesc
 	{
-		blueprint					"units/air/baxmoth_drone_cosmic"
+		blueprint					"units/air/baxmoth_drone_cosmic_boss"
 		spawn_effect				"effects/enemies_cosmic_baxmoth/drone_spawn"
 		max_spawn					"40"
 		attachment_to_spawn_from	"spawn"

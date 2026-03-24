@@ -1,0 +1,137 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/bulb_acid_very_small_03_skin5"
+
+	base_blueprints
+	{
+		 props/mushrooms/bulb_acid_very_small_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_very_small_03.mesh"
+		material "props/mushrooms/bulb_acid_skin5_very_small"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.07"		// general scaling of wind strength by				 default: 1.0
+		bending_object_scale			"0.1"		// general scaling of object bending force by		 default: 1.0
+		bending_spring_time				"2.0"		// fade out time
+		bending_spring_damping			"30.0"		// damping of oscillations
+		bending_spring_phases			"3.0"		// number of oscillations
+		bending_spring_slope_factor		"1.0"		// pseudonym   "elasticity"
+		breaking_force_threshold		"10000.0"	// the force beyond which the plant lies broken
+		bending_recovery_delay			"15.0"      // the time he will lie down after the fracture before he can return to the point
+		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/ta_destructibles/acid_bulb_explosion_cyan_small"	
+					explosion_effect_scale 	"0.5"
+					part_material	 		"props/mushrooms/bulb_acid_skin5_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_very_small_03"
+					//part_effect 			"effects/destructibles/mushroom_part_trail"
+					
+				}
+			}
+			
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material	 		"props/mushrooms/bulb_acid_skin5_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_very_small_03"
+					//part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}	
+		}		
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.5"
+		max "1.0"
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {
+            group 	"time_damage_cosmic"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/abyss_grass_medium"
+                    scale "0.6 0.6 0.6"
+                    offset "0 0.1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_plasmoid"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/plasmoid_grass_medium"
+                    scale "0.6 0.6 0.6"
+                    offset "0 0.1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_cryogenic"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/arctic_grass_medium"
+                    scale "0.6 0.6 0.6"
+                    offset "0 0.1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_fire"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/destructibles/grass_medium_fire"
+                    scale "0.6 0.6 0.6"
+                    offset "0 0.1 0"
+                }
+            }
+        }
+    }
+}
+
+

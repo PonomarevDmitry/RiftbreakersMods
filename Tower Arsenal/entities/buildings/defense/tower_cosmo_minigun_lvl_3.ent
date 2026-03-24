@@ -20,6 +20,9 @@ EntityBlueprint
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		//upgrade				"buildings/defense/tower_minigun_lvl_4"
 
+		building_group		"tower_minigun_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -112,9 +115,8 @@ EntityBlueprint
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "working"
+			group 	"working"
 			enabled "0"
-
 			Effects
 			{
 				Effect
@@ -125,6 +127,21 @@ EntityBlueprint
 				}
 			}
 		}	
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/tower_minigun_fire_loop"
+					bone "att_muzzle"
+				}
+			}
+		}
 	}
 }
 

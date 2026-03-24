@@ -31,7 +31,7 @@ material projectiles/laser_red
     }
 }
 
-material projectiles/laser_blu
+material projectiles/laser_cyan
 {
     render_group 61
 
@@ -43,7 +43,7 @@ material projectiles/laser_blu
             scene_blend alpha_blend
 
             glow 200
-            emissive 0 4 10 10
+            emissive 0 2.20 1.75 10
 
             vertex_program_ref unlit_fresnel_vp
 			{
@@ -51,8 +51,8 @@ material projectiles/laser_blu
 
 			fragment_program_ref unlit_fresnel_fp
 			{
-				param_named cFresnelBias  float 0.05
-				param_named cFresnelScale float 2
+				param_named cFresnelBias  float 0
+				param_named cFresnelScale float 1
 				param_named cFresnelPower float 2
 
 				param_named cBlendColor1 float4 0 0 3 1
@@ -150,37 +150,6 @@ material projectiles/laser_white
 
 				param_named cBlendColor1 float4 5 5 5 1
 				param_named cBlendColor2 float4 5 5 5 1
-			}
-        }
-    }
-}
-
-material projectiles/laser_cyan
-{
-    render_group 61
-
-    technique
-    {
-        pass
-        {
-            depth_write off
-            scene_blend alpha_blend
-
-            glow 200
-            emissive 0 3 3 1
-
-            vertex_program_ref unlit_fresnel_vp
-			{
-			}
-
-			fragment_program_ref unlit_fresnel_fp
-			{
-				param_named cFresnelBias  float 0
-				param_named cFresnelScale float 1
-				param_named cFresnelPower float 2
-
-				param_named cBlendColor1 float4 0 3 3 1
-				param_named cBlendColor2 float4 0 3 3 1
 			}
         }
     }

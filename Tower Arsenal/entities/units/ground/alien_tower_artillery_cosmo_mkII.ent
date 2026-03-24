@@ -36,8 +36,11 @@ EntityBlueprint
 		name 		"_alien_tower_spawner_"
 	}
 
-	PlayerTargetFinderComponent
+	TargetFinderInitializerComponent
 	{
+		search_component			"MechComponent"
+		random_timer_at_start		1
+		timer_duration				1
 		tag 		"player"
 		in_radius 	"25"
 	}
@@ -58,12 +61,12 @@ EntityBlueprint
 		database
 		{
 			blueprint	    string:"units/ground/alien_tower_artillery_cosmo_mkII"
-			min_scale	float:"0.7"
-			max_scale	float:"0.7"
+			min_scale	float:"1.0"
+			max_scale	float:"1.0"
 		}
 	}
 
-	InfluenceComponent
+	CosmicInfluenceComponent
 	{
 		radius 			"10"
 		energy_radius 	"0"
@@ -118,7 +121,7 @@ EntityBlueprint
 EntityBlueprint
 {
 	name 				"units/ground/alien_tower_artillery_cosmo_mkII"
-	base_blueprint 	"units/ground/alien_tower_artillery_cosmo_mkII_base"
+	base_blueprint 	units/ground/alien_tower_artillery_cosmo_mkII_base
 
 	LuaDesc
 	{
@@ -211,6 +214,14 @@ EntityBlueprint
 	{
 		content "monster_name/alien_tower_artillery_cosmo_mkII"
 		can_activate 0
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"
+		explosion_max_power 	"8000"
+		explosion_min_power 	"3000"
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -312,6 +323,14 @@ EntityBlueprint
 		emissive_radius "5"
 	}
 
+	RegenerationComponent
+	{
+		regeneration 				"150"
+		regeneration_cooldown 		"5"
+		regeneration_effect			"effects/enemies_alien_tower_artillery_cosmo/healing"
+		regeneration_end_effect     "effects/enemies_alien_tower_artillery_cosmo/healing_finished"
+	}
+
 	ResistanceComponent
 	{
 		physical		"1.5"
@@ -325,13 +344,27 @@ EntityBlueprint
 
 		reflect_damage_max_percent 		"0.015"
 	}
-	
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_big"
+		size
+		{
+			x "1.5"
+			y "1.5"
+		}
+		additional_z_order "3"
+		visibility 		"discovered|radar"
+		layer_group		"enemies"
+	}
+
 	HealthBarDesc
 	{
-		type "2"
+		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
 		material "gui/hud/bars/elite_boss_health_1x3"
-	}		
+	}
 
 	TypeDesc
 	{
@@ -406,33 +439,8 @@ EntityBlueprint
 		}
 	}	
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "4"
-			y "4"
-		}
-
-		visibility "discovered"
-	}
-
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"
 	}
 
 	FlammableComponentDesc
@@ -1024,12 +1032,12 @@ EntityBlueprint
 	{
 		diameter				"0.2"
 
-		on_enemy_hit_effect 	"effects/cosmic_corrosive_explosion_small"
-		on_world_hit_effect 	"effects/cosmic_corrosive_explosion_small"
-		on_resisted_hit_effect 	"effects/cosmic_corrosive_explosion_small"
-		on_shield_hit_effect	"effects/cosmic_corrosive_explosion_small"		
+		on_enemy_hit_effect 	"effects/heavy_blaster_towers/alien_mkII_tower_hit"
+		on_world_hit_effect 	"effects/heavy_blaster_towers/alien_mkII_tower_hit"
+		on_resisted_hit_effect 	"effects/heavy_blaster_towers/alien_mkII_tower_hit"
+		on_shield_hit_effect	"effects/heavy_blaster_towers/alien_mkII_tower_hit"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-		hit_effect_direction	"up"  //inverse, normal, up
+		hit_effect_direction	"inverse"  //inverse, normal, up
 	}
 
 	LifeTimeDesc

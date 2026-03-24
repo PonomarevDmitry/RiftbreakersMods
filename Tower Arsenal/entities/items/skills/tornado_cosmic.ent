@@ -1,0 +1,420 @@
+EntityBlueprint
+{
+	name "items/skills/tornado_cosmic_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_cosmic"	
+		cooldown					"15"
+		//cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_cosmic"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_cosmic"	
+		description 				"gui/menu/inventory/skill_description/tornado_cosmic_standard"	
+		rarity						"STANDARD"	
+		replace_lower_quality		"1"
+		//add_after_obtaining 		"1"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_cosmic_standard"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_cosmic_standard"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+			disabled_conditions		string:"biome"
+			disabled_values			string:"caverns"				
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_cosmic_advanced_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_cosmic"	
+		cooldown					"30"
+		//cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_cosmic_advanced"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_cosmic_advanced"	
+		description 				"gui/menu/inventory/skill_description/tornado_cosmic_advanced"	
+		rarity						"ADVANCED"	
+		replace_lower_quality		"1"
+		//add_after_obtaining 		"1"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_cosmic_advanced"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_cosmic_advanced"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+			disabled_conditions		string:"biome"
+			disabled_values			string:"caverns"				
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_cosmic_superior_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_cosmic"	
+		cooldown					"60"
+		//cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_cosmic_superior"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_cosmic_superior"	
+		description 				"gui/menu/inventory/skill_description/tornado_cosmic_superior"	
+		rarity						"SUPERIOR"	
+		replace_lower_quality		"1"
+		//add_after_obtaining 		"1"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_cosmic_superior"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_cosmic_superior"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+			disabled_conditions		string:"biome"
+			disabled_values			string:"caverns"				
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "items/skills/tornado_cosmic_extreme_item"
+	
+	InventoryItemDesc
+	{
+		type 						"skill"
+		name 						"gui/menu/inventory/skill_name/tornado_cosmic"	
+		cooldown					"90"
+		//cooldown_category			"tornado"
+		icon						"gui/hud/items_icons/skills/tornado_cosmic_extreme"
+		bigger_icon 				"gui/menu/items_icons/skills/tornado_cosmic_extreme"	
+		description 				"gui/menu/inventory/skill_description/tornado_cosmic_extreme"	
+		rarity						"EXTREME"	
+		replace_lower_quality		"1"
+		//add_after_obtaining 		"1"
+	}	
+	
+	LuaDesc
+	{
+		script "lua/items/skills/antimatter_ball.lua"
+		
+		database
+		{
+			bp						string:"items/skills/tornado_cosmic_extreme"
+			att						string:"be_body_upper"
+			stat_bp					string:"items/skills/tornado_cosmic_extreme"
+			initial_speed			float:"1"
+			max_speed				float:"10"
+			acceleration			float:"5"
+			disabled_conditions		string:"biome"
+			disabled_values			string:"caverns"				
+		}
+	}
+	CostDesc
+	{
+		is_unique "1"
+	}	
+}
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_cosmic_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+
+	SkeletonDesc
+	{
+		name "meshes/misc/tornado_big"
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/tornado"
+		visibility			"visible|radar"	
+		additional_z_order	"20"
+		layer_group			"player"
+	}
+
+	TornadoDesc
+	{
+		radius			          "10"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "600" 
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_cosmic"
+		marker_bp					"effects/tornado/tornado_marker_cosmic"
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"75"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		8
+	}
+
+	EffectDesc
+	{	
+		EffectGroup
+		{						
+			group "tornado"
+			enabled "1"
+			delay "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/items/tornado_muzzle"					
+				}					
+			}
+		}	
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+			name "weather/tornado_big_local_wind"
+			
+			PointWindDesc
+			{
+				power_max   "-15000"
+				power_min   "-15000"
+				radius      "25"
+			}    
+
+			AttachmentDesc
+			{
+				attachment "att_wind"
+			}
+		}
+
+		EntityBlueprint
+		{
+			name "logic/tornado_big_global_wind"
+
+			DirectionalWindDesc
+			{		
+				power_frequency "0.2"
+				power_max "5000"
+				power_min "1000"
+				rotation_frequency "0.1"
+				rotation_max "10.0"
+				random_power_time_deviation "0"
+				random_rotation_time_deviation "0.04"
+				position_frequency_factor "0.001"
+			}
+			
+			SceneEditorDesc
+			{
+				mesh 		"meshes/wind.mesh"
+			}
+		}
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_cosmic_advanced"
+	base_blueprint "items/skills/tornado_cosmic_standard"	
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "10"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "900" 
+		//type                      "target_player"		
+		effect_bp					"effects/tornado/tornado_cosmic"
+		marker_bp					"effects/tornado/tornado_marker_cosmic"
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"100"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		8.5
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_cosmic_superior"
+	base_blueprint "items/skills/tornado_cosmic_standard"
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "10"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "1200" 
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_cosmic"
+		marker_bp					"effects/tornado/tornado_marker_cosmic"
+	}
+
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"125"
+					type			"cosmic"
+				}
+			}
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 		9
+	}
+}	
+
+EntityBlueprint
+{
+	name  "items/skills/tornado_cosmic_extreme"
+	base_blueprint "items/skills/tornado_cosmic_standard"
+	
+	WeaponItemDesc
+	{
+	}		
+
+	TornadoDesc
+	{
+		radius			          "10"
+		speed			          "0"
+		rotate_speed	          "0"
+		wander_jitter_multiplier  "0"
+		oscillation_radius        "15"
+		//damage_per_sec	          "1500" 
+		//type                      "target_player"	
+		effect_bp					"effects/tornado/tornado_cosmic"
+		marker_bp					"effects/tornado/tornado_marker_cosmic"
+	}
+
+	LifeTimeDesc
+	{
+		time 		9.5
+	}
+	
+	AreaDamageComponent
+	{
+		infinite "1"
+		DamagePattern
+		{
+			area_damage_radius		"8"
+			area_damage_type		"normal"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"150"
+					type			"cosmic"
+				}
+			}
+		}
+	}	
+}	

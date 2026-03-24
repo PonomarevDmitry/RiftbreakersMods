@@ -1,0 +1,46 @@
+system rift/mech_cosmic_machinegun_projectile
+{
+    nonvisible_update_timeout                   1
+    scale_velocity                              0.0025
+    scale                                       0.002 0.002 0.002
+    tight_bounding_box                          true
+    cache_count                                 75
+    technique 
+    {
+        keep_local                              true
+        visual_particle_quota                   3
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/cosmic_bullet_medium_02
+        renderer                                Billboard
+        {
+            render_queue_group                  68
+            billboard_type                      oriented_self
+            billboard_rotation_type             vertex
+            common_direction                    1 0 0
+            common_up_vector                    1 0 0
+            accurate_facing                     true
+        }
+        emitter                                 Point 
+        {
+            emission_rate                       1500
+            angle                               0
+            time_to_live                        dyn_random
+            {
+                min                             0.1
+                max                             0.2
+            }
+            velocity                            0.001
+            particle_width                      400
+            particle_height                     600
+            direction                           1 0 0
+        }
+        affector                                Colour Affector2
+        {
+            time_colour                         0    1 1 1 1
+            time_colour                         1    1 1 1 1
+        }
+    }
+}

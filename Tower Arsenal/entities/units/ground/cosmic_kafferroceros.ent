@@ -307,14 +307,14 @@ EntityBlueprint
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"240"
-		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		unit_soft_radius				"2"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "0"
 	}
 
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
+		interpolation_speed  "0.65"
         //interpolation_speed  "0.5"
         water_offset         "-1.0"
 	}
@@ -361,32 +361,36 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "3"
-			y "3"
-		}
-		
-		visibility "radar"
-	}
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_enemy_medium"
+		visibility 			"radar"
+		layer_group			"enemies"
+		additional_z_order "0"
+	}			
+
+	//MinimapItemDesc
+	//{
+	//	type	"quad"
+	//	color 
+	//	{
+	//		x "1.0"
+	//		y "0.0"
+	//		z "0.8"
+	//		w "0.8"
+	//	}
+	//	size
+	//	{
+	//		x "3"
+	//		y "3"
+	//	}
+	//	visibility "radar"
+	//	layer_group		"enemies"
+	//	additional_z_order "0"
+	//}
 
 	HighlightComponent
 	{
 
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -430,6 +434,12 @@ EntityBlueprint
 		can_activate 0
 	}
 
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
+	}
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -441,9 +451,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_hammeroceros/death"	
-					part_prefix 			"meshes/units/ground/cosmic_kafferroceros"
-					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					explosion_effect 		"effects/enemies_big_explosion/blue"	
+					part_prefix 			"meshes/units/ground/kafferroceros"
+					part_material 			"units/ground/cosmic_kafferroceros"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
 					part_physics_material   "gibs_heavy"					
 				}
 
@@ -462,7 +473,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/idle"
+					blueprint "effects/enemies_cosmic_hammeroceros/idle"
 				}
 			}
 		}
@@ -475,7 +486,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/run"
+					blueprint "effects/enemies_cosmic_hammeroceros/run"
 				}
 			}
 		}
@@ -490,7 +501,7 @@ EntityBlueprint
 				{
 					Effect
 					{
-						blueprint "effects/enemies_hammeroceros/charge_start"
+						blueprint "effects/enemies_cosmic_hammeroceros/charge_start"
 					}
 
 				}
@@ -507,7 +518,7 @@ EntityBlueprint
 				{
 					Effect
 					{
-						blueprint "effects/enemies_hammeroceros/charge_smoke"
+						blueprint "effects/enemies_cosmic_hammeroceros/charge_smoke"
 					}
 
 				}
@@ -521,7 +532,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/death_long"	
+					blueprint "effects/enemies_cosmic_hammeroceros/death"	
 					bone "att_death"
 				}
 			}
@@ -555,19 +566,6 @@ EntityBlueprint
 		}			
 		EffectGroup
 		{						
-			group "damage_generic"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_violet"	
-					bone "att_death"
-				}
-			}
-		}	
-		EffectGroup
-		{						
 			group "hit_damage"
 			enabled "0"				
 			Effects
@@ -586,7 +584,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/footstep"	
+					blueprint "effects/enemies_cosmic_hammeroceros/footstep"	
 				}
 			}
 		}	
@@ -598,7 +596,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/roar"	
+					blueprint "effects/enemies_cosmic_hammeroceros/roar"	
 				}
 			}
 		}
@@ -610,7 +608,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/stomp"	
+					blueprint "effects/enemies_cosmic_hammeroceros/stomp"	
 				}
 			}
 		}	
@@ -622,7 +620,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/scrape"	
+					blueprint "effects/enemies_cosmic_hammeroceros/scrape"	
 				}
 			}
 		}	
@@ -634,7 +632,49 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_hammeroceros/thud"	
+					blueprint "effects/enemies_cosmic_hammeroceros/thud"	
+				}
+			}
+		}	
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.5 1.5 1.5"
 				}
 			}
 		}	
@@ -690,21 +730,6 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/time_damage_energy"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
 					bone "att_death"
 					scale "1.5 1.5 1.5"
 				}

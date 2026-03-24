@@ -1,0 +1,350 @@
+EntityBlueprint
+{
+	name "units/skills/alien_defence"
+	base_blueprint "units/skills/skill_base"
+
+	MeshDesc
+	{
+		mesh        "meshes/sphere.mesh"
+		material 	"selector/hologram_pass"
+	}
+
+	HealthBarDesc
+	{
+		type "0"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}
+
+	RegenerationComponent
+	{
+		regeneration 				"20"
+		regeneration_cooldown 		"5"
+	}
+
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"2000"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"0.5"
+		acid			"0.5"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"0.5"
+		cosmic			"0.5"
+		plasmoid		"0.5"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/alien_defence.lua"
+		database
+		{
+			radius					float:"10.0"
+		}			
+	}
+
+	PhysicsDesc
+  	{
+        objects
+      	{
+           PhysicsObjectDesc
+           {
+    	        type     "kinematic"
+    	        group_id    "shield"
+    	        physics_material  "default"
+                
+                Shapes
+                {
+
+					PhysicsSphereShape
+					{
+						r "1"
+                    }
+                }
+            }
+        }
+    }
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/alien_defence"
+		description 	"gui/hud/enemy_skill_description/alien_defence"
+		icon 			"gui/menu/inventory/stat_icons/resistance_aura_icon"
+	}
+
+	DestroyDesc
+	{
+		
+		DestroyPatterns
+		{		
+			Pair
+			{
+				key "66_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect_scale 	"0.1"
+					explosion_effect 		"effects/enemies_baxmoth/death_energy"
+					part_physics_material   "debris_light"								
+					part_material 			"units/ground/baxmoth_boss_energy"
+					//part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"					
+					part_lifetime "3"
+				}	
+			}
+			Pair
+			{
+				key "33_destroy"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect_scale 	"0.1"
+					explosion_effect 		"effects/enemies_baxmoth/death_energy"
+					part_physics_material   "debris_light"	
+					part_material 			"units/ground/baxmoth_boss_energy"
+					//part_prefix 			"meshes/misc/building_medium_parts_generic"
+					part_effect 			"effects/enemies_generic/blood_trail_energy"					
+					part_lifetime "3"
+				}
+				key "default"
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/alien_defence_lvl_2"
+	base_blueprint	"units/skills/alien_defence"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/alien_defence_lvl_2"
+		description 	"gui/hud/enemy_skill_description/alien_defence"
+		icon 			"gui/menu/inventory/stat_icons/resistance_aura_icon"
+	}
+
+	MeshDesc
+	{
+		mesh        "meshes/sphere.mesh"
+		material 	"selector/hologram_pass"
+	}
+
+	HealthDesc
+	{
+		max_health 					"4000"
+		health 						"4000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"0.5"
+		acid			"0.5"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"0.5"
+		cosmic			"0.5"
+		plasmoid		"0.5"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/alien_defence.lua"
+		database
+		{
+			radius					float:"15.0"
+		}			
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/alien_defence_lvl_3"
+	base_blueprint	"units/skills/alien_defence"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/alien_defence_lvl_3"
+		description 	"gui/hud/enemy_skill_description/alien_defence"
+		icon 			"gui/menu/inventory/stat_icons/resistance_aura_icon"
+	}
+
+	MeshDesc
+	{
+		mesh        "meshes/sphere.mesh"
+		material 	"selector/hologram_pass"
+	}
+
+	HealthDesc
+	{
+		max_health 					"6000"
+		health 						"6000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"0.5"
+		acid			"0.5"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"0.5"
+		cosmic			"0.5"
+		plasmoid		"0.5"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/alien_defence.lua"
+		database
+		{
+			radius					float:"20.0"
+		}			
+	}
+
+}
+
+EntityBlueprint
+{
+	name 			"units/skills/alien_defence_lvl_4"
+	base_blueprint	"units/skills/alien_defence"
+	
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/alien_defence_lvl_4"
+		description 	"gui/hud/enemy_skill_description/alien_defence"
+		icon 			"gui/menu/inventory/stat_icons/resistance_aura_icon"
+	}
+
+	HealthDesc
+	{
+		max_health 					"9000"
+		health 						"9000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		 is_manual 1
+		update_health_uniform 		"1"
+		
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"				
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	ResistanceComponent
+	{
+		physical		"0.5"
+		fire			"0.5"
+		acid			"0.5"
+		energy			"0.5"
+		cryo			"0.5"
+		area			"0.5"
+		cosmic			"0.5"
+		plasmoid		"0.5"
+	}
+
+	MeshDesc
+	{
+		mesh        "meshes/sphere.mesh"
+		material 	"selector/hologram_pass"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/skills/alien_defence.lua"
+		database
+		{
+			radius					float:"25.0"
+		}			
+	}
+
+}

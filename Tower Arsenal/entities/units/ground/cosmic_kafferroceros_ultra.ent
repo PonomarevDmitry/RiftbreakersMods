@@ -1,7 +1,23 @@
 EntityBlueprint
 {
-	name  "units/ground/cosmic_kafferroceros_ultra"
+	name "units/ground/cosmic_kafferroceros_ultra"
 
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_kafferroceros_ultra_1"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_kafferroceros_ultra_2"
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name           "units/ground/cosmic_kafferroceros_ultra_1"
 	base_blueprint units/ground/cosmic_kafferroceros_base
 
 	LuaDesc
@@ -13,6 +29,15 @@ EntityBlueprint
 			max_scale	float:"1.4"
 		}			
 	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_enemy_medium"
+		visibility 			"radar"
+		layer_group			"enemies"
+		additional_z_order "0"
+	}			
 
 	DatabaseComponent
 	{
@@ -42,14 +67,14 @@ EntityBlueprint
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"240"
-		unit_soft_radius				"2"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
+		unit_soft_radius				"2.5"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "1"
 	}
 
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
+		interpolation_speed  "0.65"
         //interpolation_speed  "0.5"
         water_offset         "-1.0"
 	}
@@ -70,7 +95,6 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/cosmic_kafferroceros_ultra/attack"
 
 			NetReplicationDisabledComponent
 			{
@@ -149,7 +173,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"199.0"
-										type 	"physical"
+										type 	"plasmoid"
 									}
 								}
 							}
@@ -176,7 +200,247 @@ EntityBlueprint
 									Damage
 									{
 										value 	"74.0"
-										type 	"physical"
+										type 	"plasmoid"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x 2.0
+						y 1.5
+						z 1.0
+						
+						position 
+						{
+							x "-1.0"
+							y "0.0"
+							z "0.0"
+						}
+					}	
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name           "units/ground/cosmic_kafferroceros_ultra_2"
+	base_blueprint units/ground/cosmic_kafferroceros_base
+
+	StateMachineDesc
+	{
+		template_name "kafferroceros"
+		params
+		{
+			aggressive_speed				float:"12"
+			aggressive_acceleration			float:"20"
+			not_aggressive_speed			float:"4"
+			not_aggressive_acceleration		float:"2"
+			angle_turn_speed				float:"240"
+			priority_target					string:"headquarters|player|energy|tower"
+			priority_target_distance		float:"40"
+			ignore_move_to_type				string:"wall|invisible|not_move_to_target"
+			melee_attack_name				string:"attack_1|attack_2"
+			irritation_distance_start		float:"15"
+			irritation_time					float:"4"
+			charge_min_distance				float:"10"
+			charge_max_distance				float:"25"
+			charge_speed					float:"20"
+			charge_attack_name				string:"charge_attack"
+			charge_attack_cooldown			float:"5"
+			charge_prepare_cooldown			float:"2"
+			charge_ignore_type				string:"ground_unit_small"
+		}		
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/kafferroceros.lua"
+		database
+		{
+			min_scale	float:"1.40"
+			max_scale	float:"1.5"
+		}			
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1.0"
+			y "0.0"
+			z "0.8"
+			w "0.8"
+		}
+		size
+		{
+			x "3.2"
+			y "3.2"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		additional_z_order "0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"2000"
+		health 						"2000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"240"
+		unit_soft_radius				"3.0"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
+		dominance_group				    "1"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.65"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/kafferroceros.mesh"
+		material 	"units/ground/cosmic_ceros"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_effect"
+			}		
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"charge_attack"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"charge_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.0"
+						attack_end_time				"0.2"
+						attack_duration 			"1.97"
+						damage_multiple  			"1"
+					}
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.40"
+						attack_end_time				"0.60"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+
+					
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_hammeroceros/attack_start"
+						attack_start_time			"0.50"
+						attack_end_time				"0.70"
+						attack_duration 			"1.83"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"charge_attack"
+
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+							
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_big"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"199.0"
+										type 	"cosmic"
+									}
+								}
+							}
+						}
+					}
+
+					MeleeDamage
+					{
+						name 				"close_attack"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"74.0"
+										type 	"cosmic"
 									}
 								}
 							}

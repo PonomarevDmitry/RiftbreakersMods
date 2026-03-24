@@ -24,7 +24,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		 lights/point/fire_violet_very_small
+		//lights/point/ta_violet_very_small
 		 effects/default
 	}
 
@@ -58,6 +58,13 @@ EntityBlueprint
 	SoundDesc
 	{
 		name "enemies/lesigian/lightning_explosion"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"cosmic_energy_area"	
+		extend  		"3"
 	}
 
 	DecalDesc
@@ -103,7 +110,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"66"
-					type			"energy"
+					type			"cosmic_energy"
 				}
 			}
 		}
@@ -234,5 +241,42 @@ EntityBlueprint
 	{
 		name 		"enemies/lesigian/muzzle"
 	}	
+}
+
+/////---lesigian hit effects----////////
+////////////////////////////////////////
+
+EntityBlueprint
+{
+	name 		"effects/enemies_generic/lesigian_hit"
+
+
+	base_blueprints
+	{
+		effects/cosmic_energy/hit
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+	ParticleDesc
+	{
+		name    "rift/enemy_energy_hit_medium"
+	}
+	SoundDesc
+	{
+		name "enemies/generic/energy_hit_medium"
+	}
+}
+
+EntityBlueprint
+{
+	name 		"effects/cosmic_energy/hit"
+
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"cosmic_energy_area"	
+		extend  		"1"
+	}
 }
 

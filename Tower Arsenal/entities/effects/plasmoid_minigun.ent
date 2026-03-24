@@ -1,0 +1,133 @@
+EntityBlueprint
+{
+	name effects/weapons_bullet/plasmoid_rifle_hit_enemy_flesh
+
+	base_blueprints
+	{
+		lights/point/ta_dark-blue_very_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"4000"
+		speed 	"100"
+		radius 	"4"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasmoid_rifle_hit_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/bullet_hit_enemy_flesh"
+	}
+
+		
+}
+EntityBlueprint
+{
+	name effects/weapons_bullet/plasmoid_rifle_hit_world_rocks_small
+
+	base_blueprints
+	{
+		lights/point/ta_dark-blue_very_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"2000"
+		speed 	"100"
+		radius 	"4"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasmoid_rifle_hit_small"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/bullet/bullet_hit_world_rocks"
+	}
+
+	
+	
+}
+
+EntityBlueprint
+{
+	name effects/plasmoid_launcher_explosion_blue
+
+	base_blueprints
+	{
+		lights/point/ta_explosion_dark_blue_very_small
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"30"
+		radius 	"6"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasmoid_launcher_explosion_blue"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.2"
+		power   		"0.75"
+		falloff_radius 	"25"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+	DecalDesc
+	{	
+		blueprint "effects/decals/explosion_hole_random"
+		scale
+		{
+			x		2.0
+			y		2.0
+			z		2.0
+			
+		}
+	}
+
+	LifeTimeDesc
+	{
+		time 	2
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "15 15 15"
+				}
+			}
+		}			
+	}		
+}
+

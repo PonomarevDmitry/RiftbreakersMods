@@ -11,40 +11,33 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_mortar"
 		menu_icon			"gui/hud/building_icons/tower_plasma_mortar"
 		require 			"headquarters"
-		order				"21"
+		order				"16"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_plasma_mortar_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_mortors_dummy"
+		buildable			"0"
+		radius_name			"mortors"
+		min_radius			"10"
+		min_radius_effect   "voice_over/announcement/building_too_close"
 
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 2.5
+				building_time 20
 				building_cost
 				{
+					carbonium 	"500"
+					steel 		"250"
 					ai			"1"
-					carbonium 	"100"
-					steel 		"50"
-					plasmanite	"20"
+					titanium	"200"
 				}
-			}
-			
-			BuildingCostInfo
-			{
-				name "survival"
-				building_time 1.5
-				building_cost
-				{
-					carbonium 	"150"
-					steel 		"100"
-					titanium	"50"
-					ai			"1"
-				}
-			}
-		}
+			}		
+		}	
 	}
 
 	ResourceConverterDesc // must be here for AI
@@ -54,7 +47,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"2"
+				value 		"25"
 			}
 		}
 
@@ -80,8 +73,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"500"
-		health 						"500"
+		max_health 					"1000"
+		health 						"1000"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -95,7 +88,6 @@ EntityBlueprint
 				health 								"66"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"66_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
 				destroyed_state_effect_group 		"66_state"
 			}
 			DestructionLevel
@@ -103,7 +95,6 @@ EntityBlueprint
 				health 								"33"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"33_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
 				destroyed_state_effect_group 		"33_state"
 			}
 		}
@@ -111,7 +102,7 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_1.mesh"
+		mesh "meshes/buildings/defense/tower_inferno.mesh"
 		material "buildings/defense/tower_plasma_mortar_lvl_1"
 	}
 
@@ -122,7 +113,7 @@ EntityBlueprint
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_rocket_launcher_lvl_1"
+		name "meshes/buildings/defense/tower_inferno"
 	}
 
 	PhysicsDesc
@@ -136,17 +127,24 @@ EntityBlueprint
 				physics_material 	"default"
 				Shapes
 				{
-					PhysicsBoxShape
+					PhysicsCapsuleShape
 					{
-						x "2"
-						y "4"
-						z "2"
+						r "1.45"
+						half_height "3"
 
 						position
 						{
 							x "0.0"
-							y "2"
+							y "3"
 							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
 						}
 					}
 				}
@@ -167,9 +165,9 @@ EntityBlueprint
 		{
 			PhysicsBoxShape
 			{
-				x	2
-				y	2
-				z	2
+				x	4
+				y	4
+				z	4
 			}
 		}
 	}
@@ -186,10 +184,11 @@ EntityBlueprint
 		}
 		size
 		{
-			x "1"
-			y "1"
+			x "2"
+			y "2"
 		}
 		visibility			"always"
+		layer_group			"defense_buildings"
 	}
 
 	FogOfWarRevealerComponentDesc
@@ -220,14 +219,13 @@ EntityBlueprint
 	TurretDesc
 	{
 		target "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit"
-		find_type "farthest"
 		target_ignore "invisible|air_unit"
 		speed "300"
 		aim_volume "SphericalAimVolume"
 		{
-			range_min "8"
-			range_max "50"
-			aiming_range "55"
+			range_min "12"
+			range_max "80"
+			aiming_range "90"
 		}
 
 		aiming_cooldown "1"
@@ -237,7 +235,6 @@ EntityBlueprint
 		yaw "be_turret"
 		check_target_visibility "1"
 		fog_of_war_filtering "1"
-		//gravity_factor "8"
 	}
 
 	BurstWeaponComponent
@@ -246,84 +243,28 @@ EntityBlueprint
 		{
 			WeaponMuzzle
 			{
-				attachment "att_muzzle_1"
-				recoil_bone  "be_recoil_01"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_2"
-				recoil_bone  "be_recoil_02"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_3"
-				recoil_bone  "be_recoil_03"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_4"
-				recoil_bone  "be_recoil_04"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_5"
-				recoil_bone  "be_recoil_05"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_6"
-				recoil_bone  "be_recoil_06"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_7"
-				recoil_bone  "be_recoil_07"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
-			}
-
-			WeaponMuzzle
-			{
-				attachment "att_muzzle_8"
-				recoil_bone  "be_recoil_08"
-				recoil_time   "0.7"
-				recoil_offset   "0.3"
+				attachment     "att_muzzle"
+				recoil_bone    "be_recoil"
+				recoil_time    "0.35"
+				recoil_offset  "1.0"
 			}
 		}
 
 		WeaponAffector
 		{
 			emissive_time "0.35"
-			emissive_factor "60"
+			emissive_factor "50"//60
 			submesh_idx "1"
 		}
 
-		ammo_blueprint 				"buildings/defense/tower_plasma_mortar_projectile"
-		muzzles_per_fire 			"1"
-		muzzle_flash_effect 		"effects/weapons_energy/tower_plasma_gun_fire"
+		ammo_blueprint 			"buildings/defense/tower_plasma_mortar_projectile"
+		muzzles_per_fire 		"1"
+		muzzle_flash_effect 	"effects/weapons_explosive/tower_rocket_fire_medium"
 
-		use_accuracy				"0"
-		burst_column_spacing 		"0.5"
-		burst_rate 					"0.1"
-		//burst_column_angle 			"5"
+		use_accuracy			"0"
+		burst_column_spacing 	"0.10"
+		burst_rate 				"0.25"
+		burst_column_angle 		"0"
 	}
 
 	DestroyDesc
@@ -401,11 +342,11 @@ EntityBlueprint
 	}
 
 	EffectDesc
-	{		
+	{
 		EffectBaseBlueprints
 		{
-			"buildings/effects_small_base"
-		}	
+			"buildings/effects_medium_base"
+		}
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
@@ -417,7 +358,7 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/tower_omni_light"
-					bone "att_muzzle_1"
+					bone "att_muzzle"
 					random_delay "3"
 				}
 			}
@@ -428,17 +369,6 @@ EntityBlueprint
 EntityBlueprint
 {
 	name "buildings/defense/tower_plasma_mortar_projectile"
-
-	MeshDesc
-	{
-		mesh 		"meshes/projectiles/mortar_sentry_projectile.mesh"
-		material 	"projectiles/plasmoid_mortar_sentry_projectile"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/projectiles/rocket_small"
-	}
 
 	MinimapItemDesc
 	{
@@ -452,16 +382,10 @@ EntityBlueprint
 		}
 		size
 		{
-			x "2"
-			y "2"
+			x "1"
+			y "1"
 		}
-		visibility			"radar"
-	}
-
-	VegetationBendingComponentDesc
-	{
-		bending_power	"2500.0"
-		bending_radius	"3.0"
+		visibility			"always"
 	}
 
 	SoundDesc
@@ -469,76 +393,110 @@ EntityBlueprint
 		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
-	//EffectDesc
-	//{
-	//	EffectGroup
-	//	{
-	//		Effects
-	//		{
-	//			Effect
-	//			{
-	//				blueprint "effects/projectiles_and_trails/tower_heavy_artillery_projectile"
-	//				bone "att_exhaust"
-	//			}
-	//		}
-	//	}
-	//}
-
-	ArtilleryAmmoComponent
+	MeshDesc
 	{
-		on_enemy_hit_effect 	"effects/weapons_energy/energy_explosion_small"
-		on_world_hit_effect 	"effects/weapons_energy/energy_explosion_small"
-		on_resisted_hit_effect 	"effects/weapons_energy/energy_explosion_small"
-		//hit_effect_direction 	"up"
-		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
-		collision_2d 				"ground_unit|destructible"
-
-		artillery_gravity_factor 	"8"
-		artillery_min_angle 		"90"
-		artillery_max_angle 		"45"
-		explosion_effect 			"effects/weapons_mortars/cosmic_explosion"
-		explosion_delay 			"1.9"
-
-		Damages
-		{
-			Damage
-			{
-				value 			"150"
-				type			"plasmoid"
-			}
-		}
+		mesh 						"meshes/projectiles/tower_inferno_projectile.mesh"
+		material 					"projectiles/tower_inferno_projectile"
 	}
 
-	children
+	PhysicsDesc
 	{
-		EntityBlueprint
+		objects
 		{
-			RibbonComponent
-			{		
-				material 			ribbon/mortar_trail_blue
-				update_bounds 		1
-				fade_out_time		0.2
-				uv_scroll			"0 -0.1"
-				tiling_distance     "0"
-				tesselation_step 	"0.2"
-				keep_local			"0"
-
-				Ribbons
+			PhysicsObjectDesc
+			{
+				type 				"dynamic"
+				group_id 			"grenade"
+				physics_material 	"gibs_heavy"
+				Shapes
 				{
-					Ribbon
+					PhysicsMeshShape
 					{
-						parent_attachment "att_exhaust"
-						offset "0 0 0.9"
-					}
-
-					Ribbon
-					{
-						parent_attachment "att_exhaust"
-						offset "0 0 -0.9"
+						mesh "meshes/items/weapons/grenade_10_c1.nxs"
 					}
 				}
 			}
 		}
 	}	
-}
 
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		on_world_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		on_resisted_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		hit_effect_direction 		"up"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+	}
+
+	EffectDesc
+	{
+		//EffectGroup
+		//{
+		//	Effects
+		//	{
+		//		Effect
+		//		{
+		//			//blueprint "effects/weapons_explosive/grenade_projectile"
+		//			//blueprint "effects/enemies_plasma_gulgor/projectile"
+		//		}
+		//		//Effect
+		//		//{
+		//		//	blueprint "effects/weapons_explosive/grenade_throw"
+		//		//}
+		//	}			
+		//}
+		EffectGroup
+		{
+			group "water_collision"
+			enabled "1"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "player/water_collision"
+					scale "3 3 3"
+				}
+			}
+		}			
+	}
+	
+	children
+	{
+		EntityBlueprint
+		{
+			RibbonComponent
+			{
+				material 			"ribbon/drone_trail_blue_02"
+				update_bounds 		1
+				fade_out_time		1.9
+				tesselation_step 	0.1
+				manual_fade 		1
+		
+				Ribbons
+				{
+					Ribbon
+					{
+						offset "0 0 -0.6"
+					}
+		
+					Ribbon
+					{
+						offset "0 0 0.6"
+					}
+				}
+			}
+		}
+	}
+	LifeTimeDesc
+	{
+		time "10.0"
+	}		
+}

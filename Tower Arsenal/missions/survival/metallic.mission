@@ -185,7 +185,7 @@ MissionDef
 
             spawn_blueprints
             {
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      0,2
                     spawn_discoverable_level    1
@@ -199,7 +199,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      0,2
                     spawn_discoverable_level    1
@@ -213,35 +213,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
-                {
-                    spawn_instances_minmax      3,5
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
-                        min   	 	int:"200"
-                        max   	 	int:"500"
-						package_size    int:"3"
-                    }
-                }
-
-				spawners/loot_spawner
-                {
-                    spawn_instances_minmax      3,5
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"200"
-                        max   	 	int:"500"
-						package_size    int:"3"
-                    }
-                }
-
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -255,7 +227,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -269,7 +241,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -283,7 +255,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -297,7 +269,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -311,7 +283,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -325,7 +297,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -339,7 +311,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -352,6 +324,34 @@ MissionDef
 						package_size    int:"5"
                     }
                 }
+				
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"100"
+                        max   	 	int:"250"
+						package_size    int:"3"
+                    }
+                }
+
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      0,2
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"5"
+                    }	
+                }
             }
         }
 		
@@ -359,9 +359,7 @@ MissionDef
         {
             spawn_pool                  "loot_containers_small"
 			spawn_min_free_cell_margin	3
-
-            //terrain_types               "mud,floor"
-
+            
             spawn_min_distance_from_pools
             {
                 player_spawn_point      120
@@ -369,17 +367,20 @@ MissionDef
                 loot_containers_small   80
                 underground_treasures   10
 				resource_volumes		10
-				enemy					5
-				cryo_plants				15
-				magnetic_rocks			15
+				enemy					5				
             }
 
             spawn_blueprints
             {				
+				props/special/alien_structures/influence_pylon
+                {
+                    //spawn_instances_minmax 1,2
+                    spawn_chance           0.1
+                }
 				spawners/loot_container_small_metallic_standard
                 {
                     // make a roll to check if blueprint can be spawned
-                    spawn_chance           0.25
+                    spawn_chance           0.15
                 }                
 				spawners/loot_container_small_metallic_advanced
                 {
@@ -395,7 +396,7 @@ MissionDef
                 {
                     //spawn_instances_minmax 1,2
                     spawn_chance           0.05
-                }
+                }				
 			}
 		}
 		
@@ -412,9 +413,7 @@ MissionDef
                 underground_treasures   10
 				resource_volumes		10
 				enemy					5
-				power_well				180
-				cryo_plants				25
-				magnetic_rocks			25
+				power_well				180				
             }
 
             spawn_blueprints
@@ -465,34 +464,85 @@ MissionDef
                 }					
 			}
 		}
+		
+		GridSpawner
+        {
+            spawn_pool                  "tower_alien,enemy"
+	        spawn_team                  "enemy"
+			spawn_min_free_cell_margin	3			
+	
+            spawn_min_distance_from_pools
+            {
+                player_spawn_point      250
+                loot_containers         8
+				power_well		        8
+                loot_containers_small   8
+                underground_treasures   5
+				resource_volumes		5				
+				tower_alien				10
+				enemy					5
+            }
+			spawn_max_distance_from_pools
+            {                
+				loot_containers			25				
+            }
+	
+            spawn_blueprints
+            {                  
+				//units/ground/alien_tower_artillery_spawner
+				units/ground/alien_tower_plasma_spawner
+                {
+					spawn_chance           0.25
+					spawn_culls_entities_around 1
+                } 
+				logic/position_marker
+                {
+					spawn_chance           0.75
+					spawn_culls_entities_around 0
+                }                  
+            }
+        }
+		GridSpawner
+        {
+            spawn_pool                  "tower_alien,enemy"
+	        spawn_team                  "enemy"
+			spawn_min_free_cell_margin	3			
+	
+            spawn_min_distance_from_pools
+            {
+                player_spawn_point      250
+                loot_containers         8
+				power_well		        8
+                loot_containers_small   8
+                underground_treasures   5
+				resource_volumes		5				
+				tower_alien				10
+				enemy					5
+            }
+			spawn_max_distance_from_pools
+            {                
+				power_well			25				
+            }
+	
+            spawn_blueprints
+            {                  
+				//units/ground/alien_tower_artillery_spawner
+				units/ground/alien_tower_plasma_spawner
+                {
+					spawn_chance           0.25
+					spawn_culls_entities_around 1
+                } 
+				logic/position_marker
+                {
+					spawn_chance           0.75
+					spawn_culls_entities_around 0
+                }                  
+            }
+        }
 	}
 
     random_resources
     {
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-            min_resources   "1500"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-			required_discovery_lvl	"1"
-			
-            min_resources   "2000"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
         ResourceVolume
         {
             resource        "carbon_vein"
@@ -544,10 +594,6 @@ MissionDef
         ResourceVolume
         {
             resource        "geothermal_vent"
-
-            min_resources   "6000"
-            max_resources   "10000"
-
             min_spawned_volumes "3"
             max_spawned_volumes "6"
 			
@@ -558,11 +604,7 @@ MissionDef
         {
             resource        "geothermal_vent"
 			
-			required_discovery_lvl	"1"
-			
-            min_resources   "6000"
-            max_resources   "10000"
-
+			required_discovery_lvl	"1"			
             min_spawned_volumes "3"
             max_spawned_volumes "6"
 			
@@ -668,15 +710,56 @@ MissionDef
 		ResourceVolume
         {
             resource        "morphium_vein"
-
-            min_resources   "500"
-            max_resources   "500"
-
-            is_infinite      "1"
-
-            min_spawned_volumes "2"            
-            max_spawned_volumes "9001"            
+            is_infinite      "1"               
         }		
+        ResourceVolume
+        {
+            resource        "cosmic_vent"            
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+			
+            is_infinite        "1"			
+        }	
+		
+        ResourceVolume
+        {
+            resource        "cosmic_vent"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "6000"
+            max_resources   "10000"
+		
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+			
+            is_infinite        "1"			
+        }		
+
+		ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+            min_resources   "1500"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
+
+        ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "2000"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
     }
 
     min_starting_distance "16.0"
@@ -708,11 +791,7 @@ MissionDef
 		
 		ResourceVolume
         {
-            resource        "geothermal_vent"
-
-            min_resources   "6000"
-            max_resources   "10000"
-            
+            resource        "geothermal_vent"            
             is_infinite     "1"
             
             min_spawned_volumes "1"

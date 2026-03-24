@@ -1,50 +1,13 @@
-//editor "scroll(3159.73,12.76)|zoom(1.00)"
+//editor "scroll(1061.38,181.01)|zoom(0.73)"
 FlowGraphTemplate
 {
-	version "11"
-	editor "6380"
+	version "17"
+	editor "6643"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(campaign_objective_finish.xml)|pos(2064,166)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "is_objective_local"
-						value "0"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "unique_name_id"
-						value "global.download_tech_cosmonite_handling"
-					}
-
-					StringData
-					{
-						key "success"
-						value "true"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/objective/objective_finish.lua"
-			self_id "campaign_objective_finish_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(campaign_objective_generic.xml)|pos(981,111)"
+			//editor "layout(campaign_objective_generic.xml)|pos(444,786)"
 			database
 			{
 				Integers
@@ -65,6 +28,12 @@ FlowGraphTemplate
 					{
 						key "is_global"
 						value "1"
+					}
+
+					IntData
+					{
+						key "always_visible"
+						value "0"
 					}
 
 				}
@@ -114,9 +83,172 @@ FlowGraphTemplate
 			self_id "campaign_objective_generic_0"
 		}
 
+		DialogGroupNode
+		{
+			//editor "layout(interface_dialogue_show_group.xml)|pos(1687,466)"
+			global "0"
+			interrupt "1"
+			priority "10"
+			self_id "interface_dialogue_show_group_6"
+			timeout "0"
+			dialogs
+			{
+				//editor "expanded(1)"
+				DialogInfo
+				{
+					//editor "layout(dialog_info.xml)|pos(0,0)"
+					extended_duration "0"
+					gui_id "gui/hud/dialogs/mech"
+					sound_name "voice_over/arctic/mech_orbital_scanning_18"
+				}
+
+			}
+
+		}
+
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_event_send.xml)|pos(2624,165)"
+			//editor "layout(event_start.xml)|pos(212,837)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(2630,898)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_1"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1708,751)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/cosmonite_handling"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			self_id "mission_highlight_research_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(mission_highlight_research.xml)|pos(1150,753)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_name"
+						value "gui/menu/research/name/cosmonite_handling"
+					}
+
+					StringData
+					{
+						key "highlight"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/mission_highlight_research.lua"
+			self_id "mission_highlight_research_5"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(1154,877)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "research_id"
+						value "gui/menu/research/name/cosmonite_handling"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait_on_research_finished.lua"
+			self_id "logic_wait_on_reseach_finished_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(campaign_objective_finish.xml)|pos(1686,875)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "is_objective_local"
+						value "0"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "unique_name_id"
+						value "global.download_tech_cosmonite_handling"
+					}
+
+					StringData
+					{
+						key "success"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/objective/objective_finish.lua"
+			self_id "campaign_objective_finish_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_event_send.xml)|pos(2229,877)"
 			database
 			{
 				Integers
@@ -142,115 +274,12 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/logic/logic_event_send.lua"
-			self_id "logic_event_send_1"
+			self_id "logic_event_send_2"
 		}
 
 		LuaBehaviourNode
 		{
-			//editor "layout(mission_highlight_research.xml)|pos(1655,-21)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "research_name"
-						value "gui/menu/research/name/cosmonite_handling"
-					}
-
-					StringData
-					{
-						key "highlight"
-						value "true"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/mission_highlight_research.lua"
-			self_id "mission_highlight_research_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(mission_highlight_research.xml)|pos(2163,-18)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "research_name"
-						value "gui/menu/research/name/cosmonite_handling"
-					}
-
-					StringData
-					{
-						key "highlight"
-						value "false"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/mission_highlight_research.lua"
-			self_id "mission_highlight_research_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait_on_reseach_finished.xml)|pos(1604,170)"
-			database
-			{
-				Strings
-				{
-					StringData
-					{
-						key "research_id"
-						value "gui/menu/research/name/cosmonite_handling"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait_on_research_finished.lua"
-			self_id "logic_wait_on_reseach_finished_2"
-		}
-
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(3051,192)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_2"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(event_start.xml)|pos(709,154)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "rule_headquarters_survive"
-						value "1"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/event_start.lua"
-			self_id "default_1"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(campaign_mission_unlock.xml)|pos(2676,11)"
+			//editor "layout(campaign_mission_unlock.xml)|pos(2502,745)"
 			database
 			{
 				Strings
@@ -272,18 +301,40 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/campaign/state/mission_unlock.lua"
-			self_id "campaign_mission_unlock_2"
+			self_id "campaign_mission_unlock_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2234,763)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "5"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
 		}
 
 	}
 
 	GraphConnections
 	{
-		campaign_objective_finish_0 "logic_event_send_1"
-		campaign_objective_generic_0 "logic_wait_on_reseach_finished_2|mission_highlight_research_0"
-		default_1 "campaign_objective_generic_0"
-		logic_event_send_1 "event_end_2"
-		logic_wait_on_reseach_finished_2 "campaign_objective_finish_0|mission_highlight_research_1"
+		campaign_objective_finish_2 "logic_event_send_2|logic_wait_1"
+		campaign_objective_generic_0 "logic_wait_on_reseach_finished_4|mission_highlight_research_5"
+		default "campaign_objective_generic_0"
+		logic_event_send_2 "event_end_1"
+		logic_wait_1 "campaign_mission_unlock_0"
+		logic_wait_on_reseach_finished_4 "campaign_objective_finish_2|interface_dialogue_show_group_6|mission_highlight_research_4"
 	}
 
 	GraphComments

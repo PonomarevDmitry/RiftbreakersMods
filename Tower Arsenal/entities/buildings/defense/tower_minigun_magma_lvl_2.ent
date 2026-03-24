@@ -2,13 +2,12 @@ EntityBlueprint
 {
 	name 					"buildings/defense/tower_minigun_magma_lvl_2"
 
-	base_blueprint 			"buildings/defense/tower_minigun_magma"
+	base_blueprint 		buildings/defense/tower_minigun_magma
 
 	BuildingDesc
 	{
 		name 				"tower_minigun_magma_lvl_2"
 		bp   				"buildings/defense/tower_minigun_magma_lvl_2"
-		ghost_bp   			"buildings/defense/tower_minigun_magma_lvl_2_ghost"
 		category 			"defense_modd"
 		localization_id		"gui/hud/building_name/tower_minigun_magma"
 		description			"gui/hud/building_description/tower_minigun_magma"
@@ -19,6 +18,9 @@ EntityBlueprint
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_minigun_magma_lvl_3"
+
+		building_group		"tower_minigun_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -113,9 +115,8 @@ EntityBlueprint
 		////////////////////////MISC/////////////////////////
 		EffectGroup
 		{
-			group "working"
+			group 	"working"
 			enabled "0"
-
 			Effects
 			{
 				Effect
@@ -126,18 +127,20 @@ EntityBlueprint
 				}
 			}
 		}
-	}
-}
 
-EntityBlueprint
-{
-	name "buildings/defense/tower_minigun_magma_lvl_2_ghost"
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
 
-	base_blueprint 			"buildings/defense/tower_minigun_magma_ghost"
-
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/tower_minigun_lvl_2.mesh"
-		material "selector/hologram_blue"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/tower_minigun_fire_loop"
+					bone "att_muzzle"
+				}
+			}
+		}
 	}
 }

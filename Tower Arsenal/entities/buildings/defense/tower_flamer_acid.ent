@@ -6,17 +6,19 @@ EntityBlueprint
 	{
 		name 				"tower_flamer_acid"
 		bp   				"buildings/defense/tower_flamer_acid"
-		ghost_bp   			"buildings/defense/tower_flamer_acid_ghost"
 		category 			"defense_modd"
 		localization_id		"gui/hud/building_name/tower_flamer_acid"
 		description			"gui/hud/building_description/tower_flamer_acid"
 		menu_icon			"gui/hud/building_icons/tower_flamer_acid"
 		require 			"headquarters"
-		order				"5"
+		order				"3"
 		type				"tower"
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_flamer_acid_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_flamer_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -464,53 +466,4 @@ EntityBlueprint
 	}
 }
 
-EntityBlueprint
-{
-	name  "buildings/defense/tower_flamer_acid_ghost"
 
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/tower_flamer_lvl_1.mesh"
-		material "selector/hologram_blue"
-	}
-
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ghost_building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsBoxShape
-					{
-							x	2
-							y	2
-							z	2
-					}
-				}
-			}
-		}
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-   			PhysicsBoxShape
-   			{
-    				x	2
-    				y	2
-    				z	2
-   			}
-		}
-	}
-
-	DisplayRadiusDesc
-	{
-		max_radius 20
-	}
-}

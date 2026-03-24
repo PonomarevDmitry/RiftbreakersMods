@@ -12,13 +12,8 @@ GameplayResourceDef
 	terrain_material	"ground/resources/cosmonite"
 	spawn_type 			"deposit"
 	order   			"35"
-	volume_minimap_color
-	{
-		r "0.3"
-		g "0"
-		b "1"
-		a "1"
-	}
+
+	volume_unpack_blueprint "resources/volume_resource_cosmonite_ore"
 }
 
 GameplayResourceDef

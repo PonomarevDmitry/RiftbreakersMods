@@ -36,8 +36,11 @@ EntityBlueprint
 		name 		"_alien_tower_spawner_"
 	}
 
-	PlayerTargetFinderComponent
+	TargetFinderInitializerComponent
 	{
+		search_component			"MechComponent"
+		random_timer_at_start		1
+		timer_duration				1
 		tag 		"player"
 		in_radius 	"25"
 	}
@@ -211,6 +214,14 @@ EntityBlueprint
 		can_activate 0
 	}
 
+	LootDesc
+	{
+		explosion_type 			"centered"
+		explosion_max_power 	"8000"
+		explosion_min_power 	"3000"
+		loot_award				"cosmic_elite"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -310,6 +321,14 @@ EntityBlueprint
 		emissive_radius "5"
 	}
 
+	RegenerationComponent
+	{
+		regeneration 				"150"
+		regeneration_cooldown 		"5"
+		regeneration_effect			"effects/enemies_alien_tower_artillery_cosmo/healing"
+		regeneration_end_effect     "effects/enemies_alien_tower_artillery_cosmo/healing_finished"
+	}
+
 	ResistanceComponent
 	{
 		physical		"0.9"
@@ -323,13 +342,27 @@ EntityBlueprint
 
 		reflect_damage_max_percent 		"0.015"
 	}
-	
+
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_big"
+		size
+		{
+			x "1.5"
+			y "1.5"
+		}
+		additional_z_order	"3"
+		visibility 		"discovered|radar"
+		layer_group		"enemies"
+	}
+
 	HealthBarDesc
 	{
-		type "2"
+		type "0"
 		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
 		material "gui/hud/bars/elite_boss_health_1x3"
-	}		
+	}
 
 	TypeDesc
 	{
@@ -404,33 +437,8 @@ EntityBlueprint
 		}
 	}	
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "4"
-			y "4"
-		}
-
-		visibility "discovered"
-	}
-
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"
 	}
 
 	FlammableComponentDesc
@@ -1023,18 +1031,61 @@ EntityBlueprint
 
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/enemies_alien_tower/artillery_X_explosion"
-		on_world_hit_effect 	"effects/enemies_alien_tower/artillery_X_explosion"
-		on_resisted_hit_effect	"effects/enemies_alien_tower/artillery_X_explosion"
-		on_shield_hit_effect	"effects/enemies_alien_tower/artillery_X_explosion"
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
-		hit_effect_direction	"up"  //inverse, normal, up
-		crosshair_effect 		"effects/messages_and_markers/alien_artillery_marker"
+		on_enemy_hit_effect 		"effects/enemies_alien_tower_artillery_cosmo/plasmoid_smoke"
+		on_world_hit_effect 		"effects/enemies_alien_tower_artillery_cosmo/plasmoid_smoke"
+		on_resisted_hit_effect		"effects/enemies_alien_tower_artillery_cosmo/plasmoid_smoke"
+		on_shield_hit_effect		"effects/enemies_alien_tower_artillery_cosmo/plasmoid_smoke"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+		hit_effect_direction		"up"  //inverse, normal, up
+		delay_update_time			"0.3"
+		diameter					"1.0"
+		manual_remove				"1"
+		crosshair_effect 			"effects/messages_and_markers/alien_artillery_marker"
+		
+		artillery_gravity_factor 	"4"
+		artillery_min_angle 		"45"
+		artillery_max_angle 		"45"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"			
+			area_damage_radius		"8"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"30"
+					duration		"0.5"
+					type			"plasmoid"
+				}
+			}			
+		}
 	}
 
-	LifeTimeDesc
+	DestroyDesc
 	{
-		time 		4
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_alien_tower/artillery_X_explosion"	
+					part_prefix 			"meshes/projectiles/artigian_projectile"
+					part_material 			"units/ground/cosmic_artigian_alpha"
+					part_effect 			"effects/enemies_generic/blood_trail_blue"
+					part_physics_material   "gibs_light"					
+				}
+
+				key "default"
+			}
+		}
 	}
 
 	children

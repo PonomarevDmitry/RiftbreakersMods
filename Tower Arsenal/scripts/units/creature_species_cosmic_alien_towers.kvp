@@ -22,7 +22,7 @@
 //            max_unit_skill_level            "1"								// maximum level of a skill that will be assigned during spawn (skills have 5 difficulty levels from 0 to 4)
 //            exclude_unit_skills             "resurrect,drones"				// list of skill names that this species cannot have
 
-//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,drones,eggs,meteor_shower,resurrect,shockwave,swarm,underground_rock,waller" // full list
+//            exclude_unit_skills       	  "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,aura_heal,aura_resistance,bomb_cascade,cryo_orb,drones,eggs,fireball_wave,lightning_cascade,meteor_shower,resurrect,shockwave,swarm,tornado_wave,underground_rock,waller,aura_damage_cosmic,cosmic_orb,plasmoid_orb,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller,cosmic_resurrect" // full list
 
 //	          force_include_unit_skills       "waller"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 //	          additional_include_unit_skills  "additional_damage_wave_fire"				// this adds a skill for this species (it DOES NOT takes up unit skill slot - its an additional skill)
@@ -79,7 +79,7 @@
 
 CreatureSpecies
 {
-    species_name 							"alien_tower_artillery_cosmo_elite"
+    species_name 							"alien_tower_artillery_cosmo"
     volume_non_aggressive_distance      	"60"
     volume_aggressive_distance      		"50"
 
@@ -92,12 +92,32 @@ CreatureSpecies
 			max_difficulty_factor			"3.75"
 
 			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
 				health						"0"
+			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
 			}
         }
 		Creature       ////////////////////// LVL 2 - EQUIVALENT OF ALPHA /////////////////////////////
@@ -106,14 +126,34 @@ CreatureSpecies
             min_difficulty_factor   		"4"
 			max_difficulty_factor			"6.75"
 
-			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "3"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "aura_resistance,shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
 				health						"2500"
 			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
+			}
         }
 		Creature       ////////////////////// LVL 3 - EQUIVALENT OF ULTRA /////////////////////////////
         {
@@ -121,23 +161,44 @@ CreatureSpecies
             min_difficulty_factor   		"7"
 			max_difficulty_factor			"1000"
 
-			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			min_unit_skill_count            "2"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "4"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "aura_resistance,shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
 				health						"5000"
 			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
+			}
         }
-    }
+	}
 }
+
 
 ///////////////////////////////////// ALIEN TOWER ARTILLERY ELITE ///////////////////////////////////
 
 CreatureSpecies
 {
-    species_name 							"alien_tower_artillery_cosmo_mkII_elite"
+    species_name 							"alien_tower_artillery_cosmo_mkII"
     volume_non_aggressive_distance      	"60"
     volume_aggressive_distance      		"50"
 
@@ -150,12 +211,32 @@ CreatureSpecies
 			max_difficulty_factor			"3.75"
 
 			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "2"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "aura_resistance,shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
-				health						"0"
+				health						"1500"
+			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.020"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
 			}
         }
 		Creature       ////////////////////// LVL 2 - EQUIVALENT OF ALPHA /////////////////////////////
@@ -164,13 +245,33 @@ CreatureSpecies
             min_difficulty_factor   		"4"
 			max_difficulty_factor			"6.75"
 
-			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "1"
+			max_unit_skill_level            "3"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "aura_resistance,shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
-				health						"1500"
+				health						"3000"
+			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.015"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
 			}
         }
 		Creature       ////////////////////// LVL 3 - EQUIVALENT OF ULTRA /////////////////////////////
@@ -179,14 +280,35 @@ CreatureSpecies
             min_difficulty_factor   		"7"
 			max_difficulty_factor			"1000"
 
-			min_unit_skill_count            "0"
-			max_unit_skill_count            "0"
-			max_unit_skill_level            "0"
+			min_unit_skill_count            "1"
+			max_unit_skill_count            "2"
+			max_unit_skill_level            "4"
+            exclude_unit_skills             "aura_damage_acid,aura_damage_cryo,aura_damage_energy,aura_damage_fire,drones,eggs,lightning_cascade,meteor_shower,resurrect,swarm,waller,aura_damage_cosmic,cosmic_lightning_cascade,cosmic_lightning_shower,cosmic_meteor_shower,cosmic_drones,cosmic_swarm,cosmic_eggs,cosmic_waller" // full list
+            force_include_unit_skills       "aura_resistance,shockwave"							// this forces a skill to be assigned for this species (it takes up unit skill slot if available)
 			
 			extra_unit_modifiers
 			{
-				health						"3000"
+				health						"4000"
+			}
+			unit_field_overrides
+			{
+				TypeFieldOverride
+				{
+					path 	"ResistanceComponent.reflect_damage_max_percent"
+					value 	"0.010"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.min_scale"
+					value 	"1.0"
+				}
+				TypeFieldOverride
+				{
+					path 	"DatabaseComponent.database.max_scale"
+					value 	"1.0"
+				}
 			}
         }
-    }
+	}
 }
+

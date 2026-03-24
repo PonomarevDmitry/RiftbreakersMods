@@ -1,0 +1,184 @@
+EntityBlueprint
+{
+    name "units/ground/cosmic_mech_bot"
+
+	base_blueprint "player/character"
+
+	LuaDesc
+	{
+		script "lua/units/ground/cosmic_mech_bot.lua"
+	}
+
+	//EquipmentComponent
+	//{		
+	//	equipment
+	//	{
+	//		Equipment Equipment
+	//		{
+	//			slots
+	//			{
+	//				EquipmentSlot
+	//				{
+	//					name			"LEFT_HAND"
+	//					allow_types		"range_weapon|melee_weapon|shield|enemy_range_weapon"
+	//					bone			"att_l_hand_item"
+	//					subslots_count	"3"
+	//					mirror 			"1"
+	//				}
+	//			
+	//				EquipmentSlot
+	//				{
+	//					name			"RIGHT_HAND"
+	//					allow_types		"range_weapon|melee_weapon|shield|enemy_range_weapon"
+	//					bone			"att_r_hand_item"
+	//					subslots_count	"3"
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"500"
+		unit_soft_radius				"2.00"
+		ignore_cost_mask				"path_blocker"
+		dominance_group				    "0"
+	}
+
+	HealthDesc
+	{
+		max_health 					"200"
+		health 						"200"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"0"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health "80"
+				destroy_state_change_effect_group "80_transition"
+				destroy_comp_delay "0.1"
+				destroy_comp_event "80_destroy"
+				destroyed_state_effect_group "80_state"
+				destrucion_level_name "80"
+
+			}
+			DestructionLevel
+			{
+				health "60"
+				destroy_state_change_effect_group "60_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "60_destroy"
+				destroyed_state_effect_group "60_state"
+				destrucion_level_name "60"
+			}
+			DestructionLevel
+			{
+				health "40"
+				destroy_state_change_effect_group "40_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "40_destroy"
+				destroyed_state_effect_group "40_state"
+				destrucion_level_name "40"
+			}
+
+			DestructionLevel
+			{
+				health "20"
+				destroy_state_change_effect_group "20_transition"
+				destroy_comp_delay "0.2"
+				destroy_comp_event "20_destroy"
+				destroyed_state_effect_group "20_state"
+				destrucion_level_name "20"
+			}
+		}
+	}
+
+	GroundNavigationComponent
+	{
+
+	}
+
+	StateMachineDesc
+	{
+		template_name "mech_bot"
+		params
+		{
+			//aggressive_speed					float:"13"
+			//aggressive_acceleration				float:"26"
+			//not_aggressive_speed				float:"4"
+			//not_aggressive_acceleration			float:"4"
+			//attack_melee_rotate_speed			float:"300"
+			//priority_target						string:"headquarters|player|energy|tower"
+			//priority_target_distance			float:"40"
+			//ignore_move_to_type					string:"wall|not_move_to_target"
+			//min_idle_time						float:"4.0"
+			//max_idle_time						float:"8.0"
+			//melee_attack_name					string:"attack_1|attack_2|attack_3"
+			//invisibility_effect					string:"invisiblity"
+			//rotate_speed						float:"300"
+			//eat_distance						float:"20"
+			priority_target_distance		float:"30"
+			priority_target					string:"ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit|air_unit"
+			ignore_move_to_type				string:"wall|invisible|not_move_to_target"
+		}		
+	}
+
+	TurretDesc
+	{
+		name           "range"
+		target         "ground_unit_artillery|ground_unit_large|ground_unit_medium|ground_unit|air_unit"
+		target_ignore  "wall|invisible"
+		speed          "200"
+
+		aim_volume    "SphericalAimVolume"
+		{
+			range_min "6"
+			range_max "35"
+		}
+
+		aiming_cooldown         "1"
+		aiming_target_time      "2"
+		aiming_idle_angle       "20"
+		pitch "att_omni_light"
+		yaw "att_omni_light"
+		check_target_visibility "0"
+		use_IK "0"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "player/cosmic_mech_bot/trigger"
+
+	TriggerDesc
+	{
+		owner 		"parent"
+		collision 	"world_destructible|building|building_small|ground_unit|shield"
+		tag 		"melee"
+
+		Filters
+		{
+			TeamRelationTriggerFilter 
+			{
+				relation_name     "hostility"
+				check_parent "1"
+			}
+			
+			InvisibleTriggerFilter
+		}
+
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "6.0"
+			}
+		}
+	}
+}

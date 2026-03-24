@@ -1,0 +1,425 @@
+EntityBlueprint
+{ 
+	name "items/weapons/debug_cosmic_minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+
+	SkeletonDesc
+	{
+		name "meshes/items/weapons/minigun"
+	}
+
+	WeaponMovementDataComponent
+	{
+		attack_movement_factor	"0.65"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor  "10"
+		}		
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_1"
+			}
+		}
+		
+		ammo_blueprint 				"items/weapons/debug_cosmic_minigun_projectile"
+
+		muzzle_flash_effect 		"effects/cosmic_minigun_muzzle"
+
+		burst_column_spacing 		"0.5"
+		burst_rate 					"0.3"
+		//burst_column_angle 			"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "loot"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/loot/mech_lost_weapon_marker"	
+					offset "1 0 0"						
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "loot_collect"
+			enabled "0"		
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"							
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "item_equipped"
+			enabled "0"
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/sniper_rifle_equipped"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/minigun_fire_loop"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "shooting_empty"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/empty_big_bullet_weapon"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group "laser_pointer"
+			enabled "1"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/laser_pointer_violet"
+					bone "att_muzzle_1"
+				}
+			}
+		}		
+	}
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/debug_cosmic_minigun_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"Cosmic Minigun"
+		holding_pose 	"range"
+		item_bp			"items/weapons/debug_cosmic_minigun"
+		icon			"gui/hud/items_icons/weapons/minigun"
+		bigger_icon 	"gui/menu/items_icons/weapons/minigun"
+		description 	"gui/menu/inventory/weapon_charge_description/debug_rifle"		
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/debug_cosmic_minigun_advanced"
+
+	base_blueprint "items/weapons/debug_cosmic_minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_advanced"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/debug_cosmic_minigun_advanced_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"Cosmic Minigun Advanced"
+		holding_pose 	"range"
+		item_bp			"items/weapons/debug_cosmic_minigun_advanced"
+		icon			"gui/hud/items_icons/weapons/minigun_advanced"
+		bigger_icon 	"gui/menu/items_icons/weapons/minigun_advanced"
+		description 	"gui/menu/inventory/weapon_charge_description/debug_rifle"			
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/debug_cosmic_minigun_superior"
+
+	base_blueprint "items/weapons/debug_cosmic_minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_superior"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/debug_cosmic_minigun_superior_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"Cosmic Minigun Superior"
+		holding_pose 	"range"
+		item_bp			"items/weapons/debug_cosmic_minigun_superior"
+		icon			"gui/hud/items_icons/weapons/minigun_superior"
+		bigger_icon 	"gui/menu/items_icons/weapons/minigun_superior"
+		description 	"gui/menu/inventory/weapon_charge_description/debug_rifle"			
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/debug_cosmic_minigun_extreme"
+
+	base_blueprint "items/weapons/debug_cosmic_minigun"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/minigun.mesh"
+		material 	"items/weapons/minigun_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{ 
+	name "items/weapons/debug_cosmic_minigun_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"high_caliber"
+		name 			"Cosmic Minigun Extreme"
+		holding_pose 	"range"
+		item_bp			"items/weapons/debug_cosmic_minigun_extreme"
+		icon			"gui/hud/items_icons/weapons/minigun_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/minigun_extreme"
+		description 	"gui/menu/inventory/weapon_charge_description/debug_rifle"			
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			pad_equipped_feedback 				string:"weapon,2,4,8"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/debug_cosmic_minigun_projectile"
+
+	base_blueprints
+	{
+		effects/cosmic_minigun_projectile //-- weapon effect --//
+		effects/no_lifetime
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/weapons_bullet/cosmic_machine_gun_hit_enemy_flesh"
+		on_world_hit_effect 	"effects/weapons_bullet/cosmic_machine_gun_hit_world_rocks_small"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"	
+
+		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
+		collision_2d 			"ground_unit|destructible"
+
+		//friendly_fire			"pass"
+	}
+
+	LifeTimeDesc
+	{
+		time 		0.2
+		type 		"camera"
+	}
+}
+
+//--------- weapon effect ----------//
+//////////////////////////////////////
+
+EntityBlueprint
+{
+	name effects/cosmic_minigun_projectile
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		//lights/point/blue_super_small
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_minigun_projectile"
+	}
+
+	
+}
+EntityBlueprint
+{
+	name effects/cosmic_minigun_muzzle
+
+	base_blueprints
+	{
+		lights/point/ta_muzzle_purple_very_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_machinegun_muzzle"
+		//scale   0.2 0.2 0.2
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.05"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+}
+

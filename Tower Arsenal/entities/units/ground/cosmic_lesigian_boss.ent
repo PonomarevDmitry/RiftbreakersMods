@@ -21,11 +21,11 @@ EntityBlueprint
 			bp_on_range_attack					string:"units/ground/cosmic_lesigian_boss/lightning"
 			warning_effect_on_range_attack		string:"units/ground/lesigian/cosmic_lightning_danger_marker"
 			lightning_attack_offset				float:"50.0"
-			lightning_attack_cooldown			float:"5"
+			lightning_attack_cooldown			float:"2.5"
 			lightning_attack_prepare_min_time	float:"0.5"
 			lightning_attack_prepare_max_time	float:"0.6"
 			teleport_start_distance			    float:"12"
-			teleport_cooldown					float:"2.5"
+			teleport_cooldown					float:"1.5"
 			teleport_distance					float:"30"
 			teleport_min_building_distance		float:"30"
 			teleport_time						float:"0.75"
@@ -35,25 +35,27 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"0.7"
-		fire			"1.0"
-		acid			"1.0"
-		energy			"1.0"
+		fire			"1.5"
+		acid			"1.5"
+		energy			"1.5"
 		cryo			"0.3"
 		area			"0.9"
 		cosmic			"0.4"
 		plasmoid		"0.6"
-
-		reflect_damage_max_percent 		"0.020"
-	}
-
-	StunDataComponent
-	{
-		stagger_time 					"0.15"
-		stagger_health_threshold		"0.02"
-		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.3"
 	}
 	
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.08"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.3"
+		
+		stagger_cooldown				"1.0"
+		stagger_long_cooldown			"3.5"
+		stun_cooldown					"15"
+	}
+
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"240"
@@ -106,12 +108,6 @@ EntityBlueprint
 	{
 	}
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
-	}
-
 	MovementDataComponent
 	{
 	}
@@ -162,7 +158,8 @@ EntityBlueprint
 		aim_volume 		"SphericalAimVolume"
 		{
 			range_min 	"10"
-			range_max 	"30"
+			range_max "35"
+			//aiming_range "35"
 		}
 
 		aiming_cooldown 		"1"
@@ -172,6 +169,14 @@ EntityBlueprint
 		yaw 					"att_shoot"
 		check_target_visibility "1"
 		use_IK 					"0"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"7000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -466,9 +471,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthBarDesc
@@ -480,10 +487,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"6250"
-		health 						"6250"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
+		max_health 					"2500"
+		health 						"2500"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -551,13 +556,13 @@ EntityBlueprint
 				speed 			"20000"
 				aim_volume 		"SphericalAimVolume"
 				{
-					range_min 	"50"
-					range_max 	"50"
+					range_min 	"35"
+					range_max 	"35"
 				}
 
 				aiming_cooldown 		"1"
-				aiming_target_time 		"2"
-				aiming_idle_angle 		"20"
+				aiming_target_time 		"1"
+				aiming_idle_angle 		"5"
 				pitch 					"att_muzzle"
 				yaw 					"att_muzzle"
 				check_target_visibility "1"
@@ -626,7 +631,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"30.0"
-										type 	"cosmic"
+										type 	"physical"
 									}
 								}
 							}
@@ -665,10 +670,10 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		diameter				"0.2"
+		diameter				"1"
 
-		on_enemy_hit_effect 	"effects/enemies_generic/energy_hit_medium"
-		on_world_hit_effect 	"effects/enemies_generic/energy_hit_medium"
+		on_enemy_hit_effect 	"effects/enemies_generic/lesigian_hit"//-----cosmic lesigian effects ----//
+		on_world_hit_effect 	"effects/enemies_generic/lesigian_hit"//---------------------------------//
 		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
@@ -696,7 +701,7 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		3
+		time "5.0"
 	}
 }
 

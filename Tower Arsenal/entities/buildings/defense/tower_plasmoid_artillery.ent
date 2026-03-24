@@ -17,6 +17,9 @@ EntityBlueprint
 		upgrade				"buildings/defense/tower_plasmoid_artillery_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 
+		building_group		"tower_artillery_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -394,44 +397,13 @@ EntityBlueprint
 		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/weapons_explosive/grenade_projectile"
-					bone "att_exhaust"
-				}
-			}
-		}
-	}
-
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
-		on_world_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
-		on_resisted_hit_effect 	"effects/weapons_energy/heavy_plasma_hit"
+		on_enemy_hit_effect 	"effects/tower_plasmoid_artillery_explosion"/////////////////
+		on_world_hit_effect 	"effects/tower_plasmoid_artillery_explosion"//ta_artillery //
+		on_resisted_hit_effect 	"effects/tower_plasmoid_artillery_explosion"/////////////////
 		collision_3d 				"ground_unit|world|world_blocker|hitbox|destructible"
 		hit_effect_direction 		"up"
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cosmic"
-					bone "att_exhaust"
-					scale "0.5 0.5 0.5"
-				}
-			}
-		}
 	}
 
 	children
@@ -440,7 +412,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{		
-				material 			"ribbon/drone_trail_blue_01"
+				material 			ribbon/drone_trail_blue_01
 				update_bounds 		1
 				fade_out_time		1.9
 				tesselation_step 	0.1
@@ -451,13 +423,13 @@ EntityBlueprint
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 0.9"
+						offset "0 0 0.5"
 					}
 
 					Ribbon
 					{
 						parent_attachment "att_exhaust"
-						offset "0 0 -0.9"
+						offset "0 0 -0.5"
 					}
 				}
 			}

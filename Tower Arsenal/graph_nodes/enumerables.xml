@@ -3,7 +3,7 @@
     <list id="input_masks" source="INPUT_SHOOT,INPUT_BUILD,INPUT_CHARGE,INPUT_SPECIAL,INPUT_SWITCH,INPUT_CANCEL,INPUT_WAVE,INPUT_PAUSE,INPUT_NEXT,INPUT_PREV,INPUT_WEAPON_1,INPUT_WEAPON_2,INPUT_WEAPON_3,INPUT_WEAPON_4" />
     <list id="permission_masks" source="PP_MOVEMENT,PP_BUILD_MODE,PP_BUILD_TOWER,PP_FIGHTER_MODE,PP_INTERMISSION,PP_ACTION_MENU,PP_WEAPON_1,PP_WEAPON_2,PP_WEAPON_3,PP_WEAPON_4,PP_CHARGE_WEAPON_1,PP_CHARGE_WEAPON_2,PP_CHARGE_WEAPON_3,PP_CHARGE_WEAPON_4,PP_CHARGE_COLLECT,PP_SHOW_GHOST_TOWER" />
     <list id="physics_type" source="static,dynamic,kinematic" />
-    <list id="item_slots" source="LEFT_HAND,RIGHT_HAND,DASH_SKILL,USABLE_1,USABLE_2,USABLE_3,USABLE_4,USABLE_5,USABLE_6,USABLE_7,USABLE_8,UPGRADE_1,UPGRADE_2,UPGRADE_3,UPGRADE_4,DRILL,HARVESTER,EXTRACTOR,EXCAVATOR,ACTIVATOR,LIFT,HOLDER,SHIELD,SKIN_1" />
+    <list id="item_slots" source="LEFT_HAND,RIGHT_HAND,DASH_SKILL,USABLE_1,USABLE_2,USABLE_3,USABLE_4,USABLE_5,USABLE_6,USABLE_7,USABLE_8,USABLE_9,USABLE_0,UPGRADE_1,UPGRADE_2,UPGRADE_3,UPGRADE_4,UPGRADE_5,UPGRADE_6,UPGRADE_7,UPGRADE_8,UPGRADE_9,UPGRADE_10,UPGRADE_11,UPGRADE_12,UPGRADE_13,UPGRADE_14,UPGRADE_15,UPGRADE_16,UPGRADE_17,UPGRADE_18,UPGRADE_19,UPGRADE_20,UPGRADE_21,UPGRADE_22,UPGRADE_23,UPGRADE_24,UPGRADE_25,UPGRADE_26,UPGRADE_27,UPGRADE_28,UPGRADE_29,UPGRADE_30,UPGRADE_31,UPGRADE_32,UPGRADE_33,UPGRADE_34,DRILL,HARVESTER,EXTRACTOR,EXCAVATOR,ACTIVATOR,LIFT,HOLDER,SHIELD,SKIN_1" />
     <list id="resources"> 
 		ai
 		steel
@@ -15,7 +15,7 @@
 		ammo_mech_energy_cell
 		ammo_tower_liquid
 		ammo_tower_explosive
-		cosmic_biomass_plant
+		bio_tech
 		biomass_plant
 		biomass_animal
 		hazenite
@@ -37,6 +37,9 @@
 		specimen_flurian
 		specimen_flurian_alpha
 		specimen_flurian_ultra
+		specimen_cosmic_phirian
+		specimen_cosmic_phirian_alpha
+		specimen_cosmic_phirian_ultra
 		specimen_hammeroceros
 		specimen_octabit
 		specimen_stregaros		
@@ -46,9 +49,11 @@
 		specimen_cosmic_crystal_creeper
 		specimen_cosmic_crystal
 		specimen_crystal_entwined_blue
+		specimen_crystal_pure_dark_blue
 		specimen_crystal_pure_red
 		specimen_mushroom_spiky_bulb_red
 		specimen_cactus_pear_purple
+		specimen_spawner_arctic_boss
 		meteorite_fragment		
 	</list>
     <list id="local_resources"> 
@@ -57,6 +62,7 @@
 		supercoolant
 		sludge
 		mud
+		abyssium
 		plasmatic
 		plasma
 		plasma_charged
@@ -75,11 +81,13 @@
     <list id="campaign_status" source="MENU,REMAIN,OTHER_MISSION" />
     <list id="find_types" source="Name,LocalName,Group,Blueprint,Type" />
     <list id="rarity" source="STANDARD,ADVANCED,SUPERIOR,EXTREME" />
-	<list id="biomes" source="ArcticIslands,acid,caverns,desert,jungle,magma,metallic,legacy_maps,swamp" />
+	<list id="biomes" source="ArcticIslands,acid,caverns,desert,jungle,magma,metallic,legacy_maps,swamp,the_abys" />
     <list id="weather_damage_type" source="acid_rain,blue_hail" />
     <list id="resource_types" source="MissionDef,CampaignDef" />
 	<list id="playlists">
 		music/adventure
+		music/adventure_arcticislands
+		music/exploration_arcticislands
 		music/adventure_metallic
 		music/adventure_caverns
 		music/adventure_swamp
@@ -115,6 +123,8 @@
 		music/silence
     </list>
 	<list id="enemy_ground">
+		units/ground/anoryxian_boss_ultra
+		units/ground/anoryxian_boss_omega
 		units/ground/arachnoid_boss
 		units/ground/arachnoid_boss_easy
 		units/ground/arachnoid_sentinel
@@ -177,6 +187,7 @@
 		units/ground/hedroner_alpha
 		units/ground/hedroner_ultra
 		units/ground/hedroner_morphium
+		units/ground/cosmic_krocoon_boss
 		units/ground/kafferroceros
 		units/ground/kafferroceros_alpha
 		units/ground/kafferroceros_ultra
@@ -270,6 +281,8 @@
 		units/ground/zorant_ultra
 		units/ground/random_bosses
 		units/ground/cosmic_crawlog
+		units/ground/cosmic_crawlog_alpha
+		units/ground/cosmic_crawlog_ultra
 		units/ground/cosmic_arachnoid_boss
 		units/ground/cosmic_canoptrix_crystal
 		units/ground/cosmic_canoptrix_crystal_alpha
@@ -300,6 +313,9 @@
 		units/ground/cosmic_lesigian_ultra
 		units/ground/cosmic_lesigian_boss
 		units/ground/cosmic_flurian_boss
+		units/ground/cosmic_gulgor
+		units/ground/cosmic_gulgor_alpha
+		units/ground/cosmic_gulgor_ultra
 		units/ground/cosmic_hedroner
 		units/ground/cosmic_hedroner_alpha
 		units/ground/cosmic_hedroner_ultra
@@ -316,6 +332,11 @@
 		units/ground/cosmic_morirot_alpha
 		units/ground/cosmic_morirot_ultra
 		units/ground/cosmic_mushbit
+		units/ground/cosmic_mushbit_alpha
+		units/ground/cosmic_mushbit_ultra
+		units/ground/cosmic_stregaros_crystal
+		units/ground/cosmic_stregaros_crystal_alpha
+		units/ground/cosmic_stregaros_crystal_ultra
 		units/ground/cosmic_stregaros_boss
 		units/ground/cosmic_morirot_boss
 		units/ground/cosmic_hedroner_boss
@@ -463,56 +484,69 @@
 		wingmite
 		quelver
 		zorant
-		alien_tower_artillery_cosmo_elite
-		alien_tower_artillery_cosmo_mkII_elite
+		alien_tower_artillery_cosmo
+		alien_tower_artillery_cosmo_mkII
+		anoryxian_boss_ultra
+		anoryxian_boss_omega
 		random_bosses
-		cosmic_crawlog
-		cosmic_nerilian
-		cosmic_nerilian_alpha
-		cosmic_nerilian_ultra
-		cosmic_necrodon
-		cosmic_necrodon_alpha
-		cosmic_necrodon_ultra
-		cosmic_kermon
-		cosmic_kermon_alpha
-		cosmic_kermon_ultra
-		cosmic_phirian
-		cosmic_phirian_alpha
-		cosmic_phirian_ultra
-		cosmic_lesigian
-		cosmic_lesigian_alpha
-		cosmic_lesigian_ultra
-		cosmic_hedroner
-		cosmic_hedroner_alpha
-		cosmic_hedroner_ultra
+		cosmic_arachnoid_sentinel_crystal
+		cosmic_arachnoid_sentinel_crystal_alpha
+		cosmic_arachnoid_sentinel_crystal_ultra
 		cosmic_baxmoth
 		cosmic_baxmoth_alpha
 		cosmic_baxmoth_ultra
 		cosmic_bomogan
 		cosmic_bomogan_alpha
 		cosmic_bomogan_ultra
-		cosmic_morirot
-		cosmic_morirot_alpha
-		cosmic_morirot_ultra
-		cosmic_gnerot
-		cosmic_gnerot_alpha
-		cosmic_gnerot_ultra
 		cosmic_canoptrix_crystal
 		cosmic_canoptrix_crystal_alpha
 		cosmic_canoptrix_crystal_ultra
-		cosmic_arachnoid_sentinel_crystal
-		cosmic_arachnoid_sentinel_crystal_alpha
-		cosmic_arachnoid_sentinel_crystal_ultra
+		cosmic_crawlog
+		cosmic_crawlog_alpha
+		cosmic_crawlog_ultra
+		cosmic_gulgor
+		cosmic_gulgor_alpha
+		cosmic_gulgor_ultra
+		cosmic_gnerot
+		cosmic_gnerot_alpha
+		cosmic_gnerot_ultra
+		cosmic_hedroner
+		cosmic_hedroner_alpha
+		cosmic_hedroner_ultra
 		cosmic_kafferroceros
 		cosmic_kafferroceros_alpha
 		cosmic_kafferroceros_ultra
-		cosmic_kafferroceros_boss
+		cosmic_kermon
+		cosmic_kermon_alpha
+		cosmic_kermon_ultra
+		cosmic_lesigian
+		cosmic_lesigian_alpha
+		cosmic_lesigian_ultra
+		cosmic_morirot
+		cosmic_morirot_alpha
+		cosmic_morirot_ultra
 		cosmic_mushbit
+		cosmic_mushbit_alpha
+		cosmic_mushbit_ultra
 		cosmic_magmoth
 		cosmic_magmoth_alpha
-		cosmic_magmoth_ultra		
+		cosmic_magmoth_ultra
+		cosmic_nerilian
+		cosmic_nerilian_alpha
+		cosmic_nerilian_ultra
+		cosmic_necrodon
+		cosmic_necrodon_alpha
+		cosmic_necrodon_ultra
+		cosmic_phirian
+		cosmic_phirian_alpha
+		cosmic_phirian_ultra
+		cosmic_stregaros_crystal
+		cosmic_stregaros_crystal_alpha
+		cosmic_stregaros_crystal_ultra		
 		cosmic_nerilian_boss
 		cosmic_arachnoid_boss
+		cosmic_kafferroceros_boss
+		cosmic_krocoon_boss
 		cosmic_baxmoth_boss
 		cosmic_bradron_boss
 		cosmic_drillgor_boss
@@ -539,17 +573,19 @@
 		spawner_plutrodon_elite
 		spawner_stickrid_elite
 		spawner_wingmite_elite
-		arcticislands_random_spawner
 		spawner_arctic_boss
-		spawner_cosmic_base_
+		spawner_mega_arctic_boss
 		spawner_cosmic_baxmoth
 		spawner_cosmic_canoptrix
 		spawner_cosmic_gnerot
 		spawner_cosmic_hedroner
+		spawner_cosmic_kafferroceros
 		spawner_cosmic_kermon
 		spawner_cosmic_lesigian
 		spawner_cosmic_magmoth
 		spawner_cosmic_morirot
 		spawner_cosmic_phirian
+		spawner_cosmic_phirian_elite
+		spawner_cosmic_magmoth_elite
 	</list>
 </enumerables> 

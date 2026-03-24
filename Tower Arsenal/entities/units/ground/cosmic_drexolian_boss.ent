@@ -27,18 +27,25 @@ EntityBlueprint
 		material "gui/hud/bars/elite_boss_health_1x3"
 	}
 
+	VegetationBendingComponentDesc
+	{
+		bending_power	"4000.0"
+		bending_radius	"6.0"
+	}
+
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"always"
-		additional_z_order "1"
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthDesc
 	{
-		max_health 					"15000"
-		health 						"15000"
+		max_health 					"8000"
+		health 						"8000"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -235,7 +242,33 @@ EntityBlueprint
 		{
 			float 						"5"
 		}
-	}	
+
+		EntityBlueprint
+		{
+			name "units/ground/cosmic_drexolian_boss/destructor"
+		
+			NetReplicationDisabledComponent
+			{
+			}	
+
+			DamageTriggerComponent
+			{
+				damage_amount	10
+				always_kill		1
+				collision 		"vegetation|destructible"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.2"
+						y "3.75"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
 }
 
 EntityBlueprint
@@ -348,7 +381,7 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		2
+		time "5.0"
 	}
 	
 	DestroyDesc
@@ -454,8 +487,6 @@ EntityBlueprint
 		area			"1.0"
 		cosmic			"0.8"
 		plasmoid		"0.7"
-
-		reflect_damage_max_percent 		"0.030"
 	}
 
 	StunDataComponent
@@ -548,12 +579,6 @@ EntityBlueprint
 	{
 	}
 
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"
-	}
-
 	MovementDataComponent
 	{
 	}
@@ -602,7 +627,8 @@ EntityBlueprint
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "16"
-			range_max "28"
+			range_max "35"
+			//aiming_range "35"
 		}
 
 		aiming_cooldown "1"
@@ -612,6 +638,14 @@ EntityBlueprint
 		yaw "att_muzzle"
 		check_target_visibility "1"
 		use_IK "0"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -626,12 +660,11 @@ EntityBlueprint
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies_drexolian/death"
-					part_prefix 			"meshes/units/ground/drexolian_boss"
+					part_prefix 			"meshes/units/ground/drexolian"
 					part_material 			"units/ground/cosmic_drexolian_boss"
 					part_effect 			"effects/enemies_generic/blood_trail_wood"
 					part_physics_material   "gibs_heavy"
 				}
-
 				key "default"
 			}
 		}

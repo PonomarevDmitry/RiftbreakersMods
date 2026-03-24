@@ -3,14 +3,34 @@ EntityBlueprint
 	name "units/ground/cosmic_krocoon_boss"
 
 	base_blueprint "units/ground/krocoon_base"
+	
+	StateMachineDesc
+	{
+		template_name "krocoon"
+		params
+		{
+			aggressive_speed					float:"10"
+			aggressive_acceleration				float:"18"
+			not_aggressive_speed				float:"6"
+			not_aggressive_acceleration			float:"4"
+			rotate_speed						float:"250"
+			priority_target						string:"headquarters|player|tower|energy"
+			priority_target_distance			float:"40"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
+			melee_attack_name					string:"attack_1|attack_2|attack_3"
+			min_idle_time						float:"4.0"
+			max_idle_time						float:"8.0"
+			eat_time							float:"3.0"
+		}		
+	}
 
 	LuaDesc
 	{
 		script "lua/units/ground/krocoon.lua"
 		database
 		{
-			min_scale	float:"1.30"
-			max_scale	float:"1.30"
+			min_scale	float:"1.40"
+			max_scale	float:"1.40"
 		}			
 	}
 
@@ -21,8 +41,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
+		max_health 					"7500"
+		health 						"7500"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -47,29 +67,27 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.5"
-		acid			"1.0"
-		energy			"1.0"
-		cryo			"0.5"
+		fire			"0.1"
+		acid			"0.1"
+		energy			"0.1"
+		cryo			"0.1"
 		area			"0.1"
-		cosmic			"0.6"
-		plasmoid		"1.0"
-
-		reflect_damage_max_percent 		"0.030"
+		cosmic			"0.1"
+		plasmoid		"0.1"
 	}
 	
 	StunDataComponent
 	{
 		stagger_time 					"0.25"
 		stagger_health_threshold		"0.15"
-		stagger_long_time				"0.75"
-		stagger_long_health_threshold	"0.3"
+		stagger_long_time				"0.5"
+		stagger_long_health_threshold	"0.20"
 		
 		stagger_cooldown				"1.5"
 		stagger_long_cooldown			"4.0"
 		stun_cooldown					"20"
 		
-		force_stagger_chance 			"0"
+		force_stagger_chance 			"0.025"
 	}
 
 	NavMeshMovementComponent
@@ -78,6 +96,13 @@ EntityBlueprint
 		unit_soft_radius				"3.0"
 		ignore_cost_mask				"building|path_blocker|cavern_wall"
 		dominance_group				    "0"
+	}
+
+	GridMarkerComponent
+	{
+		mode			"bounds"
+		terrain_type  	"time_damage_cosmic"	
+		extend  		"6"
 	}
 
 	MeshDesc
@@ -90,18 +115,28 @@ EntityBlueprint
 	{
 
 	}	
-	
+
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
-	}	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
+	}
 
 	SelectableDesc
 	{
 		content "monster_name/cosmic_krocoon_boss"
 		can_activate 0
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -115,34 +150,49 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_krocoon/death_acid"	
-					part_prefix 			"meshes/units/ground/krocoon_boss"
+					explosion_effect 		"effects/enemies_cosmic_magmoth_ultra_boss/death"	
+					part_prefix 			"meshes/units/ground/krocoon"
 					part_material 			"units/ground/cosmic_krocoon_boss"
-					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_effect 			"effects/enemies_generic/boss_trail_cosmic"
 					part_physics_material   "gibs_heavy"					
 				}
 
 				key "default"
 			}
 			
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_krocoon/death_acid"	
-					part_prefix 			"meshes/units/ground/krocoon_death_2"
-					part_material 			"units/ground/cosmic_krocoon_boss"
-					part_effect 			"effects/enemies_generic/blood_trail_violet"
-					part_physics_material   "gibs_heavy"					
-				}
-
-				key "death_2"
-			}
+			//Pair
+			//{
+			//	value
+			//	{
+			//		explosion_type 			"centered"
+			//		explosion_max_power 	"8000"
+			//		explosion_min_power 	"5000"
+			//		explosion_effect 		"effects/enemies_krocoon/death_fire"	
+			//		part_prefix 			"meshes/units/ground/krocoon_death_2"
+			//		part_material 			"units/ground/cosmic_krocoon_boss"
+			//		part_effect 			"effects/enemies_generic/boss_trail_cosmic"
+			//		part_physics_material   "gibs_heavy"					
+			//	}
+			//
+			//	key "death_2"
+			//}
 		}		
 	}
+	
+	BurningComponent
+	{
+		spread_radius 			"2"			// radius to spread fire
+		spread_chance_override 	"0.5"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+		spread_target_mask 		"prop"
+		spread_timer
+		{
+			limit "1" 						// how often entity will try to spread fire in microseconds ( 2s )
+		}
+
+		effect_group            "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_time			"5"	// how long it will burn in seconds
+		disable_light_fade_out "1"
+	}	
 
 	EffectDesc
 	{
@@ -158,7 +208,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"	
+					blueprint "effects/enemies_krocoon/death_long_fire"	
 					bone "att_death"
 				}
 			}
@@ -173,7 +223,6 @@ EntityBlueprint
 				{
 					blueprint "effects/enemies_generic/cosmic_morirot_boss_trail"
 					bone "tip_leg"
-					always_up "1"
 				}
 			}
 		}		
@@ -268,19 +317,22 @@ EntityBlueprint
 				}
 			}
 		}	
-		//EffectGroup
-		//{
-		//	group 	"shadow_caster"
-		//	enabled "1"
-		//	Effects
-		//	{
-		//		Effect
-		//		{
-		//			blueprint "effects/enemies_generic/boss_shadow_caster_green"
-		//			bone "be_neck"
-		//		}
-		//	}
-		//}	
+		EffectGroup
+		{
+			group 	"shadow_caster"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/cosmic_krocoon_boss/boss_caster_light"
+					offset "0 -1 0"
+					//scale "0.5 0.5 0.5"
+					//bone "be_neck"
+					bone "att_death"
+				}
+			}
+		}	
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -289,11 +341,11 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green_metal"	
+					blueprint "effects/enemies_generic/damage_generic_fire_metal"	
 					bone "att_death"
 				}
 			}
-		}		
+		}	
 		EffectGroup
 		{						
 			group "hit_damage"
@@ -302,7 +354,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green_metal"	
+					blueprint "effects/enemies_generic/damage_generic_fire_metal"	
 				}
 			}
 		}
@@ -314,7 +366,21 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_physical_green"
+					blueprint "effects/enemies_generic/time_damage_physical_fire"
+					bone "att_death"
+					scale "2 2 2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
 					bone "att_death"
 					scale "2 2 2"
 				}
@@ -349,12 +415,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.50"
-						//attack_end_time			"0.60"
-						//attack_duration 			"1.50"
-						attack_start_time			"0.75"
-						attack_end_time				"0.90"
-						attack_duration 			"2.25"
+						attack_start_time			"0.50"
+						attack_end_time				"0.60"
+						attack_duration 			"1.50"
+						//attack_start_time			"0.75"
+						//attack_end_time			"0.90"
+						//attack_duration 			"2.25"
 						damage_multiple  			"1"
 					}
 
@@ -365,12 +431,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.50"
-						//attack_end_time			"0.65"
-						//attack_duration 			"1.43"
-						attack_start_time			"0.75"
-						attack_end_time				"0.98"
-						attack_duration 			"2.15"
+						attack_start_time			"0.50"
+						attack_end_time				"0.65"
+						attack_duration 			"1.43"
+						//attack_start_time			"0.75"
+						//attack_end_time			"0.98"
+						//attack_duration 			"2.15"
 						damage_multiple  			"1"
 					}
 					
@@ -381,12 +447,12 @@ EntityBlueprint
 						attack_speed_param_name  	"attack_speed"
 						melee_damage_name 			"close_attack"
 						attack_start_effect 		"effects/enemies_krocoon/attack_start"
-						//attack_start_time			"0.65"
-						//attack_end_time			"0.85"
-						//attack_duration 			"1.40"
-						attack_start_time			"0.98"
-						attack_end_time				"1.28"
-						attack_duration 			"2.10"
+						attack_start_time			"0.65"
+						attack_end_time				"0.85"
+						attack_duration 			"1.40"
+						//attack_start_time			"0.98"
+						//attack_end_time			"1.28"
+						//attack_duration 			"2.10"
 						damage_multiple  			"1"
 					}
 				}
@@ -413,7 +479,7 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"119"
+										value 	"100"
 										type 	"cosmic"
 									}
 								}
@@ -440,8 +506,32 @@ EntityBlueprint
 				}
 			}
 		}
-	}
 
-	
+		EntityBlueprint
+		{
+			name "units/ground/cosmic_krocoon_boss/destructor"
+		
+			NetReplicationDisabledComponent
+			{
+			}	
+
+			DamageTriggerComponent
+			{
+				damage_amount	10
+				always_kill		1
+				collision 		"vegetation|destructible"
+
+				Shapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.2"
+						y "3.75"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
 }
 

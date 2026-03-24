@@ -7,10 +7,10 @@ EntityBlueprint
 		template_name "arachnoid_boss"
 		params
 		{
-			aggressive_speed				float:"12"
-			aggressive_acceleration			float:"90"
+			aggressive_speed				float:"16"
+			aggressive_acceleration			float:"160"
 			not_aggressive_speed			float:"8"
-			not_aggressive_acceleration		float:"50"
+			not_aggressive_acceleration		float:"100"
 			angle_turn_speed				float:"300"
 			priority_target					string:"headquarters|player|energy|tower"
 			priority_target_distance		float:"40"
@@ -29,7 +29,7 @@ EntityBlueprint
 		{
 			min_scale	float:"3.0"
 			max_scale	float:"3.0"
-			
+						
 			STING_item_type string:"enemy_range_weapon"
 			STING_pose_type string:"range"
 
@@ -44,8 +44,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"10000"
-		health 						"10000"
+		max_health 					"7000"
+		health 						"7000"
 		is_manual					"1"
 		update_health_uniform 		"1"		
 
@@ -62,16 +62,14 @@ EntityBlueprint
 
 	ResistanceComponent
 	{
-		physical		"0.9"
-		fire			"0.9"
-		acid			"0.9"
-		energy			"0.9"
-		cryo			"0.2"
-		area			"0.8"
-		cosmic			"0.3"
-		plasmoid		"0.5"
-
-		reflect_damage_max_percent 		"0.015"
+		physical		"1.0"
+		fire			"1.2"
+		acid			"1.5"
+		energy			"1.5"
+		cryo			"0.5"
+		area			"1.0"
+		cosmic			"0.2"
+		plasmoid		"0.8"
 	}
 
 	StunDataComponent
@@ -105,7 +103,7 @@ EntityBlueprint
 		unit_state_spawn				"1"  // do not touch
 		max_spawn_distance				"20"
 		spawn_type						"egg"
-		spawn_marker_bp					"effects/messages_and_markers/objective_marker_violet"
+		spawn_marker_bp					"effects/messages_and_markers/wave_marker_cosmic_nest"
 		spawn_marker_life_time			"30"
 		can_spawn_when_visible			"0"
 		defend_radius					"40"
@@ -173,9 +171,11 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_hedroner_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
 	}
 
 	HealthBarDesc
@@ -188,13 +188,6 @@ EntityBlueprint
 	HighlightComponent
 	{
 
-	}
-
-	LootDesc
-	{
-		explosion_type 			"centered"	
-		explosion_max_power 	"12000"
-		explosion_min_power 	"7000"	
 	}
 
 	MovementDataComponent
@@ -284,6 +277,7 @@ EntityBlueprint
 		{
 			range_min "16"
 			range_max "27"
+			//aiming_range "27"
 		}
 
 		aiming_cooldown "1"
@@ -291,6 +285,14 @@ EntityBlueprint
 		pitch "att_muzzle"
 		yaw "att_muzzle"
 		check_target_visibility "1"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -695,7 +697,7 @@ EntityBlueprint
 			{
 			}
 
-		    name "units/ground/arachnoid_boss/trigger"
+		    name "units/ground/cosmic_arachnoid_boss/trigger"
 			
 			AttachmentDesc
 			{
@@ -737,7 +739,7 @@ EntityBlueprint
 
 		EntityBlueprint
 		{
-			name "units/ground/arachnoid_boss/destructor"
+			name "units/ground/cosmic_arachnoid_boss/destructor"
 		
 			NetReplicationDisabledComponent
 			{
@@ -763,7 +765,7 @@ EntityBlueprint
 
 		EntityBlueprint
 		{
-		    name "units/ground/arachnoid_boss/attack_1"
+		    name "units/ground/cosmic_arachnoid_boss/attack_1"
 
 			NetReplicationDisabledComponent
 			{
@@ -844,7 +846,7 @@ EntityBlueprint
 
 		EntityBlueprint
 		{
-		    name "units/ground/arachnoid_boss/attack_2"
+		    name "units/ground/cosmic_arachnoid_boss/attack_2"
 
 			NetReplicationDisabledComponent
 			{
@@ -927,7 +929,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "units/ground/arachnoid_boss_armour"
+	name  "units/ground/cosmic_arachnoid_boss_armour"
 
 	NetReplicationDisabledComponent
 	{
@@ -945,9 +947,9 @@ EntityBlueprint
 					explosion_max_power 	"10000"
 					explosion_min_power 	"5000"
 					explosion_effect 		"effects/enemies_arachnoid/death"	
-					part_material	 		"units/ground/arachnoid_boss"
+					part_material	 		"units/ground/cosmic_arachnoid_boss"
 					part_prefix 			"meshes/units/ground/arachnoid_boss_armor"
-					part_effect 			"effects/enemies_generic/blood_trail_green"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material   "gibs_heavy"						
 				}
 

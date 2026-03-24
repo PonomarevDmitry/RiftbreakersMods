@@ -1,60 +1,25 @@
 EntityBlueprint
 {
-	name  "buildings/defense/tower_flamer_cryogenic_beam_lvl3"
-
-	base_blueprints
-	{
-		lights/point/fire_blue_big
-		effects/no_lifetime
-	}
-
-	FlameBeamComponent
-	{
-        max_hits					"16"
-        box_count					"3"
-        angle_speed					"180"
-        range_speed					"1.5"
-        particle_velocity_scale 	"0.0125"
-        particle_reference_range	"16"
-				burning_chance_override 	"0"
-
-		collision_3d 				"world_blocker|world|ground_unit|building|hitbox|destructible"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/mech_cryogenicgenic_atomizer"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/fluid/flamer_loop"
-		start_name 	"items/weapons/fluid/flamer_start"
-		end_name 	"items/weapons/fluid/flamer_stop"
-	}
-}
-
-EntityBlueprint
-{
 	name  "buildings/defense/tower_flamer_cryogenic_lvl_3"
 
 	base_blueprint 			buildings/defense/tower_flamer_cryogenic_lvl_2
 
 	BuildingDesc
 	{
-		buildable			"0"
 		name 				"tower_flamer_cryogenic_lvl_3"
 		bp   				"buildings/defense/tower_flamer_cryogenic_lvl_3"
-		ghost_bp   			"buildings/defense/tower_flamer_cryogenic_lvl_3_ghost"
 		category 			"defense_modd"
 		localization_id		"gui/hud/building_name/tower_flamer_cryogenic"
 		description			"gui/hud/building_description/tower_flamer_cryogenic"
 		menu_icon			"gui/hud/building_icons/tower_flamer_cryogenic_lvl_3"
 		require 			"headquarters"
-		order				"4"
+		order				"2"
 		type				"tower"
 		overrides			"tower,wall"
 		//upgrade				"buildings/defense/tower_flamer_cryogenic_lvl_4"
+
+		building_group		"tower_flamer_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -164,51 +129,36 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name  "buildings/defense/tower_flamer_cryogenic_lvl_3_ghost"
+	name  "buildings/defense/tower_flamer_cryogenic_beam_lvl3"
 
-	MeshDesc
+	base_blueprints
 	{
-		mesh "meshes/buildings/defense/tower_flamer_lvl_3.mesh"
-		material "selector/hologram_blue"
+		lights/point/fire_blue_big
+		effects/no_lifetime
 	}
 
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ghost_building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsBoxShape
-					{
-							x	2
-							y	2
-							z	2
-					}
-				}
-			}
-		}
+	FlameBeamComponent
+	{
+        max_hits					"16"
+        box_count					"3"
+        angle_speed					"180"
+        range_speed					"1.5"
+        particle_velocity_scale 	"0.0125"
+        particle_reference_range	"16"
+				burning_chance_override 	"0"
+
+		collision_3d 				"world_blocker|world|ground_unit|building|hitbox|destructible"
 	}
 
-	GridCullerDesc
+	ParticleDesc
 	{
-		Shapes
-		{
-   			PhysicsBoxShape
-   			{
-    				x	2
-    				y	2
-    				z	2
-   			}
-		}
+		name    "rift/tower_cryogenic_beam"
 	}
 
-	DisplayRadiusDesc
+	SoundDesc
 	{
-		max_radius 20
+		name 		"items/weapons/fluid/flamer_loop"
+		start_name 	"items/weapons/fluid/flamer_start"
+		end_name 	"items/weapons/fluid/flamer_stop"
 	}
 }

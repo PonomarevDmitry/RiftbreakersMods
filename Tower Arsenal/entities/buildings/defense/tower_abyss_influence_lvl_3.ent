@@ -1,0 +1,257 @@
+EntityBlueprint
+{
+	name "buildings/defense/tower_abyss_influence_lvl_3"
+	
+	base_blueprint 			"buildings/defense/tower_abyss_influence_lvl_2"
+
+	BuildingDesc
+	{
+		name 					"tower_abyss_influence_lvl_3"
+		bp   					"buildings/defense/tower_abyss_influence_lvl_3"
+		category 				"defense"
+		localization_id			"gui/hud/building_name/tower_abyss_influence"
+		description				"gui/hud/building_description/tower_abyss_influence"
+		menu_icon				"gui/hud/building_icons/tower_alien_influence_lvl3"
+		building_functionality	"BUILD_ON_WATER|NO_FOUNDATION"
+		require 				"headquarters"
+		buildable				"0"
+		order					"23"
+		type					"tower"
+		overrides				"tower,wall,pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
+		//upgrade				"buildings/defense/tower_abyss_influence_lvl_3"
+		exclude_terrain_types 	"magma_hot_ground,magma_very_hot_ground"
+		check_connect			"1"
+		radius_name				"morphium_tower"
+		min_radius				"9"
+		min_radius_effect   	"voice_over/announcement/building_too_close"
+		
+		costs
+		{
+			BuildingCostInfo
+			{
+				name 			"default"
+				building_time 	10
+				building_cost
+				{
+					carbonium 	"600"
+					steel 		"600"
+					cobalt 		"100"
+				}
+			}
+		}
+	}
+
+	ResourceConverterDesc // must be here for AI
+	{
+		in
+		{			
+			GameplayResource
+			{
+				resource 	"abyssium"
+				value 		"25"
+			}		
+		}
+
+		out
+		{
+		}
+
+		priority 6
+	}
+	
+	PipeComponent
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_abyss_influence.lua"
+
+		database
+		{
+			cone_effect			string:"build_cone_1x1"
+			cone_effect_sell	string:"sell_small"
+			time_machine		int:"0"
+			radius				float:"26"
+			shield_bp			string:"buildings/defense/tower_alien_influence/shield_lvl_3"
+		}
+
+	}
+	HealthDesc
+	{
+		max_health 					"1000"
+		health 						"1000"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual 					1
+		update_health_uniform 		"1"
+
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"66"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"66_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
+				destroyed_state_effect_group 		"66_state"
+			}
+			DestructionLevel
+			{
+				health 								"33"
+				destroy_comp_delay 					"0"
+				destroy_comp_event 					"33_destroy"
+				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
+				destroyed_state_effect_group 		"33_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/buildings/defense/tower_alien_influence_lvl_3.mesh"
+		material "buildings/defense/tower_alien_influence_lvl_3"	
+	}
+	
+	SkeletonDesc
+	{
+		name "meshes/buildings/defense/tower_alien_influence_lvl_3"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				//recoil_bone  "be_recoil_01"
+				//recoil_time   "0.7"
+				//recoil_offset   "0.3"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "10" // "10"
+			submesh_idx "0"
+		}
+
+		ammo_blueprint 				"buildings/defense/tower_abyss_influence/lightning_rod_lvl3"
+		muzzles_per_fire 			"1"
+		muzzle_flash_effect 		"effects/weapons_alien/tower_morphium_fire"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0"
+		burst_column_angle 			"0"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	TowerDesc
+	{
+	}
+}
+
+EntityBlueprint
+{
+	name  "buildings/defense/tower_alien_influence/shield_lvl_3"
+
+	IdDesc
+	{
+		name "_shield_"
+	}
+
+	HealthDesc
+	{
+		max_health 					"500"
+		health 						"0"
+	}
+
+	RegenerationComponent
+	{
+		regeneration 				"20"
+		regeneration_cooldown 		"5"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "shield_down"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/jump_portal_exit"
+				}
+			}
+		}
+	}
+
+	ShieldComponent
+	{
+		owner	"custom"
+	}
+}
+
+EntityBlueprint 
+{	
+	name "buildings/defense/tower_abyss_influence/lightning_rod_lvl3"
+
+	base_blueprints
+	{
+		buildings/defense/tower_abyss_influence/lightning_rod
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/laser_beam_small.mesh"
+		material 	"items/weapons/lightning_necrodon_ressurect_beam"
+	}
+
+	FlakAmmoComponent
+	{
+		explosion_effect 		"effects/tower_abyss_influence/lightning_explosion_lvl3"
+		//explosion_delay 		"1.9"
+	}
+}
+
+
+EntityBlueprint
+{
+	name "effects/tower_abyss_influence/lightning_explosion_lvl3"
+
+	base_blueprints
+	{
+		effects/tower_abyss_influence/lightning_explosion
+	}
+
+	BombAmmoComponent
+	{		
+		DamagePattern
+		{
+			area_damage_radius	"6"
+			area_damage_speed 	"20"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"200"
+					type			"plasmoid"
+				}
+			}
+		}
+	}
+
+	ParticleDesc
+	{
+		name    "rift/cosmic_lesigian_lightning_explosion"
+	}
+
+}

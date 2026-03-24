@@ -75,8 +75,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"340"
 		unit_soft_radius				"1.4"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|abyssium_vein"
 		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75" //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	MeshDesc
@@ -433,12 +439,14 @@ EntityBlueprint
 			}
 		}
 	}
-	
+
 	MinimapItemDesc
 	{
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/cosmic_necrodon"
-		visibility 		"radar"		
+		additional_z_order	"0.5"
+		visibility 		"radar"
+		layer_group		"enemies"
 	}		
 
 	HighlightComponent
@@ -448,7 +456,8 @@ EntityBlueprint
 	LootDesc
 	{
 		explosion_max_power 	"1000"
-		explosion_min_power 	"500"	
+		explosion_min_power 	"500"
+		loot_award		"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -635,6 +644,48 @@ EntityBlueprint
 		}	
 		EffectGroup
 		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
 			group 	"time_damage_fire"
 			enabled "0"
 			Effects
@@ -687,21 +738,6 @@ EntityBlueprint
 					blueprint "effects/enemies_generic/time_damage_energy"
 					bone "att_death"
 					scale "1.2 1.2 1.2"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
 				}
 			}
 		}

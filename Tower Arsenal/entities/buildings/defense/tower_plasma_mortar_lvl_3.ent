@@ -1,9 +1,8 @@
 EntityBlueprint
 {
 	name "buildings/defense/tower_plasma_mortar_lvl_3"
-	
 	base_blueprint "buildings/defense/tower_plasma_mortar_lvl_2"
-	
+
 	BuildingDesc
 	{
 		name 				"tower_plasma_mortar_lvl_3"
@@ -13,41 +12,32 @@ EntityBlueprint
 		description			"gui/hud/building_description/tower_plasma_mortar"
 		menu_icon			"gui/hud/building_icons/tower_plasma_mortar_lvl3"
 		require 			"headquarters"
-		order				"20"
-		buildable			"0"
+		order				"17"
 		type				"tower"
 		overrides			"tower,wall"
-		//upgrade				"buildings/defense/tower_plasma_mortar_lvl_4"
+		//upgrade				"buildings/defense/tower_inferno_lvl_4"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_mortors_dummy"
+		buildable			"0"
+		radius_name			"mortors"
+		min_radius			"10"
+		min_radius_effect   "voice_over/announcement/building_too_close"
 
 		costs
 		{
 			BuildingCostInfo
 			{
 				name "default"
-				building_time 2.5
+				building_time 20
 				building_cost
 				{
-					carbonium 		"400"
-					steel 			"200"
-					plasmanite		"220"
-					cosmonite_ore	"200"
+					carbonium 	"2000"
+					steel 		"1000"
+					titanium	"800"
 				}
-			}
-			
-			BuildingCostInfo
-			{
-				name "survival"
-				building_time 1.5
-				building_cost
-				{
-					carbonium 		"450"
-					steel 			"250"
-					titanium		"250"
-					cosmonite_ore	"250"
-				}
-			}
-		}
+			}		
+		}	
 	}
 
 	ResourceConverterDesc // must be here for AI
@@ -57,7 +47,7 @@ EntityBlueprint
 			GameplayResource
 			{
 				resource 	"energy"
-				value 		"8"
+				value 		"25"
 			}
 		}
 
@@ -65,26 +55,13 @@ EntityBlueprint
 		{
 		}
 
-		priority 3
-	}
-
-	LuaDesc
-	{
-		script "lua/buildings/defense/tower.lua"
-
-		database
-		{
-			cone_effect			string:"build_cone_1x1"
-			cone_effect_sell	string:"sell_small"
-			time_machine		int:"0"
-		}
-
+		priority 6
 	}
 
 	HealthDesc
 	{
-		max_health 					"1000"
-		health 						"1000"
+		max_health 					"2000"
+		health 						"2000"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		 is_manual 1
@@ -98,7 +75,6 @@ EntityBlueprint
 				health 								"66"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"66_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_25"
 				destroyed_state_effect_group 		"66_state"
 			}
 			DestructionLevel
@@ -106,7 +82,6 @@ EntityBlueprint
 				health 								"33"
 				destroy_comp_delay 					"0"
 				destroy_comp_event 					"33_destroy"
-				//destroyed_state_material 			"buildings/main/headquarters_dest_0"
 				destroyed_state_effect_group 		"33_state"
 			}
 		}
@@ -114,102 +89,13 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh "meshes/buildings/defense/tower_rocket_launcher_lvl_3.mesh"
+		mesh "meshes/buildings/defense/tower_inferno_lvl_3.mesh"
 		material "buildings/defense/tower_plasma_mortar_lvl_3"
-	}
-
-	TypeDesc
-	{
-		type "building|defense|tower"
 	}
 
 	SkeletonDesc
 	{
-		name "meshes/buildings/defense/tower_rocket_launcher_lvl_3"
-	}
-
-	PhysicsDesc
-	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"static"
-				group_id 			"building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsBoxShape
-					{
-						x "2"
-						y "4"
-						z "2"
-
-						position
-						{
-							x "0.0"
-							y "2"
-							z "0.0"
-						}
-					}
-				}
-			}
-		}
-	}
-
-	NodeCullerDesc
-	{
-		nav_mesh_cull_type "1"
-		cost_type "building"
-		flow_field_size "0.7"
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-			PhysicsBoxShape
-			{
-				x	2
-				y	2
-				z	2
-			}
-		}
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "0.5"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "1"
-			y "1"
-		}
-		visibility			"discovered"
-	}
-
-	FogOfWarRevealerComponentDesc
-	{
-		radius "40"
-	}
-
-	HealthBarDesc
-	{
-		type "2"
-		mode "1"
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"2000"
-		explosion_min_power 	"1000"
+		name "meshes/buildings/defense/tower_inferno_lvl_3"
 	}
 
 	WeaponItemDesc
@@ -219,4 +105,55 @@ EntityBlueprint
 	TowerDesc
 	{
 	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+				recoil_bone  "be_recoil"
+				recoil_time   "0.35"
+				recoil_offset   "1.0"
+			}
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "50"//60
+			submesh_idx "1"
+		}
+
+		ammo_blueprint 			"buildings/defense/tower_plasma_mortar_projectile_lvl_3"
+		muzzle_flash_effect 	"effects/weapons_explosive/tower_rocket_fire_medium"
+
+		use_accuracy			"0"
+		burst_column_spacing 	"0.10"
+		burst_rate 				"0.25"
+		burst_column_angle 		"0"
+	}
+}
+
+EntityBlueprint
+{
+	name "buildings/defense/tower_plasma_mortar_projectile_lvl_3"
+	base_blueprint "buildings/defense/tower_plasma_mortar_projectile"
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		on_world_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		on_resisted_hit_effect 	"effects/tower_mortars/plasmoid_explosion"
+		hit_effect_direction 		"up"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+	}		
 }

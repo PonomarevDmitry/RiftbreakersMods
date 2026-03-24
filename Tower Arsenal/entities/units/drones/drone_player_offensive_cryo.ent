@@ -24,7 +24,7 @@ EntityBlueprint
 
 	LuaDesc
 	{
-		script "lua/units/air/attack_drone.lua"
+		script "lua/units/air/ta_attack_drone.lua"
 
 		database
 		{
@@ -107,7 +107,7 @@ EntityBlueprint
 				{
 					blueprint "effects/trails/units/drone_offensive_cryo"
 					bone "body_1"
-					scale "1.7 0.8 1"
+					scale "0.5 0.5 0.5"
 				}
 			}
 		}	
@@ -182,10 +182,10 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_cryo"
-		on_world_hit_effect 	"effects/enemies_baxmoth/drone_projectile_hit_cryo"
-		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+		on_enemy_hit_effect 	"effects/player_drone/drone_projectile_hit_cryogenic"
+		on_world_hit_effect 	"effects/player_drone/drone_projectile_hit_cryogenic"
 		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		friendly_fire				"pass"
@@ -198,3 +198,23 @@ EntityBlueprint
 	}
 }
 
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_cryo_lvl2"
+	base_blueprint		"units/drones/drone_player_offensive_cryo"
+	
+	WeaponItemDesc
+	{
+	}	
+}
+
+EntityBlueprint
+{
+	name				"units/drones/drone_player_offensive_cryo_lvl3"
+	base_blueprint		"units/drones/drone_player_offensive_cryo"
+	
+	WeaponItemDesc
+	{
+	}	
+}

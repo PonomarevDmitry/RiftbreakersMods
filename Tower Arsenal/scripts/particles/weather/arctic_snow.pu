@@ -1,0 +1,158 @@
+system rift/arctic_snow
+{
+    nonvisible_update_timeout                   1
+    disable_culling                             true
+    scale_velocity                              0.025
+    scale                                       0.025 0.025 0.025
+    tight_bounding_box                          true
+    fade_out                                    true
+    technique 
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/snow_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       300
+            angle                               2
+            time_to_live                        dyn_random
+            {
+                min                             10
+                max                             20
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             250
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            position                            500 -100 0
+            direction                           0.3 -1 0
+            end_texture_coords_range            5
+            colour                              1 1 1 0.686275
+            box_width                           2500
+            box_height                          1
+            box_depth                           2500
+        }
+    }
+    technique 
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/snow_atlas
+        renderer                                Billboard
+        {
+            render_queue_group                  65
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       200
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             100
+                max                             175
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             8
+                max                             16
+            }
+            position                            500 -400 0
+            direction                           0.2 -1.1 0
+            end_texture_coords_range            5
+            colour                              0.501961 0.501961 0.501961 1
+            box_width                           2500
+            box_height                          10
+            box_depth                           2500
+        }
+        affector                                Colour Affector11
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.102174  0.245552 0.959727 1 0.5
+            time_colour                         0.906522  0.245552 0.959727 1 0.5
+            time_colour                         1    1 1 1 0
+        }
+        affector                                Gravity 
+        {
+            gravity                             0.5
+        }
+    }
+    technique dust
+    {
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_add_nodepth_02
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+            billboard_origin                    top_center
+        }
+        emitter                                 Box dust
+        {
+            emission_rate                       250
+            angle                               2
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             4
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             100
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             6
+                max                             12
+            }
+            position                            500 -100 0
+            direction                           0.2 -1 0
+            box_width                           2500
+            box_height                          300
+            box_depth                           2500
+        }
+        affector                                Gravity 
+        {
+            position                            0 -1 0
+        }
+        affector                                Colour 
+        {
+            time_colour                         0    0 0 0 0
+            time_colour                         0.102174  0 1 0.989324 1
+            time_colour                         0.2  0 0.519573 1 1
+            time_colour                         0.3  0 1 0.989324 1
+            time_colour                         0.426087  0 0.519573 1 1
+            time_colour                         0.502174  0 1 0.989324 1
+            time_colour                         0.632609  0 0.519573 1 1
+            time_colour                         0.708696  0 1 0.989324 1
+            time_colour                         0.828261  0 0.519573 1 1
+            time_colour                         0.91087  0 1 0.989324 1
+            time_colour                         1    0 0 0 0
+        }
+    }
+}

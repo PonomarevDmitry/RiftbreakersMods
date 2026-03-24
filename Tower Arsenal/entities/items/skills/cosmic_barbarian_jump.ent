@@ -4,8 +4,8 @@ EntityBlueprint
 
 	SpecialMovementDataComponent
 	{
-		max_speed   	"30"
-		max_time    	"10"
+		max_speed   	"0"
+		max_time    	"20"
 		acceleration_function
 		{
 			type "0"
@@ -19,8 +19,8 @@ EntityBlueprint
 			}
 		}
 
-		start_effect 				"dash_start_long"
-		continuous_effect 		"dash_trail_long"
+		//start_effect 				"dash_start_long"
+		//continuous_effect 			"dash_trail_long"
 		param_name					"is_jumping"
 		//block_aiming_dir			"1"
 	}
@@ -53,13 +53,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				100
+				value 				150
 				damage_type			"cosmic"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				6
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -71,14 +71,14 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"6"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"100"
+					value 			"150"
 					type			"cosmic"
 				}
 			}
@@ -96,13 +96,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				150
+				value 				300
 				damage_type			"cosmic"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				6.5
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -114,14 +114,14 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"6.5"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"150"
+					value 			"300"
 					type			"cosmic"
 				}
 			}
@@ -139,13 +139,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				200
+				value 				600
 				damage_type			"cosmic"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				7
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -157,14 +157,14 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"7"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"200"
+					value 			"600"
 					type			"cosmic"
 				}
 			}
@@ -182,13 +182,13 @@ EntityBlueprint
 		{
 			WeaponStatData
 			{
-				value 				250
+				value 				1000
 				damage_type			"cosmic"
 				type	 			DAMAGE_VALUE
 			}
 			WeaponStatData
 			{
-				value 				8
+				value 				7.5
 				type	 			DAMAGE_SPLASH
 			}			
 		}
@@ -200,14 +200,14 @@ EntityBlueprint
 
 		DamagePattern
 		{
-			area_damage_speed	"20"
-			area_damage_radius	"8"
+			area_damage_speed	"60"
+			area_damage_radius	"7.5"
 			
 			Damages
 			{
 				Damage
 				{
-					value 			"250"
+					value 			"1000"
 					type			"cosmic"
 				}
 			}
@@ -231,6 +231,8 @@ EntityBlueprint
 		description 			"gui/menu/inventory/skill_description/jump_cosmic"	
 		rarity					"STANDARD"
 		replace_lower_quality	"1"
+		add_after_obtaining 	"1"
+		drop_weight				"0.25"
 	}
 
 	LuaDesc
@@ -238,15 +240,17 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cosmic_explosion"
-			stat_bp		string:"items/skills/jump_cosmic_explosion"
-            trigger     string:"items/skills/jump_cosmic_trigger"
-            radius_bp   string:"items/skills/jump_cosmic_trail"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+			bp					string:"items/skills/jump_cosmic_explosion"
+			stat_bp				string:"items/skills/jump_cosmic_explosion"
+            trigger     		string:"items/skills/jump_cosmic_trigger"
+            radius_bp   		string:"items/skills/jump_cosmic_trail"
+
             radius_size float:"5"
-            radius_lifetime float:"5"
+            radius_lifetime float:"2"
 			att			string:"be_body_lower"
-			jump_speed 	float:"8"
-			jump_distance float:"25"
+			jump_speed 	float:"1"
+			jump_distance float:"30"
 			min_distance  float:"5"
 		}
 	}
@@ -280,16 +284,17 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cosmic_explosion_advanced"
-			stat_bp		string:"items/skills/jump_cosmic_explosion_advanced"
-            trigger     string:"items/skills/jump_cosmic_trigger"
-            radius_bp   string:"items/skills/jump_cosmic_trail"
-            radius_size float:"5"
-            radius_lifetime float:"5"
-			att			string:"be_body_lower"
-			jump_speed 	float:"8"
-			jump_distance float:"25"
-			min_distance  float:"5"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+			bp					string:"items/skills/jump_cosmic_explosion_advanced"
+			stat_bp				string:"items/skills/jump_cosmic_explosion_advanced"
+            trigger     		string:"items/skills/jump_cosmic_trigger"
+            radius_bp   		string:"items/skills/jump_cosmic_trail"
+            radius_size 		float:"5"
+            radius_lifetime float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"1"
+			jump_distance 		float:"30"
+			min_distance 		float:"5"
 		}
 	}
 
@@ -322,16 +327,17 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cosmic_explosion_superior"
-			stat_bp		string:"items/skills/jump_cosmic_explosion_superior"
-            trigger     string:"items/skills/jump_cosmic_trigger"
-            radius_bp   string:"items/skills/jump_cosmic_trail"
-            radius_size float:"5"
-            radius_lifetime float:"5"
-			att			string:"be_body_lower"
-			jump_speed 	float:"8"
-			jump_distance float:"25"
-			min_distance  float:"5"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+			bp					string:"items/skills/jump_cosmic_explosion_superior"
+			stat_bp				string:"items/skills/jump_cosmic_explosion_superior"
+            trigger     		string:"items/skills/jump_cosmic_trigger"
+            radius_bp   		string:"items/skills/jump_cosmic_trail"
+            radius_size 		float:"5"
+            radius_lifetime float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"1"
+			jump_distance 		float:"30"
+			min_distance  		float:"5"
 		}
 	}
 
@@ -364,16 +370,17 @@ EntityBlueprint
 		script "lua/items/skills/barbaric_jump.lua"
 		database
 		{
-			bp			string:"items/skills/jump_cosmic_explosion_extreme"
-			stat_bp		string:"items/skills/jump_cosmic_explosion_extreme"
-            trigger     string:"items/skills/jump_cosmic_trigger"
-            radius_bp   string:"items/skills/jump_cosmic_trail"
-            radius_size float:"5"
-            radius_lifetime float:"5"
-			att			string:"be_body_lower"
-			jump_speed 	float:"8"
-			jump_distance float:"25"
-			min_distance  float:"5"
+            danger_marker_bp 	string:"effects/messages_and_markers/danger_marker_blue"
+			bp					string:"items/skills/jump_cosmic_explosion_extreme"
+			stat_bp				string:"items/skills/jump_cosmic_explosion_extreme"
+            trigger     		string:"items/skills/jump_cosmic_trigger"
+            radius_bp   		string:"items/skills/jump_cosmic_trail"
+            radius_size 		float:"5"
+            radius_lifetime float:"2"
+			att					string:"be_body_lower"
+			jump_speed 			float:"1"
+			jump_distance 		float:"30"
+			min_distance  		float:"5"
 		}
 	}
 

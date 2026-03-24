@@ -450,8 +450,8 @@ EntityBlueprint
 
 	MeshDesc
 	{
-		mesh 		"meshes/projectiles/blob_1.mesh"
-		material 	"projectiles/blob_acid"
+		mesh 		"meshes/units/ground/bomogan_projectile.mesh"
+		material 	"projectiles/laser_green"
 	}
 
 	SkeletonDesc
@@ -482,26 +482,10 @@ EntityBlueprint
 		bending_power	"5000.0"
 		bending_radius	"5.0"
 	}
-
+	
 	SoundDesc
 	{
-		name 		"items/weapons/fluid/corrosive_gun_fire"
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_acid"
-					bone "att_exhaust"
-					scale "0.5 0.5 0.5"
-				}
-			}
-		}
+		name 		"items/weapons/explosive/grenade_launcher_fire"
 	}
 
 	ArtilleryAmmoComponent
@@ -525,50 +509,27 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			"ribbon/acid_green"
+				material 			ribbon/drone_trail_green
 				update_bounds 		1
-				fade_out_time		1.9
-				tesselation_step 	0.1
-				manual_fade 		1
+				fade_out_time		0.75
+				uv_scroll			"0 -2.5"
+				tiling_distance     "0"
+				tesselation_step 	"0.25"
+				keep_local			"0"
 
 				Ribbons
 				{
-					Ribbon
 					{
-						offset "0 0 0.5"
+						offset "0 0 0.6"
 					}
 
 					Ribbon
 					{
-						offset "0 0 -0.5"
+						offset "0 0 -0.6"
 					}
 				}
 			}
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name "items/projectiles/floating_mines_acid_explosion"
-
-	BombAmmoComponent
-	{
-		explosion_effect 		"effects/weapon_hit/acid_mine_explosion"
-	
-		DamagePattern
-		{
-			area_damage_radius	"12"
-	
-			Damages
-			{
-				Damage
-				{
-					value 			"300"
-					type			"acid"
-					}
-				}
-			}
+			
 		}
 	}
 }

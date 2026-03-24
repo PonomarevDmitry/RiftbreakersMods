@@ -1,13 +1,34 @@
-//editor "scroll(10882.96,15387.87)|zoom(0.60)"
+//editor "scroll(853.35,1270.81)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "18"
-	editor "6380"
+	version "4"
+	editor "6643"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(15571,21691)"
+			//editor "layout(event_start.xml)|pos(171,528)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(592,1126)"
 			database
 			{
 				Floats
@@ -23,126 +44,19 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_1"
+			self_id "logic_wait_0"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1823,1608)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(15029,20366)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "search_min_radius"
-						value "0"
-					}
-
-				}
-
-				Integers
-				{
-					IntData
-					{
-						key "random_spawn"
-						value "0"
-					}
-
-					IntData
-					{
-						key "spawn_indicator"
-						value "1"
-					}
-
-					IntData
-					{
-						key "spawn_indicator_duration"
-						value "30"
-					}
-
-					IntData
-					{
-						key "search_count"
-						value "1"
-					}
-
-				}
-
-				Strings
-				{
-					StringData
-					{
-						key "spawn_direction"
-						value
-					}
-
-					StringData
-					{
-						key "target_name"
-						value
-					}
-
-					StringData
-					{
-						key "spawn_type"
-						value "Name"
-					}
-
-					StringData
-					{
-						key "target_type"
-						value "Name"
-					}
-
-				}
-
-			}
-
-			delay "0"
-			group_name "universal"
-			percentage_units_to_end_wave "90"
-			self_id "wave_ground_1"
-			spawn_group
-			spawn_point
-			Enemies
-			{
-				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_gnerot"
-					count "1"
-					delay "0"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "1"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_phirian"
-					count "1"
-					delay "2"
-					delay_group "0"
-					spawn_type "blueprint"
-					units_in_one_spawn "3"
-				}
-
-			}
-
-		}
-
-		WaveGround
-		{
-			//editor "layout(wave_ground.xml)|pos(15445,20954)"
+			//editor "layout(wave_ground.xml)|pos(874,857)"
 			database
 			{
 				Floats
@@ -239,14 +153,106 @@ FlowGraphTemplate
 					units_in_one_spawn "1"
 				}
 
+			}
+
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(458,269)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
 				Enemy
 				{
-					//editor "layout(enemy_species.xml)|pos(0,0)"
-					blueprint "random_bosses"
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_gnerot"
 					count "1"
-					delay "1"
+					delay "3.00"
 					delay_group "0"
-					spawn_type "creature_species"
+					spawn_type "blueprint"
 					units_in_one_spawn "1"
 				}
 
@@ -254,58 +260,9 @@ FlowGraphTemplate
 
 		}
 
-		LuaBehaviourNode
-		{
-			//editor "layout(event_start.xml)|pos(14742,20625)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "rule_headquarters_survive"
-						value "1"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/event_start.lua"
-			self_id "default"
-		}
-
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(16394,21705)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(15163,21223)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "10.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_0"
-		}
-
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(15857,21457)"
+			//editor "layout(wave_ground.xml)|pos(1286,1360)"
 			database
 			{
 				Floats
@@ -395,26 +352,36 @@ FlowGraphTemplate
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
 					blueprint "units/ground/cosmic_gnerot"
-					count "1"
+					count "2"
 					delay "3.00"
 					delay_group "0.00"
 					spawn_type "blueprint"
 					units_in_one_spawn "1"
 				}
 
-				Enemy
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(1000,1594)"
+			database
+			{
+				Floats
 				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_phirian"
-					count "1"
-					delay "3.00"
-					delay_group "0.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "3"
+					FloatData
+					{
+						key "duration"
+						value "10.00"
+					}
+
 				}
 
 			}
 
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
 		}
 
 	}

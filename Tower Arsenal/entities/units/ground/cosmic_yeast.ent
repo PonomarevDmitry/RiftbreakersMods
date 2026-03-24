@@ -129,15 +129,40 @@ EntityBlueprint
 		health 					"30"
 	}
 
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0.8"
+			y "0.0"
+			z "1.0"
+			w "0.8"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		//additional_z_order	"0"
+		visibility			"discovered|radar"
+		layer_group			"enemies"
+	}
+
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"1.0"
+
+		acid			"1.0"
+		energy			"2.0"
+		area			"2.0"
+		plasmoid		"1.5"
+
+		fire			"0.3"
+		cosmic			"0.1"
+		physical		"0.8"
+		cryo			"0.8"
+
 	}
 
 	MeshDesc
@@ -165,7 +190,7 @@ EntityBlueprint
 					PhysicsBoxShape
 					{
 						x "2"
-						y "2"
+						y "3"
 						z "2"
 
 						position 
@@ -187,7 +212,7 @@ EntityBlueprint
    			PhysicsBoxShape
    			{
     				x	2
-    				y	2
+    				y	3
     				z	2
    			}			
 		}
@@ -200,31 +225,6 @@ EntityBlueprint
 		extend  			"0.5"
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "1"
-			y "1"
-		}
-			
-		visibility			"discovered|radar" 
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"8000"
-		explosion_min_power 	"4000"
-	}
-	
 	FlammableComponentDesc
 	{
 		fire_spread_interval 			"1.5"
@@ -237,17 +237,23 @@ EntityBlueprint
 
 	VegetationComponentDesc
 	{
-		bending_wind_scale				"0.07"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
-		bending_object_scale			"0.1"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
-		bending_spring_time				"2.0"		// czas wygaszania
-		bending_spring_damping			"30.0"		// wygluszanie oscylacji
-		bending_spring_phases			"3.0"		// ilosc oscylacji
-		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
-		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
-		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		bending_wind_scale				"0.07"		// general scaling of wind strength by				 default: 1.0
+		bending_object_scale			"0.1"		// general scaling of object bending force by		 default: 1.0
+		bending_spring_time				"2.0"		// fade out time
+		bending_spring_damping			"30.0"		// damping of oscillations
+		bending_spring_phases			"3.0"		// number of oscillations
+		bending_spring_slope_factor		"1.0"		// pseudonym   "elasticity"
+		breaking_force_threshold		"10000.0"	// the force beyond which the plant lies broken
+		bending_recovery_delay			"15.0"      // the time he will lie down after the fracture before he can return to the point
 		//root_mesh 						"meshes/props/mushrooms/bulb_acid_small_01_root.mesh" // mesh spawnowany po jej zniszczeniu
 
 		can_be_destroyed_by_fire		"1"
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"6000"
+		explosion_min_power 	"3000"
 	}
 
 	DestroyDesc
@@ -266,7 +272,7 @@ EntityBlueprint
 					
 					part_material	 		"units/ground/cosmic_yeast_branch_set_parts"
 					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
-					part_effect 			"effects/destructibles/cosmic_yeast_explosion_small"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_violet_medium"
 					part_lifetime "3"
 				}
 			}	
@@ -278,11 +284,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"6000"
 					explosion_min_power 	"3000"
-					explosion_effect 		"effects/destructibles/cosmic_yeast_explosion_small"	
-					
-					part_material	 		"units/ground/cosmic_yeast_branch_set_parts"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_small"
+					part_material	 		"props/mushrooms/bulb_acid_skin5_parts"
 					part_prefix 			"meshes/props/mushrooms/bulb_acid_small_01"
-					part_effect 			"effects/destructibles/cosmic_yeast_explosion_small"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
 					part_lifetime "3"
 				}
 			}			
@@ -290,7 +295,7 @@ EntityBlueprint
 	}
 
 	EffectDesc
-	{
+	{				
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -303,21 +308,34 @@ EntityBlueprint
 					offset "0 1 0"
 				}
 			}
-		}
+		}			
 		EffectGroup
 		{
 			group 	"time_damage_cosmic"
-			enabled "0"
+			enabled "0"				
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0 1 0"
-					scale "1.5 2 1"
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
 				}
 			}
-		}		
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					//blueprint "effects/ta_destructibles/arctic_grass_medium"
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					offset "0 0.1 0"
+				}
+			}
+		}			
 		EffectGroup
 		{
 			group 	"spawn"
@@ -330,8 +348,8 @@ EntityBlueprint
 					offset "0 0 0"
 					scale "0.8 0.8 0.8"
 				}
-			}
-		}		
+			}		
+		}			
 	}
 }
 
@@ -469,7 +487,12 @@ EntityBlueprint
 			ancestor			int:"-1"
 		}
 	}
-	
+
+	TypeDesc
+	{
+		type "ground_unit"
+	}
+
 	MeshDesc
 	{
 		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
@@ -490,21 +513,46 @@ EntityBlueprint
 		health 					"250"
 	}
 
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_yeast"
+		size
+		{
+			x "1"
+			y "1"
+		}
+		
+		additional_z_order	"2"
+		visibility			"discovered|radar"
+		layer_group			"enemies"
+	}
+
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"1.0"
+
+		acid			"1.0"
+		energy			"2.0"
+		area			"2.0"
+		plasmoid		"1.5"
+
+		fire			"0.3"
+		cosmic			"0.1"
+		physical		"0.8"
+		cryo			"0.8"
+
 	}
 
 	MeshDesc
 	{
 		mesh "meshes/props/mushrooms/bulb_acid_medium_01.mesh"
 		material "units/ground/cosmic_yeast_root_set"
+	}
+
+	TypeDesc
+	{
+		type "ground_unit"
 	}
 
 	PhysicsDesc
@@ -522,46 +570,24 @@ EntityBlueprint
 					{
 						mesh "meshes/props/mushrooms/bulb_acid_medium_01_c1.nxs"
 					}
-			
 				}
 			}
 		}
 	}
 
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		
-		additional_z_order	"2"
-			
-		visibility			"discovered|radar"
-	}
-	
 	GridCullerDesc
 	{
 		Shapes
 		{
-   			PhysicsBoxShape
-   			{
-    				x	2
-    				y	2
-    				z	2
-   			}			
+			PhysicsBoxShape
+			{
+				x	2
+				y	2
+				z	2
+			}
 		}
-	}	
-	
+	}
+
 	FlammableComponentDesc
 	{
 		fire_spread_interval 			"1.5"
@@ -585,6 +611,12 @@ EntityBlueprint
 		//root_mesh 						"meshes/props/mushrooms/bulb_acid_medium_01_root.mesh" // mesh spawnowany po jej zniszczeniu
 	}
 
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"
+	}
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -601,7 +633,7 @@ EntityBlueprint
 					
 					part_material	 		"units/ground/cosmic_yeast_root_set_parts"
 					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
-					part_effect 			"effects/destructibles/cosmic_yeast_explosion_small"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_violet_medium"
 					part_lifetime "3"
 				}
 			}	
@@ -613,11 +645,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"8000"
 					explosion_min_power 	"4000"
-					explosion_effect 		"effects/destructibles/cosmic_yeast_explosion_small"	
-					
-					part_material	 		"units/ground/cosmic_yeast_root_set_parts"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_medium"
+					part_material	 		"props/mushrooms/bulb_acid_skin5_parts"					
 					part_prefix 			"meshes/props/mushrooms/bulb_acid_medium_01"
-					part_effect 			"effects/destructibles/cosmic_yeast_explosion_small"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
 					part_lifetime "3"
 				}
 			}			
@@ -639,18 +670,18 @@ EntityBlueprint
                 }
             }
         }		
-        EffectGroup
-        {           
-            enabled "1"
-            Effects
-            {
-                Effect
-                {
-                    blueprint "lights/point/violet_small"
-                    offset "0 20 0"
-                }
-            }
-        }
+        //EffectGroup
+        //{           
+        //    enabled "0"
+        //    Effects
+        //    {
+        //        Effect
+        //        {
+        //            blueprint "lights/point/violet_small"
+        //            offset "0 20 0"
+        //        }
+        //    }
+        //}
 		EffectGroup
 		{						
 			group "damage_generic"
@@ -659,7 +690,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_blue"	
 					bone "att_death"
 				}
 			}
@@ -672,7 +703,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_blue"	
 				}
 			}
 		}			
@@ -692,17 +723,30 @@ EntityBlueprint
 		EffectGroup
 		{
 			group 	"time_damage_cosmic"
-			enabled "0"
+			enabled "0"				
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0 1 0"
-					scale "1.5 2 1"
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
 				}
 			}
-		}		
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					//blueprint "effects/ta_destructibles/arctic_grass_medium"
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					offset "0 0.1 0"
+				}
+			}
+		}			
 		EffectGroup
 		{
 			group 	"spawn"
@@ -753,6 +797,54 @@ EntityBlueprint
 		{
 			blueprint "units/ground/cosmic_yeast_root_origin_03"
 		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_origin_01"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+}
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_origin_02"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_02.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+}
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_origin_03"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_03.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
 	}
 }
 
@@ -832,18 +924,24 @@ EntityBlueprint
 			root_blueprint		string:"units/ground/cosmic_yeast_root"
 			collision_detection	string:""
 			stop_component   	string:"BurningComponent"
-			spread_interval		float:"0.25"
+			spread_interval		float:"0.5"
 			spread_root_interval float:"30"
 			spread_child_interval_multiplier float:"2"
 			spread_radius		float:"15"
 			initial_spread		float:"15"
 			max_branch_interval float:"1.5"
+			//ancestor			int:"-1"                  //not sure
 		}
+	}
+
+	TeamDesc
+	{
+		team "enemy"
 	}
 
 	TypeDesc
 	{
-		type "flora"
+		type "flora|ground_unit|ground_unit_large"
 	}
 }
 
@@ -870,12 +968,13 @@ EntityBlueprint
 			root_blueprint			string:"units/ground/cosmic_yeast_root"
 			collision_detection	string:""
 			stop_component   	string:"BurningComponent"
-			spread_interval		float:"0.5"
-			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
-			spread_radius		float:"15"
-			initial_spread		float:"10"
-			max_branch_interval float:"1.5"
+			spread_interval		float:              "0.5"// 0.5
+			spread_root_interval float:             "30"//  30
+			spread_child_interval_multiplier float: "2"//   2
+			spread_radius		float:              "15"/// 15
+			initial_spread		float:              "10"//  10
+			max_branch_interval float:              "1.5"// 1.5
+			//ancestor			int:"-1"                  //not sure
 		}
 	}
 
@@ -899,12 +998,13 @@ EntityBlueprint
 			root_blueprint		string:"units/ground/cosmic_yeast_root"
 			collision_detection	string:""
 			stop_component   	string:"BurningComponent"
-			spread_interval		float:"0.5"
-			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
-			spread_radius		float:"15"
-			initial_spread		float:"10"
-			max_branch_interval float:"1.5"
+			spread_interval		float:              "0.5"// 0.5
+			spread_root_interval float:             "30"//  30
+			spread_child_interval_multiplier float: "2"//   2
+			spread_radius		float:              "15"/// 15
+			initial_spread		float:              "10"//  10
+			max_branch_interval float:              "1.5"// 1.5
+			//ancestor			int:"-1"                  //not sure
 		}
 	}
 
@@ -915,15 +1015,34 @@ EntityBlueprint
 		health 					"2500"
 	}
 
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_creeper_root"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		additional_z_order	"2.1"
+		visibility 			"discovered|radar"
+		layer_group			"enemies"
+	}
+
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
-		energy			"1.0"
-		cryo			"1.0"
-		area			"1.0"
+
+		acid			"1.0"
+		energy			"2.0"
+		area			"2.0"
+		plasmoid		"1.5"
+
+		fire			"0.3"
+		cosmic			"0.1"
+		physical		"0.8"
+		cryo			"0.8"
+
 	}
 
 	MeshDesc
@@ -934,7 +1053,7 @@ EntityBlueprint
 
 	TypeDesc
 	{
-		type "ground_unit"
+		type "ground_unit|ground_unit_large"
 	}
 
 	TeamDesc
@@ -980,48 +1099,11 @@ EntityBlueprint
 	{
 		mode			"bounds"
 		terrain_type  	"cosmic_creeper_area"	
-		extend  		"0.5"
-	}
-
-	//LuaDesc
-	//{
-	//	script "lua/units/skills/aura_damage_generic.lua"
-	//	database
-	//	{
-	//		dmg_effect			string:"time_damage_cosmic_01"
-	//		aura_effect			string:"markers/aura_cosmic"
-	//		dmg_type			string:"cosmic"	
-	//		dmg_per_sec			float:5
-	//		radius				float:20
-	//	}			
-	//}	
-	//
-	//DisplayRadiusComponent
-	//{
-	//	min_radius_blueprint    	"units/skills/aura_damage_cosmic_area"
-	//	max_radius_blueprint   		"units/skills/aura_damage_cosmic_circle"
-	//
-	//	max_radius_rotation_speed 	"10"
-	//	min_radius_rotation_speed 	"0"
-	//	fade_out_time 				"2.0"
-	//}
-
-	MinimapItemDesc
-	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_creeper_root"
-		visibility 		"discovered|radar"		
-		//additional_z_order	"2"
+		extend  		"1.5"
 	}
 
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"12000"
-		explosion_min_power 	"6000"
 	}
 
 	VegetationComponentDesc
@@ -1035,6 +1117,14 @@ EntityBlueprint
 		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
 		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
 		//root_mesh 						"meshes/units/ground/creeper_root_origin_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"11000"
+		explosion_min_power 	"4000"
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -1065,11 +1155,10 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"11000"
 					explosion_min_power 	"4000"
-					explosion_effect 		"effects/destructibles/cosmic_yeast_explosion_blue_big"	
-					
-					part_material	 		"units/ground/cosmic_yeast_root_origin_set_parts"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/bulb_acid_skin5_parts"					
 					part_prefix 			"meshes/units/ground/creeper_root_origin_01"
-					part_effect 			"effects/destructibles/cosmic_yeast_part_trail_medium"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
 					part_lifetime "3"
 				}
 			}			
@@ -1112,7 +1201,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_blue"	
 					bone "att_death"
 				}
 			}
@@ -1125,7 +1214,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_blue"	
 				}
 			}
 		}			
@@ -1146,17 +1235,32 @@ EntityBlueprint
 		EffectGroup
 		{
 			group 	"time_damage_cosmic"
-			enabled "0"
+			enabled "0"				
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/time_damage_cosmic"
-					offset "0 1 0"
-					scale "3.5 3.5 3.5"
+					blueprint "effects/ta_destructibles/abyss_grass_medium"
+					offset "0 0.1 0"
+					scale "2.5 2.5 2.5"
 				}
 			}
-		}		
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					//blueprint "effects/ta_destructibles/arctic_grass_medium"
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					offset "0 0.1 0"
+					scale "2.5 2.5 2.5"
+				}
+			}
+		}			
 		EffectGroup
 		{
 			group 	"spawn"
@@ -1200,3 +1304,129 @@ EntityBlueprint
 		burned_min_glow                 "0.5"
 	}
 }
+
+//-------SURVIVAL-CREEPER-------//
+//////////////////////////////////
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_survival"
+
+	RandomBlueprintDesc
+	{
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_yeast_root_survival_01"
+		}			
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_yeast_root_survival_02"
+		}
+		Blueprint
+		{
+			blueprint "units/ground/cosmic_yeast_root_survival_03"
+		}		
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_survival_01"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_01.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_survival_02"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_02.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_survival_03"
+
+	base_blueprints
+	{ 
+		units/ground/cosmic_yeast_root_origin_base
+		units/ground/cosmic_yeast_root_origin_base_flammable
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/ground/creeper_root_origin_03.mesh"
+		material "units/ground/cosmic_yeast_root_origin_set"
+	}
+}
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_base_survival"
+
+    base_blueprint "units/ground/cosmic_yeast_root_survival_base"
+	
+    LuaDesc
+	{
+		script "lua/spawners/spreader_acid.lua"
+				
+		database
+		{
+			blueprint							string:"units/ground/cosmic_yeast_branch"
+			root_blueprint						string:"units/ground/cosmic_yeast_root_survival"
+			collision_detection					string:""
+			stop_component   					string:"BurningComponent"
+			spread_interval						float:"0.25"
+			spread_root_interval 				float:"10"
+			spread_child_interval_multiplier 	float:"0.9"
+			spread_radius						float:"15"
+			initial_spread						float:"15"
+			max_branch_interval 				float:"1"
+		}
+	}
+}	
+
+EntityBlueprint
+{
+	name  "units/ground/cosmic_yeast_root_survival_base"
+
+	//base_blueprint "units/ground/cosmic_yeast_root_base"
+
+    LuaDesc
+	{
+		script "lua/spawners/spreader_acid.lua"
+				
+		database
+		{
+			blueprint							string:"units/ground/cosmic_yeast_branch"
+			root_blueprint						string:"units/ground/cosmic_yeast_root_survival"
+			collision_detection					string:""
+			stop_component   					string:"BurningComponent"
+			spread_interval						float:"0.5"
+			spread_root_interval 				float:"10"
+			spread_child_interval_multiplier 	float:"0.98"
+			spread_radius						float:"15"
+			initial_spread						float:"15"
+			max_branch_interval 				float:"1"
+		}
+	}
+}
+

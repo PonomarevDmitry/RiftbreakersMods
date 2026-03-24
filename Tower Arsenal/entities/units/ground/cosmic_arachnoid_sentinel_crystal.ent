@@ -1,76 +1,255 @@
 EntityBlueprint
 {
-	name  "units/ground/cosmic_arachnoid_sentinel_crystal"
-
-	//RandomBlueprintDesc
-	//{
-	//	Blueprint
-	//	{
-	//		blueprint "units/ground/arachnoid_sentinel_1"
-	//	}			
-	//	Blueprint
-	//	{
-	//		blueprint "units/ground/arachnoid_sentinel_2"
-	//	}
-	//	Blueprint
-	//	{
-	//		blueprint "units/ground/arachnoid_sentinel_3"
-	//	}		
-	//}
-}
-
-EntityBlueprint
-{
-	name  "units/ground/arachnoid_sentinel/trigger"
-
-	NetReplicationDisabledComponent
-	{
-
-	}
-
-	AttachmentDesc
-	{
-		attachment "att_attack_trigger"
-	}
-
-	TriggerDesc
-	{
-		tag 		"melee"
-		owner 		"parent"
-		collision 	"world_destructible|building|building_small|shield"
-
-		Filters
-		{
-			TeamRelationTriggerFilter 
-			{
-				relation_name     "hostility"
-				check_parent "1"
-			}
-			
-			InvisibleTriggerFilter
-		}
-
-		Shapes
-		{
-			PhysicsSphereShape
-			{
-				r "0.9"
-			}
-		}
-	}
-}
-
-EntityBlueprint
-{
-	name  "units/ground/cosmic_arachnoid_sentinel_crystal"
-
-	base_blueprint units/ground/cosmic_arachnoid_sentinel_crystal_base
-
+	name            "units/ground/cosmic_arachnoid_sentinel_crystal"
+	base_blueprint "units/ground/arachnoid_sentinel_base"
+	
 	MeshDesc
 	{
 		mesh 		"meshes/units/ground/arachnoid_sentinel_crystal.mesh"
 		material 	"units/ground/cosmic_arachnoid_sentinel_crystal"
+	}	
+	
+	SelectableDesc
+	{
+		content "monster_name/cosmic_arachnoid_crystal"
+		can_activate 0
 	}
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "2"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
+	}
+
+	LuaDesc
+	{
+		script "lua/units/ground/arachnoid_sentinel_crystal.lua"
+		database
+		{
+			min_scale	float:"1.25"
+			max_scale	float:"1.3"		
+		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"4"	
+	}	
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"0.7"
+		acid			"1.5"
+		energy			"1.0"
+		cryo			"0.5"
+		area			"1.0"
+		cosmic			"0.3"
+		plasmoid		"1.5"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"10000"
+		explosion_min_power 	"5000"	
+		loot_award				"enemy_generic"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"10000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_generic/blood_trail_violet"	
+					explosion_effect_scale 	"0.6"
+					part_prefix 			"meshes/units/ground/arachnoid_sentinel"
+					part_material			"units/ground/cosmic_arachnoid_sentinel_crystal"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
+					part_physics_material   "gibs_light"						
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_cosmic_standard_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/cosmic_spit_muzzle"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.2"
+		burst_column_angle 			"0"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"200"
+		unit_soft_radius				"1.0"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
+		dominance_group				    "0"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.35"//interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/arachnoid_sentinel_base"
+		}	
+////////////////////////MISC/////////////////////////	
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"		
+					bone "att_death"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+					bone "att_death"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_blue"	
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_cosmic"
+					scale "0.6 0.6 0.6"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_abyss"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_abyss"
+					scale "1.5 1.5 1.5"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_plasmoid"
+					scale "0.6 0.6 0.6"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_bio"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/mech_on_bioenergy"
+					scale "0.6 0.6 0.6"
+					//bone "att_jump_light"
+				}
+			}
+		}			
+		EffectGroup
+		{
+			group "sparkles"
+			enabled "0"				
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/mech/electric_energy"
+					scale "0.6 0.6 0.6"
+					//bone "att_omni_light"
+				}
+			}
+		}	
+	}	
 	
 	children
 	{
@@ -126,8 +305,8 @@ EntityBlueprint
 								{
 									Damage
 									{
-										value 	"15.0"
-										type 	"acid"
+										value 	"30.0"
+										type 	"physical"
 									}
 								}
 							}
@@ -144,592 +323,6 @@ EntityBlueprint
 				}
 			}
 		}
-	}	
-}
-
-EntityBlueprint
-{
-	name  "units/ground/cosmic_arachnoid_sentinel_crystal_base"
-
-	StateMachineDesc
-	{
-		template_name "arachnoid_sentinel"
-		params
-		{
-			aggressive_speed				float:"7"
-			aggressive_acceleration			float:"15"
-			not_aggressive_speed			float:"2"
-			not_aggressive_acceleration		float:"4"
-			angle_turn_speed				float:"200"
-			priority_target					string:"headquarters|player|energy|tower"
-			priority_target_distance		float:"40"
-			ignore_move_to_type				string:"wall|invisible|not_move_to_target"
-			melee_attack_name				string:"attack_1"
-			trigger_blueprint				string:"units/ground/arachnoid_sentinel/trigger"
-		}		
-	}
-
-	LuaDesc
-	{
-		script "lua/units/ground/arachnoid_sentinel_base.lua"
-		database
-		{
-			min_scale	float:"0.95"
-			max_scale	float:"1.05"
-			
-			STING_item_type string:"enemy_range_weapon"
-			STING_pose_type string:"range"
-			items 		string:"items/weapons_enemy/alien_cosmic_standard_item" 
-		}			
-	}
-
-	DatabaseComponent
-	{
-		version int:"2"	
-	}
-
-	HealthDesc
-	{
-		max_health 					"110"
-		health 						"110"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
-		is_manual					"1"
-		update_health_uniform 		"1"	
-
-		DestructionLevels
-		{
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_comp_delay 					"0"
-				//destroyed_state_material 			"units/ground/arachnoid_sentinel_skin_1_wreck"
-				//destroyed_state_effect_group 		"0_state"
-			}
-		}	
-	}
-
-	ResistanceComponent
-	{
-		physical		"1.5"
-		fire			"0.5"
-		acid			"1.0"
-		energy			"0.5"
-		cryo			"0.8"
-		area			"1.0"
-		cosmic			"0.7"
-		plasmoid		"1.0"
-	}
-
-	StunDataComponent
-	{
-		stagger_time 					"0.20"
-		stagger_health_threshold		"0.04"
-		stagger_long_time				"0.8"
-		stagger_long_health_threshold	"0.3"
-	}
-
-	NavMeshMovementComponent
-	{
-		angle_turn_speed				"200"
-		unit_soft_radius				"1.3"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
-		dominance_group				    "0"
-	}
-
-	TypeDesc
-	{
-		type "ground_unit|ground_unit_medium"
-	}
-
-	TeamDesc
-	{
-		team "arachnoid"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/units/ground/arachnoid_sentinel"
-	}
-
-	AnimationGraphDesc
-	{
-		animation_graph_name "arachnoid_sentinel"
-	}
-
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ground_unit"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsMeshShape
-					{
-						mesh "meshes/units/ground/arachnoid_sentinel_c1.nxs"
-					}				
-				}
-			}
-		}
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color 
-		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-
-		visibility "radar"
-		
-	}
-
-	HighlightComponent
-	{
-
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"8000"
-		explosion_min_power 	"4000"	
-	}
-
-	MovementDataComponent
-	{
-
-	}
-
-	VegetationBendingComponentDesc
-	{
-		bending_power	"4000.0"
-		bending_radius	"3.0"
-	}
-
-	FlammableComponentDesc
-	{
-		fire_spread_interval 			"4.0"
-		fire_spread_radius 				"0.1"
-		fire_probability 				"0.1"
-		burning_time 					"6"
-		burned_recovery_time 			"0"		
-	}
-
-	EmissiveDayAndNightAffector
-	{
-		min "0.7"
-		max "1"
-	}
-
-	TerrainAffectedComponent
-	{
-		name "unit"
-	}
-
-	GroundNavigationComponent
-	{
-
-	}
-
-	SelectableDesc
-	{
-		content "monster_name/cosmic_arachnoid_sentinel_crystal"
-		can_activate 0
-	}
-
-	EquipmentComponent
-	{
-		equipment
-		{
-			Equipment Equipment
-			{
-				slots
-				{		
-					EquipmentSlot
-					{
-						name			"STING"
-						allow_types		"enemy_range_weapon"
-						bone			"att_shoot"
-						subslots_count	"1"
-					}							
-				}
-			}
-		}
-	}
-
-	TurretDesc
-	{
-		name   "range"
-		target "ground_unit|building"
-		target_ignore "wall|invisible|ignore_as_target"
-		speed "200"
-		aim_volume "SphericalAimVolume"
-		{
-			range_min "0"
-			range_max "27"
-		}
-
-		aiming_cooldown "1"
-		aiming_target_time "2"
-		aiming_idle_angle "20"
-		pitch "att_muzzle"
-		yaw "att_muzzle"
-		check_target_visibility "1"
-		use_IK "0"
-	}
-
-	DestroyDesc
-	{
-		DestroyPatterns
-		{
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"10000"
-					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_generic/damage_generic_violet_glowing"	
-					part_prefix 			"meshes/units/ground/arachnoid_sentinel"
-					part_effect 			"effects/enemies_generic/blood_trail_violet_glowing"
-					part_physics_material   "gibs_light"						
-				}
-
-				key "default"
-			}
-		}		
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{						
-			group "death"
-			enabled "0"				
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_cosmic_morirot/death_long"		
-					bone "att_death"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"resurrect"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_necrodon/resurrected"
-					bone "att_death"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"resurrecting"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_necrodon/resurrect_body"
-					bone "att_death"
-					scale "1 1 1"	
-					always_up "1"						
-				}
-			}
-		}			
-		EffectGroup
-		{						
-			group "damage_generic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_violet"	
-					bone "att_death"
-				}
-			}
-		}		
-		EffectGroup
-		{						
-			group "hit_damage"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/damage_generic_violet_glowing"	
-				}
-			}
-		}			
-		EffectGroup
-		{			
-			group "idle_random"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_arachnoid/idle"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "move_random"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_arachnoid/run"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_fire"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_fire"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_acid"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_acid"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group 	"time_damage_cryo"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_cryo"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_energy"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_energy"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_physical"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_physical_violet"
-					bone "att_death"
-					scale "1 1 1"
-				}
-			}
-		}		
-		EffectGroup
-		{
-			group 	"stunned"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/enemy_stunned"
-					offset "0 4 0"
-					scale "0.8 0.8 0.8"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "healing"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/enemy_healing_medium"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group "aura_healing"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_healing"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_acid"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_acid"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_cryo"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_cryo"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_energy"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_energy"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_fire"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_fire"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_shockwave"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_shockwave"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}	
-		EffectGroup
-		{
-			group "aura_resurrect"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/aura_resurrect"
-					bone "att_death"
-					scale "2 2 2"
-				}
-			}
-		}		
-	}
-
-	FxComponent
-	{
-		threshold_vec
-		{
-			float 						"3"
-		}
-	}
-
-	InventoryDesc
-	{
-		
-	}
+	}		
 }
 

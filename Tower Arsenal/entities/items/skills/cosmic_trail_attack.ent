@@ -9,7 +9,7 @@ EntityBlueprint
 		description					"gui/menu/inventory/skill_description/cosmic_trial"
 		icon						"gui/hud/items_icons/skills/damage_trail_cosmo"
 		bigger_icon					"gui/menu/items_icons/skills/damage_trail_cosmo"
-		cooldown					"20"
+		cooldown					"25"
 		rarity						"STANDARD"
 		replace_lower_quality		"1"
 	}
@@ -22,8 +22,8 @@ EntityBlueprint
 		{
 			trail_time 		float:"15"
 			trail_spacing 	float:"1"
-			trail_effect	string:"items/skills/cosmic_trial"
-			stat_bp			string:"items/skills/cosmic_trial"
+			trail_effect	string:"effects/projectiles_and_trails/cosmic_trial"
+			stat_bp			string:"effects/projectiles_and_trails/cosmic_trial"
 			trail_extend_time float:"10"
 		}
 	}
@@ -36,7 +36,7 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name							"items/skills/cosmic_trial_advanced_item"
+	name						"items/skills/cosmic_trial_advanced_item"
 
 	InventoryItemDesc
 	{
@@ -45,9 +45,9 @@ EntityBlueprint
 		description				"gui/menu/inventory/skill_description/cosmic_trial"
 		icon					"gui/hud/items_icons/skills/damage_trail_cosmo_advanced"
 		bigger_icon				"gui/menu/items_icons/skills/damage_trail_cosmo"
-		cooldown				"20"
+		cooldown				"25"
 		rarity					"ADVANCED"
-		replace_lower_quality		"1"
+		replace_lower_quality	"1"
 	}
 
 	LuaDesc
@@ -58,9 +58,9 @@ EntityBlueprint
 		{
 			trail_time 		float:"15"
 			trail_spacing 	float:"1"
-			trail_effect	string:"items/skills/cosmic_trial_advanced"
-			stat_bp			string:"items/skills/cosmic_trial_advanced"
-			trail_extend_time float:"10"
+			trail_effect	string:"effects/projectiles_and_trails/cosmic_trial_advanced"
+			stat_bp			string:"effects/projectiles_and_trails/cosmic_trial_advanced"
+			trail_extend_time float:"11"
 		}
 	}
 
@@ -81,7 +81,7 @@ EntityBlueprint
 		description					"gui/menu/inventory/skill_description/cosmic_trial"
 		icon						"gui/hud/items_icons/skills/damage_trail_cosmo_superior"
 		bigger_icon					"gui/menu/items_icons/skills/damage_trail_cosmo"
-		cooldown					"20"
+		cooldown					"25"
 		rarity						"SUPERIOR"
 		replace_lower_quality		"1"
 	}
@@ -94,9 +94,9 @@ EntityBlueprint
 		{
 			trail_time 		float:"15"
 			trail_spacing 	float:"1"
-			trail_effect	string:"items/skills/cosmic_trial_superior"
-			stat_bp			string:"items/skills/cosmic_trial_superior"
-			trail_extend_time float:"10"
+			trail_effect	string:"effects/projectiles_and_trails/cosmic_trial_superior"
+			stat_bp			string:"effects/projectiles_and_trails/cosmic_trial_superior"
+			trail_extend_time float:"12"
 		}
 	}
 
@@ -117,7 +117,7 @@ EntityBlueprint
 		description					"gui/menu/inventory/skill_description/cosmic_trial"
 		icon						"gui/hud/items_icons/skills/damage_trail_cosmo_extreme"
 		bigger_icon					"gui/menu/items_icons/skills/damage_trail_cosmo"
-		cooldown					"20"
+		cooldown					"25"
 		rarity						"EXTREME"
 		replace_lower_quality		"1"
 	}
@@ -130,9 +130,9 @@ EntityBlueprint
 		{
 			trail_time 		float:"15"
 			trail_spacing 	float:"1"
-			trail_effect	string:"items/skills/cosmic_trial_extreme"
-			stat_bp			string:"items/skills/cosmic_trial_extreme"
-			trail_extend_time float:"10"
+			trail_effect	string:"effects/projectiles_and_trails/cosmic_trial_extreme"
+			stat_bp			string:"effects/projectiles_and_trails/cosmic_trial_extreme"
+			trail_extend_time float:"13"
 		}
 	}
 
@@ -141,3 +141,106 @@ EntityBlueprint
 		is_unique			"1"
 	}
 }
+
+													
+//------------------------------------------------\\
+//------------COSMIC TRIAL EFFECTS----------------\\
+//------------------------------------------------\\
+													
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trial
+
+	base_blueprints
+	{
+		lights/point/fire_violet_very_small
+		effects/no_lifetime
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"mech_cosmo_trail"
+		mode 			"1"
+		extend  		"3"
+	}
+
+	ParticleDesc
+	{
+		name	"rift/mech_dash_cosmo"
+	}
+
+	SoundDesc
+	{
+		name "items/skills/dash_acid"
+	}
+
+	//BurningComponent
+	//{
+	//	spread_radius           "1.0"					// radius to spread fire
+	//	spread_chance_override  "1.0"					// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	//	spread_timer
+	//	{
+	//		end                 "200000" 				// how often entity will try to spread fire in microseconds ( 2s )
+	//	}
+	//	burning_effect_group    "time_damage_cosmic"	// effect group to be enabled on entity
+	//	burning_time            "10000000000"			// how long it will burn in seconds
+	//	disable_light_fade_out  "1"
+	//}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trial_advanced
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/cosmic_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type	"mech_cosmo_trail_advanced"
+		mode 			"1"
+		extend  		"3"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trial_extreme
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/cosmic_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type				"mech_cosmo_trail_extreme"
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trial_superior
+
+	base_blueprints
+	{
+		effects/projectiles_and_trails/cosmic_trial
+	}
+
+	GridMarkerComponent
+	{
+		terrain_type				"mech_cosmo_trail_superior"
+		mode 		  "1"
+		extend  		"3"
+	}
+}
+

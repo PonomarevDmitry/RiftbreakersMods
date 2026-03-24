@@ -36,7 +36,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"world_destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
@@ -59,8 +59,16 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		icon_material 	"gui/hud/minimap_icons/spawner_nest"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		visibility 		"radar"
+		layer_group		"enemies"
+		priority 		"155"
+		z_order			"155"
 	}
 
 	AnimationDesc
@@ -98,17 +106,17 @@ EntityBlueprint
 	
 	UnitsSpawnerDesc
 	{
-		blueprint				"units/ground/random_bosses"
-		amount_on_single_spawn	"1"
-		max_spawn				"1"
-		time_to_spawn			"90"
-		unit_state_spawn		"1"  // do not touch
-		max_spawn_distance		"35"
+		blueprint				"units/ground/egg_random_boss_01"//go to entities  /units/ground/  to edit this
+		amount_on_single_spawn	"1"   //how many will spawn in 1 spawn so 5 would be normal for the carnoptrix but for bosses i set to 1 change it at your own risk
+		max_spawn				"1"   //how many will spawn before attacking its normaly at 100 for the carnooptrix same as above change at your own risk
+		time_to_spawn			"400" // 300 is 5 minutes 500 is 8 mins
+		unit_state_spawn		"1"   // do not touch
+		max_spawn_distance		"40"
 		spawn_type				"normal"	//normal|egg
-		spawn_marker_bp			"effects/messages_and_markers/objective_marker_violet"
-		spawn_marker_life_time	"15"
+		spawn_marker_bp			"effects/messages_and_markers/wave_marker_cosmic_nest_1"
+		spawn_marker_life_time	"10"
 		can_spawn_when_visible	"1"
-		defend_radius			"40"
+		defend_radius			"80"
 	}
 	
 	ResistanceComponent
@@ -120,14 +128,14 @@ EntityBlueprint
 		cryo			"0.9"
 		area			"1.0"
 		plasmoid		"0.8"
-		cosmic			"0.1"
+		cosmic			"0.5"
 	}
 	
 	HealthBarDesc
 	{
-		type "2"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
+		type 		"2"
+		mode 		"0" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material 	"gui/hud/bars/elite_boss_health_1x3"
 	}	
 
 	HealthDesc

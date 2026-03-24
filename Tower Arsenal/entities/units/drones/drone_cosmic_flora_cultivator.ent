@@ -25,7 +25,7 @@ EntityBlueprint
 			plant_marker		string:"units/drones/drone_flora_cultivator_marker"
 			plant_effect		string:"effects/destructibles/grass_medium"
 
-			plant_time			float:"0.75"
+			plant_time			float:"0.65"
 			plant_radius		float:"25"
 			
 			min_scale			float:"0.04"
@@ -33,6 +33,26 @@ EntityBlueprint
 		}
 	}
 
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+
+		additional_z_order	"9"
+		visibility			"always"
+	}
+    
 	MeshDesc
 	{
 		mesh "meshes/units/drones/drone_flora_cultivator.mesh"
@@ -109,7 +129,8 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/buildings_and_machines/drone_cultivate_plants"
-					scale "5.5 5.5 5.5"
+					offset "0 8.5 0"
+					scale "15.0 15.0 15.0"
 				}
 
 			}
@@ -125,7 +146,7 @@ EntityBlueprint
 				{
 					blueprint "effects/buildings_and_machines/drone_mesh_addon"
 					bone "att_in_1"
-					orientation "0 0 -270"
+					orientation "0 0 270"
 					scale "2.6 2.6 2.6"
 					offset "0 8.5 0"
 				}

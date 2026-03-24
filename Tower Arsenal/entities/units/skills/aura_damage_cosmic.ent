@@ -1,30 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/aura_damage_cosmic"
-	
-	TriggerDesc
-	{
-		owner 		"self"
-		collision 	"building|building_small|ground_unit|shield"
-		tag 		"trigger"
-
-		Filters
-		{
-			TeamRelationTriggerFilter 
-			{
-				relation_name     "hostility"
-				check_parent "0"
-			}
-		}
-
-		Shapes
-		{
-			PhysicsSphereShape
-			{
-				r "1.0"
-			}
-		}
-	}
+	base_blueprint "units/skills/skill_base"
 	
 	SkillLinkUnitComponent
 	{
@@ -59,14 +36,14 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "units/skills/aura_damage_cosmic_lvl_4"
+	name "units/skills/aura_damage_cosmic_lvl_2"
 	base_blueprint "units/skills/aura_damage_cosmic"
 
 	SkillLinkUnitComponent
 	{
-		name 			"gui/hud/enemy_skill_name/aura_damage_energy_lvl_4"
-		description 	"gui/hud/enemy_skill_description/aura_damage_energy"
-		icon 			"gui/hud/resource_icons/energy_icon_bigger"
+		name 			"gui/hud/enemy_skill_name/aura_damage_cosmic_lvl_2"
+		description 	"gui/hud/enemy_skill_description/aura_damage_cosmic"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_aura_icon"
 	}
 	
 	LuaDesc
@@ -77,7 +54,59 @@ EntityBlueprint
 			dmg_effect		    string:"time_damage_cosmic_01"
 			aura_effect			string:"markers/aura_cosmic"
 			dmg_type			string:"cosmic"
-			dmg_per_sec			float:15
+			dmg_per_sec			float:10
+			radius				float:22
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_cosmic_lvl_3"
+	base_blueprint "units/skills/aura_damage_cosmic"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_cosmic_lvl_3"
+		description 	"gui/hud/enemy_skill_description/aura_damage_cosmic"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_cosmic_01"
+			aura_effect			string:"markers/aura_cosmic"
+			dmg_type			string:"cosmic"
+			dmg_per_sec			float:17
+			radius				float:23
+		}			
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/skills/aura_damage_cosmic_lvl_4"
+	base_blueprint "units/skills/aura_damage_cosmic"
+
+	SkillLinkUnitComponent
+	{
+		name 			"gui/hud/enemy_skill_name/aura_damage_cosmic_lvl_4"
+		description 	"gui/hud/enemy_skill_description/aura_damage_cosmic"
+		icon 			"gui/menu/inventory/stat_icons/cosmic_aura_icon"
+	}
+	
+	LuaDesc
+	{
+		script "lua/units/skills/aura_damage_generic.lua"
+		database
+		{
+			dmg_effect		    string:"time_damage_cosmic_01"
+			aura_effect			string:"markers/aura_cosmic"
+			dmg_type			string:"cosmic"
+			dmg_per_sec			float:25
 			radius				float:25
 		}			
 	}	
@@ -93,7 +122,6 @@ EntityBlueprint
 		material 				"markers/aura_cosmic"
 	}
 }
-
 
 EntityBlueprint
 {

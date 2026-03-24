@@ -8,7 +8,7 @@ EntityBlueprint
 		material 	"items/weapons/grenade_launcher"
 	}
 	
-	ShadowExcludeComponent
+ 	ShadowExcludeComponent
 	{
 
 	}		
@@ -116,12 +116,49 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/mech/laser_pointer_bluee"
+					blueprint "effects/mech/laser_pointer"
 					bone "att_muzzle_1"
 				}
 			}
 		}
 	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_launcher_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/plasmoid_launcher"
+		item_bp			"items/weapons/plasmoid_launcher"
+		icon			"gui/hud/items_icons/weapons/grenade_launcher"
+		bigger_icon 	"gui/menu/items_icons/weapons/grenade_launcher"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+			bp						string:"items/weapons/plasmoid_launcher_projectile"
+			att						string:"att_muzzle_1"
+			stat_bp					string:"items/weapons/plasmoid_launcher_projectile"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
 }
 
 EntityBlueprint
@@ -165,93 +202,10 @@ EntityBlueprint
 		database
 		{
 			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
-			pad_equipped_feedback 	string:"weapon,2,4,8"			
-		}
-	}
-
-	WeaponItemDesc
-	{
-	}
-
-	CostDesc
-}
-
-EntityBlueprint
-{
-	name "items/weapons/plasmoid_launcher_extreme"
-
-	base_blueprint "items/weapons/plasmoid_launcher"
-
-	MeshDesc
-	{
-		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
-		material 	"items/weapons/grenade_launcher_extreme"
-	}
-	
- 	ShadowExcludeComponent
-	{
-
-	}		
-}
-
-EntityBlueprint
-{
-	name  "items/weapons/plasmoid_launcher_extreme_item"
-
-	InventoryItemDesc
-	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/plasmoid_launcher"
-		item_bp			"items/weapons/plasmoid_launcher_extreme"
-		icon			"gui/hud/items_icons/weapons/grenade_launcher_extreme"
-		bigger_icon 	"gui/menu/items_icons/weapons/grenade_launcher_extreme"
-		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
-	}
-
-	LuaDesc
-	{
-		script "lua/items/weapons/autofire_weapon.lua"
-
-		database
-		{
-			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
-			pad_equipped_feedback 	string:"weapon,2,4,8"	
-		}
-	}
-
-	WeaponItemDesc
-	{
-	}
-
-	CostDesc
-}
-
-EntityBlueprint
-{
-	name  "items/weapons/plasmoid_launcher_item"
-
-	InventoryItemDesc
-	{
-		type 			"range_weapon"
-		subtype			"explosive"
-		holding_pose 	"range"
-		name 			"gui/menu/inventory/weapon_name/plasmoid_launcher"
-		item_bp			"items/weapons/plasmoid_launcher"
-		icon			"gui/hud/items_icons/weapons/grenade_launcher"
-		bigger_icon 	"gui/menu/items_icons/weapons/grenade_launcher"
-		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
-	}
-
-	LuaDesc
-	{
-		script "lua/items/weapons/autofire_weapon.lua"
-
-		database
-		{
-			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
-			pad_equipped_feedback 	string:"weapon,2,4,8"	
+			pad_equipped_feedback 	string:"weapon,2,4,8"
+			bp						string:"items/weapons/plasmoid_launcher_projectile_advanced"
+			att						string:"att_muzzle_1"
+			stat_bp					string:"items/weapons/plasmoid_launcher_projectile_advanced"
 		}
 	}
 
@@ -304,6 +258,64 @@ EntityBlueprint
 		{
 			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
 			pad_equipped_feedback 	string:"weapon,2,4,8"	
+			bp						string:"items/weapons/plasmoid_launcher_projectile_superior"
+			att						string:"att_muzzle_1"
+			stat_bp					string:"items/weapons/plasmoid_launcher_projectile_superior"
+		}
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	CostDesc
+}
+
+EntityBlueprint
+{
+	name "items/weapons/plasmoid_launcher_extreme"
+
+	base_blueprint "items/weapons/plasmoid_launcher"
+
+	MeshDesc
+	{
+		mesh 		"meshes/items/weapons/grenade_launcher.mesh"
+		material 	"items/weapons/grenade_launcher_extreme"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}		
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_launcher_extreme_item"
+
+	InventoryItemDesc
+	{
+		type 			"range_weapon"
+		subtype			"explosive"
+		holding_pose 	"range"
+		name 			"gui/menu/inventory/weapon_name/plasmoid_launcher"
+		item_bp			"items/weapons/plasmoid_launcher_extreme"
+		icon			"gui/hud/items_icons/weapons/grenade_launcher_extreme"
+		bigger_icon 	"gui/menu/items_icons/weapons/grenade_launcher_extreme"
+		//description 	"gui/menu/inventory/weapon_charge_description/grenade_launcher"
+	}
+
+	LuaDesc
+	{
+		script "lua/items/weapons/autofire_weapon.lua"
+
+		database
+		{
+			aim_bp					string:"effects/weapons_generic/mech_plasmoid_spitter_target_marker"
+			pad_equipped_feedback 	string:"weapon,2,4,8"	
+			bp						string:"items/weapons/plasmoid_launcher_projectile_extreme"
+			att						string:"att_muzzle_1"
+			stat_bp					string:"items/weapons/plasmoid_launcher_projectile_extreme"
 		}
 	}
 
@@ -318,10 +330,12 @@ EntityBlueprint
 {
 	name  "items/weapons/plasmoid_launcher_projectile"
 
+	base_blueprint effects/weapons_explosive/plasmoid_projectile
+
 	MeshDesc
 	{
 		mesh 		"meshes/projectiles/grenade_shell.mesh"
-		material 	"projectiles/laser_blue"
+		material 	"projectiles/plasmoid_launcher"
 	}
 
 	PhysicsDesc
@@ -332,7 +346,7 @@ EntityBlueprint
 			{
 				type 				"dynamic"
 				group_id 			"grenade"
-				//physics_material 	"grenade_light"
+				physics_material 	"grenade_light"
 				Shapes
 				{
 					PhysicsMeshShape
@@ -346,29 +360,53 @@ EntityBlueprint
 
 	GrenadeAmmoComponent
 	{
-		on_enemy_hit_effect 		"effects/plasmoid_launcher_explosion_blue"
+		on_enemy_hit_effect 		"effects/plasmoid_launcher_explosion_blue"//in effects/plasmoid_minigun
 		on_world_hit_effect 		"effects/plasmoid_launcher_explosion_blue"
 		on_resisted_hit_effect 		"effects/plasmoid_launcher_explosion_blue"
+		hit_effect_direction 		"up"
 
 		on_world_explosion_delay	 "1"
 		on_enemy_explosion_delay	 "0"
 
-		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+		explosion_delay_effect 		"effects/ta_weapons_explosive/weapon_grenade_armed"
 
-		collision_3d 				"world|world_blocker|world_destructible|destructible|grenade|ground_unit|building"
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
 
-		diameter					"1"
+		diameter					"0.25"
 
 		artillery_min_angle 		"25"
 		artillery_max_angle 		"45"
-		
+
+		cluster_count 				"8"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"8"
+		fly_time_limit 				"0.7"
+
 		DamagePattern
 		{
-			area_damage_effect_scale	"splash"
-			area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"
-		}		
+			area_damage_radius	"3"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"5"
+					type			"plasmoid"
+				}
+			}
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"15"
+					duration		"5"
+					type			"plasmoid"
+				}
+			}			
+		}
 	}
-	
+
 	children
 	{
 		EntityBlueprint
@@ -399,77 +437,226 @@ EntityBlueprint
 		}
 	}
 }
-// effects \\put them here instead off making an effect folder in the effects 
+
 EntityBlueprint
 {
-	name effects/plasmoid_launcher_explosion_blue
+	name  "items/weapons/plasmoid_launcher_projectile_advanced"
 
-	base_blueprints
+	base_blueprint effects/weapons_explosive/plasmoid_projectile
+
+	GrenadeAmmoComponent
 	{
-		lights/point/blue_very_small
-		effects/default
+		on_enemy_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_world_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_resisted_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		cluster_explosion_effect	"effects/weapons_fluid/acid_explosion_small"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		cluster_count 				"12"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"8"
+		fly_time_limit 				"0.7"
+
+		DamagePattern
+		{
+			area_damage_radius	"3.3"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"10"
+					type			"plasmoid"
+				}
+			}
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"15"
+					duration		"5"
+					type			"plasmoid"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_launcher_projectile_superior"
+
+	base_blueprint effects/weapons_explosive/plasmoid_projectile
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_world_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_resisted_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		cluster_explosion_effect	"effects/weapons_fluid/acid_explosion_small"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		cluster_count 				"16"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"8"
+		fly_time_limit 				"0.7"
+
+		DamagePattern
+		{
+			area_damage_radius	"3.6"
+			area_damage_speed	"30"
+
+			Damages
+			{
+				Damage
+				{
+					value 			"15"
+					type			"plasmoid"
+				}
+			}
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"15"
+					duration		"5"
+					type			"plasmoid"
+				}
+			}			
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "items/weapons/plasmoid_launcher_projectile_extreme"
+
+	base_blueprint effects/weapons_explosive/plasmoid_projectile
+
+	GrenadeAmmoComponent
+	{
+		on_enemy_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_world_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		on_resisted_hit_effect 		"effects/weapons_fluid/acid_explosion_big"
+		cluster_explosion_effect	"effects/weapons_fluid/acid_explosion_small"
+		hit_effect_direction 		"up"
+		on_world_explosion_delay	"1"
+		on_enemy_explosion_delay	"1"
+
+		explosion_delay_effect 		"effects/weapons_explosive/weapon_grenade_armed"
+
+		collision_3d 				"world|world_blocker|world_destructible|destructible|ground_unit|building"
+
+		diameter					"0.25"
+
+		artillery_min_angle 		"25"
+		artillery_max_angle 		"45"
+
+		cluster_count 				"20"
+		cluster_max_generation      "0"
+		cluster_explosion_radius	"8"
+		fly_time_limit 				"0.7"
+
+		DamagePattern
+		{
+			area_damage_radius	"3.9"
+			area_damage_speed	"30"
+			
+			Damages
+			{
+				Damage
+				{
+					value 			"20"
+					type			"plasmoid"
+				}
+			}
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"15"
+					duration		"5"
+					type			"plasmoid"
+				}
+			}			
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name effects/weapons_explosive/plasmoid_projectile
+
+	base_blueprints 
+	{
+		effects/weapons_elemental/projectile
+		lights/point/ta_explosion_dark_blue_very_small
+		effects/no_lifetime
 	}
 
-	ShockWaveDesc
+	MinimapItemDesc
 	{
-		power 	"5000"
-		speed 	"30"
-		radius 	"15"
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "1"
+			z "0"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility		"discovered"
 	}
 
 	ParticleDesc
 	{
-		name    "rift/plasmoid_launcher_explosion_blue"
+		name    "rift/mech_grenade_projectile"
 	}
+}
+///////////////
+//--EFFECTS--//
+///////////////
+EntityBlueprint
+{
+	name effects/ta_weapons_explosive/weapon_grenade_armed
 
-	CameraShakeDesc
+	base_blueprints
 	{
-		duration 		"0.2"
-		power   		"0.75"
-		falloff_radius 	"25"
-		radius   		"40"
-		frequency 		"20"
-		group			"explosion_medium"
+		lights/point/fire_blue_very_small
+		effects/no_lifetime
 	}
 
-	SoundDesc
+	ParticleDesc
 	{
-		name "items/weapons/explosive/explosion_medium"
+		name    "rift/mech_plasmoid_grenade_armed"
 	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/explosion_hole_random"
-		scale
-		{
-			x		2.0
-			y		2.0
-			z		2.0
-			
-		}
-	}
-
-	LifeTimeDesc
-	{
-		time 	2
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			group "water_collision"
-			enabled "1"				
-			
-			Effects
-			{
-				Effect
-				{
-					blueprint "player/water_collision"
-					scale "15 15 15"
-				}
-			}
-		}			
-	}		
 }
 

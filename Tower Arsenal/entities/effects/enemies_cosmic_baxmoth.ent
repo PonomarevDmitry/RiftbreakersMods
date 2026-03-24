@@ -1,141 +1,21 @@
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_baxmoth/attack_start"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/attack"
-	}		
-}
-
 EntityBlueprint
 {
-	base_blueprint effects/default
+	name effects/cosmic_baxmoth/death_energy
 
 
-	name "effects/enemies_baxmoth/death"
-
-	ParticleDesc
-	{
-		name    "rift/death_yellow_big"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_big"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		
-		}
-	}	
-}
-
-EntityBlueprint
-{
-	base_blueprints
-	{
-		lights/point/explosion_green_big
-		effects/default
-	}	
-
-	name "effects/enemies_baxmoth/death_acid"
-
-	ParticleDesc
-	{
-		name    "rift/acid_explosion_big"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_big"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_green_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		}
-	}	
-}
-
-EntityBlueprint
-{
-	base_blueprints
-	{
-		lights/point/explosion_orange_big
-		effects/default
-	}	
-
-	name "effects/enemies_baxmoth/death_fire"
-
-	ParticleDesc
-	{
-		name    "rift/fire_explosion_big"
-	}
-
-	SoundDesc
-	{
-		name "enemies/generic/enemy_death_big"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/explosion_hole_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		}
-	}
-	BurningComponent
-	{
-		spread_radius 			"10.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-		disable_light_fade_out "1"
-	}
-}
-
-EntityBlueprint
-{
 	base_blueprints
 	{
 		lights/point/explosion_blue_big
 		effects/default
 	}	
-
-	name "effects/enemies_baxmoth/death_energy"
-
 	ParticleDesc
 	{
 		name    "rift/energy_explosion_big"
 	}
-
 	SoundDesc
 	{
 		name "enemies/generic/enemy_death_big"
 	}
-
 	DecalDesc
 	{	
 		blueprint "effects/decals/blood_splat_blue_random"
@@ -150,13 +30,14 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth/death_cryo
+
+
 	base_blueprints
 	{
 		lights/point/explosion_blue_big
 		effects/default
 	}	
-
-	name "effects/enemies_baxmoth/death_cryo"
 
 	ParticleDesc
 	{
@@ -182,74 +63,13 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	base_blueprint effects/default
+	name effects/cosmic_baxmoth/death_long_fire
 
-
-	name "effects/enemies_baxmoth/death_long"
-
-	ParticleDesc
-	{
-		name    "rift/death_yellow_big_long"
-	}
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/death"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_yellow_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		}
-	}		
-}
-
-EntityBlueprint
-{
-	base_blueprints
-	{
-		lights/point/explosion_green_big
-		effects/default
-	}	
-
-	name "effects/enemies_baxmoth/death_long_acid"
-
-	ParticleDesc
-	{
-		name    "rift/acid_explosion_big"
-	}
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/death"
-	}
-
-	DecalDesc
-	{	
-		blueprint "effects/decals/blood_splat_green_random"
-		scale
-		{
-			x		2
-			y		2
-			z		2
-		}
-	}		
-}
-
-EntityBlueprint
-{
 	base_blueprints
 	{
 		lights/point/explosion_orange_big
 		effects/default
 	}	
-
-	name "effects/enemies_baxmoth/death_long_fire"
 
 	ParticleDesc
 	{
@@ -289,13 +109,13 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth/death_long_energy
+
 	base_blueprints
 	{
 		lights/point/explosion_blue_big
 		effects/default
 	}	
-
-	name "effects/enemies_baxmoth/death_long_energy"
 
 	ParticleDesc
 	{
@@ -321,24 +141,21 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth/death_long_cryo
+
 	base_blueprints
 	{
 		lights/point/explosion_blue_big
 		effects/default
 	}	
-
-	name "effects/enemies_baxmoth/death_long_cryo"
-
 	ParticleDesc
 	{
 		name    "rift/cryo_explosion_big"
 	}
-
 	SoundDesc
 	{
 		name "enemies/baxmoth/death"
 	}
-
 	DecalDesc
 	{	
 		blueprint "effects/decals/blood_splat_blue_random"
@@ -353,167 +170,138 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	base_blueprint effects/default
-
-
-	name "effects/enemies_baxmoth/drone_death"
-
+	name effects/cosmic_baxmoth/drone_death
+	
+	base_blueprint 
+	{
+		effects/default
+	}
+	
 	ParticleDesc
 	{
 		name    "rift/death_yellow_very_small"
 	}
-
+	
 	SoundDesc
 	{
 		name "enemies/generic/enemy_death_small"
 	}	
 }
 
-
-EntityBlueprint "effects/default"
+EntityBlueprint 
 {
-		name "effects/enemies_baxmoth/idle"
-
-	SoundDesc
+	name effects/cosmic_baxmoth/muzzle_drone_attack
+	
+	base_blueprint 
 	{
-		name "enemies/baxmoth/idle"
-	}
-}
-
-EntityBlueprint "effects/no_lifetime"
-{
-		name "effects/enemies_baxmoth/run"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/run"
-	}
-}
-
-EntityBlueprint "effects/no_lifetime"
-{
-		name "effects/enemies_baxmoth/drone_run"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/drone_run"
-	}
-}
-
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_baxmoth/drone_attack"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/drone_attack"
-	}	
-
-	ParticleDesc
-	{
-		name    "rift/baxmoth_drone_muzzle"
-	}
-}
-
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_baxmoth/drone_attack_cryo"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/drone_attack"
-	}	
-
-	ParticleDesc
-	{
-		name    "rift/baxmoth_drone_muzzle_cryo"
-	}
-}
-
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_baxmoth/drone_attack_fire"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/drone_attack"
-	}	
-
-	ParticleDesc
-	{
-		name    "rift/baxmoth_drone_muzzle_fire"
-	}
-}
-
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_baxmoth/drone_attack_energy"
-
-	SoundDesc
-	{
-		name "enemies/baxmoth/drone_attack"
-	}	
-
-	ParticleDesc
-	{
-		name    "rift/baxmoth_drone_muzzle_energy"
-	}
-}
-
-EntityBlueprint
-{
-	base_blueprints
-	{
-		 lights/point/muzzle_green_very_small
-		 effects/default
-	}	
-	name "effects/enemies_baxmoth/drone_projectile_hit"	
-
-	ParticleDesc
-	{
-		name    "rift/baxmoth_drone_projectile_hit"
+		effects/default
 	}
 	
 	SoundDesc
 	{
-		name "enemies/arachnoid/acid_hit"
+		name "enemies/baxmoth/drone_attack"
 	}	
+	
+	ParticleDesc
+	{
+		name    "rift/cosmic_baxmoth_muzzle"
+	}
+}
+
+EntityBlueprint 
+{
+	name effects/cosmic_baxmoth_alpha/muzzle_drone_attack
+	
+	base_blueprint 
+	{
+		effects/default
+	}
+	
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}	
+	
+	ParticleDesc
+	{
+		name    "rift/cosmic_baxmoth_alpha_muzzle"
+	}
+}
+
+EntityBlueprint 
+{
+	name effects/cosmic_baxmoth_ultra/muzzle_drone_attack
+	
+	base_blueprint 
+	{
+		effects/default
+	}
+	
+	SoundDesc
+	{
+		name "enemies/baxmoth/drone_attack"
+	}	
+	
+	ParticleDesc
+	{
+		name    "rift/cosmic_baxmoth_ultra_muzzle"
+	}
 }
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth/drone_projectile_hit
+
+
+	base_blueprints
+	{
+		 lights/point/muzzle_violet_very_small
+		 effects/default
+	}
+	ParticleDesc
+	{
+		name    "rift/cosmic_drone_explosion_small"
+	}
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/cosmic_baxmoth_alpha/drone_projectile_hit
+
+
 	base_blueprints
 	{
 		 lights/point/muzzle_blue_very_small
 		 effects/default
-	}	
-	name "effects/enemies_baxmoth/drone_projectile_hit_cryo"	
-
+	}
 	ParticleDesc
 	{
-		name    "rift/cryo_explosion_small"
+		name    "rift/cosmic_drone_alpha_explosion_small"
 	}
-	
 	SoundDesc
 	{
 		name "enemies/arachnoid/acid_hit"
-	}	
+	}
 }
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth_ultra/drone_projectile_hit
+
+
 	base_blueprints
 	{
-		 lights/point/muzzle_blue_very_small
+		 lights/point/muzzle_violet_very_small
 		 effects/default
 	}	
-	name "effects/enemies_baxmoth/drone_projectile_hit_energy"	
-
 	ParticleDesc
 	{
-		name    "rift/energy_explosion_small"
+		name    "rift/cosmic_drone_ultra_explosion_small"
 	}
-	
 	SoundDesc
 	{
 		name "enemies/arachnoid/acid_hit"
@@ -522,52 +310,56 @@ EntityBlueprint
 
 EntityBlueprint
 {
+	name effects/cosmic_baxmoth/drone_boss_projectile_hit//fire
+
+
+	base_blueprints
+	{
+		 lights/point/muzzle_violet_very_small
+		 effects/default
+	}	
+	ParticleDesc
+	{
+		name    "rift/cosmic_baxmoth_drone_boss_projectile"
+	}
+	SoundDesc
+	{
+		name "enemies/arachnoid/acid_hit"
+	}	
+	//BurningComponent
+	//{
+	//	spread_radius 			"1.0"			// radius to spread fire
+	//	spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
+	//	spread_timer
+	//	
+	//	{
+	//		limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
+	//	}
+	//	
+	//	burning_effect_group    ""			// effect group to be enabled on entity
+	//	burning_time			"0.05"	// how long it will burn in seconds
+	//	disable_light_fade_out "1"
+	//}	
+}
+
+EntityBlueprint 
+{
+	name effects/enemies_cosmic_baxmoth/drone_spawn
+
+
 	base_blueprints
 	{
 		 lights/point/muzzle_orange_very_small
 		 effects/default
 	}	
-	name "effects/enemies_baxmoth/drone_projectile_hit_fire"	
-
-	ParticleDesc
-	{
-		name    "rift/fire_explosion_small"
-	}
-	
-	SoundDesc
-	{
-		name "enemies/arachnoid/acid_hit"
-	}	
-	
-	BurningComponent
-	{
-		spread_radius 			"1.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    "time_damage_fire"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-		disable_light_fade_out "1"
-	}	
-}
-
-EntityBlueprint "effects/default"
-{
-		name "effects/enemies_cosmic_baxmoth/drone_spawn"
-		
 	ParticleDesc
 	{
 		name    "rift/death_blue_small"
-	}		
-
+	}
 	SoundDesc
 	{
 		name "enemies/baxmoth/drone_spawn"
-	}		
+	}
 }
 
 

@@ -1,0 +1,126 @@
+system rift/arctic_heavy_snow
+{
+    nonvisible_update_timeout                   1
+    disable_culling                             true
+    scale_velocity                              0.025
+    scale                                       0.025 0.025 0.025
+    tight_bounding_box                          true
+    fade_out                                    true
+    technique 
+    {
+        visual_particle_quota                   1000
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/snow_atlas
+        renderer                                Billboard
+        {
+            texture_coords_columns              8
+            billboard_type                      oriented_self
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       300
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            position                            500 -600 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            7
+            colour                              0.188235 0.188235 0.188235 1
+            box_width                           2500
+            box_height                          300
+            box_depth                           2500
+        }
+        affector                                Colour Affector11
+        {
+            time_colour                         0    1 1 1 0
+            time_colour                         0.102174  1 1 1 0.822064
+            time_colour                         0.906522  1 1 1 0.814947
+            time_colour                         1    1 1 1 0
+        }
+        affector                                SineForce Affector17
+        {
+            force_vector                        500 50 500
+            max_frequency                       5
+        }
+        affector                                ForceField Affector26
+        {
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -200 0
+        }
+    }
+    technique 
+    {
+        visual_particle_quota                   2000
+        emitted_emitter_quota                   0
+        emitted_technique_quota                 0
+        emitted_affector_quota                  0
+        emitted_system_quota                    0
+        material                                particles/glow_01
+        renderer                                Billboard
+        {
+            billboard_type                      oriented_self
+        }
+        emitter                                 Box 
+        {
+            emission_rate                       300
+            time_to_live                        dyn_random
+            {
+                min                             3
+                max                             5
+            }
+            velocity                            dyn_random
+            {
+                min                             50
+                max                             175
+            }
+            all_particle_dimensions             dyn_random
+            {
+                min                             5
+                max                             10
+            }
+            position                            500 -400 0
+            direction                           0.2 -1 0
+            end_texture_coords_range            7
+            colour                              0.188235 0.188235 0.188235 1
+            box_width                           2500
+            box_height                          300
+            box_depth                           2500
+        }
+        affector                                Colour Affector11
+        {
+            time_colour                         0    0.322184 0.936432 0.943061 0.16726
+            time_colour                         0.102174  0.396652 0.942784 0.960854 0.832741
+            time_colour                         0.906522  0.379618 0.978648 0.959462 0.854095
+            time_colour                         1    0.322184 0.936432 0.943061 0.16726
+        }
+        affector                                SineForce Affector17
+        {
+            force_vector                        -400 50 500
+            max_frequency                       5
+        }
+        affector                                ForceField Affector26
+        {
+        }
+        affector                                LinearForce 
+        {
+            force_vector                        0 -200 0
+        }
+    }
+}

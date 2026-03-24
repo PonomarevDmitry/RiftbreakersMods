@@ -72,12 +72,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
+		physical		"0.5"
+		fire			"1.0"
+		acid			"1.0"
 		energy			"1.0"
-		cryo			"1.0"
+		cryo			"0.5"
 		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"1.0"
 	}
 
 	MeshDesc
@@ -105,7 +107,7 @@ EntityBlueprint
 					PhysicsBoxShape
 					{
 						x "2"
-						y "2"
+						y "3"
 						z "2"
 
 						position 
@@ -127,10 +129,17 @@ EntityBlueprint
    			PhysicsBoxShape
    			{
     				x	2
-    				y	2
+    				y	3
     				z	2
    			}			
 		}
+	}
+
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cosmic_crystal_creeper_area"	
+		extend  			"1"
 	}
 
 	MinimapItemDesc
@@ -138,24 +147,45 @@ EntityBlueprint
 		type	"quad"
 		color 
 		{
-			x "1"
-			y "0"
-			z "0"
-			w "1"
+			x "0.5"
+			y "0.0"
+			z "1.0"
+			w "1.0"
 		}
 		size
 		{
 			x "1"
 			y "1"
 		}
-			
-		visibility			"discovered|radar" 
+		//additional_z_order	"0"
+		visibility			"discovered|radar"
+		layer_group			"enemies"
 	}
 
 	LootDesc
 	{
 		explosion_max_power 	"8000"
 		explosion_min_power 	"4000"
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/crystals/entvined_small_02_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
+
 	}
 
 	DestroyDesc
@@ -172,17 +202,29 @@ EntityBlueprint
 					explosion_min_power 	"2000"
 					explosion_effect 		"effects/destructibles/crystal_big_violet"	
 					explosion_effect_scale 	"0.4"
-					part_material	 		"props/crystals/cosmic_entvined_01_small_skin3"
-					part_prefix 			"meshes/props/crystals/entvined_small_01"
+					part_material	 		"props/crystals/entvined_02_set_skin3"
+					part_prefix 			"meshes/props/crystals/entvined_small_02"
 					//part_effect 			"effects/destructibles/mushroom_part_trail"
-					part_physics_material   "debris_heavy"
 				}
-			}
-		}
+			}	
+		}		
 	}
 
 	EffectDesc
 	{
+        EffectGroup
+        {           
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/point/crystal_cosmic_small"
+                    offset "0 2 0"
+                }
+            }
+        }	
+
 		EffectGroup
 		{
 			group 	"time_damage_fire"
@@ -216,6 +258,14 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "units/ground/cosmic_crystal_creeper_root"
+
+
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cosmic_crystal_creeper_area"	
+		extend  			"0.5"
+	}
 
 	RandomBlueprintDesc
 	{
@@ -289,12 +339,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
+		physical		"0.8"
+		fire			"1.0"
+		acid			"1.0"
 		energy			"1.0"
-		cryo			"1.0"
+		cryo			"0.5"
 		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"1.0"
 	}
 
 	MeshDesc
@@ -326,25 +378,19 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type	"quad"
-		color 
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_enemy_yeast_2"
+		size
 		{
 			x "1"
 			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
 		}
 		
 		additional_z_order	"2"
-			
 		visibility			"discovered|radar"
+		layer_group			"enemies"
 	}
-	
+
 	GridCullerDesc
 	{
 		Shapes
@@ -390,20 +436,8 @@ EntityBlueprint
             {
                 Effect
                 {
-                    blueprint "effects/enemies_generic/boss_trail_cosmic_sparks"
-                    //offset "0 4 0"
-                }
-            }
-        }		
-        EffectGroup
-        {           
-            enabled "1"
-            Effects
-            {
-                Effect
-                {
-                    blueprint "lights/point/crystal_pink_medium"
-                    offset "0 1 0"
+                    blueprint "lights/point/crystal_cosmic_small"
+                    offset "0.3 2 0"
                 }
             }
         }
@@ -548,8 +582,6 @@ EntityBlueprint
 EntityBlueprint
 {
 	name  "units/ground/cosmic_crystal_creeper_root_origin_base"
-
-
     //base_blueprint "props/base/flammable_small"
 	
     LuaDesc
@@ -558,16 +590,17 @@ EntityBlueprint
 				
 		database
 		{
-			blueprint			string:"units/ground/crystal_creeper_branch"
-			root_blueprint			string:"units/ground/crystal_creeper_root"
-			collision_detection	string:""
-			stop_component   	string:"BurningComponent"
-			spread_interval		float:"0.5"
-			spread_root_interval float:"30"
-			spread_child_interval_multiplier float:"2"
-			spread_radius		float:"15"
-			initial_spread		float:"10"
-			max_branch_interval float:"1.5"
+			blueprint				string:"units/ground/cosmic_crystal_creeper_branch"
+			root_blueprint			string:"units/ground/cosmic_crystal_creeper_root"
+			collision_detection					string:""
+			stop_component   					string:"BurningComponent"
+			spread_interval						float:"0.5"//  Original--"0.5"
+			spread_root_interval 				float:"10"//   Original--"30"
+			spread_child_interval_multiplier 	float:"0.98"// Original--"2.0"
+			spread_radius						float:"15"//   Original--"15"
+			initial_spread						float:"15"//   Original--"15"
+			max_branch_interval 				float:"1"//    Original--"1.5"
+			//ancestor			int:"-1"                  //not sure
 		}
 	}
 
@@ -581,12 +614,14 @@ EntityBlueprint
 	ResistanceComponent
 	{
 		//min_damage_threshold 	"5"
-		physical		"1.0"
-		fire			"2"
-		acid			"0.1"
+		physical		"0.8"
+		fire			"1.0"
+		acid			"1.0"
 		energy			"1.0"
-		cryo			"1.0"
+		cryo			"0.5"
 		area			"1.0"
+		cosmic			"0.5"
+		plasmoid		"1.0"
 	}
 
 	MeshDesc
@@ -626,6 +661,13 @@ EntityBlueprint
 		}
 	}
 
+	GridMarkerComponent
+	{
+		mode				"bounds"
+		terrain_type  		"cosmic_crystal_creeper_area"	
+		extend  			"1.5"
+	}
+
 	GridCullerDesc
 	{
 		Shapes
@@ -642,9 +684,15 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
-		visibility 		"discovered|radar"		
-		//additional_z_order	"2"
+		icon_material 	"gui/hud/minimap_icons/cosmic_creeper_root"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		additional_z_order	"2.1"
+		visibility 			"discovered|radar"
+		layer_group			"enemies"
 	}
 
 	HighlightComponent
@@ -653,8 +701,27 @@ EntityBlueprint
 
 	LootDesc
 	{
-		explosion_max_power 	"12000"
-		explosion_min_power 	"6000"
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.00"		// ogolne skalowanie sily wiatru						domyslnie: 1.0
+		bending_object_scale			"0.00"		// ogolne skalowanie sily odginania obiektow			domyslnie: 1.0
+		bending_spring_time				"2.0"		// czas wygaszania
+		bending_spring_damping			"30.0"		// wygluszanie oscylacji
+		bending_spring_phases			"3.0"		// ilosc oscylacji
+		bending_spring_slope_factor		"1.0"		// pseudo "sprezystosc"
+		breaking_force_threshold		"10000.0"	// sila po przekroczeniu ktorej, roslina lezy zlamana
+		bending_recovery_delay			"15.0"      // czas jaki bedzie lezec po zlamaniu, zanim moze wrocic do punktu 0
+		root_mesh 						"meshes/props/crystals/entvined_big_01_root.mesh" // mesh spawnowany po jej zniszczeniu
+	}
+
+	EmissiveDayAndNightAffector
+	{
+		min "0.8"
+		max "1.2"
 	}
 
 	DestroyDesc
@@ -675,25 +742,14 @@ EntityBlueprint
 					part_prefix 			"meshes/props/crystals/entvined_big_01"
 					part_effect 			"effects/destructibles/crystal_violet_big_part_trail"
 					part_physics_material   "debris_heavy"
+
 				}
-			}
-		}
+			}	
+		}		
 	}
 
 	EffectDesc
     {
-        EffectGroup
-        {           
-            enabled "1"
-            Effects
-            {
-                Effect
-                {
-                    blueprint "effects/enemies_generic/boss_trail_cosmic_sparks"
-					scale "1.5 1.5 1.5"
-                }
-            }
-        }			
         EffectGroup
         {           
             enabled "1"
@@ -702,8 +758,8 @@ EntityBlueprint
             {
                 Effect
                 {
-                    blueprint "lights/spot/spikybulb_pink_medium"
-                    offset "0 15 0"
+                    blueprint "lights/point/crystal_cosmic_medium"
+                    offset "0 3 0"
                     orientation "0 -90 0"
                 }
             }
@@ -716,7 +772,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_violet"	
 					bone "att_death"
 				}
 			}
@@ -729,7 +785,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_green"	
+					blueprint "effects/enemies_generic/damage_generic_violet"	
 				}
 			}
 		}			

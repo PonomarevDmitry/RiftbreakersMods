@@ -116,14 +116,14 @@ EntityBlueprint
 
 	UnitsSpawnerDesc
 	{
-		blueprint				"units/ground/egg_cosmic_morirot"
+		blueprint				"units/ground/egg_elite_cosmic_morirot"
 		amount_on_single_spawn	"5"
 		max_spawn				"100"
 		time_to_spawn			"8"
 		unit_state_spawn		"1"  // do not touch
 		max_spawn_distance		"30"
 		spawn_type				"egg"
-		spawn_marker_bp			"effects/messages_and_markers/objective_marker_violet"
+		spawn_marker_bp			"effects/messages_and_markers/wave_marker_cosmic_nest"
 		spawn_marker_life_time	"30"
 		can_spawn_when_visible	"1"
 		defend_radius			"40"
@@ -157,7 +157,7 @@ EntityBlueprint
 			PhysicsObjectDesc
 			{
 				type 				"static"
-				group_id 			"world_destructible"
+				group_id 			"ground_unit"
 				physics_material 	"default"
 
 				Shapes
@@ -180,14 +180,22 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type			"image"
-		icon_material 	"gui/hud/minimap_icons/enemy_spawner"
-		visibility "discovered|radar"
+		icon_material 	"gui/hud/minimap_icons/spawner_nest_1"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		visibility 		"radar"
+		layer_group		"enemies"
+		priority 		"155"
+		z_order			"155"
 	}
 
 	HealthBarDesc
 	{
 		type "2"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		mode "0" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
 		material "gui/hud/bars/big_monster_hp_1x3"
 	}
 
@@ -282,7 +290,7 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"50000"
 					explosion_min_power 	"35000"
-					explosion_effect 		"effects/enemies/nest_explosion"
+					explosion_effect 		"effects/enemies_spawner/spawner_mushbit_big_explosion"
 					part_physics_material   "gibs_super_heavy"
 					part_material 			"units/ground/spawner_cosmic_morirot"
 					part_effect 			"effects/destructibles/crystal_violet_big_part_trail"

@@ -19,6 +19,35 @@ EntityBlueprint
 	}
 }
 
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/cosmic_trail
+
+	base_blueprints
+	{
+		 lights/point/base_lamp_violet
+		 effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"5000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"4"
+		frequency 		"2"
+		group			"explosion_medium"
+	}
+}
+
 EntityBlueprint
 {
 	name effects/projectiles_and_trails/cosmic_comet_trail_01
@@ -47,6 +76,27 @@ EntityBlueprint
 	base_blueprints
 	{
 		lights/point/comet_fire_violet_big_shadow_caster
+		effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/necrodon_resurrect_hands"
+	}
+
+	SoundDesc
+	{
+		name "ambient/comet"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/projectiles_and_trails/the-abyss_meteor_trail
+
+	base_blueprints
+	{
+		lights/point/ta_boss_shadow_caster_dark_blue
 		effects/no_lifetime
 	}
 
@@ -281,7 +331,7 @@ EntityBlueprint
 				Damage
 				{
 					value 			"300"
-					type			"gravity"
+					type			"cosmic"
 					}
 				}
 			}

@@ -126,8 +126,8 @@ EntityBlueprint
 	ProjectileAmmoComponent
 	{
 		friendly_fire			"pass"
-		on_enemy_hit_effect 	"effects/cosmo_heavy_plasma_explosion_hit"
-		on_world_hit_effect 	"effects/cosmo_heavy_plasma_explosion_hit"
+		on_enemy_hit_effect 	"effects/skills/cosmic_meteor_explosion_hit"//at bottome off list 
+		on_world_hit_effect 	"effects/skills/cosmic_meteor_explosion_hit"//at bottome off list 
 		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
 		
 		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
@@ -145,11 +145,6 @@ EntityBlueprint
 				}
 			}
 		}
-	}
-
-	SoundDesc
-	{
-		name 		"ambient/meteor"
 	}
 
 	EffectDesc
@@ -175,8 +170,8 @@ EntityBlueprint
 	ProjectileAmmoComponent
 	{
 		friendly_fire			"pass"
-		on_enemy_hit_effect 	"effects/cosmo_heavy_plasma_explosion_hit"
-		on_world_hit_effect 	"effects/cosmo_heavy_plasma_explosion_hit"
+		on_enemy_hit_effect 	"effects/skills/cosmic_meteor_explosion_hit"//at bottome off list 
+		on_world_hit_effect 	"effects/skills/cosmic_meteor_explosion_hit"//at bottome off list 
 		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
 		
 		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
@@ -189,10 +184,50 @@ EntityBlueprint
 			{
 				Damage
 				{
-					value 	"120"
+					value 	"150"
 					type 	"cosmic"
 				}
 			}
 		}
 	}	
 }
+
+EntityBlueprint
+{
+	name effects/skills/cosmic_meteor_explosion_hit
+
+	base_blueprints
+	{
+		lights/point/ta_explosion_purple_medium
+		effects/default
+	}
+
+	ShockWaveDesc
+	{
+		power 	"1000"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/energy_explosion_violet_medium"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"4"
+		frequency 		"2"
+		group			"explosion_medium"
+	}
+
+	SoundDesc
+	{
+		name "items/weapons/explosive/explosion_medium"
+	}
+
+}
+

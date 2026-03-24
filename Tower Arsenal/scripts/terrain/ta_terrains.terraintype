@@ -11,8 +11,8 @@ TerrainType
 		{
 			effects_on_marker
 			{
-				footstep_left	"effects/time_damage_cosmic"
-				footstep_right	"effects/time_damage_cosmic"
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
 			}
 			
 			damage
@@ -27,6 +27,959 @@ TerrainType
 			damage
 			{
 				value		"33"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cosmic_crystal_creeper_area"
+	priority 30
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_bio"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_violet"			
+			}
+		}
+
+		type "building"
+		{
+			damage
+			{
+				value		"33"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cryogenic_creeper_area"
+	priority 30
+	
+	speed "0.5"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"sparkles"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"cryogenic"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"33"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "acid_bulb_cosmic"
+	priority 30
+	
+	speed "0.9"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 			"time_damage_bio"
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left		"footstep_liquid_left"
+				footstep_right		"footstep_liquid_right"
+			}
+
+			damage
+			{
+				interval 			"0.3"
+				value				"3"
+				type 				"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type			"timed"
+				area_damage_duration 		"10"
+				area_damage_radius			"2"
+				time_damage_interval		"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect			 "effects/weapons_generic/damage_radius_generic_violet"			
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "acid_bulb_cyan"
+	priority 30
+	
+	speed "0.9"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 			"time_damage_cryogenic"
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left		"footstep_liquid_left"
+				footstep_right		"footstep_liquid_right"
+			}
+
+			damage
+			{
+				interval 			"0.3"
+				value				"3"
+				type 				"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type			"timed"
+				area_damage_duration 		"10"
+				area_damage_radius			"2"
+				time_damage_interval		"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect			 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "acid_bulb_dark_blue"
+	priority 30
+	
+	speed "0.9"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 			"time_damage_abyss"
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left		"footstep_liquid_left"
+				footstep_right		"footstep_liquid_right"
+			}
+
+			damage
+			{
+				interval 			"0.3"
+				value				"3"
+				type 				"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type			"timed"
+				area_damage_duration 		"10"
+				area_damage_radius			"2"
+				time_damage_interval		"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect			 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "abyss"
+	priority 11
+	
+	speed "0.7"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_abyss"
+			//minimap_disabled "1"
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_violet"			
+			}
+			//damage
+			//{
+			//	interval 	"0.15"
+			//	value		"0.01"
+			//	type 		"cosmic_energy"
+			//}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "abyss_rock"
+	priority 11
+	
+	speed "0.8"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_abyssium"
+			minimap_disabled "1"
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+			damage
+			{
+				interval 	"0.05"
+				value		"0.05"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "plasmatic"
+	priority 11
+	speed "0.5"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			//effect_group 		"time_damage_plasmoid"
+
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+
+			damage
+			{
+				interval 	"0.3"
+				value		"1"
+				type 		"plasmoid"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+		}
+	}
+}
+
+TerrainType
+{
+	name "cosmonite_ore_floor"
+	priority 20
+	
+	speed "0.9"	
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_abyss"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_metal_floor_left"
+				footstep_right	"footstep_metal_floor_right"
+			}
+
+			damage
+			{
+				interval 	"0.3"
+				value		"2"
+				type 		"cosmic_energy"
+			}
+		}	
+		
+		type "unit"
+		{
+			speed "1.0"	
+		}
+	}
+}
+
+TerrainType
+{
+	name "cosmic_energy_area"
+	priority 11
+	
+	speed "0.8"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_bio"
+
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+
+			damage
+			{
+				interval 	"0.3"
+				value		"1"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "bio_energy_area"
+	priority 11
+	
+	speed "0.8"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"sparkles"
+
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+
+			damage
+			{
+				interval 	"0.3"
+				value		"1"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "sparkles_area"
+	priority 11
+	
+	speed "0.6"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"sparkles"
+
+			//haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			//haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			//
+			//effect_on_water_level "1"
+			//
+			//effects_on_marker
+			//{
+			//	footstep_left	"footstep_liquid_left"
+			//	footstep_right	"footstep_liquid_right"
+			//}
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+
+			damage
+			{
+				value		"1"
+				interval 	"0.5"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cosmic_hedroner_boss_area"
+	priority 11
+	
+	speed "0.6"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_bio"
+
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cosmoganic_gas_area"
+	priority 11
+	
+	speed "0.6"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"			
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+			// minimap_disabled	"1"   // uncoment to make minimap go bzzzz
+
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"cosmic"
+			}
+		}
+
+		type "unit"
+		{
+			damage
+			{
+				interval 	"0.3"
+				value		"33"
+				type 		"cosmic"
+			}
+		}	
+	}
+}
+
+
+TerrainType
+{
+	name "violet_glowing_stain"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effects_on_marker
+			{
+				footstep_left	"footstep_wet_ground_left"
+				footstep_right	"footstep_wet_ground_right"
+			}
+
+			//speed "0.5"			
+			damage
+			{
+				interval 	"0.3"
+				value		"5"
+				type 		"cosmic"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_violet"			
+			}
+		}
+	
+		type "building"
+		{
+			damage
+			{
+				value		"10"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "violet_stain"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_bio"
+
+			damage
+			{
+				interval 	"0.3"
+				value		"5"
+				type 		"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_violet"			
+			}
+		}
+	
+		type "building"
+		{
+			damage
+			{
+				value		"10"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "blue_stain"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			//effect_group 		"sparkles"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_wet_ground_left"
+				footstep_right	"footstep_wet_ground_right"
+			}
+
+			//speed "0.5"			
+			damage
+			{
+				interval 	"0.3"
+				value		"5"
+				type 		"plasmoid"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+		}
+	
+		type "building"
+		{
+			damage
+			{
+				value		"10"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "arctic_cryo_ground"
+
+	priority 20
+	//icon "magma"
+	resources_allowed "0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_cryogenic"
+		
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+			
+			speed "1.1"
+			damage
+			{
+				value		"0.1"
+				interval 	"0.5"
+				type 		"cryogenic"
+			}	
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_cryo_left"
+				footstep_right	"footstep_cryo_right"
+			}
+		}
+		type "building"
+		{
+			damage
+			{
+				value		"20"
+				type 		"cryogenic"
+			}
+		}	
+	}	
+}
+
+TerrainType
+{
+	name "snow-pit"
+	priority 30
+	
+	speed "0.8"
+	acceleration "1.0"
+	deacceleration "1.0"
+	icon "quicksand"
+	resources_allowed "0"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			//effect_group 		"time_damage_cryogenic"
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+
+			speed "0.75"
+			effects_on_marker
+			{
+				footstep_left	"footstep_arctic_left"
+				footstep_right	"footstep_arctic_right"
+			}
+		}
+
+		type "building"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"5"
+				type 		"cryogenic"
+			}
+		}		
+
+		type "mine"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"1"
+				type 		"cryogenic"
+			}
+		}	
+	}
+
+	override_material "ground/arctic/small_snowpit_01"
+}
+
+TerrainType
+{
+	name "snow-pit_0"
+	priority 30
+	
+	speed "0.8"
+	acceleration "1.0"
+	deacceleration "1.0"
+	icon "quicksand"
+	resources_allowed "0"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+
+			speed "0.75"
+			effects_on_marker
+			{
+				footstep_left	"footstep_arctic_left"
+				footstep_right	"footstep_arctic_right"
+			}
+		}
+
+		type "building"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"5"
+				type 		"cryogenic"
+			}
+		}		
+
+		type "mine"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"1"
+				type 		"cryogenic"
+			}
+		}	
+	}
+
+
+	override_material "ground/arctic/small_snowpit_02"
+}
+
+TerrainType
+{
+	name "abyss-pit"
+	priority 30
+	speed "0.8"
+	icon "quicksand"
+	resources_allowed "0"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_bio"
+
+			haptic_feedback_left "sound/samples/haptic/footstep_wet_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_wet_right.wav"
+			damage
+			{
+				interval 	"0.5"
+				value		"5"
+				type 		"cosmic_energy"
+			}
+
+			DamagePattern
+			{
+				area_damage_type		"timed"
+				area_damage_duration 	"6"
+				area_damage_radius		"2"
+				time_damage_interval	"0.1"
+				area_damage_effect_scale	"splash"
+				area_damage_effect	 "effects/weapons_generic/damage_radius_generic_blue"			
+			}
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_cryo_left"
+				footstep_right	"footstep_cryo_right"
+			}
+		}
+		type "building"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"10"
+				type 		"cosmic_energy"
+			}
+		}		
+
+		type "mine"
+		{
+			damage
+			{
+				interval 	"1"
+				value		"5"
+				type 		"cosmic_energy"
+			}
+		}	
+	}
+
+	override_material "ground/abyss/small_abysspit_01"
+}
+
+TerrainType
+{
+	name "cryo_hot_ground"
+	priority 19	
+	//icon "magma"
+	speed "0.9"
+	acceleration "1.0"
+	deacceleration "1.0"
+
+	type_overrides
+	{
+		type "mech"
+		{
+			effect_group 		"time_damage_cryogenic"
+
+			haptic_feedback_left "sound/samples/haptic/footstep_rock_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_rock_right.wav"
+			
+			//speed "1.4"
+			//damage
+			//{
+			//	value		"0.5"
+			//	interval 	"0.5"
+			//	type 		"cryogenic"
+			//}
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_arctic_left"
+				footstep_right	"footstep_arctic_right"
+			}
+		}
+		//type "building"
+		//{
+		//	damage
+		//	{
+		//		value		"20"
+		//		type 		"cryogenic"
+		//	}
+		//}
+	}
+}
+
+TerrainType
+{
+	name "arctic"
+	priority 1
+	
+	speed "0.9"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_arctic_left"
+				footstep_right	"footstep_arctic_right"
 			}
 		}	
 	}

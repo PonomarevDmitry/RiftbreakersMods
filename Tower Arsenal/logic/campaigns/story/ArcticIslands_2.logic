@@ -1,8 +1,8 @@
-//editor "scroll(1399.59,2114.15)|zoom(0.80)"
+//editor "scroll(2564.11,2379.72)|zoom(0.87)"
 FlowGraphTemplate
 {
-	version "14"
-	editor "6380"
+	version "15"
+	editor "6643"
 	GraphNodes
 	{
 		LuaBehaviourNode
@@ -23,7 +23,7 @@ FlowGraphTemplate
 			}
 
 			script "lua/graph/mission_state/event_start.lua"
-			self_id "default_1"
+			self_id "default"
 		}
 
 		LuaBehaviourNode
@@ -162,6 +162,12 @@ FlowGraphTemplate
 						value "0"
 					}
 
+					IntData
+					{
+						key "always_visible"
+						value "0"
+					}
+
 				}
 
 				Strings
@@ -232,9 +238,9 @@ FlowGraphTemplate
 
 		EndFlowGraphNode
 		{
-			//editor "layout(event_end.xml)|pos(2941,2610)"
+			//editor "layout(event_end.xml)|pos(3035,2599)"
 			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
+			self_id "event_end"
 		}
 
 	}
@@ -242,11 +248,11 @@ FlowGraphTemplate
 	GraphConnections
 	{
 		campaign_mission_unlock_1 "logic_if_mission_status_1"
-		default_1 "objective_generic_0"
+		default "objective_generic_0"
 		logic_if_mission_status_1 "logic_if_mission_status_1###in_progress"
 		logic_if_mission_status_1###in_progress "logic_wait_on_event_1"
 		logic_wait_2 "campaign_mission_unlock_1"
-		logic_wait_on_event_1 "event_end_0"
+		logic_wait_on_event_1 "event_end"
 		objective_generic_0 "logic_wait_2"
 	}
 

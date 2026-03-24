@@ -4,7 +4,7 @@ require("lua/utils/table_utils.lua")
 local drone_spawner_building = require("lua/buildings/drone_spawner_building.lua")
 class 'cosmic_cultivator' ( drone_spawner_building )
 
-local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_test_item";
+local DEFAULT_SAPLING_BLUEPRINT = "items/loot/saplings/biomas_sapling_abyss_item";
 
 function cosmic_cultivator:__init()
     drone_spawner_building.__init(self,self)
@@ -218,7 +218,7 @@ function cosmic_cultivator:GetDefaultSaplingItem()
     local sapling_item = self.data:GetStringOrDefault("sapling_item", DEFAULT_SAPLING_BLUEPRINT)
 
     if sapling_item == DEFAULT_SAPLING_BLUEPRINT then
-        local biome_default_item = "items/loot/saplings/biomas_sapling_test_" .. MissionService:GetCurrentBiomeName() .. "_item"
+        local biome_default_item = "items/loot/saplings/biomas_sapling_abyss_" .. MissionService:GetCurrentBiomeName() .. "_item"
 
         if ResourceManager:ResourceExists( "EntityBlueprint", biome_default_item ) then
             return biome_default_item

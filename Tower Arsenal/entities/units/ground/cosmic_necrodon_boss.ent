@@ -51,8 +51,6 @@ EntityBlueprint
 		area			"3.0"
 		cosmic			"0.5"
 		plasmoid		"1.0"
-
-		reflect_damage_max_percent 		"0.020"
 	}
 
 	StunDataComponent
@@ -83,8 +81,8 @@ EntityBlueprint
 
 	HealthDesc
 	{
-		max_health 					"8000"
-		health 						"8000"
+		max_health 					"6500"
+		health 						"6500"
 		is_manual					"1"
 		update_health_uniform 		"1"
 
@@ -118,13 +116,44 @@ EntityBlueprint
 		content "monster_name/cosmic_necrodon_boss"
 		can_activate 0
 	}
-	
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect 		"effects/enemies_necrodon/death"	
+					part_prefix 			"meshes/units/ground/necrodon"
+					part_effect 			"effects/enemies_generic/blood_trail_black"
+					part_physics_material   "gibs_heavy"					
+				}
+				key "default"
+			}
+		}		
+	}
+
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"
-	}	
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/cosmic_necrodon_boss"
+		visibility          "radar"
+		additional_z_order  "5"
+		layer_group			"enemies"
+	}
 
 	TurretDesc
 	{
@@ -135,7 +164,8 @@ EntityBlueprint
 		aim_volume "SphericalAimVolume"
 		{
 			range_min "6"
-			range_max "40"
+			range_max "35"
+			//aiming_range "35"
 		}
 
 		aiming_cooldown "1"
@@ -149,18 +179,18 @@ EntityBlueprint
 
 	ResurrectUnitDesc
 	{
-		pool					   "2600"
-		pool_regeneration		   "1000"
-		resurrect_time			   "0.65"
-		resurrect_radius		   "20"
-		summon_time				   "0.35"
-		summon_radius			   "15"
+		pool					   "1500"
+		pool_regeneration		   "500"
+		resurrect_time			   "1.0"
+		resurrect_radius		   "15"
+		summon_time				   "1.0"
+		summon_radius			   "10"
 		body_ressurect_effect	   "effects/enemies_necrodon/resurrect_body"
 		body_resurrect_beam_effect "units/ground/necrodon_resurrect_beam"
 		summon_effect			   "effects/enemies_necrodon/resurrect_body"
 		summon_beam_effect		   "units/ground/necrodon_resurrect_beam"
-		summon_bp				   "units/ground/cosmic_ceros"
-		max_summon_counter	       "4"
+		summon_bp				   "units/ground/cosmic_kermon_ultra"
+		max_summon_counter	       "3"
 		dome_effect				   "units/ground/necrodon_dome_effect"
 	}
 
@@ -206,23 +236,39 @@ EntityBlueprint
 	{		
 		EffectBaseBlueprints
 		{
-			"units/ground/necrodon_base"
+			"units/ground/cosmic_necrodon_base"
 		}	
 		
 		EffectGroup
 		{
-			group 	"time_damage_cryo"
-			enabled "0"
+			group 	"time_damage_cosmic"
+			enabled "0"				
 			Effects
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/time_damage_cryo_boss"
-					bone "att_death"
-					scale "1 1 1"
+					//blueprint "effects/mech/mech_on_bioenergy"
+					blueprint "effects/mech/mech_on_cosmic"
+					offset "0 4.1 0"
+					scale "0.6 0.6 0.6"
 				}
 			}
-		}		
+		}			
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					//blueprint "effects/mech/electric_energy"
+					blueprint "effects/mech/mech_on_plasmoid"
+					offset "0 4.1 0"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}	
 	}	
 
 	children

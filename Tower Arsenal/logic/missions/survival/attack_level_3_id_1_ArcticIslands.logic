@@ -1,13 +1,34 @@
-//editor "scroll(3148.98,6259.04)|zoom(0.40)"
+//editor "scroll(236.71,490.12)|zoom(0.80)"
 FlowGraphTemplate
 {
-	version "24"
-	editor "6380"
+	version "2"
+	editor "6643"
 	GraphNodes
 	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(171,528)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(7268,12832)"
+			//editor "layout(wave_ground.xml)|pos(557,255)"
 			database
 			{
 				Floats
@@ -130,9 +151,16 @@ FlowGraphTemplate
 
 		}
 
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1394,1162)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(7316,13724)"
+			//editor "layout(logic_wait.xml)|pos(605,1147)"
 			database
 			{
 				Floats
@@ -151,37 +179,9 @@ FlowGraphTemplate
 			self_id "logic_wait_0"
 		}
 
-		LuaBehaviourNode
-		{
-			//editor "layout(event_start.xml)|pos(6882,13105)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "rule_headquarters_survive"
-						value "1"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/event_start.lua"
-			self_id "default"
-		}
-
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(8105,13739)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
-		}
-
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(7597,13494)"
+			//editor "layout(wave_ground.xml)|pos(886,917)"
 			database
 			{
 				Floats
@@ -270,7 +270,7 @@ FlowGraphTemplate
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_arachnoid_sentinel_crystal"
+					blueprint "units/ground/cosmic_magmoth"
 					count "3"
 					delay "3.00"
 					delay_group "0.00"
@@ -281,7 +281,7 @@ FlowGraphTemplate
 				Enemy
 				{
 					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_canoptrix_crystal"
+					blueprint "units/ground/cosmic_morirot"
 					count "2"
 					delay "5.00"
 					delay_group "5.00"

@@ -1,7 +1,6 @@
 EntityBlueprint
 {
-	name "units/ground/cosmic_mushbit"
-
+	name            "units/ground/cosmic_mushbit"
 	base_blueprint "units/ground/cosmic_mushbit_base"
 
 	LuaDesc
@@ -9,8 +8,8 @@ EntityBlueprint
 		script "lua/units/ground/mushbit.lua"
 		database
 		{
-			min_scale	float:"1.75"
-			max_scale	float:"1.85"
+			min_scale	float:"1.55"
+			max_scale	float:"1.65"
 		}			
 	}
 
@@ -21,22 +20,28 @@ EntityBlueprint
 
 	MinimapItemDesc
 	{
-		type			"image"
-		icon_material 	"gui/hud/minimap_icons/cosmic_hedroner_boss"
-		visibility 		"radar"		
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "2"
+			w "1"
+		}
+		size
+		{
+			x "1"
+			y "1"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
-
-	HealthBarDesc
-	{
-		type "0"
-		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
-		material "gui/hud/bars/big_monster_hp_1x3"
-	}	
 
 	HealthDesc
 	{
-		max_health 					"25"
-		health 						"25"
+		max_health 					"50"
+		health 						"50"
 		regeneration 				"0"
 		regeneration_cooldown 		"0"
 		is_manual					"1"
@@ -57,8 +62,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"0.65"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
 		dominance_group				    "1"
+	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.65"    //interpolation_speed  "0.5"
+        water_offset         "-1.0"    
 	}
 
 	MeshDesc
@@ -329,6 +340,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"10000"
 		explosion_min_power 	"5000"	
+		loot_award		"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -383,7 +395,7 @@ EntityBlueprint
 					explosion_type 			"centered"
 					explosion_max_power 	"8000"
 					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_mushbit/death"	
+					explosion_effect 		"effects/enemies_small_explosion/violet"	
 					part_prefix 			"meshes/units/ground/mushbit"
 					part_material 			"units/ground/mushbit"
 					part_effect 			"effects/enemies_generic/blood_trail_violet_small"
@@ -432,7 +444,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_mushbit/death_long"	
+					blueprint "effects/enemies_blood_splatter_dmg/violet_stain_small"	
 					bone "att_death"
 				}
 			}
@@ -490,6 +502,48 @@ EntityBlueprint
 				}
 			}
 		}		
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}
 		EffectGroup
 		{
 			group 	"time_damage_fire"

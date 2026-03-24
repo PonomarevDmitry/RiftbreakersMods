@@ -17,6 +17,9 @@ EntityBlueprint
 		upgrade				"buildings/defense/tower_cryogenic_artillery_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 
+		building_group		"tower_artillery_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -406,27 +409,11 @@ EntityBlueprint
 		name 		"items/weapons/explosive/rocket_projectile_medium"
 	}
 
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cryo"
-					bone "att_exhaust"
-					scale "0.5 0.5 0.5"
-				}
-			}
-		}
-	}
-
 	ArtilleryAmmoComponent
 	{
-		on_enemy_hit_effect 	"effects/weapon_hit/cryo_mine_explosion"
-		on_world_hit_effect 	"effects/weapon_hit/cryo_mine_explosion"
-		on_resisted_hit_effect 	"effects/weapon_hit/cryo_mine_explosion"
+		on_enemy_hit_effect 	"effects/tower_cryogenic_artillery_explosion"/////////////////
+		on_world_hit_effect 	"effects/tower_cryogenic_artillery_explosion"//ta_artillery //
+		on_resisted_hit_effect 	"effects/tower_cryogenic_artillery_explosion"/////////////////
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|shield"
 	}
 	
@@ -446,11 +433,13 @@ EntityBlueprint
 				{
 					Ribbon
 					{
+						parent_attachment "att_exhaust"
 						offset "0 0 0.5"
 					}
 
 					Ribbon
 					{
+						parent_attachment "att_exhaust"
 						offset "0 0 -0.5"
 					}
 				}
@@ -458,3 +447,4 @@ EntityBlueprint
 		}
 	}
 }
+

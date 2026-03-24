@@ -17,6 +17,9 @@ EntityBlueprint
 		upgrade				"buildings/defense/tower_plasmoid_shotgun_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 
+		building_group		"tower_shotgun_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -248,7 +251,7 @@ EntityBlueprint
 		ammo_blueprint 						"buildings/defense/tower_plasma_shotgun_projectile"
 
 		muzzles_per_fire 					"1"
-		muzzle_flash_effect 				"effects/weapons_shotguns/shotgun_muzzle_flash"
+		muzzle_flash_effect 				"effects/tower_shotgun/plasmoid_shotgun_muzzle_flash"
 		fire_effect 						"effects/weapons_shotguns/shotgun_fire"
 
 		burst_rate 					"0.2"
@@ -358,16 +361,16 @@ EntityBlueprint
 {
 	name "buildings/defense/tower_plasma_shotgun_projectile"
 
-	base_blueprint "effects/weapons_energy/mech_blaster_projectile"
+	base_blueprint effects/tower_shotgun/plasmoid_shotgun_bullet
 
 	ProjectileAmmoComponent
 	{
 		distribution 			"dissipation"
 		diameter				"1"
 		
-		on_enemy_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
-		on_world_hit_effect 	"effects/weapons_energy/energy_weapon_hit"
-		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+		on_enemy_hit_effect 	"effects/weapons_shotguns/shotgun_hit_enemy_flesh_medium"
+		on_world_hit_effect 	"effects/weapons_shotguns/shotgun_hit_world_rocks_medium"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"		
 
 		collision_3d 			"world|world_blocker|world_destructible|destructible|grenade|building|ground_unit|shield"
 		collision_2d 			"ground_unit|destructible"

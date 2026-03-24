@@ -1,0 +1,355 @@
+EntityBlueprint
+{
+	name "props/special/interactive/anoryxian_boss_ultra_heart_01"
+
+	//base_blueprints 
+	//{
+	//	the_abyss/anoryxian_heart_01/loot_container_spawner
+	//	//props/special/loot_containers/loot_container_cosmic_standard
+	//}
+
+	LuaDesc
+	{
+		script "lua/misc/magnetic_boulder.lua"
+
+		//database
+		//{
+		//	delay				float:"0.2"
+		//	aggressive_radius   float:"60"
+		//	wave_logic_file		string:"logic/bioanomaly/the_abys_standard.logic"
+		//	wave_logic_file_mul int:"2"
+		//	wave_spawn_distance int:"80"
+		//	wave_started_effect string:"effects/enemies_generic/wave_start"
+		//	boss_logic_file		string:"logic/bioanomaly/arctic_boss_dynamic.logic"
+		//	boss_logic_file_mul int:"1"
+		//}
+	}
+
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/magnetic_rocks/magnetic_rock_big_01.mesh"
+		material 	"props/special/the_abyss/anoryxian_heart_01"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/magnetic_rocks/magnetic_rock_big_01"
+	}
+	
+	AnimationGraphDesc
+	{
+		animation_graph_name "idle"
+	}
+
+	StateMachineDesc
+	{
+		template_name "animation_visible"
+	}
+
+	HealthDesc
+	{ 
+		max_health 				"5000"
+		health 					"5000"
+		is_manual 				1
+	}	
+
+	HealthBarDesc
+	{
+		type "0"///
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/elite_boss_health_1x3"
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"1.0"
+		acid			"1.0"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"1.0"
+		cosmic			"1.0"
+		plasmoid		"1.0"	
+	}	
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id 			"destructible"
+				physics_material 	"default"
+				//Shapes
+				//{
+				//	PhysicsMeshShape
+				//	{
+				//		mesh "meshes/props/special/magnetic_rocks/magnetic_rock_big_01_c1.nxs"
+				//	}
+				//}
+				Shapes
+				{
+					PhysicsCapsuleShape
+					{
+						r "2.5"
+						half_height "2"
+
+						position 
+						{
+							x "0.0"
+							y "5"
+							z "0.0"
+						}
+
+						orientation
+						{
+							w "0.7"
+							x "0.0"
+							z "0.7"
+							y "0.0"
+						}
+					}		
+				}				
+			}
+		}
+	}
+
+	NodeCullerDesc
+	{
+	    cost_type "prop"
+	    nav_mesh_cull_type "1"
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsSphereShape
+			{
+				r "20"
+			}
+		}
+	}
+
+	LootDesc
+	{
+		explosion_max_power 	"8000"
+		explosion_min_power 	"4000"	
+		loot_award				"enemy_cosmic_elite"
+	}	
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8500"
+					explosion_min_power 	"8500"
+					explosion_effect 		"effects/destructibles/cosmic_yeast_explosion_blue_big"	
+					
+					part_material	 		"props/special/magnetic_big_01"
+					part_prefix 			"meshes/props/special/magnetic_rocks/magnetic_rock_big_01"
+					part_effect 			"effects/destructibles/cosmic_yeast_part_trail_medium"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+			//Pair
+			//{
+			//	key "treasure_open"
+			//	value
+			//	{
+			//		explosion_type 			"centered"
+			//		explosion_max_power 	"3500"
+			//		explosion_min_power 	"3500"
+			//		explosion_effect 		"effects/loot/treasure_open_advanced"
+			//
+			//		part_material	 		"props/special/loot_container_acid_advanced"
+			//		part_prefix 			"meshes/props/special/loot_containers/loot_container_acid"
+			//		part_effect 			"effects/destructibles/acid_bulb_part_trail_blue_medium"
+			//		part_physics_material   "debris_heavy"
+			//	}
+			//}
+		}		
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/destructibles/anoryxian_boss_ultra_heart_energy"
+					offset "0 6 0"
+					scale "0.9 0.9 0.9"
+				}
+				Effect
+				{
+					blueprint "effects/destructibles/anoryxian_boss_ultra_heart_radius_big"
+					offset "0 0 0"
+					scale "0.2 0.2 0.2"
+				}
+				Effect
+				{
+					blueprint "props/special/interactive/abyss_magnetic_big_base_01"
+				}
+				//Effect
+				//{
+				//	blueprint "lights/point/ta_dark-blue_big"
+				//	offset "0 1 0"
+				//}					
+			}
+		}
+		EffectGroup
+		{
+			group "wreck"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "props/special/interactive/abyss_magnetic_big_base_01_wreck"
+				}			
+			}
+		}	
+	}
+}
+EntityBlueprint
+{ 
+	name "the_abyss/anoryxian_heart_01/loot_container_spawner"
+
+	LuaDesc
+	{
+		script "lua/spawners/loot_container_spawner.lua"
+
+		database
+		{
+			delay	float:"0.2"
+		}
+	}
+
+	InteractiveComponent 
+	{
+		slot 			"HARVESTER"
+		radius 			"7"
+		remove_entity 	"0"
+	}
+
+	IdDesc
+	{
+		group "loot_container"
+	}
+	
+	MinimapItemDesc
+	{
+		type					"image"
+		icon_material 			"gui/hud/minimap_icons/spawner_nest"
+		visibility 				"discovered"
+		unknown_until_visible 	"1"
+		additional_z_order 		"1"
+	}
+	
+	//GridCullerDesc
+	//{
+	//	type 8
+	//
+	//	Shapes
+	//	{
+	//		PhysicsSphereShape
+	//		{
+	//			r "16.0"
+	//		}
+	//	}	
+	//}
+	
+}
+
+/////////////////////////////////////////////
+////------------ EFFECTS -----------------///
+/////////////////////////////////////////////
+
+EntityBlueprint
+{
+	name effects/destructibles/unique_crystal_shadow_caster
+	
+	base_blueprints
+	{
+		 ta_lights/point/unique_crystal_shadow_caster_violet
+		 effects/no_lifetime
+	}	
+}
+EntityBlueprint
+{
+	name effects/destructibles/anoryxian_boss_ultra_heart
+
+	base_blueprints
+	{	
+		 //lights/point/boss_shadow_caster_blue
+		 effects/no_lifetime
+	}	
+	ParticleDesc
+	{	
+		name    "rift/magnetic_rock_energy"
+	}	
+	SoundDesc
+	//{	
+	//	name "ambient/magnetic_rock"
+	//}	
+}
+EntityBlueprint
+{
+	name effects/destructibles/anoryxian_boss_ultra_heart_energy
+
+	base_blueprints
+	{
+		 //lights/point/blue_big
+		 effects/no_lifetime
+	}
+	ParticleDesc
+	{
+		name    "rift/magnetic_rock_energy"
+	}
+	//SoundDesc
+	//{
+	//	name "ambient/magnetic_rock"
+	//}	
+}
+EntityBlueprint
+{
+	name effects/destructibles/anoryxian_boss_ultra_heart_radius
+
+	base_blueprints
+	{
+		 //lights/point/blue_small
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magnetic_rock_radius"
+	}
+}
+EntityBlueprint
+{
+	name effects/destructibles/anoryxian_boss_ultra_heart_radius_big
+
+	base_blueprints
+	{
+		 effects/no_lifetime
+	}
+
+	ParticleDesc
+	{
+		name    "rift/magnetic_rock_radius_big"
+	}
+}
+
+

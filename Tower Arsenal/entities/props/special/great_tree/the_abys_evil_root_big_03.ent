@@ -1,0 +1,63 @@
+EntityBlueprint
+{
+	name  "props/special/great_tree/the_abys_evil_root_big_03"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/great_tree/evil_root_big_03.mesh"
+		material "props/special/great_tree/the_abys_evil_roots_set"
+	}
+
+	PhysicsDesc
+	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type     			"static"
+				group_id    		"world_blocker"
+				physics_material  	"default"
+
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/special/great_tree/evil_root_big_03_c1.nxs"
+					}
+					
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name  "props/special/great_tree/evil_root_big_03_logic_marker"
+
+	SceneEditorDesc
+	{
+		mesh "meshes/props/special/great_tree/evil_root_big_03.mesh"
+		material "props/special/great_tree/evil_roots_set"
+	}
+	
+	// BOUNDS HACK FOR SPATIAL SEARCH
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x "-1"
+				y "-1"
+				z "-1"
+			}
+			max
+			{
+				x "1"
+				y "1"
+				z "1"
+			}	
+		}
+	}
+}

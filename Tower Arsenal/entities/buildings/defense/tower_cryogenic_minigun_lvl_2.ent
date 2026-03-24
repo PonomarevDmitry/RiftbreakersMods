@@ -1,8 +1,7 @@
 EntityBlueprint
 {
-	name 					"buildings/defense/tower_cryogenic_minigun_lvl_2"
-
-	base_blueprint 			"buildings/defense/tower_cryogenic_minigun"
+	name 				"buildings/defense/tower_cryogenic_minigun_lvl_2"
+	base_blueprint 	buildings/defense/tower_cryogenic_minigun
 
 	BuildingDesc
 	{
@@ -19,6 +18,9 @@ EntityBlueprint
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cryogenic_minigun_lvl_3"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_minigun_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -121,92 +123,25 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/boss_trail_cryo"
-					bone "be_turret"
-					scale  "0.2 0.2 0.2"
-				}
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cryo"
 					bone "att_tipp_1"
 					scale "0.1 0.1 0.1"
 				}
 			}
-		}	
+		}
+
+		EffectGroup
+		{
+			group "shooting"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/weapons_bullet/tower_minigun_fire_loop"
+					bone "att_muzzle"
+				}
+			}
+		}
 	}
 }
-
-EntityBlueprint
-{
-	name "buildings/defense/tower_cryogenic_minigun_projectile"
-
-	base_blueprints "buildings/defense/cryogenic_sentry_projectile"
-	{
-		lights/point/blue_very_small
-		effects/no_lifetime
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/projectiles/crystal_gun_projectile.mesh"
-		material    "projectiles/magmoth_projectile_cryogenic"
-	}
-
-	ProjectileAmmoComponent
-	{
-		//distribution 			"dissipation"
-		//dissipation_count 	"5"
-		cluster_enemy_spread    "160"
-		cluster_world_spread	"160"
-		cluster_life_time_min   "0.01"
-		cluster_life_time_max   "0.2"
-
-		cluster_scale
-		{
-			x "0.8"
-			y "0.5"
-			z "0.5"
-		}
-
-		on_enemy_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
-		on_world_hit_effect 	"effects/weapons_bullet/crystal_gun_hit"
-		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
-
-		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
-	}
-		friendly_fire			"pass"
-	}
-
-	MinimapItemDesc
-	{
-		type	"quad"
-		color
-		{
-			x "1"
-			y "1"
-			z "0"
-			w "1"
-		}
-		size
-		{
-			x "2"
-			y "2"
-		}
-		visibility			"radar"
-	}
-
-	ParticleDesc
-	{
-		name    "rift/blood_trail_animated_cryogenic"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/crystal_gun"
-	}
-
-	LifeTimeDesc
-	{
-		time 		1.6
-		//type 		"camera"
-	}
-

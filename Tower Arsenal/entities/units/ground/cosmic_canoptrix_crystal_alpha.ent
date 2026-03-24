@@ -2,42 +2,83 @@ EntityBlueprint
 {
 	name  "units/ground/cosmic_canoptrix_crystal_alpha"
 
-	base_blueprint units/ground/cosmic_canoptrix_crystal
+	base_blueprint units/ground/canoptrix_ultra_base
 
 	MeshDesc
 	{
 		mesh 		"meshes/units/ground/canoptrix_crystal.mesh"
 		material 	"units/ground/cosmic_canoptrix_crystal_alpha"
-	}
-	
+	}		
+
 	SelectableDesc
 	{
 		content "monster_name/cosmic_canoptrix_crystal_alpha"
 		can_activate 0
-	}
-	
+	}		
+
+	NavMeshMovementComponent
+	{
+		angle_turn_speed				"200"
+		unit_soft_radius				"0.66"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
+		dominance_group				    "1"
+	}		
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.75"
+        //interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}		
+
 	LuaDesc
 	{
 		script "lua/units/ground/canoptrix_crystal.lua"
 		database
 		{
-			min_scale	float:"1.8"
-			max_scale	float:"1.9"
-		}
+			min_scale	float:"2.0"
+			max_scale	float:"2.1"
+		}	
+	}		
+
+	HealthDesc
+	{
+		max_health 					"150"
+		health 						"150"
+		is_manual					"1"
+		update_health_uniform 		"1"
 	}
 	
 	ResistanceComponent
 	{
 		physical		"1.0"
-		fire			"0.8"
-		acid			"1.0"
-		energy			"0.8"
-		cryo			"0.8"
-		area			"1.0"
-		cosmic			"0.8"
-		plasmoid		"1.0"
+		fire			"0.1"
+		acid			"2.0"
+		energy			"1.0"
+		cryo			"0.1"
+		area			"1.5"	
+	}		
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "0.0"
+			y "0.8"
+			z "1.0"
+			w "1.0"
+		}
+		size
+		{
+			x "1.0"
+			y "1.0"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
-	
+
 	DestroyDesc
 	{
 		DestroyPatterns
@@ -59,23 +100,8 @@ EntityBlueprint
 
 				key "default"
 			}
-		}
-	}	
-
-	NavMeshMovementComponent
-	{
-		angle_turn_speed				"200"
-		unit_soft_radius				"0.76"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"
-		dominance_group				    "1"
-	}
-
-	KeepHighNavigationComponent
-	{
-		interpolation_speed  "0.15"
-        //interpolation_speed  "0.5"
-        water_offset         "-1.0"
-	}
+		}	
+	}		
 
 	EffectDesc
 	{		
@@ -92,7 +118,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_black"	
+					blueprint "effects/enemies_generic/damage_generic_blue"	
 					bone "att_death"
 					scale "0.5 0.5 0.5"
 				}
@@ -106,7 +132,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_crystal_yellow"	
+					blueprint "effects/enemies_generic/damage_generic_crystal_blue"	
 				}
 			}
 		}	

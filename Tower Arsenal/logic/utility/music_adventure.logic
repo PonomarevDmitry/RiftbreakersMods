@@ -1,0 +1,458 @@
+//editor "scroll(75.92,178.47)|zoom(0.47)"
+FlowGraphTemplate
+{
+	version "17"
+	editor "6643"
+	GraphNodes
+	{
+		LuaBehaviourNode
+		{
+			//editor "layout(event_start.xml)|pos(468,552)"
+			database
+			{
+				Integers
+				{
+					IntData
+					{
+						key "rule_headquarters_survive"
+						value "1"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(2803,540)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "true"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(2607,540)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "232"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2058,851)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_metallic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_adaptive_music_system.xml)|pos(786,539)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "status"
+						value "false"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_adaptive_music_system.lua"
+			self_id "audio_adaptive_music_system_1"
+		}
+
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(3105,553)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1162,779)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "metallic"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_0"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1162,882)"
+			key "true"
+			self_id "logic_if_biome_0###true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1162,910)"
+			key "false"
+			self_id "logic_if_biome_0###false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2060,545)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_1"
+		}
+
+		OrBehaviourNode
+		{
+			//editor "layout(logic_or.xml)|pos(2422,556)"
+			self_id "logic_or_0"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1161,982)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_1"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1161,1086)"
+			key "true"
+			self_id "logic_if_biome_1###true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1161,1114)"
+			key "false"
+			self_id "logic_if_biome_1###false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2058,1065)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_caverns"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_2"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_and.xml)|pos(1869,563)"
+			script "lua/graph/logic/logic_and.lua"
+			self_id "logic_and_1"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1170,1189)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_2"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1170,1293)"
+			key "true"
+			self_id "logic_if_biome_2###true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1170,1321)"
+			key "false"
+			self_id "logic_if_biome_2###false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2065,1263)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_swamp"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_3"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1172,1396)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "ArcticIslands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_3"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1172,1500)"
+			key "true"
+			self_id "logic_if_biome_3###true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1172,1528)"
+			key "false"
+			self_id "logic_if_biome_3###false"
+			value "logic_if_biome_0###false"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2058,1473)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/adventure_arcticislands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_4"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(audio_music_change_playlist.xml)|pos(2054,1694)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "music_list"
+						value "music/exploration_arcticislands"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/audio/audio_music_change_playlist.lua"
+			self_id "audio_music_change_playlist_5"
+		}
+
+		NodeSelectorNode
+		{
+			//editor "layout(logic_if_biome.xml)|pos(1172,1614)"
+			database
+			{
+				Strings
+				{
+					StringData
+					{
+						key "biome"
+						value "the_abys"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_if_biome.lua"
+			self_id "logic_if_biome_4"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_true.xml)|pos(1172,1718)"
+			key "true"
+			self_id "logic_if_biome_4###true"
+			value "logic_if_biome_0###true"
+		}
+
+		FlowGraphNode
+		{
+			//editor "layout(condition_false.xml)|pos(1172,1746)"
+			key "false"
+			self_id "logic_if_biome_4###false"
+			value "logic_if_biome_0###false"
+		}
+
+	}
+
+	GraphConnections
+	{
+		audio_adaptive_music_system_0 "event_end_0"
+		audio_adaptive_music_system_1 "logic_if_biome_0|logic_if_biome_1|logic_if_biome_2|logic_if_biome_3|logic_if_biome_4"
+		audio_music_change_playlist_0 "logic_or_0"
+		audio_music_change_playlist_1 "logic_or_0"
+		audio_music_change_playlist_2 "logic_or_0"
+		audio_music_change_playlist_3 "logic_or_0"
+		audio_music_change_playlist_4 "logic_or_0"
+		audio_music_change_playlist_5 "logic_or_0"
+		default "audio_adaptive_music_system_1"
+		logic_and_1 "audio_music_change_playlist_1"
+		logic_if_biome_0 "logic_if_biome_0###false|logic_if_biome_0###true"
+		logic_if_biome_0###false "logic_and_1"
+		logic_if_biome_0###true "audio_music_change_playlist_0"
+		logic_if_biome_1 "logic_if_biome_1###false|logic_if_biome_1###true"
+		logic_if_biome_1###false "logic_and_1"
+		logic_if_biome_1###true "audio_music_change_playlist_2"
+		logic_if_biome_2 "logic_if_biome_2###false|logic_if_biome_2###true"
+		logic_if_biome_2###false "logic_and_1"
+		logic_if_biome_2###true "audio_music_change_playlist_3"
+		logic_if_biome_3 "logic_if_biome_3###false|logic_if_biome_3###true"
+		logic_if_biome_3###false "logic_and_1"
+		logic_if_biome_3###true "audio_music_change_playlist_4"
+		logic_if_biome_4 "logic_if_biome_4###false|logic_if_biome_4###true"
+		logic_if_biome_4###false "logic_and_1"
+		logic_if_biome_4###true "audio_music_change_playlist_5"
+		logic_or_0 "logic_wait_0"
+		logic_wait_0 "audio_adaptive_music_system_0"
+	}
+
+	GraphComments
+}
+

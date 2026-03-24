@@ -1,0 +1,177 @@
+BiomeDef
+{
+	scannable_on_startup "0"
+	
+	base_materials
+	{
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_2"
+			value
+			{
+				String "ground/misc/biome_material_2"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_1"
+			value
+			{
+				String "ground/misc/biome_material_1"
+			}
+
+		}
+
+		Pair_String_Vector_String
+		{
+			key "ground/misc/biome_material_0"
+			value
+			{
+				String "ground/misc/biome_material_0"
+			}
+
+		}
+
+	}
+
+	root_template
+	{
+		children
+		{
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "skybox"
+					}
+
+					LocalAabbDesc
+					{
+						local_aabb
+						{
+							min
+							{
+								x "-5.100"
+								y "-5.100"
+								z "-5.100"
+							}
+
+							max
+							{
+								x "5.100"
+								y "5.100"
+								z "5.100"
+							}
+
+						}
+
+					}
+
+					MeshDesc
+					{
+						material "pbr/skybox"
+						mesh "meshes/skybox.mesh"
+						renderable_custom_parameters
+						{
+							Params
+						}
+
+					}
+
+				}
+
+			}
+
+			EntityTemplate
+			{
+				components
+				{
+					IdComponent
+					{
+						name "main_light"
+					}
+
+					LightDesc
+					{
+						scattering_intensity "1.0"
+						light_color
+						{
+							w "13.416"
+							y "0.779"
+							z "0.354"
+						}
+					}
+
+					ShadowComponent
+					{
+					
+					}
+				}
+			}
+		}
+
+		components
+		{
+			DirectionalWindComponent
+			{
+				position_frequency_factor "0.001"
+				power_frequency "0.200"
+				power_max "500.000"
+				power_min "100.000"
+				random_rotation_time_deviation "0.040"
+				rotation_frequency "0.100"
+				rotation_max "10.000"
+			}
+
+			SceneParamsDesc
+			{
+				fog_params
+				{
+					color
+					{
+						x "0.521"
+						y "0.855"
+						z "0.920"
+					}
+
+					density "0.283"
+					end "58.708"
+					start "46.177"
+				}
+
+				shadow_params
+				{
+					intensity "1.000"
+				}
+
+				skybox_params
+				{
+					diffuse_intensity "0.403"
+					specular_intensity "0.588"
+				}
+
+			}
+
+			TimeOfDayComponent
+			{
+				timeofday_presets
+				{
+					TimeOfDayPresetHolder
+					{
+						resource_name "scripts/scene_params/default.td"
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+

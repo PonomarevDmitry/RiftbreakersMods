@@ -1,5 +1,85 @@
 EntityBlueprint
 {
+	name effects/messages_and_markers/wave_marker_cosmic_nest
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/spawner_nest_1"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		clamp_mode			"1"
+		visibility			"always"		
+		layer_group			"warning"
+		z_order				"199"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_violet_circle"
+	}
+
+	GuiDesc
+	{
+		def_name 		"gui/hud/icons/marker_nest"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"199"
+	}
+
+	NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
+	name effects/messages_and_markers/wave_marker_cosmic_nest_1
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/spawner_nest"
+		size
+		{
+			x "0.8"
+			y "0.8"
+		}
+		clamp_mode			"1"
+		visibility			"always"		
+		layer_group			"warning"
+		z_order				"199"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/objective_marker_violet_circle"
+	}
+
+	GuiDesc
+	{
+		def_name 		"gui/hud/icons/marker_nest"
+		mode			"clamp"
+		clamp_in_frustum "0"
+		order 			"199"
+	}
+
+	NetAlwaysRevelantComponent
+}
+
+EntityBlueprint
+{
 	name effects/world/cosmic_resource_comet_impact_place
 
 	base_blueprints
@@ -15,7 +95,7 @@ EntityBlueprint
 
 	LifeTimeDesc
 	{
-		time 		"120"
+		time 		"60"
 	}	
 }
 
@@ -77,7 +157,7 @@ EntityBlueprint
 			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
 		}
 
-		burning_effect_group    "time_damage_cosmic"			// effect group to be enabled on entity
+		burning_effect_group    ""			// effect group to be enabled on entity
 		burning_time			"5.00"	// how long it will burn in seconds
 		disable_light_fade_out "1"
 	}
@@ -99,6 +179,43 @@ EntityBlueprint
 			}
 		}			
 	}		
+}
+
+EntityBlueprint "effects/no_lifetime"
+{
+	name effects/weather/abyss_cloud
+
+	BiomeModificatorComponent
+	{
+		solar_power "0.3"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/abyss_cloud"
+	}		
+}
+
+
+EntityBlueprint
+{
+	name effects/the_abyss_splash_small
+
+	base_blueprint
+
+	{
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name "rift/morphium_splash_small"
+	}
+
+	LifeTimeDesc
+	{
+		type "effect"
+	}
 }
 
 EntityBlueprint

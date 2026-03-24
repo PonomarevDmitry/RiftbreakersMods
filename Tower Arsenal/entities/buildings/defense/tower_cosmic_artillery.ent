@@ -6,6 +6,7 @@ EntityBlueprint
 	{
 		name 				"tower_cosmic_artillery"
 		bp   				"buildings/defense/tower_cosmic_artillery"
+		ghost_bp   			"buildings/defense/tower_cosmic_artillery_ghost"
 		category 			"defense_modd"
 		localization_id		"gui/hud/building_name/tower_cosmic_artillery"
 		description			"gui/hud/building_description/tower_cosmic_artillery"
@@ -16,6 +17,9 @@ EntityBlueprint
 		overrides			"tower,wall"
 		upgrade				"buildings/defense/tower_cosmic_artillery_lvl_2"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
+
+		building_group		"tower_artillery_dummy"
+		buildable			"0"
 
 		costs
 		{
@@ -371,7 +375,6 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		items/weapons/cosmic_artillery_projectile_random
 		lights/point/violet_very_small
 		effects/no_lifetime
 	}
@@ -407,30 +410,14 @@ EntityBlueprint
 	
 	SoundDesc
 	{
-		name 		"items/weapons/explosive/rocket_projectile_medium"
-	}
-
-	EffectDesc
-	{
-		EffectGroup
-		{
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/boss_trail_cosmic"
-					bone "att_exhaust"
-					scale "0.5 0.5 0.5"
-				}
-			}
-		}
+		name 		"items/weapons/explosive/grenade_launcher_fire"
 	}
 
 	ArtilleryAmmoComponent
 	{
 		on_enemy_hit_effect 	"effects/tower_cosmic_artillery_explosion"
 		on_world_hit_effect 	"effects/tower_cosmic_artillery_explosion"
-		on_resisted_hit_effect 	"effects/tower_cosmic_artillery_explosion"		
+		on_resisted_hit_effect 	"effects/tower_cosmic_artillery_explosion"
 		hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|building"
 		collision_2d 			"ground_unit|destructible"
@@ -442,7 +429,7 @@ EntityBlueprint
 		{
 			RibbonComponent
 			{
-				material 			"ribbon/drone_trail_violet"
+				material 			ribbon/drone_trail_violet
 				update_bounds 		1
 				fade_out_time		1.9
 				tesselation_step 	0.1
@@ -452,18 +439,21 @@ EntityBlueprint
 				{
 					Ribbon
 					{
+						parent_attachment "att_exhaust"
 						offset "0 0 0.5"
 					}
 
 					Ribbon
 					{
+						parent_attachment "att_exhaust"
 						offset "0 0 -0.5"
 					}
 				}
 			}
-		}	
+		}
 	}
 }
+
 EntityBlueprint
 {
 	name  "buildings/defense/tower_cosmic_artillery_ghost"
@@ -515,50 +505,4 @@ EntityBlueprint
 		max_radius 20
 	}
 }
-
-//EntityBlueprint
-//{
-//	name  "items/weapons/cosmic_artillery_projectile_random"
-//
-//	MeshDesc
-//	{
-//	}
-//
-//	RandomMeshComponent
-//	{
-//		random_meshes
-//		{
-//			MeshDesc
-//			{
-//				mesh 		"meshes/projectiles/blob_1.mesh"
-//				material 	"projectiles/blob_cosmic"
-//			}
-//
-//			MeshDesc
-//			{
-//				mesh 		"meshes/projectiles/blob_2.mesh"
-//				material 	"projectiles/blob_cosmic"
-//			}
-//
-//			MeshDesc
-//			{
-//				mesh 		"meshes/projectiles/blob_3.mesh"
-//				material 	"projectiles/blob_cosmic"
-//			}
-//
-//
-//			MeshDesc
-//			{
-//				mesh 		"meshes/projectiles/blob_4.mesh"
-//				material 	"projectiles/blob_cosmic"
-//			}
-//
-//			MeshDesc
-//			{
-//				mesh 		"meshes/projectiles/blob_5.mesh"
-//				material 	"projectiles/blob_cosmic"
-//			}
-//		}
-//	}
-//}	
 

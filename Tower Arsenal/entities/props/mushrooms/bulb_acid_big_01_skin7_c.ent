@@ -1,0 +1,171 @@
+EntityBlueprint
+{
+	name  "props/mushrooms/bulb_cosmic_big_01"
+
+	base_blueprints
+	{
+		 props/mushrooms/bulb_acid_big_01
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/props/mushrooms/bulb_acid_big_01.mesh"
+		material "props/mushrooms/bulb_abyss"
+	}
+
+	PhysicsDesc
+ 	{
+		objects
+		{
+			PhysicsObjectDesc
+			{
+				type 				"static"
+				group_id    		"destructible"
+				physics_material 	"default"
+				Shapes
+				{
+					PhysicsMeshShape
+					{
+						mesh "meshes/props/mushrooms/bulb_acid_big_01_c1.nxs"
+					}
+			
+				}
+			}
+		}
+	}
+
+	VegetationComponentDesc
+	{
+		bending_wind_scale				"0.01"		// general scaling of wind strength by				 default: 1.0
+		bending_object_scale			"0.01"		// general scaling of object bending force by		 default: 1.0
+		bending_spring_time				"2.0"		// fade out time
+		bending_spring_damping			"30.0"		// damping of oscillations
+		bending_spring_phases			"3.0"		// number of oscillations
+		bending_spring_slope_factor		"1.0"		// pseudonym   "elasticity"
+		breaking_force_threshold		"10000.0"	// the force beyond which the plant lies broken
+		bending_recovery_delay			"15.0"      // the time he will lie down after the fracture before he can return to the point
+		
+	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"3000"
+					explosion_effect 		"effects/ta_destructibles/acid_bulb_explosion_purple_big"	
+					
+					part_material	 		"props/mushrooms/bulb_abyss_parts"
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_big_01"
+					part_effect 			"effects/ta_part_trail/acid_bulb_part_trail_violet_medium"
+				}
+			}	
+			Pair
+			{
+				key "burned"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"6000"
+					explosion_min_power 	"2000"
+					explosion_effect 		"effects/destructibles/tree_burned_destruction_big"
+					part_material	 		"props/mushrooms/bulb_abyss_parts"					
+					part_prefix 			"meshes/props/mushrooms/bulb_acid_big_01"
+					part_effect 			"effects/destructibles/tree_burned_part_trail"
+				}
+			}			
+		}		
+	}
+
+	VegetationDayAndNightAffector
+	{
+		day_factor 	 					"0"
+		day_vegetation_add_factor   	"0"
+		night_factor 					"1"
+		night_vegetation_add_factor   	"2.5"
+		vegetation_timeout  			"2"
+	}
+
+	EffectDesc
+    {
+        EffectGroup
+        {		
+            enabled "1"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "lights/ta_props/bright_purple_big"
+                    offset "0 5 0"
+                }
+            }
+        }		
+
+        EffectGroup
+        {
+            group 	"time_damage_cosmic"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/abyss_grass_medium"
+                    scale "2 2 2"
+                    offset "0 1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_plasmoid"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/plasmoid_grass_medium"
+                    scale "2 2 2"
+                    offset "0 1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_cryogenic"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/ta_destructibles/arctic_grass_medium"
+                    scale "2 2 2"
+                    offset "0 1 0"
+                }
+            }
+        }
+
+        EffectGroup
+        {
+            group 	"time_damage_fire"
+            enabled "0"
+            Effects
+            {
+                Effect
+                {
+                    blueprint "effects/destructibles/grass_medium_fire"
+                    scale "2 2 2"
+                    offset "0 1 0"
+                }
+            }
+        }
+    }
+}
+

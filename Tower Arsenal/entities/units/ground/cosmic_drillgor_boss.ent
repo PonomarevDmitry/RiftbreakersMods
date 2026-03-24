@@ -24,7 +24,8 @@ EntityBlueprint
 		type			"image"
 		icon_material 	"gui/hud/minimap_icons/cosmic_drillgor_boss_icon"
 		visibility 		"always"
-		additional_z_order "1"
+		additional_z_order "5"
+		layer_group		"enemies"
 	}
 
 	HealthBarDesc
@@ -62,16 +63,24 @@ EntityBlueprint
 		dominance_group				    "0"
 	}
 
-	NavMeshCostReducerComponent
-	{
-		cost_type			"cavern_wall"
-		cost_value		    "3000"
-	}
+	//NavMeshCostReducerComponent
+	//{
+	//	cost_type			"cavern_wall"
+	//	cost_value		    "3000"
+	//}
 
 	MeshDesc
 	{
 		mesh 		"meshes/units/ground/drillgor.mesh"
 		material 	"units/ground/cosmic_drillgor_boss"
+	}
+
+	LootDesc
+	{
+		explosion_type 			"centered"	
+		explosion_max_power 	"8000"
+		explosion_min_power 	"5000"	
+		loot_award				"cosmic_elite"
 	}
 
 	DestroyDesc
@@ -88,28 +97,11 @@ EntityBlueprint
 					explosion_effect 		"effects/enemies_drillgor/death"	
 					part_prefix 			"meshes/units/ground/drillgor"
 					part_material 			"units/ground/drillgor"
-					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_effect 			"effects/enemies_generic/blood_trail_violet"
 					part_physics_material   "gibs_heavy"					
 				}
 
 				key "default"
-			}
-			
-			Pair
-			{
-				value
-				{
-					explosion_type 			"centered"
-					explosion_max_power 	"8000"
-					explosion_min_power 	"5000"
-					explosion_effect 		"effects/enemies_drillgor/death"	
-					part_prefix 			"meshes/units/ground/drillgor"
-					part_material 			"units/ground/drillgor"
-					part_effect 			"effects/enemies_generic/blood_trail_yellow"
-					part_physics_material   "gibs_heavy"					
-				}
-
-				key "death_2"
 			}
 		}		
 	}
@@ -159,13 +151,11 @@ EntityBlueprint
 
 		EntityBlueprint
 		{
-		    name "units/ground/cosmic_drillgor_boss/attack"
-
+		    //name "units/ground/cosmic_drillgor_boss/attack"
 			NetReplicationDisabledComponent
 			{
 
 			}
-
 			AttachmentDesc
 			{
 				attachment "att_attack_trigger"
@@ -309,16 +299,16 @@ EntityBlueprint
 		template_name "drillgor"
 		params
 		{
-			aggressive_speed					float:"6"
-			aggressive_acceleration				float:"12"
-			drill_speed							float:"6"
-			drill_acceleration					float:"12"
+			aggressive_speed					float:"9"
+			aggressive_acceleration				float:"15"
+			//drill_speed							float:"6"
+			//drill_acceleration					float:"12"
 			not_aggressive_speed				float:"4"
 			not_aggressive_acceleration			float:"2"
 			rotate_speed						float:"200"
-			priority_target						string:"headquarters|energy|tower"
+			priority_target						string:"headquarters|energy|tower|player"
 			priority_target_distance			float:"40"
-			ignore_move_to_type					string:"wall|invisible|not_move_to_target|player"
+			ignore_move_to_type					string:"wall|invisible|not_move_to_target"
 			melee_attack_name					string:"attack_1"
 			min_idle_time						float:"4.0"
 			max_idle_time						float:"8.0"
@@ -332,10 +322,9 @@ EntityBlueprint
 		acid			"3.0"
 		energy			"3.0"
 		cryo			"1.0"
-		area			"1.0"	
+		area			"1.0"
 		cosmic			"0.5"
 		plasmoid		"1.0"
-		reflect_damage_max_percent 		"0.001"
 	}
 
 	StunDataComponent
@@ -395,12 +384,6 @@ EntityBlueprint
 
 	HighlightComponent
 	{
-	}
-
-	LootDesc
-	{
-		explosion_max_power 	"10000"
-		explosion_min_power 	"5000"	
 	}
 
 	MovementDataComponent
@@ -505,7 +488,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
+					blueprint "effects/enemies_generic/damage_generic_violet"	
 					bone "att_death"
 				}
 			}
@@ -518,7 +501,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/enemies_generic/damage_generic_yellow"	
+					blueprint "effects/enemies_generic/damage_generic_violet"	
 				}
 			}
 		}			
@@ -790,6 +773,69 @@ EntityBlueprint
 			}
 		}		
 	}
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drillgor_boss/spikes_spawner"
+
+	SpikeAmmoComponent
+	{			
+		type_mask					"ground_unit"
+		spike_effect 				"units/ground/cosmic_drillgor_boss/spikes"
+		spike_tip_effect			"effects/weapons_bullet/root_gun_spikes_tip"		
+		spike_damage_delay			"0.2"
+		spike_count 				"1"
+	}	
+}
+
+EntityBlueprint
+{
+	name "units/ground/cosmic_drillgor_boss/spikes"
+
+	MeshDesc
+	{
+		mesh 		"meshes/projectiles/plutrodon_spikes.mesh"
+		material	"projectiles/plutrodon_spikes"
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/tower_alien_influence_spikes.lua"
+
+		database
+		{
+			duration			float:"1"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "default"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes"
+				}				
+			}
+		}	
+		EffectGroup
+		{
+			group "water"
+			enabled "0"
+			Effects
+			{	
+				Effect
+				{
+					blueprint "effects/enemies_plutrodon/spikes_water"
+				}				
+			}
+		}	
+	}	
 }
 
 EntityBlueprint

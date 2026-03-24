@@ -1,180 +1,34 @@
-//editor "scroll(1691.89,2853.81)|zoom(0.33)"
+//editor "scroll(232.88,680.45)|zoom(0.67)"
 FlowGraphTemplate
 {
-	version "27"
-	editor "6380"
+	version "2"
+	editor "6643"
 	GraphNodes
 	{
 		LuaBehaviourNode
 		{
-			//editor "layout(logic_wait.xml)|pos(5775,8557)"
+			//editor "layout(event_start.xml)|pos(171,524)"
 			database
 			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "15.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_1"
-		}
-
-		WaveGround
-		{
-			//editor "layout(wave_ground.xml)|pos(5647,7711)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "search_radius"
-						value "0"
-					}
-
-					FloatData
-					{
-						key "search_min_radius"
-						value "0"
-					}
-
-				}
-
 				Integers
 				{
 					IntData
 					{
-						key "random_spawn"
-						value "0"
-					}
-
-					IntData
-					{
-						key "spawn_indicator"
-						value "1"
-					}
-
-					IntData
-					{
-						key "spawn_indicator_duration"
-						value "30"
-					}
-
-					IntData
-					{
-						key "search_count"
+						key "rule_headquarters_survive"
 						value "1"
 					}
 
 				}
 
-				Strings
-				{
-					StringData
-					{
-						key "spawn_direction"
-						value
-					}
-
-					StringData
-					{
-						key "target_name"
-						value
-					}
-
-					StringData
-					{
-						key "spawn_type"
-						value "Name"
-					}
-
-					StringData
-					{
-						key "target_type"
-						value "Name"
-					}
-
-				}
-
 			}
 
-			delay "0"
-			group_name "universal"
-			percentage_units_to_end_wave "90"
-			self_id "wave_ground_1"
-			spawn_group
-			spawn_point
-			Enemies
-			{
-				//editor "expanded(1)"
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_kafferroceros"
-					count "4"
-					delay "3.00"
-					delay_group "0.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "3"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_arachnoid_sentinel_crystal"
-					count "4"
-					delay "3.00"
-					delay_group "0.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "3"
-				}
-
-				Enemy
-				{
-					//editor "layout(enemy_ground.xml)|pos(0,0)"
-					blueprint "units/ground/cosmic_canoptrix_crystal"
-					count "2"
-					delay "5.00"
-					delay_group "5.00"
-					spawn_type "blueprint"
-					units_in_one_spawn "50"
-				}
-
-			}
-
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(logic_wait.xml)|pos(5365,7981)"
-			database
-			{
-				Floats
-				{
-					FloatData
-					{
-						key "duration"
-						value "15.00"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/logic/logic_wait.lua"
-			self_id "logic_wait_0"
+			script "lua/graph/mission_state/event_start.lua"
+			self_id "default"
 		}
 
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(5285,7032)"
+			//editor "layout(wave_ground.xml)|pos(414,240)"
 			database
 			{
 				Floats
@@ -297,9 +151,183 @@ FlowGraphTemplate
 
 		}
 
+		EndFlowGraphNode
+		{
+			//editor "layout(event_end.xml)|pos(1819,1762)"
+			script "lua/graph/mission_state/event_end.lua"
+			self_id "event_end_0"
+		}
+
 		WaveGround
 		{
-			//editor "layout(wave_ground.xml)|pos(6074,8326)"
+			//editor "layout(wave_ground.xml)|pos(776,919)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "search_radius"
+						value "0"
+					}
+
+					FloatData
+					{
+						key "search_min_radius"
+						value "0"
+					}
+
+				}
+
+				Integers
+				{
+					IntData
+					{
+						key "random_spawn"
+						value "0"
+					}
+
+					IntData
+					{
+						key "spawn_indicator"
+						value "1"
+					}
+
+					IntData
+					{
+						key "spawn_indicator_duration"
+						value "30"
+					}
+
+					IntData
+					{
+						key "search_count"
+						value "1"
+					}
+
+				}
+
+				Strings
+				{
+					StringData
+					{
+						key "spawn_direction"
+						value
+					}
+
+					StringData
+					{
+						key "target_name"
+						value
+					}
+
+					StringData
+					{
+						key "spawn_type"
+						value "Name"
+					}
+
+					StringData
+					{
+						key "target_type"
+						value "Name"
+					}
+
+				}
+
+			}
+
+			delay "0"
+			group_name "universal"
+			percentage_units_to_end_wave "90"
+			self_id "wave_ground_1"
+			spawn_group
+			spawn_point
+			Enemies
+			{
+				//editor "expanded(1)"
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_stregaros_crystal"
+					count "4"
+					delay "3.00"
+					delay_group "0.00"
+					spawn_type "blueprint"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_magmoth"
+					count "4"
+					delay "3.00"
+					delay_group "0.00"
+					spawn_type "blueprint"
+					units_in_one_spawn "3"
+				}
+
+				Enemy
+				{
+					//editor "layout(enemy_ground.xml)|pos(0,0)"
+					blueprint "units/ground/cosmic_morirot"
+					count "2"
+					delay "5.00"
+					delay_group "5.00"
+					spawn_type "blueprint"
+					units_in_one_spawn "50"
+				}
+
+			}
+
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(494,1189)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_0"
+		}
+
+		LuaBehaviourNode
+		{
+			//editor "layout(logic_wait.xml)|pos(904,1765)"
+			database
+			{
+				Floats
+				{
+					FloatData
+					{
+						key "duration"
+						value "15.00"
+					}
+
+				}
+
+			}
+
+			script "lua/graph/logic/logic_wait.lua"
+			self_id "logic_wait_1"
+		}
+
+		WaveGround
+		{
+			//editor "layout(wave_ground.xml)|pos(1203,1534)"
 			database
 			{
 				Floats
@@ -409,34 +437,6 @@ FlowGraphTemplate
 
 			}
 
-		}
-
-		LuaBehaviourNode
-		{
-			//editor "layout(event_start.xml)|pos(5042,7316)"
-			database
-			{
-				Integers
-				{
-					IntData
-					{
-						key "rule_headquarters_survive"
-						value "1"
-					}
-
-				}
-
-			}
-
-			script "lua/graph/mission_state/event_start.lua"
-			self_id "default"
-		}
-
-		EndFlowGraphNode
-		{
-			//editor "layout(event_end.xml)|pos(6690,8554)"
-			script "lua/graph/mission_state/event_end.lua"
-			self_id "event_end_0"
 		}
 
 	}

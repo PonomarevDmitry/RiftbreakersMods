@@ -20,18 +20,19 @@ EntityBlueprint
 
 EntityBlueprint
 {
-	name "effects/enemies_cosmic_hedroner_projectile_hit"
+	name "effects/enemies_cosmic_hedroner/projectile_hit"
 
 	base_blueprints
 	{
+		effects/weapons_elemental/hit
 		effects/default
 	}
 
 	ShockWaveDesc
 	{
-		power 	"5000"
-		speed 	"30"
-		radius 	"10"
+		power 	"50"
+		speed 	"20"
+		radius 	"20"
 	}
 
 	ParticleDesc
@@ -42,7 +43,7 @@ EntityBlueprint
 	CameraShakeDesc
 	{
 		duration 		"0.1"
-		power   		"2.2"
+		power   		"0.2"
 		falloff_radius 	"20"
 		radius   		"40"
 		frequency 		"20"
@@ -53,32 +54,18 @@ EntityBlueprint
 	{
 		name "enemies/hedroner/projectile_hit"
 	}
-	
+
 	DecalDesc
 	{	
 		blueprint "effects/decals/blood_splat_violet_random"
 		scale
 		{
-			x		1.3
-			y		1.3
-			z		1.3
+			x		1.1
+			y		1.1
+			z		1.1
 		}
-	}	
+	}
 
-	BurningComponent
-	{
-		spread_radius 			"5.0"			// radius to spread fire
-		spread_chance_override 	"0.1"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-
-		burning_effect_group    "time_damage_cosmic_01"			// effect group to be enabled on entity
-		burning_time			"0.01"	// how long it will burn in seconds
-		disable_light_fade_out "1"
-	}	
 }
 
 EntityBlueprint
@@ -132,3 +119,72 @@ EntityBlueprint
 		}
 	}	
 }
+
+//-------hedroner boss------------//
+////////////////////////////////////
+EntityBlueprint 
+{
+	name effects/cosmic_hedroner_boss_projectile
+
+	base_blueprints
+	{
+		effects/no_lifetime
+	}
+	ParticleDesc
+	{
+		name    "rift/cosmic_hedroner_boss_projectile"
+	}
+	SoundDesc
+	{
+		name 		"enemies/hedroner/muzzle"
+	}	
+}
+
+EntityBlueprint
+{
+	name effects/enemies_cosmic_hedroner_boss/projectile_hit
+
+	base_blueprints
+	{
+		effects/weapons_elemental/hit
+		effects/default
+	}				
+	ShockWaveDesc
+	{
+		power 	"2500"
+		speed 	"20"
+		radius 	"20"
+	}			
+	ParticleDesc
+	{
+		name    "rift/cosmic_hedroner_boss_projectile_hit"
+	}				
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.2"
+		falloff_radius 	"20"
+		radius   		"40"
+		frequency 		"20"
+		group			"explosion_small"
+	}		
+	DecalDesc
+	{	
+		blueprint "effects/decals/blood_splat_violet_glowing_random"
+		scale
+		{
+			x		1.3
+			y		1.3
+			z		1.3
+		}
+	}				
+	GridMarkerComponent
+	{
+		terrain_type 	"cosmic_hedroner_boss_area"	
+	}		
+	SoundDesc
+	{
+		name "enemies/hedroner/projectile_hit"
+	}
+}
+

@@ -1,5 +1,141 @@
 EntityBlueprint
 {
+	name            "units/ground/cosmic_nerilian"
+	base_blueprint "units/ground/cosmic_nerilian_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/nerilian.lua"
+		database
+		{
+			min_scale	float:"0.95"
+			max_scale	float:"1.05"
+		}
+	}
+
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	HealthDesc
+	{
+		max_health 					"300"
+		health 						"300"
+		regeneration 				"0"
+		regeneration_cooldown 		"0"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/nerilian.mesh"
+		material 	"units/ground/cosmic_nerilian"
+	}
+
+	children
+	{
+		EntityBlueprint
+		{
+		    name "units/ground/cosmic_nerilian/attack"
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nerilian/attack_start"
+						attack_start_time			"0.34"
+						attack_end_time				"0.41"
+						attack_duration 			"0.90"
+					}
+
+					MeleeAttack
+					{
+						type 						"simple"
+						attack_name 				"attack_2"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name 			"close_attack"
+						attack_start_effect 		"effects/enemies_nerilian/attack_start"
+						attack_start_time			"0.34"
+						attack_end_time				"0.46"
+						attack_duration 			"0.86"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 						"close_attack"
+
+						ammo_definition
+						{
+							friendly_fire			"pass"
+							hit_effect_direction	"up"  //inverse, normal, up
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"15.0"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "3.0"
+						y "4.0"
+						z "2.5"
+					}
+				}
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
 	name "units/ground/cosmic_nerilian_base"
 	
 	StateMachineDesc
@@ -45,13 +181,13 @@ EntityBlueprint
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.4"
-		ignore_cost_mask				"building|path_blocker|cavern_wall|mud_vein|water_vein"// |mud_vein|water_vein // put this in if you wont them to walk on water and mud
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"// |mud_vein|water_vein // put this in if you wont them to walk on water and mud
 		dominance_group				    "0"
 	}
 
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
+		interpolation_speed  "0.65"
         //interpolation_speed  "0.5"
         water_offset         "-1.0"
 	}
@@ -100,11 +236,11 @@ EntityBlueprint
 	MinimapItemDesc
 	{
 		type	"quad"
-		color
+		color 
 		{
 			x "1"
 			y "0"
-			z "0"
+			z "2"
 			w "1"
 		}
 		size
@@ -112,8 +248,9 @@ EntityBlueprint
 			x "2"
 			y "2"
 		}
-
 		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
 	}
 
 	HighlightComponent
@@ -124,6 +261,7 @@ EntityBlueprint
 	{
 		explosion_max_power 	"10000"
 		explosion_min_power 	"5000"
+		loot_award		"enemy_generic"
 	}
 
 	MovementDataComponent
@@ -289,7 +427,6 @@ EntityBlueprint
 				}
 			}
 		}
-
 		EffectGroup
 		{
 			group "damage_generic"
@@ -312,6 +449,48 @@ EntityBlueprint
 				Effect
 				{
 					blueprint "effects/enemies_generic/damage_generic_blue"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cryogenic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cryogenic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_cosmic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_cosmic"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
+				}
+			}
+		}
+		EffectGroup
+		{
+			group 	"time_damage_plasmoid"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic_ta/time_damage_plasmoid"
+					bone "att_death"
+					scale "1.2 1.2 1.2"
 				}
 			}
 		}
@@ -372,35 +551,6 @@ EntityBlueprint
 				}
 			}
 		}
-		
-		EffectGroup
-		{
-			group 	"time_damage_cosmic"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/time_damage_cosmic"
-					bone "att_death"
-					scale "1.5 1.5 1.5"
-				}
-			}
-		}
-		EffectGroup
-		{
-			group 	"time_damage_physical"
-			enabled "0"
-			Effects
-			{
-				Effect
-				{
-					blueprint "effects/enemies_generic/time_damage_physical_violet"
-					bone "att_death"
-					scale "1.2 1.2 1.2"
-				}
-			}
-		}	
 		EffectGroup
 		{
 			group 	"stunned"
@@ -525,7 +675,7 @@ EntityBlueprint
 					bone "att_death"
 					scale "2 2 2"
 				}
-			}
+			}	
 		}		
 	}
 	FxComponent
@@ -535,144 +685,6 @@ EntityBlueprint
 			float 						"5"
 		}
 	}	
-}
-
-
-EntityBlueprint
-{
-	name "units/ground/cosmic_nerilian"
-
-	base_blueprint "units/ground/cosmic_nerilian_base"
-
-	LuaDesc
-	{
-		script "lua/units/ground/nerilian.lua"
-		database
-		{
-			min_scale	float:"0.95"
-			max_scale	float:"1.05"
-		}
-	}
-
-	DatabaseComponent
-	{
-		version int:"1"	
-	}
-
-	HealthDesc
-	{
-		max_health 					"300"
-		health 						"300"
-		regeneration 				"0"
-		regeneration_cooldown 		"0"
-		is_manual					"1"
-		update_health_uniform 		"1"
-
-		DestructionLevels
-		{
-			DestructionLevel
-			{
-				health 								"0"
-				destroy_comp_delay 					"0"
-				//destroyed_state_effect_group 		"0_state"
-			}
-		}
-	}
-
-	MeshDesc
-	{
-		mesh 		"meshes/units/ground/nerilian.mesh"
-		material 	"units/ground/cosmic_nerilian"
-	}
-
-	children
-	{
-		EntityBlueprint
-		{
-		    name "units/ground/cosmic_nerilian/attack"
-
-			NetReplicationDisabledComponent
-			{
-
-			}
-
-			AttachmentDesc
-			{
-				attachment "att_attack_trigger"
-			}
-
-			MeleeWeaponDesc
-			{
-				MeleeAttacks
-				{
-					MeleeAttack
-					{
-						type 						"simple"
-						attack_name 				"attack_1"
-						attack_speed_param_name  	"attack_speed"
-						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_nerilian/attack_start"
-						attack_start_time			"0.34"
-						attack_end_time				"0.41"
-						attack_duration 			"0.90"
-					}
-
-					MeleeAttack
-					{
-						type 						"simple"
-						attack_name 				"attack_2"
-						attack_speed_param_name  	"attack_speed"
-						melee_damage_name 			"close_attack"
-						attack_start_effect 		"effects/enemies_nerilian/attack_start"
-						attack_start_time			"0.34"
-						attack_end_time				"0.46"
-						attack_duration 			"0.86"
-					}
-				}
-
-				MeleeDamages
-				{
-					MeleeDamage
-					{
-						name 						"close_attack"
-
-						ammo_definition
-						{
-							friendly_fire			"pass"
-							hit_effect_direction	"up"  //inverse, normal, up
-							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
-							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
-
-							collision_3d 			"world_destructible|building|building_small|ground_unit|hitbox|shield"
-
-							DamagePattern
-							{
-								Damages
-								{
-									Damage
-									{
-										value 	"15.0"
-										type 	"physical"
-									}
-								}
-							}
-						}
-					}
-				}
-
-				MeleeShapes
-				{
-					PhysicsBoxShape
-					{
-						x "3.0"
-						y "4.0"
-						z "2.5"
-					}
-				}
-			}
-		}
-	}
 }
 
 EntityBlueprint

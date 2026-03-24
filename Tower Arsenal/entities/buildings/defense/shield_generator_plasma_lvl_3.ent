@@ -7,17 +7,20 @@ EntityBlueprint
 	{
 		name 				"shield_generator_plasma_lvl_3"
 		bp   				"buildings/defense/shield_generator_plasma_lvl_3"
-		category 			"defense"
+		category 			"defense_modd"
 		localization_id		"gui/hud/building_name/shield_generator_plasma"
 		description			"gui/hud/building_description/shield_generator_plasma"
 		menu_icon			"gui/hud/building_icons/shield_generator_plasma_lvl3"
 		require 			"headquarters"
 		order				"18"
 		type				"pipe"		
-		buildable			"0"
+		//upgrade				"buildings/defense/shield_generator_plasma_lvl_4"
 		exclude_terrain_types "magma_hot_ground,magma_very_hot_ground"
 		overrides			"pipe_ground,pipe_connector_t,pipe_connector_x,pipe_corner,pipeline,pipe_straight_windowless"
-		
+
+		building_group		"tower_shields_dummy"
+		buildable			"0"
+
 		costs
 		{
 			BuildingCostInfo
@@ -32,22 +35,6 @@ EntityBlueprint
 				}
 			}		
 		}		
-	}
-
-	LuaDesc
-	{
-		script "lua/buildings/defense/ta_reflection_shield_generator.lua"
-		
-		database
-		{
-			cone_effect				string:"build_cone_3x3"
-			cone_effect_sell		string:"sell_big"
-			range					float:"40"
-			interval				float:"1"
-			shield_bp				string:"buildings/defense/shield_generator_plasmoid/shield_plasmoid_lvl_3"
-			display_radius_group	string:"shield_generator"
-			display_radius_blueprint string:"effects/decals/plasmoid_shield"
-		}
 	}
 
 	ResourceConverterDesc
@@ -68,6 +55,22 @@ EntityBlueprint
 			
 		}
 		priority 6
+	}
+
+	LuaDesc
+	{
+		script "lua/buildings/defense/ta_reflection_shield_generator.lua"
+		
+		database
+		{
+			cone_effect				string:"build_cone_3x3"
+			cone_effect_sell		string:"sell_big"
+			range					float:"40"
+			interval				float:"1"
+			shield_bp				string:"buildings/defense/shield_generator_plasma/shield_plasma_lvl_3"
+			display_radius_group	string:"shield_generator"
+			display_radius_blueprint string:"effects/decals/plasmoid_shield"
+		}
 	}
 
 	HealthDesc
@@ -176,7 +179,6 @@ EntityBlueprint
 		regeneration_cooldown 		"6"
 	}
 
-
 	EffectDesc
 	{
 		EffectGroup
@@ -188,7 +190,7 @@ EntityBlueprint
 			{
 				Effect
 				{
-					blueprint "effects/buildings_and_machines/shield_plasma_down"
+					blueprint "effects/buildings_and_machines/shield_plasmoid_down"
 				}
 			}
 		}
@@ -197,69 +199,7 @@ EntityBlueprint
 	ShieldComponent
 	{
 		owner	"custom"
-		highlight_material	"highlight/shield_plasma"
+		highlight_material	"highlight/shield_plasmoid"
 	}
-}
-
-EntityBlueprint
-{
-	name  "buildings/defense/shield_generator_plasma_ghost"
-
-	MeshDesc
-	{
-		mesh "meshes/buildings/defense/shield_generator.mesh"
-		material "selector/hologram_blue"
-	}
-
-	SkeletonDesc
-	{
-		name "meshes/buildings/defense/shield_generator"
-	}
-
-	PhysicsDesc
- 	{
-		objects
-		{
-			PhysicsObjectDesc
-			{
-				type 				"kinematic"
-				group_id 			"ghost_building"
-				physics_material 	"default"
-				Shapes
-				{
-					PhysicsSphereShape
-					{
-						r "1.45"
-	
-						position 
-						{
-							x "0.0"
-							y "1.0"
-							z "0.0"
-						}
-					}			
-				}
-			}
-		}
-	}
-
-	GridCullerDesc
-	{
-		Shapes
-		{
-   			PhysicsBoxShape
-   			{
-    				x	4
-    				y	4
-    				z	4
-   			}			
-		}
-	}
-
-	DisplayRadiusDesc
-	{
-		max_radius 30
-	}
-		
 }
 

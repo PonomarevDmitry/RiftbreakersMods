@@ -1,0 +1,257 @@
+EntityBlueprint
+{
+	name "units/ground/baxmoth_boss_physical"
+
+	base_blueprint "units/ground/baxmoth_base"
+
+	LuaDesc
+	{
+		script "lua/units/ground/baxmoth.lua"
+		database
+		{
+			min_scale	float:"1.1"
+			max_scale	float:"1.1"
+		}		
+	}
+	
+	DatabaseComponent
+	{
+		version int:"1"	
+	}
+
+	ResistanceComponent
+	{
+		physical		"1.0"
+		fire			"6.0"
+		acid			"0.1"
+		energy			"1.0"
+		cryo			"1.0"
+		area			"2.0"
+		reflect_damage_max_percent 		"0.1"
+	}
+	
+	StunDataComponent
+	{
+		stagger_time 					"0.20"
+		stagger_health_threshold		"0.025"
+		stagger_long_time				"0.8"
+		stagger_long_health_threshold	"0.05"
+		
+		stagger_cooldown				"3.0"
+		stagger_long_cooldown			"6.0"
+		stun_cooldown					"20"
+
+		force_stagger_chance 			"0.05"
+	}
+
+	HealthDesc
+	{
+		max_health 					"3000"
+		health 						"3000"
+		is_manual					"1"
+		update_health_uniform 		"1"
+
+		DestructionLevels
+		{
+			DestructionLevel
+			{
+				health 								"0"
+				destroy_comp_delay 					"0"
+				//destroyed_state_effect_group 		"0_state"
+			}
+		}			
+	}
+	
+	HealthBarDesc
+	{
+		type "2"
+		mode "2" // 0 show always, 1 show in build mode, 2 show always if showing boss config enabled
+		material "gui/hud/bars/big_monster_hp_1x3"
+	}	
+
+	MeshDesc
+	{
+		mesh 		"meshes/units/ground/baxmoth_boss.mesh"
+		material 	"units/ground/baxmoth_boss"
+	}
+	
+ 	ShadowExcludeComponent
+	{
+
+	}	
+	
+	SkeletonDesc
+	{
+		name "meshes/units/ground/baxmoth"
+	}	
+	
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/gui_map_icon_boss"
+		visibility 		"radar"
+		layer_group		"enemies"
+	}		
+
+	SelectableDesc
+	{
+		content "monster_name/baxmoth_ultra"		
+		can_activate 0
+	}
+
+	TurretDesc
+	{
+		name   "attack"
+		target "player|ground_unit|building"
+		target_ignore "wall|invisible|ignore_as_target"
+		speed "200"
+		aim_volume "SphericalAimVolume"
+		{
+			range_min "0"
+			range_max "34"
+		}
+
+		aiming_cooldown "1"
+		aiming_target_time "2"
+		aiming_idle_angle "20"
+		pitch "att_muzzle"
+		yaw "att_muzzle"
+		check_target_visibility "1"
+		use_IK "0"
+	}
+
+	SwarmUnitControllerDesc
+	{
+		blueprint					"units/air/baxmoth_drone_physical"
+		spawn_effect				"effects/enemies_baxmoth/drone_death"
+		max_spawn					"30"
+		attachment_to_spawn_from	"spawn"
+		spawn_time					"0.1"
+		spawn_disabled				"1"
+	}
+	
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"5000"
+					explosion_effect_scale 	"1.5"
+					explosion_effect 		"effects/enemies_baxmoth/death"	
+					part_prefix 			"meshes/units/ground/baxmoth"
+					part_material 			"units/ground/baxmoth_boss"
+					part_effect 			"effects/enemies_generic/blood_trail_yellow"
+					part_physics_material   "gibs_heavy"					
+				}
+
+				key "default"
+			}
+		}		
+	}	
+	
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/baxmoth_base"
+		}	
+		
+		EffectGroup
+		{
+			group 	"time_damage_cryo"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/time_damage_cryo_boss"
+					bone "att_death"
+					scale "1 1 1"
+				}
+			}
+		}		
+	}	
+	
+	children
+	{
+		EntityBlueprint
+		{
+
+			NetReplicationDisabledComponent
+			{
+
+			}
+
+			AttachmentDesc
+			{
+				attachment "att_attack_trigger"
+			}
+
+			MeleeWeaponDesc
+			{
+				MeleeAttacks
+				{
+
+					MeleeAttack 
+					{
+						type 						"simple"
+						attack_name 				"attack_1"
+						attack_speed_param_name  	"attack_speed"
+						melee_damage_name  			"close_attack"
+						attack_start_effect 		"effects/enemies_baxmoth/attack_start"
+						attack_start_time			"0.51"
+						attack_end_time				"0.68"
+						attack_duration 			"0.99"
+						damage_multiple  			"1"
+					}
+				}
+
+				MeleeDamages
+				{
+					MeleeDamage
+					{
+						name 				"close_attack"
+				
+						ammo_definition
+						{
+							friendly_fire	"pass"
+							collision_3d 	"world_destructible|building|building_small|ground_unit|hitbox"
+
+							on_enemy_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_world_hit_effect 	"effects/enemies_generic/enemy_hit_medium"
+							on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+
+							DamagePattern
+							{
+								Damages
+								{
+									Damage
+									{
+										value 	"150"
+										type 	"physical"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				MeleeShapes
+				{
+					PhysicsBoxShape
+					{
+						x "6.5"
+						y "4"
+						z "3.0"
+					}	
+				}
+			}
+		}
+	}
+}
+

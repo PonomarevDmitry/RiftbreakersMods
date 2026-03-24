@@ -182,7 +182,9 @@ EntityBlueprint
 		name "items/weapons/energy/energy_weapon_hit"
 	}
 }
-
+/////////////////////////////////
+// Elemantel tower projectiles //
+/////////////////////////////////
 EntityBlueprint
 {
 	name weapons/energy/acidic_plasma_projectile
@@ -213,12 +215,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/acidic_plasma_projectile"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/energy/plasma_gun_fire"
+		name 	"rift/acidic_plasma_projectile"
 	}
 }
 
@@ -228,7 +225,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/point/violet_very_small
+		lights/point/ta_violet_very_small
 		effects/default
 	}
 
@@ -252,14 +249,8 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cosmic_plasma_projectile"
+		name 	"rift/cosmic_plasma_projectile"
 	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/energy/plasma_gun_fire"
-	}
-
 }
 
 EntityBlueprint
@@ -292,12 +283,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/cryo_plasma_projectile"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/energy/plasma_gun_fire"
+		name 	"rift/cryo_plasma_projectile"
 	}
 }
 
@@ -331,12 +317,7 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/flame_plasma_projectile"
-	}
-
-	SoundDesc
-	{
-		name 		"items/weapons/energy/plasma_gun_fire"
+		name 	"rift/flame_plasma_projectile"
 	}
 }
 
@@ -346,7 +327,7 @@ EntityBlueprint
 
 	base_blueprints
 	{
-		lights/point/blue_very_small
+		lights/point/drark_blue_very_small
 		effects/default
 	}
 
@@ -370,15 +351,100 @@ EntityBlueprint
 
 	ParticleDesc
 	{
-		name    "rift/blu_plasma_projectile"
+		name 	"rift/blu_plasma_projectile"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/ta_plasma_towers/acidic_plasma_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_green_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/acid_spitter_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
 	}
 
 	SoundDesc
 	{
-		name 		"items/weapons/energy/plasma_gun_fire"
+		name 	"items/weapons/energy/plasma_gun_fire"
 	}
 }
 
+EntityBlueprint
+{
+	name effects/ta_plasma_towers/cryogenic_plasma_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_blue_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/cryo_spitter_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 	"items/weapons/energy/plasma_gun_fire"
+	}
+}
+
+EntityBlueprint
+{
+	name effects/ta_plasma_towers/flame_plasma_muzzle
+
+	base_blueprints
+	{
+		effects/weapons_elemental/muzzle
+		lights/point/muzzle_orange_small
+		effects/default
+	}
+
+	ParticleDesc
+	{
+		name    	"rift/fire_spitter_muzzle"
+	}
+
+	CameraFeedbackShakeDesc
+	{
+		duration 		"0.066"
+		power   		"0.1"
+		group			"weapon_muzzle"
+	}
+
+	SoundDesc
+	{
+		name 	"items/weapons/energy/plasma_gun_fire"
+	}
+}
+
+////////////
+// SENTRY \\
+////////////
 EntityBlueprint
 {
 	name effects/items/consumables/acidic_sentry_hit
@@ -475,3 +541,39 @@ EntityBlueprint
 	}
 }
 
+EntityBlueprint
+{
+	name effects/weapons/energy/test weapon_hit_01
+
+	ShockWaveDesc
+	{
+		power 	"500"
+		speed 	"30"
+		radius 	"30"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"0.1"
+		power   		"0.5"
+		falloff_radius 	"25"
+		radius   		"4"
+		frequency 		"2"
+		group			"explosion_medium"
+	}
+
+	TeamDesc
+	{
+		team "player"
+	}
+
+	ParticleDesc
+	{
+		name    "rift/plasmoid_hit"
+	}
+
+	SoundDesc
+	{
+		name "energy_mod/plasma_explosion_hit_01"
+	}
+}

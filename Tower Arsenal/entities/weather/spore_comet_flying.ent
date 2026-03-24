@@ -1,0 +1,70 @@
+EntityBlueprint 
+{	
+	name 			"weather/spore_comet_flying"
+	base_blueprint 	"weather/comet_flying_base"
+
+	MeshDesc
+	{
+		mesh "meshes/props/special/great_tree/evil_spore.mesh"
+		material "props/special/great_tree/evil_spore"
+	}
+
+	SkeletonDesc
+	{
+		name "meshes/props/special/great_tree/evil_spore"
+	}
+
+	AnimationDesc
+	{
+		animations
+		{
+			Anim
+			{
+				animName "idle_1"
+				animTime "0.0"
+			}
+		}
+	}
+
+	MinimapItemDesc
+	{
+		type				"image"
+		icon_material 		"gui/hud/minimap_icons/spore_sample"
+		visibility			"always"
+		additional_z_order	"60"
+		layer_group			"weather_events"
+	}
+
+	CameraShakeDesc
+	{
+		duration 		"60"
+		power   		"0.1"
+		falloff_radius 	"30"
+		radius   		"60"
+		frequency 		"20"
+		group			"special"
+	}
+
+	EffectDesc
+	{
+		EffectGroup
+		{
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/projectiles_and_trails/comet_trail_spore"
+				}
+			}
+		}
+	}
+
+	PointWindDesc
+	{
+		power_frequency		"1.5"
+		power_max			"-3000"
+		power_min			"-1500"
+		radius				"70"
+	}
+}
+

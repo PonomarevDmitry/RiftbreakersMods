@@ -1,0 +1,373 @@
+EntityBlueprint
+{
+	name  			"units/drones/heavy_drone_player_offensive_plasmoid_standard"
+    base_blueprint  "units/drones/drone_attack"
+
+	StateMachineDesc
+	{
+		template_name "drone"
+		params
+		{
+			hover_height			float:"1"
+			hover_min_height		float:"7"
+
+			owner_movement						string:"follow"
+			owner_movement_speed_near       	 float:"1.05"
+			owner_movement_speed_far          	 float:"2.0"
+			owner_movement_trigger_distance 	float:"15.0"
+
+			target_movement			string:"follow"
+			target_manual_rotation	int:"1"
+			target_search_mode  	string:"always"
+		}
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/ta_attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.2"
+			max_scale				float:"0.2"
+		}
+	}
+	
+	MovementDataComponent
+	{
+		acceleration 			
+		{
+			base 	"5"
+		}		
+		
+		deacceleration 			
+		{
+			base 	"5"
+		}
+		
+		max_speed
+		{
+			base 	"25"
+		}
+	}	
+	
+	WeaponItemDesc
+	{
+	}
+
+	MeshDesc
+	{
+		mesh "meshes/units/drones/drone_attack.mesh"
+		material "units/drones/plasmoid_drone_attack"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_muzzle"
+			}
+			WeaponMuzzle
+			{
+				attachment "att_muzzle_2"
+			}			
+		}
+
+		WeaponAffector
+		{
+			emissive_time "0.35"
+			emissive_factor "120"
+			submesh_idx "1"
+		}
+		
+		muzzles_per_fire 			"1"
+		ammo_blueprint 				"units/drones/heavy_drone_player_offensive_plasmoid_blaster"
+		muzzle_flash_effect 		"effects/weapons_energy/plasmoid_drone_muzzle"
+
+		burst_column_spacing 		"2"
+		burst_rate 					"0.5"
+		burst_column_angle 			"0"
+	}
+
+	EffectDesc
+	{
+
+		EffectGroup
+		{
+			group "fly"
+			enabled "0"
+
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/trails/units/heavy_drone_offensive_plasmoid"
+					scale "2.6 2.6 2.6"
+					bone "body_1"
+				}
+			}
+		}	
+
+		EffectGroup
+		{
+			group "##heavy_drone##"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines_heavy_drones/drone_mesh_addon_04"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.5 1.5 1.5"
+					offset "0 0.5 0"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name				"units/drones/heavy_drone_player_offensive_plasmoid_advanced"
+	base_blueprint		"units/drones/heavy_drone_player_offensive_plasmoid_standard"
+	
+	WeaponItemDesc
+	{
+	}
+
+	LuaDesc
+	{
+		script "lua/units/air/ta_attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.2"
+			max_scale				float:"0.2"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/trails/units/heavy_drone_offensive_plasmoid"
+					scale "2.6 2.6 2.6"
+					offset "0 0.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "##heavy_drone##"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines_heavy_drones/drone_mesh_addon_04"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.7 1.7 1.7"
+					offset "0 0.5 0"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name				"units/drones/heavy_drone_player_offensive_plasmoid_superior"
+	base_blueprint		"units/drones/heavy_drone_player_offensive_plasmoid_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+
+	LuaDesc
+	{
+		script "lua/units/air/ta_attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.2"
+			max_scale				float:"0.2"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/trails/units/heavy_drone_offensive_plasmoid"
+					scale "2.6 2.6 2.6"
+					offset "0 0.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "##heavy_drone##"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines_heavy_drones/drone_mesh_addon_04"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "1.9 1.9 1.9"
+					offset "0 0.5 0"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name				"units/drones/heavy_drone_player_offensive_plasmoid_extreme"
+	base_blueprint		"units/drones/heavy_drone_player_offensive_plasmoid_standard"
+	
+	WeaponItemDesc
+	{
+	}	
+
+	LuaDesc
+	{
+		script "lua/units/air/ta_attack_drone.lua"
+
+		database
+		{
+			target_aggresive_only	 int:"1"
+			search_radius			 float:"40.0" // if spawned by building this param will be overriden by buildings `drone_search_radius`
+			min_scale				float:"0.2"
+			max_scale				float:"0.2"
+		}
+	}
+	
+	EffectDesc
+	{
+		EffectGroup
+		{
+			group "fly"
+
+			enabled "0"	
+			
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/trails/units/heavy_drone_offensive_plasmoid"
+					scale "2.6 2.6 2.6"
+					offset "0 0.5 0"
+				}
+			}
+		}
+
+		EffectGroup
+		{
+			group "##heavy_drone##"
+			enabled "1"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/buildings_and_machines_heavy_drones/drone_mesh_addon_04"
+					bone "att_in_1"
+					orientation "0 0 270"
+					scale "2.2 2.2 2.2"
+					offset "0 0.5 0"
+				}
+			}
+		}
+	}
+}
+
+
+EntityBlueprint
+{
+	name  		"units/drones/heavy_drone_player_offensive_plasmoid_blaster"
+
+	ParticleDesc
+	{
+		name    "rift/plasmoid_drone_projectile"
+		scale "1.0 1.0 1.0"
+	}
+
+	ProjectileAmmoComponent
+	{
+		on_enemy_hit_effect 	"effects/player_drone/heavy_drone_projectile_hit_plasmoid"
+		on_world_hit_effect 	"effects/player_drone/heavy_drone_projectile_hit_plasmoid"
+		on_resisted_hit_effect 	"effects/weapons_generic/projectile_hit_resisted"
+		on_shield_hit_effect	"effects/enemies_generic/shield_hit"
+		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
+
+		friendly_fire				"pass"
+	}
+
+	LifeTimeDesc
+	{
+		time 					0.9
+		type 					"camera"
+	}
+}
+
+
+EntityBlueprint
+{
+	name	effects/trails/units/heavy_drone_offensive_plasmoid
+
+	RibbonComponent
+	{
+		material 			ribbon/drone_trail_blue_02
+		update_bounds 		1
+		fade_out_time		0.5
+		tesselation_step 	0.1
+		manual_fade 		0
+
+		Ribbons
+		{
+			Ribbon
+			{
+				offset "0 0 -0.6"
+			}
+
+			Ribbon
+			{
+				offset "0 0 0.6"
+			}
+		}
+	}	
+}
+

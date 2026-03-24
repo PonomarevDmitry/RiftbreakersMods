@@ -1,8 +1,7 @@
 EntityBlueprint
 {
-	name  "units/ground/cosmic_arachnoid_sentinel_crystal_ultra"
-
-	base_blueprint units/ground/cosmic_arachnoid_sentinel_crystal_base	
+	name            "units/ground/cosmic_arachnoid_sentinel_crystal_ultra"
+	base_blueprint "units/ground/arachnoid_sentinel_ultra_base"
 
 	MeshDesc
 	{
@@ -15,21 +14,40 @@ EntityBlueprint
 		content "monster_name/cosmic_arachnoid_crystal_ultra"
 		can_activate 0
 	}
-	
+
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1"
+			y "0"
+			z "2"
+			w "1"
+		}
+		size
+		{
+			x "2"
+			y "2"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
+	}
+
 	LuaDesc
 	{
-		script "lua/units/ground/arachnoid_sentinel_base.lua"
+		script "lua/units/ground/arachnoid_sentinel_crystal.lua"
 		database
 		{
 			min_scale	float:"1.6"
-			max_scale	float:"1.7"
-						
-			STING_item_type string:"enemy_range_weapon"
-			STING_pose_type string:"range"
-
-			
-			items 		string:"items/weapons_enemy/alien_cosmic_ultra_item" 			
+			max_scale	float:"1.7"	
 		}			
+	}
+
+	DatabaseComponent
+	{
+		version int:"4"	
 	}
 
 	HealthDesc
@@ -59,7 +77,9 @@ EntityBlueprint
 		acid			"2.0"
 		energy			"1.0"
 		cryo			"0.1"
-		area			"1.5"	
+		area			"1.5"
+		cosmic			"0.5"
+		plasmoid		"1.0"
 	}
 	
 	DestroyDesc
@@ -76,7 +96,7 @@ EntityBlueprint
 					explosion_effect 		"effects/enemies_generic/death_crystal_red_and_black_big"	
 					explosion_effect_scale 	"0.6"
 					part_prefix 			"meshes/units/ground/arachnoid_sentinel"
-					part_material			"units/ground/arachnoid_sentinel_crystal_ultra"
+					part_material			"units/ground/cosmic_arachnoid_sentinel_crystal_ultra"
 					part_effect 			"effects/enemies_generic/blood_trail_black_small"
 					part_physics_material   "gibs_light"						
 				}
@@ -89,10 +109,89 @@ EntityBlueprint
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"200"
-		unit_soft_radius				"1.7"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
-		dominance_group				    "1"
+		unit_soft_radius				"1.2"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|water_vein"
+		dominance_group				    "0"
 	}
+
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.35"//interpolation_speed  "0.5"
+        water_offset         "-1.0"
+	}
+
+	BurstWeaponComponent
+	{
+		WeaponMuzzles
+		{
+			WeaponMuzzle
+			{
+				attachment "att_shoot"
+			}
+
+		}
+
+		ammo_blueprint 				"items/weapons_enemy/alien_cosmic_ultra_projectile"
+
+		muzzle_flash_effect 		"effects/enemies_arachnoid/cosmic_spit_muzzle_ultra"
+
+		burst_column_spacing 		"0"
+		burst_rate 					"0.4"
+		burst_column_angle 			"10"
+	}
+
+	WeaponItemDesc
+	{
+	}
+
+	EffectDesc
+	{		
+		EffectBaseBlueprints
+		{
+			"units/ground/arachnoid_sentinel_base"
+		}	
+////////////////////////MISC/////////////////////////		
+		EffectGroup
+		{						
+			group "death"
+			enabled "0"				
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/death_crystal_red_and_black_big"		
+					bone "att_death"
+					scale "0.6 0.6 0.6"
+				}
+			}
+		}	
+		EffectGroup
+		{						
+			group "damage_generic"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_black"	
+					bone "att_death"
+					scale "0.8 0.8 0.8"
+				}
+			}
+		}		
+		EffectGroup
+		{						
+			group "hit_damage"
+			enabled "0"
+			Effects
+			{
+				Effect
+				{
+					blueprint "effects/enemies_generic/damage_generic_crystal_red"	
+				}
+			}
+		}	
+	}		
 
 	children
 	{

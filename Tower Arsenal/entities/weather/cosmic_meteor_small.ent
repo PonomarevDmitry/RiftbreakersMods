@@ -46,11 +46,11 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
-		crosshair_effect 		"effects/decals/necrodon_resurrect"
-		on_enemy_hit_effect 	"effects/enemies_anoryxian/acid_projectile_explosion"
-		on_world_hit_effect 	"effects/enemies_anoryxian/acid_projectile_explosion"			
-		//on_decal_hit_effect		"effects/decals/explosion_hole_big_01"			
-		
+		on_enemy_hit_effect 		"effects/weather/cosmic_meteor"
+		on_world_hit_effect 		"effects/weather/cosmic_meteor"
+		//on_decal_hit_effect	"effects/decals/explosion_hole_big_01"			
+		destroy_pattern					"default"		
+
 		collision_3d 			"world_blocker|world|ground_unit|hitbox|building"
 
 		DamagePattern
@@ -68,24 +68,33 @@ EntityBlueprint
 		}
 	}
 
-	BurningComponent
-	{
-		spread_radius 			"0.0"			// radius to spread fire
-		spread_chance_override 	"0.0"			// allow to override chance to propagate fire if set to 1.0 everything flammable around will catch fire
-	
-		spread_timer
-		{
-			limit "20" 						// how often entity will try to spread fire in microseconds ( 2s )
-		}
-	
-		burning_effect_group    "cosmic"			// effect group to be enabled on entity
-		burning_time			"5.0"	// how long it will burn in seconds
-	}		
-
 	SoundDesc
 	{
 		name 		"ambient/meteor"
 	}
+
+	DestroyDesc
+	{
+		DestroyPatterns
+		{
+			Pair
+			{
+				key "default"
+				value
+				{
+					explosion_type 			"centered"
+					explosion_max_power 	"8000"
+					explosion_min_power 	"6000"
+					//explosion_effect 		"effects/destructibles/magnetic_rock_small"	
+					
+					part_material	 		"units/ground/cosmic_gnerot"
+					part_prefix 			"meshes/props/special/magnetic_rocks/magnetic_rock_small_01"
+					part_effect 			"effects/enemies_generic/boss_trail_cosmic"
+					part_physics_material   "debris_heavy"
+				}
+			}	
+		}		
+	}	
 
 	EffectDesc
 	{

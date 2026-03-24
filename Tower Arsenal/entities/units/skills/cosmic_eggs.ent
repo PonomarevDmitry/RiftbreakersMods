@@ -1,6 +1,7 @@
 EntityBlueprint
 {
 	name "units/skills/cosmic_eggs"
+	base_blueprint "units/skills/skill_base"
 
 	StateMachineDesc
 	{
@@ -41,7 +42,7 @@ EntityBlueprint
 
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/egg_cosmic_canoptrix"
+		blueprint						"units/ground/egg_elite_cosmic_canoptrix"
 		amount_on_single_spawn			"2"
 		max_spawn						"50"
 		time_to_spawn					"0.3"
@@ -51,24 +52,14 @@ EntityBlueprint
 		can_spawn_when_visible			"1"
 		defend_radius					"40"
 	}
-
-	NetReplicationDisabledComponent
-	{
-
-	}
 	
-	//SpeciesOverrideParams
-	//{
-	//	fungor_elite
-	//	{
-	//		UnitsSpawnerDesc.blueprint "units/ground/egg_elite_stickrid"
-	//	}
-	//	
-	//	gnerot_elite
-	//	{
-	//		UnitsSpawnerDesc.blueprint "units/ground/egg_elite_canoptrix"
-	//	}
-	//}
+	LuaDesc
+	{
+		script "lua/units/skills/eggs.lua"
+		database
+		{
+		}			
+	}
 }
 
 EntityBlueprint
@@ -82,10 +73,10 @@ EntityBlueprint
 		description 	"gui/hud/enemy_skill_description/eggs"
 		icon 			"gui/menu/inventory/stat_icons/cosmic_eggs_aura_icon"
 	}
-	
+
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/egg_cosmic_kermon"
+		blueprint						"units/ground/egg_elite_cosmic_canoptrix_alpha"
 		amount_on_single_spawn			"2"
 		max_spawn						"50"
 		time_to_spawn					"0.3"
@@ -108,10 +99,10 @@ EntityBlueprint
 		description 	"gui/hud/enemy_skill_description/eggs"
 		icon 			"gui/menu/inventory/stat_icons/cosmic_eggs_aura_icon"
 	}
-	
+
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/spawner_cosmic_phirian"
+		blueprint						"units/ground/egg_elite_cosmic_canoptrix_alpha"
 		amount_on_single_spawn			"2"
 		max_spawn						"50"
 		time_to_spawn					"0.3"
@@ -134,10 +125,10 @@ EntityBlueprint
 		description 	"gui/hud/enemy_skill_description/eggs"
 		icon 			"gui/menu/inventory/stat_icons/cosmic_eggs_aura_icon"
 	}
-	
+
 	UnitsSpawnerDesc
 	{
-		blueprint						"units/ground/spawner_cosmic_lesigian"
+		blueprint						"units/ground/egg_elite_cosmic_canoptrix_ultra"
 		amount_on_single_spawn			"2"
 		max_spawn						"100"
 		time_to_spawn					"0.15"

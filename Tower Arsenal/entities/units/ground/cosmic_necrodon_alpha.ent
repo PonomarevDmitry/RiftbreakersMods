@@ -41,6 +41,15 @@ EntityBlueprint
 		}			
 	}
 
+	MinimapItemDesc
+	{
+		type			"image"
+		icon_material 	"gui/hud/minimap_icons/cosmic_necrodon"
+		additional_z_order	"0.5"
+		visibility 		"radar"
+		layer_group		"enemies"
+	}		
+
 	DatabaseComponent
 	{
 		version int:"2"	
@@ -88,8 +97,14 @@ EntityBlueprint
 	{
 		angle_turn_speed				"340"
 		unit_soft_radius				"1.4"
-		ignore_cost_mask				"building|path_blocker|cavern_wall"
+		ignore_cost_mask				"building|path_blocker|cavern_wall|abyssium_vein"
 		dominance_group				    "0"
+	}
+	
+	KeepHighNavigationComponent
+	{
+		interpolation_speed  "0.55" //interpolation_speed  "0.5"
+        water_offset         "-1.0"
 	}
 
 	MeshDesc

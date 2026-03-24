@@ -1,8 +1,7 @@
 EntityBlueprint
 {
-	name "units/ground/cosmic_magmoth_ultra"
-
-	base_blueprint "units/ground/cosmic_magmoth_base"
+	name            "units/ground/cosmic_magmoth_ultra"
+	base_blueprint units/ground/cosmic_magmoth_base
 
 	LuaDesc
 	{
@@ -15,19 +14,39 @@ EntityBlueprint
 		}			
 	}
 
+	MinimapItemDesc
+	{
+		type	"quad"
+		color 
+		{
+			x "1.0"
+			y "0.0"
+			z "0.8"
+			w "1.0"
+		}
+		size
+		{
+			x "2.5"
+			y "2.5"
+		}
+		visibility "radar"
+		layer_group		"enemies"
+		//additional_z_order "0"
+	}
+
 	NavMeshMovementComponent
 	{
 		angle_turn_speed				"240"
 		unit_soft_radius				"1.8"
-		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall|mud_vein|water_vein"
+		ignore_cost_mask				"building|path_blocker|magma_vein|cavern_wall|mud_vein|morphium_vein|water_vein|abyssium_vein"
 		dominance_group				    "0"
 	}
-
+	
 	KeepHighNavigationComponent
 	{
-		interpolation_speed  "0.15"
+		interpolation_speed  "0.35"
         //interpolation_speed  "0.5"
-        water_offset         "-1.0"
+        water_offset         "-1.0"//depth off the liquid
 	}
 
 	DatabaseComponent
@@ -84,8 +103,6 @@ EntityBlueprint
 	{
 		EntityBlueprint
 		{
-		    name "units/ground/cosmic_magmoth_ultra/attack"
-
 			NetReplicationDisabledComponent
 			{
 
@@ -148,7 +165,7 @@ EntityBlueprint
 									Damage
 									{
 										value 	"40.0"
-										type 	"physical"
+										type 	"plasmoid"
 									}
 								}
 							}
@@ -205,13 +222,33 @@ EntityBlueprint
 
 	ProjectileAmmoComponent
 	{
+		explosion_effect_scale 	"0.01"	
+		diameter				"0.5"
 		on_enemy_hit_effect 	"effects/cosmic_magmoth_explosion_ultra"
 		on_world_hit_effect 	"effects/cosmic_magmoth_explosion_ultra"	
 		on_shield_hit_effect	"effects/cosmic_magmoth_explosion_ultra"
-		hit_effect_direction	"up"
+		//hit_effect_direction	"up"
 		collision_3d 			"world|world_blocker|world_destructible|destructible|ground_unit|hitbox|shield|building|building_small|building_floor"
 
 		friendly_fire			"pass"
+
+		DamagePattern
+		{
+			area_damage_type		"timed"
+			area_damage_duration 	"6"
+			time_damage_interval	"0.25"
+			area_damage_radius		"6.0"
+			
+			TimeDamages
+			{
+				TimeDamage
+				{
+					value			"5"
+					duration		"3"
+					type			"cosmic"
+				}
+			}			
+		}
 	}
 
 	EffectDesc

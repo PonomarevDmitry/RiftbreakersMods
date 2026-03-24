@@ -575,7 +575,7 @@ MissionDef
 
             spawn_blueprints
             {
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      0,2
                     spawn_discoverable_level    1
@@ -589,7 +589,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      0,2
                     spawn_discoverable_level    1
@@ -603,35 +603,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
-                {
-                    spawn_instances_minmax      3,5
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
-                        min   	 	int:"200"
-                        max   	 	int:"500"
-						package_size    int:"3"
-                    }
-                }
-
-				spawners/loot_spawner
-                {
-                    spawn_instances_minmax      3,5
-                    spawn_discoverable_level    1
-
-                    database
-                    {	
-                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
-                        min   	 	int:"200"
-                        max   	 	int:"500"
-						package_size    int:"3"
-                    }
-                }
-
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -645,7 +617,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -659,7 +631,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -673,7 +645,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -687,7 +659,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -701,7 +673,7 @@ MissionDef
                     }
                 }
 
-                spawners/loot_spawner
+                spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -715,7 +687,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -729,7 +701,7 @@ MissionDef
                     }
                 }
 				
-				spawners/loot_spawner
+				spawners/underground_treasure_spawner
                 {
                     spawn_instances_minmax      3,5
                     spawn_discoverable_level    1
@@ -742,36 +714,40 @@ MissionDef
 						package_size    int:"5"
                     }
                 }
+				
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      3,5
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_plasmanite_item"
+                        min   	 	int:"100"
+                        max   	 	int:"250"
+						package_size    int:"3"
+                    }
+                }
+
+				spawners/loot_spawner
+                {
+                    spawn_instances_minmax      0,2
+                    spawn_discoverable_level    1
+
+                    database
+                    {	
+                        blueprint 	string:"items/loot/resources/shard_cosmonite_ore_item"
+                        min   	 	int:"200"
+                        max   	 	int:"500"
+						package_size    int:"5"
+                    }	
+                }
             }
         }
 	}
 
     random_resources
     {
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-            min_resources   "1500"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
-        ResourceVolume
-        {
-            resource        "cosmonite_ore_vein"
-			
-			required_discovery_lvl	"1"
-			
-            min_resources   "2000"
-            max_resources   "4000"
-
-            min_spawned_volumes "2"
-            max_spawned_volumes "4"
-        }
-
         ResourceVolume
         {
             resource        "carbon_vein"
@@ -974,6 +950,55 @@ MissionDef
             min_spawned_volumes "2"            
             max_spawned_volumes "9001"            
         }
+        ResourceVolume
+        {
+            resource        "cosmic_vent"            
+
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+			
+            is_infinite        "1"			
+        }	
+		
+        ResourceVolume
+        {
+            resource        "cosmic_vent"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "6000"
+            max_resources   "10000"
+		
+            min_spawned_volumes "3"
+            max_spawned_volumes "6"
+			
+            is_infinite        "1"			
+        }		
+
+		ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+            min_resources   "1500"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
+
+        ResourceVolume
+        {
+            resource        "cosmonite_ore_vein"
+			
+			required_discovery_lvl	"1"
+			
+            min_resources   "2000"
+            max_resources   "4000"
+
+            min_spawned_volumes "2"
+            max_spawned_volumes "4"
+        }
+		
     }
 
     min_starting_distance "16.0"
