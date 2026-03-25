@@ -443,6 +443,44 @@
 
 
 
+--RegisterGlobalEventHandler("NewAwardEvent", function(evt)
+--
+--    local text = "NewAwardEvent " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local name = evt:GetName()
+--
+--        local researched = evt:GetResearched()
+--
+--        local teamId = evt:GetTeamId()
+--
+--        text = text .. "\n" .. "name " .. tostring(name)
+--
+--        text = text .. "\n" .. "researched " .. tostring(researched)
+--
+--        text = text .. "\n" .. "teamId " .. tostring(teamId)
+--
+--        if ( entity ~= INVALID_ID ) then
+--
+--            text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        else
+--
+--            text = text .. "\n" .. "entity INVALID_ID"
+--        end
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
+
+
+
 
 
 --RegisterGlobalEventHandler("ResearchUnlockedEvent", function(evt)
