@@ -1924,6 +1924,110 @@ material resources/resource_plasma_charged_fresnel
 	}
 }
 
+material resources/volume_resource_supercoolant
+{
+	render_group 60
+
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+
+			texture_unit diffuse
+			{
+				texture materials/textures/resources/volume_resource_morphium.dds
+			}
+
+			vertex_program_ref forward_object_texture_vp
+			{
+			}
+
+			fragment_program_ref forward_object_texture_fp
+			{
+			}
+		}
+	}
+}
+
+material resources/resource_supercoolant : water/refract
+{
+	set_texture_alias wave_normal_1			materials/textures/resources/resource_mud_swamp_01_normal.dds
+	set_texture_alias wave_normal_2			materials/textures/resources/resource_mud_swamp_normal.dds
+	
+	set_texture_alias foam_albedo			materials/textures/resources/foam_ice_albedo.dds
+	set_texture_alias foam_packed			materials/textures/resources/foam_ice_packed.dds
+	set_texture_alias foam_normal			materials/textures/resources/foam_ice_normal.dds
+
+	set_texture_alias foam_edge_albedo		materials/textures/resources/foam_ice_edge_albedo.dds
+	set_texture_alias foam_edge_packed		materials/textures/resources/foam_ice_edge_packed.dds
+	set_texture_alias foam_edge_normal		materials/textures/resources/foam_ice_edge_normal.dds
+
+	set_texture_alias flowmap       		materials/textures/flowmap/magma_01_flowmap.dds
+	set_texture_alias noise       			materials/textures/noise_tiled.dds
+	set_texture_alias caustics 				materials/textures/resources/resource_supercoolant_01_caustic.dds
+
+	technique
+	{
+		pass
+		{
+            fragment_program_ref water_refract_fp
+            {
+			    param_named         cTilingFactor               float          30
+
+        		param_named         cWaveScroll            		float4         0.01 0.01 -0.01 -0.01
+			    param_named         cWaveNormalFactor1          float          1
+			    param_named         cWaveNormalFactor2          float          1
+			    param_named         cWaveNormalTillingFactor1   float          0.5
+        		param_named         cWaveNormalTillingFactor2   float          1.0
+			    param_named         cWaveRefractFactor          float          0.2715
+
+			    param_named         cFoamScroll              	float4         0.0 0.0 0 0
+			    param_named         cFoamFactor                 float          0.32
+				param_named         cFoamTillingFactor          float          1.8
+				param_named         cFoamRefractFactor          float          0.0
+			    param_named         cFoamFlowPower              float          0.06
+			    param_named         cFoamFlowSpeed          	float          1
+
+			    param_named         cFoamEdgeFactor             float          0.45
+			    param_named         cFoamEdgePower              float          0.07
+        		param_named         cFoamEdgeRefractFactor      float          0.85
+			    param_named         cFoamEdgeTillingFactor      float          1.5
+			    param_named         cFoamEdgeFlowSpeed          float          3.6
+
+			    param_named         cWaterColor                 float3         0.2 0.4 0.65
+			    param_named         cWaterBottomColor           float3         0.15 0.40 0.65
+			    param_named 		cWaterShoreColor			float3		   0.06 0.06 0.0665
+			    param_named         cWaterRoughness             float          0.025
+			    param_named         cWaterMetalness             float          0.15
+			    param_named         cWaterFadeDepth             float          0.80
+			    param_named         cWaterRefractDepth          float          0.3
+			    param_named         cWaterDepth                 float          2.9
+			    param_named 		cWaterDeltaUv               float          1.0
+
+			    param_named         cFresnelPower               float          1.4
+			    param_named         cFresnelScale               float          10
+			    param_named         cFresnelBias                float          0.1
+
+			    param_named         cWaterSimulationFoamEdgeScaler1     float 4.0      
+        		param_named         cWaterSimulationFoamEdgeScaler2     float 1.0
+        		param_named         cWaterSimulationFoamScaler          float 0.25
+
+		        param_named         cCausticsTillingFactor      float          0.25
+		        param_named         cCausticsRefractFactor      float          0.14
+		        param_named         cCausticsPower              float          12.0
+		        param_named         cCausticsDepth              float          2.8
+			}
+		}
+	}
+}
+
+
+material resources/resource_supercoolant_vein : resources/resource_supercoolant
+{
+	
+}
+
 material resources/resource_supercoolant_storage : resources/resource_liquid
 {
 	set_texture_alias albedo_1			materials/textures/resources/resource_supercoolant_01_albedo.dds

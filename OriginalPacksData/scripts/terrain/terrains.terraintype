@@ -129,6 +129,31 @@ TerrainType
 
 TerrainType
 {
+	name "snow"
+	priority 1
+	
+	speed "1.0"
+	acceleration "1.0"
+	deacceleration "1.0"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_snow_left"
+				footstep_right	"footstep_snow_right"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
 	name "quicksand"
 	priority 30
 	
@@ -407,6 +432,42 @@ TerrainType
 				interval 	"0.3"
 				value		"5"
 				type 		"acid"
+			}
+		}	
+		type "building"
+		{
+			damage
+			{
+				value		"10"
+			}
+		}	
+	}
+}
+
+TerrainType
+{
+	name "cryo_stain_hostile"
+	priority 30
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_sand_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_sand_right.wav"
+			
+			effects_on_marker
+			{
+				footstep_left	"footstep_cryo_left"
+				footstep_right	"footstep_cryo_right"
+			}
+
+			//speed "0.5"			
+			damage
+			{
+				interval 	"0.3"
+				value		"5"
+				type 		"cryo"
 			}
 		}	
 		type "building"
@@ -856,6 +917,46 @@ TerrainType
 				footstep_right	"footstep_liquid_right"
 			}
 		}
+	}
+}
+
+TerrainType
+{
+	name "supercoolant"
+	priority 11
+	
+	speed "1"
+	
+	type_overrides
+	{
+		type "mech"
+		{
+			haptic_feedback_left "sound/samples/haptic/footstep_liquid_left.wav"
+			haptic_feedback_right "sound/samples/haptic/footstep_liquid_right.wav"	
+			
+			effect_on_water_level "1"
+
+			effects_on_marker
+			{
+				footstep_left	"footstep_liquid_left"
+				footstep_right	"footstep_liquid_right"
+			}
+			
+			damage
+			{
+				interval 	"0.3"
+				value		"10"
+				type 		"cryo"
+			}
+		}	
+		
+		type "building"
+		{
+			damage
+			{
+				value		"0"
+			}
+		}	
 	}
 }
 

@@ -488,6 +488,29 @@ material markers/aura_tornado_acid_circle : markers/circle
 	}
 }
 
+material markers/aura_tornado_ice_circle : markers/circle
+{
+	render_group 191
+
+	set_texture_alias diffuse			materials/textures/particles/tornado_marker_ice.dds
+	set_texture_alias emissive			materials/textures/particles/tornado_marker_ice_emissive.dds
+	set_texture_alias gradient			materials/textures/gradient/selector_gradient.dds 190 3
+
+	emissive 		0 0 1 1
+	glow 			100
+
+	technique
+	{
+		pass
+		{
+			fragment_program_ref unlit_decal_emissive_gradient_alpha_fog_fp
+            {
+			    param_named      cAlpha  float 0.5
+			}
+		}
+	}
+}
+
 material markers/aura_tornado_wind_circle : markers/circle
 {
 	render_group 191

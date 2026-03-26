@@ -1,15 +1,25 @@
 CompositorNode gui
 {
-	rt main 1.0 1.0 main PF_R8G8B8A8
-	
+    rt main
+    {
+        width 1.0
+        height 1.0
+        resolution "window"
+        texture PF_R8G8B8A8 main
+        depth_buffer pool 9
+    }
+
 	target main
 	{
 		pass clear
 		{
 			clear_color 0.0 0.0 0.0 0.0
-			clear_mask COLOR
+			clear_mask DEPTH|COLOR|STENCIL 
 		}
 		
+		pass render_gui
+		{
+		}
 	}
 	
 	out main
@@ -22,16 +32,12 @@ CompositorNode gui_final
 	
 	target final
 	{
-		pass clear
-		{
-			clear_color 0.0 0.0 0.0 0.0
-			clear_mask DEPTH|COLOR|STENCIL 
-		}
-		
-		pass render_gui
-		{
-		}
-
+        pass quad
+        {
+            input 0 main
+            material blit_texture
+        }
+        
 	    pass transition
         {
             state common

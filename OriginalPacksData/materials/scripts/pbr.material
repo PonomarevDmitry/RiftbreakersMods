@@ -1273,3 +1273,82 @@ material pbr/emissive_10 : pbr/emissive
 		}
 	}
 }
+
+material pbr/snow
+{ 
+	render_group 50
+	feature "gbuffer|shadow"
+
+	technique
+	{
+		pass
+		{
+			depth_write on
+			depth_check on
+
+			glow 6
+
+			vertex_program_ref deferred_gbuffer_vp 
+			{
+			}
+
+			fragment_program_ref deferred_gbuffer_snow_fp
+			{
+				param_named cSnowUvScale 		float 1.0
+			}
+			
+			texture_unit albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit snow_albedo 
+			{
+				texture materials/textures/error.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit snow_normal 
+			{	
+				texture materials/textures/normalmap_flat_bc5.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit snow_packed
+			{	
+				texture materials/textures/color_white.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit emissive 
+			{	
+				texture materials/textures/color_black.dds
+				filtering anisotropic
+				max_anisotropy 16
+			}
+			texture_unit gradient 
+			{	
+				texture materials/textures/color_white.dds
+				filtering bilinear
+			}
+			texture_unit dissolve 
+			{	
+				texture materials/textures/noise.dds
+				filtering bilinear
+			}
+		}	
+	}
+}

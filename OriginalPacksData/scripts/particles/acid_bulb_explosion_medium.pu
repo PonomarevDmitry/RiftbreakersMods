@@ -1,11 +1,10 @@
 system rift/acid_bulb_explosion_medium
 {
-    fixed_timeout                               5
+    fixed_timeout                               2
     nonvisible_update_timeout                   1
     scale_velocity                              0.015
     scale                                       0.015 0.015 0.015
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 30
     technique fire
     {
@@ -211,6 +210,7 @@ system rift/acid_bulb_explosion_medium
         {
             emission_rate                       100
             angle                               40
+            time_to_live                        2
             velocity                            dyn_random
             {
                 min                             200
@@ -229,87 +229,10 @@ system rift/acid_bulb_explosion_medium
         {
             force_vector                        0 -800 0
         }
-        affector                                PlaneCollider Affector15
-        {
-            position                            0 1 0
-            bouncyness                          0
-            normal                              0 1 0
-        }
         affector                                Colour 
         {
             time_colour                         0    0.752941 0.752941 0.752941 1
             time_colour                         1    0 0 0 0
-        }
-        observer                                OnCollision 
-        {
-            observe_interval                    0.01
-            handler                             DoPlacementParticle 
-            {
-                force_emitter                   SplatEmitter
-                inherit_texture_coord           true
-                inherit_colour                  true
-                inherit_width                   true
-                inherit_height                  true
-                inherit_depth                   true
-            }
-            handler                             DoExpire 
-            {
-            }
-        }
-    }
-    technique blood_splat
-    {
-        visual_particle_quota                   100
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/acid_glowing_yellow_anim_8x4
-        renderer                                Billboard
-        {
-            texture_coords_rows                 4
-            texture_coords_columns              8
-            billboard_type                      perpendicular_common
-            billboard_rotation_type             vertex
-            common_direction                    0 1 0
-            common_up_vector                    0 0 1
-        }
-        emitter                                 Point SplatEmitter
-        {
-            emission_rate                       0
-            angle                               0
-            time_to_live                        dyn_random
-            {
-                min                             3
-                max                             4
-            }
-            velocity                            0
-            all_particle_dimensions             dyn_random
-            {
-                min                             80
-                max                             100
-            }
-            position                            0 1 0
-            direction                           0 0 0
-            end_texture_coords_range            15
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0.501961 0.501961 0.501961 0.694118
-            time_colour                         1    0 0 0 0
-        }
-        affector                                Scale Affector8
-        {
-            xyz_scale                           40
-        }
-        affector                                TextureRotator Affector89
-        {
-            rotation                            dyn_random
-            {
-                min                             -3
-                max                             3
-            }
-            rotation_speed                      0
         }
     }
     technique debris_blood
@@ -332,8 +255,8 @@ system rift/acid_bulb_explosion_medium
             angle                               45
             time_to_live                        dyn_random
             {
-                min                             4
-                max                             5
+                min                             1
+                max                             2
             }
             velocity                            dyn_random
             {
@@ -357,13 +280,6 @@ system rift/acid_bulb_explosion_medium
         affector                                LinearForce Affector50
         {
             force_vector                        0 -800 0
-        }
-        affector                                PlaneCollider Affector83
-        {
-            position                            0 10 0
-            friction                            0.1
-            bouncyness                          0
-            normal                              0 1 0
         }
         affector                                TextureRotator Affector192
         {

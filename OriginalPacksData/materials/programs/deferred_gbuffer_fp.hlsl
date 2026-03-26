@@ -28,6 +28,15 @@ cbuffer FPConstantBuffer : register(b0)
     float       cFlowPhaseScale;
     float       cFlowNoiseTillingFactor;
 #endif
+#if USE_SNOW
+    float       cSnowUvScale;
+    float       cSnowNormalThreshold;
+    float       cSnowNormalRange;
+    float       cSnowIntensity;
+    float       cSnowNormalStrength;
+    float       cSnowHeightMin;
+    float       cSnowHeightMax;
+#endif
 };
 
 struct VS_OUTPUT
@@ -60,6 +69,14 @@ Texture2D       tNormalTex;
 SamplerState    sNormalTex;
 Texture2D       tPackedTex;
 SamplerState    sPackedTex;
+#if USE_SNOW
+Texture2D       tSnowAlbedoTex;
+SamplerState    sSnowAlbedoTex;
+Texture2D       tSnowNormalTex;
+SamplerState    sSnowNormalTex;
+Texture2D       tSnowPackedTex;
+SamplerState    sSnowPackedTex;
+#endif 
 Texture2D       tEmissiveTex;
 SamplerState    sEmissiveTex;
 Texture2D       tGradientTex;
@@ -143,10 +160,29 @@ PS_OUTPUT mainFP( VS_OUTPUT In )
     clip ( albedo.a > 0.5f ? 1:-1 );
 #endif
 
-    Out.GBuffer0.xyzw = float4( albedo.xyz, 1.0f );
-    Out.GBuffer2.xyzw = float4( material, 1.0f );
+#if USE_SNOW
+    float snowAmount = saturate( ( In.Normal.y - cSnowNormalThreshold ) / cSnowNormalRange );
+    float2 snowUV = In.WorldPos.xz * cSnowUvScale;
+#if USE_DISSOLVE_MAP
+    float snowNoise = tDissolveTex.SampleBias( sDissolveTex, snowUV, cMIPBias ).x;
+    snowAmount *= lerp( 0.5f, 1.0f, snowNoise );
+#endif
+    float heightFade = saturate( ( In.WorldPos.y - cSnowHeightMin ) / ( cSnowHeightMax - cSnowHeightMin ) );
+    snowAmount = saturate( snowAmount * cSnowIntensity * heightFade );
+    
+    float3 snowAlbedo = tSnowAlbedoTex.SampleBias( sSnowAlbedoTex, snowUV, cMIPBias ).xyz;
+    float3 snowPacked = tSnowPackedTex.SampleBias( sSnowPackedTex, snowUV, cMIPBias ).xyz;
+    float3 snowNormalTangent = texNormal2D( tSnowNormalTex, sSnowNormalTex, snowUV );
+    
+    albedo.xyz = lerp( albedo.xyz, snowAlbedo, snowAmount );
+    material.xyz = lerp( material.xyz, snowPacked, snowAmount );
+    N = normalize( lerp( N, snowNormalTangent, snowAmount * cSnowNormalStrength ) );
+#endif
 
     N = mul( N, float3x3( In.Tangent, In.BiNormal, In.Normal ) );
+
+    Out.GBuffer0.xyzw = float4( albedo.xyz, 1.0f );
+    Out.GBuffer2.xyzw = float4( material, 1.0f );
     Out.GBuffer1.xyz = float4( encodeNormal( N ), 1.0f );
 
     emissive *= tGradientTex.SampleBias( sGradientTex, In.UV0 * cGradientUvScale, cMIPBias).x * cGlowAmount * cGlowFactor;

@@ -24,7 +24,7 @@ MainMenuScreen
             name    "main"
             title   "BUTTON_main_menu"
             background_movie_material "menu/movies/main_menu_bg"
-            background_material ""
+            //background_material "gui/menu/main_menu/multiplayer_bg"
             toast_frame_visible "1"
 
             items
@@ -59,8 +59,8 @@ MainMenuScreen
         {
             name    "single_player"
             title   "BUTTON_single_player_game"
-            background_movie_material "menu/movies/main_menu_prolog_bg"
-            background_material ""
+            background_movie_material "menu/movies/singleplayer_bg"
+            //background_material "gui/menu/main_menu/singleplayer_bg"
             
 		#ifdef win
             toast_frame_visible "0"
@@ -129,8 +129,8 @@ MainMenuScreen
         {
             name    "survival"
             title   "BUTTON_survival"
-            background_movie_material "menu/movies/main_menu_bg"
-            background_material ""
+            background_movie_material "menu/movies/survival_bg"
+            //background_material "gui/menu/main_menu/survival_bg"
             
             items
             {
@@ -172,7 +172,7 @@ MainMenuScreen
         {
             name    "campaign"
             title   "campaigns/story/story.campaign"
-            background_movie_material "menu/movies/main_menu_bg"
+            background_movie_material "menu/movies/main_menu_prolog_bg"
             background_material ""
             
             items
@@ -188,9 +188,22 @@ MainMenuScreen
     
                 MainMenuButtonInfo
                 {
-                    label   "BUTTON_new_campaign"
+                    label   "BUTTON_story_campaign"
                     icon    "gui/menu/buttons/main_menu/campaign_selected"
                     action  "change_screen:gui/menu/new_campaign"
+                }
+                
+                MainMenuButtonInfo
+                {
+                    label   "BUTTON_open_campaign"
+                    icon    "gui/menu/buttons/main_menu/open_campaign_selected" 
+                    action  "change_screen:gui/menu/new_survival"
+                    action_database 
+                    {
+                        campaign_name   string:"campaigns/open/open.campaign"
+                        multiplayer     int:"0"
+                        open_campaign   int:"1"
+                    }
                 }
     
                 MainMenuButtonInfo
@@ -211,8 +224,8 @@ MainMenuScreen
         {
             name    "multiplayer"
             title   "BUTTON_multiplayer_game"
-            background_movie_material "menu/movies/main_menu_prolog_bg"
-            background_material ""
+            background_movie_material "menu/movies/multiplayer_bg"
+            //background_material "gui/menu/main_menu/multiplayer_bg"
 
             items
             {

@@ -6,11 +6,10 @@ system rift/granan_acid_spit
     scale_velocity                              0.13
     scale                                       0.13 0.13 0.13
     tight_bounding_box                          true
-    category                                    RIFT
     cache_count                                 20
-    technique 1
+    technique 2_1
     {
-        visual_particle_quota                   50
+        visual_particle_quota                   2
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -22,12 +21,11 @@ system rift/granan_acid_spit
             texture_coords_rows                 4
             texture_coords_columns              8
             billboard_type                      oriented_self
-            billboard_origin                    bottom_center
             billboard_rotation_type             vertex
         }
         emitter                                 Point Emitter1
         {
-            angle                               30
+            angle                               25
             time_to_live                        dyn_random
             {
                 min                             0.3
@@ -35,20 +33,14 @@ system rift/granan_acid_spit
             }
             velocity                            dyn_random
             {
-                min                             20
-                max                             45
-            }
-            particle_width                      dyn_random
-            {
                 min                             4
-                max                             12
+                max                             8
             }
-            particle_height                     dyn_random
+            all_particle_dimensions             dyn_random
             {
-                min                             30
-                max                             60
+                min                             25
+                max                             35
             }
-            position                            -10 0 0
             direction                           1 0 0
             end_texture_coords_range            20
             colour                              0.188235 0.188235 0.188235 1
@@ -59,10 +51,28 @@ system rift/granan_acid_spit
             time_colour                         0    1 1 1 1
             time_colour                         1    0 0 0 0
         }
+        affector                                TextureRotator 
+        {
+            rotation                            dyn_random
+            {
+                min                             -3
+                max                             3
+            }
+            rotation_speed                      dyn_random
+            {
+                min                             0.1
+                max                             0.3
+            }
+        }
+        affector                                TextureAnimator 
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
+        }
     }
-    technique 2
+    technique 1_1
     {
-        visual_particle_quota                   2
+        visual_particle_quota                   50
         emitted_emitter_quota                   0
         emitted_technique_quota                 0
         emitted_affector_quota                  0
@@ -87,10 +97,19 @@ system rift/granan_acid_spit
             }
             velocity                            dyn_random
             {
-                min                             2
-                max                             4
+                min                             20
+                max                             45
             }
-            all_particle_dimensions             20
+            particle_width                      dyn_random
+            {
+                min                             15
+                max                             25
+            }
+            particle_height                     dyn_random
+            {
+                min                             30
+                max                             60
+            }
             position                            -10 0 0
             direction                           1 0 0
             end_texture_coords_range            20
@@ -101,6 +120,11 @@ system rift/granan_acid_spit
         {
             time_colour                         0    1 1 1 1
             time_colour                         1    0 0 0 0
+        }
+        affector                                TextureAnimator 
+        {
+            end_texture_coords_range            31
+            texture_start_random                false
         }
     }
 }

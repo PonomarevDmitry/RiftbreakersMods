@@ -1655,6 +1655,469 @@ GameplayResourceDef
 	allow_overflow 	"1"
 }
 
+////////// ICE FAUNA ////////////
+GameplayResourceDef
+{
+	id				"specimen_bomogan_ice"
+	localization_id "resource_name/specimen_bomogan_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_bomogan_ice_alpha"
+	localization_id "resource_name/specimen_bomogan_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_bomogan_ice_ultra"
+	localization_id "resource_name/specimen_bomogan_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_carnicinth_ice"
+	localization_id "resource_name/specimen_carnicinth_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_carnicinth_ice_alpha"
+	localization_id "resource_name/specimen_carnicinth_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_carnicinth_ice_ultra"
+	localization_id "resource_name/specimen_carnicinth_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_granan_ice"
+	localization_id "resource_name/specimen_granan_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_granan_ice_alpha"
+	localization_id "resource_name/specimen_granan_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_granan_ice_ultra"
+	localization_id "resource_name/specimen_granan_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_hammeroceros_ice"
+	localization_id "resource_name/specimen_hammeroceros_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_hammeroceros_ice_alpha"
+	localization_id "resource_name/specimen_hammeroceros_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_hammeroceros_ice_ultra"
+	localization_id "resource_name/specimen_hammeroceros_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_kermon_ice"
+	localization_id "resource_name/specimen_kermon_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_kermon_ice_alpha"
+	localization_id "resource_name/specimen_kermon_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_kermon_ice_ultra"
+	localization_id "resource_name/specimen_kermon_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_krocoon_ice"
+	localization_id "resource_name/specimen_krocoon_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_krocoon_ice_alpha"
+	localization_id "resource_name/specimen_krocoon_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_krocoon_ice_ultra"
+	localization_id "resource_name/specimen_krocoon_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_magmoth_ice"
+	localization_id "resource_name/specimen_magmoth_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_magmoth_ice_alpha"
+	localization_id "resource_name/specimen_magmoth_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_magmoth_ice_ultra"
+	localization_id "resource_name/specimen_magmoth_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon_ice"
+	localization_id "resource_name/specimen_plutrodon_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon_ice_alpha"
+	localization_id "resource_name/specimen_plutrodon_ice_alpha"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_plutrodon_ice_ultra"
+	localization_id "resource_name/specimen_plutrodon_ice_ultra"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+////////// ICE FAUNA NEUTRAL ////////////
+
+GameplayResourceDef
+{
+	id				"specimen_iceder"
+	localization_id "resource_name/specimen_iceder"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mantnice"
+	localization_id "resource_name/specimen_mantnice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_brabit_ice"
+	localization_id "resource_name/specimen_brabit_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+//////////////////////////////////// ICE SPAWNERS ///////////////////////////
+
+GameplayResourceDef
+{
+	id				"specimen_spawner_ice"
+	localization_id "resource_name/specimen_spawner_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+////////////////////////////// ICE FLORA ///////////////////////////////////////////////////////////
+GameplayResourceDef
+{
+	id				"specimen_mushroom_frospore_blue"
+	localization_id "resource_name/specimen_mushroom_frospore_blue"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_frospore_orange"
+	localization_id "resource_name/specimen_mushroom_frospore_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_mushroom_frospore_brown"
+	localization_id "resource_name/specimen_mushroom_frospore_brown"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_bush_ray_flower_ice"
+	localization_id "resource_name/specimen_bush_ray_flower_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_bush_metallic_flowers_ice"
+	localization_id "resource_name/specimen_bush_metallic_flowers_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+GameplayResourceDef
+{
+	id				"specimen_grass_metallic_spiky_ice"
+	localization_id "resource_name/specimen_grass_metallic_spiky_ice"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
+////////////////////////////// OTHER (MINERALS) CAVERNS ///////////
+
+GameplayResourceDef
+{
+	id				"specimen_crystal_metallic_orange"
+	localization_id "resource_name/specimen_crystal_metallic_orange"
+	bp  			""
+	type 			"loot"
+	specific_type	"specimen"
+	icon			"gui/hud/resource_icons/specimen"
+	bigger_icon		"gui/hud/resource_icons/specimen_bigger"
+	hud_visible 	"never"
+	allow_overflow 	"1"
+}
+
 //////////////////////////////////// SWAMP SPAWNERS ///////////////////////////
 
 GameplayResourceDef

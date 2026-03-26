@@ -5,7 +5,6 @@ system rift/cryo_explosion_big
     scale_velocity                              0.025
     scale                                       0.025 0.025 0.025
     tight_bounding_box                          true
-    category                                    RIFT
     fade_out                                    true
     cache_count                                 50
     technique sparksgravity
@@ -18,6 +17,7 @@ system rift/cryo_explosion_big
         material                                particles/spark_rectangle_blue_01
         renderer                                Billboard
         {
+            render_queue_group                  61
             billboard_type                      oriented_self
             billboard_rotation_type             vertex
         }
@@ -35,21 +35,20 @@ system rift/cryo_explosion_big
                 min                             100
                 max                             200
             }
-            duration                            1
-            particle_width                      5
+            particle_width                      4
             particle_height                     dyn_random
             {
-                min                             6
+                min                             5
                 max                             12
             }
             position                            0 100 0
-            keep_local                          true
             start_colour_range                  1 1 1 1
-            radius                              200
+            force_emission                      true
+            radius                              150
         }
         affector                                Colour 
         {
-            time_colour                         0    0.501961 0.501961 0.501961 1
+            time_colour                         0    1 1 1 1
             time_colour                         1    0 0 0 0
         }
         affector                                Gravity Affector70
@@ -69,7 +68,6 @@ system rift/cryo_explosion_big
         material                                particles/wispy_smoke_loop_8x4
         renderer                                Billboard
         {
-            render_queue_group                  60
             texture_coords_rows                 4
             texture_coords_columns              8
             billboard_rotation_type             vertex
@@ -80,8 +78,8 @@ system rift/cryo_explosion_big
         {
             time_to_live                        dyn_random
             {
-                min                             2
-                max                             2.5
+                min                             1
+                max                             1.5
             }
             velocity                            0
             all_particle_dimensions             dyn_random
@@ -147,8 +145,8 @@ system rift/cryo_explosion_big
             angle                               80
             time_to_live                        dyn_random
             {
-                min                             1.5
-                max                             2
+                min                             1
+                max                             1.5
             }
             velocity                            dyn_random
             {
@@ -270,7 +268,7 @@ system rift/cryo_explosion_big
             time_to_live                        dyn_random
             {
                 min                             1
-                max                             2
+                max                             1.5
             }
             velocity                            dyn_random
             {
@@ -280,7 +278,7 @@ system rift/cryo_explosion_big
             all_particle_dimensions             dyn_random
             {
                 min                             10
-                max                             50
+                max                             25
             }
             position                            0 25 0
             colour                              0.313726 0.313726 0.313726 1
@@ -311,44 +309,10 @@ system rift/cryo_explosion_big
         }
         affector                                Colour Affector358
         {
-            time_colour                         0    1 1 1 1
-            time_colour                         0.502174  1 1 1 1
-            time_colour                         1    1 1 1 0
+            time_colour                         0    0.494662 0.703271 1 1
+            time_colour                         0.502174  0.501779 0.781918 1 1
+            time_colour                         1    0.501779 0.739365 1 0
             colour_operation                    multiply
-        }
-    }
-    technique ring
-    {
-        visual_particle_quota                   1
-        emitted_emitter_quota                   0
-        emitted_technique_quota                 0
-        emitted_affector_quota                  0
-        emitted_system_quota                    0
-        material                                particles/flare_add_01
-        renderer                                Billboard
-        {
-            billboard_type                      perpendicular_common
-            billboard_rotation_type             vertex
-            common_direction                    0 1 0
-            common_up_vector                    0 0 1
-        }
-        emitter                                 Point ring
-        {
-            time_to_live                        0.7
-            velocity                            0
-            all_particle_dimensions             1
-            position                            0 10 0
-            force_emission                      true
-        }
-        affector                                Scale Affector20
-        {
-            xyz_scale                           1500
-        }
-        affector                                Colour 
-        {
-            time_colour                         0    0 0.501961 1 1
-            time_colour                         0.502174  0 0.501961 1 1
-            time_colour                         1    0 0 0 0
         }
     }
     technique refract_shockwave
