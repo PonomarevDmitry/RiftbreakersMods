@@ -703,6 +703,51 @@ local new_resource_converter_values = {
             ["energy"] = 240000000,
         },
     },
+    
+
+
+    {
+        ["name"] = "buildings/resources/supercoolant_refinery_lvl_3",
+        ["resource_converter"] = {
+
+            ["supercoolant"] = "100",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["supercoolant"] = 100000000,
+        },
+    },
+    
+
+
+    {
+        ["name"] = "buildings/resources/ionizer_lvl_3",
+        ["resource_converter"] = {
+
+            ["plasma"] = "100",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["plasma"] = 100000000,
+        },
+    },
+
+    
+    
+    {
+        ["name"] = "buildings/resources/plasma_converter_lvl_3",
+        ["resource_converter"] = {
+
+            ["plasma_charged"] = "100",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["plasma_charged"] = 100000000,
+        },
+    },
 }
 
 InjectChangeListBlueprintResourceConverterValues(new_resource_converter_values, "out")
