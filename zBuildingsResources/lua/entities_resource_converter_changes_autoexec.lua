@@ -349,6 +349,19 @@ local new_resource_converter_values = {
             ["carbon_vein"] = 100000,
         },
     },
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory_lvl_3",
+        ["resource_converter"] = {
+
+            ["carbon_vein"] = "0.1",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["carbon_vein"] = 100000,
+        },
+    },
 
 
     
