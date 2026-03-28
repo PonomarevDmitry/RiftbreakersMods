@@ -714,12 +714,12 @@ local new_resource_converter_values = {
         ["name"] = "buildings/resources/carbonium_factory_lvl_3",
         ["resource_converter"] = {
 
-            ["carbon_vein"] = "4",
+            ["carbonium"] = "4",
         },
 
         ["resource_converter_comp"] = {
 
-            ["carbon_vein"] = 4000000,
+            ["carbonium"] = 4000000,
         },
     },
 
