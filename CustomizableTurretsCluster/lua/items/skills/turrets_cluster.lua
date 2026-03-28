@@ -129,6 +129,28 @@ function turrets_cluster:OnActivate()
                 goto continueBlueprintListArray
             end
 
+            if ( itemBlueprintDatabase:HasString("disabled_conditions") == true ) then
+
+                local disabledConditions = itemBlueprintDatabase:GetString("disabled_conditions")
+                local conditions = Split( disabledConditions, "," )
+
+                local disabledValues = itemBlueprintDatabase:GetStringOrDefault("disabled_values", "")
+                local values = Split( disabledValues, "," )
+
+                for condition in Iter( conditions ) do
+
+                    if ( condition == "biome" ) then
+
+                        local currentBiome = MissionService:GetCurrentBiomeName()
+
+                        if ( IndexOf( values, currentBiome ) ~= nil ) then
+
+                            goto continueBlueprintListArray
+                        end
+                    end
+                end
+            end
+
             local turretBlueprint = itemBlueprintDatabase:GetString("blueprint")
             local timeout = itemBlueprintDatabase:GetFloatOrDefault("timeout", 20.0)
 
