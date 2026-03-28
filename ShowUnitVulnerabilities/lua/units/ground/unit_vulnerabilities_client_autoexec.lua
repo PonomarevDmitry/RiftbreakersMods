@@ -151,19 +151,7 @@ local CreateVulnerabilitiesMenu = function(entity, blueprintName, vulnerabilitie
     globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
 end
 
-local ShowVulnerabilitiesMenu = function(evt)
-
-    local owner = evt:GetOwner()
-    if ( owner == nil or owner == INVALID_ID ) then
-        return
-    end
-
-    local ownerBlueprintName = EntityService:GetBlueprintName( owner )
-    if ( ownerBlueprintName ~= "player/character" ) then
-        return
-    end
-
-    local entity = evt:GetEntity()
+local ShowVulnerabilitiesMenu = function(entity)
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -225,8 +213,21 @@ RegisterGlobalEventHandler("DamageEvent", function(evt)
         return
     end
 
-    if not evt:GetDamageOverTime() then 
-        ShowVulnerabilitiesMenu(evt)
+    if not evt:GetDamageOverTime() then
+
+        local owner = evt:GetOwner()
+        if ( owner == nil or owner == INVALID_ID ) then
+            return
+        end
+
+        local ownerBlueprintName = EntityService:GetBlueprintName( owner )
+        if ( ownerBlueprintName ~= "player/character" ) then
+            return
+        end
+
+        local entity = evt:GetEntity()
+
+        ShowVulnerabilitiesMenu(entity)
     end
 end)
 
@@ -244,4 +245,30 @@ RegisterGlobalEventHandler("DestroyRequest", function(evt)
     if ( menuEntity ~= nil ) then
         EntityService:CreateOrSetLifetime( menuEntity, 3, "normal" )
     end
+end)
+
+
+
+RegisterGlobalEventHandler("SelectEntityRequest", function(evt)
+
+    if ( not is_client ) then
+        return
+    end
+
+    local entity = evt:GetEntity()
+
+    if ( entity == nil or entity == INVALID_ID ) then
+        return
+    end
+
+    local entityBlueprintName = EntityService:GetBlueprintName( entity )
+
+    local stringNumber = string.find( entityBlueprintName, "units/ground/" )
+
+    if ( stringNumber ~= 1 ) then
+        return
+    end
+
+    ShowVulnerabilitiesMenu(entity)
+
 end)
