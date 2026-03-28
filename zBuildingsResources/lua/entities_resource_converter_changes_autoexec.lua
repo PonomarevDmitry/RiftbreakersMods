@@ -750,6 +750,54 @@ local new_resource_converter_values = {
             ["steel"] = 4000000,
         },
     },
+
+
+
+    {
+        ["name"] = "buildings/resources/rare_element_mine_lvl_2",
+        ["resource_converter"] = {
+        
+            ["uranium_ore"] = "2",
+            ["titanium"] = "2",
+            ["palladium"] = "2",
+            ["cobalt"] = "2",
+            ["voidinite_ore"] = "2",
+            ["cosmonite_ore"] = "2",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["uranium_ore"] = 2000000,
+            ["titanium"] = 2000000,
+            ["palladium"] = 2000000,
+            ["cobalt"] = 2000000,
+            ["voidinite_ore"] = 2000000,
+            ["cosmonite_ore"] = 2000000,
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/rare_element_mine_lvl_3",
+        ["resource_converter"] = {
+        
+            ["uranium_ore"] = "4",
+            ["titanium"] = "4",
+            ["palladium"] = "4",
+            ["cobalt"] = "4",
+            ["voidinite_ore"] = "4",
+            ["cosmonite_ore"] = "4",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["uranium_ore"] = 4000000,
+            ["titanium"] = 4000000,
+            ["palladium"] = 4000000,
+            ["cobalt"] = 4000000,
+            ["voidinite_ore"] = 4000000,
+            ["cosmonite_ore"] = 4000000,
+        },
+    },
 }
 
 InjectChangeListBlueprintResourceConverterValues(new_resource_converter_values, "out")
