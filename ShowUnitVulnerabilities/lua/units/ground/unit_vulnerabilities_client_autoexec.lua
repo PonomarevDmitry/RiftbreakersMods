@@ -23,22 +23,30 @@ local FindMenuEntity = function(entity, menuBlueprintName)
     return nil
 end
 
-local GetGlobalMenuEntity = function(blueprintName)
-
-    globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
+local GetGlobalMenuEntity = function(globalVulnerabilitiesMenuCache, blueprintName)
 
     local menuEntity = globalVulnerabilitiesMenuCache[blueprintName]
 
-    if ( menuEntity ~= nil and EntityService:IsAlive( menuEntity ) ) then
+    if ( menuEntity == nil or menuEntity == INVALID_ID ) then
+        return nil
+    end
 
-        local parent = EntityService:GetParent( menuEntity )
+    if ( not EntityService:IsAlive( menuEntity ) ) then
+        return nil
+    end
 
-        if ( parent ~= nil and parent ~= INVALID_ID ) then
+    local parent = EntityService:GetParent( menuEntity )
 
-            if ( EntityService:HasComponent(parent, "IsVisibleComponent") ) then
-                return menuEntity
-            end
-        end
+    if ( parent == nil or parent == INVALID_ID ) then
+        return nil
+    end
+
+    if ( not EntityService:IsAlive( parent ) ) then
+        return nil
+    end
+
+    if ( EntityService:HasComponent(parent, "IsVisibleComponent") ) then
+        return menuEntity
     end
 
     return nil
@@ -146,12 +154,12 @@ local CreateVulnerabilitiesMenu = function(entity, blueprintName, vulnerabilitie
 
     SetMenuValues(menuEntity, vulnerabilities)
 
-    globalVulnerabilitiesMenuCache = globalVulnerabilitiesMenuCache or {}
-
-    globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
+    return menuEntity
 end
 
-local ShowVulnerabilitiesMenu = function(entity)
+local ShowVulnerabilitiesMenu = function(entity, ignoreOther)
+
+    ignoreOther = ignoreOther or false
 
     local blueprintName = EntityService:GetBlueprintName( entity )
 
@@ -192,15 +200,24 @@ local ShowVulnerabilitiesMenu = function(entity)
 
         SetMenuValues(menuEntity, vulnerabilities)
 
-        globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
+        if ( ignoreOther == false ) then
+
+            globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
+        end
 
     else
 
-        menuEntity = GetGlobalMenuEntity(blueprintName)
+        if ( ignoreOther == false ) then
+            menuEntity = GetGlobalMenuEntity(globalVulnerabilitiesMenuCache, blueprintName)
+        end
 
         if ( menuEntity == nil ) then
 
-            CreateVulnerabilitiesMenu(entity, blueprintName, vulnerabilities, menuBlueprintName)
+            menuEntity = CreateVulnerabilitiesMenu(entity, blueprintName, vulnerabilities, menuBlueprintName)
+
+            if ( ignoreOther == false ) then
+                globalVulnerabilitiesMenuCache[blueprintName] = menuEntity
+            end
         end
     end
 end
@@ -227,7 +244,7 @@ RegisterGlobalEventHandler("DamageEvent", function(evt)
 
         local entity = evt:GetEntity()
 
-        ShowVulnerabilitiesMenu(entity)
+        ShowVulnerabilitiesMenu(entity, false)
     end
 end)
 
@@ -269,6 +286,6 @@ RegisterGlobalEventHandler("SelectEntityRequest", function(evt)
         return
     end
 
-    ShowVulnerabilitiesMenu(entity)
+    ShowVulnerabilitiesMenu(entity, true)
 
 end)
