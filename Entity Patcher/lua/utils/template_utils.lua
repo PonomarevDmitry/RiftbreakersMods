@@ -43,10 +43,12 @@ function M:DroneSpot( amount, visible, blueprint )
     }
 end
 
-function M:Regeneration( regeneration, regeneration_cooldown )
+function M:Regeneration( regeneration, regeneration_cooldown, effect, effect_end )
     return {
         regeneration = regeneration,
-        regeneration_cooldown = regeneration_cooldown
+        regeneration_cooldown = regeneration_cooldown,
+        regeneration_effect = effect,
+        regeneration_end_effect = effect_end or effect
     }
 end
 
@@ -67,7 +69,7 @@ function M:PipeComponent( str )
     }
 end
 
--- For Shapes
+-- for Shapes
 function M:BoxShape( x, y, z, position )
     return {
         x = x,
@@ -77,12 +79,31 @@ function M:BoxShape( x, y, z, position )
     }
 end
 
--- for InventoryComponent 
+-- for Mech InventoryComponent 
 function M:MechInventory( name, subslots_count, allow_types )
     return {
         name = name,
         subslots_count = subslots_count or 1,
         allow_types = allow_types
+    }
+end
+
+-- for Research Tree
+function M:ResearchAward( blueprint, is_visible )
+    if is_visible == nil then
+        is_visible = true
+    end
+
+    return {
+        blueprint = blueprint,
+        is_visible = is_visible
+    }
+end
+
+function M:Node( research_name, research_awards )
+    return {
+        research_name = research_name,
+        research_awards = research_awards
     }
 end
 

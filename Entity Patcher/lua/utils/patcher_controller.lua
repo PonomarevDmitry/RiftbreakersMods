@@ -50,8 +50,32 @@ local patch_content = {
     turret = {},
     inventory = {},
     health = {},
-    mech = {}
+    mech = {},
+    rt = {
+        rt = {},
+        resources = {}
+    }
 }
+
+function controller:AddToResearchCheck( t )
+    local rt = patch_content.rt.rt
+    for category, nodes in pairs( t ) do
+        if rt[category] == nil then
+            rt[category] = {}
+        end
+
+        for i, node in ipairs( nodes ) do
+            rt[category][#rt[category] + 1] = node
+        end
+    end
+end
+
+function controller:AddToResourcesCheck( t )
+    local resources = patch_content.rt.resources
+    for k, v in pairs( t ) do
+        resources[k] = v
+    end
+end
 
 function controller:AddToWeaponCheck( t )
     local weapons = patch_content.weapons
@@ -329,6 +353,93 @@ function controller:EnsurePatch()
     EnsureInventoryItemComponent()
     EnsureHealthDesc()
 
+end
+
+function controller:EnsureResearchTree()
+    local function Awards( rt_awards, research_awards )
+        for _, rt_award in ipairs( rt_awards ) do
+            for research_award in IterItems( research_awards ) do
+                if rt_award.blueprint == research_award.blueprint then
+                    goto continue
+                end
+            end
+
+            local new_item = research_awards:create_item()
+            new_item.blueprint = rt_award.blueprint
+            new_item.is_visible = rt_award.is_visible
+            ::continue::
+        end
+    end
+
+    local function Nodes( rt_nodes, research_nodes )
+        for _, rt_node in ipairs( rt_nodes ) do
+            for research_node in IterItems( research_nodes ) do
+                if rt_node.research_name ~= research_node.research_name then
+                    goto continue
+                end
+
+                Awards( rt_node.research_awards, research_node.research_awards )
+
+                ::continue::
+            end
+        end
+
+    end
+
+    local research_component = EntityService:GetSingletonComponent( "ResearchSystemDataComponent" )
+    if research_component == nil then
+        LogService:Log( "Fail to patch Research Tree" )
+        return
+    end
+
+    local research_categories = divergent_helper( research_component ).research
+
+    for rt_category, nodes in pairs( patch_content.rt.rt ) do
+        for research_category in IterItems( research_categories ) do
+            if rt_category ~= research_category.category then
+                goto continue
+            end
+
+            Nodes( nodes, research_category.nodes )
+
+            ::continue::
+        end
+    end
+end
+
+function controller:EnsureResources( evt, resources )
+    local resources = resources or patch_content.rt.resources
+
+    local inventory = EntityService:GetSingletonComponent( "InventorySystemDataComponent" )
+    if inventory == nil then
+        LogService:Log( "Fail to check inventory" )
+        return
+    end
+
+    local unlocked = divergent_helper( inventory ).unlocked
+    for item in IterItems( unlocked ) do
+        if resources[item] == true then
+            resources[item] = false
+        end
+    end
+
+    local player = PlayerService:GetGlobalPlayerEntity( evt:GetPlayerId() )
+    local team = EntityService:GetTeam( player )
+
+    for resource, bool in pairs( resources ) do
+        if not bool then
+            goto continue
+        end
+
+        if not ResourceManager:ResourceExists( "EntityBlueprint", resource ) then
+            LogService:Log( ("Resource '%s' is not a blueprint"):format( resource ) )
+            goto continue
+        end
+
+        QueueEvent( "NewAwardEvent", INVALID_ID, resource, true, team )
+
+        ::continue::
+    end
 end
 
 return controller

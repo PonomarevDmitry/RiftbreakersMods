@@ -158,6 +158,56 @@ TypeContainerHelper.mt = {
     end
 }
 
+local function indent_multiline( s, indent )
+    s = tostring( s )
+    return (s:gsub( "\n", "\n" .. indent ))
+end
+
+local function dump_table( t, indent, depth, max_depth, seen )
+    if type( t ) ~= "table" then
+        return indent .. tostring( t )
+    end
+
+    if seen[t] then
+        return indent .. "<cycle>"
+    end
+    seen[t] = true
+
+    if depth >= max_depth then
+        seen[t] = nil
+        return indent .. "{ … }"
+    end
+
+    local lines = {}
+    lines[#lines + 1] = indent .. "{"
+
+    -- stable order (optional but makes logs nicer)
+    local keys = {}
+    for k in pairs( t ) do
+        keys[#keys + 1] = k
+    end
+    table.sort( keys, function( a, b )
+        return tostring( a ) < tostring( b )
+    end )
+
+    local child_indent = indent .. "\t"
+    for _, k in ipairs( keys ) do
+        local v = t[k]
+        if type( v ) == "table" then
+            lines[#lines + 1] = child_indent .. tostring( k ) .. " ="
+            lines[#lines + 1] = dump_table( v, child_indent, depth + 1, max_depth, seen )
+        else
+            local sv = indent_multiline( v, child_indent )
+            lines[#lines + 1] = child_indent .. tostring( k ) .. " = " .. tostring( sv )
+        end
+    end
+
+    lines[#lines + 1] = indent .. "}"
+
+    seen[t] = nil
+    return table.concat( lines, "\n" )
+end
+
 local TypeValueHelper = {};
 TypeValueHelper.mt = {
     __index = function( self, key )
@@ -212,6 +262,48 @@ TypeValueHelper.mt = {
         local res = field:SetValue( tostring( value ) )
         Assert( res, "ERROR: failed to set value on field '" .. key .. "'" )
     end,
+    pretty_log = function( self, deep, seen )
+        deep = deep or 0
+        seen = seen or {}
+
+        if seen[self] then
+            return string.rep( "\t", deep ) .. "<cycle>\n"
+        end
+        seen[self] = true
+
+        local ptr = rawget( self, "__ptr" )
+
+        local tabs = string.rep( "\t", deep )
+
+        local out = {}
+        out[#out + 1] = tabs .. ptr:GetTypeName()
+        out[#out + 1] = tabs .. "{"
+
+        for field_name in Iter( ptr:GetFieldNames() ) do
+            local field = ptr:GetField( field_name )
+            local v = self[field_name]
+
+            if type( v ) ~= "table" then
+                out[#out + 1] = tabs .. "\t" .. field_name .. " = " .. tostring( v )
+            else
+
+                out[#out + 1] = tabs .. "\t" .. field_name .. " = [" .. field:GetTypeName() .. "]"
+                if type( v.pretty_log ) == "function" then
+                    local nested = v:pretty_log( deep + 2, seen )
+
+                    out[#out + 1] = nested:sub( 1, -2 )
+                else
+                    local s = tostring( v )
+                    s = s:gsub( "\n", "\n" .. tabs .. "\t\t" )
+                    out[#out + 1] = tabs .. "\t\t" .. s
+                end
+            end
+        end
+
+        out[#out + 1] = tabs .. "}"
+        seen[self] = nil
+        return table.concat( out, "\n" ) .. "\n"
+    end,
     __tostring = function( self )
         local ptr = rawget( self, "__ptr" );
 
@@ -223,8 +315,10 @@ TypeValueHelper.mt = {
 
             local field = ptr:GetField( field_name )
             if field ~= nil then
-                local field_value = DivergentGetPodValue( field )
-                if field_value ~= nil then
+                -- local field_value = DivergentGetPodValue( field )
+                local field_value = self[field_name]
+
+                if type( field_value ) ~= "table" then
                     value = value .. tostring( field_value )
                 else
                     value = value .. "[" .. field:GetTypeName() .. "]"

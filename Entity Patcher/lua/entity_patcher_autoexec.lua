@@ -1,6 +1,8 @@
 local ep = require( "lua/entity_patcher.lua" )
 
 local entity_patcher_autoexec = function( evt )
+    ep:EnsureResearchTree()
+
     if ExecuteOnceGuard( "Entity Patcher" ) then
         return
     end
