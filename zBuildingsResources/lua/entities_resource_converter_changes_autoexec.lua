@@ -243,47 +243,6 @@ local new_resource_converter_values = {
 
     
     {
-        ["name"] = "buildings/energy/nuclear_powerplant",
-        ["resource_converter"] = {
-
-            ["uranium"] = "0.4",
-        },
-
-        ["resource_converter_comp"] = {
-
-            ["uranium"] = 400000,
-        },
-    },
-    
-    {
-        ["name"] = "buildings/energy/nuclear_powerplant_lvl_2",
-        ["resource_converter"] = {
-
-            ["uranium"] = "0.4",
-        },
-
-        ["resource_converter_comp"] = {
-
-            ["uranium"] = 400000,
-        },
-    },
-    
-    {
-        ["name"] = "buildings/energy/nuclear_powerplant_lvl_3",
-        ["resource_converter"] = {
-
-            ["uranium"] = "0.4",
-        },
-
-        ["resource_converter_comp"] = {
-
-            ["uranium"] = 400000,
-        },
-    },
-
-
-    
-    {
         ["name"] = "buildings/energy/plant_biomass_powerplant",
         ["resource_converter"] = {
 
@@ -380,19 +339,6 @@ local new_resource_converter_values = {
     
     {
         ["name"] = "buildings/resources/carbonium_factory_lvl_2",
-        ["resource_converter"] = {
-
-            ["carbon_vein"] = "0.1",
-        },
-
-        ["resource_converter_comp"] = {
-
-            ["carbon_vein"] = 100000,
-        },
-    },
-    
-    {
-        ["name"] = "buildings/resources/carbonium_factory_lvl_3",
         ["resource_converter"] = {
 
             ["carbon_vein"] = "0.1",
@@ -746,6 +692,62 @@ local new_resource_converter_values = {
         ["resource_converter_comp"] = {
 
             ["plasma_charged"] = 100000000,
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory_lvl_2",
+        ["resource_converter"] = {
+
+            ["carbonium"] = "2",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["carbonium"] = 2000000,
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/carbonium_factory_lvl_3",
+        ["resource_converter"] = {
+
+            ["carbon_vein"] = "4",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["carbon_vein"] = 4000000,
+        },
+    },
+
+
+    
+    {
+        ["name"] = "buildings/resources/steel_factory_lvl_2",
+        ["resource_converter"] = {
+
+            ["steel"] = "2",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["steel"] = 2000000,
+        },
+    },
+    
+    {
+        ["name"] = "buildings/resources/steel_factory_lvl_3",
+        ["resource_converter"] = {
+
+            ["steel"] = "4",
+        },
+
+        ["resource_converter_comp"] = {
+
+            ["steel"] = 4000000,
         },
     },
 }
