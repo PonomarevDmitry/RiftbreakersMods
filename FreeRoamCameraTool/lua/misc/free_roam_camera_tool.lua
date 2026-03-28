@@ -15,6 +15,9 @@ end
 
 function free_roam_camera_tool:InitializeValues()
 
+    self.previousSelected = {}
+    self.selectedEntities = {}
+
     self.selector = EntityService:GetParent( self.entity )
 
     self:RegisterHandler( self.selector, "ActivateSelectorRequest", "OnActivateSelectorRequest" )
@@ -46,18 +49,136 @@ function free_roam_camera_tool:InitializeValues()
 
     self.stepAngle = 5
     --self.stepAngle = 1
-    
-	self.stateMachine = self:CreateStateMachine()
-	self.stateMachine:AddState( "delay", { execute="OnDelayExecute", interval = 0.5 } )
-	self.stateMachine:AddState( "working", { execute="OnWorkExecute", interval = 0.1 } )
-end
 
-function free_roam_camera_tool:OnDelayExecute()
+    local boundsSize = EntityService:GetBoundsSize( self.selector )
+    self.boundsSize = VectorMulByNumber( boundsSize, 0.5 )
 
+    self.stateMachine = self:CreateStateMachine()
+    self.stateMachine:AddState( "working", { execute="OnWorkExecute" } )
     self.stateMachine:ChangeState("working")
+    
+    self.clickStateMachine = self:CreateStateMachine()
+    self.clickStateMachine:AddState( "delay", { execute="OnClickDelayExecute", interval = 0.5 } )
+    self.clickStateMachine:AddState( "working", { execute="OnClickWorkExecute", interval = 0.1 } )
 end
 
 function free_roam_camera_tool:OnWorkExecute()
+    
+    local selectorComponent = EntityService:GetComponent(self.selector, "BuildingSelectorComponent") 
+
+    local previousSelection = self.selectedEntities
+
+    self.selectedEntities =  self:FindEntitiesToSelect( reflection_helper(selectorComponent) )
+
+    for ent in Iter( previousSelection ) do 
+        if ( IndexOf( self.selectedEntities, ent ) == nil ) then
+            self:RemovedFromSelection( ent )
+        end
+    end
+    
+    for ent in Iter( self.selectedEntities ) do 
+        if ( IndexOf( previousSelection, ent ) == nil ) then
+            self:AddedToSelection( ent )
+        end
+    end
+end
+
+function free_roam_camera_tool:FindEntitiesToSelect( selectorComponent)
+
+    self.position = selectorComponent.position
+
+    local min = VectorSub( self.position, self.boundsSize )
+    local max = VectorAdd( self.position, self.boundsSize )
+
+    local possibleSelectedEnts = {}
+
+    local scaleSelector = 0
+    local stepScaleSelector = 0.5
+    local maxScaleSelector = 2
+
+    while (#possibleSelectedEnts == 0 and scaleSelector < maxScaleSelector) do
+
+        local predicate = {
+
+            signature="SelectableComponent",
+
+            filter = function(entity)
+                local pos = EntityService:GetPosition(entity )
+                local distance = Distance( self.position, pos )
+
+                local bounds = EntityService:GetBoundsSize( entity )
+
+                if ( EntityService:GetGroup(entity ) == "##ruins##" ) then
+                    local size = Length(bounds)
+                    return distance <= size
+                end
+
+                if( EntityService:HasComponent( entity, "BuildingComponent" ) == true ) then
+                    return false
+                end
+
+                local maxSize = math.max(bounds.x, bounds.z)
+
+                return distance <= maxSize
+            end
+        };
+
+        scaleSelector = scaleSelector + stepScaleSelector
+
+        min = VectorSub(self.position, VectorMulByNumber( self.boundsSize, scaleSelector) )
+        max = VectorAdd(self.position, VectorMulByNumber( self.boundsSize, scaleSelector) )
+
+        possibleSelectedEnts = FindService:FindEntitiesByPredicateInBox( min, max, predicate );
+    end
+
+    local sorter = function( t, lhs, rhs )
+        local p1 = EntityService:GetPosition(lhs )
+        local p2 = EntityService:GetPosition(rhs )
+        local d1 = Distance( self.position, p1 )
+        local d2 = Distance( self.position, p2 )
+        return d1 < d2
+    end
+
+    table.sort(possibleSelectedEnts, function(a,b) return sorter(possibleSelectedEnts, a, b) end)
+
+    local selectedEntities = {}
+
+    for testEntity in Iter(possibleSelectedEnts ) do
+
+        local entity = EntityService:GetAncestorWithSignature( testEntity, "SelectableComponent" )
+        if ( entity == INVALID_ID ) then goto continue end
+
+        local buildingsComponent = EntityService:GetComponent( entity, "BuildingComponent" )
+
+        if ( buildingComponent ~= nil ) then
+            local mode = tonumber( buildingComponent:GetField("mode"):GetValue() )
+            if ( mode <= 2 ) then goto continue end
+        end
+
+        Insert(selectedEntities, entity )
+
+        ::continue::
+    end
+
+    return selectedEntities
+end
+
+function free_roam_camera_tool:AddedToSelection( entity )
+
+    QueueEvent( "SelectEntityRequest", entity )
+end
+
+function free_roam_camera_tool:RemovedFromSelection( entity )
+
+    QueueEvent( "DeselectEntityRequest", entity )
+end
+
+function free_roam_camera_tool:OnClickDelayExecute()
+
+    self.clickStateMachine:ChangeState("working")
+end
+
+function free_roam_camera_tool:OnClickWorkExecute()
 
     if ( self.activated )  then
         
@@ -71,7 +192,7 @@ function free_roam_camera_tool:OnActivateSelectorRequest()
 
     self:ChangeCameraLocation()
 
-    self.stateMachine:ChangeState("delay")
+    self.clickStateMachine:ChangeState("delay")
 end
 
 function free_roam_camera_tool:ChangeCameraLocation()
@@ -91,7 +212,7 @@ function free_roam_camera_tool:OnDeactivateSelectorRequest()
 
     self.activated = false
 
-    self.stateMachine:Deactivate()
+    self.clickStateMachine:Deactivate()
 end
 
 function free_roam_camera_tool:OnRotateSelectorRequest( evt )
@@ -134,6 +255,10 @@ function free_roam_camera_tool:OnRotateSelectorRequest( evt )
 end
 
 function free_roam_camera_tool:OnRelease()
+
+    for entity in Iter( self.selectedEntities ) do
+        self:RemovedFromSelection( entity )
+    end
 
     local cameraOwner = EntityService:GetParent(self.cameraEnt)
 
