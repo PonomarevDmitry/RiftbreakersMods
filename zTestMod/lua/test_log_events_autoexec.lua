@@ -612,6 +612,30 @@
 --    LogService:Log(text)
 --end)
 
+--RegisterGlobalEventHandler("ActivateItemRequest", function(evt)
+--
+--    local text = "ActivateItemRequest " .. tostring(evt)
+--
+--    if (evt ~= nil) then
+--
+--        local entity = evt:GetEntity()
+--
+--        local continous = evt:GetContinous()
+--
+--        local activationId = evt:GetActivationId()
+--
+--        text = text .. "\n" .. "entityBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " entity " .. tostring(entity)
+--
+--        text = text .. "\n" .. "continous " .. tostring(continous)
+--
+--        text = text .. "\n" .. "activationId " .. tostring(activationId)
+--
+--        text = text .. "\n"
+--        text = text .. "\n"
+--    end
+--
+--    LogService:Log(text)
+--end)
 
 
 
