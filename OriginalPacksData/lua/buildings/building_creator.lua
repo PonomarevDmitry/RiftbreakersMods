@@ -18,7 +18,7 @@ function building_creator:CalculateBuildingBuildTime( database )
 	end
 
 	if ( BuildingService.CalculateBuildTime ) then
-		return BuildingService:CalculateBuildTime( self.parent );
+		return BuildingService:CalculateBuildTime( self.parent, self.owner );
 	end
 	
 	local time = self.data:GetFloatOrDefault( "building_time", 1 )
@@ -55,6 +55,7 @@ function building_creator:init()
 	end
 
 	self.meshEnt = BuildingService:GetMeshEntity(self.parent);
+	self.owner = GetOwner( self.parent )
 	self.buildingTime = math.max( 0.1, self:CalculateBuildingBuildTime( self.data ) )
 	self.materials = self:GetMaterials()
 	self.buildingMultiplier =  math.max( 0.1,  ConsoleService:GetConfig("building_speed_multiplier") )
@@ -75,7 +76,6 @@ function building_creator:init()
 	self.isFloor = self.buildingType == "floor"
 	self.checkCollision = self.isFloor == false and  self.data:GetIntOrDefault("check_collison", 1 )
 	self.nextState = ""
-	self.owner = GetOwner( self.parent )
 	self.isAddon = self.data:GetIntOrDefault("is_addon", 0) == 1
 	if ( self.isAddon) then
 		self.occupiedCheckEnt =  EntityService:GetAncestorWithSignature( self.parent, "BuildingComponent" )		

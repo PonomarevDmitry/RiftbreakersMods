@@ -169,6 +169,7 @@ function mega_rift_station:SpecialAction()
 		self.activated = true
 		BuildingService:EnableBuilding( self.entity )
         EntityService:DisableComponent( self.entity, "InteractiveComponent")
+		BuildingService:DisableSellOption( self.entity )
         self.data:SetInt("is_special_action_enabled",0)
 		MissionService:ActivateMissionFlow("logic/missions/campaigns/story/mega_final_attack_start.logic")
 	end
@@ -214,6 +215,7 @@ function mega_rift_station:OnLuaGlobalEvent( event )
         BuildingService:DisableBuilding( self.entity )
 		self:DestroyEffectsByType( "powered" )
 		self.activated = false
+		BuildingService:EnableSellOption( self.entity )
 	elseif ( event:GetEvent() == "PrimePortalResetEndEvent") then
 		self.reseting = false
 		self.activated = false

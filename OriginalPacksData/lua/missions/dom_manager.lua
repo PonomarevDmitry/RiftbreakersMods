@@ -173,7 +173,7 @@ end
 
 function dom_mananger:OnStartUpgradingEvent( evt )
 	local buildingName = BuildingService:GetBuildingName( evt:GetEntity() );
-	local upgradeTime = BuildingService:CalculateBuildTime( evt:GetEntity() )
+	local upgradeTime = BuildingService:CalculateBuildTime( evt:GetEntity(), 0 )
 
 	LogService:Log( "Upgrading building : " .. buildingName .. " in time " .. tostring( upgradeTime ) )
 

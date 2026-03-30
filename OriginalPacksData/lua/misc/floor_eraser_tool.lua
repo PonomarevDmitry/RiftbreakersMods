@@ -139,38 +139,14 @@ function floor_eraser:SellFloor()
 
     local gridToErase = FindService:GetEntityCellIndexes(self.entity )
 
+    LogService:Log( tostring( #gridToErase ) )
     for i = 1, #self.selectedEntities do
         local entityToSell = self.selectedEntities[i]
         if (entityToSell == nil or  not EntityService:IsAlive( entityToSell) ) then goto continue end
 
-        local indexes = EntityService:GetEntityCellIndexes( entityToSell )
-        local entityBlueprint = EntityService:GetBlueprintName( entityToSell )
-        if( #indexes == 0 or entityBlueprint == "" ) then goto continue end
-
-        local freeGrids = {}
-        for i=#indexes,1,-1 do 
-            local add = true
-            for j=1,#gridToErase do
-                if ( gridToErase[j] == indexes[i]) then
-                    add = false
-                    break
-                end
-            end
-            if (add ) then
-                Insert(freeGrids, indexes[i] )
-            end
-        end
-        if ( #freeGrids > 0 ) then
-            Insert(toRecreate, {["bp"]=entityBlueprint,["indexes"] = freeGrids })
-        end
-
-        QueueEvent("SellBuildingRequest", entityToSell, self.playerId, false )
+        QueueEvent("SellFloorsRequest", entityToSell, self.playerId, gridToErase )
         ::continue::
     end
-    
-    for recreateRequest in Iter( toRecreate ) do
-        self:FillWithFloors( recreateRequest["bp"], recreateRequest["indexes"] )
-    end 
 
     self.buildPosition = currentPosition
 end

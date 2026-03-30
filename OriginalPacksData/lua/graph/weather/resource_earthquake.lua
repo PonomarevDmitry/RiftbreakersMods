@@ -34,7 +34,7 @@ function resource_earthquake:Activated()
 
 	local X, Y, Z = 0, 0, 0
 
-	local spaces = ResourceService:FindEmptySpacesNearPlayer( minDistanceFromPlayer, maxDistanceFromPlayer, 3 )
+	local spaces = ResourceService:FindEmptySpacesNearPlayer( minDistanceFromPlayer, maxDistanceFromPlayer, 3, radius )
 
 	local numSpaces = #spaces
 	for i = 1, numSpaces do

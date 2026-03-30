@@ -16,7 +16,8 @@ function time_repair:init()
 
     local currentHealth = HealthService:GetHealth( self.parent )
     local maxHealth = HealthService:GetMaxHealth( self.parent )
-    local buildTime =  BuildingService:CalculateBuildTime( self.parent );
+    self.player = self.data:GetIntOrDefault("player",PlayerService:GetLeadingPlayer())
+    local buildTime =  BuildingService:CalculateBuildTime( self.parent,self.player );
 
     local percent = currentHealth / maxHealth
     local activationsPercent = 1.0
@@ -48,14 +49,8 @@ function time_repair:init()
     local missingHealth = maxHealth - currentHealth
     self.repairAmount = missingHealth / step
 
-    self.player = self.data:GetIntOrDefault("player",-1 )
 
-    local canAffordRepair = false
-    if ( self.player == -1 ) then
-        canAffordRepair = BuildingService:PayRepairCosts( self.parent, PlayerService:GetLeadingPlayer(), self.repairAmount )
-    else
-        canAffordRepair = BuildingService:PayRepairCosts( self.parent, self.player, self.repairAmount )
-    end
+    local canAffordRepair = BuildingService:PayRepairCosts( self.parent, self.player, self.repairAmount )
 
     self.cubeReachBuilding = false
     self.cleanup = false

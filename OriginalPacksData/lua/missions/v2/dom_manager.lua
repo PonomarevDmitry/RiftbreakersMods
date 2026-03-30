@@ -864,7 +864,7 @@ end
 
 function dom_mananger:OnStartUpgradingEvent( evt )
 	local buildingName = BuildingService:GetBuildingName( evt:GetEntity() );
-	local upgradeTime = BuildingService:CalculateBuildTime( evt:GetEntity() )
+	local upgradeTime = BuildingService:CalculateBuildTime( evt:GetEntity(), 0 )
 
 	for i = 1, #self.rules.buildingsUpgradeStartsLogic, 1 do 
 		if ( self.rules.buildingsUpgradeStartsLogic[i].name == buildingName ) then

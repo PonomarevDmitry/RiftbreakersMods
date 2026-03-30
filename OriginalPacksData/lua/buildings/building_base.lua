@@ -11,14 +11,6 @@ function building_base:__init()
 	day_cycle_machine.__init(self,self)
 end
 
-local function CalculateBuildingBuildTime( entity )
-	if ( BuildingService.CalculateBuildTime ) then
-		return BuildingService:CalculateBuildTime( entity );
-	end
-	local time self.data:GetFloatOrDefault( "building_time", 1 )
-	return time * BuildingService:GetBuildingSpeedMultiplier() * DifficultyService:GetBuildingSpeedMultiplier()
-end
-
 function building_base:init()
 	self.version = 2
 	SetupBuildingScale( self.entity, self.data )
@@ -52,15 +44,19 @@ function building_base:init()
 		self.data:SetInt( "owner", playerId )
 	end
 	
-	self.buildingTime = math.max( 0.1, CalculateBuildingBuildTime( self.entity ) )
+	local buildingComponent = EntityService:GetComponent(self.entity, "BuildingComponent")
+	self.buildingType = buildingComponent:GetField("type"):GetValue()
+	self.buildingName = buildingComponent:GetField("name"):GetValue()
+	self.owner =tonumber( buildingComponent:GetField( "owner" ):GetValue())
+
+	LogService:Log( tostring( self.entity) .. " : " .. tostring( self.owner ))
+	local time = BuildingService:CalculateBuildTime( self.entity, self.owner )
+	self.buildingTime = math.max( 0.1, time )
 	self.sellTime = 2
 	self.materials = self:GetMaterials()
 
 	self:OnInit()
-	local buildingComponent = EntityService:GetComponent(self.entity, "BuildingComponent")
-	self.buildingType = buildingComponent:GetField("type"):GetValue()
-	self.buildingName = buildingComponent:GetField("name"):GetValue()
-	
+
 	self:CreateBuildingStateMachine()
 	self.extendLength = 0.5
 	self.lastProgress = 0
