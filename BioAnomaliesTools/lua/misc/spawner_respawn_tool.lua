@@ -51,7 +51,7 @@ function spawner_respawn_tool:OnInit()
         ["props/special/loot_container_caverns_superior"] = "spawners/caverns_spawner_superior",
         ["props/special/loot_container_caverns_extreme"] = "spawners/caverns_spawner_extreme",
 
-        ["props/special/loot_containers/loot_container_ice_standard"] = "spawners/ice_spawner_standard",
+        ["props/special/loot_containers/loot_container_ice"] = "spawners/ice_spawner_standard",
         ["props/special/loot_containers/loot_container_ice_advanced"] = "spawners/ice_spawner_advanced",
         ["props/special/loot_containers/loot_container_ice_superior"] = "spawners/ice_spawner_superior",
         ["props/special/loot_containers/loot_container_ice_extreme"] = "spawners/ice_spawner_extreme",
