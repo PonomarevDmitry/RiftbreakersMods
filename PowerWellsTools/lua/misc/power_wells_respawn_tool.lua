@@ -36,9 +36,17 @@ function power_wells_respawn_tool:OnInit()
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
     self.globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
 
-    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
+    local globalPlayerEntityDB = nil
+    if ( self.globalPlayerEntity and self.globalPlayerEntity ~= INVALID_ID ) then
+    
+        globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+    end
+    
+    self.storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, self.parameterNameStoreBlueprints)
 
     self:FillStoredPowerWells()
+
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
 
     self.selectedBlueprint = selectorDB:GetStringOrDefault( self.parameterNameSelectedBlueprint, "" ) or ""
 
@@ -59,14 +67,6 @@ end
 function power_wells_respawn_tool:FillStoredPowerWells()
 
     self.storeBlueprintsArray = {}
-
-    local globalPlayerEntityDB = nil
-    if ( self.globalPlayerEntity and self.globalPlayerEntity ~= INVALID_ID ) then
-    
-        globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
-    end
-    
-    self.storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, self.parameterNameStoreBlueprints)
 
     if ( self.storeBlueprints == nil ) then
         return
@@ -259,13 +259,8 @@ function power_wells_respawn_tool:OnActivate()
         self.storeBlueprints[self.selectedBlueprint] = nil
     end
 
-    local currentListString = PowerWellsToolsUtils:FormatStoredBlueprintsString(self.storeBlueprints)
 
-    local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
-
-    if ( globalPlayerEntityDB ) then
-        globalPlayerEntityDB:SetString(self.parameterNameStoreBlueprints, currentListString)
-    end
+    
 
     QueueEvent("OperateActionMapperRequest", self.globalPlayerEntity, mapperName, false )
 
