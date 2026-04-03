@@ -47,6 +47,7 @@ function picker_tool:OnInit()
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
+    self.powerWellsDestroyExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_destroy" ) and (mod_picker_tool_extension_power_wells_destroy ~= nil and mod_picker_tool_extension_power_wells_destroy == 1);
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
     self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
@@ -297,6 +298,10 @@ function picker_tool:AddedToSelection( entity )
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
         self:SetEntitySelectedMaterial( entity, "hologram/current" )
+ 
+    elseif ( self.powerWellsDestroyExists and self.isPowerWell(entity) ) then
+
+        QueueEvent( "SelectEntityRequest", entity )
 
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
@@ -388,6 +393,10 @@ function picker_tool:RemovedFromSelection( entity )
     elseif ( self.activateBioAnomaliesExists and self.isBioAnomaly(entity) ) then
 
         self:RemoveEntitySelectedMaterial( entity )
+ 
+    elseif ( self.powerWellsDestroyExists and self.isPowerWell(entity) ) then
+
+        QueueEvent( "DeselectEntityRequest", entity )
 
     elseif ( self.wrecksEraserExists and self.isWreck(entity) ) then
 
@@ -470,6 +479,10 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
 
     if ( self.activateBioAnomaliesExists ) then
         self:AddBioAnomalies( selectedItems, min, max, sorter )
+    end
+ 
+    if ( self.powerWellsDestroyExists ) then
+        self:AddPowerWells( selectedItems, min, max, sorter )
     end
 
     if ( self.healingToolExists ) then
@@ -683,6 +696,76 @@ function picker_tool:AddBioAnomalies( selectedItems, min, max, sorter )
         if ( databaseEntity:HasString("forced_group") ) then
 
             goto labelContinue
+        end
+
+        Insert( result, entity )
+
+        ::labelContinue::
+    end
+
+    table.sort(result, sorter)
+
+    ConcatUnique( selectedItems, result )
+end
+
+function picker_tool:AddPowerWells( selectedItems, min, max, sorter )
+
+    local predicate = {
+
+        signature="SelectableComponent,InteractiveComponent,GridCullerComponent"
+    };
+
+    local searchEntities = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+
+    local result = {}
+
+    for entity in Iter( searchEntities ) do
+
+        if ( entity == nil or entity == INVALID_ID ) then
+            goto labelContinue
+        end
+
+        if ( not EntityService:IsAlive( entity ) ) then
+            goto labelContinue
+        end
+
+        if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
+
+        local stringNumber = string.find( blueprintName, "props/special/power_wells/power_well_source_" )
+        if ( stringNumber ~= 1 ) then
+
+            goto labelContinue
+        end
+
+        local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
+        if ( interactiveComponent == nil ) then
+            goto labelContinue
+        end
+
+        local interactiveComponentRef = reflection_helper( interactiveComponent )
+        if ( interactiveComponentRef.slot ~= "ACTIVATOR" ) then
+            goto labelContinue
+        end
+
+        local databaseEntity = EntityService:GetOrCreateDatabase( entity )
+        if ( databaseEntity ~= nil ) then
+            
+            if ( not databaseEntity:HasString("blueprint") ) then
+
+                goto labelContinue
+            end
+
+            local blueprintName = databaseEntity:GetString("blueprint")
+
+            local stringNumber = string.find( blueprintName, "props/special/power_wells/power_well_" )
+            if ( stringNumber ~= 1 ) then
+
+                goto labelContinue
+            end
         end
 
         Insert( result, entity )
@@ -1168,6 +1251,62 @@ picker_tool.isBioAnomaly = function( entity )
     return true
 end
 
+picker_tool.isPowerWell = function( entity )
+
+    if ( entity == nil or entity == INVALID_ID ) then
+
+        return false
+    end
+
+    local blueprintName = EntityService:GetBlueprintName( entity )
+
+    local stringNumber = string.find( blueprintName, "props/special/power_wells/power_well_source_" )
+    if ( stringNumber ~= 1 ) then
+
+        return false
+    end
+
+    if ( not EntityService:HasComponent( entity, "SelectableComponent" ) ) then
+
+        return false
+    end
+
+    if ( not EntityService:HasComponent( entity, "GridCullerComponent" ) ) then
+
+        return false
+    end
+
+    local interactiveComponent = EntityService:GetConstComponent( entity, "InteractiveComponent" )
+    if ( interactiveComponent == nil ) then
+        return false
+    end
+
+    local interactiveComponentRef = reflection_helper( interactiveComponent )
+    if ( interactiveComponentRef.slot ~= "ACTIVATOR" ) then
+        return false
+    end
+
+    local databaseEntity = EntityService:GetOrCreateDatabase( entity )
+    if ( databaseEntity == nil ) then
+        return false
+    end
+            
+    if ( not databaseEntity:HasString("blueprint") ) then
+
+        return false
+    end
+
+    local blueprintName = databaseEntity:GetString("blueprint")
+
+    local stringNumber = string.find( blueprintName, "props/special/power_wells/power_well_" )
+    if ( stringNumber ~= 1 ) then
+
+        return false
+    end
+
+    return true
+end
+
 picker_tool.isWreck = function( entity )
 
     if ( EntityService:HasComponent( entity, "TeamComponent" ) ) then
@@ -1330,6 +1469,15 @@ function picker_tool:OnActivateSelectorRequest()
     if ( self.activateBioAnomaliesExists ) then
 
         if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isBioAnomaly, "buildings/tools/spawner_activate", true ) ) then
+            return
+        end
+    end
+
+
+
+    if ( self.powerWellsDestroyExists ) then
+
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isPowerWell, "buildings/tools/power_wells_destroy", true ) ) then
             return
         end
     end
