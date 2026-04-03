@@ -168,3 +168,58 @@ local supported_item_blueprints = {
 }
 
 InjectChangePowerWellBlueprintDatabaseComponent(supported_item_blueprints)
+
+
+
+local InjectChangeBlueprintIdComponent = function(blueprintsList)
+
+    for _,blueprintName in ipairs(blueprintsList) do
+
+        local blueprint = ResourceManager:GetBlueprint( blueprintName )
+
+        if ( blueprint == nil ) then
+
+            LogService:Log("InjectChangeBlueprintIdComponent Blueprint " .. blueprintName .. " NOT EXISTS.")
+            return
+        end
+
+        local idComponent = blueprint:GetComponent("IdComponent")
+
+        local hashValue = CalcHash("")
+
+        if idComponent ~= nil then
+    
+            local groupValue = idComponent:GetField("group")
+
+            if groupValue ~= nil then
+    
+                groupValue:SetValue("")
+
+            else
+                
+                LogService:Log("InjectChangeBlueprintIdComponent Blueprint " .. blueprintName .. " IdComponent group == nil.")
+            end
+
+            local group_hashValue = idComponent:GetField("group_hash")
+
+            if group_hashValue ~= nil then
+    
+                group_hashValue:GetField("hash"):SetValue(tostring(hashValue))
+
+            else
+                
+                LogService:Log("InjectChangeBlueprintIdComponent Blueprint " .. blueprintName .. " IdComponent group_hashValue == nil.")
+            end
+        else
+                
+            LogService:Log("InjectChangeBlueprintIdComponent Blueprint " .. blueprintName .. " IdComponent NOT EXISTS.")
+        end
+    end
+end
+
+local supported_item_blueprintsLimit = {
+
+    "props/special/power_wells/power_well_base"
+}
+
+InjectChangeBlueprintIdComponent(supported_item_blueprintsLimit)
