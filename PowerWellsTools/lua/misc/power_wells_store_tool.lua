@@ -1,27 +1,27 @@
 local tool = require("lua/misc/tool.lua")
 require("lua/utils/table_utils.lua")
 
-class 'power_wells_destroy_tool' ( tool )
+class 'power_wells_store_tool' ( tool )
 
-function power_wells_destroy_tool:__init()
+function power_wells_store_tool:__init()
     tool.__init(self,self)
 end
 
-function power_wells_destroy_tool:OnInit()
-    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_power_wells_destroy_tool", self.entity)
+function power_wells_store_tool:OnInit()
+    self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_power_wells_store_tool", self.entity)
 end
 
-function power_wells_destroy_tool:OnPreInit()
+function power_wells_store_tool:OnPreInit()
     self.initialScale = { x=8, y=1, z=8 }
 end
 
-function power_wells_destroy_tool:SpawnCornerBlueprint()
+function power_wells_store_tool:SpawnCornerBlueprint()
     if ( self.corners == nil ) then
         self.corners = EntityService:SpawnAndAttachEntity("misc/marker_selector_corner_tool", self.entity )
     end
 end
 
-function power_wells_destroy_tool:FindEntitiesToSelect( selectorComponent )
+function power_wells_store_tool:FindEntitiesToSelect( selectorComponent )
 
     local position = selectorComponent.position
 
@@ -105,7 +105,7 @@ function power_wells_destroy_tool:FindEntitiesToSelect( selectorComponent )
     return result
 end
 
-function power_wells_destroy_tool:AddedToSelection( entity )
+function power_wells_store_tool:AddedToSelection( entity )
 
     EntityService:SetMaterial( entity, "hologram/current", "selected" )
 
@@ -117,7 +117,7 @@ function power_wells_destroy_tool:AddedToSelection( entity )
     end
 end
 
-function power_wells_destroy_tool:RemovedFromSelection( entity )
+function power_wells_store_tool:RemovedFromSelection( entity )
     EntityService:RemoveMaterial( entity, "selected" )
     local children = EntityService:GetChildren( entity, true )
     for child in Iter( children ) do
@@ -127,10 +127,10 @@ function power_wells_destroy_tool:RemovedFromSelection( entity )
     end
 end
 
-function power_wells_destroy_tool:OnRotate()
+function power_wells_store_tool:OnRotate()
 end
 
-function power_wells_destroy_tool:OnActivateSelectorRequest()
+function power_wells_store_tool:OnActivateSelectorRequest()
 
     self.activated = true
 
@@ -139,7 +139,7 @@ function power_wells_destroy_tool:OnActivateSelectorRequest()
     end
 end
 
-function power_wells_destroy_tool:OnActivateEntity( entity )
+function power_wells_store_tool:OnActivateEntity( entity )
 
     if ( not EntityService:IsAlive( entity ) ) then
         return
@@ -150,4 +150,4 @@ function power_wells_destroy_tool:OnActivateEntity( entity )
     QueueEvent("OperateActionMapperRequest", entity, mapperName, false )
 end
 
-return power_wells_destroy_tool
+return power_wells_store_tool

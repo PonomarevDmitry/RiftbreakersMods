@@ -13,7 +13,7 @@ local spawners_autoexec = function(evt)
         return
     end
 
-    BuildingService:UnlockBuilding("buildings/tools/power_wells_destroy")
+    BuildingService:UnlockBuilding("buildings/tools/power_wells_store")
     BuildingService:UnlockBuilding("buildings/tools/power_wells_respawn")
 end
 
