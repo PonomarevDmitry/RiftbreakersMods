@@ -20,15 +20,94 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     local mapperName = evt:GetMapperName()
 
-    if ( mapperName == "PowerWellReStoreRequest" ) then
+    local stringNumber = string.find( mapperName, "PowerWellRespawnRequest" )
 
-        local entity = evt:GetEntity()
+    if ( stringNumber == 1 ) then
 
-        if ( not EntityService:IsAlive(entity) ) then
+        local globalPlayerEntity = evt:GetEntity()
+
+        if ( not EntityService:IsAlive(globalPlayerEntity) ) then
             return
         end
 
+        local splitArray = Split( mapperName, "|" )
+
+        if ( #splitArray ~= 7 ) then
+            return
+        end
         
+        local blueprintName = splitArray[2]
+
+        if ( blueprintName == nil or blueprintName == "" ) then
+            return
+        end
+
+        if ( not ResourceManager:ResourceExists( "EntityBlueprint", blueprintName ) ) then
+            return
+        end
+
+        local positionXString = splitArray[3]
+        local positionYString = splitArray[4]
+        local positionZString = splitArray[5]
+        local orientationYString = splitArray[6]
+        local orientationWString = splitArray[7]
+        
+        local positionX = tonumber( positionXString )
+        local positionY = tonumber( positionYString )
+        local positionZ = tonumber( positionZString )
+
+        local orientationY = tonumber( orientationYString )
+        local orientationW = tonumber( orientationWString )
+
+        if ( positionX == nil or positionY == nil or positionZ == nil or orientationY == nil or orientationW == nil ) then
+            return
+        end
+
+        local position = {}
+
+        position.x = positionX
+        position.y = positionY
+        position.z = positionZ
+
+        local orientation = {}
+
+        orientation.x = 0
+        orientation.y = orientationY
+        orientation.z = 0
+        orientation.w = orientationW
+
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+        if ( globalPlayerEntityDB == nil ) then
+            return
+        end
+
+        local parameterName = "$PowerWellStore"
+
+        local storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, parameterName)
+
+        if ( storeBlueprints == nil ) then
+            return
+        end
+
+        storeBlueprints[blueprintName] = storeBlueprints[blueprintName] or 0
+
+        local team = EntityService:GetTeam( "player" )
+
+        local newPowerWell = EntityService:SpawnEntity(blueprintName, position, team )
+        EntityService:SetOrientation( newPowerWell, orientation )
+
+        local newPowerWellDB = EntityService:GetOrCreateDatabase( newPowerWell )
+        if ( newPowerWellDB ~= nil ) then
+            newPowerWellDB:SetInt("$PowerWellRespawned", 1)
+        end
+
+        storeBlueprints[blueprintName] = storeBlueprints[blueprintName] - 1
+
+        if ( storeBlueprints[blueprintName] <= 0 ) then
+            storeBlueprints[blueprintName] = nil
+        end
+
+        PowerWellsToolsUtils:SaveStoredBlueprints(globalPlayerEntity, globalPlayerEntityDB, parameterName, storeBlueprints)
 
         return
     end
@@ -70,8 +149,6 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return
         end
 
-        local blueprintName = EntityService:GetBlueprintName( entity )
-
         local parameterName = "$PowerWellStore"
 
         local storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, parameterName)
@@ -79,6 +156,8 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         if ( storeBlueprints == nil ) then
             return
         end
+
+        local blueprintName = EntityService:GetBlueprintName( entity )
 
         local oldValue = storeBlueprints[blueprintName] or 0
 
@@ -91,6 +170,8 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return
         end
 
+        local changeValue = 1
+
         entityDB:SetInt("$PowerWellStore_Destroy", 1)
         entityDB:SetInt("working", 0)
 
@@ -102,8 +183,6 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         EntityService:RequestDestroyPattern( entity, "interact", false )
 
         EntityService:RemoveEntity(entity, 2.0)
-
-        local changeValue = 1
 
         newValue = oldValue + changeValue
 

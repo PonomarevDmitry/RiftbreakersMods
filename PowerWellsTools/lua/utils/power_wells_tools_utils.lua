@@ -59,7 +59,7 @@ function PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, paramete
     return result
 end
 
-function PowerWellsToolsUtils:SaveStoredBlueprints(globalPlayerEntity, globalPlayerEntityDB, parameterName, storeBlueprints)
+function PowerWellsToolsUtils:FormatStoredBlueprintsString(storeBlueprints)
 
     local keys = {}
 
@@ -102,6 +102,13 @@ function PowerWellsToolsUtils:SaveStoredBlueprints(globalPlayerEntity, globalPla
 
         currentListString = table.concat( currentListArray, "|" )
     end
+
+    return currentListString
+end
+
+function PowerWellsToolsUtils:SaveStoredBlueprints(globalPlayerEntity, globalPlayerEntityDB, parameterName, storeBlueprints)
+
+    local currentListString = PowerWellsToolsUtils:FormatStoredBlueprintsString(storeBlueprints)
 
     if ( globalPlayerEntityDB ) then
         globalPlayerEntityDB:SetString(parameterName, currentListString)

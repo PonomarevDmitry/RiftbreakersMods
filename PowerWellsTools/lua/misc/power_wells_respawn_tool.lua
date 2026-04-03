@@ -24,6 +24,9 @@ function power_wells_respawn_tool:OnInit()
         EntityService:ChangeMaterial( child, "hologram/blue")
     end
 
+    self.parameterNameStoreBlueprints = "$PowerWellStore"
+    self.parameterNameSelectedBlueprint = "$power_wells_respawn_tool_selected_blueprint"
+
     local transform = EntityService:GetWorldTransform( self.entity )
     
     self:CheckEntityBuildable( self.entity, transform )
@@ -31,8 +34,70 @@ function power_wells_respawn_tool:OnInit()
     self.ghostBlueprint = self.data:GetStringOrDefault("building_blueprint", "")
 
     self.playerEntity = PlayerService:GetPlayerControlledEnt( self.playerId )
+    self.globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( self.playerId )
+
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
+
+    self:FillStoredPowerWells()
+
+    self.selectedBlueprint = selectorDB:GetStringOrDefault( self.parameterNameSelectedBlueprint, "" ) or ""
+
+    self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
+
+    if ( #self.storeBlueprintsArray == 0 ) then
+
+        self.selectedBlueprint = nil
+
+        EntityService:SetVisible( self.entity, false )
+    end
 
     self:SpawnMarker()
+
+    self:UpdateMarker()
+end
+
+function power_wells_respawn_tool:FillStoredPowerWells()
+
+    self.storeBlueprintsArray = {}
+
+    local globalPlayerEntityDB = nil
+    if ( self.globalPlayerEntity and self.globalPlayerEntity ~= INVALID_ID ) then
+    
+        globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+    end
+    
+    self.storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, self.parameterNameStoreBlueprints)
+
+    if ( self.storeBlueprints == nil ) then
+        return
+    end
+
+    for blueprintName, count in pairs( self.storeBlueprints ) do
+
+        if ( count > 0 ) then
+        
+            Insert(self.storeBlueprintsArray, blueprintName)
+        end
+    end
+
+    table.sort(self.storeBlueprintsArray)
+end
+
+function power_wells_respawn_tool:CheckSelectedBlueprintExist( selectedBlueprint )
+
+    local index = IndexOf(self.storeBlueprintsArray, selectedBlueprint )
+
+    if ( index ~= nil ) then
+
+        return selectedBlueprint
+    end
+
+    if ( #self.storeBlueprintsArray > 0 ) then
+
+        return self.storeBlueprintsArray[1]
+    end
+
+    return nil
 end
 
 function power_wells_respawn_tool:SpawnMarker()
@@ -45,16 +110,72 @@ function power_wells_respawn_tool:SpawnMarker()
 
     local sizeSelf = EntityService:GetBoundsSize( self.entity )
     EntityService:SetPosition( self.markerEntity, 0, sizeSelf.y, 0 )
+end
+
+function power_wells_respawn_tool:UpdateMarker()
+
+    self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
+
+    local powerWellIcon = ""
+    local powerWellName = ""
+    local powerWellIconVisible = 0
+
+    powerWellIcon, powerWellName, powerWellIconVisible = self:GetPowerWellIconNameVisible()
 
     local menuDB = EntityService:GetOrCreateDatabase( self.markerEntity )
     if ( menuDB == nil ) then
         return
     end
 
-    --menuDB:SetString("power_well_icon", skillLinkUnitComponentRef.icon)
-    --menuDB:SetString("power_well_name", skillLinkUnitComponentRef.name)
+    menuDB:SetString("power_well_icon", powerWellIcon)
+    menuDB:SetString("power_well_name", powerWellName)
 
-    menuDB:SetInt("power_well_icon_visible", 1)
+    menuDB:SetInt("power_well_icon_visible", powerWellIconVisible)
+end
+
+function power_wells_respawn_tool:GetPowerWellIconNameVisible()
+
+    self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
+
+    local powerWellIcon = ""
+    local powerWellName = "${gui/hud/power_wells_tools/no_stored_power_wells}"
+    local powerWellIconVisible = 0
+
+    if ( self.selectedBlueprint == nil ) then
+
+        return powerWellIcon, powerWellName, powerWellIconVisible
+    end
+
+    local blueprintDatabase = EntityService:GetBlueprintDatabase( self.selectedBlueprint )
+    if ( blueprintDatabase == nil ) then
+        return powerWellIcon, powerWellName, powerWellIconVisible
+    end
+
+    if ( not blueprintDatabase:HasString("blueprint") ) then
+        return powerWellIcon, powerWellName, powerWellIconVisible
+    end
+
+    local bonusBlueprintName = blueprintDatabase:GetString("blueprint")
+
+    local bonusBlueprint = ResourceManager:GetBlueprint( bonusBlueprintName )
+    if ( bonusBlueprint == nil ) then
+        return powerWellIcon, powerWellName, powerWellIconVisible
+    end
+
+    local skillLinkUnitComponent = bonusBlueprint:GetComponent("SkillLinkUnitComponent")
+    if ( skillLinkUnitComponent == nil ) then
+        return powerWellIcon, powerWellName, powerWellIconVisible
+    end
+
+    local skillLinkUnitComponentRef = reflection_helper( skillLinkUnitComponent )
+
+    local count = self.storeBlueprints[self.selectedBlueprint]
+
+    powerWellIcon = skillLinkUnitComponentRef.icon
+    powerWellName =  "${" ..skillLinkUnitComponentRef.name .. "}" .. "\n" .. tostring(count)
+    powerWellIconVisible = 1
+
+    return powerWellIcon, powerWellName, powerWellIconVisible
 end
 
 function power_wells_respawn_tool:SetLastBuildSpot()
@@ -74,19 +195,92 @@ end
 
 function power_wells_respawn_tool:OnUpdate()
 
+    if ( self.selectedBlueprint == nil ) then
+        return
+    end
+
     local transform = EntityService:GetWorldTransform( self.entity )
     local testBuildable = self:CheckEntityBuildable( self.entity , transform, false )
 end
 
 function power_wells_respawn_tool:OnActivate()
 
+    if ( self.selectedBlueprint == nil ) then
+        return
+    end
+
+    if ( self.globalPlayerEntity == nil or self.globalPlayerEntity == INVALID_ID ) then
+        return
+    end
+
     local transform = EntityService:GetWorldTransform( self.entity )
     local testBuildable = self:CheckEntityBuildable( self.entity , transform, false )
 
-    if ( testBuildable.flag == CBF_CAN_BUILD ) then
+    if ( testBuildable.flag ~= CBF_CAN_BUILD ) then
 
-        self:SetLastBuildSpot()
+        return
     end
+
+    self:SetLastBuildSpot()
+
+    local delimiter = "|";
+    local formatFloat = "%g"
+
+    local position = transform.position
+    local orientation = transform.orientation
+
+    local mapperNameArray = {}
+
+    Insert( mapperNameArray, "PowerWellRespawnRequest" )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, self.selectedBlueprint )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, string.format(formatFloat, position.x) )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, string.format(formatFloat, position.y) )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, string.format(formatFloat, position.z) )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, string.format(formatFloat, orientation.y) )
+    Insert( mapperNameArray, delimiter )
+
+    Insert( mapperNameArray, string.format(formatFloat, orientation.w) )
+
+    local mapperName = table.concat( mapperNameArray )
+
+    self.storeBlueprints[self.selectedBlueprint] = self.storeBlueprints[self.selectedBlueprint] - 1
+
+    if ( self.storeBlueprints[self.selectedBlueprint] <= 0 ) then
+        self.storeBlueprints[self.selectedBlueprint] = nil
+    end
+
+    local currentListString = PowerWellsToolsUtils:FormatStoredBlueprintsString(self.storeBlueprints)
+
+    local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+
+    if ( globalPlayerEntityDB ) then
+        globalPlayerEntityDB:SetString(self.parameterNameStoreBlueprints, currentListString)
+    end
+
+    QueueEvent("OperateActionMapperRequest", self.globalPlayerEntity, mapperName, false )
+
+    self:FillStoredPowerWells()
+
+    self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
+
+    if ( #self.storeBlueprintsArray == 0 ) then
+
+        self.selectedBlueprint = nil
+
+        EntityService:SetVisible( self.entity, false )
+    end
+
+    self:UpdateMarker()
 end
 
 function power_wells_respawn_tool:ClearLastBuildPos()
@@ -130,6 +324,7 @@ function power_wells_respawn_tool:OnRotateSelectorRequest(evt)
 
     if ( isChangeList ) then
 
+        self:ChangeSelectedBlueprint( change )
     else
     
         self:RotateBuilding( degree )
@@ -144,6 +339,34 @@ function power_wells_respawn_tool:RotateBuilding( degree )
     end
 
     EntityService:Rotate(self.entity, 0.0, 1.0, 0.0, degree )
+end
+
+function power_wells_respawn_tool:ChangeSelectedBlueprint( change )
+
+    if ( #self.storeBlueprintsArray > 0 ) then
+
+        local selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
+
+        local index = IndexOf( self.storeBlueprintsArray, selectedBlueprint )
+        if ( index == nil ) then
+            index = 1
+        end
+
+        local maxIndex = #self.storeBlueprintsArray
+
+        local newIndex = index + change
+        if ( newIndex > maxIndex ) then
+            newIndex = maxIndex
+        elseif( newIndex <= 0 ) then
+            newIndex = 1
+        end
+
+        local newValue = self.storeBlueprintsArray[newIndex]
+
+        self.selectedBlueprint = newValue
+    end
+
+    self:UpdateMarker()
 end
 
 return power_wells_respawn_tool
