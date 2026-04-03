@@ -3059,19 +3059,11 @@ function template_universal:PrepareMissionObjects()
 					volume_spawn_ratio = 2.0
 				},
 				{
-					creature_species = "cosmic_mushbit",
-					volume_spawn_ratio = 2.0
-				},
-				{
-					creature_species = "cosmic_morirot",
-					volume_spawn_ratio = 2.0
-				},
-				{
 					creature_species = "cosmic_arachnoid_sentinel_crystal",
 					volume_spawn_ratio = 0.75
 				},
 				{
-					creature_species = "cosmic_nerilian",
+					creature_species = "arachnoid_arctic",
 					volume_spawn_ratio = 0.25
 				},
 				{
@@ -3083,35 +3075,15 @@ function template_universal:PrepareMissionObjects()
 					volume_spawn_ratio = 1.0
 				},
 				{
-					creature_species = "cosmic_bomogan",
-					volume_spawn_ratio = 0.05
-				},
-				{
 					creature_species = "cosmic_baxmoth",
 					volume_spawn_ratio = 1.0
-				},
-				{
-					creature_species = "cosmic_kermon",
-					volume_spawn_ratio = 0.05
-				},
-				{
-					creature_species = "cosmic_lesigian",
-					volume_spawn_ratio = 0.05
-				},
-				{
-					creature_species = "cosmic_phirian",
-					volume_spawn_ratio = 0.5
-				},
-				{
-					creature_species = "cosmic_necrodon",
-					volume_spawn_ratio = 0.5
 				}
 			},   
 			
 			liquid_units = 
 			{
 				{
-					creature_species = "cosmic_hedroner",
+					creature_species = "hedroner_arctic",
 					volume_spawn_ratio = 0.05
 				}
 			},   

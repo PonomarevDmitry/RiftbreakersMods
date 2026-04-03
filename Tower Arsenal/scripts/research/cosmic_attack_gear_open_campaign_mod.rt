@@ -6842,7 +6842,7 @@ Research
 				ResearchNode
 				{
 					research_flags "hidden"
-					requirement_tooltip "gui/menu/research/description/cosmonite_handling"
+					requirement_tooltip "gui/menu/research/requirements/familiarity_level"
 					requirements
 					{
 						ResearchNodeRequirement
@@ -6850,13 +6850,6 @@ Research
 							render_line "1"
 							research_name "gui/menu/research/name/environmental_shielding_cryogenic"
 							research_category "gui/menu/research/category_weapons_n_equipment"
-						}
-
-						ResearchNodeRequirement
-						{
-							render_line "0"
-							research_name "gui/menu/research/name/cosmonite_handling"
-							research_category "gui/menu/research/category_tower_arsenal"
 						}
 
 					}
@@ -6891,15 +6884,15 @@ Research
 					{
 						ResearchScript
 						{
-							script_name "lua/research/requirements/building_exists.lua"
+							script_name "lua/research/requirements/familiarity_level.lua"
 							script_database
 							{
 								Strings
 								{
 									StringData
 									{
-										value "buildings/main/bio_lab"
-										key "building_blueprint"
+										value "cosmic_baxmoth"
+										key "species_name"
 									}
 
 								}
@@ -6907,6 +6900,15 @@ Research
 								Floats
 								Vectors
 								Integers
+								{
+									IntData
+									{
+										value "2"
+										key "familiarity_level"
+									}
+
+								}
+
 							}
 
 						}
@@ -7303,16 +7305,6 @@ Research
 					research_flags "hidden|locked|hidden_requirements_visible"
 					requirement_tooltip
 					requirements
-					{
-						ResearchNodeRequirement
-						{
-							render_line "1"
-							research_name "gui/menu/research/name/bio_tech_lvl1"
-							research_category "gui/menu/research/category_weapons_n_equipment"
-						}
-
-					}
-
 					research_name "gui/menu/research/name/plasmoid_rifle_standard"
 					research_costs
 					{
@@ -9223,16 +9215,6 @@ Research
 					research_flags "hidden|locked|hidden_requirements_visible"
 					requirement_tooltip "gui/menu/research/tooltip_requirement_objective"
 					requirements
-					{
-						ResearchNodeRequirement
-						{
-							render_line "1"
-							research_name "gui/menu/research/name/bio_tech_lvl1"
-							research_category "gui/menu/research/category_weapons_n_equipment"
-						}
-
-					}
-
 					research_name "gui/menu/research/name/plasmoid_shotgun_standard"
 					research_costs
 					{
@@ -10165,6 +10147,46 @@ Research
 					}
 
 					research_scripts
+					{
+						ResearchScript
+						{
+							script_name "lua/research/requirements/familiarity_level.lua"
+							script_database
+							{
+								Strings
+								{
+									StringData
+									{
+										value "cosmic_baxmoth"
+										key "species_name"
+									}
+
+									StringData
+									{
+										value "monster_name/cosmic_baxmoth_boss"
+										key "sub_species_name"
+									}
+
+								}
+
+								Floats
+								Vectors
+								Integers
+								{
+									IntData
+									{
+										value "2"
+										key "familiarity_level"
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
 					position
 					{
 						x "18"
@@ -10549,8 +10571,8 @@ Research
 
 				ResearchNode
 				{
-					research_flags "hidden|locked|hidden_requirements_visible"
-					requirement_tooltip "gui/menu/research/tooltip_requirement_objective"
+					research_flags "hidden|hidden_requirements_visible"
+					requirement_tooltip "gui/menu/research/requirements/familiarity_level"
 					requirements
 					{
 						ResearchNodeRequirement
@@ -10608,6 +10630,37 @@ Research
 								Floats
 								Vectors
 								Integers
+							}
+
+						}
+
+						ResearchScript
+						{
+							script_name "lua/research/requirements/familiarity_level.lua"
+							script_database
+							{
+								Strings
+								{
+									StringData
+									{
+										value "cosmic_canoptrix_crystal"
+										key "species_name"
+									}
+
+								}
+
+								Floats
+								Vectors
+								Integers
+								{
+									IntData
+									{
+										value "2"
+										key "familiarity_level"
+									}
+
+								}
+
 							}
 
 						}
