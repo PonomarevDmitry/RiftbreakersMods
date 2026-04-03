@@ -6,6 +6,8 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/database_utils.lua")
 
+local PowerWellsToolsUtils = require("lua/utils/power_wells_tools_utils.lua")
+
 RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
     if ( not is_server ) then
@@ -58,21 +60,27 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return
         end
 
-        local player = PlayerService:GetGlobalPlayerEntity( playerId )
-        if ( player == nil or player == INVALID_ID ) then
+        local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity( playerId )
+        if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
             return
         end
 
-        local globalPlayerEntityDB = EntityService:GetDatabase( player )
+        local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
         if ( globalPlayerEntityDB == nil ) then
             return
         end
 
         local blueprintName = EntityService:GetBlueprintName( entity )
 
-        local parameterName = "$PowerWellStore|" .. blueprintName
+        local parameterName = "$PowerWellStore"
 
-        local oldValue = globalPlayerEntityDB:GetIntOrDefault(parameterName, 0)
+        local storeBlueprints = PowerWellsToolsUtils:GetStoredBlueprints(globalPlayerEntityDB, parameterName)
+
+        if ( storeBlueprints == nil ) then
+            return
+        end
+
+        local oldValue = storeBlueprints[blueprintName] or 0
 
         local entityDB = EntityService:GetDatabase( entity )
         if ( entityDB == nil ) then
@@ -95,9 +103,13 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         EntityService:RemoveEntity(entity, 2.0)
 
-        newValue = oldValue + 1
+        local changeValue = 1
 
-        globalPlayerEntityDB:SetInt( parameterName, newValue )
+        newValue = oldValue + changeValue
+
+        storeBlueprints[blueprintName] = newValue
+
+        PowerWellsToolsUtils:SaveStoredBlueprints(globalPlayerEntity, globalPlayerEntityDB, parameterName, storeBlueprints)
 
         return
     end
