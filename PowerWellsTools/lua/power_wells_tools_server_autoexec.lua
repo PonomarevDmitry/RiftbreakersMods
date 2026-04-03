@@ -14,6 +14,7 @@ local spawners_autoexec = function(evt)
     end
 
     BuildingService:UnlockBuilding("buildings/tools/power_wells_destroy")
+    BuildingService:UnlockBuilding("buildings/tools/power_wells_respawn")
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)

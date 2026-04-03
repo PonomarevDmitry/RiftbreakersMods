@@ -54,3 +54,129 @@ EntityBlueprint
 		flags				"2"
 	}
 }
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/power_wells_respawn"
+
+	BuildingDesc
+	{
+		name				"power_wells_respawn"
+		bp					"buildings/tools/power_wells_respawn"
+		ghost_bp			"buildings/tools/power_wells_respawn_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/power_wells_respawn"
+		description			"gui/hud/building_description/power_wells_respawn"
+		menu_icon			"gui/hud/tools_icons/power_wells_respawn_tool"
+
+		order				"100.125"
+		type				"power_wells_respawn"
+
+		buildable			"0"
+		building_group		"power_wells_destroy"
+	}
+
+	MeshDesc
+	{
+
+		mesh 		"meshes/props/special/power_wells/power_well.mesh"
+		
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "props/special/power_wells/power_well"
+			}
+			SubMesh
+			{
+				id "1"
+				material "props/special/power_wells/power_well_core"
+			}
+		}	
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x	"-3"
+				y	"0"
+				z	"-3"
+			}
+			max
+			{
+				x	"3"
+				y	"8"
+				z	"3"
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	10
+				y	10
+				z	10
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/power_wells_respawn_ghost"
+
+	BuildingDesc
+	{
+		name				"power_wells_respawn_ghost"
+		buildable			"0"
+		type				"power_wells_respawn"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/power_wells_respawn_tool.lua"
+
+		database
+		{
+			action			string:"power_wells_respawn"
+		}
+	}
+
+	MeshDesc
+	{
+
+		mesh 		"meshes/props/special/power_wells/power_well.mesh"
+		
+
+		SubMeshes
+		{
+
+			SubMesh
+			{
+				id "0"
+				material "selector/hologram_blue"
+			}
+			SubMesh
+			{
+				id "1"
+				material "selector/hologram_blue"
+			}
+		}	
+	}
+}
