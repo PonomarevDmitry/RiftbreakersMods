@@ -116,6 +116,11 @@ function power_wells_respawn_tool:UpdateMarker()
 
     self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
 
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
+    if ( self.selectedBlueprint and selectorDB ) then
+        selectorDB:SetString( self.parameterNameSelectedBlueprint, self.selectedBlueprint )
+    end
+
     local powerWellIcon = ""
     local powerWellName = ""
     local powerWellIconVisible = 0
@@ -276,6 +281,11 @@ function power_wells_respawn_tool:OnActivate()
 
     self.selectedBlueprint = self:CheckSelectedBlueprintExist(self.selectedBlueprint)
 
+    local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
+    if ( self.selectedBlueprint and selectorDB ) then
+        selectorDB:SetString( self.parameterNameSelectedBlueprint, self.selectedBlueprint )
+    end
+
     if ( #self.storeBlueprintsArray == 0 ) then
 
         self.selectedBlueprint = nil
@@ -345,6 +355,11 @@ function power_wells_respawn_tool:ChangeSelectedBlueprint( change )
         local newValue = self.storeBlueprintsArray[newIndex]
 
         self.selectedBlueprint = newValue
+
+        local selectorDB = EntityService:GetOrCreateDatabase( self.selector )
+        if ( self.selectedBlueprint and selectorDB ) then
+            selectorDB:SetString( self.parameterNameSelectedBlueprint, self.selectedBlueprint )
+        end
     end
 
     self:UpdateMarker()
