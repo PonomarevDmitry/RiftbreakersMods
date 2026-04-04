@@ -69,7 +69,7 @@ function power_wells_respawn_tool:FillStoredPowerWells()
     self.storeBlueprintsArray = {}
 
     if ( self.storeBlueprints == nil ) then
-        return
+        self.storeBlueprints = {}
     end
 
     for blueprintName, count in pairs( self.storeBlueprints ) do
@@ -77,6 +77,37 @@ function power_wells_respawn_tool:FillStoredPowerWells()
         if ( count > 0 ) then
         
             Insert(self.storeBlueprintsArray, blueprintName)
+        end
+    end
+
+    if ( mod_power_wells_respawn_tool_without_preserve ~= nil and mod_power_wells_respawn_tool_without_preserve == 1 ) then
+
+        local powerWellsList = {
+
+            "props/special/power_wells/power_well_source_ammo",
+            "props/special/power_wells/power_well_source_building",
+            "props/special/power_wells/power_well_source_cooldowns",
+            "props/special/power_wells/power_well_source_damage",
+            "props/special/power_wells/power_well_source_drones",
+            "props/special/power_wells/power_well_source_firerate",
+            "props/special/power_wells/power_well_source_forcefield",
+            "props/special/power_wells/power_well_source_health",
+            "props/special/power_wells/power_well_source_loot",
+            "props/special/power_wells/power_well_source_radar",
+            "props/special/power_wells/power_well_source_reflect_damage",
+        }
+
+        for blueprintName in Iter( powerWellsList ) do
+            
+            if ( self.storeBlueprints[blueprintName] == nil or tonumber(self.storeBlueprints[blueprintName]) <= 0 ) then
+
+                self.storeBlueprints[blueprintName] = 1
+
+                if ( IndexOf( self.storeBlueprintsArray, blueprintName ) == nil ) then
+
+                    Insert(self.storeBlueprintsArray, blueprintName)
+                end
+            end
         end
     end
 
@@ -180,7 +211,9 @@ function power_wells_respawn_tool:GetPowerWellIconNameVisible()
     powerWellName =  "${" ..skillLinkUnitComponentRef.name .. "}" .. "\n" .. tostring(count)
     powerWellIconVisible = 1
 
-    if ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+    local isUnlimited = ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) or ( mod_power_wells_respawn_tool_without_preserve ~= nil and mod_power_wells_respawn_tool_without_preserve == 1 );
+
+    if ( isUnlimited ) then
 
         powerWellName = powerWellName .. " - ${gui/hud/power_wells_tools/unlimited}"
     end
