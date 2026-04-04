@@ -310,33 +310,11 @@ function power_wells_respawn_tool:OnRotateSelectorRequest(evt)
     local degree = evt:GetDegree()
 
     local change = 1
-    if ( degree > 0 ) then
+    if ( degree < 0 ) then
         change = -1
     end
 
-    local playerPosition = EntityService:GetPosition(self.playerEntity)
-    
-    local entityPosition = EntityService:GetPosition(self.entity)
-
-    local isChangeList = ( entityPosition.x >= playerPosition.x )
-
-    if ( isChangeList ) then
-
-        self:ChangeSelectedBlueprint( change )
-    else
-    
-        self:RotateBuilding( degree )
-    end
-end
-
-function power_wells_respawn_tool:RotateBuilding( degree )
-
-    -- Inverting rotation
-    if ( mod_invert_rotation ~= nil and mod_invert_rotation == 1 ) then
-        degree = -degree
-    end
-
-    EntityService:Rotate(self.entity, 0.0, 1.0, 0.0, degree )
+    self:ChangeSelectedBlueprint( change )
 end
 
 function power_wells_respawn_tool:ChangeSelectedBlueprint( change )
