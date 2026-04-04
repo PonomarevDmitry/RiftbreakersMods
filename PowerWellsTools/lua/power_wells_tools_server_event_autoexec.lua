@@ -177,7 +177,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         if ( entityDB:HasInt("$PowerWellRespawned") ) then
 
-            if ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+            if ( oldValue ~= 0 and mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
 
                 changeValue = 0
             end
