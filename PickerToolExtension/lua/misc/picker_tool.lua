@@ -47,7 +47,7 @@ function picker_tool:OnInit()
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
-    self.powerWellsDestroyExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_store" ) and (mod_picker_tool_extension_power_wells_store ~= nil and mod_picker_tool_extension_power_wells_store == 1);
+    self.powerWellsDestroyExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_preserve" ) and (mod_picker_tool_extension_power_wells_preserve ~= nil and mod_picker_tool_extension_power_wells_preserve == 1);
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
     self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
@@ -1477,7 +1477,7 @@ function picker_tool:OnActivateSelectorRequest()
 
     if ( self.powerWellsDestroyExists ) then
 
-        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isPowerWell, "buildings/tools/power_wells_store", true ) ) then
+        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isPowerWell, "buildings/tools/power_wells_preserve", true ) ) then
             return
         end
     end
