@@ -7,7 +7,7 @@ end
 
 function player_modificator:EnsureUniqueModificator()
     local mod_group = EntityService:GetGroup(self.entity)
-    if mod_group == "" then
+    if mod_group == "" or mod_group == nil or mod_group == "power_well" then
         return
     end
 
@@ -51,7 +51,7 @@ function player_modificator:init()
 
     self.data:SetFloat("skill_end_timestamp", EntityService:GetLifeTime(self.entity) + GetLogicTime() )
 
-    --self:EnsureUniqueModificator()
+    self:EnsureUniqueModificator()
 end
 
 function player_modificator:OnLoad()
