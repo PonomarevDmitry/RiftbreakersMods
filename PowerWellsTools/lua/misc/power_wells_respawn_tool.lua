@@ -175,6 +175,11 @@ function power_wells_respawn_tool:GetPowerWellIconNameVisible()
     powerWellName =  "${" ..skillLinkUnitComponentRef.name .. "}" .. "\n" .. tostring(count)
     powerWellIconVisible = 1
 
+    if ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+
+        powerWellName = powerWellName .. " - ${gui/hud/power_wells_tools/unlimited}"
+    end
+
     return powerWellIcon, powerWellName, powerWellIconVisible
 end
 
