@@ -171,6 +171,9 @@ InjectChangePowerWellBlueprintDatabaseComponent(supported_item_blueprints)
 
 
 
+
+do return end
+
 local InjectChangeBlueprintIdComponent = function(blueprintsList)
 
     for _,blueprintName in ipairs(blueprintsList) do
