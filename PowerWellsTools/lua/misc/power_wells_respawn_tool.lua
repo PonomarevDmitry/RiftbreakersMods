@@ -253,7 +253,10 @@ function power_wells_respawn_tool:OnActivate()
 
     local mapperName = table.concat( mapperNameArray )
 
-    self.storeBlueprints[self.selectedBlueprint] = self.storeBlueprints[self.selectedBlueprint] - 1
+    if not ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+
+        self.storeBlueprints[self.selectedBlueprint] = self.storeBlueprints[self.selectedBlueprint] - 1
+    end
 
     if ( self.storeBlueprints[self.selectedBlueprint] <= 0 ) then
         self.storeBlueprints[self.selectedBlueprint] = nil

@@ -101,7 +101,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             newPowerWellDB:SetInt("$PowerWellRespawned", 1)
         end
 
-        storeBlueprints[blueprintName] = storeBlueprints[blueprintName] - 1
+        if not ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+                
+            storeBlueprints[blueprintName] = storeBlueprints[blueprintName] - 1
+        end
 
         if ( storeBlueprints[blueprintName] <= 0 ) then
             storeBlueprints[blueprintName] = nil
@@ -171,6 +174,25 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         end
 
         local changeValue = 1
+
+        if ( entityDB:HasInt("$PowerWellRespawned") ) then
+
+            if ( mod_power_wells_respawn_tool_unlimited ~= nil and mod_power_wells_respawn_tool_unlimited == 1 ) then
+
+                changeValue = 0
+            end
+
+        else
+            
+            if ( mod_power_wells_store_tool_x_10 ~= nil and mod_power_wells_store_tool_x_10 == 1 ) then
+                
+                changeValue = changeValue * 10
+
+            elseif ( mod_power_wells_store_tool_x_5 ~= nil and mod_power_wells_store_tool_x_5 == 1 ) then
+
+                changeValue = changeValue * 5
+            end
+        end
 
         entityDB:SetInt("$PowerWellStore_Destroy", 1)
         entityDB:SetInt("working", 0)
