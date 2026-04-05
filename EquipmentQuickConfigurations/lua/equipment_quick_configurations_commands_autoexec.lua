@@ -54,7 +54,6 @@ ConsoleService:RegisterCommand( "operate_quick_equipment", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotsName, slotsName, configName )
     else
         local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( slotsName, slotsName, configName, true )
 
@@ -78,7 +77,6 @@ ConsoleService:RegisterCommand( "operate_eq_weapon", function( args )
 
     if ( mod_quick_equipment_mode_save == 1 ) then
 
-        EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( "left_hand,right_hand", "weapon", configName )
     else
 
         local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( "left_hand,right_hand", "weapon", configName, true )

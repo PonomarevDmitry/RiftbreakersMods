@@ -1,6 +1,7 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
+
 local EquipmentQuickConfigurationsSerializeUtils = require("lua/utils/equipment_quick_configurations_serialize_utils.lua")
 
 local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
@@ -11,31 +12,6 @@ local LOAD_RESULT_INVALID = 3
 local LOAD_RESULT_SUCCESS = 4
 
 local EquipmentQuickConfigurationsUtils = {}
-
-globalEquipmentQuickConfigurationsUtilsPopupEntity = nil
-
-function EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotNamePrefixArray, slotLocalizationName, configName )
-
-    if ( globalEquipmentQuickConfigurationsUtilsPopupEntity ~= nil and EntityService:IsAlive( globalEquipmentQuickConfigurationsUtilsPopupEntity ) ) then
-        return
-    end
-
-    local entity = EntityService:SpawnEntity( "misc/equipment_quick_configurations_save_entity", 0, 0, 0, "" )
-
-    local database = EntityService:GetOrCreateDatabase( entity )
-    if ( database == nil ) then
-        EntityService:RemoveEntity( entity )
-        return
-    end
-
-    database:SetString("slotNamePrefixArray", slotNamePrefixArray)
-    database:SetString("slotLocalizationName", slotLocalizationName)
-    database:SetString("configName", configName)
-
-    globalEquipmentQuickConfigurationsUtilsPopupEntity = entity
-
-    --LogService:Log("ShowPopupToSaveConfig entity " .. tostring(entity))
-end
 
 function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( player_id, slotNamePrefixArray, configName )
 
