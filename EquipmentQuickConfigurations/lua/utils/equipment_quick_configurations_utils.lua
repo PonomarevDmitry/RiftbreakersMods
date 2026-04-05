@@ -487,29 +487,6 @@ function EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( subSlotEntityId )
     return itemKey
 end
 
-function EquipmentQuickConfigurationsUtils:GetItemKey( subSlotEntityId )
-
-    local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
-    if ( database == nil ) then
-        return nil
-    end
-
-    local itemKeyConfigName = "$EquipmentQuickConfigurationsUtils_KeyId"
-
-    if ( not database:HasString(itemKeyConfigName) ) then
-
-        return nil
-    end
-
-    local itemKey = database:GetString(itemKeyConfigName)
-
-    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
-        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
-    end
-
-    return itemKey
-end
-
 function EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( subSlotEntityId )
 
     local database = EntityService:GetOrCreateDatabase( subSlotEntityId )
