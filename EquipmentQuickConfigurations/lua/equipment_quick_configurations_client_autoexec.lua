@@ -1,11 +1,10 @@
-LogService:Log("Autoexec Load is_server " .. tostring(is_server) .. " is_client " .. tostring(is_client))
-
 if ( not is_client ) then
     return
 end
 
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
 globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}

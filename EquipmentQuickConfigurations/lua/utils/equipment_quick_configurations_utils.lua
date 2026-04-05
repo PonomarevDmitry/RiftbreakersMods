@@ -495,10 +495,10 @@ function EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( subSlotEntityId )
         itemKey = EquipmentQuickConfigurationsUtils:GenerateGuid()
 
         database:SetString(itemKeyConfigName, itemKey)
+    end
 
-        local mapperName = "EquipmentQuickConfigurationsNewId|" .. tostring(itemKey)
-
-        QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
+    if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
+        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = subSlotEntityId
     end
 
     return itemKey
@@ -546,6 +546,10 @@ function EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( subSlotEnti
         itemKey = EquipmentQuickConfigurationsUtils:GenerateGuid()
 
         database:SetString(itemKeyConfigName, itemKey)
+
+        local mapperName = "EquipmentQuickConfigurationsNewId|" .. tostring(itemKey)
+
+        QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
     end
 
     if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then

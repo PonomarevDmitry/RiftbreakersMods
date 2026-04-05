@@ -5,7 +5,10 @@ end
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/database_utils.lua")
+
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
+
+
 
 RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
