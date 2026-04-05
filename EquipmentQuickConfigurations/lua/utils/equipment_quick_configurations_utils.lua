@@ -28,14 +28,6 @@ function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( player_id, slot
         return LOAD_RESULT_INVALID, slotsHash, configContent
     end
 
-    if ( equipment.id ) then
-        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-
-        if ( equipment == nil ) then
-            return LOAD_RESULT_INVALID, slotsHash, configContent
-        end
-    end
-
     --LogService:Log( "EquipmentQuickConfigurationsUtils equipment " .. tostring(equipment) )
 
     slotNamePrefixArray = string.lower(slotNamePrefixArray)
@@ -190,15 +182,6 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( 
     local equipment = reflection_helper( EntityService:GetComponent(globalPlayerEntity, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return LOAD_RESULT_INVALID, slotsHash
-    end
-
-    if ( equipment.id ) then
-
-        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-
-        if ( equipment == nil ) then
-            return LOAD_RESULT_INVALID, slotsHash
-        end
     end
 
     local keyName = EquipmentQuickConfigurationsUtils:GetSettingKeyName( slotLocalizationName, configName )
@@ -579,15 +562,6 @@ function EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(player_id
     local equipment = reflection_helper( EntityService:GetComponent(globalPlayerEntity, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return slotsArray
-    end
-
-    if ( equipment.id ) then
-
-        equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-
-        if ( equipment == nil ) then
-            return slotsArray
-        end
     end
 
     local slots = equipment.slots
