@@ -2,7 +2,8 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 local EquipmentQuickConfigurationsSerializeUtils = require("lua/utils/equipment_quick_configurations_serialize_utils.lua")
---local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
+
+local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
@@ -41,22 +42,22 @@ function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( player_id, slot
     local slotsHash = {}
     local configContent = {}
 
-    local player = PlayerService:GetPlayerControlledEnt(player_id)
-    if ( player == nil or player == INVALID_ID ) then
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(player_id)
+    if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
         return LOAD_RESULT_INVALID, slotsHash, configContent
     end
 
-    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    local equipment = reflection_helper( EntityService:GetComponent(globalPlayerEntity, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return LOAD_RESULT_INVALID, slotsHash, configContent
     end
 
     if ( equipment.id ) then
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-    end
 
-    if ( equipment == nil ) then
-        return LOAD_RESULT_INVALID, slotsHash, configContent
+        if ( equipment == nil ) then
+            return LOAD_RESULT_INVALID, slotsHash, configContent
+        end
     end
 
     --LogService:Log( "EquipmentQuickConfigurationsUtils equipment " .. tostring(equipment) )
@@ -195,36 +196,38 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( p
 
     local slotsHash = {}
 
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(player_id)
+    if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
+        return LOAD_RESULT_INVALID, slotsHash
+    end
+
     local player = PlayerService:GetPlayerControlledEnt(player_id)
-    if player == INVALID_ID then
+    if ( player == nil or player == INVALID_ID ) then
         return LOAD_RESULT_INVALID, slotsHash
     end
 
-    if ( CampaignService.GetCampaignData == nil ) then
+    local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+    if ( globalPlayerEntityDB == nil ) then
         return LOAD_RESULT_INVALID, slotsHash
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        return LOAD_RESULT_INVALID, slotsHash
-    end
-
-    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    local equipment = reflection_helper( EntityService:GetComponent(globalPlayerEntity, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return LOAD_RESULT_INVALID, slotsHash
     end
 
-    if equipment.id then
+    if ( equipment.id ) then
+
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-    end
 
-    if ( equipment == nil ) then
-        return LOAD_RESULT_INVALID, slotsHash
+        if ( equipment == nil ) then
+            return LOAD_RESULT_INVALID, slotsHash
+        end
     end
 
     local keyName = EquipmentQuickConfigurationsUtils:GetSettingKeyName( slotLocalizationName, configName )
 
-    local configContentString = campaignDatabase:GetStringOrDefault( keyName, "" )
+    local configContentString = globalPlayerEntityDB:GetStringOrDefault( keyName, "" )
 
     configContentString = configContentString or ""
 
@@ -283,7 +286,7 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( p
 
             if ( 1 <= subSlotNumber and subSlotNumber <= selectedSlot.subslots_count ) then
 
-                local subSlotResult, slotDesc, subSlotEntityId, itemUpdated = EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, subSlotConfig )
+                local subSlotResult, slotDesc, subSlotEntityId, itemUpdated = EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, globalPlayerEntity, subSlotConfig )
 
                 if ( subSlotResult ) then
 
@@ -313,7 +316,7 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( p
     end
 
     if ( needConfigUpdate ) then
-        EquipmentQuickConfigurationsUtils:SaveSettingKeyName( slotLocalizationName, configName, configContent )
+        EquipmentQuickConfigurationsUtils:SaveSettingKeyName( player_id, slotLocalizationName, configName, configContent )
     end
 
     if ( result ) then
@@ -323,7 +326,7 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( p
     end
 end
 
-function EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, subSlotConfig )
+function EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, globalPlayerEntity, subSlotConfig )
 
     --LogService:Log("LoadItemToSlot player " .. tostring(player) .. " subSlotConfig " .. debug_serialize_utils:SerializeObject(configContent))
 
@@ -588,22 +591,23 @@ function EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(player_id
 
     local slotsArray = {}
 
-    local player = PlayerService:GetPlayerControlledEnt(player_id)
-    if player == INVALID_ID then
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(player_id)
+    if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
         return slotsArray
     end
 
-    local equipment = reflection_helper( EntityService:GetComponent(player, "EquipmentComponent") ).equipment[1]
+    local equipment = reflection_helper( EntityService:GetComponent(globalPlayerEntity, "EquipmentComponent") ).equipment[1]
     if ( equipment == nil ) then
         return slotsArray
     end
 
-    if equipment.id then
+    if ( equipment.id ) then
+
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
-    end
 
-    if ( equipment == nil ) then
-        return slotsArray
+        if ( equipment == nil ) then
+            return slotsArray
+        end
     end
 
     local slots = equipment.slots
@@ -626,25 +630,33 @@ function EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(player_id
     return slotsArray
 end
 
-function EquipmentQuickConfigurationsUtils:SaveSettingKeyName( slotLocalizationName, configName, configContent )
+function EquipmentQuickConfigurationsUtils:SaveSettingKeyName( player_id, slotLocalizationName, configName, configContent )
 
     local keyName = EquipmentQuickConfigurationsUtils:GetSettingKeyName( slotLocalizationName, configName )
 
     local configContentString = EquipmentQuickConfigurationsSerializeUtils:SerializeObject(configContent)
 
-    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
-    --LogService:Log("SaveSettingKeyName key " .. keyName .. " configContentString " .. configContentString )
+    LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
+    LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContentString " .. configContentString )
 
-    if ( CampaignService.GetCampaignData == nil ) then
+    local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(player_id)
+    if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
         return LOAD_RESULT_INVALID
     end
 
-    local campaignDatabase = CampaignService:GetCampaignData()
-    if ( campaignDatabase == nil ) then
-        return LOAD_RESULT_INVALID
+    local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
+    if ( globalPlayerEntityDB ~= nil ) then
+        globalPlayerEntityDB:SetString( keyName, configContentString )
+    end
+                
+    if not ( is_server and is_client ) then
+
+        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. keyName .. "|" .. configContentString
+
+        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
     end
 
-    campaignDatabase:SetString( keyName, configContentString )
+    return LOAD_RESULT_SUCCESS
 end
 
 function EquipmentQuickConfigurationsUtils:GetSettingKeyName( slotLocalizationName, configName )
@@ -689,7 +701,7 @@ function EquipmentQuickConfigurationsUtils:GetItemRarity( subSlotEntityId )
     return 0
 end
 
-function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadResult, slotName, configName, slotsHash )
+function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_id, loadResult, slotName, configName, slotsHash )
 
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. configName .. '}'
     local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. slotName .. '}'
@@ -737,7 +749,7 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadRes
 
             if ( slotsHash ) then
 
-                local slotsIcons = EquipmentQuickConfigurationsUtils:GetSlotsIcons(slotsHash)
+                local slotsIcons = EquipmentQuickConfigurationsUtils:GetSlotsIcons(player_id, slotsHash)
 
                 if ( slotsIcons ~= "" ) then
                     SoundService:PlayAnnouncement( slotsIcons, 0 )
@@ -747,9 +759,9 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( loadRes
     end
 end
 
-function EquipmentQuickConfigurationsUtils:GetSlotsIcons(slotsHash)
+function EquipmentQuickConfigurationsUtils:GetSlotsIcons(player_id, slotsHash)
 
-    local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
+    local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(player_id)
 
     local listBlueprint = {}
     local hashBlueprint = {}

@@ -188,6 +188,8 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
 
         local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' .. configNameLocal .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
 
+        --LogService:Log("fullAnnouncement " .. fullAnnouncement)
+
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
 
