@@ -705,16 +705,16 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
 
     local mod_quick_equipment_mode_announcements = 1
 
-    if ( CampaignService.GetCampaignData ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-        if ( campaignDatabase ~= nil ) then
-
-            local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
-
-            mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
-        end
-    end
+    --if ( CampaignService.GetCampaignData ) then
+    --
+    --    local campaignDatabase = CampaignService:GetCampaignData()
+    --    if ( campaignDatabase ~= nil ) then
+    --
+    --        local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+    --
+    --        mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
+    --    end
+    --end
 
     if ( mod_quick_equipment_mode_announcements == 1 ) then
 
