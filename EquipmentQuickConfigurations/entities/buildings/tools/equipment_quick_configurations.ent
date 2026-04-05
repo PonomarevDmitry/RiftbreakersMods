@@ -1,0 +1,120 @@
+EntityBlueprint
+{
+	name					"buildings/tools/equipment_quick_configurations_load"
+
+	BuildingDesc
+	{
+		name				"equipment_quick_configurations_load"
+		bp					"buildings/tools/equipment_quick_configurations_load"
+		ghost_bp			"buildings/tools/equipment_quick_configurations_load_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/equipment_quick_configurations_load"
+		description			"gui/hud/building_description/equipment_quick_configurations_load"
+		menu_icon			"gui/hud/tools_icons/equipment_quick_configurations_load_tool"
+
+		order				"61"
+		type				"picker"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/equipment_quick_configurations_load_ghost"
+
+	BuildingDesc
+	{
+		name				"equipment_quick_configurations_load_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/equipment_quick_configurations_load_tool.lua"
+
+		database
+		{
+			action			string:"equipment_quick_configurations_load"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/equipment_quick_configurations_load_tool"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/equipment_quick_configurations_save"
+
+	BuildingDesc
+	{
+		name				"equipment_quick_configurations_save"
+		bp					"buildings/tools/equipment_quick_configurations_save"
+		ghost_bp			"buildings/tools/equipment_quick_configurations_save_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/equipment_quick_configurations_save"
+		description			"gui/hud/building_description/equipment_quick_configurations_save"
+		menu_icon			"gui/hud/tools_icons/equipment_quick_configurations_save_tool"
+
+		order				"61"
+		type				"picker"
+
+		building_group		"equipment_quick_configurations_load"
+		buildable			"0"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/equipment_quick_configurations_save_ghost"
+
+	BuildingDesc
+	{
+		name				"equipment_quick_configurations_save_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/equipment_quick_configurations_save_tool.lua"
+
+		database
+		{
+			action			string:"equipment_quick_configurations_save"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/equipment_quick_configurations_load_tool"
+		flags				"2"
+	}
+}
