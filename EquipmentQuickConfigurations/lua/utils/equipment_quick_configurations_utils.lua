@@ -4,7 +4,7 @@ require("lua/utils/string_utils.lua")
 
 local EquipmentQuickConfigurationsSerializeUtils = require("lua/utils/equipment_quick_configurations_serialize_utils.lua")
 
-local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
+--local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
 
 local LOAD_RESULT_FAIL    = 1
 local LOAD_RESULT_EMPTY   = 2
@@ -612,8 +612,8 @@ function EquipmentQuickConfigurationsUtils:SaveSettingKeyName( player_id, slotLo
 
     local configContentString = EquipmentQuickConfigurationsSerializeUtils:SerializeObject(configContent)
 
-    LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
-    LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContentString " .. configContentString )
+    --LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContent " .. debug_serialize_utils:SerializeObject(configContent) )
+    --LogService:Log("SaveSettingKeyName player_id " .. tostring(player_id) .. " key " .. keyName .. " configContentString " .. configContentString )
 
     local globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(player_id)
     if ( globalPlayerEntity == nil or globalPlayerEntity == INVALID_ID ) then
