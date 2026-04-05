@@ -8,6 +8,13 @@ require("lua/utils/database_utils.lua")
 
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
+if ( is_server and is_client ) then
+
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
+end
+
+
+
 
 
 RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
@@ -40,4 +47,8 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
     local itemDatabaseKey = EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( entity )
 
     EntityService:CreateComponent( entity, "NetReplicateNextFrameComponent")
+
+    if ( is_server and is_client ) then
+        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
+    end
 end)

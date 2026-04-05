@@ -2,6 +2,10 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/string_utils.lua")
 
+if ( is_client ) then
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
+end
+
 local EquipmentQuickConfigurationsSerializeUtils = require("lua/utils/equipment_quick_configurations_serialize_utils.lua")
 
 --local debug_serialize_utils = require("lua/utils/debug_serialize_utils.lua")
