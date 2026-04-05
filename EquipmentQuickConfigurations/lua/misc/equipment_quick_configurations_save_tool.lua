@@ -79,6 +79,8 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
     self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
 
+
+
     local buttonResult = evt:GetResult()
 
     if ( buttonResult == "button_cancel" ) then
@@ -86,6 +88,8 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
         self.popupShown = false
         return
     end
+
+
 
     local split = Split( buttonResult, "_" )
     
@@ -119,7 +123,7 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
     self.configContent = configContent
 
-    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
+    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
 
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
 
