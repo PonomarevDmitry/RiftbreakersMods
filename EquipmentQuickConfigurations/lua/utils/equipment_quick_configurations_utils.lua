@@ -482,6 +482,13 @@ function EquipmentQuickConfigurationsUtils:GetOrCreateItemKey( subSlotEntityId )
         itemKey = EquipmentQuickConfigurationsUtils:GenerateGuid()
 
         database:SetString(itemKeyConfigName, itemKey)
+
+        if not ( is_server and is_client ) then
+
+            local mapperName = "EquipmentQuickConfigurationsItemKeyNewId|" .. tostring(itemKey)
+
+            QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
+        end
     end
 
     if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then
@@ -511,9 +518,12 @@ function EquipmentQuickConfigurationsUtils:GetOrSendToServerItemKey( subSlotEnti
 
         database:SetString(itemKeyConfigName, itemKey)
 
-        local mapperName = "EquipmentQuickConfigurationsNewId|" .. tostring(itemKey)
+        if not ( is_server and is_client ) then
 
-        QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
+            local mapperName = "EquipmentQuickConfigurationsNewId|" .. tostring(itemKey)
+
+            QueueEvent("OperateActionMapperRequest", subSlotEntityId, mapperName, false )
+        end
     end
 
     if ( globalEquipmentQuickConfigurationsUtilsEntitiesCache ~= nil ) then

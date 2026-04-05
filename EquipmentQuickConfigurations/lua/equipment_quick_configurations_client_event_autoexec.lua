@@ -1,4 +1,8 @@
-if ( not is_server ) then
+if ( not is_client ) then
+    return
+end
+
+if ( is_server and is_client ) then
     return
 end
 
@@ -8,23 +12,23 @@ require("lua/utils/database_utils.lua")
 
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
-
-if ( is_server and is_client ) then
-
-    globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
-end
+globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
 
 
 
 RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
-    if ( not is_server ) then
+    if ( not is_client ) then
+        return
+    end
+
+    if ( is_server and is_client ) then
         return
     end
 
     local mapperName = evt:GetMapperName()
 
-    local stringNumber = string.find( mapperName, "EquipmentQuickConfigurationsNewId" )
+    local stringNumber = string.find( mapperName, "EquipmentQuickConfigurationsItemKeyNewId" )
     if ( stringNumber ~= 1 ) then
         return
     end
@@ -49,18 +53,7 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
-    local database = EntityService:GetOrCreateDatabase( entity )
-    if ( database == nil ) then
-        return nil
-    end
+    globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = entity
 
-    local itemKeyConfigName = "$EquipmentQuickConfigurationsUtils_KeyId"
-
-    database:SetString(itemKeyConfigName, itemKey)
-
-    if ( is_server and is_client ) then
-        globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemKey] = entity
-    end
-
-    EntityService:CreateComponent( entity, "NetReplicateNextFrameComponent")
+    --LogService:Log("EquipmentQuickConfigurationsItemKeyNewId entity " .. tostring(entity) .. " inventoryEntBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " itemKey \"" .. tostring(itemKey) .. "\"")
 end)

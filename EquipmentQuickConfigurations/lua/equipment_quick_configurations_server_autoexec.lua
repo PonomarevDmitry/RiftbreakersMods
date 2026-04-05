@@ -51,4 +51,6 @@ RegisterGlobalEventHandler("InventoryItemCreatedEvent", function(evt)
     if ( is_server and is_client ) then
         globalEquipmentQuickConfigurationsUtilsEntitiesCache[itemDatabaseKey] = entity
     end
+
+    --LogService:Log("InventoryItemCreatedEvent entity " .. tostring(entity) .. " inventoryEntBlueprintName " .. tostring(EntityService:GetBlueprintName( entity )) .. " itemDatabaseKey \"" .. tostring(itemDatabaseKey) .. "\"")
 end)
