@@ -102,15 +102,11 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
     local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( self.playerId, self.slotNamePrefixArray, self.configName )
 
-    self.configContent = configContent
-
-    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
-
     local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
     if ( #self.configContent == 0) then
 
-        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
+        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventNotification")
 
         local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>'
 
@@ -118,6 +114,12 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
         return
     end
+
+
+
+    self.configContent = configContent
+
+    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
 
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
 
