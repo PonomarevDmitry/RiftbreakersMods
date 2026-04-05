@@ -6,8 +6,6 @@ require("lua/utils/building_utils.lua")
 
 local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
-globalEquipmentQuickConfigurationsUtilsEntitiesCache = globalEquipmentQuickConfigurationsUtilsEntitiesCache or {}
-
 class 'equipment_quick_configurations_save_tool' ( tool )
 
 function equipment_quick_configurations_save_tool:__init()
