@@ -102,28 +102,28 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
   
 
-    local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( self.slotNamePrefixArray, self.configName )
+    local saveResultEquipment, slotsHashToSave, configContent = EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( self.playerId, self.slotNamePrefixArray, self.configName )
 
     self.configContent = configContent
 
-    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
+    local loadResultEquipment, slotsHashCurrent = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, false )
 
     local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
     if ( #self.configContent == 0) then
 
+        self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventSaveResult")
+
         local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>'
 
-        GuiService:OpenPopup(INVALID_ID, "gui/popup/popup_template_1button", message)
-
-        self.popupShown = false
+        GuiService:OpenPopup(self.entity, "gui/popup/popup_template_1button", message)
 
         return
     end
 
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
 
-    local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
+    local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(self.playerId)
 
     local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\n'
 
@@ -181,7 +181,7 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
 
     if ( eventResult == "button_yes" ) then
 
-        EquipmentQuickConfigurationsUtils:SaveSettingKeyName( self.slotLocalizationName, self.configName, self.configContent )
+        EquipmentQuickConfigurationsUtils:SaveSettingKeyName( self.playerId, self.slotLocalizationName, self.configName, self.configContent )
 
         local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
         local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
@@ -190,6 +190,15 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
 
         SoundService:PlayAnnouncement( fullAnnouncement, 0 )
     end
+
+    self.popupShown = false
+end
+
+function equipment_quick_configurations_save_tool:OnGuiPopupResultEventNotification( evt)
+
+    self.timeoutTime = GetLogicTime() + self.clickCooldown
+
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEventNotification")
 
     self.popupShown = false
 end

@@ -36,14 +36,13 @@ function EquipmentQuickConfigurationsUtils:ShowPopupToSaveConfig( slotNamePrefix
     --LogService:Log("ShowPopupToSaveConfig entity " .. tostring(entity))
 end
 
-function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( slotNamePrefixArray, configName )
+function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( player_id, slotNamePrefixArray, configName )
 
-    local player_id = 0
     local slotsHash = {}
     local configContent = {}
 
     local player = PlayerService:GetPlayerControlledEnt(player_id)
-    if player == INVALID_ID then
+    if ( player == nil or player == INVALID_ID ) then
         return LOAD_RESULT_INVALID, slotsHash, configContent
     end
 
@@ -52,7 +51,7 @@ function EquipmentQuickConfigurationsUtils:GetSaveEquipmentInfo( slotNamePrefixA
         return LOAD_RESULT_INVALID, slotsHash, configContent
     end
 
-    if equipment.id then
+    if ( equipment.id ) then
         equipment = reflection_helper( EntityService:GetComponent(equipment.id, "EquipmentComponent") ).equipment[1]
     end
 
@@ -190,13 +189,11 @@ function EquipmentQuickConfigurationsUtils:UpdateSubSlotConfig(subSlotConfig, su
     end
 end
 
-function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( slotNamePrefixArray, slotLocalizationName, configName, equipItems )
+function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( player_id, slotNamePrefixArray, slotLocalizationName, configName, equipItems )
 
     equipItems = equipItems or false
 
     local slotsHash = {}
-
-    local player_id = 0
 
     local player = PlayerService:GetPlayerControlledEnt(player_id)
     if player == INVALID_ID then
@@ -587,9 +584,7 @@ function EquipmentQuickConfigurationsUtils:GenerateGuid()
     end)
 end
 
-function EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo()
-
-    local player_id = 0
+function EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(player_id)
 
     local slotsArray = {}
 
