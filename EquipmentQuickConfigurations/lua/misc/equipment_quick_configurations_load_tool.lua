@@ -1,5 +1,10 @@
 local tool = require("lua/misc/tool.lua")
+require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
+require("lua/utils/string_utils.lua")
+require("lua/utils/building_utils.lua")
+
+local EquipmentQuickConfigurationsUtils = require("lua/utils/equipment_quick_configurations_utils.lua")
 
 class 'equipment_quick_configurations_load_tool' ( tool )
 
@@ -7,8 +12,22 @@ function equipment_quick_configurations_load_tool:__init()
     tool.__init(self,self)
 end
 
+function equipment_quick_configurations_load_tool:OnPreInit()
+    self.initialScale = { x=1, y=1, z=1 }
+end
+
 function equipment_quick_configurations_load_tool:OnInit()
+
+    self.scaleMap = {
+        1,
+    }
+
     self.childEntity = EntityService:SpawnAndAttachEntity("misc/marker_selector_equipment_quick_configurations_load_tool", self.entity)
+
+    self.popupShown = false
+    self.timeoutTime = nil
+
+    self.clickCooldown = 0.75
 end
 
 function equipment_quick_configurations_load_tool:SpawnCornerBlueprint()
@@ -19,162 +38,80 @@ end
 
 function equipment_quick_configurations_load_tool:FindEntitiesToSelect( selectorComponent )
 
-    local predicate = {
+    return {}
+end
 
-        filter = function( entity )
-
-            local blueprintName = EntityService:GetBlueprintName( entity )
-            if ( blueprintName == "" or blueprintName == nil ) then
-                return false
-            end
-        
-            local stringIndex = string.find( blueprintName, "props/rocks/" )
-        
-            if ( stringIndex == nil ) then
-                return false
-            end
-        
-            if ( stringIndex ~= 1 ) then
-                return false
-            end
-
-            if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
-
-                local groupId = EntityService:GetPhysicsGroupId( entity )
-
-                if ( groupId == "destructible" ) then
-
-                    return true
-                else
-                    return false
-                end
-            end
-
-            return true
-        end
-    };
-
-    local position = selectorComponent.position
-
-    local boundsSize = { x=1.0, y=1000.0, z=1.0 }
-
-    local scaleVector = VectorMulByNumber(boundsSize, self.currentScale)
-
-    local minVector = VectorSub(position, scaleVector)
-    local maxVector = VectorAdd(position, scaleVector)
-
-    local tempCollection = FindService:FindEntitiesByPredicateInBox( minVector, maxVector, predicate )
-
-    local possibleSelectedEnts = {}
-
-    for entity in Iter( tempCollection ) do
-
-        if ( entity == nil ) then
-            goto continue
-        end
-
-        if ( IndexOf( possibleSelectedEnts, entity ) ~= nil ) then
-            goto continue
-        end
-
-        Insert( possibleSelectedEnts, entity )
-
-        ::continue::
-    end
-
-    local selectorPosition = selectorComponent.position
-
-    local sorter = function( t, lhs, rhs )
-        local p1 = EntityService:GetPosition( lhs )
-        local p2 = EntityService:GetPosition( rhs )
-        local d1 = Distance( selectorPosition, p1 )
-        local d2 = Distance( selectorPosition, p2 )
-        return d1 < d2
-    end
-
-    table.sort(possibleSelectedEnts, function(a,b)
-        return sorter(possibleSelectedEnts, a, b)
-    end)
-
-    return possibleSelectedEnts
+function equipment_quick_configurations_load_tool:OnUpdate()
+    
 end
 
 function equipment_quick_configurations_load_tool:AddedToSelection( entity )
-
-    EntityService:SetMaterial( entity, "hologram/current", "selected" )
-
-    local children = EntityService:GetChildren( entity, true )
-    for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
-            EntityService:SetMaterial( child, "hologram/current", "selected" )
-        end
-    end
 end
 
 function equipment_quick_configurations_load_tool:RemovedFromSelection( entity )
-    EntityService:RemoveMaterial( entity, "selected" )
-    local children = EntityService:GetChildren( entity, true )
-    for child in Iter( children ) do
-        if ( EntityService:HasComponent( child, "MeshComponent" ) and EntityService:HasComponent( child, "HealthComponent" ) and not EntityService:HasComponent( child, "EffectReferenceComponent" ) ) then
-            EntityService:RemoveMaterial( child, "selected" )
-        end
-    end
 end
 
 function equipment_quick_configurations_load_tool:OnRotate()
 end
 
-function equipment_quick_configurations_load_tool:OnActivateEntity( entity )
+function equipment_quick_configurations_load_tool:OnActivateSelectorRequest()
 
-    if ( not EntityService:IsAlive( entity ) ) then
+    if ( self.timeoutTime ~= nil and self.timeoutTime > GetLogicTime() ) then
         return
     end
 
-    --ConsoleService:ExecuteCommand("dump_entity " .. tostring(entity))
+    self.popupShown = self.popupShown or false
 
-    if ( is_server and is_client ) then
+    if( self.popupShown == true ) then
+        return
+    end
 
-        if ( EntityService:GetComponent( entity, "PhysicsComponent") ~= nil ) then
+    self.popupShown = true
 
-            EntityService:DisableCollisions( entity )
+    self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEvent")
 
-            BuildingService:DisablePhysics( entity )
+    GuiService:OpenPopup(self.entity, "gui/popup/equipment_quick_configurations_popup_ingame_buttons", "gui/equipment_quick_configurations/select_configuration_to_load")
+end
 
-            EntityService:RequestDestroyPattern( entity, "default" )
-        end
+function equipment_quick_configurations_load_tool:OnGuiPopupResultEvent( evt)
 
-        EntityService:DissolveEntity( entity, 0.5 )
+    self.timeoutTime = GetLogicTime() + self.clickCooldown
 
-    else
+    self:UnregisterHandler(evt:GetEntity(), "GuiPopupResultEvent", "OnGuiPopupResultEvent")
 
-        QueueEvent("OperateActionMapperRequest", entity, "RocksEraserRequest", false )
+
+
+    local buttonResult = evt:GetResult()
+
+    if ( buttonResult == "button_cancel" ) then
+
+        self.popupShown = false
+        return
     end
 
 
 
-    --EntityService:ChangePhysicsGroupId( entity, "destructible" )
+    local split = Split( buttonResult, "_" )
+    
+    self.slotNamePrefixArray = split[2]
+    self.slotLocalizationName = split[2]
+    self.configName = "QuickConfig0" .. split[3]
 
-    --local cellIndexes = FindService:GetEntityCellIndexes(entity)
-    --
-    --EntityService:RemoveComponent( entity, "PhysicsComponent" )
-    --EntityService:RemoveComponent( entity, "WorldBlockerLayerComponent" )
-    --EntityService:RemoveComponent( entity, "BuildingBlockerLayerComponent" )
-    --
-    --EntityService:SetNavMeshScale( entity, 0.1, 0.1, 0.1 )
-    --
-    --for cellId in Iter( cellIndexes ) do
-    --
-    --    EntityService:DisableCollisions( cellId )
-    --    BuildingService:DisablePhysics( cellId )
-    --    
-    --    EntityService:RemoveComponent( cellId, "PhysicsComponent" )
-    --    EntityService:RemoveComponent( cellId, "WorldBlockerLayerComponent" )
-    --    EntityService:RemoveComponent( cellId, "BuildingBlockerLayerComponent" )
-    --
-    --    ConsoleService:ExecuteCommand("dump_entity " .. tostring(cellId))
-    --end
-    --
-    ----QueueEvent( "DissolveEntityRequest", entity, 0.5, 0 )
+    if ( self.slotLocalizationName == "weapon" ) then
+
+        self.slotNamePrefixArray = "left_hand,right_hand"
+    end
+
+
+  
+    local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, true )
+
+    EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(self.playerId, loadResult, self.slotLocalizationName, self.configName, slotsHash)
+
+    self.popupShown = false
+end
+
+function equipment_quick_configurations_load_tool:OnActivateEntity( entity )
 end
 
 return equipment_quick_configurations_load_tool

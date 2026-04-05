@@ -166,7 +166,7 @@ function EquipmentQuickConfigurationsUtils:UpdateSubSlotConfig(subSlotConfig, su
     end
 end
 
-function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndQuipItems( player_id, slotNamePrefixArray, slotLocalizationName, configName, equipItems )
+function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( player_id, slotNamePrefixArray, slotLocalizationName, configName, equipItems )
 
     equipItems = equipItems or false
 
@@ -842,6 +842,8 @@ function EquipmentQuickConfigurationsUtils:IsRightType( itemType )
     local isRightType = (
         itemType == "range_weapon"
         or itemType == "melee_weapon"
+        or itemType == "shield"
+        or itemType == "enemy_range_weapon"
 
         or itemType == "upgrade"
 
@@ -850,9 +852,9 @@ function EquipmentQuickConfigurationsUtils:IsRightType( itemType )
 
         or itemType == "dash_skill"
         or itemType == "movement_skill"
+        or itemType == "invisible_skill"
 
         -- or itemType == "barrier"
-        -- or itemType == "shield"
         -- or itemType == "equipment"
         -- or itemType == "passive"
         -- or itemType == "upgrade_parts"
