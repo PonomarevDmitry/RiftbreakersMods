@@ -256,7 +256,15 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( 
                     needConfigUpdate = needConfigUpdate or itemUpdated
 
                     if ( equipItems ) then
-                        QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
+
+                        local currentSlotEntityId = EquipmentQuickConfigurationsUtils:GetCurrentSlotEntityId(equipment, slotName, subSlotNumber)
+
+                        --LogService:Log("slotName ".. tostring(slotName) .. " subSlotNumber ".. tostring(subSlotNumber) .. " currentSlotEntityId ".. tostring(currentSlotEntityId))
+
+                        if ( subSlotEntityId ~= currentSlotEntityId ) then
+
+                            QueueEvent( "EquipmentChangeRequest", player, slotName, subSlotNumber-1, subSlotEntityId )
+                        end
                     end
 
                     slotsHash[slotName] = slotsHash[slotName] or {}
@@ -287,6 +295,40 @@ function EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( 
     else
         return LOAD_RESULT_FAIL, slotsHash
     end
+end
+
+function EquipmentQuickConfigurationsUtils:GetCurrentSlotEntityId(equipment, slotName, subSlotNumber)
+
+    local slots = equipment.slots
+
+    for slotNumber=1,slots.count do
+
+        local slot = slots[slotNumber]
+
+        if ( slot.name ~= slotName ) then
+            goto continue
+        end
+
+        local entities = slot.subslots[subSlotNumber]
+
+        local subSlotEntityId = entities[1]
+
+        if (subSlotEntityId and subSlotEntityId ~= INVALID_ID) then
+
+            if ( subSlotEntityId.id ) then
+                subSlotEntityId = subSlotEntityId.id
+            end
+
+            if (subSlotEntityId and subSlotEntityId ~= INVALID_ID) then
+
+                return subSlotEntityId
+            end
+        end
+
+        ::continue::
+    end
+
+    return INVALID_ID
 end
 
 function EquipmentQuickConfigurationsUtils:LoadItemToSlot( player, globalPlayerEntity, subSlotConfig )
