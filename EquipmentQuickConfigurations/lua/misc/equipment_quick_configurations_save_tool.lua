@@ -108,7 +108,7 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
     local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
-    if ( #self.configContent == 0) then
+    if ( #configContent == 0) then
 
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventNotification")
 
