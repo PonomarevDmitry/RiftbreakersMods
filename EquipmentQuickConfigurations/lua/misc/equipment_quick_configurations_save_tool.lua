@@ -112,7 +112,9 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
         self:RegisterHandler(self.entity, "GuiPopupResultEvent", "OnGuiPopupResultEventNotification")
 
-        local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' .. slotLocalizationNameFull .. '${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>'
+        local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' ..
+            slotLocalizationNameFull ..
+            ' ${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>';
 
         GuiService:OpenPopup(self.entity, "gui/popup/popup_template_1button", message)
 
@@ -129,7 +131,11 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
 
     local playerSlotsArrayEquipment = EquipmentQuickConfigurationsUtils:GetPlayerSlotsEquipmentInfo(self.playerId)
 
-    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\n<style="header_35">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. configNameLocal .. '${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\n'
+    local confimMessage = '${voice_over/announcement/equipment_quick_configurations/confirming}\n<style="header_35">' ..
+        slotLocalizationNameFull ..
+        '</style> ${voice_over/announcement/equipment_quick_configurations/confirming_to} <style="header_35">' .. 
+        configNameLocal .. 
+        ' ${voice_over/announcement/equipment_quick_configurations/confirming_end}</style>\n';
 
     for slotConfig in Iter( playerSlotsArrayEquipment ) do
 
@@ -190,7 +196,11 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
         local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
         local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
-        local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' .. slotLocalizationNameFull .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' .. configNameLocal .. '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
+        local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' ..
+            slotLocalizationNameFull ..
+            '</style> ${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' ..
+            configNameLocal ..
+            '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
 
         --LogService:Log("fullAnnouncement " .. fullAnnouncement)
 

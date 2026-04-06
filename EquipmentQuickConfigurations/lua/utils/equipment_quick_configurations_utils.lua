@@ -698,13 +698,26 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
     local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = '<style="header_24">${voice_over/announcement/equipment_quick_configurations/load/success/loaded} ' .. localizationUnited .. '${voice_over/announcement/equipment_quick_configurations/load/success/loaded_end}</style>'
+        fullAnnouncement = '<style="header_24">${voice_over/announcement/equipment_quick_configurations/load/success/loaded} ' ..
+            localizationUnited ..
+            ' ${voice_over/announcement/equipment_quick_configurations/load/success/loaded_end}</style>';
+
     elseif ( loadResult == LOAD_RESULT_FAIL ) then
-        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/fail/fail} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_configurations/fail/fail_end}</style>'
+
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/fail/fail} <style="header_24">' ..
+            localizationUnited ..
+            ' ${voice_over/announcement/equipment_quick_configurations/fail/fail_end}</style>';
+
     elseif ( loadResult == LOAD_RESULT_EMPTY ) then
-        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/load/empty} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>'
+
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/load/empty} <style="header_24">' ..
+            localizationUnited ..
+            ' ${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>';
     else
-        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/invalid/invalid} <style="header_24">' .. localizationUnited .. '${voice_over/announcement/equipment_quick_configurations/invalid/invalid_end}</style>'
+
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/invalid/invalid} <style="header_24">' ..
+            localizationUnited ..
+            ' ${voice_over/announcement/equipment_quick_configurations/invalid/invalid_end}</style>';
     end
 
     local sound = ""
