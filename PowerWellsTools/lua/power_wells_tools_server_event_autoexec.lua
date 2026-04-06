@@ -187,8 +187,9 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             if ( mod_power_wells_preserve_tool_x_10 ~= nil and mod_power_wells_preserve_tool_x_10 == 1 ) then
                 
                 changeValue = changeValue * 10
+            end
 
-            elseif ( mod_power_wells_preserve_tool_x_5 ~= nil and mod_power_wells_preserve_tool_x_5 == 1 ) then
+            if ( mod_power_wells_preserve_tool_x_5 ~= nil and mod_power_wells_preserve_tool_x_5 == 1 ) then
 
                 changeValue = changeValue * 5
             end
