@@ -27,7 +27,7 @@ function equipment_quick_configurations_load_tool:OnInit()
     self.popupShown = false
     self.timeoutTime = nil
 
-    self.clickCooldown = 0.75
+    self.clickCooldown = 0.5
 
     self.configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
 
