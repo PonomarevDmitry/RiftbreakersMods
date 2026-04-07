@@ -43,7 +43,7 @@ function loot_container_spawner:OnLoad()
 	if (self.activated == true) then
 
 		local forcedGroup = self.data:GetStringOrDefault( "forced_group", "" ) or ""
-		if ( forcedGroup == "" ) then
+		if ( forcedGroup == "" and ( self.data:HasString("wave_logic_file") or self.data:HasString("boss_logic_file") ) ) then
 
 			self:CreateMinimapIconEntity()
 		end
