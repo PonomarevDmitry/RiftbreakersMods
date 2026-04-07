@@ -149,6 +149,11 @@ local supported_item_blueprintsLimit = {
     "items/consumables/tesla_turret_advanced_item",
     "items/consumables/tesla_turret_superior_item",
     "items/consumables/tesla_turret_extreme_item",
+
+    "items/consumables/barricade_standard_item",
+    "items/consumables/barricade_advanced_item",
+    "items/consumables/barricade_superior_item",
+    "items/consumables/barricade_extreme_item",
 }
 
 local newLimitValue = "900"
@@ -269,6 +274,11 @@ local supported_item_blueprintsCooldown = {
     ["items/skills/grenades_pack_1_item"] = "0.05",
     ["items/skills/grenades_pack_2_item"] = "0.05",
     ["items/skills/grenades_pack_3_item"] = "0.05",
+
+    ["items/consumables/barricade_standard_item"] = "0.05",
+    ["items/consumables/barricade_advanced_item"] = "0.05",
+    ["items/consumables/barricade_superior_item"] = "0.05",
+    ["items/consumables/barricade_extreme_item"] = "0.05",
 }
 
 InjectChangeBlueprintInventoryItemComponentCooldown(supported_item_blueprintsCooldown)
