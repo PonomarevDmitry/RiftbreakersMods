@@ -1,0 +1,2561 @@
+GuiRootGroupDef
+{
+	full_screen "5"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "resources"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "resource"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bar"
+									value "GuiBarDef"
+									{
+										direction "left"
+										rawData "0.5 0.5 "
+										error_material "default_bar_1x2"
+										material "gui/hud/bars/resource_bar_orange_1x3"
+										alignment "right"
+										anchor "right"
+										bindings
+										{
+											data
+											{
+												model_field "bar_data"
+											}
+
+											material
+											{
+												model_field "bar_material"
+												converter "GuiModelEmptyStringFallbackConverter"
+												{
+													fallback_value "gui/hud/bars/resource_bar_orange_1x3"
+												}
+
+											}
+
+										}
+
+										id "bar"
+										margin
+										{
+											z "53"
+										}
+
+										offset
+										{
+											y "8"
+										}
+
+										z_order "27"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/resource_frame"
+										alignment "top_right"
+										anchor "top_right"
+										id "bg"
+										size_mode_x "2"
+
+										tooltip_def
+										{
+											fit_to_screen "0"
+											ref_gui_id "gui/template/resource_tooltip"
+											alignment "top_right"
+											size_mode_x "1"
+											size_mode_y "1"
+										}
+										
+										z_order "17"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "full_depot"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/building_status_full_depot"
+										alignment "center"
+										anchor "right"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-1"
+															}
+
+															mask "44"
+															scale
+															{
+																x "1.01"
+																y "1.01"
+															}
+
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "0.01"
+															}
+
+															frame_number "15"
+															mask "44"
+															scale
+															{
+																x "1.1"
+																y "1.1"
+															}
+
+														}
+
+														GuiAnimationFrame
+														{
+															color
+															{
+																w "-1"
+															}
+
+															frame_number "30"
+															mask "44"
+														}
+
+													}
+
+													name "blink"
+												}
+
+											}
+
+										}
+
+										bindings
+										{
+											material
+											{
+												model_field "depot_material"
+												converter "GuiModelEmptyStringFallbackConverter"
+												{
+													fallback_value "gui/hud/building_status_full_depot"
+												}
+
+											}
+
+											visible
+											{
+												model_field "full_depot"
+											}
+
+										}
+
+										id "full_depot"
+										item_scripts
+										{
+											scripts
+											{
+												Pair_IdString_GuiScriptDef2
+												{
+													key "OnShow"
+													value
+													{
+														script
+														{
+															children
+															{
+																GuiScriptNodeDef
+																{
+																	cmd "GuiScriptCommandAnimStartDef"
+																	{
+																		anim_info
+																		{
+																			loop "10"
+																			multiplier "2"
+																			stay_at_end "0"
+																		}
+
+																	}
+
+																}
+
+															}
+
+															cmd
+														}
+
+													}
+
+												}
+
+											}
+
+										}
+
+										offset
+										{
+											x "-30"
+										}
+
+										scale
+										{
+											y "0.9"
+										}
+
+										tooltip_def
+										{
+											fit_to_screen "0"
+											ref_gui_id "gui/template/resource_tooltip"
+											alignment "top_right"
+											size_mode_x "1"
+											size_mode_y "1"
+										}
+
+										z_order "20"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/resource_icons/missing_item"
+										alignment "center"
+										anchor "right"
+										animations
+										{
+											items
+											{
+												GuiAnimationDef
+												{
+													frames
+													{
+														GuiAnimationFrame
+														{
+															mask "12"
+															scale
+															{
+																x "1.01"
+																y "1.01"
+															}
+
+														}
+
+														GuiAnimationFrame
+														{
+															frame_number "15"
+															mask "12"
+															scale
+															{
+																x "1.1"
+																y "1.1"
+															}
+
+														}
+
+														GuiAnimationFrame
+														{
+															frame_number "30"
+															mask "12"
+														}
+
+													}
+
+													name "blink"
+												}
+
+											}
+
+										}
+
+										bindings
+										{
+											material
+											{
+												model_field "icon"
+											}
+
+										}
+
+										id "icon"
+										offset
+										{
+											x "-30"
+											y "-2"
+										}
+
+										scale
+										{
+											x "0.9"
+											y "0.9"
+										}
+
+										tooltip_def
+										{
+											fit_to_screen "0"
+											ref_gui_id "gui/template/resource_tooltip"
+											alignment "top_right"
+											size_mode_x "1"
+											size_mode_y "1"
+										}
+
+										z_order "18"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "info"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "amount_group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "amount"
+															value "GuiTextDef"
+															{
+																line_breaking "0"
+																content "MISSING_DATA"
+																style
+																{
+																	char_height "18"
+																	color
+																	{
+																		x "0"
+																		y "0.953"
+																	}
+
+																	font "Exo2_Bold_sdf"
+																	glow_color
+																	{
+																		w "0"
+																	}
+
+																	glow_size "0"
+																	glow_spread "0"
+																	shadow_angle "135"
+																	shadow_color
+																	{
+																		w "0.85"
+																	}
+
+																	shadow_distance "2"
+																	shadow_enabled "1"
+																	shadow_spread "0"
+																	space_size "7"
+																	stroke_position "0"
+																	stroke_size "0"
+																}
+
+																style_name "resource_max"
+																translate "1"
+																alignment "top_right"
+																anchor "top_right"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					frame_number "15"
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "30"
+																					mask "32"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	content
+																	{
+																		model_field "amount"
+																	}
+
+																	visible
+																	{
+																		model_field "amount"
+																		converter "GuiModelObjectNullOrEmptyConverter"
+																		{
+																			invert "1"
+																		}
+
+																	}
+
+																}
+
+																id "amount"
+																margin
+																{
+																	z "5"
+																}
+
+																size
+																{
+																	x "150"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+																
+																z_order "21"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "filler"
+															value "GuiQuadDef"
+															{
+																id "filler"
+																size
+																{
+																	x "115"
+																}
+
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														visible
+														{
+															model_field "amount"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "amount_group"
+													size_mode_x "1"
+													size_mode_y "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "arrow"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/bilans_up"
+													bindings
+													{
+														material
+														{
+															model_field "arrow"
+															converter "GuiModelMapConverter"
+															{
+																fallback_value "gui/hud/bilans_up"
+																map
+																{
+																	1 "gui/hud/bilans_up"
+																	0 "gui/hud/bilans_down"
+																}
+
+															}
+
+														}
+
+														visible
+														{
+															model_field "bilans"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "arrow"
+													margin
+													{
+														z "15"
+													}
+
+													offset
+													{
+														y "2"
+													}
+
+													z_order "24"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bilans"
+												value "GuiTextLineDef"
+												{
+													content "MISSING_DATA"
+													style
+													{
+														char_height "23"
+														color
+														{
+															x "0.2"
+															y "0.973"
+															z "0.318"
+														}
+
+														df "1"
+														font "Exo2_Bold_sdf"
+														glow_color
+														{
+															w "0"
+														}
+
+														glow_size "0"
+														glow_spread "0"
+														shadow_angle "135"
+														shadow_color
+														{
+															w "0.85"
+														}
+
+														shadow_distance "2"
+														shadow_enabled "1"
+														shadow_spread "0"
+														space_size "7"
+														stroke_position "0"
+														stroke_size "0"
+													}
+
+													style_name "bilans_green"
+													translate "1"
+													alignment "top_right"
+													bindings
+													{
+														content
+														{
+															model_field "bilans"
+														}
+
+														visible
+														{
+															model_field "bilans"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "bilans"
+													size
+													{
+														x "100"
+													}
+
+													visible "0"
+													z_order "25"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "change_group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "change"
+															value "GuiTextDef"
+															{
+																line_breaking "0"
+																content "MISSING_DATA"
+																style
+																{
+																	char_height "21"
+																	color
+																	{
+																		x "0.361"
+																		y "0.91"
+																		z "0.447"
+																	}
+
+																	df "1"
+																	font "Exo2_Bold_sdf"
+																	glow_color
+																	{
+																		w "0"
+																	}
+
+																	glow_size "0"
+																	glow_spread "0"
+																	shadow_angle "135"
+																	shadow_color
+																	{
+																		w "0.85"
+																	}
+
+																	shadow_distance "2"
+																	shadow_enabled "1"
+																	shadow_spread "0"
+																	space_size "7"
+																	stroke_position "0"
+																	stroke_size "0"
+																}
+
+																style_name "resource_green_smaller"
+																translate "1"
+																alignment "top_right"
+																anchor "top_right"
+																bindings
+																{
+																	content
+																	{
+																		model_field "change"
+																	}
+
+																	visible
+																	{
+																		model_field "change"
+																		converter "GuiModelObjectNullOrEmptyConverter"
+																		{
+																			invert "1"
+																		}
+
+																	}
+
+																}
+
+																id "change"
+																margin
+																{
+																	z "15"
+																}
+
+																size
+																{
+																	x "150"
+																}
+
+																tooltip_def
+																visible "0"
+																z_order "22"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "filler"
+															value "GuiQuadDef"
+															{
+																id "filler"
+																size
+																{
+																	x "110"
+																}
+
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														visible
+														{
+															model_field "change"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "change_group"
+													size_mode_x "1"
+													size_mode_y "1"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "local_group"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "local"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/hud/local"
+																style
+																{
+																	char_height "21"
+																	df "1"
+																	font "Exo2_Bold_sdf"
+																	glow_color
+																	{
+																		w "0"
+																	}
+
+																	glow_size "0"
+																	glow_spread "0"
+																	shadow_angle "135"
+																	shadow_color
+																	{
+																		w "0.85"
+																	}
+
+																	shadow_distance "2.394"
+																	shadow_spread "0"
+																	space_size "7"
+																	stroke_position "0"
+																	stroke_size "0"
+																}
+
+																style_name "resource_white_smaller"
+																translate "1"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "local"
+																	}
+
+																}
+
+																id "local"
+																margin
+																{
+																	z "10"
+																}
+
+																offset
+																{
+																	y "1"
+																}
+
+																visible "0"
+																z_order "26"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "local_bg"
+															value "GuiQuadDef"
+															{
+																bindings
+																{
+																	visible
+																	{
+																		model_field "local"
+																	}
+
+																}
+
+																color
+																{
+																	w "0.6"
+																	x "0"
+																	y "0"
+																	z "0"
+																}
+
+																id "local_bg"
+																size
+																{
+																	x "50"
+																	y "17"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																z_order "25"
+															}
+
+														}
+
+													}
+
+													id "local_group"
+													size_mode_x "1"
+													size_mode_y "1"
+													z_order "50"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "research"
+												value "GuiTextLineDef"
+												{
+													content "MISSING_DATA"
+													style
+													{
+														char_height "21"
+														df "1"
+														font "Exo2_Bold_sdf"
+														glow_color
+														{
+															w "0"
+														}
+
+														glow_size "0"
+														glow_spread "0"
+														shadow_angle "135"
+														shadow_color
+														{
+															w "0.913"
+														}
+
+														shadow_distance "2"
+														shadow_enabled "1"
+														shadow_size "0"
+														shadow_spread "0"
+														space_size "7"
+														stroke_position "0"
+														stroke_size "0"
+													}
+
+													style_name "resource_white"
+													translate "1"
+													bindings
+													{
+														content
+														{
+															model_field "research"
+														}
+
+														visible
+														{
+															model_field "research"
+															converter "GuiModelObjectNullOrEmptyConverter"
+															{
+																invert "1"
+															}
+
+														}
+
+													}
+
+													id "research"
+													z_order "24"
+												}
+
+											}
+
+										}
+
+										container_type "1"
+										alignment "top_right"
+										anchor "top_right"
+										id "info"
+										margin
+										{
+											z "50"
+										}
+
+										size_mode_x "1"
+										size_mode_y "1"
+										z_order "18"
+									}
+
+								}
+
+							}
+
+							alignment "top_right"
+							anchor "top_right"
+							animations
+							{
+								items
+								{
+									GuiAnimationDef
+									{
+										frames
+										{
+											GuiAnimationFrame
+											{
+												color
+												{
+													w "-1"
+												}
+
+												mask "33"
+												offset
+												{
+													x "600"
+												}
+
+											}
+
+											GuiAnimationFrame
+											{
+												frame_number "30"
+												mask "33"
+											}
+
+										}
+
+										name "Show"
+									}
+
+								}
+
+							}
+
+							id "resource"
+							item_scripts
+							{
+								scripts
+								{
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnHide"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															anim_info
+															{
+																loop "1"
+																multiplier "0.5"
+																reverse "1"
+															}
+
+															animations
+															{
+																Show
+																{
+																	String "this"
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+												cmd
+											}
+
+										}
+
+									}
+
+									Pair_IdString_GuiScriptDef2
+									{
+										key "OnShow"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															anim_info
+															{
+																loop "1"
+																multiplier "0.5"
+															}
+
+															animations
+															{
+																Show
+																{
+																	String "this"
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+												cmd
+											}
+
+										}
+
+									}
+
+									Pair_IdString_GuiScriptDef2
+									{
+										key "BlinkFullDepot"
+										value
+										{
+											script
+											{
+												children
+												{
+													GuiScriptNodeDef
+													{
+														cmd "GuiScriptCommandAnimStartDef"
+														{
+															anim_info
+															{
+																loop "2"
+																multiplier "2"
+															}
+
+															animations
+															{
+																blink
+																{
+																	String "icon"
+																	String "full_depot"
+																}
+
+															}
+
+														}
+
+													}
+
+												}
+
+												cmd
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+							size
+							{
+								x "260"
+								y "35"
+							}
+
+							size_mode_x "1"
+							visible "0"
+							z_order "16"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "smaller_groups"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "small_group"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "small_resource"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "amount"
+															value "GuiTextDef"
+															{
+																line_breaking "0"
+																content "MISSING_DATA"
+																style_name "resource_max"
+																alignment "bottom_right"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					frame_number "15"
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "30"
+																					mask "32"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	content
+																	{
+																		model_field "amount"
+																	}
+
+																}
+
+																hitbox_visible "1"
+																id "amount"
+																offset
+																{
+																	x "186"
+																	y "27"
+																}
+																
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "6"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "bg"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/resource_frame"
+																alignment "top_right"
+																hitbox_visible "1"
+																id "bg"
+																offset
+																{
+																	x "231"
+																}
+
+																scale
+																{
+																	x "0.44"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "4"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "change"
+															value "GuiTextLineDef"
+															{
+																content "MISSING_DATA"
+																style_name "resource_green_smaller"
+																alignment "bottom_left"
+																bindings
+																{
+																	content
+																	{
+																		model_field "change"
+																	}
+
+																}
+
+																hitbox_visible "1"
+																id "change"
+																offset
+																{
+																	y "28"
+																}
+																
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																visible "0"
+																z_order "7"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "full_depot"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/building_status_full_depot"
+																alignment "center"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					mask "44"
+																					scale
+																					{
+																						x "1.01"
+																						y "1.01"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "0.01"
+																					}
+
+																					frame_number "15"
+																					mask "44"
+																					scale
+																					{
+																						x "1.1"
+																						y "1.1"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					frame_number "30"
+																					mask "44"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	material
+																	{
+																		model_field "depot_material"
+																	}
+
+																	visible
+																	{
+																		model_field "full_depot"
+																	}
+
+																}
+
+																id "full_depot"
+																item_scripts
+																{
+																	scripts
+																	{
+																		Pair_IdString_GuiScriptDef2
+																		{
+																			key "OnShow"
+																			value
+																			{
+																				script
+																				{
+																					children
+																					{
+																						GuiScriptNodeDef
+																						{
+																							cmd "GuiScriptCommandAnimStartDef"
+																							{
+																								anim_info
+																								{
+																									loop "10"
+																									multiplier "2"
+																									stay_at_end "0"
+																								}
+
+																							}
+
+																						}
+
+																					}
+
+																					cmd
+																				}
+
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																offset
+																{
+																	x "210"
+																	y "18"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "8"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/resource_icons/missing_item"
+																alignment "center"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					mask "12"
+																					scale
+																					{
+																						x "1.01"
+																						y "1.01"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "15"
+																					mask "12"
+																					scale
+																					{
+																						x "1.1"
+																						y "1.1"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "30"
+																					mask "12"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "icon"
+																offset
+																{
+																	x "210"
+																	y "16"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																scale
+																{
+																	x "0.9"
+																	y "0.9"
+																}
+
+																z_order "5"
+															}
+
+														}
+
+													}
+
+													alignment "top_right"
+													animations
+													{
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-1"
+																		}
+
+																		mask "33"
+																		offset
+																		{
+																			x "600"
+																		}
+
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "30"
+																		mask "33"
+																	}
+
+																}
+
+																name "Show"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "small_resource"
+													item_scripts
+													{
+														scripts
+														{
+															Pair_IdString_GuiScriptDef2
+															{
+																key "OnHide"
+																value
+																{
+																	script
+																	{
+																		children
+																		{
+																			GuiScriptNodeDef
+																			{
+																				cmd "GuiScriptCommandAnimStartDef"
+																				{
+																					anim_info
+																					{
+																						loop "1"
+																						multiplier "0.5"
+																						reverse "1"
+																					}
+
+																					animations
+																					{
+																						Show
+																						{
+																							String "this"
+																						}
+
+																					}
+
+																				}
+
+																			}
+
+																		}
+
+																		cmd
+																	}
+
+																}
+
+															}
+
+															Pair_IdString_GuiScriptDef2
+															{
+																key "OnShow"
+																value
+																{
+																	script
+																	{
+																		children
+																		{
+																			GuiScriptNodeDef
+																			{
+																				cmd "GuiScriptCommandAnimStartDef"
+																				{
+																					anim_info
+																					{
+																						loop "1"
+																						multiplier "0.5"
+																					}
+
+																					animations
+																					{
+																						Show
+																						{
+																							String "this"
+																						}
+
+																					}
+
+																				}
+
+																			}
+
+																		}
+
+																		cmd
+																	}
+
+																}
+
+															}
+
+															Pair_IdString_GuiScriptDef2
+															{
+																key "BlinkFullDepot"
+																value
+																{
+																	script
+																	{
+																		children
+																		{
+																			GuiScriptNodeDef
+																			{
+																				cmd "GuiScriptCommandAnimStartDef"
+																				{
+																					anim_info
+																					{
+																						loop "2"
+																						multiplier "2"
+																					}
+
+																					animations
+																					{
+																						blink
+																						{
+																							String "icon"
+																							String "full_depot"
+																						}
+
+																					}
+
+																				}
+
+																			}
+
+																		}
+
+																		cmd
+																	}
+
+																}
+
+															}
+
+														}
+
+													}
+
+													offset
+													{
+														x "150"
+													}
+
+													size
+													{
+														x "150"
+														y "35"
+													}
+
+													visible "0"
+													z_order "3"
+												}
+
+											}
+
+										}
+
+										container_type "2"
+										alignment "top_right"
+										anchor "top_right"
+										hitbox_visible "0"
+										id "small_group"
+										size
+										{
+											x "170"
+											y "40"
+										}
+
+										size_mode_y "1"
+										z_order "2"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "small_group_1"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "small_resource"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "amount"
+															value "GuiTextLineDef"
+															{
+																content "MISSING_DATA"
+																style
+																{
+																	char_height "18"
+																	color
+																	{
+																		x "0"
+																		y "0.953"
+																	}
+
+																	font "Exo2_Bold_sdf"
+																	glow_color
+																	{
+																		w "0"
+																	}
+
+																	glow_size "0"
+																	glow_spread "0"
+																	shadow_angle "135"
+																	shadow_color
+																	{
+																		w "0.85"
+																	}
+
+																	shadow_distance "2"
+																	shadow_enabled "1"
+																	shadow_spread "0"
+																	space_size "7"
+																	stroke_position "0"
+																	stroke_size "0"
+																}
+
+																style_name "resource_max"
+																alignment "bottom_right"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					frame_number "15"
+																					mask "32"
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "30"
+																					mask "32"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	content
+																	{
+																		model_field "amount"
+																	}
+
+																}
+
+																hitbox_visible "1"
+																id "amount"
+																offset
+																{
+																	x "187"
+																	y "28"
+																}
+																
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "13"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "bg"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/resource_frame"
+																alignment "top_right"
+																hitbox_visible "1"
+																id "bg"
+																offset
+																{
+																	x "231"
+																}
+
+																scale
+																{
+																	x "0.44"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "11"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "change"
+															value "GuiTextLineDef"
+															{
+																content "MISSING_DATA"
+																style
+																{
+																	char_height "21"
+																	color
+																	{
+																		x "0.361"
+																		y "0.91"
+																		z "0.447"
+																	}
+
+																	df "1"
+																	font "Exo2_Bold_sdf"
+																	glow_color
+																	{
+																		w "0"
+																	}
+
+																	glow_size "0"
+																	glow_spread "0"
+																	shadow_angle "135"
+																	shadow_color
+																	{
+																		w "0.85"
+																	}
+
+																	shadow_distance "2"
+																	shadow_enabled "1"
+																	shadow_spread "0"
+																	space_size "7"
+																	stroke_position "0"
+																	stroke_size "0"
+																}
+
+																style_name "resource_green_smaller"
+																alignment "bottom_left"
+																bindings
+																{
+																	content
+																	{
+																		model_field "change"
+																	}
+
+																}
+
+																hitbox_visible "1"
+																id "change"
+																offset
+																{
+																	y "28"
+																}
+																
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																visible "0"
+																z_order "14"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "full_depot"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/building_status_full_depot"
+																alignment "center"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					mask "44"
+																					scale
+																					{
+																						x "1.01"
+																						y "1.01"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "0.01"
+																					}
+
+																					frame_number "15"
+																					mask "44"
+																					scale
+																					{
+																						x "1.1"
+																						y "1.1"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					color
+																					{
+																						w "-1"
+																					}
+
+																					frame_number "30"
+																					mask "44"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	material
+																	{
+																		model_field "depot_material"
+																	}
+
+																	visible
+																	{
+																		model_field "full_depot"
+																	}
+
+																}
+
+																id "full_depot"
+																item_scripts
+																{
+																	scripts
+																	{
+																		Pair_IdString_GuiScriptDef2
+																		{
+																			key "OnShow"
+																			value
+																			{
+																				script
+																				{
+																					children
+																					{
+																						GuiScriptNodeDef
+																						{
+																							cmd "GuiScriptCommandAnimStartDef"
+																							{
+																								anim_info
+																								{
+																									loop "10"
+																									multiplier "2"
+																									stay_at_end "0"
+																								}
+
+																							}
+
+																						}
+
+																					}
+
+																					cmd
+																				}
+
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																offset
+																{
+																	x "209"
+																	y "18"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "15"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/resource_icons/missing_item"
+																alignment "center"
+																animations
+																{
+																	items
+																	{
+																		GuiAnimationDef
+																		{
+																			frames
+																			{
+																				GuiAnimationFrame
+																				{
+																					mask "12"
+																					scale
+																					{
+																						x "1.01"
+																						y "1.01"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "15"
+																					mask "12"
+																					scale
+																					{
+																						x "1.1"
+																						y "1.1"
+																					}
+
+																				}
+
+																				GuiAnimationFrame
+																				{
+																					frame_number "30"
+																					mask "12"
+																				}
+
+																			}
+
+																			name "blink"
+																		}
+
+																	}
+
+																}
+
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "icon"
+																offset
+																{
+																	x "210"
+																	y "16"
+																}
+
+																scale
+																{
+																	x "0.9"
+																	y "0.9"
+																}
+
+																tooltip_def
+																{
+																	fit_to_screen "0"
+																	ref_gui_id "gui/template/resource_tooltip"
+																	alignment "top_right"
+																	size_mode_x "1"
+																	size_mode_y "1"
+																}
+
+																z_order "12"
+															}
+
+														}
+
+													}
+
+													alignment "top_right"
+													animations
+													{
+														items
+														{
+															GuiAnimationDef
+															{
+																frames
+																{
+																	GuiAnimationFrame
+																	{
+																		color
+																		{
+																			w "-1"
+																		}
+
+																		mask "33"
+																		offset
+																		{
+																			x "600"
+																		}
+
+																	}
+
+																	GuiAnimationFrame
+																	{
+																		frame_number "30"
+																		mask "33"
+																	}
+
+																}
+
+																name "Show"
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "small_resource"
+													item_scripts
+													{
+														scripts
+														{
+															Pair_IdString_GuiScriptDef2
+															{
+																key "BlinkFullDepot"
+																value
+																{
+																	script
+																	{
+																		children
+																		{
+																			GuiScriptNodeDef
+																			{
+																				cmd "GuiScriptCommandAnimStartDef"
+																				{
+																					anim_info
+																					{
+																						loop "2"
+																						multiplier "2"
+																					}
+
+																					animations
+																					{
+																						blink
+																						{
+																							String "icon"
+																							String "full_depot"
+																						}
+
+																					}
+
+																				}
+
+																			}
+
+																		}
+
+																		cmd
+																	}
+
+																}
+
+															}
+
+														}
+
+													}
+
+													offset
+													{
+														x "150"
+													}
+
+													size
+													{
+														x "150"
+														y "35"
+													}
+
+													visible "0"
+													z_order "10"
+												}
+
+											}
+
+										}
+
+										container_type "2"
+										hitbox_visible "0"
+										id "small_group_1"
+										size
+										{
+											x "170"
+											y "40"
+										}
+
+										size_mode_y "1"
+										z_order "9"
+									}
+
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "smaller_groups"
+							margin
+							{
+								x "-20"
+							}
+
+							size
+							{
+								x "340"
+								y "40"
+							}
+
+							size_mode_y "1"
+							z_order "1"
+						}
+
+					}
+
+				}
+
+				container_type "2"
+				id "resources"
+				offset
+				{
+					x "1541"
+					y "10"
+				}
+
+				size
+				{
+					x "379"
+					y "42"
+				}
+
+				size_mode_y "1"
+			}
+
+		}
+
+	}
+
+	alignment "top_right"
+	anchor "top_right"
+	id "gui/hud/resource"
+	size
+	{
+		x "1920"
+		y "1080"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "100"
+					}
+
+				}
+
+				key "amount"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "arrow"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "Vector_float"
+					default_value
+					{
+						typehash "3744762499"
+						Vector_float
+						{
+							float "0.5"
+							float "0.25"
+							float "0.25"
+						}
+
+					}
+
+				}
+
+				key "bar_data"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "-50"
+					}
+
+				}
+
+				key "bilans"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "77/88"
+					}
+
+				}
+
+				key "change"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "0"
+					}
+
+				}
+
+				key "local"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "gui/hud/no_research"
+					}
+
+				}
+
+				key "research"
+			}
+
+		}
+
+		handle "[53AE2FAB-6704-46E3-B4D1-2E780E0DBA5D]"
+	}
+
+	GuiDataTypeDefinition
+	{
+		name "a"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		handle "[B66F0E8D-EF55-4CFF-94BC-9934892DBF77]"
+	}
+
+}
+
