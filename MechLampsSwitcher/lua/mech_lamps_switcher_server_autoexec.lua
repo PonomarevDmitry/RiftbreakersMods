@@ -72,7 +72,7 @@ local mech_lamps_switcher_autoexec = function(evt, eventName)
 
                     if ( blueprintName == skillName ) then
 
-                        LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
+                        --LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
 
                         isItemExists = true
                         break
@@ -90,7 +90,7 @@ local mech_lamps_switcher_autoexec = function(evt, eventName)
 
                     if ( keyCollection.key == skillName ) then
 
-                        LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
+                        --LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
 
                         isItemExists = true
                         break
@@ -100,7 +100,7 @@ local mech_lamps_switcher_autoexec = function(evt, eventName)
 
             if (isItemExists == false) then
 
-                LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
+                --LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
     
                 PlayerService:AddItemToInventory( playerId, skillName )
             end

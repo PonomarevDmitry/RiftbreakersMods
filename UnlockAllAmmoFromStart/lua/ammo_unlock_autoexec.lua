@@ -93,7 +93,7 @@ local ammo_unlock_autoexec = function(evt, eventName)
 
                 if (hashItemUnlocked[name] == nil) then
 
-                    LogService:Log(eventName .. " NewAwardEvent name " .. tostring(name) .. ".")
+                    --LogService:Log(eventName .. " NewAwardEvent name " .. tostring(name) .. ".")
 
                     QueueEvent( "NewAwardEvent", INVALID_ID, name, true, team )
                 end

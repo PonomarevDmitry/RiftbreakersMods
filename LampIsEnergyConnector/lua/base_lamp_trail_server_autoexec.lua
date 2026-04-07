@@ -78,7 +78,7 @@ local base_lamp_trail_autoexec = function(evt, eventName)
 
                     if ( IndexOf( skillList, blueprintName ) ~= nil ) then
 
-                        LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
+                        --LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
 
                         hashItemInInventory[blueprintName] = true
                     end
@@ -95,7 +95,7 @@ local base_lamp_trail_autoexec = function(evt, eventName)
 
                     if ( IndexOf( skillList, keyCollection.key ) ~= nil ) then
 
-                        LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
+                        --LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
 
                         hashItemInInventory[keyCollection.key] = true
                     end
@@ -106,7 +106,7 @@ local base_lamp_trail_autoexec = function(evt, eventName)
 
                 if (hashItemInInventory[skillName] == nil) then
 
-                    LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
+                    --LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
     
                     PlayerService:AddItemToInventory( playerId, skillName )
                 end
