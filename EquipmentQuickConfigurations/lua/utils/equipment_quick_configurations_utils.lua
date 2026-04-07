@@ -698,7 +698,8 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
     local fullAnnouncement = ""
 
     if ( loadResult == LOAD_RESULT_SUCCESS ) then
-        fullAnnouncement = '<style="header_24">${voice_over/announcement/equipment_quick_configurations/load/success/loaded} ' ..
+
+        fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/load/success/loaded} <style="header_24">' ..
             localizationUnited ..
             ' ${voice_over/announcement/equipment_quick_configurations/load/success/loaded_end}</style>';
 
