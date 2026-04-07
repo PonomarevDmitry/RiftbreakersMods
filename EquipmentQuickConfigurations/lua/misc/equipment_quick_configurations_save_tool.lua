@@ -204,7 +204,7 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
 
         --LogService:Log("fullAnnouncement " .. fullAnnouncement)
 
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        GuiService:ShowHudPickupText( fullAnnouncement )
     end
 
     self.popupShown = false

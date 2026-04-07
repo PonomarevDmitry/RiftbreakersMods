@@ -743,7 +743,7 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
     if ( mod_quick_equipment_mode_announcements == 1 ) then
 
         SoundService:Play( sound )
-        SoundService:PlayAnnouncement( fullAnnouncement, 0 )
+        GuiService:ShowHudPickupText( fullAnnouncement )
 
         if ( loadResult == LOAD_RESULT_SUCCESS ) then
 
@@ -752,7 +752,7 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
                 local slotsIcons = EquipmentQuickConfigurationsUtils:GetSlotsIcons(player_id, slotsHash)
 
                 if ( slotsIcons ~= "" ) then
-                    SoundService:PlayAnnouncement( slotsIcons, 0 )
+                    GuiService:ShowHudPickupText( slotsIcons )
                 end
             end
         end
