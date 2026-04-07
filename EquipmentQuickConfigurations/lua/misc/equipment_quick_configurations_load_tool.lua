@@ -28,6 +28,37 @@ function equipment_quick_configurations_load_tool:OnInit()
     self.timeoutTime = nil
 
     self.clickCooldown = 0.75
+
+    self.configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+
+    self.announcementsOn = 1
+
+    self.globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(self.playerId)
+    if ( self.globalPlayerEntity ~= nil and self.globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+
+            self.announcementsOn = globalPlayerEntityDB:GetIntOrDefault(self.configKey, 1) or 1
+        end
+    end
+
+    self:UpdateMarker()
+end
+
+function equipment_quick_configurations_load_tool:UpdateMarker()
+
+    local markerDB = self.data
+   
+    if ( self.announcementsOn == 1 ) then
+
+        markerDB:SetString("message_text", "voice_over/announcement/equipment_quick_configurations_announcement_on")
+        markerDB:SetInt("message_visible", 1)
+    else
+
+        markerDB:SetString("message_text", "voice_over/announcement/equipment_quick_configurations_announcement_off")
+        markerDB:SetInt("message_visible", 1)
+    end
 end
 
 function equipment_quick_configurations_load_tool:SpawnCornerBlueprint()
@@ -51,7 +82,47 @@ end
 function equipment_quick_configurations_load_tool:RemovedFromSelection( entity )
 end
 
-function equipment_quick_configurations_load_tool:OnRotate()
+function equipment_quick_configurations_load_tool:OnRotateSelectorRequest( evt )
+
+    local degree = evt:GetDegree()
+
+    local newValue = 1
+
+    if ( degree > 0 ) then
+        newValue = 0
+    end
+
+    if ( newValue == self.announcementsOn ) then
+        return
+    end
+
+    self.announcementsOn = newValue
+
+    if ( self.announcementsOn == 1 ) then
+
+        SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
+    else
+
+        SoundService:Play( "items/weapons/energy/blaster_equipped" )
+    end
+
+    if ( self.globalPlayerEntity ~= nil and self.globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+
+            globalPlayerEntityDB:SetInt(self.configKey, self.announcementsOn)
+
+            if not ( is_server and is_client ) then
+
+                local mapperName = "SetGlobalPlayerEntityDatabaseInt|" .. keyName .. "|" .. tostring(self.announcementsOn)
+
+                QueueEvent("OperateActionMapperRequest", self.globalPlayerEntity, mapperName, false )
+            end
+        end
+    end
+
+    self:UpdateMarker()
 end
 
 function equipment_quick_configurations_load_tool:OnActivateSelectorRequest()
@@ -106,7 +177,7 @@ function equipment_quick_configurations_load_tool:OnGuiPopupResultEvent( evt)
   
     local loadResult, slotsHash = EquipmentQuickConfigurationsUtils:ReadSavedEquipmentInfoAndEquipItems( self.playerId, self.slotNamePrefixArray, self.slotLocalizationName, self.configName, true )
 
-    EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(self.playerId, loadResult, self.slotLocalizationName, self.configName, slotsHash)
+    EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound(self.playerId, loadResult, self.slotLocalizationName, self.configName, slotsHash, self.announcementsOn)
 
     self.popupShown = false
 end

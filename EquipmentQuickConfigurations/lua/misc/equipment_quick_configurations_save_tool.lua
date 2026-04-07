@@ -28,6 +28,37 @@ function equipment_quick_configurations_save_tool:OnInit()
     self.timeoutTime = nil
 
     self.clickCooldown = 0.75
+
+    self.configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
+
+    self.announcementsOn = 1
+
+    self.globalPlayerEntity = PlayerService:GetGlobalPlayerEntity(self.playerId)
+    if ( self.globalPlayerEntity ~= nil and self.globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+
+            self.announcementsOn = globalPlayerEntityDB:GetIntOrDefault(self.configKey, 1) or 1
+        end
+    end
+
+    self:UpdateMarker()
+end
+
+function equipment_quick_configurations_save_tool:UpdateMarker()
+
+    local markerDB = self.data
+   
+    if ( self.announcementsOn == 1 ) then
+
+        markerDB:SetString("message_text", "voice_over/announcement/equipment_quick_configurations_announcement_on")
+        markerDB:SetInt("message_visible", 1)
+    else
+
+        markerDB:SetString("message_text", "voice_over/announcement/equipment_quick_configurations_announcement_off")
+        markerDB:SetInt("message_visible", 1)
+    end
 end
 
 function equipment_quick_configurations_save_tool:SpawnCornerBlueprint()
@@ -51,7 +82,47 @@ end
 function equipment_quick_configurations_save_tool:RemovedFromSelection( entity )
 end
 
-function equipment_quick_configurations_save_tool:OnRotate()
+function equipment_quick_configurations_save_tool:OnRotateSelectorRequest( evt )
+
+    local degree = evt:GetDegree()
+
+    local newValue = 1
+
+    if ( degree > 0 ) then
+        newValue = 0
+    end
+
+    if ( newValue == self.announcementsOn ) then
+        return
+    end
+
+    self.announcementsOn = newValue
+
+    if ( self.announcementsOn == 1 ) then
+
+        SoundService:Play( "items/weapons/bullet/small_machinegun_equipped" )
+    else
+
+        SoundService:Play( "items/weapons/energy/blaster_equipped" )
+    end
+
+    if ( self.globalPlayerEntity ~= nil and self.globalPlayerEntity ~= INVALID_ID ) then
+
+        local globalPlayerEntityDB = EntityService:GetDatabase( self.globalPlayerEntity )
+        if ( globalPlayerEntityDB ) then
+
+            globalPlayerEntityDB:SetInt(self.configKey, self.announcementsOn)
+
+            if not ( is_server and is_client ) then
+
+                local mapperName = "SetGlobalPlayerEntityDatabaseInt|" .. keyName .. "|" .. tostring(self.announcementsOn)
+
+                QueueEvent("OperateActionMapperRequest", self.globalPlayerEntity, mapperName, false )
+            end
+        end
+    end
+
+    self:UpdateMarker()
 end
 
 function equipment_quick_configurations_save_tool:OnActivateSelectorRequest()
@@ -115,6 +186,8 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEvent( evt)
         local message = '<style="header_35">${voice_over/announcement/equipment_quick_configurations/load/empty} ' ..
             slotLocalizationNameFull ..
             ' ${voice_over/announcement/equipment_quick_configurations/load/empty_end}</style>';
+
+        SoundService:Play( "gui/cannot_use_item" )
 
         GuiService:OpenPopup(self.entity, "gui/popup/popup_template_1button", message)
 
@@ -193,18 +266,23 @@ function equipment_quick_configurations_save_tool:OnGuiPopupResultEventSaveResul
 
         EquipmentQuickConfigurationsUtils:SaveSettingKeyName( self.playerId, self.slotLocalizationName, self.configName, self.configContent )
 
-        local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
-        local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
+        SoundService:Play( "items/item_equipped_default" )
 
-        local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' ..
-            slotLocalizationNameFull ..
-            '</style> ${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' ..
-            configNameLocal ..
-            '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
+        if ( self.announcementsOn == 1 ) then
 
-        --LogService:Log("fullAnnouncement " .. fullAnnouncement)
+            local configNameLocal = "${equipment_quick_configurations/configs/name/" .. self.configName .. '}'
+            local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. self.slotLocalizationName .. '}'
 
-        GuiService:ShowHudPickupText( fullAnnouncement )
+            local fullAnnouncement = '${voice_over/announcement/equipment_quick_configurations/saving} <style="header_24">' ..
+                slotLocalizationNameFull ..
+                '</style> ${voice_over/announcement/equipment_quick_configurations/saving_to} <style="header_24">' ..
+                configNameLocal ..
+                '</style>${voice_over/announcement/equipment_quick_configurations/saving_end}'
+
+            --LogService:Log("fullAnnouncement " .. fullAnnouncement)
+
+            GuiService:ShowHudPickupText( fullAnnouncement )
+        end
     end
 
     self.popupShown = false

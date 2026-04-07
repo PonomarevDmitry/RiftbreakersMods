@@ -688,7 +688,7 @@ function EquipmentQuickConfigurationsUtils:GetItemRarity( subSlotEntityId )
     return 0
 end
 
-function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_id, loadResult, slotName, configName, slotsHash )
+function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_id, loadResult, slotName, configName, slotsHash, announcementsOn )
 
     local configNameLocal = "${equipment_quick_configurations/configs/name/" .. configName .. '}'
     local slotLocalizationNameFull = "${equipment_quick_configurations/slots/" .. slotName .. '}'
@@ -727,22 +727,10 @@ function EquipmentQuickConfigurationsUtils:PlayLoadAnnouncementAndSound( player_
         sound = "gui/cannot_use_item"
     end
 
-    local mod_quick_equipment_mode_announcements = 1
+    SoundService:Play( sound )
 
-    --if ( CampaignService.GetCampaignData ) then
-    --
-    --    local campaignDatabase = CampaignService:GetCampaignData()
-    --    if ( campaignDatabase ~= nil ) then
-    --
-    --        local configKey = "$EquipmentQuickConfigurationsUtils.mod_quick_equipment_mode_announcements"
-    --
-    --        mod_quick_equipment_mode_announcements = campaignDatabase:GetIntOrDefault(configKey, 1) or 1
-    --    end
-    --end
+    if ( announcementsOn == 1 ) then
 
-    if ( mod_quick_equipment_mode_announcements == 1 ) then
-
-        SoundService:Play( sound )
         GuiService:ShowHudPickupText( fullAnnouncement )
 
         if ( loadResult == LOAD_RESULT_SUCCESS ) then
