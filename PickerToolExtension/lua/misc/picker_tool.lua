@@ -45,6 +45,8 @@ function picker_tool:OnInit()
 
     self.selectedMode = self.modeBuilding
 
+    self.maxDeltaLast = 1
+
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
     self.powerWellsDestroyExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_preserve" ) and (mod_picker_tool_extension_power_wells_preserve ~= nil and mod_picker_tool_extension_power_wells_preserve == 1);
@@ -2477,7 +2479,7 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
         return ""
     end
 
-    local maxDeltaLast = 1
+
 
     for lowName in Iter( selectedBluprintsNames ) do
 
@@ -2512,7 +2514,7 @@ function picker_tool:GetMineBlueprintName( resourceId, selectedBluprintsNames )
             
             local delta = currentTime - lastTime
 
-            if ( lastLowName == lowName and delta < maxDeltaLast ) then
+            if ( lastLowName == lowName and delta < self.maxDeltaLast ) then
 
                 goto labelContinue
             end
@@ -3053,13 +3055,11 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
 
     lastTimeValue = lastTimeValue or 0
 
-    local maxDeltaLast = 1
-
     local delta = currentTime - lastTimeValue
 
-    --LogService:Log("currentTime " .. tostring(currentTime) .. "      currentTime+maxDeltaLast " .. tostring(currentTime+maxDeltaLast).. "      delta " .. tostring(delta))
+    --LogService:Log("currentTime " .. tostring(currentTime) .. "      currentTime+self.maxDeltaLast " .. tostring(currentTime+self.maxDeltaLast).. "      delta " .. tostring(delta))
 
-    if ( delta >= maxDeltaLast ) then
+    if ( delta >= self.maxDeltaLast ) then
 
         lastValue = ""
         lastEntityId = INVALID_ID
