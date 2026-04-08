@@ -2807,20 +2807,6 @@ function picker_tool:GetLastVeinExtractor(resourceId)
 
 
 
-    if ( lowName == "" ) then
-
-        if ( CampaignService.GetCampaignData ) then
-        
-            local campaignDatabase = CampaignService:GetCampaignData()
-
-            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-
-                lowName = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
-                timeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
-            end
-        end
-    end
-
     timeValue = timeValue or 0
 
     return lowName, timeValue
@@ -3061,20 +3047,7 @@ function picker_tool:GetLastBlueprint(suffix, currentTime)
 
 
 
-    if ( lastValue == "" ) then
 
-        if ( CampaignService.GetCampaignData ) then
-        
-            local campaignDatabase = CampaignService:GetCampaignData()
-
-            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-
-                lastValue = campaignDatabase:GetStringOrDefault(parameterName, "") or ""
-                lastTimeValue = campaignDatabase:GetFloatOrDefault(parameterTimeName, 0)
-                lastEntityId = campaignDatabase:GetIntOrDefault(parameterEntityName, INVALID_ID)
-            end
-        end
-    end
 
 
 
