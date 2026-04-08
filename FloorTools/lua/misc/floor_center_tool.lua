@@ -353,16 +353,6 @@ function floor_center_tool:GetFloorBlueprintName( selectorDB, parameterName, def
     end
 
 
-    if ( blueprintName == "" ) then
-
-        if ( CampaignService.GetCampaignData ) then
-        
-            local campaignDatabase = CampaignService:GetCampaignData()
-            if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-                blueprintName = campaignDatabase:GetStringOrDefault(parameterName, defaultFloor)
-            end
-        end
-    end
 
     if ( blueprintName == "" ) then
         return defaultFloor
