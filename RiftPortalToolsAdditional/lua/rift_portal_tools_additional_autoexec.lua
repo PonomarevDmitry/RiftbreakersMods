@@ -13,7 +13,9 @@ local rift_portal_tools_autoexec = function(evt)
         return
     end
 
-    BuildingService:UnlockBuilding("buildings/defense/rift_portal_tool_green")
+    BuildingService:UnlockBuilding("buildings/defense/portal_chain_tool")
+    BuildingService:UnlockBuilding("buildings/defense/portal_builder_tool")
+    BuildingService:UnlockBuilding("buildings/defense/portal_builder_tool2")
 end
 
 RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
