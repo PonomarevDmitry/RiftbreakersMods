@@ -412,16 +412,6 @@ function buildings_upgrader_tool:UpgradeBlueprintsInTemplateAndSaveToDatabase(te
     if ( selectorDB ) then
         selectorDB:SetString( templateName, templateString )
     end
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-
-            campaignDatabase:RemoveKey( templateName )
-        end
-    end
 end
 
 function buildings_upgrader_tool:OnRelease()

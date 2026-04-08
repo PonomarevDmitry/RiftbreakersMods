@@ -42,12 +42,7 @@ function BuildingsTemplatesUtils:TransferData(globalPlayerEntity, selectorDB)
 
 
 
-    local campaignDatabase = nil
-    
-    if ( CampaignService.GetCampaignData ~= nil ) then
 
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
 
 
     local numberFrom = 1
@@ -63,9 +58,7 @@ function BuildingsTemplatesUtils:TransferData(globalPlayerEntity, selectorDB)
 
         local hasSelectorTemplate = ( selectorDB ~= nil and selectorDB:HasString( templateName ) and selectorDB:GetString( templateName ) ~= "" )
 
-        local hasCampaignTemplate = ( campaignDatabase ~= nil and campaignDatabase:HasString( templateName ) and campaignDatabase:GetString( templateName ) ~= "" )
-
-        --LogService:Log("Transfering templateName " .. tostring(templateName) .. " hasGlobalPlayerTemplate " .. tostring(hasGlobalPlayerTemplate) .. " hasSelectorTemplate " .. tostring(hasSelectorTemplate) .. " hasCampaignTemplate " .. tostring(hasCampaignTemplate))
+        --LogService:Log("Transfering templateName " .. tostring(templateName) .. " hasGlobalPlayerTemplate " .. tostring(hasGlobalPlayerTemplate) .. " hasSelectorTemplate " .. tostring(hasSelectorTemplate))
 
         if ( hasGlobalPlayerTemplate ) then
 
@@ -98,42 +91,7 @@ function BuildingsTemplatesUtils:TransferData(globalPlayerEntity, selectorDB)
             end
         end
 
-        if ( hasCampaignTemplate ) then
-
-            local templateValue = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-
-            if ( templateValue ~= "" ) then
-
-                --LogService:Log("Transfering from CampaignDatabase templateName " .. tostring(templateName) .. " templateValue " .. tostring(templateValue))
-
-                if ( selectorDB ) then
-                    selectorDB:SetString( templateName, templateValue )
-                end
-
-                if ( globalPlayerEntityDB ) then
-                    globalPlayerEntityDB:SetString( templateName, templateValue )
-                end
-                
-                if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-                    if not ( is_server and is_client ) then
-
-                        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. templateValue
-
-                        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
-                    end
-                end
-
-                goto labelContinue
-            end
-        end
-
         ::labelContinue::
-
-        if ( campaignDatabase ~= nil and hasCampaignTemplate ) then
-
-            campaignDatabase:RemoveKey( templateName )
-        end
     end
 
     --LogService:Log(" ")
@@ -179,38 +137,7 @@ function BuildingsTemplatesUtils:GetTemplateString(templateName, globalPlayerEnt
 
 
 
-    if ( result == "" and CampaignService.GetCampaignData ~= nil ) then
 
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-
-            result = campaignDatabase:GetStringOrDefault( templateName, "" ) or ""
-
-            if ( result ~= "" ) then
-
-                if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-                    local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
-
-                    if ( globalPlayerEntityDB ) then
-                        globalPlayerEntityDB:SetString( templateName, result )
-                    end
-
-                    if not ( is_server and is_client ) then
-
-                        local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. templateName .. "|" .. result
-
-                        QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
-                    end
-                end
-
-                if ( selectorDB ) then
-                    selectorDB:SetString( templateName, result )
-                end
-            end
-        end
-    end
 
     result = result or ""
 
@@ -286,14 +213,7 @@ function BuildingsTemplatesUtils:GetCurrentPersistentDatabase(selector)
 
 
 
-    if ( result == nil and CampaignService.GetCampaignData ~= nil ) then
 
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasInt( configName ) ) then
-            result = campaignDatabase:GetIntOrDefault( configName, 1 )
-        end
-    end
 
 
 

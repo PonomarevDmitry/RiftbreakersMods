@@ -584,16 +584,6 @@ function buildings_database_importer_tool:ImportTemplateToToDatabase(templateNam
     if ( selectorDB ) then
         selectorDB:SetString( templateName, templateString )
     end
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-
-            campaignDatabase:RemoveKey( templateName )
-        end
-    end
 end
 
 function buildings_database_importer_tool:IsTemplateEqualsToImport(templateString, persistentTemplateString)

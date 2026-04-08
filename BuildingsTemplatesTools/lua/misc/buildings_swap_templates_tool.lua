@@ -246,21 +246,6 @@ function buildings_swap_templates_tool:OnActivateSelectorRequest()
         selectorDB:SetString(templateNameTo, templateStringFrom)
     end
 
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateNameFrom ) ) then
-
-            campaignDatabase:RemoveKey( templateNameFrom )
-        end
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateNameTo ) ) then
-
-            campaignDatabase:RemoveKey( templateNameTo )
-        end
-    end
-
     self:FillMarkerMessage()
 end
 

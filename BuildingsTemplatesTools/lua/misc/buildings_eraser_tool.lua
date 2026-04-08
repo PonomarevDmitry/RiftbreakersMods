@@ -431,16 +431,6 @@ function buildings_eraser_tool:OnGuiPopupResultEventSingleTemplate( evt )
         selectorDB:SetString( self.templateNameForErase, "" )
     end
 
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( self.templateNameForErase ) ) then
-
-            campaignDatabase:RemoveKey( self.templateNameForErase )
-        end
-    end
-
     self:UpdateMarker()
 
     self:FillMarkerMessage()
@@ -466,12 +456,6 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
     end
 
 
-    local campaignDatabase = nil
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        campaignDatabase = CampaignService:GetCampaignData()
-    end
 
     for number=self.numberFrom,self.numberTo do
 
@@ -495,11 +479,6 @@ function buildings_eraser_tool:OnGuiPopupResultEventAllTemplates( evt )
 
         if ( selectorDB ) then
             selectorDB:SetString( templateName, "" )
-        end
-
-        if ( campaignDatabase and campaignDatabase:HasString( templateName ) ) then
-
-            campaignDatabase:RemoveKey( templateName )
         end
     end
 

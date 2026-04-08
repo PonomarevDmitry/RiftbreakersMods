@@ -469,16 +469,6 @@ function buildings_picker_tool:OnGuiPopupResultEvent( evt )
         if ( selectorDB ) then
             selectorDB:SetString( self.template_name, "" )
         end
-
-        if ( CampaignService.GetCampaignData ~= nil ) then
-
-            local campaignDatabase = CampaignService:GetCampaignData()
-
-            if ( campaignDatabase and campaignDatabase:HasString( self.template_name ) ) then
-
-                campaignDatabase:RemoveKey( self.template_name )
-            end
-        end
     end
 end
 
@@ -640,16 +630,6 @@ function buildings_picker_tool:SaveEntitiesToDatabase()
 
     if ( selectorDB ) then
         selectorDB:SetString( self.template_name, templateString )
-    end
-
-    if ( CampaignService.GetCampaignData ~= nil ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString( self.template_name ) ) then
-
-            campaignDatabase:RemoveKey( self.template_name )
-        end
     end
 
 
