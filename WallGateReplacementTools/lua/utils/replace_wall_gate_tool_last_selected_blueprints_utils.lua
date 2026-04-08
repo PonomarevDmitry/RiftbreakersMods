@@ -132,40 +132,6 @@ function LastSelectedBlueprintsListUtils:GetParameterString(parameterName, globa
         return currentList
     end
 
-    if ( CampaignService.GetCampaignData ) then
-
-        local campaignDatabase = CampaignService:GetCampaignData()
-
-        if ( campaignDatabase and campaignDatabase:HasString(parameterName) ) then
-            currentList = campaignDatabase:GetString( parameterName ) or ""
-        end
-    end
-
-    if ( currentList ~= nil and currentList ~= "" ) then
-
-        if ( selectorDB ) then
-            selectorDB:SetString(parameterName, currentList)
-        end
-
-        if ( globalPlayerEntity ~= nil and globalPlayerEntity ~= INVALID_ID ) then
-
-            local globalPlayerEntityDB = EntityService:GetDatabase( globalPlayerEntity )
-
-            if ( globalPlayerEntityDB ) then
-                globalPlayerEntityDB:SetString(parameterName, currentList)
-            end
-
-            if not ( is_server and is_client ) then
-
-                local mapperName = "SetGlobalPlayerEntityDatabaseString|" .. parameterName .. "|" .. currentList
-
-                QueueEvent("OperateActionMapperRequest", globalPlayerEntity, mapperName, false )
-            end
-        end
-
-        return currentList
-    end
-
     return currentList
 end
 
