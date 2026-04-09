@@ -36,7 +36,7 @@ function replace_lamp_replacer_from_to_tool:OnInit()
 
     self.buildingDescHash = {}
     self.lampBluprintsArray = {}
-    self.lampBluprintsResearch = {}
+    self.lampBluprintsUnlockHash = {}
     self.cacheBuildCosts = {}
 
     if ( self.toBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.toBlueprintName ) ) then
@@ -80,43 +80,26 @@ end
 
 function replace_lamp_replacer_from_to_tool:FillResearches()
 
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-
     for i=1,#self.lampBluprintsArray do
 
         local blueprintName = self.lampBluprintsArray[i]
 
-        local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
-
-        self.lampBluprintsResearch[blueprintName] = researchName
+        self.lampBluprintsUnlockHash[blueprintName] = false
     end
-end
 
-function replace_lamp_replacer_from_to_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
 
-    local categories = researchComponent.research
+    local unlockedArray = inventorySystemDataComponentRef.unlocked
 
-    for i=1,categories.count do
+    for i=1,unlockedArray.count do
 
-        local category = categories[i]
-        local category_nodes = category.nodes
+        local unlockedItem = unlockedArray[i]
 
-        for j=1,category_nodes.count do
+        if ( self.lampBluprintsUnlockHash[unlockedItem] ~= nil ) then
 
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == blueprintName then
-
-                    return node.research_name
-                end
-            end
+            self.lampBluprintsUnlockHash[unlockedItem] = true
         end
     end
-
-    return ""
 end
 
 function replace_lamp_replacer_from_to_tool:SetBuildingIcon()
@@ -451,16 +434,13 @@ end
 
 function replace_lamp_replacer_from_to_tool:IsLampBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+    if ( self.lampBluprintsUnlockHash[blueprintName] == true ) then
+
         return true
     end
 
-    local researchName = self.lampBluprintsResearch[blueprintName] or ""
-    if ( researchName ~= "" ) then
-
-        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
-            return true
-        end
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
     end
 
     return false

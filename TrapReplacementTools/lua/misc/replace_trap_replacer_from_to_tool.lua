@@ -36,7 +36,7 @@ function replace_trap_replacer_from_to_tool:OnInit()
 
     self.buildingDescHash = {}
     self.trapBluprintsArray = {}
-    self.trapBluprintsResearch = {}
+    self.trapBluprintsUnlockHash = {}
     self.cacheBuildCosts = {}
 
     if ( self.toBlueprintName ~= "" and ResourceManager:ResourceExists( "EntityBlueprint", self.toBlueprintName ) ) then
@@ -80,43 +80,26 @@ end
 
 function replace_trap_replacer_from_to_tool:FillResearches()
 
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-
     for i=1,#self.trapBluprintsArray do
 
         local blueprintName = self.trapBluprintsArray[i]
 
-        local researchName = self:GetResearchForUpgrade( researchComponent, blueprintName )
-
-        self.trapBluprintsResearch[blueprintName] = researchName
+        self.trapBluprintsUnlockHash[blueprintName] = false
     end
-end
 
-function replace_trap_replacer_from_to_tool:GetResearchForUpgrade( researchComponent, blueprintName )
+    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
 
-    local categories = researchComponent.research
+    local unlockedArray = inventorySystemDataComponentRef.unlocked
 
-    for i=1,categories.count do
+    for i=1,unlockedArray.count do
 
-        local category = categories[i]
-        local category_nodes = category.nodes
+        local unlockedItem = unlockedArray[i]
 
-        for j=1,category_nodes.count do
+        if ( self.trapBluprintsArray[unlockedItem] ~= nil ) then
 
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == blueprintName then
-
-                    return node.research_name
-                end
-            end
+            self.trapBluprintsArray[unlockedItem] = true
         end
     end
-
-    return ""
 end
 
 function replace_trap_replacer_from_to_tool:SetBuildingIcon()
@@ -430,16 +413,13 @@ end
 
 function replace_trap_replacer_from_to_tool:IsTrapBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+    if ( self.trapBluprintsUnlockHash[blueprintName] == true ) then
+
         return true
     end
 
-    local researchName = self.trapBluprintsResearch[blueprintName] or ""
-    if ( researchName ~= "" ) then
-
-        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
-            return true
-        end
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
     end
 
     return false
