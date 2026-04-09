@@ -46,6 +46,9 @@ function picker_tool:OnInit()
     self.selectedMode = self.modeBuilding
 
     self.maxDeltaLast = 1
+    
+    self.bluprintsUnlockHash = {}
+    self:FillUnlockedBlueprints()
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
@@ -62,6 +65,20 @@ function picker_tool:OnInit()
     self.floraFertilizerExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/fertilizer_flora" ) and (mod_picker_tool_extension_fertilizer_flora_tool ~= nil and mod_picker_tool_extension_fertilizer_flora_tool == 1);
 
     self:SetBuildingIcon()
+end
+
+function picker_tool:FillUnlockedBlueprints()
+
+    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
+
+    local unlockedArray = inventorySystemDataComponentRef.unlocked
+
+    for i=1,unlockedArray.count do
+
+        local unlockedItem = unlockedArray[i]
+
+        self.bluprintsUnlockHash[unlockedItem] = true
+    end
 end
 
 function picker_tool:SetBuildingIcon()
@@ -2631,48 +2648,16 @@ end
 
 function picker_tool:IsBlueprintAvailable( blueprintName )
 
+    if ( self.bluprintsUnlockHash[blueprintName] == true ) then
+
+        return true
+    end
+
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 
-    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
-    if ( researchName ~= "" ) then
-
-        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
-            return true
-        end
-    end
-
     return false
-end
-
-function picker_tool:GetResearchForUpgrade( blueprintName )
-
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-
-    local categories = researchComponent.research
-
-    for i=1,categories.count do
-
-        local category = categories[i]
-        local category_nodes = category.nodes
-
-        for j=1,category_nodes.count do
-
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == blueprintName then
-
-                    return node.research_name
-                end
-            end
-        end
-    end
-
-    return ""
 end
 
 function picker_tool:HighlightRuins()

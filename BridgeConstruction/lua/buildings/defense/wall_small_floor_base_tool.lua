@@ -58,6 +58,9 @@ function wall_small_floor_base_tool:InitializeValues()
         ["titanium"] = "voice_over/announcement/not_enough_titanium",
         ["uranium"] = "voice_over/announcement/not_enough_uranium"
     }
+    
+    self.bluprintsUnlockHash = {}
+    self:FillUnlockedBlueprints()
 
     self.wallBlueprintName = self:GetWallBlueprintName()
 
@@ -72,6 +75,20 @@ function wall_small_floor_base_tool:CreateInfoChild()
     if ( self.infoChild == nil ) then
         self.infoChild = EntityService:SpawnAndAttachEntity( "misc/marker_selector/building_info", self.selector )
         EntityService:SetPosition( self.infoChild, -1, 0, 1)
+    end
+end
+
+function wall_small_floor_base_tool:FillUnlockedBlueprints()
+
+    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
+
+    local unlockedArray = inventorySystemDataComponentRef.unlocked
+
+    for i=1,unlockedArray.count do
+
+        local unlockedItem = unlockedArray[i]
+
+        self.bluprintsUnlockHash[unlockedItem] = true
     end
 end
 
@@ -118,48 +135,16 @@ end
 
 function wall_small_floor_base_tool:IsBlueprintAvailable( blueprintName )
 
+    if ( self.bluprintsUnlockHash[blueprintName] == true ) then
+
+        return true
+    end
+
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
         return true
     end
 
-    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
-    if ( researchName ~= "" ) then
-
-        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
-            return true
-        end
-    end
-
     return false
-end
-
-function wall_small_floor_base_tool:GetResearchForUpgrade( blueprintName )
-
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-
-    local categories = researchComponent.research
-
-    for i=1,categories.count do
-
-        local category = categories[i]
-        local category_nodes = category.nodes
-
-        for j=1,category_nodes.count do
-
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == blueprintName then
-
-                    return node.research_name
-                end
-            end
-        end
-    end
-
-    return ""
 end
 
 function wall_small_floor_base_tool:SpawnGhostWallEntity()

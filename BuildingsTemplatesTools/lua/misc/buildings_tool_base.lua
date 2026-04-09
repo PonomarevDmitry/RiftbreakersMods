@@ -569,60 +569,36 @@ end
 
 function buildings_tool_base:IsBlueprintAvailable( blueprintName )
 
-    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+    if ( self.bluprintsUnlockHash == nil ) then
+
+        self.bluprintsUnlockHash = {}
+        self:FillUnlockedBlueprints()
+    end
+
+    if ( self.bluprintsUnlockHash[blueprintName] == true ) then
+
         return true
     end
 
-    local researchName = self:GetResearchForUpgrade( blueprintName ) or ""
-    if ( researchName ~= "" ) then
-
-        if ( PlayerService:IsResearchUnlocked( PlayerService:GetLeadingPlayer(), researchName ) ) then
-            return true
-        end
+    if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
+        return true
     end
 
     return false
 end
 
-function buildings_tool_base:GetResearchForUpgrade( blueprintName )
+function buildings_tool_base:FillUnlockedBlueprints()
 
-    self.cacheBlueprintsResearches = self.cacheBlueprintsResearches or {}
+    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
 
-    if ( self.cacheBlueprintsResearches[blueprintName] == nil ) then
+    local unlockedArray = inventorySystemDataComponentRef.unlocked
 
-        self.cacheBlueprintsResearches[blueprintName] = self:CalculateResearchForUpgrade( blueprintName )
+    for i=1,unlockedArray.count do
+
+        local unlockedItem = unlockedArray[i]
+
+        self.bluprintsUnlockHash[unlockedItem] = true
     end
-
-    return self.cacheBlueprintsResearches[blueprintName]
-end
-
-function buildings_tool_base:CalculateResearchForUpgrade( blueprintName )
-
-    local researchComponent = reflection_helper( EntityService:GetSingletonComponent("ResearchSystemDataComponent") )
-
-    local categories = researchComponent.research
-
-    for i=1,categories.count do
-
-        local category = categories[i]
-        local category_nodes = category.nodes
-
-        for j=1,category_nodes.count do
-
-            local node = category_nodes[j]
-
-            local awards = node.research_awards
-            for k=1,awards.count do
-
-                if awards[k].blueprint == blueprintName then
-
-                    return node.research_name
-                end
-            end
-        end
-    end
-
-    return ""
 end
 
 function buildings_tool_base:GetFirstLevelBuilding(blueprintName)
