@@ -101,7 +101,7 @@ local new_values = {
         },
 
         ["acceleration"] = "100",
-        ["deacceleration"] = "100",
+        ["deacceleration"] = "300",
         ["max_speed"] = "250",
     },
 }
