@@ -9,9 +9,22 @@ local InjectChangeDronesMovementDataValues = function(blueprintName, acceleratio
         return
     end
 
-    local movementDataComponent = blueprint:GetComponent("MovementDataComponent")
+    local movementDataComponent = nil
+
+    local componentNames = blueprint:GetComponentNames()
+
+    if ( IndexOf( componentNames, "MovementDataComponent" ) ~= nil ) then
+
+        movementDataComponent = blueprint:GetComponent("MovementDataComponent")
+
+    else
+
+        LogService:Log("InjectChangeDronesMovementDataValues Blueprint '" .. blueprintName .. "' MovementDataComponent NOT EXISTS. Creating MovementDataComponent.")
+
+        movementDataComponent = blueprint:CreateComponent("MovementDataComponent")
+    end
+
     if ( movementDataComponent == nil ) then
-        LogService:Log("InjectChangeDronesMovementDataValues Blueprint '" .. blueprintName .. "' MovementDataComponent NOT EXISTS.")
         return
     end
 
