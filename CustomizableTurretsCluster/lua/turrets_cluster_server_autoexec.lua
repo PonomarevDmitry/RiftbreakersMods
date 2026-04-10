@@ -1,138 +1,26 @@
+require("lua/utils/table_utils.lua")
+
 if ( not is_server ) then
     return
 end
 
-require("lua/utils/reflection.lua")
-require("lua/utils/table_utils.lua")
+mod_autoadding_player_inventory_list = mod_autoadding_player_inventory_list or {}
 
-local turrets_cluster_autoexec = function(evt, eventName)
+local itemList = {
 
-    if ( not is_server ) then
-        return
-    end
+    "items/skills/turrets_cluster_1_item",
+    "items/skills/turrets_cluster_2_item",
+    "items/skills/turrets_cluster_3_item",
 
-    local playerId = evt:GetPlayerId()
+    "items/skills/turrets_auto_laying_1_item",
+    "items/skills/turrets_auto_laying_2_item",
+    "items/skills/turrets_auto_laying_3_item"
+}
 
-    local player = PlayerService:GetGlobalPlayerEntity( playerId )
+for itemName in Iter( itemList ) do
 
-    if ( player == nil or player == INVALID_ID ) then
-        return
-    end
+    if ( IndexOf( mod_autoadding_player_inventory_list, itemName ) == nil ) then
 
-    local skillList = {
-
-        "items/skills/turrets_cluster_1_item",
-        "items/skills/turrets_cluster_2_item",
-        "items/skills/turrets_cluster_3_item",
-
-        "items/skills/turrets_auto_laying_1_item",
-        "items/skills/turrets_auto_laying_2_item",
-        "items/skills/turrets_auto_laying_3_item"
-    }
-
-    local inventorySystemDataComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
-    if ( inventorySystemDataComponent ~= nil ) then
-
-        local hashItemUnlocked = {}
-
-        local inventorySystemDataComponentRef = reflection_helper( inventorySystemDataComponent )
-
-        local unlockedArray = inventorySystemDataComponentRef.unlocked
-
-        for i=1,unlockedArray.count do
-
-            local unlockedItem = unlockedArray[i]
-
-            if ( IndexOf( skillList, unlockedItem ) ~= nil ) then
-
-                hashItemUnlocked[unlockedItem] = true
-            end
-        end
-
-        local team = EntityService:GetTeam( player )
-
-        for skillName in Iter( skillList ) do
-
-            if (hashItemUnlocked[skillName] == nil) then
-
-                QueueEvent( "NewAwardEvent", INVALID_ID, skillName, true, team )
-            end
-        end
-    end
-
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent ~= nil ) then
-
-        local inventoryComponentRef = reflection_helper( inventoryComponent )
-
-        --LogService:Log(eventName .. " inventoryComponentRef " .. tostring(inventoryComponentRef))
-
-        if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil and inventoryComponentRef.inventory.items.count > 0 ) then
-
-            local hashItemInInventory = {}
-
-            local items = inventoryComponentRef.inventory.items
-
-            for i=1,items.count do
-
-                local item = items[i]
-
-                if ( item and item.id ~= nil ) then
-
-                    local blueprintName = EntityService:GetBlueprintName(item.id)
-
-                    if ( IndexOf( skillList, blueprintName ) ~= nil ) then
-
-                        --LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
-
-                        hashItemInInventory[blueprintName] = true
-                    end
-                end
-            end
-
-            local items_by_blueprint = inventoryComponentRef.inventory.items_by_blueprint
-
-            for i=1,items_by_blueprint.count do
-
-                local keyCollection = items_by_blueprint[i]
-
-                if ( keyCollection and keyCollection.key ~= nil and keyCollection.value and keyCollection.value.count > 0 ) then
-
-                    if ( IndexOf( skillList, keyCollection.key ) ~= nil ) then
-
-                        --LogService:Log(eventName .. " keyCollection.key " .. tostring(keyCollection.key) .. " EXIST ")
-
-                        hashItemInInventory[keyCollection.key] = true
-                    end
-                end
-            end
-
-            for skillName in Iter( skillList ) do
-
-                if (hashItemInInventory[skillName] == nil) then
-
-                    --LogService:Log(eventName .. " skillName " .. tostring(skillName) .. " CREATING.")
-    
-                    PlayerService:AddItemToInventory( playerId, skillName )
-                end
-            end
-        end
+        Insert(mod_autoadding_player_inventory_list, itemName)
     end
 end
-
-
-
-RegisterGlobalEventHandler("PlayerCreatedEvent", function(evt)
-
-    turrets_cluster_autoexec(evt, "PlayerCreatedEvent")
-end)
-
-RegisterGlobalEventHandler("PlayerInitializedEvent", function(evt)
-
-    turrets_cluster_autoexec(evt, "PlayerInitializedEvent")
-end)
-
-RegisterGlobalEventHandler("PlayerControlledEntityChangeEvent", function(evt)
-
-    turrets_cluster_autoexec(evt, "PlayerControlledEntityChangeEvent")
-end)
