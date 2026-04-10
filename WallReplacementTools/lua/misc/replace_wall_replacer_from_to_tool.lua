@@ -100,24 +100,39 @@ end
 
 function replace_wall_replacer_from_to_tool:FillResearches()
 
+    local blueprintNames = {}
+
     for i=1,#self.wallBluprintsArray do
 
         local blueprintName = self.wallBluprintsArray[i]
 
         self.wallBluprintsUnlockHash[blueprintName] = false
+
+        local buildingRef = self.buildingDescHash[blueprintName]
+
+        blueprintNames[buildingRef.name] = blueprintName
     end
 
-    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
 
-    local unlockedArray = inventorySystemDataComponentRef.unlocked
 
-    for i=1,unlockedArray.count do
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
+        return
+    end
 
-        local unlockedItem = unlockedArray[i]
+    local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
-        if ( self.wallBluprintsUnlockHash[unlockedItem] ~= nil ) then
+    local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
 
-            self.wallBluprintsUnlockHash[unlockedItem] = true
+    for i=1,unlocks.count do
+
+        local unlocked = unlocks[i]
+
+        if ( blueprintNames[unlocked] ~= nil ) then
+
+            local blueprintName = blueprintNames[unlocked]
+
+            self.wallBluprintsUnlockHash[blueprintName] = true
         end
     end
 end

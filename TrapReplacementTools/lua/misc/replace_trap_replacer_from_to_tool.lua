@@ -80,24 +80,39 @@ end
 
 function replace_trap_replacer_from_to_tool:FillResearches()
 
+    local blueprintNames = {}
+
     for i=1,#self.trapBluprintsArray do
 
         local blueprintName = self.trapBluprintsArray[i]
 
         self.trapBluprintsUnlockHash[blueprintName] = false
+
+        local buildingRef = self.buildingDescHash[blueprintName]
+
+        blueprintNames[buildingRef.name] = blueprintName
     end
 
-    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
 
-    local unlockedArray = inventorySystemDataComponentRef.unlocked
 
-    for i=1,unlockedArray.count do
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
+        return
+    end
 
-        local unlockedItem = unlockedArray[i]
+    local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
-        if ( self.trapBluprintsArray[unlockedItem] ~= nil ) then
+    local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
 
-            self.trapBluprintsArray[unlockedItem] = true
+    for i=1,unlocks.count do
+
+        local unlocked = unlocks[i]
+
+        if ( blueprintNames[unlocked] ~= nil ) then
+
+            local blueprintName = blueprintNames[unlocked]
+
+            self.trapBluprintsUnlockHash[blueprintName] = true
         end
     end
 end

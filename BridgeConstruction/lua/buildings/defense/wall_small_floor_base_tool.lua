@@ -80,15 +80,20 @@ end
 
 function wall_small_floor_base_tool:FillUnlockedBlueprints()
 
-    local inventorySystemDataComponentRef = reflection_helper( EntityService:GetSingletonComponent("InventorySystemDataComponent") )
+    local buildingSystemCampaignInfoComponent = EntityService:GetSingletonComponent("BuildingSystemCampaignInfoComponent")
+    if ( buildingSystemCampaignInfoComponent == nil ) then
+        return
+    end
 
-    local unlockedArray = inventorySystemDataComponentRef.unlocked
+    local buildingSystemCampaignInfoComponentRef = reflection_helper( buildingSystemCampaignInfoComponent )
 
-    for i=1,unlockedArray.count do
+    local unlocks = buildingSystemCampaignInfoComponentRef.unlocks
 
-        local unlockedItem = unlockedArray[i]
+    for i=1,unlocks.count do
 
-        self.bluprintsUnlockHash[unlockedItem] = true
+        local unlocked = unlocks[i]
+
+        self.bluprintsUnlockHash[unlocked] = true
     end
 end
 
@@ -135,9 +140,15 @@ end
 
 function wall_small_floor_base_tool:IsBlueprintAvailable( blueprintName )
 
-    if ( self.bluprintsUnlockHash[blueprintName] == true ) then
+    local buildingDesc = BuildingService:GetBuildingDesc( blueprintName )
+    if ( buildingDesc ~= nil ) then
 
-        return true
+        local buildingDescRef = reflection_helper( buildingDesc )
+
+        if ( self.bluprintsUnlockHash[buildingDescRef.name] == true ) then
+
+            return true
+        end
     end
 
     if ( BuildingService:IsBuildingAvailable( self.playerId, blueprintName ) ) then
