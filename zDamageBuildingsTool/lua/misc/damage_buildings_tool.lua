@@ -42,23 +42,36 @@ end
 
 function damage_buildings_tool:OnActivateEntity( entity )
 
-    local damageValue = HealthService:GetHealth( entity ) / 4
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
+    end
 
-    QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
 
 
-    local database = EntityService:GetOrCreateDatabase( entity )
-    if ( database and database:HasInt("number_of_activations")) then
+    if ( is_server and is_client ) then
 
-        local currentNumberOfActivations =  database:GetInt("number_of_activations")
+        local damageValue = HealthService:GetHealth( entity ) / 4
 
-        --local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+        QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
 
-        --local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
+
+        local database = EntityService:GetOrCreateDatabase( entity )
+        if ( database and database:HasInt("number_of_activations")) then
+
+            local currentNumberOfActivations =  database:GetInt("number_of_activations")
+
+            --local blueprintDatabase = EntityService:GetBlueprintDatabase( entity )
+
+            --local maxNumberOfActivations = blueprintDatabase:GetInt("number_of_activations")
         
-        currentNumberOfActivations = math.ceil(currentNumberOfActivations / 4)
+            currentNumberOfActivations = math.ceil(currentNumberOfActivations / 4)
 
-        database:SetInt("number_of_activations", math.max(1, currentNumberOfActivations))
+            database:SetInt("number_of_activations", math.max(1, currentNumberOfActivations))
+        end
+
+    else
+
+        QueueEvent("OperateActionMapperRequest", entity, "DamageBuildingsToolRequest", false )
     end
 end
 
