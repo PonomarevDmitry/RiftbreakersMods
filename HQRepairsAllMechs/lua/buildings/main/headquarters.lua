@@ -80,7 +80,11 @@ end
 
 function headquarters:OnWorkInProgress( state )
 
+	-- HQRepairsAllMechs Change Start
+
 	self.healCount = 5000
+
+	-- HQRepairsAllMechs Change Finish
 
 	local objects = FindService:FindEntitiesByTypeInRadius( self.entity, "player", self.radius )
 									
