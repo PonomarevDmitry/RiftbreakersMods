@@ -1,8 +1,8 @@
+class 'floating_hunt_mine' ( LuaEntityObject )
+require("lua/utils/entity_utils.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/reflection.lua")
 require("lua/utils/find_utils.lua")
-
-class 'floating_hunt_mine' ( LuaEntityObject )
 
 function floating_hunt_mine:__init()
     LuaEntityObject.__init(self,self)
@@ -26,11 +26,12 @@ function floating_hunt_mine:init()
 
     self.exploded = false
     self.armed = false
-    self.entered = 0
 
     EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", 0.0 )
 
     self.sm:ChangeState("armed")
+	self.entered = 0
+	self.owner = GetOwnerPlayer( self.entity )
 
     self.hunt_range = self.data:GetFloatOrDefault( "hunt_range", 20.0 )
     self.hunt_move_speed = self.data:GetFloatOrDefault( "hunt_move_speed", 5.0 )
@@ -83,6 +84,13 @@ function floating_hunt_mine:FindEntitiesByTeamInRadius( origin, radius, team )
 end
 
 function floating_hunt_mine:OnEnteredTriggerEvent( evt )
+	if ( self.owner ~= nil ) then
+		local otherOwner = GetOwnerPlayer( evt:GetOtherEntity() )
+		if ( self.owner == otherOwner ) then
+			return
+		end
+	end
+
     if ( self.armed == false ) then
         self.entered = self.entered or 0
         self.entered = self.entered + 1
@@ -99,6 +107,12 @@ function floating_hunt_mine:OnEnteredTriggerEvent( evt )
 end
 
 function floating_hunt_mine:OnLeftTriggerEvent( evt )
+	if ( self.owner ~= nil ) then
+		local otherOwner = GetOwnerPlayer( evt:GetOtherEntity() )
+		if ( self.owner == otherOwner ) then
+			return
+		end
+	end
     if self.exploded == true  then
         return
     end
@@ -110,7 +124,7 @@ end
 
 function floating_hunt_mine:OnArmedStart( state )
     if string.find(self.bp, "mine_nuclear") and EntityService:CompareTeam( self.entity, "player") then
-        CampaignService:UnlockAchievement(ACHIEVEMENT_KABOOM)
+        CampaignService:UnlockAchievement(ACHIEVEMENT_KABOOM, self.owner)
     end
 
     state:SetDurationLimit( self.delayBeforeArmoed )
@@ -134,7 +148,7 @@ end
 function floating_hunt_mine:OnExplodeStart( state )
     EffectService:AttachEffects( self.entity, "mine_armed" )
     state:SetDurationLimit( self.delay )
-    self.positionExplodeStartY = EntityService:GetPosition( self.entity ).y
+	self.position = EntityService:GetPosition( self.entity )
     EntityService:RemoveComponent( self.entity, "HealthComponent")
 end
 
@@ -143,12 +157,8 @@ function floating_hunt_mine:OnExplodeExecute( state )
     if ( state:GetDurationLimit() ~= 0 ) then
         progres = state:GetDuration() / state:GetDurationLimit()
     end
-
     EntityService:SetGraphicsUniform( self.entity, "cGlowFactor", progres * 10 )
-
-    local position = EntityService:GetPosition( self.entity )
-    EntityService:SetPosition( self.entity, position.x, self.positionExplodeStartY  + self.explode_height * (progres * progres) , position.z )
-
+    EntityService:SetPosition( self.entity, self.position.x, self.position.y  + self.explode_height * (progres * progres) , self.position.z )
     EntityService:Rotate( self.entity, 0.0, 1.0, 0.0, 25.0 * (progres * progres) )
 end
 
@@ -156,7 +166,7 @@ function floating_hunt_mine:OnExplodeEnd()
     local entity = EntityService:SpawnEntity( self.bp, self.entity, EntityService:GetTeam( self.entity ))
     local itemCreator = ItemService:GetItemCreator(self.entity)
     if itemCreator ~= "" then
-        ItemService:SetItemCreator( entity, EntityService:GetBlueprintName(self.entity) );
+        ItemService:SetItemCreator( entity, itemCreator );
     end
     EntityService:PropagateEntityOwner( entity, self.entity )
     EntityService:DissolveEntity( self.entity, 0.2 )
