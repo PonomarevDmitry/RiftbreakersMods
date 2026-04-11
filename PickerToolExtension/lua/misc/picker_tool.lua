@@ -892,7 +892,7 @@ function picker_tool:AddFlora( selectedItems, min, max, sorter )
 
     local predicate = {
 
-        signature = "TypeComponent",
+        signature = "TypeComponent,MeshComponent",
 
         filter = function(entity)
 
@@ -942,30 +942,33 @@ function picker_tool:AddFlora( selectedItems, min, max, sorter )
     end
 
 
+    if ( is_server ) then
 
-    predicate = {
-        signature = "VegetationLifecycleEnablerComponent"
-    }
+        predicate = {
+            signature = "VegetationLifecycleEnablerComponent,MeshComponent"
+        }
 
-    tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
+        tempCollection = FindService:FindEntitiesByPredicateInBox( min, max, predicate )
 
-    for entity in Iter( tempCollection ) do
+        for entity in Iter( tempCollection ) do
 
-        if ( entity == nil ) then
-            goto labelContinue2
+            if ( entity == nil ) then
+                goto labelContinue2
+            end
+
+            if ( IndexOf( result, entity ) ~= nil ) then
+                goto labelContinue2
+            end
+
+            if ( not EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent") ) then
+                goto labelContinue2
+            end
+
+            Insert( result, entity )
+
+            ::labelContinue2::
         end
 
-        if ( IndexOf( result, entity ) ~= nil ) then
-            goto labelContinue2
-        end
-
-        if ( not EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent") ) then
-            goto labelContinue2
-        end
-
-        Insert( result, entity )
-
-        ::labelContinue2::
     end
 
 
