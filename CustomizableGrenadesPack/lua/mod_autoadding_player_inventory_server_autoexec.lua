@@ -43,6 +43,68 @@ local autoadding_player_inventory_server_autoexec = function(evt, eventName)
         return
     end
 
+    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
+    if ( inventoryComponent ~= nil ) then
+
+        local inventoryComponentRef = reflection_helper( inventoryComponent )
+
+        --LogService:Log(eventName .. " inventoryComponentRef " .. tostring(inventoryComponentRef))
+
+        if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil and inventoryComponentRef.inventory.items.count > 0 ) then
+
+            local items = inventoryComponentRef.inventory.items
+
+            for i=1,items.count do
+
+                local item = items[i]
+
+                if ( item and item.id ~= nil ) then
+
+                    local blueprintName = EntityService:GetBlueprintName(item.id)
+
+                    if ( hashItemInInventory[blueprintName] ~= nil ) then
+
+                        --LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
+
+                        hashItemInInventory[blueprintName] = true
+                    end
+                end
+            end
+        end
+
+        if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items_by_blueprint ~= nil and inventoryComponentRef.inventory.items_by_blueprint.count > 0 ) then
+
+            local items_by_blueprint = inventoryComponentRef.inventory.items_by_blueprint
+
+            for i=1,items_by_blueprint.count do
+
+                local keyCollection = items_by_blueprint[i]
+
+                if ( keyCollection and keyCollection.key ~= nil and keyCollection.value and keyCollection.value.count > 0 ) then
+
+                    local blueprintName = keyCollection.key
+
+                    if ( hashItemInInventory[blueprintName] ~= nil ) then
+
+                        --LogService:Log(eventName .. " items_by_blueprint.key " .. tostring(blueprintName) .. " EXIST ")
+
+                        hashItemInInventory[blueprintName] = true
+                    end
+                end
+            end
+        end
+
+        for itemName in Iter( itemList ) do
+
+            if (hashItemInInventory[itemName] == false) then
+
+                --LogService:Log(eventName .. " itemName " .. tostring(itemName) .. " CREATING.")
+    
+                PlayerService:AddItemToInventory( playerId, itemName )
+            end
+        end
+    end
+
     local inventorySystemDataComponent = EntityService:GetSingletonComponent("InventorySystemDataComponent")
     if ( inventorySystemDataComponent ~= nil ) then
 
@@ -68,69 +130,6 @@ local autoadding_player_inventory_server_autoexec = function(evt, eventName)
 
                 QueueEvent( "NewAwardEvent", INVALID_ID, itemName, true, team )
             end
-        end
-    end
-
-    local inventoryComponent = EntityService:GetComponent(player, "InventoryComponent")
-    if ( inventoryComponent == nil ) then
-        return
-    end
-
-    local inventoryComponentRef = reflection_helper( inventoryComponent )
-
-    --LogService:Log(eventName .. " inventoryComponentRef " .. tostring(inventoryComponentRef))
-
-    if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items ~= nil and inventoryComponentRef.inventory.items.count > 0 ) then
-
-        local items = inventoryComponentRef.inventory.items
-
-        for i=1,items.count do
-
-            local item = items[i]
-
-            if ( item and item.id ~= nil ) then
-
-                local blueprintName = EntityService:GetBlueprintName(item.id)
-
-                if ( hashItemInInventory[blueprintName] ~= nil ) then
-
-                    --LogService:Log(eventName .. " blueprintName " .. tostring(blueprintName) .. " EXIST " .. tostring(item.id))
-
-                    hashItemInInventory[blueprintName] = true
-                end
-            end
-        end
-    end
-
-    if ( inventoryComponentRef.inventory ~= nil and inventoryComponentRef.inventory.items_by_blueprint ~= nil and inventoryComponentRef.inventory.items_by_blueprint.count > 0 ) then
-
-        local items_by_blueprint = inventoryComponentRef.inventory.items_by_blueprint
-
-        for i=1,items_by_blueprint.count do
-
-            local keyCollection = items_by_blueprint[i]
-
-            if ( keyCollection and keyCollection.key ~= nil and keyCollection.value and keyCollection.value.count > 0 ) then
-
-                local blueprintName = keyCollection.key
-
-                if ( hashItemInInventory[blueprintName] ~= nil ) then
-
-                    --LogService:Log(eventName .. " items_by_blueprint.key " .. tostring(blueprintName) .. " EXIST ")
-
-                    hashItemInInventory[blueprintName] = true
-                end
-            end
-        end
-    end
-
-    for itemName in Iter( itemList ) do
-
-        if (hashItemInInventory[itemName] == false) then
-
-            --LogService:Log(eventName .. " itemName " .. tostring(itemName) .. " CREATING.")
-    
-            PlayerService:AddItemToInventory( playerId, itemName )
         end
     end
 end
