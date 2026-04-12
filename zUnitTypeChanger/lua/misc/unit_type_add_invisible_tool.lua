@@ -48,31 +48,18 @@ function unit_type_add_invisible_tool:FindEntitiesToSelect( selectorComponent )
 
             local blueprintName = EntityService:GetBlueprintName(entity)
 
-            if ( EntityService:CompareType( entity, "player" ) ) then
+            if ( EntityService:CompareType( entity, "player" ) 
+                or EntityService:CompareType( entity, "quelver" )
+                or EntityService:CompareType( entity, "invisible" )
+            ) then
                 return false
             end
 
-            if ( EntityService:CompareType( entity, "quelver" ) ) then
-                return false
-            end
-
-            if ( EntityService:CompareType( entity, "invisible" ) ) then
-                return false
-            end
-
-            if ( EntityService:CompareType( entity, "ground_unit" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "ground_unit_big" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "ground_unit_medium" ) ) then
-                return true
-            end
-
-            if ( EntityService:CompareType( entity, "ground_unit_small" ) ) then
+            if ( EntityService:CompareType( entity, "ground_unit" ) 
+                or EntityService:CompareType( entity, "ground_unit_big" )
+                or EntityService:CompareType( entity, "ground_unit_medium" )
+                or EntityService:CompareType( entity, "ground_unit_small" )
+            ) then
                 return true
             end
 
@@ -144,45 +131,11 @@ end
 
 function unit_type_add_invisible_tool:OnActivateEntity( entity )
 
-    local currentType = EntityService:GetType(entity) or ""
-
-    if ( string.len(currentType) > 0 ) then
-
-        currentType = currentType .. "|"
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
     end
 
-    currentType = currentType .. "invisible"
-
-    EntityService:ChangeType( entity, currentType )
-
-
-
-
-
-    local markerBlueprintName = "effects/unit_type_changer_tool/unit_type_changer_ignore"
-
-    local childreen = EntityService:GetChildren(entity, true)
-
-    for childEntity in Iter( childreen ) do
-
-        local blueprintName = EntityService:GetBlueprintName(childEntity)
-
-        if ( blueprintName == markerBlueprintName ) then
-            return
-        end
-    end
-
-    local size = EntityService:GetBoundsSize( entity )
-
-    local markEntity = EntityService:SpawnAndAttachEntity( markerBlueprintName, entity )
-
-    local newPosition = {}
-
-    newPosition.x = 0
-    newPosition.y = size.y + 4
-    newPosition.z = 0
-
-    EntityService:SetPosition( markEntity, newPosition )
+    QueueEvent("OperateActionMapperRequest", entity, "UnitTypeChangeToInvisibleRequest", false )
 end
 
 return unit_type_add_invisible_tool

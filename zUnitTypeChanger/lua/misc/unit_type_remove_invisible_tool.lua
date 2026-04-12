@@ -136,37 +136,11 @@ end
 
 function unit_type_remove_invisible_tool:OnActivateEntity( entity )
 
-    local currentType = EntityService:GetType(entity) or ""
-
-    currentType = string.gsub( currentType, "|invisible", "" )
-
-    currentType = string.gsub( currentType, "invisible|", "" )
-
-    currentType = string.gsub( currentType, "invisible", "" )
-
-    currentType = string.gsub( currentType, "||", "|" )
-
-    currentType = string.gsub( currentType, "^[|]*(.-)[|]*$", "%1" )
-
-    EntityService:ChangeType( entity, currentType )
-
-
-
-
-
-    local markerBlueprintName = "effects/unit_type_changer_tool/unit_type_changer_ignore"
-
-    local childreen = EntityService:GetChildren(entity, true)
-
-    for childEntity in Iter( childreen ) do
-
-        local blueprintName = EntityService:GetBlueprintName(childEntity)
-
-        if ( blueprintName == markerBlueprintName ) then
-
-            EntityService:RemoveEntity( childEntity )
-        end
+    if ( not EntityService:IsAlive( entity ) ) then
+        return
     end
+
+    QueueEvent("OperateActionMapperRequest", entity, "UnitTypeRemoveInvisibleRequest", false )
 end
 
 return unit_type_remove_invisible_tool
