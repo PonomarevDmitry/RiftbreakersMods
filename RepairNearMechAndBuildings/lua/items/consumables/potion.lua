@@ -28,6 +28,10 @@ function potion:OnActivate()
 
 	for entity in Iter(mechs) do
 
+		if ( entity == self.owner ) then
+			goto continueMech
+		end
+
 		if ( not EntityService:IsAlive( entity ) ) then
 			goto continueMech
 		end
