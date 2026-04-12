@@ -7,9 +7,17 @@ end
 
 function player_modificator:EnsureUniqueModificator()
     local mod_group = EntityService:GetGroup(self.entity)
-    if mod_group == "" or mod_group == nil or mod_group == "power_well" then
+    if mod_group == "" or mod_group == nil then
         return
     end
+
+    -- MOD Change Start
+
+    if mod_group == "power_well" then
+        return
+    end
+
+    -- MOD Change End
 
     local children = EntityService:GetChildren( self.parent, true )
     for child in Iter( children ) do
