@@ -2,6 +2,8 @@ mod_picker_tool_extension_heal_neutral_tool = 1
 
 mod_picker_tool_extension_spawner_activate_tool = 1
 
+mod_picker_tool_extension_power_wells_activate = 1
+
 mod_picker_tool_extension_power_wells_preserve = 1
 
 mod_picker_tool_extension_eraser_wrecks_tool = 1

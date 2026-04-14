@@ -52,7 +52,10 @@ function picker_tool:OnInit()
 
     self.healingToolExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/heal_neutral_tool" ) and (mod_picker_tool_extension_heal_neutral_tool ~= nil and mod_picker_tool_extension_heal_neutral_tool == 1);
     self.activateBioAnomaliesExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/spawner_activate" ) and (mod_picker_tool_extension_spawner_activate_tool ~= nil and mod_picker_tool_extension_spawner_activate_tool == 1);
+
+    self.powerWellsActivateExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_activate" ) and (mod_picker_tool_extension_power_wells_activate ~= nil and mod_picker_tool_extension_power_wells_activate == 1);
     self.powerWellsDestroyExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/power_wells_preserve" ) and (mod_picker_tool_extension_power_wells_preserve ~= nil and mod_picker_tool_extension_power_wells_preserve == 1);
+
     self.wrecksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_wrecks" ) and (mod_picker_tool_extension_eraser_wrecks_tool ~= nil and mod_picker_tool_extension_eraser_wrecks_tool == 1);
     self.minesEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_mines" ) and (mod_picker_tool_extension_eraser_mines_tool ~= nil and mod_picker_tool_extension_eraser_mines_tool == 1);
     self.rocksEraserExists = ResourceManager:ResourceExists( "EntityBlueprint", "buildings/tools/eraser_rocks" ) and (mod_picker_tool_extension_eraser_rocks_tool ~= nil and mod_picker_tool_extension_eraser_rocks_tool == 1);
@@ -323,7 +326,7 @@ function picker_tool:AddedToSelection( entity )
 
         self:SetEntitySelectedMaterial( entity, "hologram/current" )
  
-    elseif ( self.powerWellsDestroyExists and self.isPowerWell(entity) ) then
+    elseif ( ( self.powerWellsActivateExists or self.powerWellsDestroyExists ) and self.isPowerWell(entity) ) then
 
         QueueEvent( "SelectEntityRequest", entity )
 
@@ -418,7 +421,7 @@ function picker_tool:RemovedFromSelection( entity )
 
         self:RemoveEntitySelectedMaterial( entity )
  
-    elseif ( self.powerWellsDestroyExists and self.isPowerWell(entity) ) then
+    elseif ( ( self.powerWellsActivateExists or self.powerWellsDestroyExists ) and self.isPowerWell(entity) ) then
 
         QueueEvent( "DeselectEntityRequest", entity )
 
@@ -505,7 +508,7 @@ function picker_tool:FindEntitiesToSelect( selectorComponent )
         self:AddBioAnomalies( selectedItems, min, max, sorter )
     end
  
-    if ( self.powerWellsDestroyExists ) then
+    if ( self.powerWellsActivateExists or self.powerWellsDestroyExists ) then
         self:AddPowerWells( selectedItems, min, max, sorter )
     end
 
@@ -1502,9 +1505,9 @@ function picker_tool:OnActivateSelectorRequest()
 
 
 
-    if ( self.powerWellsDestroyExists ) then
+    if ( self.powerWellsActivateExists or self.powerWellsDestroyExists ) then
 
-        if ( self:ChangeSelectorToTargetBlueprintByFilter( self.isPowerWell, "buildings/tools/power_wells_preserve", true ) ) then
+        if ( self:ChangeSelectorToPowerWellsTools() ) then
             return
         end
     end
@@ -1792,6 +1795,44 @@ function picker_tool:ChangeSelectorToFlora()
             if ( self:ChangeSelectorToBlueprint( "buildings/tools/fertilizer_flora", true ) ) then
 
                 self:SetLastBlueprint("flora", currentTime, "buildings/tools/fertilizer_flora", entity)
+
+                return true
+            end
+        end
+
+        ::labelContinue::
+    end
+
+    return false
+end
+
+function picker_tool:ChangeSelectorToPowerWellsTools()
+
+    for entity in Iter( self.selectedEntities ) do
+
+        if ( not self.isPowerWell(entity) ) then
+            goto labelContinue
+        end
+
+        local currentTime = GetLogicTime()
+
+        local lastBlueprintName, lastEntityId = self:GetLastBlueprint("power_well_tools", currentTime)
+
+        if ( self.powerWellsDestroyExists and (not self.powerWellsActivateExists or lastBlueprintName ~= "buildings/tools/power_wells_preserve" or entity ~= lastEntityId ) ) then
+
+            if ( self:ChangeSelectorToBlueprint( "buildings/tools/power_wells_preserve", true ) ) then
+
+                self:SetLastBlueprint("power_well_tools", currentTime, "buildings/tools/power_wells_preserve", entity)
+
+                return true
+            end
+        end
+
+        if ( self.powerWellsActivateExists and (not self.powerWellsDestroyExists or lastBlueprintName ~= "buildings/tools/power_wells_activate" or entity ~= lastEntityId ) ) then
+
+            if ( self:ChangeSelectorToBlueprint( "buildings/tools/power_wells_activate", true ) ) then
+
+                self:SetLastBlueprint("power_well_tools", currentTime, "buildings/tools/power_wells_activate", entity)
 
                 return true
             end
