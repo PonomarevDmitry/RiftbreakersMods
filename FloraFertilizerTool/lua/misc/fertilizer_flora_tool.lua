@@ -66,6 +66,10 @@ function fertilizer_flora_tool:FillFloraByTypeComponent(result, minVector, maxVe
 
         filter = function(entity)
 
+            if ( EntityService:IsInFinalVegetationChainPhase( entity ) ) then
+                return false
+            end
+
             local blueprintName = EntityService:GetBlueprintName(entity)
 
             if ( EntityService:CompareType( entity, "flora" ) ) then
@@ -124,6 +128,10 @@ function fertilizer_flora_tool:FillFloraByVegetationLifecycleEnablerComponent(re
         end
 
         if ( IndexOf( result, entity ) ~= nil ) then
+            goto labelContinue
+        end
+
+        if ( EntityService:IsInFinalVegetationChainPhase( entity ) ) then
             goto labelContinue
         end
 
@@ -192,6 +200,10 @@ function fertilizer_flora_tool:OnActivateEntity( entity )
     if ( is_server and is_client ) then
 
         if ( EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent" ) ) then
+
+            if ( EntityService:IsInFinalVegetationChainPhase( entity ) ) then
+                return
+            end
 
             EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
 

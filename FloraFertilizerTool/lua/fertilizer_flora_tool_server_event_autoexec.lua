@@ -24,6 +24,10 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         return
     end
 
+    if ( EntityService:IsInFinalVegetationChainPhase( entity ) ) then
+        return
+    end
+
     if ( EntityService:HasComponent( entity, "VegetationLifecycleEnablerComponent" ) ) then
 
         EntityService:RemoveComponent(entity, "VegetationLifecycleComponent")
