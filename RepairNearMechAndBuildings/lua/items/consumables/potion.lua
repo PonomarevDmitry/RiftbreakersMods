@@ -22,7 +22,7 @@ function potion:OnActivate()
 	HealthService:AddHealthInPercentage( self.owner, self.amount )
 	EffectService:SpawnEffect(self.entity, "effects/items/potion")
 
-	self.radius = 50
+	self.radius = 40
 
 	local mechs = FindService:FindEntitiesByTypeInRadius( self.owner, "player", self.radius )
 
