@@ -1,7 +1,7 @@
 require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 
-local InjectChangeBlueprintLifeTimeDescStorageLimit = function(blueprintsList, newLifeTimeValue)
+local InjectChangeBlueprintLifeTimeDescLimit = function(blueprintsList, newLifeTimeValue)
 
     for _,blueprintName in ipairs(blueprintsList) do
 
@@ -9,7 +9,7 @@ local InjectChangeBlueprintLifeTimeDescStorageLimit = function(blueprintsList, n
 
         if ( blueprint == nil ) then
 
-            LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " NOT EXISTS.")
+            LogService:Log("InjectChangeBlueprintLifeTimeDescLimit Blueprint " .. blueprintName .. " NOT EXISTS.")
             return
         end
 
@@ -20,7 +20,7 @@ local InjectChangeBlueprintLifeTimeDescStorageLimit = function(blueprintsList, n
             lifeTimeDesc:GetField("time"):SetValue(newLifeTimeValue)
         else
                 
-            LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeDesc NOT EXISTS.")
+            LogService:Log("InjectChangeBlueprintLifeTimeDescLimit Blueprint " .. blueprintName .. " LifeTimeDesc NOT EXISTS.")
         end
 
         local lifeTimeComponent = blueprint:GetComponent("LifeTimeComponent")
@@ -35,11 +35,11 @@ local InjectChangeBlueprintLifeTimeDescStorageLimit = function(blueprintsList, n
 
             else
                 
-                LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeComponent timeValue == nil.")
+                LogService:Log("InjectChangeBlueprintLifeTimeDescLimit Blueprint " .. blueprintName .. " LifeTimeComponent timeValue == nil.")
             end
         else
                 
-            LogService:Log("InjectChangeBlueprintLifeTimeDescStorageLimit Blueprint " .. blueprintName .. " LifeTimeComponent NOT EXISTS.")
+            LogService:Log("InjectChangeBlueprintLifeTimeDescLimit Blueprint " .. blueprintName .. " LifeTimeComponent NOT EXISTS.")
         end
     end
 end
@@ -72,7 +72,7 @@ local supported_item_blueprintsLimit = {
 
 local newLifeTimeValue = "600"
 
-InjectChangeBlueprintLifeTimeDescStorageLimit(supported_item_blueprintsLimit, newLifeTimeValue)
+InjectChangeBlueprintLifeTimeDescLimit(supported_item_blueprintsLimit, newLifeTimeValue)
 
 
 
