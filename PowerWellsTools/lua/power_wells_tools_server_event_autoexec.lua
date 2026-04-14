@@ -215,4 +215,51 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
         return
     end
+
+
+
+    local stringNumber = string.find( mapperName, "PowerWellActivateRequest" )
+    if ( stringNumber == 1 ) then
+
+        local entity = evt:GetEntity()
+
+        if ( not EntityService:IsAlive(entity) ) then
+            return
+        end
+
+        local splitArray = Split( mapperName, "|" )
+        if ( #splitArray ~= 2 ) then
+            return
+        end
+
+        local playerIdStr = splitArray[2]
+
+        local playerId = tonumber(playerIdStr)
+        if ( playerId == nil ) then
+            return
+        end
+
+        local player = PlayerService:GetPlayerControlledEnt( playerId )
+        if ( player == nil or player == INVALID_ID ) then
+            return
+        end
+
+        local entityDB = EntityService:GetDatabase( entity )
+        if ( entityDB == nil ) then
+            return
+        end
+
+        if ( entityDB:HasInt("$PowerWellStore_Destroy") ) then
+            return
+        end
+
+        entityDB:SetInt("$PowerWellStore_Destroy", 1)
+        entityDB:SetInt("working", 0)
+
+        ItemService:InteractWithEntity( entity, player )
+
+        EffectService:AttachEffects( entity, "treasure" )
+
+        return
+    end
 end)
