@@ -80,24 +80,9 @@ function power_wells_respawn_tool:FillStoredPowerWells()
         end
     end
 
-    if ( mod_power_wells_respawn_tool_without_preserve ~= nil and mod_power_wells_respawn_tool_without_preserve == 1 ) then
+    if ( mod_power_wells_respawn_tool_without_preserve ~= nil and mod_power_wells_respawn_tool_without_preserve == 1 and mod_power_wells_respawn_tool_without_preserve_list ~= nil ) then
 
-        local powerWellsList = {
-
-            "props/special/power_wells/power_well_source_ammo",
-            "props/special/power_wells/power_well_source_building",
-            "props/special/power_wells/power_well_source_cooldowns",
-            "props/special/power_wells/power_well_source_damage",
-            "props/special/power_wells/power_well_source_drones",
-            "props/special/power_wells/power_well_source_firerate",
-            "props/special/power_wells/power_well_source_forcefield",
-            "props/special/power_wells/power_well_source_health",
-            "props/special/power_wells/power_well_source_loot",
-            "props/special/power_wells/power_well_source_radar",
-            "props/special/power_wells/power_well_source_reflect_damage",
-        }
-
-        for blueprintName in Iter( powerWellsList ) do
+        for blueprintName in Iter( mod_power_wells_respawn_tool_without_preserve_list ) do
             
             if ( self.storeBlueprints[blueprintName] == nil or tonumber(self.storeBlueprints[blueprintName]) <= 0 ) then
 
