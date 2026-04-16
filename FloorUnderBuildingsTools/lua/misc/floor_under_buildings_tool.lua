@@ -77,7 +77,7 @@ function floor_under_buildings_tool:OnActivateEntity( entity )
     transform.orientation = { x=0, y=0, z=0, w=1}
     transform.scale = { x = gridSize.x, y = 1, z = gridSize.z}
 
-    QueueEvent( "BuildFloorRequest", INVALID_ID, self.playerId, blueprintName, transform )
+    QueueEvent( "BuildFloorRequest", self.entity, self.playerId, blueprintName, transform )
 end
 
 return floor_under_buildings_tool
