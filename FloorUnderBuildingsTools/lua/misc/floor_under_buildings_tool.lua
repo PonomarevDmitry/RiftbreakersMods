@@ -66,9 +66,9 @@ function floor_under_buildings_tool:OnActivateEntity( entity )
         return
     end
 
-    local blueprintName = self.floorBlueprintName
-
     local gridSize = BuildingService:GetBuildingGridSize(entity)
+
+    local blueprintName = self:GetFloorBlueprint(gridSize)
 
     local currentTransform = EntityService:GetWorldTransform( entity )
 
@@ -78,6 +78,18 @@ function floor_under_buildings_tool:OnActivateEntity( entity )
     transform.scale = { x = gridSize.x, y = 1, z = gridSize.z}
 
     QueueEvent( "BuildFloorRequest", self.entity, self.playerId, blueprintName, transform )
+end
+
+function floor_under_buildings_tool:GetFloorBlueprint(gridSize)
+
+    local defaultBlueprintName = string.gsub( self.floorBlueprintName, "$s", "4")
+
+    if ( gridSize.x == 6 and gridSize.z == 6 ) then
+
+        return string.gsub( self.floorBlueprintName, "$s", "3")
+    end
+    
+    return defaultBlueprintName
 end
 
 return floor_under_buildings_tool
