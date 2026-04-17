@@ -43,10 +43,10 @@ end
 
 
 
-InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_interactive_overchage", "180")
+InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_interactive_overchage", "300")
 
-InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_2", "180")
+InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_2", "300")
 
-InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_3", "240")
+InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_3", "400")
 
-InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_4", "300")
+InjectChangeBlueprintLifeTimeDesc("items/special/multiplayer_boost_effect_4", "500")
