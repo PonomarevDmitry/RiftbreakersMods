@@ -1,0 +1,7717 @@
+GuiRootGroupDef
+{
+	full_screen "0"
+	navigation
+	{
+		default_node "inventory"
+		edges
+		{
+			down
+			{
+				Pair_String_String
+				{
+					key "inventory.scroll_button_1"
+					value "inventory"
+				}
+
+			}
+
+			up
+			{
+				Pair_String_String
+				{
+					key "inventory.scroll_button_2"
+					value "inventory"
+				}
+
+			}
+
+		}
+
+		nodes
+		{
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				navigable "0"
+				path "inventory.scroll_button_1"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				navigable "0"
+				path "inventory.scroll_button_2"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				path "down_menu.equip_button"
+			}
+
+			GuiNavNodeDef "GuiScrollListDef"
+			{
+				auto_scroll "0"
+				horizontal "1"
+				alignment "buttons"
+				loop "1"
+				scroll_follow_selection "0"
+				navigable "0"
+				path "categories"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				navigable "0"
+				path "categories.scroll_button_2"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				navigable "0"
+				path "categories.scroll_button_1"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				path "down_menu.disassembly_button"
+			}
+
+			GuiNavNodeDef "GuiButtonDef"
+			{
+				path "cancel"
+			}
+
+			GuiNavNodeDef "GuiScrollListDef"
+			{
+				auto_scroll "0"
+				items_number "6"
+				alignment "buttons"
+				navigable "0"
+				path "inventory"
+			}
+
+		}
+
+	}
+
+	priority "50"
+	children
+	{
+		Pair_String_GuiDef2
+		{
+			key "background_0"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/top_menu"
+							id "bg"
+							z_order "2"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "bg_1"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/top_menu"
+							id "bg_1"
+							offset
+							{
+								x "1920"
+							}
+
+							scale
+							{
+								x "-1"
+							}
+
+							z_order "3"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "blocker_bottom"
+						value "GuiPointerEventBlockerDef"
+						{
+							navigable "0"
+							id "blocker_bottom"
+							size
+							{
+								x "1800"
+								y "64"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+						}
+
+					}
+
+				}
+
+				id "background_0"
+				offset
+				{
+					x "1920"
+					y "1105"
+				}
+
+				rotation "180"
+				size
+				{
+					x "1920"
+					y "80"
+				}
+
+				z_order "1"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "bg"
+			value "GuiQuadDef"
+			{
+				bindings
+				{
+					visible
+					{
+						model_field "slot"
+						converter "GuiModelObjectNullOrEmptyConverter"
+					}
+
+				}
+
+				color
+				{
+					w "0.8"
+					x "0"
+					y "0"
+					z "0"
+				}
+
+				id "bg"
+				size
+				{
+					x "1"
+					y "1"
+				}
+
+				size_mode_x "2"
+				size_mode_y "2"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "cancel"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "disabled"
+						value "GuiGroupDef"
+						{
+							hitbox_visible "0"
+							id "disabled"
+							offset
+							{
+								x "40.07"
+								y "15"
+							}
+
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							visible "0"
+							z_order "23"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "center"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+													id "center"
+													scale
+													{
+														x "10"
+													}
+
+													z_order "19"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+													id "left"
+													z_order "20"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+													id "right"
+													z_order "18"
+												}
+
+											}
+
+										}
+
+										id "bg"
+										size
+										{
+											x "160"
+											y "44"
+										}
+
+										z_order "17"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "content"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextLineDef"
+												{
+													capitals "1"
+													content "BUTTON_back"
+													style_name "shortcuts"
+													translate "1"
+													id "label"
+													offset
+													{
+														x "15"
+														y "3"
+													}
+
+													z_order "22"
+												}
+
+											}
+
+										}
+
+										id "content"
+										size
+										{
+											x "278.182"
+											y "37"
+										}
+
+										z_order "21"
+									}
+
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "neutral"
+							offset
+							{
+								x "40.07"
+								y "4"
+							}
+
+							size
+							{
+								x "278.182"
+								y "44"
+							}
+
+							visible "0"
+							z_order "16"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral_selected"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "center"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+													id "center"
+													scale
+													{
+														x "10"
+													}
+
+													z_order "8"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+													id "left"
+													z_order "9"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+													id "right"
+													z_order "7"
+												}
+
+											}
+
+										}
+
+										id "bg"
+										size
+										{
+											x "160"
+											y "44"
+										}
+
+										z_order "6"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "bg_selection"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "center"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_center_selection"
+													id "center"
+													scale
+													{
+														x "10"
+													}
+
+													z_order "12"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "left"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_left_selection"
+													id "left"
+													z_order "13"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "right"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/inventory/simple_btn_right_selection"
+													id "right"
+													z_order "11"
+												}
+
+											}
+
+										}
+
+										id "bg_selection"
+										size
+										{
+											x "160"
+											y "44"
+										}
+
+										z_order "10"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "content"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "label"
+												value "GuiTextLineDef"
+												{
+													capitals "1"
+													content "BUTTON_back"
+													style_name "shortcuts"
+													translate "1"
+													id "label"
+													offset
+													{
+														x "15"
+														y "3"
+													}
+
+													z_order "15"
+												}
+
+											}
+
+										}
+
+										id "content"
+										size
+										{
+											x "278.182"
+											y "37"
+										}
+
+										z_order "14"
+									}
+
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "neutral_selected"
+							offset
+							{
+								x "40.07"
+								y "4"
+							}
+
+							size
+							{
+								x "278.182"
+								y "44"
+							}
+
+							visible "0"
+							z_order "5"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "shortcuts"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "keyboard"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "key"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/keys/key_27"
+													id "key"
+													scale
+													{
+														x "0.77"
+														y "0.77"
+													}
+
+													z_order "26"
+												}
+
+											}
+
+										}
+
+										id "keyboard"
+										offset
+										{
+											x "1"
+											y "4"
+										}
+
+										size
+										{
+											x "36.96"
+											y "33.88"
+										}
+
+										z_order "25"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "pad"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "key"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/keys/key_261"
+													id "key"
+													scale
+													{
+														x "0.77"
+														y "0.77"
+													}
+
+													z_order "28"
+												}
+
+											}
+
+										}
+
+										id "pad"
+										size
+										{
+											x "44.66"
+											y "40.04"
+										}
+
+										z_order "27"
+									}
+
+								}
+
+							}
+
+							alignment "top"
+							id "shortcuts"
+							offset
+							{
+								x "22"
+							}
+
+							size
+							{
+								x "44.66"
+								y "40.04"
+							}
+
+							z_order "24"
+						}
+
+					}
+
+				}
+
+				alignment "top_right"
+				id "cancel"
+				offset
+				{
+					x "1865"
+					y "1035"
+				}
+
+				size
+				{
+					x "318.252"
+					y "48"
+				}
+
+				z_order "4"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "categories"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/inventory_sortingbar_bg"
+							id "bg"
+							z_order "145"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "mask"
+						value "GuiGroupDef"
+						{
+							allow_overflow "0"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "content_group"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "button_0"
+												value "GuiRadioButtonItemDef"
+												{
+													node "GuiButtonDef"
+													{
+														navigable "0"
+													}
+
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "active"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "category_icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/sort_all_selected"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				material
+																				{
+																					model_field "category"
+																					converter "GuiModelPostfixConverter"
+																					{
+																						postfix "_selected"
+																					}
+
+																				}
+
+																			}
+
+																			id "category_icon"
+																			z_order "164"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																anchor "center"
+																id "active"
+																size
+																{
+																	x "64"
+																	y "64"
+																}
+
+																visible "0"
+																z_order "163"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "active_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "category_icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/sort_all_selected"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				material
+																				{
+																					model_field "category"
+																					converter "GuiModelPostfixConverter"
+																					{
+																						postfix "_selected"
+																					}
+
+																				}
+
+																			}
+
+																			id "category_icon"
+																			scale
+																			{
+																				x "1.15"
+																				y "1.15"
+																			}
+
+																			z_order "166"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																anchor "center"
+																id "active_selected"
+																size
+																{
+																	x "64"
+																	y "64"
+																}
+
+																visible "0"
+																z_order "165"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "category_icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/sort_all_neutral"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				material
+																				{
+																					model_field "category"
+																					converter "GuiModelPostfixConverter"
+																					{
+																						postfix "_neutral"
+																					}
+
+																				}
+
+																			}
+
+																			id "category_icon"
+																			z_order "168"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																anchor "center"
+																id "neutral"
+																size
+																{
+																	x "64"
+																	y "64"
+																}
+
+																visible "0"
+																z_order "167"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "category_icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/buttons/inventory/sort_all_neutral"
+																			alignment "center"
+																			anchor "center"
+																			bindings
+																			{
+																				material
+																				{
+																					model_field "category"
+																					converter "GuiModelPostfixConverter"
+																					{
+																						postfix "_neutral"
+																					}
+
+																				}
+
+																			}
+
+																			id "category_icon"
+																			scale
+																			{
+																				x "1.15"
+																				y "1.15"
+																			}
+
+																			z_order "170"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																anchor "center"
+																id "neutral_selected"
+																size
+																{
+																	x "64"
+																	y "64"
+																}
+
+																visible "0"
+																z_order "169"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														node.cursor_on_select
+														{
+															model_field "disassembly"
+															converter "GuiModelMapConverter"
+															{
+																map
+																{
+																	1 "materials/scripts/rb_hammer.cursor"
+																	0
+																}
+
+															}
+
+														}
+
+													}
+
+													id "button_0"
+													margin
+													{
+														y "4"
+													}
+
+													scale
+													{
+														x "0.9"
+														y "0.9"
+													}
+
+													size
+													{
+														x "64"
+														y "64"
+													}
+
+													z_order "162"
+												}
+
+											}
+
+										}
+
+										alignment "top"
+										anchor "top"
+										id "content_group"
+										offset
+										{
+											y "-14"
+										}
+
+										size
+										{
+											x "64"
+											y "64"
+										}
+
+										z_order "161"
+									}
+
+								}
+
+							}
+
+							alignment "top"
+							id "mask"
+							offset
+							{
+								x "310"
+								y "4"
+							}
+
+							size
+							{
+								x "600"
+								y "37.479"
+							}
+
+							z_order "160"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral"
+						value "GuiGroupDef"
+						{
+							id "neutral"
+							size
+							{
+								x "612"
+								y "44"
+							}
+
+							z_order "147"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral_selected"
+						value "GuiGroupDef"
+						{
+							id "neutral_selected"
+							size
+							{
+								x "612"
+								y "44"
+							}
+
+							z_order "146"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "scroll_button_1"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "159"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "temp"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/btn_arrow_neutral"
+													id "temp"
+													z_order "158"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "157"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "img"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/btn_arrow_selected"
+													id "img"
+													z_order "156"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "155"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							id "scroll_button_1"
+							offset
+							{
+								x "19"
+								y "22"
+							}
+
+							size
+							{
+								x "32"
+								y "32"
+							}
+
+							z_order "154"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "scroll_button_2"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "153"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "temp"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/btn_arrow_neutral"
+													id "temp"
+													z_order "152"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "151"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "img"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/menu/buttons/btn_arrow_selected"
+													id "img"
+													z_order "150"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										size
+										{
+											x "32"
+											y "32"
+										}
+
+										z_order "149"
+									}
+
+								}
+
+							}
+
+							alignment "center"
+							id "scroll_button_2"
+							offset
+							{
+								x "591"
+								y "22"
+							}
+
+							rotation "180"
+							size
+							{
+								x "32"
+								y "32"
+							}
+
+							z_order "148"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "shortcuts"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "pad"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "lt"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/keys/key_282"
+													id "lt"
+													offset
+													{
+														x "48"
+													}
+
+													scale
+													{
+														x "0.77"
+														y "0.77"
+													}
+
+													z_order "472"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "rt"
+												value "GuiImageDef"
+												{
+													error_material "gui/default"
+													material "gui/hud/keys/key_281"
+													id "rt"
+													offset
+													{
+														x "524"
+													}
+
+													scale
+													{
+														x "0.77"
+														y "0.77"
+													}
+
+													z_order "473"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "pad"
+										size
+										{
+											x "612"
+											y "53"
+										}
+
+										z_order "471"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "shortcuts_visible"
+								}
+
+							}
+
+							hitbox_visible "0"
+							id "shortcuts"
+							size
+							{
+								x "612"
+								y "53"
+							}
+
+							z_order "470"
+						}
+
+					}
+
+				}
+
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "0.01"
+									}
+
+									mask "33"
+									offset
+									{
+										x "0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "7"
+									mask "1"
+									offset
+									{
+										x "20"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "15"
+									mask "1"
+									offset
+									{
+										x "-0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-0.25"
+									}
+
+									frame_number "45"
+									mask "33"
+									offset
+									{
+										x "-900"
+									}
+
+								}
+
+							}
+
+							name "HideFrame"
+						}
+
+					}
+
+				}
+
+				id "categories"
+				offset
+				{
+					x "26"
+					y "956"
+				}
+
+				size
+				{
+					x "612"
+					y "44"
+				}
+
+				z_order "144"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "disassembly"
+			value "GuiReferenceDef"
+			{
+				path "group"
+				ref_gui_id "gui/template/disassembly_list"
+				container_type "2"
+				alignment "top"
+				anchor "top"
+				bindings
+				{
+					visible
+					{
+						model_field "disassembly"
+					}
+
+				}
+
+				id "disassembly"
+				offset
+				{
+					x "14"
+					y "101"
+				}
+
+				size
+				{
+					x "612"
+					y "900"
+				}
+
+				z_order "10"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "disassembly_info"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/buttons/inventory/weapon_list_btn_standard_neutral"
+							id "bg"
+							offset
+							{
+								x "6"
+							}
+
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "icon"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+										bindings
+										{
+											material
+											{
+												model_field "rarity"
+												converter "GuiModelMapConverter"
+												{
+													fallback_value "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+													map
+													{
+														1 "gui/menu/buttons/inventory/weapon_icon_advanced_bg"
+														0 "gui/menu/buttons/inventory/weapon_icon_standard_bg"
+														3 "gui/menu/buttons/inventory/weapon_icon_extreme_bg"
+														2 "gui/menu/buttons/inventory/weapon_icon_superior_bg"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "bg"
+										tooltip_def
+										z_order "316"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "icon"
+									value "GuiImageDef"
+									{
+										error_material "gui/default"
+										material "gui/hud/resource_icons/missing_item_bigger"
+										alignment "center"
+										anchor "center"
+										bindings
+										{
+											material
+											{
+												model_field "icon"
+											}
+
+										}
+
+										id "icon"
+										tooltip_def
+										z_order "371"
+									}
+
+								}
+
+							}
+
+							id "icon"
+							offset
+							{
+								x "10"
+								y "-1"
+							}
+
+							size
+							{
+								x "116"
+								y "116"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							tooltip_def
+							z_order "366"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "label_group"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "label"
+									value "GuiTextDef"
+									{
+										content "VARIABLE_mod_name"
+										style_name "item_level_3"
+										translate "1"
+										alignment "left"
+										bindings
+										{
+											style_name
+											{
+												model_field "rarity"
+												converter "GuiModelMapConverter"
+												{
+													fallback_value "smallest_orbiton_item_level_0"
+													map
+													{
+														1 "smallest_orbiton_item_level_1"
+														0 "smallest_orbiton_item_level_0"
+														3 "smallest_orbiton_item_level_3"
+														2 "smallest_orbiton_item_level_2"
+													}
+
+												}
+
+											}
+
+										}
+
+										id "label"
+										max_size
+										{
+											x "450"
+											y "64"
+										}
+
+										tooltip_def
+										{
+											tooltip_def
+										}
+
+										z_order "324"
+									}
+
+								}
+
+							}
+
+							container_type "1"
+							id "label_group"
+							max_size
+							{
+								x "319"
+								y "64"
+							}
+
+							offset
+							{
+								x "120"
+								y "36"
+							}
+
+							size_mode_x "1"
+							size_mode_y "1"
+							tooltip_def
+							z_order "324"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "resources"
+						value "GuiStackPanelDef"
+						{
+							template_reference
+							{
+								path "templates.stat"
+								ref_gui_id "gui/template/buttons"
+								container_type "1"
+								margin
+								{
+									z "15"
+								}
+
+								size_mode_x "1"
+								size_mode_y "1"
+								z_order "329"
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "disassembly"
+								}
+
+							}
+
+							id "resources"
+							margin
+							{
+								x "115"
+								y "66"
+							}
+
+							model_source_solver
+							{
+								GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+								{
+									field_name "resources"
+								}
+
+							}
+
+							size
+							{
+								x "435"
+								y "36"
+							}
+
+							tooltip_def
+							{
+								tooltip_def
+							}
+
+							z_order "328"
+						}
+
+					}
+
+				}
+
+				bindings
+				{
+					visible
+					{
+						model_field "disassembly_info_button"
+						converter "GuiModelObjectNullOrEmptyConverter"
+						{
+							invert "1"
+						}
+
+					}
+
+				}
+
+				id "disassembly_info"
+				margin
+				{
+					x "1300"
+					y "101"
+				}
+
+				model_source_solver
+				{
+					GuiModelSourceFindModelField "GuiModelSourceFindModelField"
+					{
+						field_name "disassembly_info_button"
+					}
+
+				}
+
+				size_mode_x "1"
+				size_mode_y "1"
+				tooltip_def
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "down_menu"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "disassembly_button"
+						value "GuiToggleButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_active"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "408"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_active"
+																id "left"
+																tooltip_def
+																z_order "409"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_active"
+																id "right"
+																tooltip_def
+																z_order "407"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "406"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/disassembly"
+																style_name "shortcuts_active"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																tooltip_def
+																z_order "411"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													tooltip_def
+													z_order "410"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "active"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "405"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_active"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "397"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_active"
+																id "left"
+																tooltip_def
+																z_order "398"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_active"
+																id "right"
+																tooltip_def
+																z_order "396"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "395"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_selection"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "401"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																id "left"
+																tooltip_def
+																z_order "402"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																id "right"
+																tooltip_def
+																z_order "400"
+															}
+
+														}
+
+													}
+
+													id "bg_selection"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "399"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/disassembly"
+																style_name "shortcuts_active"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																tooltip_def
+																z_order "404"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													tooltip_def
+													z_order "403"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "active_selected"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "394"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_disabled"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "415"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_disabled"
+																id "left"
+																tooltip_def
+																z_order "416"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_disabled"
+																id "right"
+																tooltip_def
+																z_order "414"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "413"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/disassembly"
+																style_name "shortcuts_disabled"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																tooltip_def
+																z_order "418"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													tooltip_def
+													z_order "417"
+												}
+
+											}
+
+										}
+
+										id "disabled"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "412"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "408"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																tooltip_def
+																z_order "409"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																tooltip_def
+																z_order "407"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "406"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/disassembly"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																tooltip_def
+																z_order "411"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													tooltip_def
+													z_order "410"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "neutral"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "405"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "397"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																tooltip_def
+																z_order "398"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																tooltip_def
+																z_order "396"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "395"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_selection"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																tooltip_def
+																z_order "401"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																id "left"
+																tooltip_def
+																z_order "402"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																id "right"
+																tooltip_def
+																z_order "400"
+															}
+
+														}
+
+													}
+
+													id "bg_selection"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													tooltip_def
+													z_order "399"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/disassembly"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																tooltip_def
+																z_order "404"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													tooltip_def
+													z_order "403"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "neutral_selected"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										tooltip_def
+										visible "0"
+										z_order "394"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "shortcuts"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "pad"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "key"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/keys/key_263"
+																id "key"
+																scale
+																{
+																	x "0.77"
+																	y "0.77"
+																}
+
+																tooltip_def
+																z_order "421"
+															}
+
+														}
+
+													}
+
+													id "pad"
+													size
+													{
+														x "44.66"
+														y "40.04"
+													}
+
+													tooltip_def
+													z_order "420"
+												}
+
+											}
+
+										}
+
+										alignment "top"
+										id "shortcuts"
+										offset
+										{
+											x "22"
+										}
+
+										size
+										{
+											x "44.66"
+											y "40.04"
+										}
+
+										tooltip_def
+										z_order "419"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								is_activated
+								{
+									model_field "disassembly"
+								}
+
+							}
+
+							id "disassembly_button"
+							offset
+							{
+								x "15"
+							}
+
+							size
+							{
+								x "250"
+								y "48"
+							}
+
+							tooltip_def
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "equip_button"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_disabled"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "81"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_disabled"
+																id "left"
+																z_order "82"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_disabled"
+																id "right"
+																z_order "80"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "79"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/equip"
+																style_name "shortcuts_disabled"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "84"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "243.381"
+														y "37"
+													}
+
+													z_order "83"
+												}
+
+											}
+
+										}
+
+										id "disabled"
+										offset
+										{
+											x "39.07"
+											y "4"
+										}
+
+										size
+										{
+											x "243.381"
+											y "44"
+										}
+
+										visible "0"
+										z_order "78"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "74"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "75"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "73"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "72"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/equip"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "77"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "243.381"
+														y "37"
+													}
+
+													z_order "76"
+												}
+
+											}
+
+										}
+
+										id "neutral"
+										offset
+										{
+											x "39.07"
+											y "4"
+										}
+
+										size
+										{
+											x "243.381"
+											y "44"
+										}
+
+										visible "0"
+										z_order "71"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "63"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "64"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "62"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "61"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_selection"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "67"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																id "left"
+																z_order "68"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																id "right"
+																z_order "66"
+															}
+
+														}
+
+													}
+
+													id "bg_selection"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "65"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/inventory/equip"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "70"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "243.381"
+														y "37"
+													}
+
+													z_order "69"
+												}
+
+											}
+
+										}
+
+										id "neutral_selected"
+										offset
+										{
+											x "39.07"
+											y "4"
+										}
+
+										size
+										{
+											x "243.381"
+											y "44"
+										}
+
+										visible "0"
+										z_order "60"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "shortcuts"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "pad"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "key"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/hud/keys/key_264"
+																id "key"
+																scale
+																{
+																	x "0.77"
+																	y "0.77"
+																}
+
+																z_order "87"
+															}
+
+														}
+
+													}
+
+													id "pad"
+													size
+													{
+														x "44.66"
+														y "40.04"
+													}
+
+													z_order "86"
+												}
+
+											}
+
+										}
+
+										alignment "top"
+										id "shortcuts"
+										offset
+										{
+											x "22"
+										}
+
+										size
+										{
+											x "44.66"
+											y "40.04"
+										}
+
+										z_order "85"
+									}
+
+								}
+
+							}
+
+							id "equip_button"
+							size
+							{
+								x "282.451"
+								y "48"
+							}
+
+							z_order "59"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "share"
+						value "GuiToggleButtonItemDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "active"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "408"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "409"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "407"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "406"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "BUTTON_Claim"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "411"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													z_order "410"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "active"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										visible "0"
+										z_order "405"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "active_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "397"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "398"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "396"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "395"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_selection"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "401"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																id "left"
+																z_order "402"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																id "right"
+																z_order "400"
+															}
+
+														}
+
+													}
+
+													id "bg_selection"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "399"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "BUTTON_Claim"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "404"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													z_order "403"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "active_selected"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										visible "0"
+										z_order "394"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_disabled"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "415"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_disabled"
+																id "left"
+																z_order "416"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_disabled"
+																id "right"
+																z_order "414"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "413"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "BUTTON_Share"
+																style_name "shortcuts_disabled"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "418"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													z_order "417"
+												}
+
+											}
+
+										}
+
+										id "disabled"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										visible "0"
+										z_order "412"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "408"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "409"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "407"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "406"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "BUTTON_Share"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "411"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													z_order "410"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "neutral"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										visible "0"
+										z_order "405"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral_selected"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "bg"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_neutral"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "397"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_neutral"
+																id "left"
+																z_order "398"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_neutral"
+																id "right"
+																z_order "396"
+															}
+
+														}
+
+													}
+
+													id "bg"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "395"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "bg_selection"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "center"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_center_selection"
+																id "center"
+																scale
+																{
+																	x "10"
+																}
+
+																z_order "401"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "left"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_left_selection"
+																id "left"
+																z_order "402"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "right"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/buttons/inventory/simple_btn_right_selection"
+																id "right"
+																z_order "400"
+															}
+
+														}
+
+													}
+
+													id "bg_selection"
+													size
+													{
+														x "160"
+														y "44"
+													}
+
+													z_order "399"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "content"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "BUTTON_Share"
+																style_name "shortcuts"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "15"
+																	y "3"
+																}
+
+																z_order "404"
+															}
+
+														}
+
+													}
+
+													id "content"
+													size
+													{
+														x "370.098"
+														y "37"
+													}
+
+													z_order "403"
+												}
+
+											}
+
+										}
+
+										hitbox_visible "0"
+										id "neutral_selected"
+										offset
+										{
+											x "39"
+											y "4"
+										}
+
+										size
+										{
+											x "370.098"
+											y "44"
+										}
+
+										visible "0"
+										z_order "394"
+									}
+
+								}
+
+							}
+
+							bindings
+							{
+								visible
+								{
+									model_field "is_multiplayer"
+								}
+
+							}
+
+							id "share"
+							offset
+							{
+								x "15"
+							}
+
+							size
+							{
+								x "250"
+								y "48"
+							}
+
+							z_order "9"
+						}
+
+					}
+
+				}
+
+				container_type "1"
+				id "down_menu"
+				offset
+				{
+					x "50"
+					y "1035"
+				}
+
+				size
+				{
+					x "439.168"
+					y "48"
+				}
+
+				size_mode_x "1"
+				z_order "29"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "inventory"
+			value "GuiGroupDef"
+			{
+				allow_overflow "0"
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/inventory_list_frame"
+							id "bg"
+							offset
+							{
+								x "10"
+								y "1"
+							}
+
+							z_order "290"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "disabled"
+						value "GuiGroupDef"
+						{
+							id "disabled"
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "291"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "disabled_selected"
+						value "GuiGroupDef"
+						{
+							id "disabled_selected"
+							offset
+							{
+								y "3"
+							}
+
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "294"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "mask"
+						value "GuiGroupDef"
+						{
+							allow_overflow "0"
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "#MASK#"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "quad_0"
+												value "GuiQuadDef"
+												{
+													material_mode "stencil"
+													color
+													{
+														y "0"
+														z "0"
+													}
+
+													id "quad_0"
+													offset
+													{
+														x "3"
+														y "30"
+													}
+
+													size
+													{
+														x "626"
+														y "781"
+													}
+
+													z_order "303"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad_1"
+												value "GuiQuadDef"
+												{
+													material_mode "stencil"
+													color
+													{
+														y "0"
+														z "0"
+													}
+
+													id "quad_1"
+													offset
+													{
+														x "31"
+														y "1"
+													}
+
+													size
+													{
+														x "599"
+														y "25"
+													}
+
+													z_order "304"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad_2"
+												value "GuiQuadDef"
+												{
+													material_mode "stencil"
+													color
+													{
+														y "0"
+														z "0"
+													}
+
+													id "quad_2"
+													offset
+													{
+														x "31"
+														y "1"
+													}
+
+													rotation "45"
+													size
+													{
+														x "50"
+														y "27"
+													}
+
+													z_order "306"
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "quad_3"
+												value "GuiQuadDef"
+												{
+													material_mode "stencil"
+													color
+													{
+														y "0"
+														z "0"
+													}
+
+													id "quad_3"
+													offset
+													{
+														x "12"
+														y "20"
+													}
+
+													size
+													{
+														x "617"
+														y "25"
+													}
+
+													z_order "305"
+												}
+
+											}
+
+										}
+
+										id "#MASK#"
+										size
+										{
+											x "632"
+											y "804"
+										}
+
+										z_order "302"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "content_group"
+									value "GuiGroupDef"
+									{
+										children
+										{
+											Pair_String_GuiDef2
+											{
+												key "button_0"
+												value "GuiRadioButtonItemDef"
+												{
+													on_click_action "click"
+													on_double_click_action "double_click"
+													on_focus_action "focus"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "active"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selected"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selected"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selected"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "active"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "active_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selected"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selected"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selected"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "background_selected"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selection"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selection"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selection"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background_selected"
+																			size
+																			{
+																				x "1"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "active_selected"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "additional_icons"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "disassembly_folder"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/disassembly_folder"
+																						alignment "right"
+																						anchor "right"
+																						id "disassembly_folder"
+																						offset
+																						{
+																							y "4"
+																						}
+
+																						tooltip_def
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly"
+																			offset
+																			{
+																				x "-13"
+																				y "-4"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			z_order "400"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "folder"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/folder_icon"
+																			alignment "right"
+																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "folder"
+																			margin
+																			{
+																				z "10"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "shared"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/shared"
+																			alignment "right"
+																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "shared"
+																				}
+
+																			}
+
+																			id "shared"
+																			margin
+																			{
+																				z "10"
+																			}
+
+																			offset
+																			{
+																				y "4"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "additional_icons"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "10"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "button_label"
+															value "GuiTextDef"
+															{
+																content "VARIABLE_mod_name"
+																style_name "small_orbiton_item_level_0"
+																translate "1"
+																alignment "left"
+																anchor "left"
+																bindings
+																{
+																	style_name
+																	{
+																		model_field "rarity"
+																		converter "GuiModelMapConverter"
+																		{
+																			fallback_value "small_orbiton_item_level_0"
+																			map
+																			{
+																				1 "small_orbiton_item_level_1"
+																				0 "small_orbiton_item_level_0"
+																				3 "small_orbiton_item_level_3"
+																				2 "small_orbiton_item_level_2"
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																hitbox_visible "0"
+																id "button_label"
+																margin
+																{
+																	x "50"
+																}
+
+																max_size
+																{
+																	x "400"
+																	y "50"
+																}
+
+																tooltip_def
+																{
+																	tooltip_def
+																	{
+																		tooltip_def
+																		{
+																			tooltip_def
+																		}
+
+																	}
+
+																}
+
+																z_order "5"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/inventory/stat_icons/acid_damage_icon_bigger"
+																stretch_proportional "1"
+																alignment "left"
+																anchor "left"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "icon"
+																margin
+																{
+																	w "11"
+																	x "10"
+																	y "11"
+																}
+
+																offset
+																{
+																	y "1"
+																}
+
+																size
+																{
+																	x "28"
+																	y "28"
+																}
+
+																size_mode_x "0"
+																size_mode_y "0"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "5"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_neutral"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_neutral"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_neutral"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1"
+																		}
+
+																	}
+
+																}
+
+																id "neutral"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_neutral"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_neutral"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_neutral"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "background_selected"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selection"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selection"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selection"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background_selected"
+																			size
+																			{
+																				x "1"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1"
+																		}
+
+																	}
+
+																}
+
+																id "neutral_selected"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "new"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/new_item_icon"
+																			id "icon"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "136"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "new"
+																	}
+
+																}
+
+																id "new"
+																offset
+																{
+																	x "6"
+																	y "6"
+																}
+
+																size
+																{
+																	x "16"
+																	y "16"
+																}
+
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "5"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														is_activated
+														{
+															model_field "is_activated"
+														}
+
+													}
+
+													id "button_0"
+													margin
+													{
+														w "5"
+														x "22"
+														z "10"
+													}
+
+													size
+													{
+														x "600"
+														y "45"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													{
+														tooltip_def
+													}
+
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "button_1"
+												value "GuiRadioButtonItemDef"
+												{
+													on_click_action "click"
+													on_double_click_action "double_click"
+													on_focus_action "focus"
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "active"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selected"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selected"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selected"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "active"
+																margin
+																{
+																	x "28"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "active_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selected"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selected"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selected"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "background_selected"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selection"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selection"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selection"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background_selected"
+																			size
+																			{
+																				x "1"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "active_selected"
+																margin
+																{
+																	x "28"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "additional_icons"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "image"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/disassembly_icon"
+																						id "image"
+																						margin
+																						{
+																							x "23"
+																						}
+
+																						offset
+																						{
+																							y "-8"
+																						}
+
+																						tooltip_def
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly"
+																			offset
+																			{
+																				x "-13"
+																				y "-4"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			z_order "400"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "shared"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/shared"
+																			alignment "right"
+																			anchor "right"
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "shared"
+																				}
+
+																			}
+
+																			id "shared"
+																			margin
+																			{
+																				z "10"
+																			}
+
+																			offset
+																			{
+																				y "4"
+																			}
+
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "additional_icons"
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "10"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "button_label"
+															value "GuiTextBoxDef"
+															{
+																content "VARIABLE_mod_name"
+																style_name "smallest_item_level_0"
+																translate "1"
+																alignment "left"
+																anchor "left"
+																bindings
+																{
+																	style_name
+																	{
+																		model_field "rarity"
+																		converter "GuiModelMapConverter"
+																		{
+																			fallback_value "smallest_orbiton_item_level_0"
+																			map
+																			{
+																				1 "smallest_orbiton_item_level_1"
+																				0 "smallest_orbiton_item_level_0"
+																				3 "smallest_orbiton_item_level_3"
+																				2 "smallest_orbiton_item_level_2"
+																			}
+
+																		}
+
+																	}
+
+																}
+
+																id "button_label"
+																margin
+																{
+																	x "78"
+																}
+
+																max_size
+																{
+																	x "510"
+																	y "40"
+																}
+
+																offset
+																{
+																	y "-1.5"
+																}
+
+																size_mode_x "2"
+
+																z_order "5"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "icon"
+															value "GuiImageDef"
+															{
+																error_material "gui/default"
+																material "gui/menu/inventory/stat_icons/acid_damage_icon_bigger"
+																stretch_proportional "1"
+																alignment "left"
+																anchor "left"
+																bindings
+																{
+																	material
+																	{
+																		model_field "icon"
+																	}
+
+																}
+
+																id "icon"
+																margin
+																{
+																	w "10"
+																	x "38"
+																	y "10"
+																}
+
+																offset
+																{
+																	y "-1"
+																}
+
+																size
+																{
+																	x "28"
+																	y "28"
+																}
+
+																size_mode_x "0"
+																size_mode_y "0"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "5"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_neutral"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_neutral"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_neutral"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1"
+																		}
+
+																	}
+
+																}
+
+																id "neutral"
+																margin
+																{
+																	x "28"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "neutral_selected"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_neutral"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_neutral"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_neutral"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																					converter "GuiModelCompareConverter"
+																					{
+																						ref_value "0"
+																					}
+
+																				}
+
+																			}
+
+																			id "background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "background_selected"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_selection"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_selection"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_selection"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			id "background_selected"
+																			size
+																			{
+																				x "1"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "2"
+																		}
+
+																	}
+
+																	Pair_String_GuiDef2
+																	{
+																		key "disassembly_background"
+																		value "GuiGroupDef"
+																		{
+																			children
+																			{
+																				Pair_String_GuiDef2
+																				{
+																					key "bg"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_left_disassembly"
+																						id "bg"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "4"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_center"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_center_disassembly"
+																						id "bg_center"
+																						margin
+																						{
+																							x "88"
+																							z "88"
+																						}
+
+																						size_mode_x "2"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "3"
+																					}
+
+																				}
+
+																				Pair_String_GuiDef2
+																				{
+																					key "bg_right"
+																					value "GuiImageDef"
+																					{
+																						error_material "gui/default"
+																						material "gui/menu/buttons/mod_select_btn_right_disassembly"
+																						alignment "top_right"
+																						anchor "top_right"
+																						id "bg_right"
+																						tooltip_def
+																						{
+																							tooltip_def
+																						}
+
+																						z_order "1"
+																					}
+
+																				}
+
+																			}
+
+																			bindings
+																			{
+																				visible
+																				{
+																					model_field "to_disassembly"
+																				}
+
+																			}
+
+																			id "disassembly_background"
+																			size
+																			{
+																				x "500"
+																				y "50"
+																			}
+
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "1"
+																		}
+
+																	}
+
+																}
+
+																id "neutral_selected"
+																margin
+																{
+																	x "28"
+																}
+
+																size_mode_x "2"
+																size_mode_y "2"
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "new"
+															value "GuiGroupDef"
+															{
+																children
+																{
+																	Pair_String_GuiDef2
+																	{
+																		key "icon"
+																		value "GuiImageDef"
+																		{
+																			error_material "gui/default"
+																			material "gui/menu/inventory/new_item_icon"
+																			id "icon"
+																			size_mode_x "2"
+																			size_mode_y "2"
+																			tooltip_def
+																			{
+																				tooltip_def
+																			}
+
+																			z_order "136"
+																		}
+
+																	}
+
+																}
+
+																alignment "center"
+																bindings
+																{
+																	visible
+																	{
+																		model_field "new"
+																	}
+
+																}
+
+																id "new"
+																margin
+																{
+																	x "14"
+																	z "14"
+																}
+
+																offset
+																{
+																	x "36"
+																	y "6"
+																}
+
+																size
+																{
+																	x "16"
+																	y "16"
+																}
+
+																tooltip_def
+																{
+																	tooltip_def
+																}
+
+																z_order "5"
+															}
+
+														}
+
+													}
+
+													bindings
+													{
+														is_activated
+														{
+															model_field "is_activated"
+														}
+
+														node.cursor_on_select
+														{
+															model_field "disassembly"
+															converter "GuiModelMapConverter"
+															{
+																map
+																{
+																	1 "materials/scripts/rb_hammer.cursor"
+																	0
+																}
+
+															}
+
+														}
+
+													}
+
+													hitbox_visible "0"
+													id "button_1"
+													margin
+													{
+														x "22"
+														z "10"
+													}
+
+													size
+													{
+														x "600"
+														y "50"
+													}
+
+													size_mode_x "2"
+													tooltip_def
+													{
+														tooltip_def
+													}
+
+												}
+
+											}
+
+											Pair_String_GuiDef2
+											{
+												key "header"
+												value "GuiGroupDef"
+												{
+													children
+													{
+														Pair_String_GuiDef2
+														{
+															key "label"
+															value "GuiTextLineDef"
+															{
+																capitals "1"
+																content "gui/menu/category/equipped"
+																style_name "equipment_dark_blue_22"
+																translate "1"
+																id "label"
+																offset
+																{
+																	x "17"
+																}
+
+																z_order "138"
+															}
+
+														}
+
+														Pair_String_GuiDef2
+														{
+															key "line"
+															value "GuiQuadDef"
+															{
+																color
+																{
+																	x "0.086"
+																	y "0.239"
+																	z "0.42"
+																}
+
+																id "line"
+																offset
+																{
+																	y "23"
+																}
+
+																size
+																{
+																	x "591"
+																	y "2"
+																}
+
+																z_order "139"
+															}
+
+														}
+
+													}
+
+													id "header"
+													offset
+													{
+														x "20"
+														y "4"
+													}
+
+													size
+													{
+														x "591"
+														y "33"
+													}
+
+													z_order "137"
+												}
+
+											}
+
+										}
+
+										container_type "2"
+										id "content_group"
+										size
+										{
+											x "631"
+											y "119"
+										}
+
+										z_order "114"
+									}
+
+								}
+
+							}
+
+							id "mask"
+							offset
+							{
+								y "10"
+							}
+
+							size
+							{
+								x "632"
+								y "803"
+							}
+
+							z_order "301"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral"
+						value "GuiGroupDef"
+						{
+							id "neutral"
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "292"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "neutral_selected"
+						value "GuiGroupDef"
+						{
+							id "neutral_selected"
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							size_mode_x "2"
+							size_mode_y "2"
+							z_order "293"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "scroll_button_1"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size
+										{
+											x "1"
+											y "100"
+										}
+
+										z_order "300"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size
+										{
+											x "1"
+											y "100"
+										}
+
+										z_order "299"
+									}
+
+								}
+
+							}
+
+							id "scroll_button_1"
+							offset
+							{
+								x "16"
+								y "7"
+							}
+
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							z_order "298"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "scroll_button_2"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "disabled"
+									value "GuiGroupDef"
+									{
+										id "disabled"
+										size
+										{
+											x "1"
+											y "100"
+										}
+
+										z_order "297"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "neutral"
+									value "GuiGroupDef"
+									{
+										id "neutral"
+										size
+										{
+											x "1"
+											y "1"
+										}
+
+										z_order "296"
+									}
+
+								}
+
+							}
+
+							id "scroll_button_2"
+							offset
+							{
+								x "18"
+								y "810"
+							}
+
+							size
+							{
+								x "1"
+								y "1"
+							}
+
+							z_order "295"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "vertical_scroll_bar"
+						value "GuiGroupDef"
+						{
+							children
+							{
+								Pair_String_GuiDef2
+								{
+									key "bar"
+									value "GuiQuadDef"
+									{
+										color
+										{
+											x "0.627"
+										}
+
+										id "bar"
+										offset
+										{
+											x "1"
+										}
+
+										size
+										{
+											x "10"
+											y "1"
+										}
+
+										z_order "391"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "bg"
+									value "GuiQuadDef"
+									{
+										color
+										{
+											x "0.118"
+											y "0.365"
+											z "0.698"
+										}
+
+										id "bg"
+										size
+										{
+											x "12"
+											y "812"
+										}
+
+										z_order "389"
+									}
+
+								}
+
+								Pair_String_GuiDef2
+								{
+									key "slider"
+									value "GuiQuadDef"
+									{
+										color
+										{
+											x "0"
+											y "0"
+											z "0"
+										}
+
+										id "slider"
+										offset
+										{
+											x "1"
+											y "1"
+										}
+
+										size
+										{
+											x "10"
+											y "810"
+										}
+
+										z_order "390"
+									}
+
+								}
+
+							}
+
+							id "vertical_scroll_bar"
+							margin
+							{
+								y "2"
+							}
+
+							offset
+							{
+								x "629"
+							}
+
+							size
+							{
+								x "12"
+								y "812"
+							}
+
+							z_order "388"
+						}
+
+					}
+
+				}
+
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "0.01"
+									}
+
+									mask "33"
+									offset
+									{
+										x "0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "7"
+									mask "1"
+									offset
+									{
+										x "20"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "15"
+									mask "1"
+									offset
+									{
+										x "-0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-0.25"
+									}
+
+									frame_number "45"
+									mask "33"
+									offset
+									{
+										x "-900"
+									}
+
+								}
+
+							}
+
+							name "HideFrame"
+						}
+
+					}
+
+				}
+
+				id "inventory"
+				offset
+				{
+					x "16"
+					y "138"
+				}
+
+				size
+				{
+					x "641"
+					y "817"
+				}
+
+				z_order "289"
+			}
+
+		}
+
+		Pair_String_GuiDef2
+		{
+			key "slot"
+			value "GuiGroupDef"
+			{
+				children
+				{
+					Pair_String_GuiDef2
+					{
+						key "bg"
+						value "GuiImageDef"
+						{
+							error_material "gui/default"
+							material "gui/menu/inventory/inventory_list_header"
+							hitbox_visible "0"
+							id "bg"
+							z_order "287"
+						}
+
+					}
+
+					Pair_String_GuiDef2
+					{
+						key "label"
+						value "GuiTextLineDef"
+						{
+							content "gui/menu/category/mods"
+							style_name "equipment_blue_22"
+							translate "1"
+							hitbox_visible "0"
+							id "label"
+							offset
+							{
+								x "22"
+								y "9"
+							}
+
+							z_order "288"
+						}
+
+					}
+
+				}
+
+				animations
+				{
+					items
+					{
+						GuiAnimationDef
+						{
+							frames
+							{
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "0.01"
+									}
+
+									mask "33"
+									offset
+									{
+										x "0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "7"
+									mask "1"
+									offset
+									{
+										x "20"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									frame_number "15"
+									mask "1"
+									offset
+									{
+										x "-0.1"
+									}
+
+								}
+
+								GuiAnimationFrame
+								{
+									color
+									{
+										w "-0.25"
+									}
+
+									frame_number "45"
+									mask "33"
+									offset
+									{
+										x "-900"
+									}
+
+								}
+
+							}
+
+							name "HideFrame"
+						}
+
+					}
+
+				}
+
+				hitbox_visible "0"
+				id "slot"
+				offset
+				{
+					x "46"
+					y "101"
+				}
+
+				size
+				{
+					x "592"
+					y "40"
+				}
+
+				z_order "286"
+			}
+
+		}
+
+	}
+
+	id "gui/menu/equipment_slots"
+	item_scripts
+	{
+		scripts
+		{
+			Pair_IdString_GuiScriptDef2
+			{
+				key "OnHide"
+				value
+				{
+					script
+					{
+						children
+						{
+							GuiScriptNodeDef
+							{
+								cmd "GuiScriptCommandAnimStartDef"
+								{
+									anim_info
+									{
+										loop "1"
+										multiplier "0.075"
+									}
+
+									animations
+									{
+										HideFrame
+										{
+											String "categories"
+											String "inventory"
+											String "slot"
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+						cmd
+					}
+
+				}
+
+			}
+
+			Pair_IdString_GuiScriptDef2
+			{
+				key "OnShow"
+				value
+				{
+					script
+					{
+						children
+						{
+							GuiScriptNodeDef
+							{
+								cmd "GuiScriptCommandAnimStartDef"
+								{
+									anim_info
+									{
+										loop "1"
+										multiplier "0.075"
+										reverse "1"
+									}
+
+									animations
+									{
+										HideFrame
+										{
+											String "categories"
+											String "inventory"
+											String "slot"
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+						cmd
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	size
+	{
+		x "1920"
+		y "1080"
+	}
+
+}
+
+GuiDataDefinitions
+{
+	GuiDataTypeDefinition
+	{
+		name "ScreenModel"
+		base_type
+		{
+			typehash "0"
+		}
+
+		fields
+		{
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "bool"
+					default_value
+					{
+						typehash "3365180733"
+						bool "1"
+					}
+
+				}
+
+				key "disassembly"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "int"
+					default_value
+					{
+						typehash "2515107422"
+						int "1"
+					}
+
+				}
+
+				key "rarity"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "Ice damage"
+					}
+
+				}
+
+				key "stat_name"
+			}
+
+			Pair_String_GuiDataTypeField
+			{
+				value
+				{
+					type_name "String"
+					default_value
+					{
+						typehash "1615808600"
+						String "+25%"
+					}
+
+				}
+
+				key "stat_value"
+			}
+
+		}
+
+		handle "[384F4C93-1919-4E66-8C3E-84BF85D91152]"
+	}
+
+}
+
