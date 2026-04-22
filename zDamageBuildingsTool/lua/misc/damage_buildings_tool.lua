@@ -50,7 +50,7 @@ function damage_buildings_tool:OnActivateEntity( entity )
 
     if ( is_server and is_client ) then
 
-        local damageValue = HealthService:GetHealth( entity ) / 4
+        local damageValue = HealthService:GetHealth( entity ) * 0.95
 
         QueueEvent( "DamageRequest", entity, damageValue, "physical", 1, 0 )
 
