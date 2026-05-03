@@ -1,0 +1,151 @@
+EntityBlueprint
+{
+	name					"buildings/tools/vents_preserve"
+
+	BuildingDesc
+	{
+		name				"vents_preserve"
+		bp					"buildings/tools/vents_preserve"
+		ghost_bp			"buildings/tools/vents_preserve_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/vents_preserve"
+		description			"gui/hud/building_description/vents_preserve"
+		menu_icon			"gui/hud/tools_icons/vents_preserve_tool"
+
+		order				"115"
+		type				"vents_preserve"
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"buildings/metal_plate_1x1"
+		flags				"2"
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/vents_preserve_ghost"
+
+	BuildingDesc
+	{
+		name				"vents_preserve_ghost"
+		buildable			"0"
+		type				"vents_preserve"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/vents_preserve_tool.lua"
+
+		database
+		{
+			action			string:"vents_preserve"
+		}
+	}
+
+	MeshDesc
+	{
+		mesh				"meshes/buildings/decorations/floor_basic_1x1.mesh"
+		material			"selector/hologram_blue"
+		flags				"2"
+	}
+}
+
+
+
+
+
+EntityBlueprint
+{
+	name					"buildings/tools/vents_respawn"
+
+	BuildingDesc
+	{
+		name				"vents_respawn"
+		bp					"buildings/tools/vents_respawn"
+		ghost_bp			"buildings/tools/vents_respawn_ghost"
+		category			"tools"
+
+		localization_id		"gui/hud/building_name/vents_respawn"
+		description			"gui/hud/building_description/vents_respawn"
+		menu_icon			"gui/hud/tools_icons/vents_respawn_tool"
+
+		order				"115"
+		type				"picker"
+
+		buildable			"0"
+		building_group		"vents_preserve"
+	}
+
+	MeshDesc
+	{
+		mesh 		"meshes/resources/resource_flammable_gas_vent.mesh"
+		material 	"resources/resource_wind_spot"
+	}
+
+	LocalAabbDesc
+	{
+		local_aabb
+		{
+			min
+			{
+				x	"-1"
+				y	"0"
+				z	"-1"
+			}
+			max
+			{
+				x	"1"
+				y	"8"
+				z	"1"
+			}
+		}
+	}
+
+	GridCullerDesc
+	{
+		Shapes
+		{
+			PhysicsBoxShape
+			{
+				x	6
+				y	6
+				z	6
+			}
+		}
+	}
+}
+
+EntityBlueprint
+{
+	name					"buildings/tools/vents_respawn_ghost"
+
+	BuildingDesc
+	{
+		name				"vents_respawn_ghost"
+		buildable			"0"
+		type				"picker"
+		category			"tools"
+	}
+
+	LuaDesc
+	{
+		script				"lua/misc/vents_respawn_tool.lua"
+
+		database
+		{
+			action			string:"vents_respawn"
+		}
+	}
+
+	MeshDesc
+	{
+
+		mesh 		"meshes/resources/resource_flammable_gas_vent.mesh"
+		material 	"selector/hologram_blue"
+	}
+}
