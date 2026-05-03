@@ -6,6 +6,54 @@ require("lua/utils/reflection.lua")
 require("lua/utils/table_utils.lua")
 require("lua/utils/database_utils.lua")
 
+local RemoveGameplayResourceComponents = function(entity)
+
+    local cellIndexes = FindService:GetEntityCellIndexes(entity)
+
+    for cellId in Iter( cellIndexes ) do
+
+        if ( not EntityService:HasComponent( cellId, "GameplayResourceLayerComponent" ) ) then
+            goto labelContinue
+        end
+
+        local gameplayResourceLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GameplayResourceLayerComponent" ) )
+
+        if ( gameplayResourceLayerComponentRef.ent == nil ) then
+            goto labelContinue
+        end
+
+        local linkedResourceId = gameplayResourceLayerComponentRef.ent
+
+        if ( linkedResourceId.id ) then
+
+            linkedResourceId = linkedResourceId.id
+        end
+
+        if ( linkedResourceId == nil ) then
+            goto labelContinue
+        end
+
+        if ( linkedResourceId ~= entity ) then
+            goto labelContinue
+        end
+
+        EntityService:RemoveComponent( cellId, "GameplayResourceLayerComponent" )
+
+        if ( not EntityService:HasComponent( cellId, "GridFlagLayerComponent" ) ) then
+            goto labelContinue
+        end
+
+        local gridFlagLayerComponentRef = reflection_helper( EntityService:GetComponent( cellId, "GridFlagLayerComponent" ) )
+
+        if ( gridFlagLayerComponentRef.mask ~= 0 ) then
+
+            gridFlagLayerComponentRef.mask = 0
+        end
+
+        ::labelContinue::
+    end
+end
+
 local VentsToolsUtils = require("lua/utils/vents_tools_utils.lua")
 
 RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
@@ -91,6 +139,12 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
 
 
 
+        local team = EntityService:GetTeam( "player" )
+        local effectEntity = EntityService:SpawnEntity("effects/enemies_lesigian/lightning_explosion", position, team)
+        EntityService:CreateOrSetLifetime( effectEntity, 1.0, "normal" )
+
+
+
         if not ( mod_vents_respawn_tool_unlimited ~= nil and mod_vents_respawn_tool_unlimited == 1 ) then
                 
             storeResourceVents[resourceName] = storeResourceVents[resourceName] - 1
@@ -150,11 +204,28 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
             return
         end
 
-        local resourceName = EntityService:GetresourceName( entity )
+
+        local resourceVolumeComponent = EntityService:GetComponent( entity, "ResourceVolumeComponent" )
+        if ( resourceVolumeComponent == nil ) then
+            return
+        end
+
+        local resourceName = ""
+
+        local resourceVolumeComponentRef = reflection_helper( resourceVolumeComponent )
+        if ( resourceVolumeComponentRef.type ~= nil and resourceVolumeComponentRef.type.resource ~= nil and resourceVolumeComponentRef.type.resource.id ~= nil ) then
+            resourceName = resourceVolumeComponentRef.type.resource.id or ""
+        end
+
+        if ( resourceName == "" or resourceName == nil ) then
+            return
+        end
+
+
 
         local oldValue = storeResourceVents[resourceName] or 0
 
-        local entityDB = EntityService:GetDatabase( entity )
+        local entityDB = EntityService:GetOrCreateDatabase( entity )
         if ( entityDB == nil ) then
             return
         end
@@ -186,16 +257,49 @@ RegisterGlobalEventHandler("OperateActionMapperRequest", function(evt)
         end
 
         entityDB:SetInt("$VentStore_Destroy", 1)
-        entityDB:SetInt("working", 0)
 
-        if ( EffectService:HasEffectByGroup( entity, "container") ) then
 
-            EffectService:DestroyDelayedEffectsByGroup( entity, "container", 1.0 )
+
+        local position = EntityService:GetWorldTransform( entity ).position
+
+        local childrenList = EntityService:GetChildren( entity, false )
+
+        for childResource in Iter( childrenList ) do
+
+            local resourceComponent = EntityService:GetComponent( childResource, "ResourceComponent" )
+            if ( resourceComponent ~= nil ) then
+
+                local resourceComponentRef = reflection_helper( resourceComponent )
+
+                if ( resourceComponentRef.type ~= nil and resourceComponentRef.type.resource ~= nil and resourceComponentRef.type.resource.id ~= nil ) then
+
+                    local resourceId = resourceComponentRef.type.resource.id or ""
+
+                    if ( resourceId == resourceName ) then
+                        
+                        position = EntityService:GetWorldTransform( childResource ).position
+                    end
+                end
+            end
+
+            RemoveGameplayResourceComponents(childResource)
+
+            EntityService:RemoveEntity(childResource)
         end
-        
-        EntityService:RequestDestroyPattern( entity, "interact", false )
 
-        EntityService:RemoveEntity(entity, 2.0)
+        RemoveGameplayResourceComponents(entity)
+
+
+
+        local team = EntityService:GetTeam( "player" )
+        local effectEntity = EntityService:SpawnEntity("effects/enemies_lesigian/lightning_explosion", position, team)
+        EntityService:CreateOrSetLifetime( effectEntity, 1.0, "normal" )
+
+
+
+        QueueEvent( "DissolveEntityRequest", entity, 0.2, 0 )
+
+
 
         newValue = oldValue + changeValue
 
